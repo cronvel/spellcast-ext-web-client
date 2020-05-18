@@ -1,6 +1,6 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.SpellcastClient = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 /*
-	Spellcast
+	Spellcast's Web Client Extension
 
 	Copyright (c) 2014 - 2020 Cédric Ronvel
 
@@ -33,7 +33,7 @@ const Ngev = require( 'nextgen-events/lib/browser.js' ) ;
 const Promise = require( 'seventh' ) ;
 const domKit = require( 'dom-kit' ) ;
 const svgKit = require( 'svg-kit' ) ;
-const commonUtils = require( '../../commonUtils.js' ) ;
+const commonUtils = require( './commonUtils.js' ) ;
 
 
 
@@ -2602,9 +2602,9 @@ function soundFadeOut( $element , callback ) {
 }
 
 
-},{"../../commonUtils.js":5,"dom-kit":7,"nextgen-events/lib/browser.js":11,"seventh":25,"svg-kit":42}],2:[function(require,module,exports){
+},{"./commonUtils.js":3,"dom-kit":7,"nextgen-events/lib/browser.js":11,"seventh":25,"svg-kit":42}],2:[function(require,module,exports){
 /*
-	Spellcast
+	Spellcast's Web Client Extension
 
 	Copyright (c) 2014 - 2020 Cédric Ronvel
 
@@ -2634,7 +2634,7 @@ function soundFadeOut( $element , callback ) {
 
 
 const Ngev = require( 'nextgen-events/lib/browser.js' ) ;
-const dom = require( 'dom-kit' ) ;
+const domKit = require( 'dom-kit' ) ;
 const url = require( 'url' ) ;
 
 
@@ -2775,7 +2775,7 @@ SpellcastClient.prototype.run = function( callback ) {
 
 SpellcastClient.autoCreate() ;
 
-dom.ready( () => {
+domKit.ready( () => {
 	window.spellcastClient.run() ;
 
 	// Debug
@@ -2793,9 +2793,72 @@ dom.ready( () => {
 } ) ;
 
 
-},{"./ui/classic.js":4,"dom-kit":7,"nextgen-events/lib/browser.js":11,"url":47}],3:[function(require,module,exports){
+},{"./ui/classic.js":5,"dom-kit":7,"nextgen-events/lib/browser.js":11,"url":47}],3:[function(require,module,exports){
 /*
-	Spellcast
+	Spellcast's Web Client Extension
+
+	Copyright (c) 2014 - 2020 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+/*
+	Things that can be common between clients and server.
+	Since Spellcast is now splitted and use extensions, this need to be copied to client that need it,
+	because the extension manager do not operate over network.
+*/
+
+
+
+exports.toClassObject = function toClassObject( data ) {
+	var object = {} ;
+
+	if ( ! data ) { return object ; }
+
+	if ( typeof data === 'string' ) {
+		object[ data ] = true ;
+		return object ;
+	}
+
+	if ( typeof data === 'object' ) {
+		if ( Array.isArray( data ) ) {
+			data.forEach( e => object[ e ] = true ) ;
+			return object ;
+		}
+
+		return data ;
+
+	}
+
+	return object ;
+} ;
+
+
+},{}],4:[function(require,module,exports){
+/*
+	Spellcast's Web Client Extension
 
 	Copyright (c) 2014 - 2020 Cédric Ronvel
 
@@ -2898,9 +2961,9 @@ toolkit.stripMarkup = text => text.replace(
 ) ;
 
 
-},{"string-kit/lib/escape.js":28,"string-kit/lib/format.js":29}],4:[function(require,module,exports){
+},{"string-kit/lib/escape.js":28,"string-kit/lib/format.js":29}],5:[function(require,module,exports){
 /*
-	Spellcast
+	Spellcast's Web Client Extension
 
 	Copyright (c) 2014 - 2020 Cédric Ronvel
 
@@ -3660,68 +3723,7 @@ UI.exit = function( error , timeout , callback ) {
 } ;
 
 
-},{"../Dom.js":1,"../toolkit.js":3,"nextgen-events/lib/browser.js":11}],5:[function(require,module,exports){
-/*
-	Spellcast
-
-	Copyright (c) 2014 - 2020 Cédric Ronvel
-
-	The MIT License (MIT)
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-*/
-
-"use strict" ;
-
-
-
-/*
-	Things that can be common between clients and server.
-*/
-
-
-
-exports.toClassObject = function toClassObject( data ) {
-	var object = {} ;
-
-	if ( ! data ) { return object ; }
-
-	if ( typeof data === 'string' ) {
-		object[ data ] = true ;
-		return object ;
-	}
-
-	if ( typeof data === 'object' ) {
-		if ( Array.isArray( data ) ) {
-			data.forEach( e => object[ e ] = true ) ;
-			return object ;
-		}
-
-		return data ;
-
-	}
-
-	return object ;
-} ;
-
-
-},{}],6:[function(require,module,exports){
+},{"../Dom.js":1,"../toolkit.js":4,"nextgen-events/lib/browser.js":11}],6:[function(require,module,exports){
 
 },{}],7:[function(require,module,exports){
 (function (process){
@@ -6327,7 +6329,7 @@ module.exports.isBrowser = true ;
 }).call(this,require('_process'))
 },{"./NextGenEvents.js":9,"_process":13}],12:[function(require,module,exports){
 module.exports={
-  "_from": "nextgen-events@^1.2.1",
+  "_from": "nextgen-events@^1.3.0",
   "_id": "nextgen-events@1.3.0",
   "_inBundle": false,
   "_integrity": "sha512-eBz5mrO4Hw2eenPVm0AVPHuAzg/RZetAWMI547RH8O9+a0UYhCysiZ3KoNWslnWNlHetb9kzowEshsKsmFo2YQ==",
@@ -6336,23 +6338,21 @@ module.exports={
   "_requested": {
     "type": "range",
     "registry": true,
-    "raw": "nextgen-events@^1.2.1",
+    "raw": "nextgen-events@^1.3.0",
     "name": "nextgen-events",
     "escapedName": "nextgen-events",
-    "rawSpec": "^1.2.1",
+    "rawSpec": "^1.3.0",
     "saveSpec": null,
-    "fetchSpec": "^1.2.1"
+    "fetchSpec": "^1.3.0"
   },
   "_requiredBy": [
-    "#USER",
     "/",
-    "/server-kit",
     "/terminal-kit"
   ],
   "_resolved": "https://registry.npmjs.org/nextgen-events/-/nextgen-events-1.3.0.tgz",
   "_shasum": "a32665d1ab6f026448b19d75c4603ec20292fa22",
-  "_spec": "nextgen-events@^1.2.1",
-  "_where": "/home/cedric/inside/github/spellcast",
+  "_spec": "nextgen-events@^1.3.0",
+  "_where": "/home/cedric/inside/github/spellcast-ext-web-client",
   "author": {
     "name": "Cédric Ronvel"
   },
@@ -14432,30 +14432,29 @@ camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' ) ;
 arguments[4][28][0].apply(exports,arguments)
 },{"dup":28}],45:[function(require,module,exports){
 module.exports={
-  "_from": "svg-kit@0.2.3",
+  "_from": "svg-kit@^0.2.3",
   "_id": "svg-kit@0.2.3",
   "_inBundle": false,
   "_integrity": "sha512-foEXyUwrL2r3ie15sO6a/KQ2qQLzfvjZ/xw+d0JWa5SzPly9Rgs7iJaQaeLjpsNucAtQ+XRM+jcI5cHPpDptkA==",
   "_location": "/svg-kit",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
+    "type": "range",
     "registry": true,
-    "raw": "svg-kit@0.2.3",
+    "raw": "svg-kit@^0.2.3",
     "name": "svg-kit",
     "escapedName": "svg-kit",
-    "rawSpec": "0.2.3",
+    "rawSpec": "^0.2.3",
     "saveSpec": null,
-    "fetchSpec": "0.2.3"
+    "fetchSpec": "^0.2.3"
   },
   "_requiredBy": [
-    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/svg-kit/-/svg-kit-0.2.3.tgz",
   "_shasum": "7bbd11739ddd1b402648eb199d1f1e5d91007cc1",
-  "_spec": "svg-kit@0.2.3",
-  "_where": "/home/cedric/inside/github/spellcast",
+  "_spec": "svg-kit@^0.2.3",
+  "_where": "/home/cedric/inside/github/spellcast-ext-web-client",
   "author": {
     "name": "Cédric Ronvel"
   },

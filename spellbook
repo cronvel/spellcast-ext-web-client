@@ -1,0 +1,99 @@
+
+[[doctype spellcast/spellbook]]
+
+[formula]
+	browserify: ./node_modules/.bin/browserify
+	uglify: ./node_modules/.bin/uglifyjs
+
+# Browser client
+
+[spell browser]
+	[summon]
+		- browser/app.html
+		- browser/app.min.js
+		- browser/common.css
+#		- browser/themes/default/main.css
+#		- browser/themes/visual-novel/main.css
+
+[summoning browser/app.html]
+	[summon]
+		- lib/app.html
+	[scroll]
+		- > cp lib/app.html browser/app.html
+
+[summoning browser/common.css]
+	[summon]
+		- lib/common.css
+	[scroll]
+		- > cp lib/common.css browser/common.css
+
+#[summoning browser/themes/default/main.css]
+#	[summon]
+#		- lib/themes/default/main.css
+#	[scroll]
+#		- > cp -r lib/themes/default/ browser/themes/
+
+#[summoning browser/themes/visual-novel/main.css]
+#	[summon]
+#		- lib/themes/visual-novel/main.css
+#	[scroll]
+#		- > cp -r lib/themes/visual-novel/ browser/themes/
+
+[summoning browser/app.js]
+	[summon]
+		- lib/app.js
+		- lib/Dom.js
+		- lib/toolkit.js
+		- lib/ui/*.js
+	[scroll]
+		- $> ${browserify} lib/app.js -s SpellcastClient -i @cronvel/xmldom -i xregexp -i fs -i buffer -o browser/app.js
+
+[summoning browser/app.min.js]
+	[summon]
+		- browser/app.js
+	[scroll]
+		- $> ${uglify} browser/app.js -o browser/app.min.js -m
+
+
+
+# Cosmetics
+
+[prologue]
+	[chant]
+		$>
+		$> ^M^/The Book of the Books
+		$>
+
+	[fortune]
+		-
+			$> ^K^/“He drew his dagger, that was sae sharp,
+			$>    That was sae sharp and meet,
+			$>  And drave it into the nut-browne bride,
+			$>    That fell deid at his feit.
+			$>
+			$> ‘Now stay for me, dear Annet,’ he sed,
+			$>   ‘Now stay, my dear,’ he cry’d;
+			$>  Then strake the dagger untill his heart,
+			$>    And fell deid by her side.”
+			$>
+			$>      -- “Lord Thomas and Fair Annet”, circa 1650.
+			$>
+		-
+			$> ^K^/“O Bell my wife, why dost thou flyte?
+			$>   Now is now, and then was then:
+			$> Seek now all the world throughout,
+			$>   Thou kens not clowns from gentlemen:
+			$> They are clad in black, green, yellow and blue,
+			$>   So far above their own degree.
+			$> Once in my life I’ll take a view;
+			$>   For I’ll have a new cloak about me.”
+			$>
+			$>     -- Anonymous, “The Old Cloak”. 16th Century.
+			$>
+
+[epilogue]
+	[chant]
+		$>
+		$> ^M^/That's all folks!
+		$>
+

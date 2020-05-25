@@ -104,6 +104,16 @@ Dom.prototype.cleanUrl = function( url ) {
 
 
 
+Dom.prototype.addScript = function( url ) {
+	console.log( "Adding script: " , url ) ;
+	var $script = document.createElement( 'script' ) ;
+    $script.setAttribute( 'src' , url ) ;
+    this.$spellcast.appendChild( $script ) ;
+
+} ;
+
+
+
 Dom.prototype.setTheme = function( theme ) {
 	this.$theme.setAttribute( 'href' , this.cleanUrl( theme.url ) ) ;
 } ;
@@ -3152,11 +3162,19 @@ UI.clientError = function( code ) {
 
 
 UI.clientConfig = function( config ) {
-	console.warn( 'Client config received: ' , config ) ;
+	var extension ;
+	
 	this.config = config ;
+	console.warn( 'Client config received: ' , config ) ;
 
 	if ( this.config.theme ) {
 		this.dom.setTheme( this.config.theme ) ;
+	}
+
+	if ( this.config.clientExtensions && this.config.clientExtensions.length ) {
+		for ( extension of this.config.clientExtensions ) {
+			this.dom.addScript( '/ext/' + extension + '/ext.js' ) ;
+		}
 	}
 } ;
 

@@ -1,6 +1,6 @@
 {
   "name": "spellcast-ext-web-client",
-  "version": "0.50.3",
+  "version": "0.50.4",
   "description": "Spellcast's Web Client extension.",
   "main": "lib/extension.js",
   "engines": {

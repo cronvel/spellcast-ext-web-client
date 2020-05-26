@@ -104,12 +104,10 @@ Dom.prototype.cleanUrl = function( url ) {
 
 
 
+// Return a Promise for on load/error events
 Dom.prototype.addScript = function( url ) {
 	console.log( "Adding script: " , url ) ;
-	var $script = document.createElement( 'script' ) ;
-    $script.setAttribute( 'src' , url ) ;
-    this.$spellcast.appendChild( $script ) ;
-
+	return domKit.addJsScript( url , this.$spellcast ) ;
 } ;
 
 
@@ -2717,7 +2715,6 @@ SpellcastClient.prototype.run = function( callback ) {
 	this.emit( 'connecting' ) ;
 
 	this.ws.onerror = () => {
-
 		if ( ! isOpen ) {
 			// The connection has never opened, we can't connect to the server.
 			console.log( "Can't open Websocket (error)..." ) ;
@@ -2727,7 +2724,6 @@ SpellcastClient.prototype.run = function( callback ) {
 	} ;
 
 	this.ws.onopen = () => {
-
 		isOpen = true ;
 
 		// Send 'ready' to server?
@@ -2746,7 +2742,6 @@ SpellcastClient.prototype.run = function( callback ) {
 	} ;
 
 	this.ws.onclose = () => {
-
 		if ( ! isOpen ) {
 			// The connection has never opened, we can't connect to the server.
 			console.log( "Can't open Websocket (close)..." ) ;
@@ -2761,7 +2756,6 @@ SpellcastClient.prototype.run = function( callback ) {
 	} ;
 
 	this.ws.onmessage = wsMessage => {
-
 		var message ;
 
 		try {
@@ -2796,14 +2790,14 @@ domKit.ready( () => {
 		var href , sheets = document.querySelectorAll( 'link[rel=stylesheet]' ) ;
 
 		for ( var i = 0 ; i < sheets.length ; i ++ ) {
-			href = sheets[i].getAttribute( 'href' ).split( '?' )[0] + '?' + Math.random() ;
-			sheets[i].setAttribute( 'href' , href ) ;
+			href = sheets[ i ].getAttribute( 'href' ).split( '?' )[0] + '?' + Math.random() ;
+			sheets[ i ].setAttribute( 'href' , href ) ;
 		}
 	} ;
 } ) ;
 
 
-},{"./ui/classic.js":5,"dom-kit":7,"nextgen-events/lib/browser.js":11,"url":47}],3:[function(require,module,exports){
+},{"./ui/classic.js":5,"dom-kit":7,"nextgen-events/lib/browser.js":11,"url":48}],3:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3002,10 +2996,11 @@ toolkit.stripMarkup = text => text.replace(
 
 
 
+const Promise = require( 'seventh' ) ;
 const Ngev = require( 'nextgen-events/lib/browser.js' ) ;
 const Dom = require( '../Dom.js' ) ;
-// const treeExtend = require( 'tree-kit/lib/extend.js' ) ;
-// const treeOps = require( 'kung-fig/lib/treeOps.js' ) ;
+//const treeExtend = require( 'tree-kit/lib/extend.js' ) ;
+//const treeOps = require( 'kung-fig/lib/treeOps.js' ) ;
 const toolkit = require( '../toolkit.js' ) ;
 
 
@@ -3052,7 +3047,7 @@ function arrayGetById( id ) { return this.find( ( e ) => { return e.id === id ; 
 
 // 'open' event on client
 UI.prototype.initBus = function() {
-	this.bus.on( 'clientConfig' , UI.clientConfig.bind( this ) ) ;
+	this.bus.on( 'clientConfig' , UI.clientConfig.bind( this ) , { async: true } ) ;
 	this.bus.on( 'user' , UI.user.bind( this ) ) ;
 	this.bus.on( 'userList' , UI.userList.bind( this ) ) ;
 	this.bus.on( 'roleList' , UI.roleList.bind( this ) ) ;
@@ -3161,7 +3156,7 @@ UI.clientError = function( code ) {
 
 
 
-UI.clientConfig = function( config ) {
+UI.clientConfig = async function( config , callback ) {
 	var extension ;
 	
 	this.config = config ;
@@ -3171,11 +3166,12 @@ UI.clientConfig = function( config ) {
 		this.dom.setTheme( this.config.theme ) ;
 	}
 
+	// Client extension loading is a blocking process, the client will malfunction if it doesn't have it
 	if ( this.config.clientExtensions && this.config.clientExtensions.length ) {
-		for ( extension of this.config.clientExtensions ) {
-			this.dom.addScript( '/ext/' + extension + '/ext.js' ) ;
-		}
+		await Promise.every( this.config.clientExtensions , extension => this.dom.addScript( '/ext/' + extension + '/ext.js' ) ) ;
 	}
+
+	callback() ;
 } ;
 
 
@@ -3741,7 +3737,7 @@ UI.exit = function( error , timeout , callback ) {
 } ;
 
 
-},{"../Dom.js":1,"../toolkit.js":4,"nextgen-events/lib/browser.js":11}],6:[function(require,module,exports){
+},{"../Dom.js":1,"../toolkit.js":4,"nextgen-events/lib/browser.js":11,"seventh":25}],6:[function(require,module,exports){
 
 },{}],7:[function(require,module,exports){
 (function (process){
@@ -3789,13 +3785,13 @@ else {
 
 
 
-var domKit = {} ;
+const domKit = {} ;
 module.exports = domKit ;
 
 
 
 // Like jQuery's $(document).ready()
-domKit.ready = function( callback ) {
+domKit.ready = callback => {
 	document.addEventListener( 'DOMContentLoaded' , function internalCallback() {
 		document.removeEventListener( 'DOMContentLoaded' , internalCallback , false ) ;
 		callback() ;
@@ -3804,20 +3800,13 @@ domKit.ready = function( callback ) {
 
 
 
-domKit.fromXml = function( xml ) {
-	return domParser.parseFromString( xml , 'application/xml' ) ;
-} ;
-
-
-
-domKit.toXml = function( $doc ) {
-	return xmlSerializer.serializeToString( $doc ) ;
-} ;
+domKit.fromXml = xml => domParser.parseFromString( xml , 'application/xml' ) ;
+domKit.toXml = $doc => xmlSerializer.serializeToString( $doc ) ;
 
 
 
 // Return a fragment from html code
-domKit.fromHtml = function( html ) {
+domKit.fromHtml = html => {
 	var i , $doc , $fragment ;
 
 	// Fragment allow us to return a collection that... well... is not a collection,
@@ -3839,16 +3828,21 @@ domKit.fromHtml = function( html ) {
 
 
 
-domKit.appendJs = function( url ) {
-	var $script = document.createElement( 'script' ) ;
-	$script.setAttribute( 'src' , url ) ;
-	document.body.appendChild( $script ) ;
+// Add a JS script, return a promise when done
+domKit.addJsScript = ( url , $element = document.body ) => {
+	return new Promise( ( resolve , reject ) => {
+		var $script = document.createElement( 'script' ) ;
+		$script.src = url ;
+		$script.async = true ;
+		$script.onload = resolve ;
+		$script.onerror = reject ;
+		$element.appendChild( $script ) ;
+	} ) ;
 } ;
 
 
-
 // Batch processing, like array, HTMLCollection, and so on...
-domKit.batch = function( method , elements , ... args ) {
+domKit.batch = ( method , elements , ... args ) => {
 	var i ;
 
 	if ( elements instanceof Element ) {
@@ -3869,7 +3863,7 @@ domKit.batch = function( method , elements , ... args ) {
 
 
 // Set a bunch of css properties given as an object
-domKit.css = function( $element , object ) {
+domKit.css = ( $element , object ) => {
 	var key ;
 
 	for ( key in object ) {
@@ -3880,7 +3874,7 @@ domKit.css = function( $element , object ) {
 
 
 // Set a bunch of attributes given as an object
-domKit.attr = function( $element , object , prefix ) {
+domKit.attr = ( $element , object , prefix ) => {
 	var key ;
 
 	prefix = prefix || '' ;
@@ -3894,7 +3888,7 @@ domKit.attr = function( $element , object , prefix ) {
 
 
 // Set/unset a bunch of classes given as an object
-domKit.class = function( $element , object , prefix ) {
+domKit.class = ( $element , object , prefix ) => {
 	var key ;
 
 	prefix = prefix || '' ;
@@ -3908,12 +3902,12 @@ domKit.class = function( $element , object , prefix ) {
 
 
 // Remove an element. A little shortcut that ease life...
-domKit.remove = function( $element ) { $element.parentNode.removeChild( $element ) ; } ;
+domKit.remove = $element => $element.parentNode.removeChild( $element ) ;
 
 
 
 // Remove all children of an element
-domKit.empty = function( $element ) {
+domKit.empty = $element => {
 	// $element.innerHTML = '' ;	// <-- According to jsPerf, this is 96% slower
 	while ( $element.firstChild ) { $element.removeChild( $element.firstChild ) ; }
 } ;
@@ -3921,7 +3915,7 @@ domKit.empty = function( $element ) {
 
 
 // Clone a source DOM tree and replace children of the destination
-domKit.cloneInto = function( $source , $destination ) {
+domKit.cloneInto = ( $source , $destination ) => {
 	domKit.empty( $destination ) ;
 	$destination.appendChild( $source.cloneNode( true ) ) ;
 } ;
@@ -3929,7 +3923,7 @@ domKit.cloneInto = function( $source , $destination ) {
 
 
 // Same than cloneInto() without cloning anything
-domKit.insertInto = function( $source , $destination ) {
+domKit.insertInto = ( $source , $destination ) => {
 	domKit.empty( $destination ) ;
 	$destination.appendChild( $source ) ;
 } ;
@@ -3937,7 +3931,7 @@ domKit.insertInto = function( $source , $destination ) {
 
 
 // Move all children of a node into another, after removing existing target's children
-domKit.moveChildrenInto = function( $source , $destination ) {
+domKit.moveChildrenInto = ( $source , $destination ) => {
 	domKit.empty( $destination ) ;
 	while ( $source.firstChild ) { $destination.appendChild( $source.firstChild ) ; }
 } ;
@@ -3945,7 +3939,7 @@ domKit.moveChildrenInto = function( $source , $destination ) {
 
 
 // Move all attributes of an element into the destination
-domKit.moveAttributes = function( $source , $destination ) {
+domKit.moveAttributes = ( $source , $destination ) => {
 	Array.from( $source.attributes ).forEach( ( attr ) => {
 		var name = attr.name ;
 		var value = attr.value ;
@@ -3963,7 +3957,7 @@ domKit.moveAttributes = function( $source , $destination ) {
 
 
 
-domKit.styleToAttribute = function( $element , property , blacklistedValues ) {
+domKit.styleToAttribute = ( $element , property , blacklistedValues ) => {
 	if ( $element.style[ property ] && ( ! blacklistedValues || blacklistedValues.indexOf( $element.style[ property ] ) === -1 ) ) {
 		$element.setAttribute( property , $element.style[ property ] ) ;
 		$element.style[ property ] = null ;
@@ -3973,7 +3967,7 @@ domKit.styleToAttribute = function( $element , property , blacklistedValues ) {
 
 
 // Children of this element get all their ID prefixed, any url(#id) references are patched accordingly
-domKit.prefixIds = function( $element , prefix ) {
+domKit.prefixIds = ( $element , prefix ) => {
 	var elements , replacement = {} ;
 
 	elements = $element.querySelectorAll( '*' ) ;
@@ -3986,20 +3980,20 @@ domKit.prefixIds = function( $element , prefix ) {
 
 // Callbacks for domKit.prefixIds(), cleanly hidden behind its prefix
 
-domKit.prefixIds.idAttributePass = function( $element , prefix , replacement ) {
+domKit.prefixIds.idAttributePass = ( $element , prefix , replacement ) => {
 	replacement[ $element.id ] = prefix + '.' + $element.id ;
 	$element.id = replacement[ $element.id ] ;
 } ;
 
 
 
-domKit.prefixIds.otherAttributesPass = function( $element , replacement ) {
+domKit.prefixIds.otherAttributesPass = ( $element , replacement ) => {
 	domKit.batch( domKit.prefixIds.oneAttributeSubPass , $element.attributes , replacement ) ;
 } ;
 
 
 
-domKit.prefixIds.oneAttributeSubPass = function( attr , replacement ) {
+domKit.prefixIds.oneAttributeSubPass = ( attr , replacement ) => {
 	// We have to search all url(#id) like substring in the current attribute's value
 	attr.value = attr.value.replace( /url\(#([^)]+)\)/g , ( match , id ) => {
 
@@ -4013,7 +4007,7 @@ domKit.prefixIds.oneAttributeSubPass = function( attr , replacement ) {
 
 
 
-domKit.removeAllTags = function( $container , tagName , onlyIfEmpty ) {
+domKit.removeAllTags = ( $container , tagName , onlyIfEmpty ) => {
 	Array.from( $container.getElementsByTagName( tagName ) ).forEach( ( $element ) => {
 		if ( ! onlyIfEmpty || ! $element.firstChild ) { $element.parentNode.removeChild( $element ) ; }
 	} ) ;
@@ -4021,7 +4015,7 @@ domKit.removeAllTags = function( $container , tagName , onlyIfEmpty ) {
 
 
 
-domKit.removeAllAttributes = function( $container , attrName ) {
+domKit.removeAllAttributes = ( $container , attrName ) => {
 	// Don't forget to remove the ID of the container itself
 	$container.removeAttribute( attrName ) ;
 
@@ -4032,7 +4026,7 @@ domKit.removeAllAttributes = function( $container , attrName ) {
 
 
 
-domKit.preload = function( urls ) {
+domKit.preload = urls => {
 	if ( ! Array.isArray( urls ) ) { urls = [ urls ] ; }
 
 	urls.forEach( ( url ) => {
@@ -4054,7 +4048,7 @@ domKit.preload.preloaded = {} ;
 		* whitelist `array` of `string` namespace to elements/attributes to keep
 		* primary `string` keep those elements but remove the namespace
 */
-domKit.filterByNamespace = function( $container , options ) {
+domKit.filterByNamespace = ( $container , options ) => {
 	var i , $child , namespace , tagName , split ;
 
 	// Nothing to do? return now...
@@ -4105,7 +4099,7 @@ domKit.filterByNamespace = function( $container , options ) {
 
 
 // Filter attributes by namespace
-domKit.filterAttributesByNamespace = function( $container , options ) {
+domKit.filterAttributesByNamespace = ( $container , options ) => {
 	var i , attr , namespace , attrName , value , split ;
 
 	// Nothing to do? return now...
@@ -4141,7 +4135,7 @@ domKit.filterAttributesByNamespace = function( $container , options ) {
 
 
 // Remove comments
-domKit.removeComments = function( $container ) {
+domKit.removeComments = $container => {
 	var i , $child ;
 
 	for ( i = $container.childNodes.length - 1 ; i >= 0 ; i -- ) {
@@ -4159,7 +4153,7 @@ domKit.removeComments = function( $container ) {
 
 
 // Remove white-space-only text-node
-domKit.removeWhiteSpaces = function( $container , onlyWhiteLines ) {
+domKit.removeWhiteSpaces = ( $container , onlyWhiteLines ) => {
 	var i , $child , $lastTextNode = null ;
 
 	for ( i = $container.childNodes.length - 1 ; i >= 0 ; i -- ) {
@@ -4198,7 +4192,7 @@ domKit.removeWhiteSpaces = function( $container , onlyWhiteLines ) {
 
 // Transform-related method
 
-domKit.parseMatrix = function( str ) {
+domKit.parseMatrix = str => {
 	var matches = str.match( /(matrix|matrix3d)\(([0-9., -]+)\)/ ) ;
 
 	if ( ! matches ) { return null ; }
@@ -4210,21 +4204,21 @@ domKit.parseMatrix = function( str ) {
 
 
 
-domKit.decomposeMatrix = function( mat ) {
-	if ( mat.length === 6 ) { return domKit.decomposeMatrix2d( mat ) ; }
-	if ( mat.length === 16 ) { return domKit.decomposeMatrix3d( mat ) ; }
+domKit.decomposeMatrix = matrix => {
+	if ( matrix.length === 6 ) { return domKit.decomposeMatrix2d( matrix ) ; }
+	if ( matrix.length === 16 ) { return domKit.decomposeMatrix3d( matrix ) ; }
 	return null ;
 } ;
 
 
 
 // From: https://stackoverflow.com/questions/16359246/how-to-extract-position-rotation-and-scale-from-matrix-svg
-domKit.decomposeMatrix2d = function( mat ) {
-	var angle = Math.atan2( mat[1] , mat[0] ) ,
-		denom = mat[0] * mat[0] + mat[1] * mat[1] ,
+domKit.decomposeMatrix2d = matrix => {
+	var angle = Math.atan2( matrix[1] , matrix[0] ) ,
+		denom = matrix[0] * matrix[0] + matrix[1] * matrix[1] ,
 		scaleX = Math.sqrt( denom ) ,
-		scaleY = ( mat[0] * mat[3] - mat[2] * mat[1] ) / scaleX ,
-		skewX = Math.atan2( mat[0] * mat[2] + mat[1] * mat[3] , denom ) ;
+		scaleY = ( matrix[0] * matrix[3] - matrix[2] * matrix[1] ) / scaleX ,
+		skewX = Math.atan2( matrix[0] * matrix[2] + matrix[1] * matrix[3] , denom ) ;
 
 	return {
 		rotate: 180 * angle / Math.PI ,  // in degrees
@@ -4232,8 +4226,8 @@ domKit.decomposeMatrix2d = function( mat ) {
 		scaleY: scaleY ,
 		skewX: 180 * skewX / Math.PI ,  // in degree
 		skewY: 0 ,  // always 0 in this decomposition
-		translateX: mat[4] ,
-		translateY: mat[5]
+		translateX: matrix[4] ,
+		translateY: matrix[5]
 	} ;
 } ;
 
@@ -4241,26 +4235,26 @@ domKit.decomposeMatrix2d = function( mat ) {
 
 // https://stackoverflow.com/questions/15024828/transforming-3d-matrix-into-readable-format
 // supports only scale*rotate*translate matrix
-domKit.decomposeMatrix3d = function( mat ) {
+domKit.decomposeMatrix3d = matrix => {
 	var radians = Math.PI / 180 ;
 
-	var sX = Math.sqrt( mat[0] * mat[0] + mat[1] * mat[1] + mat[2] * mat[2] ) ,
-		sY = Math.sqrt( mat[4] * mat[4] + mat[5] * mat[5] + mat[6] * mat[6] ) ,
-		sZ = Math.sqrt( mat[8] * mat[8] + mat[9] * mat[9] + mat[10] * mat[10] ) ;
+	var sX = Math.sqrt( matrix[0] * matrix[0] + matrix[1] * matrix[1] + matrix[2] * matrix[2] ) ,
+		sY = Math.sqrt( matrix[4] * matrix[4] + matrix[5] * matrix[5] + matrix[6] * matrix[6] ) ,
+		sZ = Math.sqrt( matrix[8] * matrix[8] + matrix[9] * matrix[9] + matrix[10] * matrix[10] ) ;
 
-	var rX = Math.atan2( -mat[9] / sZ , mat[10] / sZ ) / radians ,
-		rY = Math.asin( mat[8] / sZ ) / radians ,
-		rZ = Math.atan2( -mat[4] / sY , mat[0] / sX ) / radians ;
+	var rX = Math.atan2( -matrix[9] / sZ , matrix[10] / sZ ) / radians ,
+		rY = Math.asin( matrix[8] / sZ ) / radians ,
+		rZ = Math.atan2( -matrix[4] / sY , matrix[0] / sX ) / radians ;
 
-	if ( mat[4] === 1 || mat[4] === -1 ) {
+	if ( matrix[4] === 1 || matrix[4] === -1 ) {
 		rX = 0 ;
-		rY = mat[4] * -Math.PI / 2 ;
-		rZ = mat[4] * Math.atan2( mat[6] / sY , mat[5] / sY ) / radians ;
+		rY = matrix[4] * -Math.PI / 2 ;
+		rZ = matrix[4] * Math.atan2( matrix[6] / sY , matrix[5] / sY ) / radians ;
 	}
 
-	var tX = mat[12] / sX ,
-		tY = mat[13] / sX ,
-		tZ = mat[14] / sX ;
+	var tX = matrix[12] / sX ,
+		tY = matrix[13] / sX ,
+		tZ = matrix[14] / sX ;
 
 	return {
 		translateX: tX ,
@@ -4277,7 +4271,7 @@ domKit.decomposeMatrix3d = function( mat ) {
 
 
 
-domKit.stringifyTransform = function( object ) {
+domKit.stringifyTransform = object => {
 	var str = [] ;
 
 	if ( object.translateX ) { str.push( 'translateX(' + object.translateX + 'px)' ) ; }
@@ -4308,9 +4302,7 @@ domKit.stringifyTransform = function( object ) {
 	return str.join( ' ' ) ;
 } ;
 
-domKit.transform = function( $element , transformObject ) {
-	$element.style.transform = domKit.stringifyTransform( transformObject ) ;
-} ;
+domKit.transform = ( $element , transformObject ) => $element.style.transform = domKit.stringifyTransform( transformObject ) ;
 
 
 
@@ -4320,14 +4312,13 @@ domKit.transform = function( $element , transformObject ) {
 /* ... to avoid defining again and again the same callback function */
 
 // Change id
-domKit.id = function( $element , id ) { $element.id = id ; } ;
+domKit.id = ( $element , id ) => $element.id = id ;
 
 // Like jQuery .text().
-domKit.text = function( $element , text ) { $element.textContent = text ; } ;
+domKit.text = ( $element , text ) => $element.textContent = text ;
 
 // Like jQuery .html().
-domKit.html = function( $element , html ) { $element.innerHTML = html ; } ;
-
+domKit.html = ( $element , html ) => $element.innerHTML = html ;
 
 
 }).call(this,require('_process'))
@@ -5752,7 +5743,7 @@ NextGenEvents.Proxy = require( './Proxy.js' ) ;
 
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"../package.json":12,"./Proxy.js":10,"_process":13,"timers":46}],10:[function(require,module,exports){
+},{"../package.json":12,"./Proxy.js":10,"_process":13,"timers":47}],10:[function(require,module,exports){
 /*
 	Next-Gen Events
 
@@ -8973,7 +8964,7 @@ if ( process.browser ) {
 
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"_process":13,"setimmediate":18,"timers":46}],22:[function(require,module,exports){
+},{"_process":13,"setimmediate":18,"timers":47}],22:[function(require,module,exports){
 /*
 	Seventh
 
@@ -12328,7 +12319,7 @@ VG.prototype.addCssRule = function( rule ) {
 } ;
 
 
-},{"../package.json":45,"./VGContainer.js":34,"./svg-kit.js":42}],34:[function(require,module,exports){
+},{"../package.json":46,"./VGContainer.js":34,"./svg-kit.js":42}],34:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -12449,7 +12440,7 @@ VGContainer.prototype.morphDom = function( root = this ) {
 } ;
 
 
-},{"../package.json":45,"./VGItem.js":37,"./svg-kit.js":42}],35:[function(require,module,exports){
+},{"../package.json":46,"./VGItem.js":37,"./svg-kit.js":42}],35:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -12534,7 +12525,7 @@ VGEllipse.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":45,"./VGItem.js":37}],36:[function(require,module,exports){
+},{"../package.json":46,"./VGItem.js":37}],36:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -12591,7 +12582,7 @@ VGGroup.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":45,"./VGContainer.js":34,"./svg-kit.js":42}],37:[function(require,module,exports){
+},{"../package.json":46,"./VGContainer.js":34,"./svg-kit.js":42}],37:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -12976,7 +12967,7 @@ VGItem.prototype.morphOneEntryDom = function( data , root = this ) {
 } ;
 
 
-},{"../package.json":45,"string-kit/lib/camel":43,"string-kit/lib/escape":44}],38:[function(require,module,exports){
+},{"../package.json":46,"string-kit/lib/camel":44,"string-kit/lib/escape":45}],38:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13643,7 +13634,7 @@ VGPath.prototype.forwardNegativeTurn = function( data ) {
 } ;
 
 
-},{"../package.json":45,"./VGItem.js":37}],39:[function(require,module,exports){
+},{"../package.json":46,"./VGItem.js":37}],39:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13734,7 +13725,7 @@ VGRect.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":45,"./VGItem.js":37}],40:[function(require,module,exports){
+},{"../package.json":46,"./VGItem.js":37}],40:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13846,7 +13837,7 @@ VGText.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":45,"./VGItem.js":37}],41:[function(require,module,exports){
+},{"../package.json":46,"./VGItem.js":37}],41:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -14372,7 +14363,595 @@ svgKit.objectToVG = function( object ) {
 
 
 }).call(this,require('_process'))
-},{"./VG.js":33,"./VGContainer.js":34,"./VGEllipse.js":35,"./VGGroup.js":36,"./VGItem.js":37,"./VGPath.js":38,"./VGRect.js":39,"./VGText.js":40,"./path.js":41,"_process":13,"dom-kit":7,"fs":6,"seventh":25,"string-kit/lib/escape.js":44}],43:[function(require,module,exports){
+},{"./VG.js":33,"./VGContainer.js":34,"./VGEllipse.js":35,"./VGGroup.js":36,"./VGItem.js":37,"./VGPath.js":38,"./VGRect.js":39,"./VGText.js":40,"./path.js":41,"_process":13,"dom-kit":43,"fs":6,"seventh":25,"string-kit/lib/escape.js":45}],43:[function(require,module,exports){
+(function (process){
+/*
+	Dom Kit
+
+	Copyright (c) 2015 - 2018 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+var domParser , xmlSerializer ;
+
+if ( process.browser ) {
+	domParser = new DOMParser() ;
+	xmlSerializer = new XMLSerializer() ;
+}
+else {
+	var xmldom = require( '@cronvel/xmldom' ) ;
+	domParser = new xmldom.DOMParser() ;
+	xmlSerializer = new xmldom.XMLSerializer() ;
+}
+
+
+
+var domKit = {} ;
+module.exports = domKit ;
+
+
+
+// Like jQuery's $(document).ready()
+domKit.ready = function( callback ) {
+	document.addEventListener( 'DOMContentLoaded' , function internalCallback() {
+		document.removeEventListener( 'DOMContentLoaded' , internalCallback , false ) ;
+		callback() ;
+	} , false ) ;
+} ;
+
+
+
+domKit.fromXml = function( xml ) {
+	return domParser.parseFromString( xml , 'application/xml' ) ;
+} ;
+
+
+
+domKit.toXml = function( $doc ) {
+	return xmlSerializer.serializeToString( $doc ) ;
+} ;
+
+
+
+// Return a fragment from html code
+domKit.fromHtml = function( html ) {
+	var i , $doc , $fragment ;
+
+	// Fragment allow us to return a collection that... well... is not a collection,
+	// and that's fine because the html code may contains multiple top-level element
+	$fragment = document.createDocumentFragment() ;
+
+	$doc = document.createElement( 'div' ) ;	// whatever type...
+
+	// either .innerHTML or .insertAdjacentHTML()
+	//$doc.innerHTML = html ;
+	$doc.insertAdjacentHTML( 'beforeend' , html ) ;
+
+	for ( i = 0 ; i < $doc.children.length ; i ++ ) {
+		$fragment.appendChild( $doc.children[ i ] ) ;
+	}
+
+	return $fragment ;
+} ;
+
+
+
+domKit.appendJs = function( url ) {
+	var $script = document.createElement( 'script' ) ;
+	$script.setAttribute( 'src' , url ) ;
+	document.body.appendChild( $script ) ;
+} ;
+
+
+
+// Batch processing, like array, HTMLCollection, and so on...
+domKit.batch = function( method , elements , ... args ) {
+	var i ;
+
+	if ( elements instanceof Element ) {
+		method( elements , ... args ) ;
+	}
+	else if ( Array.isArray( elements ) ) {
+		for ( i = 0 ; i < elements.length ; i ++ ) {
+			method( elements[ i ] , ... args ) ;
+		}
+	}
+	else if ( elements instanceof NodeList || elements instanceof NamedNodeMap ) {
+		for ( i = 0 ; i < elements.length ; i ++ ) {
+			method( elements[ i ] , ... args ) ;
+		}
+	}
+} ;
+
+
+
+// Set a bunch of css properties given as an object
+domKit.css = function( $element , object ) {
+	var key ;
+
+	for ( key in object ) {
+		$element.style[ key ] = object[ key ] ;
+	}
+} ;
+
+
+
+// Set a bunch of attributes given as an object
+domKit.attr = function( $element , object , prefix ) {
+	var key ;
+
+	prefix = prefix || '' ;
+
+	for ( key in object ) {
+		if ( object[ key ] === null ) { $element.removeAttribute( prefix + key ) ; }
+		else { $element.setAttribute( prefix + key , object[ key ] ) ; }
+	}
+} ;
+
+
+
+// Set/unset a bunch of classes given as an object
+domKit.class = function( $element , object , prefix ) {
+	var key ;
+
+	prefix = prefix || '' ;
+
+	for ( key in object ) {
+		if ( object[ key ] ) { $element.classList.add( prefix + key ) ; }
+		else { $element.classList.remove( prefix + key ) ; }
+	}
+} ;
+
+
+
+// Remove an element. A little shortcut that ease life...
+domKit.remove = function( $element ) { $element.parentNode.removeChild( $element ) ; } ;
+
+
+
+// Remove all children of an element
+domKit.empty = function( $element ) {
+	// $element.innerHTML = '' ;	// <-- According to jsPerf, this is 96% slower
+	while ( $element.firstChild ) { $element.removeChild( $element.firstChild ) ; }
+} ;
+
+
+
+// Clone a source DOM tree and replace children of the destination
+domKit.cloneInto = function( $source , $destination ) {
+	domKit.empty( $destination ) ;
+	$destination.appendChild( $source.cloneNode( true ) ) ;
+} ;
+
+
+
+// Same than cloneInto() without cloning anything
+domKit.insertInto = function( $source , $destination ) {
+	domKit.empty( $destination ) ;
+	$destination.appendChild( $source ) ;
+} ;
+
+
+
+// Move all children of a node into another, after removing existing target's children
+domKit.moveChildrenInto = function( $source , $destination ) {
+	domKit.empty( $destination ) ;
+	while ( $source.firstChild ) { $destination.appendChild( $source.firstChild ) ; }
+} ;
+
+
+
+// Move all attributes of an element into the destination
+domKit.moveAttributes = function( $source , $destination ) {
+	Array.from( $source.attributes ).forEach( ( attr ) => {
+		var name = attr.name ;
+		var value = attr.value ;
+
+		$source.removeAttribute( name ) ;
+
+		// Do not copy namespaced attributes for instance,
+		// should probably protect this behind a third argument
+		if ( name !== 'xmlns' && name.indexOf( ':' ) === -1 && value ) {
+			//console.warn( 'moving: ' , name, value , $destination.getAttribute( name ) ) ;
+			$destination.setAttribute( name , value ) ;
+		}
+	} ) ;
+} ;
+
+
+
+domKit.styleToAttribute = function( $element , property , blacklistedValues ) {
+	if ( $element.style[ property ] && ( ! blacklistedValues || blacklistedValues.indexOf( $element.style[ property ] ) === -1 ) ) {
+		$element.setAttribute( property , $element.style[ property ] ) ;
+		$element.style[ property ] = null ;
+	}
+} ;
+
+
+
+// Children of this element get all their ID prefixed, any url(#id) references are patched accordingly
+domKit.prefixIds = function( $element , prefix ) {
+	var elements , replacement = {} ;
+
+	elements = $element.querySelectorAll( '*' ) ;
+
+	domKit.batch( domKit.prefixIds.idAttributePass , elements , prefix , replacement ) ;
+	domKit.batch( domKit.prefixIds.otherAttributesPass , elements , replacement ) ;
+} ;
+
+
+
+// Callbacks for domKit.prefixIds(), cleanly hidden behind its prefix
+
+domKit.prefixIds.idAttributePass = function( $element , prefix , replacement ) {
+	replacement[ $element.id ] = prefix + '.' + $element.id ;
+	$element.id = replacement[ $element.id ] ;
+} ;
+
+
+
+domKit.prefixIds.otherAttributesPass = function( $element , replacement ) {
+	domKit.batch( domKit.prefixIds.oneAttributeSubPass , $element.attributes , replacement ) ;
+} ;
+
+
+
+domKit.prefixIds.oneAttributeSubPass = function( attr , replacement ) {
+	// We have to search all url(#id) like substring in the current attribute's value
+	attr.value = attr.value.replace( /url\(#([^)]+)\)/g , ( match , id ) => {
+
+		// No replacement? return the matched string
+		if ( ! replacement[ id ] ) { return match ; }
+
+		// Or return the replacement ID
+		return 'url(#' + replacement[ id ] + ')' ;
+	} ) ;
+} ;
+
+
+
+domKit.removeAllTags = function( $container , tagName , onlyIfEmpty ) {
+	Array.from( $container.getElementsByTagName( tagName ) ).forEach( ( $element ) => {
+		if ( ! onlyIfEmpty || ! $element.firstChild ) { $element.parentNode.removeChild( $element ) ; }
+	} ) ;
+} ;
+
+
+
+domKit.removeAllAttributes = function( $container , attrName ) {
+	// Don't forget to remove the ID of the container itself
+	$container.removeAttribute( attrName ) ;
+
+	Array.from( $container.querySelectorAll( '[' + attrName + ']' ) ).forEach( ( $element ) => {
+		$element.removeAttribute( attrName ) ;
+	} ) ;
+} ;
+
+
+
+domKit.preload = function( urls ) {
+	if ( ! Array.isArray( urls ) ) { urls = [ urls ] ; }
+
+	urls.forEach( ( url ) => {
+		if ( domKit.preload.preloaded[ url ] ) { return ; }
+		domKit.preload.preloaded[ url ] = new Image() ;
+		domKit.preload.preloaded[ url ].src = url ;
+	} ) ;
+} ;
+
+domKit.preload.preloaded = {} ;
+
+
+
+/*
+	Filter namespaces:
+
+	* options `object` where:
+		* blacklist `array` of `string` namespace of elements/attributes to remove
+		* whitelist `array` of `string` namespace to elements/attributes to keep
+		* primary `string` keep those elements but remove the namespace
+*/
+domKit.filterByNamespace = function( $container , options ) {
+	var i , $child , namespace , tagName , split ;
+
+	// Nothing to do? return now...
+	if ( ! options || typeof options !== 'object' ) { return ; }
+
+	domKit.filterAttributesByNamespace( $container , options ) ;
+
+	for ( i = $container.childNodes.length - 1 ; i >= 0 ; i -- ) {
+		$child = $container.childNodes[ i ] ;
+
+		if ( $child.nodeType === 1 ) {
+			if ( $child.tagName.indexOf( ':' ) !== -1 ) {
+				split = $child.tagName.split( ':' ) ;
+				namespace = split[ 0 ] ;
+				tagName = split[ 1 ] ;
+
+				if ( namespace === options.primary ) {
+					$child.tagName = tagName ;
+					domKit.filterByNamespace( $child , options ) ;
+				}
+				else if ( options.whitelist ) {
+					if ( options.whitelist.indexOf( namespace ) !== -1 ) {
+						domKit.filterByNamespace( $child , options ) ;
+					}
+					else {
+						$container.removeChild( $child ) ;
+					}
+				}
+				else if ( options.blacklist ) {
+					if ( options.blacklist.indexOf( namespace ) !== -1 ) {
+						$container.removeChild( $child ) ;
+					}
+					else {
+						domKit.filterByNamespace( $child , options ) ;
+					}
+				}
+				else {
+					domKit.filterByNamespace( $child , options ) ;
+				}
+			}
+			else {
+				domKit.filterByNamespace( $child , options ) ;
+			}
+		}
+	}
+} ;
+
+
+
+// Filter attributes by namespace
+domKit.filterAttributesByNamespace = function( $container , options ) {
+	var i , attr , namespace , attrName , value , split ;
+
+	// Nothing to do? return now...
+	if ( ! options || typeof options !== 'object' ) { return ; }
+
+	for ( i = $container.attributes.length - 1 ; i >= 0 ; i -- ) {
+		attr = $container.attributes[ i ] ;
+
+		if ( attr.name.indexOf( ':' ) !== -1 ) {
+			split = attr.name.split( ':' ) ;
+			namespace = split[ 0 ] ;
+			attrName = split[ 1 ] ;
+			value = attr.value ;
+
+			if ( namespace === options.primary ) {
+				$container.removeAttributeNode( attr ) ;
+				$container.setAttribute( attrName , value ) ;
+			}
+			else if ( options.whitelist ) {
+				if ( options.whitelist.indexOf( namespace ) === -1 ) {
+					$container.removeAttributeNode( attr ) ;
+				}
+			}
+			else if ( options.blacklist ) {
+				if ( options.blacklist.indexOf( namespace ) !== -1 ) {
+					$container.removeAttributeNode( attr ) ;
+				}
+			}
+		}
+	}
+} ;
+
+
+
+// Remove comments
+domKit.removeComments = function( $container ) {
+	var i , $child ;
+
+	for ( i = $container.childNodes.length - 1 ; i >= 0 ; i -- ) {
+		$child = $container.childNodes[ i ] ;
+
+		if ( $child.nodeType === 8 ) {
+			$container.removeChild( $child ) ;
+		}
+		else if ( $child.nodeType === 1 ) {
+			domKit.removeComments( $child ) ;
+		}
+	}
+} ;
+
+
+
+// Remove white-space-only text-node
+domKit.removeWhiteSpaces = function( $container , onlyWhiteLines ) {
+	var i , $child , $lastTextNode = null ;
+
+	for ( i = $container.childNodes.length - 1 ; i >= 0 ; i -- ) {
+		$child = $container.childNodes[ i ] ;
+		//console.log( '$child.nodeType' , $child.nodeType ) ;
+
+		if ( $child.nodeType === 3 ) {
+			if ( onlyWhiteLines ) {
+				if ( $lastTextNode ) {
+					// When multiple text-node in a row
+					$lastTextNode.nodeValue = ( $child.nodeValue + $lastTextNode.nodeValue ).replace( /^\s*(\n[\t ]*)$/ , '$1' ) ;
+					$container.removeChild( $child ) ;
+				}
+				else {
+					//console.log( "deb1: '" + $child.nodeValue + "'" ) ;
+					$child.nodeValue = $child.nodeValue.replace( /^\s*(\n[\t ]*)$/ , '$1' ) ;
+					$lastTextNode = $child ;
+					//console.log( "deb2: '" + $child.nodeValue + "'" ) ;
+				}
+			}
+			else if ( ! /\S/.test( $child.nodeValue ) ) {
+				$container.removeChild( $child ) ;
+			}
+		}
+		else if ( $child.nodeType === 1 ) {
+			$lastTextNode = null ;
+			domKit.removeWhiteSpaces( $child , onlyWhiteLines ) ;
+		}
+		else {
+			$lastTextNode = null ;
+		}
+	}
+} ;
+
+
+
+// Transform-related method
+
+domKit.parseMatrix = function( str ) {
+	var matches = str.match( /(matrix|matrix3d)\(([0-9., -]+)\)/ ) ;
+
+	if ( ! matches ) { return null ; }
+
+	return matches[ 2 ].trim().split( / ?, ?/ ).map( ( e ) => {
+		return parseFloat( e ) ;
+	} ) ;
+} ;
+
+
+
+domKit.decomposeMatrix = function( mat ) {
+	if ( mat.length === 6 ) { return domKit.decomposeMatrix2d( mat ) ; }
+	if ( mat.length === 16 ) { return domKit.decomposeMatrix3d( mat ) ; }
+	return null ;
+} ;
+
+
+
+// From: https://stackoverflow.com/questions/16359246/how-to-extract-position-rotation-and-scale-from-matrix-svg
+domKit.decomposeMatrix2d = function( mat ) {
+	var angle = Math.atan2( mat[1] , mat[0] ) ,
+		denom = mat[0] * mat[0] + mat[1] * mat[1] ,
+		scaleX = Math.sqrt( denom ) ,
+		scaleY = ( mat[0] * mat[3] - mat[2] * mat[1] ) / scaleX ,
+		skewX = Math.atan2( mat[0] * mat[2] + mat[1] * mat[3] , denom ) ;
+
+	return {
+		rotate: 180 * angle / Math.PI ,  // in degrees
+		scaleX: scaleX ,
+		scaleY: scaleY ,
+		skewX: 180 * skewX / Math.PI ,  // in degree
+		skewY: 0 ,  // always 0 in this decomposition
+		translateX: mat[4] ,
+		translateY: mat[5]
+	} ;
+} ;
+
+
+
+// https://stackoverflow.com/questions/15024828/transforming-3d-matrix-into-readable-format
+// supports only scale*rotate*translate matrix
+domKit.decomposeMatrix3d = function( mat ) {
+	var radians = Math.PI / 180 ;
+
+	var sX = Math.sqrt( mat[0] * mat[0] + mat[1] * mat[1] + mat[2] * mat[2] ) ,
+		sY = Math.sqrt( mat[4] * mat[4] + mat[5] * mat[5] + mat[6] * mat[6] ) ,
+		sZ = Math.sqrt( mat[8] * mat[8] + mat[9] * mat[9] + mat[10] * mat[10] ) ;
+
+	var rX = Math.atan2( -mat[9] / sZ , mat[10] / sZ ) / radians ,
+		rY = Math.asin( mat[8] / sZ ) / radians ,
+		rZ = Math.atan2( -mat[4] / sY , mat[0] / sX ) / radians ;
+
+	if ( mat[4] === 1 || mat[4] === -1 ) {
+		rX = 0 ;
+		rY = mat[4] * -Math.PI / 2 ;
+		rZ = mat[4] * Math.atan2( mat[6] / sY , mat[5] / sY ) / radians ;
+	}
+
+	var tX = mat[12] / sX ,
+		tY = mat[13] / sX ,
+		tZ = mat[14] / sX ;
+
+	return {
+		translateX: tX ,
+		translateY: tY ,
+		translateZ: tZ ,
+		rotateX: rX ,
+		rotateY: rY ,
+		rotateZ: rZ ,
+		scaleX: sX ,
+		scaleY: sY ,
+		scaleZ: sZ
+	} ;
+} ;
+
+
+
+domKit.stringifyTransform = function( object ) {
+	var str = [] ;
+
+	if ( object.translateX ) { str.push( 'translateX(' + object.translateX + 'px)' ) ; }
+	if ( object.translateY ) { str.push( 'translateY(' + object.translateY + 'px)' ) ; }
+	if ( object.translateZ ) { str.push( 'translateZ(' + object.translateZ + 'px)' ) ; }
+
+	if ( object.rotate ) {
+		str.push( 'rotate(' + object.rotate + 'deg)' ) ;
+	}
+	else {
+		if ( object.rotateX ) { str.push( 'rotateX(' + object.rotateX + 'deg)' ) ; }
+		if ( object.rotateY ) { str.push( 'rotateY(' + object.rotateY + 'deg)' ) ; }
+		if ( object.rotateZ ) { str.push( 'rotateZ(' + object.rotateZ + 'deg)' ) ; }
+	}
+
+	if ( object.scale ) {
+		str.push( 'scale(' + object.scale + ')' ) ;
+	}
+	else {
+		if ( object.scaleX ) { str.push( 'scaleX(' + object.scaleX + ')' ) ; }
+		if ( object.scaleY ) { str.push( 'scaleY(' + object.scaleY + ')' ) ; }
+		if ( object.scaleZ ) { str.push( 'scaleZ(' + object.scaleZ + ')' ) ; }
+	}
+
+	if ( object.skewX ) { str.push( 'skewX(' + object.skewX + 'deg)' ) ; }
+	if ( object.skewY ) { str.push( 'skewY(' + object.skewY + 'deg)' ) ; }
+
+	return str.join( ' ' ) ;
+} ;
+
+domKit.transform = function( $element , transformObject ) {
+	$element.style.transform = domKit.stringifyTransform( transformObject ) ;
+} ;
+
+
+
+
+
+/* Function useful for .batch() as callback */
+/* ... to avoid defining again and again the same callback function */
+
+// Change id
+domKit.id = function( $element , id ) { $element.id = id ; } ;
+
+// Like jQuery .text().
+domKit.text = function( $element , text ) { $element.textContent = text ; } ;
+
+// Like jQuery .html().
+domKit.html = function( $element , html ) { $element.innerHTML = html ; } ;
+
+
+
+}).call(this,require('_process'))
+},{"@cronvel/xmldom":6,"_process":13}],44:[function(require,module,exports){
 /*
 	String Kit
 
@@ -14446,9 +15025,9 @@ camel.camelCaseToDash =
 camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' ) ;
 
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 arguments[4][28][0].apply(exports,arguments)
-},{"dup":28}],45:[function(require,module,exports){
+},{"dup":28}],46:[function(require,module,exports){
 module.exports={
   "_from": "svg-kit@^0.2.3",
   "_id": "svg-kit@0.2.3",
@@ -14522,7 +15101,7 @@ module.exports={
   "version": "0.2.3"
 }
 
-},{}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 (function (setImmediate,clearImmediate){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -14601,7 +15180,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":13,"timers":46}],47:[function(require,module,exports){
+},{"process/browser.js":13,"timers":47}],48:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -15335,7 +15914,7 @@ Url.prototype.parseHost = function() {
   if (host) this.hostname = host;
 };
 
-},{"./util":48,"punycode":14,"querystring":17}],48:[function(require,module,exports){
+},{"./util":49,"punycode":14,"querystring":17}],49:[function(require,module,exports){
 'use strict';
 
 module.exports = {

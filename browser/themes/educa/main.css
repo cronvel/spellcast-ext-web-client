@@ -714,35 +714,35 @@ indicator widget.vbar inner-bar {
 
 
 
-.g-item-location-showing {
+.g-entity-location-showing {
 	width: 30vw;
 	height: 60vh;
 	top: 20vh;
 	right: 10vw;
 }
 
-.g-item-location-showing .g-item-slot {
+.g-entity-location-showing .g-entity-slot {
 	width: 40vh;
 	height: 60vh;
 }
 
-.g-item-location-showing .g-item-slot:last-child {
+.g-entity-location-showing .g-entity-slot:last-child {
 	min-width: 40vh;
 }
 
-.g-item-location-hand {
+.g-entity-location-hand {
 	width: 30vw;
 	height: 30vh;
 	bottom: 0;
 	right: 10vw;
 }
 
-.g-item-location-hand .g-item-slot {
+.g-entity-location-hand .g-entity-slot {
 	width: 20vh;
 	height: 30vh;
 }
 
-.g-item-location-hand .g-item-slot:last-child {
+.g-entity-location-hand .g-entity-slot:last-child {
 	min-width: 20vh;
 }
 
@@ -779,17 +779,17 @@ indicator widget.vbar inner-bar {
 	order: 3;
 }
 
-.g-item-wrapper[pose="face-down"] .card {
+.g-entity-wrapper[pose="face-down"] .card {
 	transform: rotateY(-180deg) rotateZ(0deg);
 	transition: all 1s;
 }
 
-.g-item-wrapper[pose="spin-face-up"] .card {
+.g-entity-wrapper[pose="spin-face-up"] .card {
 	transform: rotateY(360deg) rotateZ(0deg);
 	transition: all 2s;
 }
 
-.g-item-wrapper[pose="wheel-face-up"] .card {
+.g-entity-wrapper[pose="wheel-face-up"] .card {
 	transform: rotateY(0deg) rotateZ(360deg);
 	transition: all 2s;
 }

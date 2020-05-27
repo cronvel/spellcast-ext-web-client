@@ -86,9 +86,9 @@ body {
 
 
 
-/* G Item */
+/* G Entity */
 
-.g-item-location {
+.g-entity-location {
 	display: flex;
 	justify-content: space-around;
 	position: absolute;
@@ -96,7 +96,7 @@ body {
 	pointer-events: none;
 }
 
-.g-item-slot {
+.g-entity-slot {
 	position: relative; /* So cards will be positioned relative to this div */
 }
 
@@ -299,8 +299,8 @@ svg.vg-object * {
 }
 
 /* the 3D rotation/flip */
-/*.g-item-wrapper:hover .card ,*/ /* <-- for testing purpose */
-.g-item-wrapper[pose="face-down"] .card {
+/*.g-entity-wrapper:hover .card ,*/ /* <-- for testing purpose */
+.g-entity-wrapper[pose="face-down"] .card {
 	transform: rotateY(-180deg);
 }
 

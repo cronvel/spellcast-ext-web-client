@@ -3069,6 +3069,7 @@ UI.prototype.initBus = function() {
 	this.bus.on( 'defineAnimation' , UI.defineAnimation.bind( this ) ) ;
 
 	this.bus.on( 'createGScene' , UI.createGScene.bind( this ) , { async: true } ) ;
+	this.bus.on( 'texturePack' , UI.texturePack.bind( this ) , { async: true } ) ;
 
 	this.bus.on( 'showSprite' , UI.showSprite.bind( this ) , { async: true } ) ;
 	this.bus.on( 'updateSprite' , UI.updateSprite.bind( this ) , { async: true } ) ;
@@ -3533,6 +3534,13 @@ UI.defineAnimation = function( id , data ) {
 
 UI.createGScene = function( id , data , callback ) {
 	console.warn( "createGScene" , id , data ) ;
+	callback() ;
+} ;
+
+
+
+UI.texturePack = function( data , callback ) {
+	console.warn( "texturePack" , data ) ;
 	callback() ;
 } ;
 
@@ -15037,7 +15045,7 @@ camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' ) ;
 arguments[4][28][0].apply(exports,arguments)
 },{"dup":28}],46:[function(require,module,exports){
 module.exports={
-  "_from": "svg-kit@^0.3.0",
+  "_from": "svg-kit@0.3.0",
   "_id": "svg-kit@0.3.0",
   "_inBundle": false,
   "_integrity": "sha512-+lqQ8WQp8UD1BlNBeVOawBKpXCBCqdwnEfRiWxG7vI3NBmZ9CBPN/eMmMt2OpJRU8UcZUOrarAjiZV3dZsqWtA==",
@@ -15046,21 +15054,22 @@ module.exports={
     "@cronvel/xmldom": "0.1.31"
   },
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "svg-kit@^0.3.0",
+    "raw": "svg-kit@0.3.0",
     "name": "svg-kit",
     "escapedName": "svg-kit",
-    "rawSpec": "^0.3.0",
+    "rawSpec": "0.3.0",
     "saveSpec": null,
-    "fetchSpec": "^0.3.0"
+    "fetchSpec": "0.3.0"
   },
   "_requiredBy": [
+    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/svg-kit/-/svg-kit-0.3.0.tgz",
   "_shasum": "a53aadb7152cf7374e2a791b9d45b7cc6d0fe25d",
-  "_spec": "svg-kit@^0.3.0",
+  "_spec": "svg-kit@0.3.0",
   "_where": "/home/cedric/inside/github/spellcast-ext-web-client",
   "author": {
     "name": "Cédric Ronvel"

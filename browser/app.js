@@ -542,7 +542,6 @@ Dom.prototype.addIndicators = function( indicators , isStatus , callback ) {
 	var $indicatorList = document.createElement( 'indicator-list' ) ;
 
 	indicators.forEach( ( data ) => {
-
 		var $indicator , $label , $image , $widget , $innerBar , $outerBar ;
 		$indicator = document.createElement( 'indicator' ) ;
 		//$indicator.classList.add( data.type ) ;
@@ -1587,7 +1586,7 @@ Dom.prototype.updateGEntityCosmetics = async function( gEntity , data , initial 
 	}
 
 	if ( data.pose !== undefined ) { this.updateGEntityPose( gEntity , data ) ; }
-	if ( data.status ) { this.updateGEntityStatus( gEntity , data ) ; }
+	if ( data.meta ) { this.updateGEntityMeta( gEntity , data ) ; }
 
 	// Use data.style, NOT gEntity.style: we have to set only new/updated styles
 	if ( data.style && gEntity.$wrapper ) {
@@ -2038,25 +2037,25 @@ Dom.prototype.updateGEntityPose = function( gEntity , data ) {
 
 
 
-// Update status (data.status)
-Dom.prototype.updateGEntityStatus = function( gEntity , data ) {
-	var status , statusName ;
+// Update meta (data.meta)
+Dom.prototype.updateGEntityMeta = function( gEntity , data ) {
+	var meta , metaName ;
 
-	for ( statusName in data.status ) {
-		status = data.status[ statusName ] ;
+	for ( metaName in data.meta ) {
+		meta = data.meta[ metaName ] ;
 
-		if ( status ) {
-			gEntity.$wrapper.classList.add( 'status-' + statusName ) ;
+		if ( meta ) {
+			gEntity.$wrapper.classList.add( 'meta-' + metaName ) ;
 
-			if ( typeof status === 'number' || typeof status === 'string' ) {
-				gEntity.$wrapper.setAttribute( 'status-' + statusName , status ) ;
+			if ( typeof meta === 'number' || typeof meta === 'string' ) {
+				gEntity.$wrapper.setAttribute( 'meta-' + metaName , meta ) ;
 			}
 		}
 		else {
-			gEntity.$wrapper.classList.remove( 'status-' + statusName ) ;
+			gEntity.$wrapper.classList.remove( 'meta-' + metaName ) ;
 
-			if ( gEntity.$wrapper.hasAttribute( 'status-' + statusName ) ) {
-				gEntity.$wrapper.removeAttribute( 'status-' + statusName ) ;
+			if ( gEntity.$wrapper.hasAttribute( 'meta-' + metaName ) ) {
+				gEntity.$wrapper.removeAttribute( 'meta-' + metaName ) ;
 			}
 		}
 	}
@@ -2290,13 +2289,13 @@ Dom.prototype.updateVgArea = function( vg , areaData ) {
 
 	for ( area in areaData ) {
 		if ( ! vg.area[ area ] ) { vg.area[ area ] = {} ; }
-		if ( ! vg.area[ area ].status ) { vg.area[ area ].status = {} ; }
+		if ( ! vg.area[ area ].meta ) { vg.area[ area ].meta = {} ; }
 
 		if ( areaData[ area ].hint !== undefined ) { vg.area[ area ].hint = areaData[ area ].hint || null ; }
-		if ( areaData[ area ].status ) { Object.assign( vg.area[ area ].status , areaData[ area ].status ) ; }
+		if ( areaData[ area ].meta ) { Object.assign( vg.area[ area ].meta , areaData[ area ].meta ) ; }
 
 		Array.from( vg.$image.querySelectorAll( '[area=' + area + ']' ) ).forEach( ( $element ) => {
-			var statusName ;
+			var metaName ;
 
 			if ( areaData[ area ].hint !== undefined ) {
 				if ( areaData[ area ].hint ) {
@@ -2309,13 +2308,13 @@ Dom.prototype.updateVgArea = function( vg , areaData ) {
 				}
 			}
 
-			if ( areaData[ area ].status ) {
-				for ( statusName in areaData[ area ].status ) {
-					if ( areaData[ area ].status[ statusName ] ) {
-						$element.classList.add( 'status-' + statusName ) ;
+			if ( areaData[ area ].meta ) {
+				for ( metaName in areaData[ area ].meta ) {
+					if ( areaData[ area ].meta[ metaName ] ) {
+						$element.classList.add( 'meta-' + metaName ) ;
 					}
 					else {
-						$element.classList.remove( 'status-' + statusName ) ;
+						$element.classList.remove( 'meta-' + metaName ) ;
 					}
 				}
 			}

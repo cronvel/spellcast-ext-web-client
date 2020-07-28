@@ -73,6 +73,7 @@ function Dom() {
 
 	this.nextSoundChannel = 0 ;
 
+	this.texturePacks = {} ;
 	this.sprites = {} ;
 	this.vgs = {} ;
 	this.markers = {} ;
@@ -2464,6 +2465,14 @@ Dom.prototype.animateGEntity = async function( gEntity , animation ) {
 
 
 
+Dom.prototype.defineTexturePack = function( data ) {
+	var key = data.id + '/' + data.theme ;
+	this.texturePacks[ key ] = data ;
+	console.warn( "All texture packes so far:" , this.texturePacks ) ;
+} ;
+
+
+
 Dom.prototype.defineAnimation = function( id , data ) {
 	data.id = id ;
 	this.animations[ id ] = data ;
@@ -3525,6 +3534,14 @@ UI.image = function( data ) {
 
 
 
+UI.texturePack = function( data , callback ) {
+	console.warn( "texturePack" , data ) ;
+	this.dom.defineTexturePack( data ) ;
+	callback() ;
+} ;
+
+
+
 UI.defineAnimation = function( id , data ) {
 	this.dom.defineAnimation( id , data ) ;
 } ;
@@ -3533,13 +3550,6 @@ UI.defineAnimation = function( id , data ) {
 
 UI.createGScene = function( id , data , callback ) {
 	console.warn( "createGScene" , id , data ) ;
-	callback() ;
-} ;
-
-
-
-UI.texturePack = function( data , callback ) {
-	console.warn( "texturePack" , data ) ;
 	callback() ;
 } ;
 
@@ -10751,6 +10761,9 @@ exports.format.default = defaultFormatter ;
 
 
 
+// /!\ Should upgrade that with Terminal-Kit Markup parser /!\
+// It supports complex markup, see: Terminal-Kit/lib/misc.js misc.parseMarkup().
+
 exports.markupMethod = function( str ) {
 	if ( typeof str !== 'string' ) {
 		if ( ! str ) { str = '' ; }
@@ -12084,12 +12097,21 @@ unicode.arrayWidth = ( array , limit ) => {
 
 
 
+// Userland may use this, it is more efficient than .truncateWidth() + .width(),
+// and BTW even more than testing .width() then .truncateWidth() + .width()
+var lastTruncateWidth = 0 ;
+unicode.getLastTruncateWidth = () => lastTruncateWidth ;
+
+
+
 // Return a string that does not exceed the limit
 // Mostly an adaptation of .decode(), not factorized for performance's sake (used by Terminal-kit)
 unicode.widthLimit =	// DEPRECATED
 unicode.truncateWidth = ( str , limit ) => {
-	var value , extra , counter = 0 , lastCounter = 0 , width = 0 ,
+	var value , extra , charWidth , counter = 0 , lastCounter = 0 ,
 		length = str.length ;
+
+	lastTruncateWidth = 0 ;
 
 	while ( counter < length ) {
 		value = str.charCodeAt( counter ++ ) ;
@@ -12108,12 +12130,13 @@ unicode.truncateWidth = ( str , limit ) => {
 			}
 		}
 
-		width += unicode.codePointWidth( value ) ;
+		charWidth = unicode.codePointWidth( value ) ;
 
-		if ( width > limit ) {
+		if ( lastTruncateWidth + charWidth > limit ) {
 			return str.slice( 0 , lastCounter ) ;
 		}
 
+		lastTruncateWidth += charWidth ;
 		lastCounter = counter ;
 	}
 

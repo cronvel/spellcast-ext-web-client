@@ -45,6 +45,7 @@
 		- lib/Dom.js
 		- lib/GEntity.js
 		- lib/GTransition.js
+		- lib/TexturePack.js
 		- lib/toolkit.js
 		- lib/ui/*.js
 	[scroll]

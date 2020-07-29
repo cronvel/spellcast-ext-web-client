@@ -29,6 +29,7 @@
 
 
 
+const TexturePack = require( './TexturePack.js' ) ;
 const GEntity = require( './GEntity.js' ) ;
 const commonUtils = require( './commonUtils.js' ) ;
 
@@ -1255,8 +1256,8 @@ Dom.prototype.setTextureTheme = function( theme ) {
 
 
 Dom.prototype.defineTexturePack = function( uid , data ) {
-	this.texturePacks[ uid ] = data ;
-	console.warn( "All texture packes so far:" , this.texturePacks ) ;
+	this.texturePacks[ uid ] = new TexturePack( data ) ;
+	console.warn( "All texture packs so far:" , this.texturePacks ) ;
 } ;
 
 
@@ -1555,7 +1556,7 @@ function soundFadeOut( $element , callback ) {
 }
 
 
-},{"./GEntity.js":2,"./commonUtils.js":5,"dom-kit":9,"nextgen-events/lib/browser.js":13,"seventh":27,"svg-kit":44}],2:[function(require,module,exports){
+},{"./GEntity.js":2,"./TexturePack.js":4,"./commonUtils.js":6,"dom-kit":10,"nextgen-events/lib/browser.js":14,"seventh":28,"svg-kit":45}],2:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -1645,7 +1646,61 @@ GEntity.prototype.constructor = GEntity ;
 
 
 // !THIS SHOULD TRACK SERVER-SIDE GEntity! spellcast/lib/gfx/GEntity.js
-GEntity.prototype.update = function( data , initial = false ) {
+GEntity.prototype.update = async function( id , data , initial = false ) {
+	if ( data.texturePack || data.variant ) { await this.updateTexture( data.texturePack , data.variant ) ; }
+} ;
+
+
+
+// Load/replace the gEntity image (data.url)
+GEntity.prototype.updateTexture = function( texturePackId , variantId ) {
+	variantId = variantId || this.variant ;
+	texturePackId = texturePackId || this.texturePack ;
+	
+	var texturePack = this.dom.texturePack[ texturePackId ] ;
+
+	if ( ! texturePack ) {
+		console.warn( "Texture pack" , texturePackId , "not found" ) ;
+		return Promise.resolved ;
+	}
+	
+	this.texturePack = texturePackId ;
+	
+	variant = texturePack.variants[ variant ] || texturePack.variants.default ;
+
+	if ( ! variant ) {
+		console.warn( "Texture pack variant" , variantId , "not found, and default variant missing too" ) ;
+		return Promise.resolved ;
+	}
+
+	var promise = new Promise() ;
+
+	if ( ! this.$image || this.$image.tagName.toLowerCase() !== 'img' ) {
+		if ( this.$image ) { this.$image.remove() ; }
+		this.$image = document.createElement( 'img' ) ;
+		this.$image.classList.add( this.usage ) ;
+	}
+
+	this.$image.setAttribute( 'src' , this.dom.cleanUrl( data.url ) ) ;
+	this.$image.onload = () => promise.resolve() ;
+
+	this.$wrapper.append( this.$image ) ;
+
+	return promise ;
+} ;
+
+
+
+
+
+// Below are things not yet migrated from old Dom.js/Server-side!
+
+
+
+
+
+// !THIS SHOULD TRACK SERVER-SIDE GEntity! spellcast/lib/gfx/GEntity.js
+GEntity.prototype.update_serverside = function( data , initial = false ) {
 	var key ;
 
 	if ( data.show !== undefined ) { this.show = !! data.show ; }
@@ -1709,16 +1764,10 @@ GEntity.prototype.update = function( data , initial = false ) {
 
 
 
-// Below are things not yet migrated from old Dom.js!
-
-
-
-
-
 /*
 	Execute only DOM and critical stuff first.
 */
-GEntity.prototype.update = async function( id , data , initial = false ) {
+GEntity.prototype.update_ = async function( id , data , initial = false ) {
 	// The order matters
 	if ( data.vgObject ) { this.updateVgObject( data ) ; }
 	else if ( data.vgMorph ) { this.updateVgMorph( data ) ; }
@@ -2671,7 +2720,7 @@ GEntity.prototype.setVgPassiveHints = function( $svg ) {
 } ;
 
 
-},{"./GTransition.js":3,"./commonUtils.js":5,"dom-kit":9,"nextgen-events/lib/browser.js":13,"seventh":27,"svg-kit":44}],3:[function(require,module,exports){
+},{"./GTransition.js":3,"./commonUtils.js":6,"dom-kit":10,"nextgen-events/lib/browser.js":14,"seventh":28,"svg-kit":45}],3:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -2730,6 +2779,84 @@ GTransition.prototype.update = function( data ) {
 
 
 },{}],4:[function(require,module,exports){
+/*
+	Spellcast
+
+	Copyright (c) 2014 - 2020 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+// !THIS SHOULD TRACK SERVER-SIDE GEntity! spellcast/lib/gfx/TexturePack.js
+function TexturePack( data = {} ) {
+	this.theme = data.theme || 'default' ;
+	this.id = data.id ;		// theme+id is unique
+
+	this.engine = {} ;
+	if ( data.engine && typeof data.engine === 'object' ) {
+		Object.assign( this.engine , data.engine ) ;
+	}
+
+	this.usage = data.usage || 'default' ;
+
+	this.variants = {} ;
+
+	for ( let name in data.variants ) {
+		this.variants[ name ] = new Variant( data.variants[ name ] ) ;
+	}
+}
+
+module.exports = TexturePack ;
+
+
+
+// !THIS SHOULD TRACK SERVER-SIDE GEntity! spellcast/lib/gfx/TexturePack.js
+function Variant( data = {} ) {
+	this.animate = data.type || null ;		// null: static image, other can be: 'loop' for looping animation, and so on...
+	this.engine = data.engine || null ;		// engine-specific, like shaders?
+
+	this.frames = data.frames.map( f => new Frame( f ) ) ;
+}
+
+TexturePack.Variant = Variant ;
+
+
+
+// !THIS SHOULD TRACK SERVER-SIDE GEntity! spellcast/lib/gfx/TexturePack.js
+function Frame( data = {} ) {
+	this.url = data.url ;
+	this.maskUrl = data.maskUrl || null ;	// only few type of engine+usage combo support mask, most of them relying on SVG
+	this.engine = data.engine || null ;		// engine-specific, like shaders?
+	this.origin = data.origin || null ;		// the origin used for this image
+	this.duration = data.duration || 100 ;	// the duration of this frame in ms
+}
+
+TexturePack.Frame = Frame ;
+
+
+},{}],5:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -2916,7 +3043,7 @@ domKit.ready( () => {
 } ) ;
 
 
-},{"./ui/classic.js":7,"dom-kit":9,"nextgen-events/lib/browser.js":13,"url":50}],5:[function(require,module,exports){
+},{"./ui/classic.js":8,"dom-kit":10,"nextgen-events/lib/browser.js":14,"url":51}],6:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -2979,7 +3106,7 @@ exports.toClassObject = function toClassObject( data ) {
 } ;
 
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3084,7 +3211,7 @@ toolkit.stripMarkup = text => text.replace(
 ) ;
 
 
-},{"string-kit/lib/escape.js":30,"string-kit/lib/format.js":31}],7:[function(require,module,exports){
+},{"string-kit/lib/escape.js":31,"string-kit/lib/format.js":32}],8:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3919,9 +4046,9 @@ UI.exit = function( error , timeout , callback ) {
 } ;
 
 
-},{"../Dom.js":1,"../toolkit.js":6,"nextgen-events/lib/browser.js":13,"seventh":27}],8:[function(require,module,exports){
+},{"../Dom.js":1,"../toolkit.js":7,"nextgen-events/lib/browser.js":14,"seventh":28}],9:[function(require,module,exports){
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 (function (process){
 /*
 	Dom Kit
@@ -4504,7 +4631,7 @@ domKit.html = ( $element , html ) => $element.innerHTML = html ;
 
 
 }).call(this,require('_process'))
-},{"@cronvel/xmldom":8,"_process":15}],10:[function(require,module,exports){
+},{"@cronvel/xmldom":9,"_process":16}],11:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -4527,7 +4654,7 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 (function (process,global,setImmediate){
 /*
 	Next-Gen Events
@@ -5925,7 +6052,7 @@ NextGenEvents.Proxy = require( './Proxy.js' ) ;
 
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"../package.json":14,"./Proxy.js":12,"_process":15,"timers":49}],12:[function(require,module,exports){
+},{"../package.json":15,"./Proxy.js":13,"_process":16,"timers":50}],13:[function(require,module,exports){
 /*
 	Next-Gen Events
 
@@ -6472,7 +6599,7 @@ RemoteService.prototype.receiveAckEmit = function( message ) {
 } ;
 
 
-},{"./NextGenEvents.js":11}],13:[function(require,module,exports){
+},{"./NextGenEvents.js":12}],14:[function(require,module,exports){
 (function (process){
 /*
 	Next-Gen Events
@@ -6518,7 +6645,7 @@ module.exports.isBrowser = true ;
 
 
 }).call(this,require('_process'))
-},{"./NextGenEvents.js":11,"_process":15}],14:[function(require,module,exports){
+},{"./NextGenEvents.js":12,"_process":16}],15:[function(require,module,exports){
 module.exports={
   "_from": "nextgen-events@^1.3.0",
   "_id": "nextgen-events@1.3.0",
@@ -6606,7 +6733,7 @@ module.exports={
   "version": "1.3.0"
 }
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -6792,7 +6919,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 (function (global){
 /*! https://mths.be/punycode v1.4.1 by @mathias */
 ;(function(root) {
@@ -7329,7 +7456,7 @@ process.umask = function() { return 0; };
 }(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -7415,7 +7542,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -7502,13 +7629,13 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":17,"./encode":18}],20:[function(require,module,exports){
+},{"./decode":18,"./encode":19}],21:[function(require,module,exports){
 (function (process,global){
 (function (global, undefined) {
     "use strict";
@@ -7698,7 +7825,7 @@ exports.encode = exports.stringify = require('./encode');
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":15}],21:[function(require,module,exports){
+},{"_process":16}],22:[function(require,module,exports){
 /*
 	Seventh
 
@@ -7782,7 +7909,7 @@ Promise.promisifyAnyNodeApi = ( api , suffix , multiSuffix , filter ) => {
 
 
 
-},{"./seventh.js":27}],22:[function(require,module,exports){
+},{"./seventh.js":28}],23:[function(require,module,exports){
 /*
 	Seventh
 
@@ -8391,7 +8518,7 @@ Promise.race = ( iterable ) => {
 } ;
 
 
-},{"./seventh.js":27}],23:[function(require,module,exports){
+},{"./seventh.js":28}],24:[function(require,module,exports){
 (function (process,global,setImmediate){
 /*
 	Seventh
@@ -9146,7 +9273,7 @@ if ( process.browser ) {
 
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"_process":15,"setimmediate":20,"timers":49}],24:[function(require,module,exports){
+},{"_process":16,"setimmediate":21,"timers":50}],25:[function(require,module,exports){
 /*
 	Seventh
 
@@ -9652,7 +9779,7 @@ Promise.variableRetry = ( asyncFn , thisBinding ) => {
 */
 
 
-},{"./seventh.js":27}],25:[function(require,module,exports){
+},{"./seventh.js":28}],26:[function(require,module,exports){
 (function (process){
 /*
 	Seventh
@@ -9752,7 +9879,7 @@ Promise.resolveSafeTimeout = function( timeout , value ) {
 
 
 }).call(this,require('_process'))
-},{"./seventh.js":27,"_process":15}],26:[function(require,module,exports){
+},{"./seventh.js":28,"_process":16}],27:[function(require,module,exports){
 /*
 	Seventh
 
@@ -9804,7 +9931,7 @@ Promise.parasite = () => {
 } ;
 
 
-},{"./seventh.js":27}],27:[function(require,module,exports){
+},{"./seventh.js":28}],28:[function(require,module,exports){
 /*
 	Seventh
 
@@ -9847,7 +9974,7 @@ require( './parasite.js' ) ;
 require( './misc.js' ) ;
 
 
-},{"./api.js":21,"./batch.js":22,"./core.js":23,"./decorators.js":24,"./misc.js":25,"./parasite.js":26,"./wrapper.js":28}],28:[function(require,module,exports){
+},{"./api.js":22,"./batch.js":23,"./core.js":24,"./decorators.js":25,"./misc.js":26,"./parasite.js":27,"./wrapper.js":29}],29:[function(require,module,exports){
 /*
 	Seventh
 
@@ -10012,7 +10139,7 @@ Promise.onceEventAllOrError = ( emitter , eventName , excludeEvents ) => {
 } ;
 
 
-},{"./seventh.js":27}],29:[function(require,module,exports){
+},{"./seventh.js":28}],30:[function(require,module,exports){
 /*
 	String Kit
 
@@ -10094,7 +10221,7 @@ module.exports = {
 } ;
 
 
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 /*
 	String Kit
 
@@ -10199,7 +10326,7 @@ exports.unicodePercentEncode = str => str.replace( /[\x00-\x1f\u0100-\uffff\x7f%
 exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
 
 
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 (function (Buffer){
 /*
 	String Kit
@@ -11200,7 +11327,7 @@ function iround( v , istep ) {
 
 
 }).call(this,require("buffer").Buffer)
-},{"./ansi.js":29,"./escape.js":30,"./inspect.js":32,"./naturalSort.js":33,"./unicode.js":34,"buffer":8}],32:[function(require,module,exports){
+},{"./ansi.js":30,"./escape.js":31,"./inspect.js":33,"./naturalSort.js":34,"./unicode.js":35,"buffer":9}],33:[function(require,module,exports){
 (function (Buffer,process){
 /*
 	String Kit
@@ -11897,7 +12024,7 @@ inspectStyle.html = Object.assign( {} , inspectStyle.none , {
 
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")},require('_process'))
-},{"../../is-buffer/index.js":10,"./ansi.js":29,"./escape.js":30,"_process":15}],33:[function(require,module,exports){
+},{"../../is-buffer/index.js":11,"./ansi.js":30,"./escape.js":31,"_process":16}],34:[function(require,module,exports){
 /*
 	HTTP Requester
 
@@ -11983,7 +12110,7 @@ module.exports = function( a , b ) {
 } ;
 
 
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 /*
 	String Kit
 
@@ -12394,7 +12521,7 @@ unicode.toFullWidth = str => {
 } ;
 
 
-},{}],35:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -12514,7 +12641,7 @@ VG.prototype.addCssRule = function( rule ) {
 } ;
 
 
-},{"../package.json":48,"./VGContainer.js":36,"./svg-kit.js":44}],36:[function(require,module,exports){
+},{"../package.json":49,"./VGContainer.js":37,"./svg-kit.js":45}],37:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -12635,7 +12762,7 @@ VGContainer.prototype.morphDom = function( root = this ) {
 } ;
 
 
-},{"../package.json":48,"./VGEntity.js":38,"./svg-kit.js":44}],37:[function(require,module,exports){
+},{"../package.json":49,"./VGEntity.js":39,"./svg-kit.js":45}],38:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -12720,7 +12847,7 @@ VGEllipse.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":48,"./VGEntity.js":38}],38:[function(require,module,exports){
+},{"../package.json":49,"./VGEntity.js":39}],39:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13105,7 +13232,7 @@ VGEntity.prototype.morphOneEntryDom = function( data , root = this ) {
 } ;
 
 
-},{"../package.json":48,"string-kit/lib/camel":46,"string-kit/lib/escape":47}],39:[function(require,module,exports){
+},{"../package.json":49,"string-kit/lib/camel":47,"string-kit/lib/escape":48}],40:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13162,7 +13289,7 @@ VGGroup.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":48,"./VGContainer.js":36,"./svg-kit.js":44}],40:[function(require,module,exports){
+},{"../package.json":49,"./VGContainer.js":37,"./svg-kit.js":45}],41:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13829,7 +13956,7 @@ VGPath.prototype.forwardNegativeTurn = function( data ) {
 } ;
 
 
-},{"../package.json":48,"./VGEntity.js":38}],41:[function(require,module,exports){
+},{"../package.json":49,"./VGEntity.js":39}],42:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13920,7 +14047,7 @@ VGRect.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":48,"./VGEntity.js":38}],42:[function(require,module,exports){
+},{"../package.json":49,"./VGEntity.js":39}],43:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -14032,7 +14159,7 @@ VGText.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":48,"./VGEntity.js":38}],43:[function(require,module,exports){
+},{"../package.json":49,"./VGEntity.js":39}],44:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -14080,7 +14207,7 @@ path.dFromPoints = ( points , invertY ) => {
 } ;
 
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 (function (process){
 /*
 	SVG Kit
@@ -14558,7 +14685,7 @@ svgKit.objectToVG = function( object ) {
 
 
 }).call(this,require('_process'))
-},{"./VG.js":35,"./VGContainer.js":36,"./VGEllipse.js":37,"./VGEntity.js":38,"./VGGroup.js":39,"./VGPath.js":40,"./VGRect.js":41,"./VGText.js":42,"./path.js":43,"_process":15,"dom-kit":45,"fs":8,"seventh":27,"string-kit/lib/escape.js":47}],45:[function(require,module,exports){
+},{"./VG.js":36,"./VGContainer.js":37,"./VGEllipse.js":38,"./VGEntity.js":39,"./VGGroup.js":40,"./VGPath.js":41,"./VGRect.js":42,"./VGText.js":43,"./path.js":44,"_process":16,"dom-kit":46,"fs":9,"seventh":28,"string-kit/lib/escape.js":48}],46:[function(require,module,exports){
 (function (process){
 /*
 	Dom Kit
@@ -15146,7 +15273,7 @@ domKit.html = function( $element , html ) { $element.innerHTML = html ; } ;
 
 
 }).call(this,require('_process'))
-},{"@cronvel/xmldom":8,"_process":15}],46:[function(require,module,exports){
+},{"@cronvel/xmldom":9,"_process":16}],47:[function(require,module,exports){
 /*
 	String Kit
 
@@ -15220,9 +15347,9 @@ camel.camelCaseToDash =
 camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' ) ;
 
 
-},{}],47:[function(require,module,exports){
-arguments[4][30][0].apply(exports,arguments)
-},{"dup":30}],48:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
+arguments[4][31][0].apply(exports,arguments)
+},{"dup":31}],49:[function(require,module,exports){
 module.exports={
   "_from": "svg-kit@0.3.0",
   "_id": "svg-kit@0.3.0",
@@ -15299,7 +15426,7 @@ module.exports={
   "version": "0.3.0"
 }
 
-},{}],49:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 (function (setImmediate,clearImmediate){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -15378,7 +15505,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":15,"timers":49}],50:[function(require,module,exports){
+},{"process/browser.js":16,"timers":50}],51:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -16112,7 +16239,7 @@ Url.prototype.parseHost = function() {
   if (host) this.hostname = host;
 };
 
-},{"./util":51,"punycode":16,"querystring":19}],51:[function(require,module,exports){
+},{"./util":52,"punycode":17,"querystring":20}],52:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -16130,5 +16257,5 @@ module.exports = {
   }
 };
 
-},{}]},{},[4])(4)
+},{}]},{},[5])(5)
 });

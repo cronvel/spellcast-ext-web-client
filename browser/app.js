@@ -29,11 +29,13 @@
 
 
 
+const GEntity = require( './GEntity.js' ) ;
+const commonUtils = require( './commonUtils.js' ) ;
+
 const Ngev = require( 'nextgen-events/lib/browser.js' ) ;
 const Promise = require( 'seventh' ) ;
 const domKit = require( 'dom-kit' ) ;
 const svgKit = require( 'svg-kit' ) ;
-const commonUtils = require( './commonUtils.js' ) ;
 
 
 
@@ -1279,11 +1281,16 @@ Dom.prototype.clearGEntity = function( id ) {
 
 
 
+Dom.prototype.showGEntity = function( id , data ) {
+	if ( this.gEntities[ id ] ) { this.clearGEntity( id ) ; }
+	var gEntity = this.gEntities[ id ] = new GEntity( this , data ) ;
+	return gEntity.update( data , true ) ;
+} ;
+
+
+
+/*
 Dom.prototype.showSprite = function( id , data ) {
-	if ( ! data.url || typeof data.url !== 'string' ) { return Promise.resolved ; }
-
-	if ( this.sprites[ id ] ) { this.clearGEntity( this.sprites[ id ] ) ; }
-
 	var sprite = this.sprites[ id ] = this.createGEntity( {
 		actionCallback: data.actionCallback ,
 		action: null ,
@@ -1293,17 +1300,9 @@ Dom.prototype.showSprite = function( id , data ) {
 		style: {} ,
 		animation: null
 	} ) ;
-
-	return this.updateGEntity( sprite , data , true ) ;
 } ;
 
-
-
 Dom.prototype.showVg = function( id , data ) {
-	if ( ( ! data.url || typeof data.url !== 'string' ) && ( ! data.vgObject || typeof data.vgObject !== 'object' ) ) { return Promise.resolved ; }
-
-	if ( this.vgs[ id ] ) { this.clearGEntity( this.vgs[ id ] ) ; }
-
 	var vg = this.vgs[ id ] = this.createGEntity( {
 		actionCallback: data.actionCallback ,
 		action: null ,
@@ -1314,17 +1313,9 @@ Dom.prototype.showVg = function( id , data ) {
 		area: {} ,
 		animation: null
 	} ) ;
-
-	return this.updateGEntity( vg , data , true ) ;
 } ;
 
-
-
 Dom.prototype.showMarker = function( id , data ) {
-	if ( ! data.url || typeof data.url !== 'string' ) { return Promise.resolved ; }
-
-	if ( this.markers[ id ] ) { this.clearGEntity( this.markers[ id ] ) ; }
-
 	var marker = this.markers[ id ] = this.createGEntity( {
 		actionCallback: data.actionCallback ,
 		action: null ,
@@ -1335,19 +1326,11 @@ Dom.prototype.showMarker = function( id , data ) {
 		style: {} ,
 		animation: null
 	} ) ;
-
-	return this.updateGEntity( marker , data , true ) ;
 } ;
-
-
 
 var cardAutoIncrement = 0 ;
 
 Dom.prototype.showCard = function( id , data ) {
-	if ( ! data.url || typeof data.url !== 'string' ) { return Promise.resolved ; }
-
-	if ( this.cards[ id ] ) { this.clearGEntity( this.cards[ id ] ) ; }
-
 	var card = this.cards[ id ] = this.createGEntity( {
 		actionCallback: data.actionCallback ,
 		action: null ,
@@ -1364,52 +1347,20 @@ Dom.prototype.showCard = function( id , data ) {
 	} ) ;
 
 	this.createCardMarkup( card ) ;
-
-	return this.updateGEntity( card , data , true ) ;
 } ;
+*/
 
 
 
-Dom.prototype.updateSprite = function( id , data ) {
-	if ( ! this.sprites[ id ] ) {
-		console.warn( 'Unknown sprite id: ' , id ) ;
+Dom.prototype.updateGEntity = function( id , data ) {
+	var gEntity = this.gEntities[ id ] ;
+
+	if ( ! gEntity ) {
+		console.warn( 'Unknown GEntity id: ' , id ) ;
 		return Promise.resolved ;
 	}
 
-	return this.updateGEntity( this.sprites[ id ] , data ) ;
-} ;
-
-
-
-Dom.prototype.updateVg = function( id , data ) {
-	if ( ! this.vgs[ id ] ) {
-		console.warn( 'Unknown VG id: ' , id ) ;
-		return Promise.resolved ;
-	}
-
-	return this.updateGEntity( this.vgs[ id ] , data ) ;
-} ;
-
-
-
-Dom.prototype.updateMarker = function( id , data ) {
-	if ( ! this.markers[ id ] ) {
-		console.warn( 'Unknown marker id: ' , id ) ;
-		return Promise.resolved ;
-	}
-
-	return this.updateGEntity( this.markers[ id ] , data ) ;
-} ;
-
-
-
-Dom.prototype.updateCard = function( id , data ) {
-	if ( ! this.cards[ id ] ) {
-		console.warn( 'Unknown card id: ' , id ) ;
-		return Promise.resolved ;
-	}
-
-	return this.updateGEntity( this.cards[ id ] , data ) ;
+	return gEntity.update( data ) ;
 } ;
 
 
@@ -1478,943 +1429,6 @@ Dom.prototype.animateCard = function( cardId , animationId ) {
 
 
 
-// /!\ A GEntity class must be created /!\
-Dom.prototype.createGEntity = function( data ) {
-	var gEntity = new Ngev() ;
-
-	if ( data.type !== 'marker' ) {
-		gEntity.$wrapper = document.createElement( 'div' ) ;
-		// At creation, the visibility is turned off, the initial update will turn it on again
-		gEntity.$wrapper.style.visibility = 'hidden' ;
-		gEntity.$wrapper.style.transition = 'none' ;
-		gEntity.$wrapper.classList.add( 'g-entity-wrapper' , data.type + '-wrapper' ) ;
-		this.$gfx.append( gEntity.$wrapper ) ;
-	}
-
-	gEntity.size = { mode: 'relative' , xy: 1 } ;
-	gEntity.position = { mode: 'relative' , x: 0 , y: 0 } ;
-	gEntity.transform = {} ;
-
-	Object.assign( gEntity , data ) ;
-	gEntity.defineStates( 'loaded' , 'loading' ) ;
-
-	return gEntity ;
-} ;
-
-
-
-/*
-	Execute only DOM and critical stuff first.
-*/
-Dom.prototype.updateGEntity = async function( gEntity , data , initial = false ) {
-	// The order matters
-	if ( data.vgObject ) { this.updateGEntityVgObject( gEntity , data ) ; }
-	else if ( data.vgMorph ) { this.updateGEntityVgMorph( gEntity , data ) ; }
-
-	if ( data.url ) { await this.updateGEntityImage( gEntity , data ) ; }
-	if ( data.backUrl ) { await this.updateGEntityBackImage( gEntity , data ) ; }
-	if ( data.maskUrl ) { await this.updateGEntityMask( gEntity , data ) ; }
-	if ( data.content ) { this.updateGEntityContent( gEntity , data ) ; }
-
-	if ( data.button !== undefined ) { this.updateGEntityButton( gEntity , data ) ; }
-	//if ( data.action !== undefined ) { this.updateGEntityAction( gEntity , data ) ; }
-
-	if ( data.area ) {
-		this.updateVgArea( gEntity , data.area ) ;
-	}
-
-	if ( gEntity.type === 'marker' && ( data.vg || data.location ) ) {
-		this.updateMarkerLocation( gEntity , data.vg , data.location ) ;
-	}
-
-	// For some unknown reasons, that timeout removes animation glitches
-	//await Promise.resolveTimeout( 5 ) ;
-	return this.updateGEntityCosmetics( gEntity , data , initial ) ;
-} ;
-
-
-
-/*
-	Execute less important things, like things triggering animations
-*/
-Dom.prototype.updateGEntityCosmetics = async function( gEntity , data , initial = false ) {
-	// The order matters
-
-	// Should comes first: Transition,
-	// Either remove them (for initial value) or set them to the user value before changing anything
-	if ( ! initial && gEntity.type !== 'marker' && data.transition !== undefined ) {
-		if ( data.transition === null ) {
-			gEntity.$wrapper.style.transition = '' ;	// reset it to default stylesheet value
-		}
-		else if ( ! data.transition ) {
-			gEntity.$wrapper.style.transition = 'none' ;
-		}
-		else {
-			gEntity.$wrapper.style.transition = 'all ' + data.transition + 's' ;
-		}
-	}
-
-
-	if ( data.location !== undefined && gEntity.type !== 'marker' ) {
-		// Should be triggered first, or pose/style would conflict with it
-		await this.moveGEntityToLocation( gEntity , data ) ;
-	}
-
-	if ( data.pose !== undefined ) { this.updateGEntityPose( gEntity , data ) ; }
-	if ( data.meta ) { this.updateGEntityMeta( gEntity , data ) ; }
-
-	// Use data.style, NOT gEntity.style: we have to set only new/updated styles
-	if ( data.style && gEntity.$wrapper ) {
-		delete data.style.position ;	// Forbidden style
-		Object.assign( gEntity.style , data.style ) ;
-		domKit.css( gEntity.$wrapper , data.style ) ;
-	}
-
-	if ( data.imageStyle && gEntity.$image ) {
-		delete data.imageStyle.position ;	// Forbidden style
-		Object.assign( gEntity.imageStyle , data.imageStyle ) ;
-		domKit.css( gEntity.$image , data.imageStyle ) ;
-	}
-
-	if ( data.backImageStyle && gEntity.$backImage ) {
-		delete data.backImageStyle.position ;	// Forbidden style
-		Object.assign( gEntity.backImageStyle , data.backImageStyle ) ;
-		domKit.css( gEntity.$backImage , data.backImageStyle ) ;
-	}
-
-	if ( data.maskStyle && gEntity.$mask ) {
-		delete data.maskStyle.position ;	// Forbidden style
-		Object.assign( gEntity.maskStyle , data.maskStyle ) ;
-		domKit.css( gEntity.$mask , data.maskStyle ) ;
-	}
-
-	if ( data.size || data.position ) { this.updateGEntityTransform( gEntity , data ) ; }
-
-	if ( data.class ) {
-		data.class = commonUtils.toClassObject( data.class ) ;
-		Object.assign( gEntity.class , data.class ) ;
-		domKit.class( gEntity.$wrapper || gEntity.$image , data.class , 's-' ) ;
-	}
-
-	// Should comes last: for initial update, restore the transition value and turn visibility on
-	if ( initial && gEntity.type !== 'marker' ) {
-		// At creation, the visibility is turned off, now we need to turn it on again
-		gEntity.$wrapper.style.visibility = 'visible' ;
-
-		// If it's done immediately, the transition can kick in nonetheless
-		//await Promise.resolveTimeout( 5 ) ;
-		await Promise.resolveAtAnimationFrame() ;
-
-		if ( data.transition === undefined || data.transition === null ) {
-			gEntity.$wrapper.style.transition = '' ;	// reset it to default stylesheet value
-		}
-		else if ( ! data.transition ) {
-			gEntity.$wrapper.style.transition = 'none' ;
-		}
-		else {
-			gEntity.$wrapper.style.transition = 'all ' + data.transition + 's' ;
-		}
-	}
-} ;
-
-
-
-// Load/replace the gEntity image (data.url)
-Dom.prototype.updateGEntityImage = function( gEntity , data ) {
-	var promise = new Promise() ;
-
-	gEntity.vgObject = null ;
-
-	if ( gEntity.type === 'card' ) {
-		gEntity.$image.style.backgroundImage = 'url("' + this.cleanUrl( data.url ) + '")' ;
-		promise.resolve() ;
-		return promise ;
-	}
-
-	if ( data.url.endsWith( '.svg' ) ) {
-		// Always wipe any existing $image element and pre-create the <svg> tag
-		if ( gEntity.$image ) { gEntity.$image.remove() ; }
-
-		if ( gEntity.type === 'marker' ) {
-			// If it's a marker, load it inside a <g> tag, that will be part of the main VG's <svg>
-			// <svg> inside <svg> are great, but Chrome sucks at it (it does not support CSS transform, etc)
-			gEntity.$image = document.createElementNS( 'http://www.w3.org/2000/svg' , 'g' ) ;
-		}
-		else {
-			gEntity.$image = document.createElementNS( 'http://www.w3.org/2000/svg' , 'svg' ) ;
-			gEntity.$image.classList.add( 'svg' ) ;
-		}
-
-		switch ( gEntity.type ) {
-			case 'vg' :
-				// Stop event propagation
-				gEntity.onClick = ( event ) => {
-					//gEntity.actionCallback( gEntity.action ) ;
-					event.stopPropagation() ;
-				} ;
-
-				gEntity.$image.addEventListener( 'click' , gEntity.onClick ) ;
-				gEntity.$image.classList.add( 'vg' ) ;
-				this.uiLoadingCount ++ ;
-				break ;
-			case 'sprite' :
-				gEntity.$image.classList.add( 'sprite' ) ;
-				break ;
-			case 'marker' :
-				gEntity.$image.classList.add( 'marker' ) ;
-				break ;
-		}
-
-		svgKit.load( this.cleanUrl( data.url ) , {
-			removeSvgStyle: true ,
-			//removeSize: true ,
-			//removeIds: true ,
-			removeComments: true ,
-			removeExoticNamespaces: true ,
-			//removeDefaultStyles: true ,
-			as: gEntity.$image
-		} ).then( () => {
-			console.warn( "loaded!" ) ;
-			if ( gEntity.type === 'vg' ) {
-				this.setVgButtons( gEntity.$image ) ;
-				this.setVgPassiveHints( gEntity.$image ) ;
-				gEntity.emit( 'loaded' ) ;
-				if ( -- this.uiLoadingCount <= 0 ) { this.emit( 'uiLoaded' ) ; }
-			}
-			else {
-				gEntity.emit( 'loaded' ) ;
-			}
-
-			promise.resolve() ;
-		} ) ;
-
-		console.warn( "Aft load" ) ;
-		gEntity.emit( 'loading' ) ;
-	}
-	else {
-		if ( ! gEntity.$image || gEntity.$image.tagName.toLowerCase() !== 'img' ) {
-			if ( gEntity.$image ) { gEntity.$image.remove() ; }
-
-			gEntity.$image = document.createElement( 'img' ) ;
-
-			// /!\ support VG that are not SVG??? /!\
-			gEntity.$image.classList.add( gEntity.type ) ;
-		}
-
-		gEntity.$image.setAttribute( 'src' , this.cleanUrl( data.url ) ) ;
-		gEntity.$image.onload = () => promise.resolve() ;
-	}
-
-	if ( gEntity.type !== 'marker' ) {
-		gEntity.$wrapper.append( gEntity.$image ) ;
-	}
-
-	return promise ;
-} ;
-
-
-
-Dom.prototype.updateGEntityVgObject = function( gEntity , data ) {
-	var vgObject = data.vgObject ;
-
-	if ( ! ( vgObject instanceof svgKit.VG ) ) {
-		vgObject = svgKit.objectToVG( vgObject ) ;
-		if ( ! ( vgObject instanceof svgKit.VG ) ) {
-			// Do nothing if it's not a VG object
-			return ;
-		}
-	}
-
-	// Save it now!
-	gEntity.vgObject = vgObject ;
-
-	// Always wipe any existing $image element and pre-create the <svg> tag
-	if ( gEntity.$image ) { gEntity.$image.remove() ; }
-
-	if ( gEntity.type === 'marker' ) {
-		// If it's a marker, load it inside a <g> tag, that will be part of the main VG's <svg>
-		// <svg> inside <svg> are great, but Chrome sucks at it (it does not support CSS transform, etc)
-		gEntity.$image = vgObject.renderDom( { overrideTag: 'g' } ) ;
-	}
-	else {
-		// Add a removeSvgStyle:true options?
-		gEntity.$image = vgObject.renderDom() ;
-		gEntity.$image.classList.add( 'svg' ) ;
-		gEntity.$image.classList.add( 'vg-object' ) ;
-	}
-
-	switch ( gEntity.type ) {
-		case 'vg' :
-			// Stop event propagation
-			gEntity.onClick = ( event ) => {
-				//gEntity.actionCallback( gEntity.action ) ;
-				event.stopPropagation() ;
-			} ;
-
-			gEntity.$image.addEventListener( 'click' , gEntity.onClick ) ;
-			gEntity.$image.classList.add( 'vg' ) ;
-			this.setVgButtons( gEntity.$image ) ;
-			this.setVgPassiveHints( gEntity.$image ) ;
-			break ;
-		case 'sprite' :
-			gEntity.$image.classList.add( 'sprite' ) ;
-			break ;
-		case 'marker' :
-			gEntity.$image.classList.add( 'marker' ) ;
-			break ;
-	}
-
-	if ( gEntity.type !== 'marker' ) {
-		gEntity.$wrapper.append( gEntity.$image ) ;
-	}
-
-	return ;
-} ;
-
-
-
-Dom.prototype.updateGEntityVgMorph = function( gEntity , data ) {
-	var vgObject = gEntity.vgObject ;
-
-	if ( ! vgObject ) {
-		// Do nothing if it's not a VG object
-		console.warn( "Has no VG object, abort..." ) ;
-		return ;
-	}
-
-	//console.warn( "Got morph log:" , data.vgMorph ) ;
-	vgObject.importMorphLog( data.vgMorph ) ;
-	//console.warn( "After importing morph log:" , vgObject ) ;
-	vgObject.morphDom() ;
-
-	return ;
-} ;
-
-
-
-// Load/replace the gEntity backImage (data.backUrl)
-// /!\ Not async ATM: how to get a "load" event on a background-image???
-Dom.prototype.updateGEntityBackImage = function( gEntity , data ) {
-	if ( gEntity.type === 'card' ) {
-		gEntity.$backImage.style.backgroundImage = 'url("' + this.cleanUrl( data.backUrl ) + '")' ;
-		//gEntity.$image.onload = () => promise.resolve() ;
-	}
-
-	return Promise.resolved ;
-} ;
-
-
-
-// Load/replace the gEntity mask (data.maskUrl)
-Dom.prototype.updateGEntityMask = function( gEntity , data ) {
-	var promise = new Promise() ;
-
-	if ( data.maskUrl.endsWith( '.svg' ) && gEntity.type === 'sprite' ) {
-		console.warn( 'has mask!' ) ;
-
-		// Always wipe any existing $mask element and pre-create the <svg> tag
-		if ( gEntity.$mask ) { gEntity.$mask.remove() ; }
-
-		gEntity.$mask = document.createElementNS( 'http://www.w3.org/2000/svg' , 'svg' ) ;
-		gEntity.$mask.classList.add( 'sprite-mask' ) ;
-
-		svgKit.load( this.cleanUrl( data.maskUrl ) , {
-			removeSvgStyle: true ,
-			removeSize: true ,
-			removeIds: true ,
-			removeComments: true ,
-			removeExoticNamespaces: true ,
-			//removeDefaultStyles: true ,
-			as: gEntity.$mask
-		} ).then( () => promise.resolve() ) ;
-
-		gEntity.$wrapper.append( gEntity.$mask ) ;
-		gEntity.$wrapper.classList.add( 'has-mask' ) ;
-	}
-	else if ( gEntity.$mask ) {
-		gEntity.$mask.remove() ;
-		gEntity.$wrapper.classList.remove( 'has-mask' ) ;
-		promise.resolve() ;
-	}
-
-	return promise ;
-} ;
-
-
-
-// Update “framework” size/position
-Dom.prototype.updateGEntityTransform = function( gEntity , data ) {
-	var wrapperAspect , imageAspect , imageWidth , imageHeight ,
-		scale , xMinOffset , yMinOffset , xFactor , yFactor ;
-
-	// For instance, marker are excluded
-	if ( ! gEntity.$wrapper || ! gEntity.$image ) { return ; }
-
-
-	// First, assign new size and position
-	// /!\ Size and position MUST be checked! /!\
-	if ( data.size ) {
-		gEntity.size = data.size ;
-	}
-
-	if ( data.position ) {
-		gEntity.position = data.position ;
-	}
-
-
-	// Pre-compute few thing necessary for the following stuff
-	if ( gEntity.$image.tagName.toLowerCase() === 'svg' ) {
-		// The SVG element is not a DOM HTML element, it does not have offsetWidth/offsetHeight,
-		// hence it' a little bit trickier to get its real boxmodel size
-
-		wrapperAspect = gEntity.$wrapper.offsetWidth / gEntity.$wrapper.offsetHeight ;
-		imageAspect = gEntity.$image.width.baseVal.value / gEntity.$image.height.baseVal.value ;
-
-		if ( imageAspect > wrapperAspect ) {
-			imageWidth = gEntity.$wrapper.offsetWidth ;
-			imageHeight = imageWidth / imageAspect ;
-		}
-		else {
-			imageHeight = gEntity.$wrapper.offsetHeight ;
-			imageWidth = imageHeight * imageAspect ;
-		}
-		console.log( "dbg svg:" , {
-			wrapperAspect , imageAspect , imageWidth , imageHeight
-		} ) ;
-	}
-	else {
-		imageWidth = gEntity.$image.offsetWidth ;
-		imageHeight = gEntity.$image.offsetHeight ;
-	}
-
-
-	// Compute scaling -- should comes first for this to work!
-	switch ( gEntity.size.mode ) {
-		case 'area' :
-		case 'areaMin' :
-		default :
-			// In this mode, the sprite is scaled relative to its container area.
-			scale = gEntity.transform.scaleX = gEntity.transform.scaleY = gEntity.size.xy ;
-			console.log( "transform after .updateGEntitySize()" , gEntity.transform ) ;
-			break ;
-	}
-
-
-	// Compute position
-	switch ( gEntity.position.mode ) {
-		case 'areaInSpriteOut' :
-			// In this mode, the sprite is positioned relative to its container area -1,-1 being bottom-left and 1,1 being top-right and 0,0 being the center
-			// Any value in [-1,1] ensure the whole sprite is inside the area.
-			// For values <-1 or >1 the extra are scaled using the sprite scale, e.g.:
-			// x=-1.5 means that the sprite is on the left, its left half being invisible (outside the container), its right half being visible (inside the container).
-
-			xMinOffset = yMinOffset = 0 ;
-			xFactor = this.$gfx.offsetWidth - imageWidth ;
-			yFactor = this.$gfx.offsetHeight - imageHeight ;
-
-			if ( scale !== undefined ) {
-				xMinOffset = -0.5 * imageWidth * ( 1 - scale ) ;
-				yMinOffset = -0.5 * imageHeight * ( 1 - scale ) ;
-				xFactor += imageWidth * ( 1 - scale ) ;
-				yFactor += imageHeight * ( 1 - scale ) ;
-			}
-
-			console.log( "dbg:" , { xMinOffset , xFactor , yFactor } ) ;
-
-			if ( gEntity.position.x < -1 ) {
-				gEntity.transform.translateX = xMinOffset + ( gEntity.position.x + 1 ) * imageWidth * scale ;
-			}
-			else if ( gEntity.position.x > 1 ) {
-				gEntity.transform.translateX = xMinOffset + xFactor + ( gEntity.position.x - 1 ) * imageWidth * scale ;
-			}
-			else {
-				gEntity.transform.translateX = xMinOffset + ( 0.5 + gEntity.position.x / 2 ) * xFactor ;
-			}
-
-			if ( gEntity.position.y < -1 ) {
-				gEntity.transform.translateY = yMinOffset + yFactor - ( gEntity.position.y + 1 ) * imageHeight * scale ;
-			}
-			else if ( gEntity.position.y > 1 ) {
-				gEntity.transform.translateY = yMinOffset - ( gEntity.position.y - 1 ) * imageHeight * scale ;
-			}
-			else {
-				gEntity.transform.translateY = yMinOffset + ( 0.5 - gEntity.position.y / 2 ) * yFactor ;
-			}
-
-			console.log( "transform after .updateGEntityPosition()" , gEntity.transform ) ;
-			break ;
-
-		case 'area' :
-		default :
-			// In this mode, the sprite is positioned relative to its container area -1,-1 being bottom-left and 1,1 being top-right and 0,0 being the center
-			// Any value in [-1,1] ensure the whole sprite is inside the area.
-			// Values <-1 or >1 still use the same linear coordinate (so are scaled using the container size).
-
-			xMinOffset = yMinOffset = 0 ;
-			xFactor = this.$gfx.offsetWidth - imageWidth ;
-			yFactor = this.$gfx.offsetHeight - imageHeight ;
-
-			if ( scale !== undefined ) {
-				xMinOffset = -0.5 * imageWidth * ( 1 - scale ) ;
-				yMinOffset = -0.5 * imageHeight * ( 1 - scale ) ;
-				xFactor += imageWidth * ( 1 - scale ) ;
-				yFactor += imageHeight * ( 1 - scale ) ;
-			}
-
-			console.log( "dbg:" , { xMinOffset , xFactor , yFactor } ) ;
-			gEntity.transform.translateX = xMinOffset + ( 0.5 + gEntity.position.x / 2 ) * xFactor ;
-			gEntity.transform.translateY = yMinOffset + ( 0.5 - gEntity.position.y / 2 ) * yFactor ;
-
-			console.log( "transform after .updateGEntityPosition()" , gEntity.transform ) ;
-			break ;
-	}
-
-	// Finally, create the transformation CSS string
-	domKit.transform( gEntity.$wrapper , gEntity.transform ) ;
-} ;
-
-
-
-// Update content (data.content), card-only
-Dom.prototype.updateGEntityContent = function( gEntity , data ) {
-	var content , $content ;
-
-	if ( gEntity.type !== 'card' ) { return ; }
-
-	for ( let contentName in data.content ) {
-		content = data.content[ contentName ] ;
-		$content = gEntity.contents[ contentName ] ;
-
-		if ( ! $content ) {
-			$content = gEntity.contents[ contentName ] = document.createElement( 'div' ) ;
-			$content.classList.add( 'content-' + contentName ) ;
-			gEntity.$front.append( $content ) ;
-		}
-
-		$content.textContent = content ;
-		$content.setAttribute( 'content' , content ) ;
-	}
-} ;
-
-
-
-// Update pose (data.pose)
-Dom.prototype.updateGEntityPose = function( gEntity , data ) {
-	if ( typeof data.pose === 'string' ) {
-		gEntity.$wrapper.setAttribute( 'pose' , data.pose ) ;
-		gEntity.pose = data.pose ;
-	}
-	else {
-		gEntity.$wrapper.removeAttribute( 'pose' ) ;
-		gEntity.pose = null ;
-	}
-} ;
-
-
-
-// Update meta (data.meta)
-Dom.prototype.updateGEntityMeta = function( gEntity , data ) {
-	var meta , metaName ;
-
-	for ( metaName in data.meta ) {
-		meta = data.meta[ metaName ] ;
-
-		if ( meta ) {
-			gEntity.$wrapper.classList.add( 'meta-' + metaName ) ;
-
-			if ( typeof meta === 'number' || typeof meta === 'string' ) {
-				gEntity.$wrapper.setAttribute( 'meta-' + metaName , meta ) ;
-			}
-		}
-		else {
-			gEntity.$wrapper.classList.remove( 'meta-' + metaName ) ;
-
-			if ( gEntity.$wrapper.hasAttribute( 'meta-' + metaName ) ) {
-				gEntity.$wrapper.removeAttribute( 'meta-' + metaName ) ;
-			}
-		}
-	}
-} ;
-
-
-
-// Button ID (data.button)
-Dom.prototype.updateGEntityButton = function( gEntity , data ) {
-	var $element = gEntity.$mask || gEntity.$wrapper ;
-
-	var buttonId = data.button ;
-
-	$element.setAttribute( 'id' , 'button-' + buttonId ) ;
-	$element.classList.add( 'button' ) ;
-	$element.classList.add( 'disabled' ) ;
-} ;
-
-
-
-// /!\ DEPRECATED /!\
-// Click action (data.action)
-Dom.prototype.updateGEntityAction = function( gEntity , data ) {
-	var $element = gEntity.$mask || gEntity.$image ;
-
-	if ( data.action && ! gEntity.action ) {
-		gEntity.onClick = ( event ) => {
-			gEntity.actionCallback( gEntity.action ) ;
-			event.stopPropagation() ;
-		} ;
-
-		$element.classList.add( 'button' ) ;
-		$element.addEventListener( 'click' , gEntity.onClick ) ;
-	}
-	else if ( ! data.action && gEntity.action ) {
-		$element.classList.remove( 'button' ) ;
-		$element.removeEventListener( 'click' , gEntity.onClick ) ;
-	}
-
-	gEntity.action = data.action || null ;
-} ;
-
-
-
-// Move to a location and perform a FLIP (First Last Invert Play)
-Dom.prototype.moveGEntityToLocation = function( gEntity , data ) {
-	var promise = new Promise() ,
-		locationName = data.location ;
-
-	if ( gEntity.location === locationName ) { promise.resolve() ; return promise ; }
-
-	var $location , $oldLocation , oldLocationName , $slot , $oldSlot , direction , oldDirection ,
-		siblingGEntities , siblingSlotRectsBefore , siblingSlotRectsAfter ,
-		slotSize , slotBbox , oldSlotBbox ;
-
-	// Timeout value used to enable FLIP transition
-	var flipTimeout = 10 ;
-
-	oldLocationName = gEntity.location ;
-	$oldLocation = oldLocationName ? this.gEntityLocations[ oldLocationName ] : this.$gfx ;
-	$oldSlot = gEntity.$locationSlot || this.$gfx ;
-	gEntity.location = locationName ;
-
-	$location = locationName ? this.gEntityLocations[ locationName ] : this.$gfx ;
-
-	if ( ! $location ) {
-		// Create the location if it doesn't exist
-		$location = this.gEntityLocations[ locationName ] = document.createElement( 'div' ) ;
-		$location.classList.add( 'g-entity-location' ) ;
-		$location.classList.add( 'g-entity-location-' + locationName ) ;
-		this.$gfx.append( $location ) ;
-	}
-
-	// Save computed styles now
-	var gEntityComputedStyle = window.getComputedStyle( gEntity.$wrapper ) ;
-	var locationComputedStyle = window.getComputedStyle( $location ) ;
-
-	// GEntity size
-	var gEntityWidth = parseFloat( gEntityComputedStyle.width ) ;
-	var gEntityHeight = parseFloat( gEntityComputedStyle.height ) ;
-
-	if ( $location === this.$gfx ) {
-		$slot = this.$gfx ;
-	}
-	else {
-		$slot = gEntity.$locationSlot = document.createElement( 'div' ) ;
-		$slot.classList.add( 'g-entity-slot' ) ;
-		$slot.style.order = gEntity.order ;
-		//$slot.style.zIndex = gEntity.order ;	// Not needed, rendering preserve ordering, not DOM precedence, so it's ok
-	}
-
-	// Before appending, save all rects of existing sibling slots
-	siblingGEntities = [ ... Object.values( this.cards ) , ... Object.values( this.sprites ) , ... Object.values( this.vgs ) ]
-		.filter( e => e !== gEntity && e.location && ( e.location === locationName || e.location === oldLocationName ) ) ;
-
-	siblingSlotRectsBefore = siblingGEntities.map( e => e.$locationSlot.getBoundingClientRect() ) ;
-
-
-	// Insert the slot, if it's not $gfx
-	if ( $slot !== this.$gfx ) {
-		// We should preserve the :last-child pseudo selector, since there isn't any :last-ordered-child for flex-box...
-		if ( $location.lastChild && parseFloat( $location.lastChild.style.order ) > gEntity.order ) {
-			// The last entity has a greater order, so we prepend instead
-			$location.prepend( $slot ) ;
-		}
-		else {
-			$location.append( $slot ) ;
-		}
-	}
-
-	// Save the old slot BBox
-	oldSlotBbox = $oldSlot.getBoundingClientRect() ;
-
-	// Remove that slot now
-	if ( $oldSlot !== this.$gfx ) { $oldSlot.remove() ; }
-
-
-	// Get slots rects after
-	siblingSlotRectsAfter = siblingGEntities.map( e => e.$locationSlot.getBoundingClientRect() ) ;
-
-	// Immediately compute the translation delta and the FLIP for siblings
-	siblingGEntities.forEach( ( siblingGEntity , index ) => {
-		var beforeRect = siblingSlotRectsBefore[ index ] ,
-			afterRect = siblingSlotRectsAfter[ index ] ;
-
-		var transitionStr = siblingGEntity.$wrapper.style.transition ;
-		var transformStr = siblingGEntity.$wrapper.style.transform ;
-
-		// Get the local transform, and patch it!
-		var transformDelta = Object.assign( {} , siblingGEntity.localTransform ) ;
-		transformDelta.translateX += beforeRect.left - afterRect.left ;
-		transformDelta.translateY += beforeRect.top - beforeRect.top ;
-
-		// First, disable transitions, so the transform will apply now!
-		siblingGEntity.$wrapper.style.transition = 'none' ;
-		siblingGEntity.$wrapper.style.transform = domKit.stringifyTransform( transformDelta ) ;
-
-		setTimeout( () => {
-			// Re-enable transitions, restore the transform value
-			siblingGEntity.$wrapper.style.transition = transitionStr ;
-			siblingGEntity.$wrapper.style.transform = transformStr ;
-		} , flipTimeout ) ;
-	} ) ;
-
-
-	var targetTransform = { translateX: 0 , translateY: 0 } ;
-
-	// Scale transform
-	switch ( locationComputedStyle.flexDirection ) {
-		case 'row' :
-		case 'row-reverse' :
-			slotSize = parseFloat( locationComputedStyle.height ) ;
-			targetTransform.scaleX = targetTransform.scaleY = slotSize / gEntityHeight ;
-			break ;
-		case 'column' :
-		case 'column-reverse' :
-			slotSize = parseFloat( locationComputedStyle.width ) ;
-			targetTransform.scaleX = targetTransform.scaleY = slotSize / gEntityWidth ;
-			break ;
-		default :
-			slotSize = parseFloat( locationComputedStyle.height ) ;
-			targetTransform.scaleX = targetTransform.scaleY = slotSize / gEntityHeight ;
-			console.warn( 'flex-direction' , locationComputedStyle.flexDirection ) ;
-	}
-
-	// Translation compensation due to scaling, since the origin is in the middle
-	targetTransform.translateX -= ( gEntityWidth - gEntityWidth * targetTransform.scaleX ) / 2 ;
-	targetTransform.translateY -= ( gEntityHeight - gEntityHeight * targetTransform.scaleY ) / 2 ;
-
-	var localTransform = gEntity.localTransform ;
-	gEntity.localTransform = targetTransform ;
-
-	// If this is not a true slot, then just put the gEntity on this slot immediately
-	if ( $oldSlot === this.$gfx ) {
-		gEntity.$wrapper.style.transform = domKit.stringifyTransform( targetTransform ) ;
-		$slot.append( gEntity.$wrapper ) ;
-		promise.resolve() ;
-		return promise ;
-	}
-
-
-	// Computed styles
-	var oldLocationComputedStyle = window.getComputedStyle( $oldLocation ) ;
-
-	// Old location direction
-	switch ( oldLocationComputedStyle.flexDirection ) {
-		case 'column' :
-		case 'column-reverse' :
-			oldDirection = 'column' ;
-			break ;
-		default :
-			oldDirection = 'row' ;
-	}
-
-	// Compute the FLIP (First Last Invert Play)
-	slotBbox = $slot.getBoundingClientRect() ;
-	//console.warn( 'bboxes' , slotBbox ,  oldSlotBbox ) ;
-
-	// Old/new difference
-	var sourceTransform = {
-		translateX: oldSlotBbox.left + localTransform.translateX - slotBbox.left ,
-		translateY: oldSlotBbox.top + localTransform.translateY - slotBbox.top ,
-		scaleX: localTransform.scaleX ,
-		scaleY: localTransform.scaleY
-	} ;
-
-	gEntity.$wrapper.style.transform = domKit.stringifyTransform( sourceTransform ) ;
-	$slot.append( gEntity.$wrapper ) ;
-
-	// Do not initiate the new transform value in the same synchronous flow,
-	// it would not animate anything
-	setTimeout( () => {
-		gEntity.$wrapper.style.transform = domKit.stringifyTransform( targetTransform ) ;
-		promise.resolve() ;
-	} , flipTimeout ) ;
-
-	return promise ;
-} ;
-
-
-
-Dom.prototype.updateVgArea = function( vg , areaData ) {
-	var area ;
-
-	if ( vg.type !== 'vg' ) { return ; }
-
-	if ( ! vg.hasState( 'loaded' ) ) {
-		vg.once( 'loaded' , this.updateVgArea.bind( this , vg , areaData ) ) ;
-		return ;
-	}
-
-	for ( area in areaData ) {
-		if ( ! vg.area[ area ] ) { vg.area[ area ] = {} ; }
-		if ( ! vg.area[ area ].meta ) { vg.area[ area ].meta = {} ; }
-
-		if ( areaData[ area ].hint !== undefined ) { vg.area[ area ].hint = areaData[ area ].hint || null ; }
-		if ( areaData[ area ].meta ) { Object.assign( vg.area[ area ].meta , areaData[ area ].meta ) ; }
-
-		Array.from( vg.$image.querySelectorAll( '[area=' + area + ']' ) ).forEach( ( $element ) => {
-			var metaName ;
-
-			if ( areaData[ area ].hint !== undefined ) {
-				if ( areaData[ area ].hint ) {
-					$element.setAttribute( 'data-passive-hint' , areaData[ area ].hint ) ;
-					$element.classList.add( 'passive-hint' ) ;
-				}
-				else {
-					$element.removeAttribute( 'data-passive-hint' ) ;
-					$element.classList.remove( 'passive-hint' ) ;
-				}
-			}
-
-			if ( areaData[ area ].meta ) {
-				for ( metaName in areaData[ area ].meta ) {
-					if ( areaData[ area ].meta[ metaName ] ) {
-						$element.classList.add( 'meta-' + metaName ) ;
-					}
-					else {
-						$element.classList.remove( 'meta-' + metaName ) ;
-					}
-				}
-			}
-		} ) ;
-	}
-} ;
-
-
-
-Dom.prototype.updateMarkerLocation = function( marker , vgId , areaId ) {
-	var vg , $area , areaBBox , markerViewBox , width , height , originX , originY , posX , posY ;
-
-
-	// First, check that everything is ready and OK...
-	if ( ! marker.hasState( 'loaded' ) ) {
-		marker.once( 'loaded' , this.updateMarkerLocation.bind( this , marker , vgId , areaId ) ) ;
-		return ;
-	}
-
-	if ( ! vgId ) { vgId = marker.vg ; }
-	if ( ! areaId ) { areaId = marker.location ; }
-
-	if ( ! this.vgs[ vgId ] ) {
-		console.warn( 'Unknown VG id: ' , vgId ) ;
-		return ;
-	}
-
-	vg = this.vgs[ vgId ] ;
-
-	if ( ! vg.hasState( 'loaded' ) ) {
-		vg.once( 'loaded' , this.updateMarkerLocation.bind( this , marker , vgId , areaId ) ) ;
-		return ;
-	}
-
-	$area = vg.$image.querySelector( '[area=' + areaId + ']' ) ;
-
-	if ( ! $area ) {
-		console.warn( 'VG ' + vgId + ': area not found' , areaId ) ;
-		return ;
-	}
-
-
-	// Once everything is ok, update the marker
-	marker.vg = vgId ;
-	marker.location = areaId ;
-
-
-	// Get or compute the area active point
-	areaBBox = $area.getBBox() ;
-	posX = areaBBox.x + areaBBox.width / 2 ;
-	posY = areaBBox.y + areaBBox.height / 2 ;
-
-
-	// Now, compute the SVG marker position
-	markerViewBox = svgKit.getViewBox( marker.$image ) ;
-	width = parseFloat( marker.$image.getAttribute( 'width' ) ) || markerViewBox.width ;
-	height = parseFloat( marker.$image.getAttribute( 'height' ) ) || markerViewBox.height ;
-
-	if ( ! isNaN( originX = parseFloat( marker.$image.getAttribute( 'originX' ) ) ) ) {
-		posX -= ( ( originX - markerViewBox.x ) / markerViewBox.width ) * width ;
-	}
-
-	if ( ! isNaN( originY = parseFloat( marker.$image.getAttribute( 'originY' ) ) ) ) {
-		posY -= ( ( originY - markerViewBox.y ) / markerViewBox.height ) * height ;
-	}
-
-	//* Using CSS transform (Chrome and Firefox both support transition here)
-	marker.$image.style.transform =
-		'translate(' + posX + 'px , ' + posY + 'px )' +
-		'scale(' + width / markerViewBox.width + ' , ' + height / markerViewBox.height + ')' ;
-	//*/
-
-	/* Using SVG's transform attribute (Chrome allows transition but not Firefox)
-	marker.$image.setAttribute( 'transform' ,
-		'translate(' + posX + ' , ' + posY + ' )' +
-		'scale(' + width / markerViewBox.width + ' , ' + height / markerViewBox.height + ')'
-	) ;
-	//*/
-
-	// Append the <g> tag to the main VG's <svg> now, if needed
-	if ( marker.$image.ownerSVGElement !== vg.$image ) {
-		vg.$image.append( marker.$image ) ;
-	}
-} ;
-
-
-
-Dom.prototype.createGEntityLocation = function( locationName ) {
-	var $location ;
-
-	if ( this.gEntityLocations[ locationName ] ) { return ; }
-
-	$location = this.gEntityLocations[ locationName ] = document.createElement( 'div' ) ;
-	$location.classList.add( 'g-entity-location' ) ;
-	$location.classList.add( 'g-entity-location-' + locationName ) ;
-	this.$gfx.append( $location ) ;
-} ;
-
-
-
-Dom.prototype.createCardMarkup = function( card ) {
-	// .$wrapper is the placeholder, hover effects happen on it
-	card.$card = document.createElement( 'div' ) ;
-	card.$card.classList.add( 'card' ) ;
-	card.$wrapper.append( card.$card ) ;
-
-	card.$front = document.createElement( 'div' ) ;
-	card.$front.classList.add( 'front' ) ;
-	card.$card.append( card.$front ) ;
-
-	card.$image = document.createElement( 'div' ) ;
-	card.$image.classList.add( 'card-image' ) ;
-	card.$front.append( card.$image ) ;
-
-	card.$back = document.createElement( 'div' ) ;
-	card.$back.classList.add( 'back' ) ;
-	card.$card.append( card.$back ) ;
-
-	card.$backImage = document.createElement( 'div' ) ;
-	card.$backImage.classList.add( 'card-image' ) ;
-	card.$back.append( card.$backImage ) ;
-} ;
-
-
-
 Dom.prototype.animateGEntity = async function( gEntity , animation ) {
 	var frame , frameIndex = 0 ;
 
@@ -2442,48 +1456,6 @@ Dom.prototype.animateGEntity = async function( gEntity , animation ) {
 Dom.prototype.defineAnimation = function( id , data ) {
 	data.id = id ;
 	this.animations[ id ] = data ;
-} ;
-
-
-
-Dom.prototype.setVgButtons = function( $svg ) {
-	Array.from( $svg.querySelectorAll( '[button]' ) ).forEach( ( $element ) => {
-		var buttonId = $element.getAttribute( 'button' ) ;
-
-		$element.setAttribute( 'id' , 'button-' + buttonId ) ;
-
-		if ( ! $element.getAttribute( 'area' ) ) {
-			// Create a default area's name equals to the button's ID, if not present
-			$element.setAttribute( 'area' , buttonId ) ;
-		}
-
-		$element.classList.add( 'button' ) ;
-		$element.classList.add( 'disabled' ) ;
-	} ) ;
-} ;
-
-
-
-Dom.prototype.setVgPassiveHints = function( $svg ) {
-	Array.from( $svg.querySelectorAll( '[hint]' ) ).forEach( ( $element ) => {
-		var hint = $element.getAttribute( 'hint' ) ;
-
-		$element.setAttribute( 'data-passive-hint' , hint ) ;
-		$element.classList.add( 'passive-hint' ) ;
-
-		$element.addEventListener( 'mouseleave' , ( event ) => {
-			this.clearHint() ;
-			//event.stopPropagation() ; // useless for mouseleave events
-		} ) ;
-
-		$element.addEventListener( 'mouseenter' , ( event ) => {
-			var $element_ = event.currentTarget ;
-			var hint_ = $element_.getAttribute( 'data-passive-hint' ) ;
-			if ( ! hint_ ) { return ; }
-			this.setHint( hint_ , { passive: true } ) ;
-			//event.stopPropagation() ; // useless for mouseenter events
-		} ) ;
-	} ) ;
 } ;
 
 
@@ -2583,7 +1555,1181 @@ function soundFadeOut( $element , callback ) {
 }
 
 
-},{"./commonUtils.js":3,"dom-kit":7,"nextgen-events/lib/browser.js":11,"seventh":25,"svg-kit":42}],2:[function(require,module,exports){
+},{"./GEntity.js":2,"./commonUtils.js":5,"dom-kit":9,"nextgen-events/lib/browser.js":13,"seventh":27,"svg-kit":44}],2:[function(require,module,exports){
+/*
+	Spellcast's Web Client Extension
+
+	Copyright (c) 2014 - 2020 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const GTransition = require( './GTransition.js' ) ;
+const commonUtils = require( './commonUtils.js' ) ;
+
+const Ngev = require( 'nextgen-events/lib/browser.js' ) ;
+const Promise = require( 'seventh' ) ;
+const domKit = require( 'dom-kit' ) ;
+const svgKit = require( 'svg-kit' ) ;
+
+
+
+// !THIS SHOULD TRACK SERVER-SIDE GEntity! spellcast/lib/gfx/GEntity.js
+function GEntity( dom , data ) {
+	this.dom = dom ;	// Dom instance, immutable
+	this.usage = data.usage || 'sprite' ;	// immutable
+
+	this.show = false ;
+	this.persistent = true ;
+	this.button = null ;
+	this.theme = null ;
+	this.texturePack = null ;
+	this.variant = 'default' ;
+	this.position = { x: 0 , y: 0 , z: 0 } ;
+	this.positionMode = 'default' ;
+	this.size = { x: 1 , y: 1 , z: 1 } ;
+	this.sizeMode = 'default' ;
+	//this.rotation = TO BE DEFINED....
+
+	this.data = {} ;
+	this.meta = {} ;
+	this.engine = {} ;
+
+	this.transitions = {
+		position: null ,
+		size: null ,
+		//rotation: null ,
+		opacity: null ,
+		color: null ,
+		effect: null
+	} ;
+
+	if ( this.usage !== 'marker' ) {
+		this.$wrapper = document.createElement( 'div' ) ;
+		// At creation, the visibility is turned off, the initial update will turn it on again
+		this.$wrapper.style.visibility = 'hidden' ;
+		this.$wrapper.style.transition = 'none' ;
+		this.$wrapper.classList.add( 'g-entity-wrapper' , 'g-entity-' + this.usage + '-wrapper' ) ;
+		//this.$gfx.append( this.$wrapper ) ;
+		this.dom.$gfx.append( this.$wrapper ) ;
+	}
+
+	this.defineStates( 'loaded' , 'loading' ) ;
+}
+
+GEntity.prototype = Object.create( Ngev.prototype ) ;
+GEntity.prototype.constructor = GEntity ;
+
+
+
+// !THIS SHOULD TRACK SERVER-SIDE GEntity! spellcast/lib/gfx/GEntity.js
+GEntity.prototype.update = function( data , initial = false ) {
+	var key ;
+
+	if ( data.show !== undefined ) { this.show = !! data.show ; }
+	if ( data.persistent !== undefined ) { this.persistent = !! data.persistent ; }
+	if ( data.button !== undefined ) { this.button = data.button || null ; }
+	if ( data.theme !== undefined ) { this.theme = data.theme || null ; }
+	if ( data.texturePack !== undefined ) { this.texturePack = data.texturePack || null ; }
+	if ( data.variant !== undefined ) { this.variant = data.variant || 'default' ; }
+
+	if ( data.position ) {
+		if ( data.position.x !== undefined ) { this.position.x = data.position.x ; }
+		if ( data.position.y !== undefined ) { this.position.y = data.position.y ; }
+		if ( data.position.z !== undefined ) { this.position.z = data.position.z ; }
+	}
+
+	if ( data.size ) {
+		if ( data.size.x !== undefined ) { this.size.x = data.size.x ; }
+		if ( data.size.y !== undefined ) { this.size.y = data.size.y ; }
+		if ( data.size.z !== undefined ) { this.size.z = data.size.z ; }
+	}
+
+	if ( data.positionMode ) { this.positionMode = data.positionMode || 'default' ; }
+	if ( data.sizeMode ) { this.sizeMode = data.sizeMode || 'default' ; }
+
+	//this.rotation = TO BE DEFINED....
+
+	if ( data.data && typeof data.data === 'object' ) {
+		Object.assign( this.data , data.data ) ;
+	}
+
+	if ( data.meta && typeof data.meta === 'object' ) {
+		Object.assign( this.meta , data.meta ) ;
+	}
+
+	if ( data.engine && typeof data.engine === 'object' ) {
+		Object.assign( this.engine , data.engine ) ;
+	}
+
+	if ( data.transitions && typeof data.transitions === 'object' ) {
+		for ( key in data.transitions ) {
+			if ( ! ( key in this.transitions ) ) { continue ; }
+
+			if ( ! data.transitions[ key ] ) {
+				this.transitions[ key ] = null ;
+			}
+			else if ( typeof data.transitions[ key ] === 'object' ) {
+				if ( this.transitions[ key ] ) {
+					this.transitions[ key ].update( data.transitions[ key ] ) ;
+				}
+				else {
+					this.transitions[ key ] = new GTransition( data.transitions[ key ] ) ;
+				}
+			}
+		}
+	}
+
+	return this ;
+} ;
+
+
+
+
+
+// Below are things not yet migrated from old Dom.js!
+
+
+
+
+
+/*
+	Execute only DOM and critical stuff first.
+*/
+GEntity.prototype.update = async function( id , data , initial = false ) {
+	// The order matters
+	if ( data.vgObject ) { this.updateVgObject( data ) ; }
+	else if ( data.vgMorph ) { this.updateVgMorph( data ) ; }
+
+	if ( data.url ) { await this.updateImage( data ) ; }
+	if ( data.backUrl ) { await this.updateBackImage( data ) ; }
+	if ( data.maskUrl ) { await this.updateMask( data ) ; }
+	if ( data.content ) { this.updateContent( data ) ; }
+
+	if ( data.button !== undefined ) { this.updateButton( data ) ; }
+	//if ( data.action !== undefined ) { this.updateAction( data ) ; }
+
+	if ( data.area ) {
+		this.updateVgArea( data.area ) ;
+	}
+
+	if ( this.usage === 'marker' && ( data.vg || data.location ) ) {
+		this.updateMarkerLocation( data.vg , data.location ) ;
+	}
+
+	// For some unknown reasons, that timeout removes animation glitches
+	//await Promise.resolveTimeout( 5 ) ;
+	return this.updateCosmetics( data , initial ) ;
+} ;
+
+
+
+/*
+	Execute less important things, like things triggering animations
+*/
+GEntity.prototype.updateCosmetics = async function( data , initial = false ) {
+	// The order matters
+
+	// Should comes first: Transition,
+	// Either remove them (for initial value) or set them to the user value before changing anything
+	if ( ! initial && this.usage !== 'marker' && data.transition !== undefined ) {
+		if ( data.transition === null ) {
+			this.$wrapper.style.transition = '' ;	// reset it to default stylesheet value
+		}
+		else if ( ! data.transition ) {
+			this.$wrapper.style.transition = 'none' ;
+		}
+		else {
+			this.$wrapper.style.transition = 'all ' + data.transition + 's' ;
+		}
+	}
+
+
+	if ( data.location !== undefined && this.usage !== 'marker' ) {
+		// Should be triggered first, or pose/style would conflict with it
+		await this.moveToLocation( data ) ;
+	}
+
+	if ( data.pose !== undefined ) { this.updatePose( data ) ; }
+	if ( data.meta ) { this.updateMeta( data ) ; }
+
+	// Use data.style, NOT this.style: we have to set only new/updated styles
+	if ( data.style && this.$wrapper ) {
+		delete data.style.position ;	// Forbidden style
+		Object.assign( this.style , data.style ) ;
+		domKit.css( this.$wrapper , data.style ) ;
+	}
+
+	if ( data.imageStyle && this.$image ) {
+		delete data.imageStyle.position ;	// Forbidden style
+		Object.assign( this.imageStyle , data.imageStyle ) ;
+		domKit.css( this.$image , data.imageStyle ) ;
+	}
+
+	if ( data.backImageStyle && this.$backImage ) {
+		delete data.backImageStyle.position ;	// Forbidden style
+		Object.assign( this.backImageStyle , data.backImageStyle ) ;
+		domKit.css( this.$backImage , data.backImageStyle ) ;
+	}
+
+	if ( data.maskStyle && this.$mask ) {
+		delete data.maskStyle.position ;	// Forbidden style
+		Object.assign( this.maskStyle , data.maskStyle ) ;
+		domKit.css( this.$mask , data.maskStyle ) ;
+	}
+
+	if ( data.size || data.position ) { this.updateTransform( data ) ; }
+
+	if ( data.class ) {
+		data.class = commonUtils.toClassObject( data.class ) ;
+		Object.assign( this.class , data.class ) ;
+		domKit.class( this.$wrapper || this.$image , data.class , 's-' ) ;
+	}
+
+	// Should comes last: for initial update, restore the transition value and turn visibility on
+	if ( initial && this.usage !== 'marker' ) {
+		// At creation, the visibility is turned off, now we need to turn it on again
+		this.$wrapper.style.visibility = 'visible' ;
+
+		// If it's done immediately, the transition can kick in nonetheless
+		//await Promise.resolveTimeout( 5 ) ;
+		await Promise.resolveAtAnimationFrame() ;
+
+		if ( data.transition === undefined || data.transition === null ) {
+			this.$wrapper.style.transition = '' ;	// reset it to default stylesheet value
+		}
+		else if ( ! data.transition ) {
+			this.$wrapper.style.transition = 'none' ;
+		}
+		else {
+			this.$wrapper.style.transition = 'all ' + data.transition + 's' ;
+		}
+	}
+} ;
+
+
+
+// Load/replace the gEntity image (data.url)
+GEntity.prototype.updateImage = function( data ) {
+	var promise = new Promise() ;
+
+	this.vgObject = null ;
+
+	if ( this.usage === 'card' ) {
+		this.$image.style.backgroundImage = 'url("' + this.dom.cleanUrl( data.url ) + '")' ;
+		promise.resolve() ;
+		return promise ;
+	}
+
+	if ( data.url.endsWith( '.svg' ) ) {
+		// Always wipe any existing $image element and pre-create the <svg> tag
+		if ( this.$image ) { this.$image.remove() ; }
+
+		if ( this.usage === 'marker' ) {
+			// If it's a marker, load it inside a <g> tag, that will be part of the main VG's <svg>
+			// <svg> inside <svg> are great, but Chrome sucks at it (it does not support CSS transform, etc)
+			this.$image = document.createElementNS( 'http://www.w3.org/2000/svg' , 'g' ) ;
+		}
+		else {
+			this.$image = document.createElementNS( 'http://www.w3.org/2000/svg' , 'svg' ) ;
+			this.$image.classList.add( 'svg' ) ;
+		}
+
+		switch ( this.usage ) {
+			case 'vg' :
+				// Stop event propagation
+				this.onClick = ( event ) => {
+					//this.actionCallback( this.action ) ;
+					event.stopPropagation() ;
+				} ;
+
+				this.$image.addEventListener( 'click' , this.onClick ) ;
+				this.$image.classList.add( 'vg' ) ;
+				this.dom.uiLoadingCount ++ ;
+				break ;
+			case 'sprite' :
+				this.$image.classList.add( 'sprite' ) ;
+				break ;
+			case 'marker' :
+				this.$image.classList.add( 'marker' ) ;
+				break ;
+		}
+
+		svgKit.load( this.dom.cleanUrl( data.url ) , {
+			removeSvgStyle: true ,
+			//removeSize: true ,
+			//removeIds: true ,
+			removeComments: true ,
+			removeExoticNamespaces: true ,
+			//removeDefaultStyles: true ,
+			as: this.$image
+		} ).then( () => {
+			console.warn( "loaded!" ) ;
+			if ( this.usage === 'vg' ) {
+				this.setVgButtons( this.$image ) ;
+				this.setVgPassiveHints( this.$image ) ;
+				this.emit( 'loaded' ) ;
+				if ( -- this.dom.uiLoadingCount <= 0 ) { this.emit( 'uiLoaded' ) ; }
+			}
+			else {
+				this.emit( 'loaded' ) ;
+			}
+
+			promise.resolve() ;
+		} ) ;
+
+		console.warn( "Aft load" ) ;
+		this.emit( 'loading' ) ;
+	}
+	else {
+		if ( ! this.$image || this.$image.tagName.toLowerCase() !== 'img' ) {
+			if ( this.$image ) { this.$image.remove() ; }
+
+			this.$image = document.createElement( 'img' ) ;
+
+			// /!\ support VG that are not SVG??? /!\
+			this.$image.classList.add( this.usage ) ;
+		}
+
+		this.$image.setAttribute( 'src' , this.dom.cleanUrl( data.url ) ) ;
+		this.$image.onload = () => promise.resolve() ;
+	}
+
+	if ( this.usage !== 'marker' ) {
+		this.$wrapper.append( this.$image ) ;
+	}
+
+	return promise ;
+} ;
+
+
+
+GEntity.prototype.updateVgObject = function( data ) {
+	var vgObject = data.vgObject ;
+
+	if ( ! ( vgObject instanceof svgKit.VG ) ) {
+		vgObject = svgKit.objectToVG( vgObject ) ;
+		if ( ! ( vgObject instanceof svgKit.VG ) ) {
+			// Do nothing if it's not a VG object
+			return ;
+		}
+	}
+
+	// Save it now!
+	this.vgObject = vgObject ;
+
+	// Always wipe any existing $image element and pre-create the <svg> tag
+	if ( this.$image ) { this.$image.remove() ; }
+
+	if ( this.usage === 'marker' ) {
+		// If it's a marker, load it inside a <g> tag, that will be part of the main VG's <svg>
+		// <svg> inside <svg> are great, but Chrome sucks at it (it does not support CSS transform, etc)
+		this.$image = vgObject.renderDom( { overrideTag: 'g' } ) ;
+	}
+	else {
+		// Add a removeSvgStyle:true options?
+		this.$image = vgObject.renderDom() ;
+		this.$image.classList.add( 'svg' ) ;
+		this.$image.classList.add( 'vg-object' ) ;
+	}
+
+	switch ( this.usage ) {
+		case 'vg' :
+			// Stop event propagation
+			this.onClick = ( event ) => {
+				//this.actionCallback( this.action ) ;
+				event.stopPropagation() ;
+			} ;
+
+			this.$image.addEventListener( 'click' , this.onClick ) ;
+			this.$image.classList.add( 'vg' ) ;
+			this.setVgButtons( this.$image ) ;
+			this.setVgPassiveHints( this.$image ) ;
+			break ;
+		case 'sprite' :
+			this.$image.classList.add( 'sprite' ) ;
+			break ;
+		case 'marker' :
+			this.$image.classList.add( 'marker' ) ;
+			break ;
+	}
+
+	if ( this.usage !== 'marker' ) {
+		this.$wrapper.append( this.$image ) ;
+	}
+
+	return ;
+} ;
+
+
+
+GEntity.prototype.updateVgMorph = function( data ) {
+	var vgObject = this.vgObject ;
+
+	if ( ! vgObject ) {
+		// Do nothing if it's not a VG object
+		console.warn( "Has no VG object, abort..." ) ;
+		return ;
+	}
+
+	//console.warn( "Got morph log:" , data.vgMorph ) ;
+	vgObject.importMorphLog( data.vgMorph ) ;
+	//console.warn( "After importing morph log:" , vgObject ) ;
+	vgObject.morphDom() ;
+
+	return ;
+} ;
+
+
+
+// Load/replace the gEntity backImage (data.backUrl)
+// /!\ Not async ATM: how to get a "load" event on a background-image???
+GEntity.prototype.updateBackImage = function( data ) {
+	if ( this.usage === 'card' ) {
+		this.$backImage.style.backgroundImage = 'url("' + this.dom.cleanUrl( data.backUrl ) + '")' ;
+		//this.$image.onload = () => promise.resolve() ;
+	}
+
+	return Promise.resolved ;
+} ;
+
+
+
+// Load/replace the gEntity mask (data.maskUrl)
+GEntity.prototype.updateMask = function( data ) {
+	var promise = new Promise() ;
+
+	if ( data.maskUrl.endsWith( '.svg' ) && this.usage === 'sprite' ) {
+		console.warn( 'has mask!' ) ;
+
+		// Always wipe any existing $mask element and pre-create the <svg> tag
+		if ( this.$mask ) { this.$mask.remove() ; }
+
+		this.$mask = document.createElementNS( 'http://www.w3.org/2000/svg' , 'svg' ) ;
+		this.$mask.classList.add( 'sprite-mask' ) ;
+
+		svgKit.load( this.dom.cleanUrl( data.maskUrl ) , {
+			removeSvgStyle: true ,
+			removeSize: true ,
+			removeIds: true ,
+			removeComments: true ,
+			removeExoticNamespaces: true ,
+			//removeDefaultStyles: true ,
+			as: this.$mask
+		} ).then( () => promise.resolve() ) ;
+
+		this.$wrapper.append( this.$mask ) ;
+		this.$wrapper.classList.add( 'has-mask' ) ;
+	}
+	else if ( this.$mask ) {
+		this.$mask.remove() ;
+		this.$wrapper.classList.remove( 'has-mask' ) ;
+		promise.resolve() ;
+	}
+
+	return promise ;
+} ;
+
+
+
+// Update “framework” size/position
+GEntity.prototype.updateTransform = function( data ) {
+	var wrapperAspect , imageAspect , imageWidth , imageHeight ,
+		scale , xMinOffset , yMinOffset , xFactor , yFactor ;
+
+	// For instance, marker are excluded
+	if ( ! this.$wrapper || ! this.$image ) { return ; }
+
+
+	// First, assign new size and position
+	// /!\ Size and position MUST be checked! /!\
+	if ( data.size ) {
+		this.size = data.size ;
+	}
+
+	if ( data.position ) {
+		this.position = data.position ;
+	}
+
+
+	// Pre-compute few thing necessary for the following stuff
+	if ( this.$image.tagName.toLowerCase() === 'svg' ) {
+		// The SVG element is not a DOM HTML element, it does not have offsetWidth/offsetHeight,
+		// hence it' a little bit trickier to get its real boxmodel size
+
+		wrapperAspect = this.$wrapper.offsetWidth / this.$wrapper.offsetHeight ;
+		imageAspect = this.$image.width.baseVal.value / this.$image.height.baseVal.value ;
+
+		if ( imageAspect > wrapperAspect ) {
+			imageWidth = this.$wrapper.offsetWidth ;
+			imageHeight = imageWidth / imageAspect ;
+		}
+		else {
+			imageHeight = this.$wrapper.offsetHeight ;
+			imageWidth = imageHeight * imageAspect ;
+		}
+		console.log( "dbg svg:" , {
+			wrapperAspect , imageAspect , imageWidth , imageHeight
+		} ) ;
+	}
+	else {
+		imageWidth = this.$image.offsetWidth ;
+		imageHeight = this.$image.offsetHeight ;
+	}
+
+
+	// Compute scaling -- should comes first for this to work!
+	switch ( this.size.mode ) {
+		case 'area' :
+		case 'areaMin' :
+		default :
+			// In this mode, the sprite is scaled relative to its container area.
+			scale = this.transform.scaleX = this.transform.scaleY = this.size.xy ;
+			console.log( "transform after .updateSize()" , this.transform ) ;
+			break ;
+	}
+
+
+	// Compute position
+	switch ( this.position.mode ) {
+		case 'areaInSpriteOut' :
+			// In this mode, the sprite is positioned relative to its container area -1,-1 being bottom-left and 1,1 being top-right and 0,0 being the center
+			// Any value in [-1,1] ensure the whole sprite is inside the area.
+			// For values <-1 or >1 the extra are scaled using the sprite scale, e.g.:
+			// x=-1.5 means that the sprite is on the left, its left half being invisible (outside the container), its right half being visible (inside the container).
+
+			xMinOffset = yMinOffset = 0 ;
+			xFactor = this.dom.$gfx.offsetWidth - imageWidth ;
+			yFactor = this.dom.$gfx.offsetHeight - imageHeight ;
+
+			if ( scale !== undefined ) {
+				xMinOffset = -0.5 * imageWidth * ( 1 - scale ) ;
+				yMinOffset = -0.5 * imageHeight * ( 1 - scale ) ;
+				xFactor += imageWidth * ( 1 - scale ) ;
+				yFactor += imageHeight * ( 1 - scale ) ;
+			}
+
+			console.log( "dbg:" , { xMinOffset , xFactor , yFactor } ) ;
+
+			if ( this.position.x < -1 ) {
+				this.transform.translateX = xMinOffset + ( this.position.x + 1 ) * imageWidth * scale ;
+			}
+			else if ( this.position.x > 1 ) {
+				this.transform.translateX = xMinOffset + xFactor + ( this.position.x - 1 ) * imageWidth * scale ;
+			}
+			else {
+				this.transform.translateX = xMinOffset + ( 0.5 + this.position.x / 2 ) * xFactor ;
+			}
+
+			if ( this.position.y < -1 ) {
+				this.transform.translateY = yMinOffset + yFactor - ( this.position.y + 1 ) * imageHeight * scale ;
+			}
+			else if ( this.position.y > 1 ) {
+				this.transform.translateY = yMinOffset - ( this.position.y - 1 ) * imageHeight * scale ;
+			}
+			else {
+				this.transform.translateY = yMinOffset + ( 0.5 - this.position.y / 2 ) * yFactor ;
+			}
+
+			console.log( "transform after .updatePosition()" , this.transform ) ;
+			break ;
+
+		case 'area' :
+		default :
+			// In this mode, the sprite is positioned relative to its container area -1,-1 being bottom-left and 1,1 being top-right and 0,0 being the center
+			// Any value in [-1,1] ensure the whole sprite is inside the area.
+			// Values <-1 or >1 still use the same linear coordinate (so are scaled using the container size).
+
+			xMinOffset = yMinOffset = 0 ;
+			xFactor = this.dom.$gfx.offsetWidth - imageWidth ;
+			yFactor = this.dom.$gfx.offsetHeight - imageHeight ;
+
+			if ( scale !== undefined ) {
+				xMinOffset = -0.5 * imageWidth * ( 1 - scale ) ;
+				yMinOffset = -0.5 * imageHeight * ( 1 - scale ) ;
+				xFactor += imageWidth * ( 1 - scale ) ;
+				yFactor += imageHeight * ( 1 - scale ) ;
+			}
+
+			console.log( "dbg:" , { xMinOffset , xFactor , yFactor } ) ;
+			this.transform.translateX = xMinOffset + ( 0.5 + this.position.x / 2 ) * xFactor ;
+			this.transform.translateY = yMinOffset + ( 0.5 - this.position.y / 2 ) * yFactor ;
+
+			console.log( "transform after .updatePosition()" , this.transform ) ;
+			break ;
+	}
+
+	// Finally, create the transformation CSS string
+	domKit.transform( this.$wrapper , this.transform ) ;
+} ;
+
+
+
+// Update content (data.content), card-only
+GEntity.prototype.updateContent = function( data ) {
+	var content , $content ;
+
+	if ( this.usage !== 'card' ) { return ; }
+
+	for ( let contentName in data.content ) {
+		content = data.content[ contentName ] ;
+		$content = this.contents[ contentName ] ;
+
+		if ( ! $content ) {
+			$content = this.contents[ contentName ] = document.createElement( 'div' ) ;
+			$content.classList.add( 'content-' + contentName ) ;
+			this.$front.append( $content ) ;
+		}
+
+		$content.textContent = content ;
+		$content.setAttribute( 'content' , content ) ;
+	}
+} ;
+
+
+
+// Update pose (data.pose)
+GEntity.prototype.updatePose = function( data ) {
+	if ( typeof data.pose === 'string' ) {
+		this.$wrapper.setAttribute( 'pose' , data.pose ) ;
+		this.pose = data.pose ;
+	}
+	else {
+		this.$wrapper.removeAttribute( 'pose' ) ;
+		this.pose = null ;
+	}
+} ;
+
+
+
+// Update meta (data.meta)
+GEntity.prototype.updateMeta = function( data ) {
+	var meta , metaName ;
+
+	for ( metaName in data.meta ) {
+		meta = data.meta[ metaName ] ;
+
+		if ( meta ) {
+			this.$wrapper.classList.add( 'meta-' + metaName ) ;
+
+			if ( typeof meta === 'number' || typeof meta === 'string' ) {
+				this.$wrapper.setAttribute( 'meta-' + metaName , meta ) ;
+			}
+		}
+		else {
+			this.$wrapper.classList.remove( 'meta-' + metaName ) ;
+
+			if ( this.$wrapper.hasAttribute( 'meta-' + metaName ) ) {
+				this.$wrapper.removeAttribute( 'meta-' + metaName ) ;
+			}
+		}
+	}
+} ;
+
+
+
+// Button ID (data.button)
+GEntity.prototype.updateButton = function( data ) {
+	var $element = this.$mask || this.$wrapper ;
+
+	var buttonId = data.button ;
+
+	$element.setAttribute( 'id' , 'button-' + buttonId ) ;
+	$element.classList.add( 'button' ) ;
+	$element.classList.add( 'disabled' ) ;
+} ;
+
+
+
+// /!\ DEPRECATED /!\
+// Click action (data.action)
+GEntity.prototype.updateAction = function( data ) {
+	var $element = this.$mask || this.$image ;
+
+	if ( data.action && ! this.action ) {
+		this.onClick = ( event ) => {
+			this.actionCallback( this.action ) ;
+			event.stopPropagation() ;
+		} ;
+
+		$element.classList.add( 'button' ) ;
+		$element.addEventListener( 'click' , this.onClick ) ;
+	}
+	else if ( ! data.action && this.action ) {
+		$element.classList.remove( 'button' ) ;
+		$element.removeEventListener( 'click' , this.onClick ) ;
+	}
+
+	this.action = data.action || null ;
+} ;
+
+
+
+// Move to a location and perform a FLIP (First Last Invert Play)
+GEntity.prototype.moveToLocation = function( data ) {
+	var promise = new Promise() ,
+		locationName = data.location ;
+
+	if ( this.location === locationName ) { promise.resolve() ; return promise ; }
+
+	var $location , $oldLocation , oldLocationName , $slot , $oldSlot , direction , oldDirection ,
+		siblingGEntities , siblingSlotRectsBefore , siblingSlotRectsAfter ,
+		slotSize , slotBbox , oldSlotBbox ;
+
+	// Timeout value used to enable FLIP transition
+	var flipTimeout = 10 ;
+
+	oldLocationName = this.location ;
+	$oldLocation = oldLocationName ? this.dom.gEntityLocations[ oldLocationName ] : this.dom.$gfx ;
+	$oldSlot = this.$locationSlot || this.dom.$gfx ;
+	this.location = locationName ;
+
+	$location = locationName ? this.dom.gEntityLocations[ locationName ] : this.dom.$gfx ;
+
+	if ( ! $location ) {
+		// Create the location if it doesn't exist
+		$location = this.dom.gEntityLocations[ locationName ] = document.createElement( 'div' ) ;
+		$location.classList.add( 'g-entity-location' ) ;
+		$location.classList.add( 'g-entity-location-' + locationName ) ;
+		this.dom.$gfx.append( $location ) ;
+	}
+
+	// Save computed styles now
+	var gEntityComputedStyle = window.getComputedStyle( this.$wrapper ) ;
+	var locationComputedStyle = window.getComputedStyle( $location ) ;
+
+	// GEntity size
+	var gEntityWidth = parseFloat( gEntityComputedStyle.width ) ;
+	var gEntityHeight = parseFloat( gEntityComputedStyle.height ) ;
+
+	if ( $location === this.dom.$gfx ) {
+		$slot = this.dom.$gfx ;
+	}
+	else {
+		$slot = this.$locationSlot = document.createElement( 'div' ) ;
+		$slot.classList.add( 'g-entity-slot' ) ;
+		$slot.style.order = this.order ;
+		//$slot.style.zIndex = this.order ;	// Not needed, rendering preserve ordering, not DOM precedence, so it's ok
+	}
+
+	// Before appending, save all rects of existing sibling slots
+
+// /!\ BROKEN: this.cards, this.sprites, this.vgs do not exist anymore, filter it and exclude markers
+
+	siblingGEntities = [ ... Object.values( this.dom.cards ) , ... Object.values( this.dom.sprites ) , ... Object.values( this.dom.vgs ) ]
+		.filter( e => e !== this && e.location && ( e.location === locationName || e.location === oldLocationName ) ) ;
+
+	siblingSlotRectsBefore = siblingGEntities.map( e => e.$locationSlot.getBoundingClientRect() ) ;
+
+
+	// Insert the slot, if it's not $gfx
+	if ( $slot !== this.dom.$gfx ) {
+		// We should preserve the :last-child pseudo selector, since there isn't any :last-ordered-child for flex-box...
+		if ( $location.lastChild && parseFloat( $location.lastChild.style.order ) > this.order ) {
+			// The last entity has a greater order, so we prepend instead
+			$location.prepend( $slot ) ;
+		}
+		else {
+			$location.append( $slot ) ;
+		}
+	}
+
+	// Save the old slot BBox
+	oldSlotBbox = $oldSlot.getBoundingClientRect() ;
+
+	// Remove that slot now
+	if ( $oldSlot !== this.dom.$gfx ) { $oldSlot.remove() ; }
+
+
+	// Get slots rects after
+	siblingSlotRectsAfter = siblingGEntities.map( e => e.$locationSlot.getBoundingClientRect() ) ;
+
+	// Immediately compute the translation delta and the FLIP for siblings
+	siblingGEntities.forEach( ( siblingGEntity , index ) => {
+		var beforeRect = siblingSlotRectsBefore[ index ] ,
+			afterRect = siblingSlotRectsAfter[ index ] ;
+
+		var transitionStr = siblingGEntity.$wrapper.style.transition ;
+		var transformStr = siblingGEntity.$wrapper.style.transform ;
+
+		// Get the local transform, and patch it!
+		var transformDelta = Object.assign( {} , siblingGEntity.localTransform ) ;
+		transformDelta.translateX += beforeRect.left - afterRect.left ;
+		transformDelta.translateY += beforeRect.top - beforeRect.top ;
+
+		// First, disable transitions, so the transform will apply now!
+		siblingGEntity.$wrapper.style.transition = 'none' ;
+		siblingGEntity.$wrapper.style.transform = domKit.stringifyTransform( transformDelta ) ;
+
+		setTimeout( () => {
+			// Re-enable transitions, restore the transform value
+			siblingGEntity.$wrapper.style.transition = transitionStr ;
+			siblingGEntity.$wrapper.style.transform = transformStr ;
+		} , flipTimeout ) ;
+	} ) ;
+
+
+	var targetTransform = { translateX: 0 , translateY: 0 } ;
+
+	// Scale transform
+	switch ( locationComputedStyle.flexDirection ) {
+		case 'row' :
+		case 'row-reverse' :
+			slotSize = parseFloat( locationComputedStyle.height ) ;
+			targetTransform.scaleX = targetTransform.scaleY = slotSize / gEntityHeight ;
+			break ;
+		case 'column' :
+		case 'column-reverse' :
+			slotSize = parseFloat( locationComputedStyle.width ) ;
+			targetTransform.scaleX = targetTransform.scaleY = slotSize / gEntityWidth ;
+			break ;
+		default :
+			slotSize = parseFloat( locationComputedStyle.height ) ;
+			targetTransform.scaleX = targetTransform.scaleY = slotSize / gEntityHeight ;
+			console.warn( 'flex-direction' , locationComputedStyle.flexDirection ) ;
+	}
+
+	// Translation compensation due to scaling, since the origin is in the middle
+	targetTransform.translateX -= ( gEntityWidth - gEntityWidth * targetTransform.scaleX ) / 2 ;
+	targetTransform.translateY -= ( gEntityHeight - gEntityHeight * targetTransform.scaleY ) / 2 ;
+
+	var localTransform = this.localTransform ;
+	this.localTransform = targetTransform ;
+
+	// If this is not a true slot, then just put the gEntity on this slot immediately
+	if ( $oldSlot === this.dom.$gfx ) {
+		this.$wrapper.style.transform = domKit.stringifyTransform( targetTransform ) ;
+		$slot.append( this.$wrapper ) ;
+		promise.resolve() ;
+		return promise ;
+	}
+
+
+	// Computed styles
+	var oldLocationComputedStyle = window.getComputedStyle( $oldLocation ) ;
+
+	// Old location direction
+	switch ( oldLocationComputedStyle.flexDirection ) {
+		case 'column' :
+		case 'column-reverse' :
+			oldDirection = 'column' ;
+			break ;
+		default :
+			oldDirection = 'row' ;
+	}
+
+	// Compute the FLIP (First Last Invert Play)
+	slotBbox = $slot.getBoundingClientRect() ;
+	//console.warn( 'bboxes' , slotBbox ,  oldSlotBbox ) ;
+
+	// Old/new difference
+	var sourceTransform = {
+		translateX: oldSlotBbox.left + localTransform.translateX - slotBbox.left ,
+		translateY: oldSlotBbox.top + localTransform.translateY - slotBbox.top ,
+		scaleX: localTransform.scaleX ,
+		scaleY: localTransform.scaleY
+	} ;
+
+	this.$wrapper.style.transform = domKit.stringifyTransform( sourceTransform ) ;
+	$slot.append( this.$wrapper ) ;
+
+	// Do not initiate the new transform value in the same synchronous flow,
+	// it would not animate anything
+	setTimeout( () => {
+		this.$wrapper.style.transform = domKit.stringifyTransform( targetTransform ) ;
+		promise.resolve() ;
+	} , flipTimeout ) ;
+
+	return promise ;
+} ;
+
+
+
+GEntity.prototype.updateVgArea = function( vg , areaData ) {
+	var area ;
+
+	if ( vg.usage !== 'vg' ) { return ; }
+
+	if ( ! vg.hasState( 'loaded' ) ) {
+		vg.once( 'loaded' , this.updateVgArea.bind( this , vg , areaData ) ) ;
+		return ;
+	}
+
+	for ( area in areaData ) {
+		if ( ! vg.area[ area ] ) { vg.area[ area ] = {} ; }
+		if ( ! vg.area[ area ].meta ) { vg.area[ area ].meta = {} ; }
+
+		if ( areaData[ area ].hint !== undefined ) { vg.area[ area ].hint = areaData[ area ].hint || null ; }
+		if ( areaData[ area ].meta ) { Object.assign( vg.area[ area ].meta , areaData[ area ].meta ) ; }
+
+		Array.from( vg.$image.querySelectorAll( '[area=' + area + ']' ) ).forEach( ( $element ) => {
+			var metaName ;
+
+			if ( areaData[ area ].hint !== undefined ) {
+				if ( areaData[ area ].hint ) {
+					$element.setAttribute( 'data-passive-hint' , areaData[ area ].hint ) ;
+					$element.classList.add( 'passive-hint' ) ;
+				}
+				else {
+					$element.removeAttribute( 'data-passive-hint' ) ;
+					$element.classList.remove( 'passive-hint' ) ;
+				}
+			}
+
+			if ( areaData[ area ].meta ) {
+				for ( metaName in areaData[ area ].meta ) {
+					if ( areaData[ area ].meta[ metaName ] ) {
+						$element.classList.add( 'meta-' + metaName ) ;
+					}
+					else {
+						$element.classList.remove( 'meta-' + metaName ) ;
+					}
+				}
+			}
+		} ) ;
+	}
+} ;
+
+
+
+GEntity.prototype.updateMarkerLocation = function( marker , vgId , areaId ) {
+	var vg , $area , areaBBox , markerViewBox , width , height , originX , originY , posX , posY ;
+
+
+	// First, check that everything is ready and OK...
+	if ( ! marker.hasState( 'loaded' ) ) {
+		marker.once( 'loaded' , this.updateMarkerLocation.bind( this , marker , vgId , areaId ) ) ;
+		return ;
+	}
+
+	if ( ! vgId ) { vgId = marker.vg ; }
+	if ( ! areaId ) { areaId = marker.location ; }
+
+	if ( ! this.vgs[ vgId ] ) {
+		console.warn( 'Unknown VG id: ' , vgId ) ;
+		return ;
+	}
+
+	vg = this.vgs[ vgId ] ;
+
+	if ( ! vg.hasState( 'loaded' ) ) {
+		vg.once( 'loaded' , this.updateMarkerLocation.bind( this , marker , vgId , areaId ) ) ;
+		return ;
+	}
+
+	$area = vg.$image.querySelector( '[area=' + areaId + ']' ) ;
+
+	if ( ! $area ) {
+		console.warn( 'VG ' + vgId + ': area not found' , areaId ) ;
+		return ;
+	}
+
+
+	// Once everything is ok, update the marker
+	marker.vg = vgId ;
+	marker.location = areaId ;
+
+
+	// Get or compute the area active point
+	areaBBox = $area.getBBox() ;
+	posX = areaBBox.x + areaBBox.width / 2 ;
+	posY = areaBBox.y + areaBBox.height / 2 ;
+
+
+	// Now, compute the SVG marker position
+	markerViewBox = svgKit.getViewBox( marker.$image ) ;
+	width = parseFloat( marker.$image.getAttribute( 'width' ) ) || markerViewBox.width ;
+	height = parseFloat( marker.$image.getAttribute( 'height' ) ) || markerViewBox.height ;
+
+	if ( ! isNaN( originX = parseFloat( marker.$image.getAttribute( 'originX' ) ) ) ) {
+		posX -= ( ( originX - markerViewBox.x ) / markerViewBox.width ) * width ;
+	}
+
+	if ( ! isNaN( originY = parseFloat( marker.$image.getAttribute( 'originY' ) ) ) ) {
+		posY -= ( ( originY - markerViewBox.y ) / markerViewBox.height ) * height ;
+	}
+
+	//* Using CSS transform (Chrome and Firefox both support transition here)
+	marker.$image.style.transform =
+		'translate(' + posX + 'px , ' + posY + 'px )' +
+		'scale(' + width / markerViewBox.width + ' , ' + height / markerViewBox.height + ')' ;
+	//*/
+
+	/* Using SVG's transform attribute (Chrome allows transition but not Firefox)
+	marker.$image.setAttribute( 'transform' ,
+		'translate(' + posX + ' , ' + posY + ' )' +
+		'scale(' + width / markerViewBox.width + ' , ' + height / markerViewBox.height + ')'
+	) ;
+	//*/
+
+	// Append the <g> tag to the main VG's <svg> now, if needed
+	if ( marker.$image.ownerSVGElement !== vg.$image ) {
+		vg.$image.append( marker.$image ) ;
+	}
+} ;
+
+
+
+GEntity.prototype.createGEntityLocation = function( locationName ) {
+	var $location ;
+
+	if ( this.dom.gEntityLocations[ locationName ] ) { return ; }
+
+	$location = this.dom.gEntityLocations[ locationName ] = document.createElement( 'div' ) ;
+	$location.classList.add( 'g-entity-location' ) ;
+	$location.classList.add( 'g-entity-location-' + locationName ) ;
+	this.dom.$gfx.append( $location ) ;
+} ;
+
+
+
+GEntity.prototype.createCardMarkup = function( card ) {
+	// .$wrapper is the placeholder, hover effects happen on it
+	card.$card = document.createElement( 'div' ) ;
+	card.$card.classList.add( 'card' ) ;
+	card.$wrapper.append( card.$card ) ;
+
+	card.$front = document.createElement( 'div' ) ;
+	card.$front.classList.add( 'front' ) ;
+	card.$card.append( card.$front ) ;
+
+	card.$image = document.createElement( 'div' ) ;
+	card.$image.classList.add( 'card-image' ) ;
+	card.$front.append( card.$image ) ;
+
+	card.$back = document.createElement( 'div' ) ;
+	card.$back.classList.add( 'back' ) ;
+	card.$card.append( card.$back ) ;
+
+	card.$backImage = document.createElement( 'div' ) ;
+	card.$backImage.classList.add( 'card-image' ) ;
+	card.$back.append( card.$backImage ) ;
+} ;
+
+
+
+GEntity.prototype.setVgButtons = function( $svg ) {
+	Array.from( $svg.querySelectorAll( '[button]' ) ).forEach( ( $element ) => {
+		var buttonId = $element.getAttribute( 'button' ) ;
+
+		$element.setAttribute( 'id' , 'button-' + buttonId ) ;
+
+		if ( ! $element.getAttribute( 'area' ) ) {
+			// Create a default area's name equals to the button's ID, if not present
+			$element.setAttribute( 'area' , buttonId ) ;
+		}
+
+		$element.classList.add( 'button' ) ;
+		$element.classList.add( 'disabled' ) ;
+	} ) ;
+} ;
+
+
+
+GEntity.prototype.setVgPassiveHints = function( $svg ) {
+	Array.from( $svg.querySelectorAll( '[hint]' ) ).forEach( ( $element ) => {
+		var hint = $element.getAttribute( 'hint' ) ;
+
+		$element.setAttribute( 'data-passive-hint' , hint ) ;
+		$element.classList.add( 'passive-hint' ) ;
+
+		$element.addEventListener( 'mouseleave' , ( event ) => {
+			this.dom.clearHint() ;
+			//event.stopPropagation() ; // useless for mouseleave events
+		} ) ;
+
+		$element.addEventListener( 'mouseenter' , ( event ) => {
+			var $element_ = event.currentTarget ;
+			var hint_ = $element_.getAttribute( 'data-passive-hint' ) ;
+			if ( ! hint_ ) { return ; }
+			this.dom.setHint( hint_ , { passive: true } ) ;
+			//event.stopPropagation() ; // useless for mouseenter events
+		} ) ;
+	} ) ;
+} ;
+
+
+},{"./GTransition.js":3,"./commonUtils.js":5,"dom-kit":9,"nextgen-events/lib/browser.js":13,"seventh":27,"svg-kit":44}],3:[function(require,module,exports){
+/*
+	Spellcast's Web Client Extension
+
+	Copyright (c) 2014 - 2020 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+/*
+	duration: transition duration in ms
+	easing: the easing function used
+*/
+// !THIS SHOULD TRACK SERVER-SIDE GEntity! spellcast/lib/gfx/GTransition.js
+function GTransition( data ) {
+	this.duration = 200 ;
+	this.easing = 'linear' ;
+
+	if ( data ) { this.update( data ) ; }
+}
+
+module.exports = GTransition ;
+
+
+
+// !THIS SHOULD TRACK SERVER-SIDE GEntity! spellcast/lib/gfx/GTransition.js
+GTransition.prototype.update = function( data ) {
+	if ( ! data || typeof data !== 'object' ) { return ; }
+
+	if ( data.duration !== undefined ) { this.duration = + data.duration || 0 ; }
+	if ( data.easing !== undefined ) { this.easing = data.easing || 'linear' ; }
+
+	return this ;
+} ;
+
+
+},{}],4:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -2770,7 +2916,7 @@ domKit.ready( () => {
 } ) ;
 
 
-},{"./ui/classic.js":5,"dom-kit":7,"nextgen-events/lib/browser.js":11,"url":48}],3:[function(require,module,exports){
+},{"./ui/classic.js":7,"dom-kit":9,"nextgen-events/lib/browser.js":13,"url":50}],5:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -2833,7 +2979,7 @@ exports.toClassObject = function toClassObject( data ) {
 } ;
 
 
-},{}],4:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -2938,7 +3084,7 @@ toolkit.stripMarkup = text => text.replace(
 ) ;
 
 
-},{"string-kit/lib/escape.js":28,"string-kit/lib/format.js":29}],5:[function(require,module,exports){
+},{"string-kit/lib/escape.js":30,"string-kit/lib/format.js":31}],7:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3773,9 +3919,9 @@ UI.exit = function( error , timeout , callback ) {
 } ;
 
 
-},{"../Dom.js":1,"../toolkit.js":4,"nextgen-events/lib/browser.js":11,"seventh":25}],6:[function(require,module,exports){
+},{"../Dom.js":1,"../toolkit.js":6,"nextgen-events/lib/browser.js":13,"seventh":27}],8:[function(require,module,exports){
 
-},{}],7:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 (function (process){
 /*
 	Dom Kit
@@ -4358,7 +4504,7 @@ domKit.html = ( $element , html ) => $element.innerHTML = html ;
 
 
 }).call(this,require('_process'))
-},{"@cronvel/xmldom":6,"_process":13}],8:[function(require,module,exports){
+},{"@cronvel/xmldom":8,"_process":15}],10:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -4381,7 +4527,7 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],9:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 (function (process,global,setImmediate){
 /*
 	Next-Gen Events
@@ -5779,7 +5925,7 @@ NextGenEvents.Proxy = require( './Proxy.js' ) ;
 
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"../package.json":12,"./Proxy.js":10,"_process":13,"timers":47}],10:[function(require,module,exports){
+},{"../package.json":14,"./Proxy.js":12,"_process":15,"timers":49}],12:[function(require,module,exports){
 /*
 	Next-Gen Events
 
@@ -6326,7 +6472,7 @@ RemoteService.prototype.receiveAckEmit = function( message ) {
 } ;
 
 
-},{"./NextGenEvents.js":9}],11:[function(require,module,exports){
+},{"./NextGenEvents.js":11}],13:[function(require,module,exports){
 (function (process){
 /*
 	Next-Gen Events
@@ -6372,7 +6518,7 @@ module.exports.isBrowser = true ;
 
 
 }).call(this,require('_process'))
-},{"./NextGenEvents.js":9,"_process":13}],12:[function(require,module,exports){
+},{"./NextGenEvents.js":11,"_process":15}],14:[function(require,module,exports){
 module.exports={
   "_from": "nextgen-events@^1.3.0",
   "_id": "nextgen-events@1.3.0",
@@ -6460,7 +6606,7 @@ module.exports={
   "version": "1.3.0"
 }
 
-},{}],13:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -6646,7 +6792,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],14:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 (function (global){
 /*! https://mths.be/punycode v1.4.1 by @mathias */
 ;(function(root) {
@@ -7183,7 +7329,7 @@ process.umask = function() { return 0; };
 }(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],15:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -7269,7 +7415,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],16:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -7356,13 +7502,13 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],17:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":15,"./encode":16}],18:[function(require,module,exports){
+},{"./decode":17,"./encode":18}],20:[function(require,module,exports){
 (function (process,global){
 (function (global, undefined) {
     "use strict";
@@ -7552,7 +7698,7 @@ exports.encode = exports.stringify = require('./encode');
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":13}],19:[function(require,module,exports){
+},{"_process":15}],21:[function(require,module,exports){
 /*
 	Seventh
 
@@ -7636,7 +7782,7 @@ Promise.promisifyAnyNodeApi = ( api , suffix , multiSuffix , filter ) => {
 
 
 
-},{"./seventh.js":25}],20:[function(require,module,exports){
+},{"./seventh.js":27}],22:[function(require,module,exports){
 /*
 	Seventh
 
@@ -8245,7 +8391,7 @@ Promise.race = ( iterable ) => {
 } ;
 
 
-},{"./seventh.js":25}],21:[function(require,module,exports){
+},{"./seventh.js":27}],23:[function(require,module,exports){
 (function (process,global,setImmediate){
 /*
 	Seventh
@@ -9000,7 +9146,7 @@ if ( process.browser ) {
 
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"_process":13,"setimmediate":18,"timers":47}],22:[function(require,module,exports){
+},{"_process":15,"setimmediate":20,"timers":49}],24:[function(require,module,exports){
 /*
 	Seventh
 
@@ -9506,7 +9652,7 @@ Promise.variableRetry = ( asyncFn , thisBinding ) => {
 */
 
 
-},{"./seventh.js":25}],23:[function(require,module,exports){
+},{"./seventh.js":27}],25:[function(require,module,exports){
 (function (process){
 /*
 	Seventh
@@ -9606,7 +9752,7 @@ Promise.resolveSafeTimeout = function( timeout , value ) {
 
 
 }).call(this,require('_process'))
-},{"./seventh.js":25,"_process":13}],24:[function(require,module,exports){
+},{"./seventh.js":27,"_process":15}],26:[function(require,module,exports){
 /*
 	Seventh
 
@@ -9658,7 +9804,7 @@ Promise.parasite = () => {
 } ;
 
 
-},{"./seventh.js":25}],25:[function(require,module,exports){
+},{"./seventh.js":27}],27:[function(require,module,exports){
 /*
 	Seventh
 
@@ -9701,7 +9847,7 @@ require( './parasite.js' ) ;
 require( './misc.js' ) ;
 
 
-},{"./api.js":19,"./batch.js":20,"./core.js":21,"./decorators.js":22,"./misc.js":23,"./parasite.js":24,"./wrapper.js":26}],26:[function(require,module,exports){
+},{"./api.js":21,"./batch.js":22,"./core.js":23,"./decorators.js":24,"./misc.js":25,"./parasite.js":26,"./wrapper.js":28}],28:[function(require,module,exports){
 /*
 	Seventh
 
@@ -9866,7 +10012,7 @@ Promise.onceEventAllOrError = ( emitter , eventName , excludeEvents ) => {
 } ;
 
 
-},{"./seventh.js":25}],27:[function(require,module,exports){
+},{"./seventh.js":27}],29:[function(require,module,exports){
 /*
 	String Kit
 
@@ -9948,7 +10094,7 @@ module.exports = {
 } ;
 
 
-},{}],28:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 /*
 	String Kit
 
@@ -10053,7 +10199,7 @@ exports.unicodePercentEncode = str => str.replace( /[\x00-\x1f\u0100-\uffff\x7f%
 exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
 
 
-},{}],29:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 (function (Buffer){
 /*
 	String Kit
@@ -11054,7 +11200,7 @@ function iround( v , istep ) {
 
 
 }).call(this,require("buffer").Buffer)
-},{"./ansi.js":27,"./escape.js":28,"./inspect.js":30,"./naturalSort.js":31,"./unicode.js":32,"buffer":6}],30:[function(require,module,exports){
+},{"./ansi.js":29,"./escape.js":30,"./inspect.js":32,"./naturalSort.js":33,"./unicode.js":34,"buffer":8}],32:[function(require,module,exports){
 (function (Buffer,process){
 /*
 	String Kit
@@ -11751,7 +11897,7 @@ inspectStyle.html = Object.assign( {} , inspectStyle.none , {
 
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")},require('_process'))
-},{"../../is-buffer/index.js":8,"./ansi.js":27,"./escape.js":28,"_process":13}],31:[function(require,module,exports){
+},{"../../is-buffer/index.js":10,"./ansi.js":29,"./escape.js":30,"_process":15}],33:[function(require,module,exports){
 /*
 	HTTP Requester
 
@@ -11837,7 +11983,7 @@ module.exports = function( a , b ) {
 } ;
 
 
-},{}],32:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 /*
 	String Kit
 
@@ -12248,7 +12394,7 @@ unicode.toFullWidth = str => {
 } ;
 
 
-},{}],33:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -12368,7 +12514,7 @@ VG.prototype.addCssRule = function( rule ) {
 } ;
 
 
-},{"../package.json":46,"./VGContainer.js":34,"./svg-kit.js":42}],34:[function(require,module,exports){
+},{"../package.json":48,"./VGContainer.js":36,"./svg-kit.js":44}],36:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -12489,7 +12635,7 @@ VGContainer.prototype.morphDom = function( root = this ) {
 } ;
 
 
-},{"../package.json":46,"./VGEntity.js":36,"./svg-kit.js":42}],35:[function(require,module,exports){
+},{"../package.json":48,"./VGEntity.js":38,"./svg-kit.js":44}],37:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -12574,7 +12720,7 @@ VGEllipse.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":46,"./VGEntity.js":36}],36:[function(require,module,exports){
+},{"../package.json":48,"./VGEntity.js":38}],38:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -12959,7 +13105,7 @@ VGEntity.prototype.morphOneEntryDom = function( data , root = this ) {
 } ;
 
 
-},{"../package.json":46,"string-kit/lib/camel":44,"string-kit/lib/escape":45}],37:[function(require,module,exports){
+},{"../package.json":48,"string-kit/lib/camel":46,"string-kit/lib/escape":47}],39:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13016,7 +13162,7 @@ VGGroup.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":46,"./VGContainer.js":34,"./svg-kit.js":42}],38:[function(require,module,exports){
+},{"../package.json":48,"./VGContainer.js":36,"./svg-kit.js":44}],40:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13683,7 +13829,7 @@ VGPath.prototype.forwardNegativeTurn = function( data ) {
 } ;
 
 
-},{"../package.json":46,"./VGEntity.js":36}],39:[function(require,module,exports){
+},{"../package.json":48,"./VGEntity.js":38}],41:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13774,7 +13920,7 @@ VGRect.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":46,"./VGEntity.js":36}],40:[function(require,module,exports){
+},{"../package.json":48,"./VGEntity.js":38}],42:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13886,7 +14032,7 @@ VGText.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":46,"./VGEntity.js":36}],41:[function(require,module,exports){
+},{"../package.json":48,"./VGEntity.js":38}],43:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -13934,7 +14080,7 @@ path.dFromPoints = ( points , invertY ) => {
 } ;
 
 
-},{}],42:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 (function (process){
 /*
 	SVG Kit
@@ -14412,7 +14558,7 @@ svgKit.objectToVG = function( object ) {
 
 
 }).call(this,require('_process'))
-},{"./VG.js":33,"./VGContainer.js":34,"./VGEllipse.js":35,"./VGEntity.js":36,"./VGGroup.js":37,"./VGPath.js":38,"./VGRect.js":39,"./VGText.js":40,"./path.js":41,"_process":13,"dom-kit":43,"fs":6,"seventh":25,"string-kit/lib/escape.js":45}],43:[function(require,module,exports){
+},{"./VG.js":35,"./VGContainer.js":36,"./VGEllipse.js":37,"./VGEntity.js":38,"./VGGroup.js":39,"./VGPath.js":40,"./VGRect.js":41,"./VGText.js":42,"./path.js":43,"_process":15,"dom-kit":45,"fs":8,"seventh":27,"string-kit/lib/escape.js":47}],45:[function(require,module,exports){
 (function (process){
 /*
 	Dom Kit
@@ -15000,7 +15146,7 @@ domKit.html = function( $element , html ) { $element.innerHTML = html ; } ;
 
 
 }).call(this,require('_process'))
-},{"@cronvel/xmldom":6,"_process":13}],44:[function(require,module,exports){
+},{"@cronvel/xmldom":8,"_process":15}],46:[function(require,module,exports){
 /*
 	String Kit
 
@@ -15074,9 +15220,9 @@ camel.camelCaseToDash =
 camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' ) ;
 
 
-},{}],45:[function(require,module,exports){
-arguments[4][28][0].apply(exports,arguments)
-},{"dup":28}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
+arguments[4][30][0].apply(exports,arguments)
+},{"dup":30}],48:[function(require,module,exports){
 module.exports={
   "_from": "svg-kit@0.3.0",
   "_id": "svg-kit@0.3.0",
@@ -15153,7 +15299,7 @@ module.exports={
   "version": "0.3.0"
 }
 
-},{}],47:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 (function (setImmediate,clearImmediate){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -15232,7 +15378,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":13,"timers":47}],48:[function(require,module,exports){
+},{"process/browser.js":15,"timers":49}],50:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -15966,7 +16112,7 @@ Url.prototype.parseHost = function() {
   if (host) this.hostname = host;
 };
 
-},{"./util":49,"punycode":14,"querystring":17}],49:[function(require,module,exports){
+},{"./util":51,"punycode":16,"querystring":19}],51:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -15984,5 +16130,5 @@ module.exports = {
   }
 };
 
-},{}]},{},[2])(2)
+},{}]},{},[4])(4)
 });

@@ -43,6 +43,8 @@
 	[summon]
 		- lib/app.js
 		- lib/Dom.js
+		- lib/GEntity.js
+		- lib/GTransition.js
 		- lib/toolkit.js
 		- lib/ui/*.js
 	[scroll]

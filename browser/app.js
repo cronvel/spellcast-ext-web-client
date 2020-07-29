@@ -73,11 +73,15 @@ function Dom() {
 
 	this.nextSoundChannel = 0 ;
 
+	this.textureTheme = 'default' ;
 	this.texturePacks = {} ;
+	this.gEntities = {} ;
+	/*
 	this.sprites = {} ;
 	this.vgs = {} ;
 	this.markers = {} ;
 	this.cards = {} ;
+	*/
 	this.gEntityLocations = {} ;
 	this.animations = {} ;
 
@@ -1242,54 +1246,35 @@ Dom.prototype.setSceneImage = function( data ) {
 
 
 
-Dom.prototype.clearSprite = function( id ) {
-	if ( ! this.sprites[ id ] ) {
-		console.warn( 'Unknown sprite id: ' , id ) ;
-		return ;
-	}
-
-	this.clearGEntity( this.sprites[ id ] ) ;
-
-	delete this.sprites[ id ] ;
+Dom.prototype.setTextureTheme = function( theme ) {
+	this.textureTheme = theme ;
 } ;
 
 
 
-Dom.prototype.clearVg = function( id ) {
-	if ( ! this.vgs[ id ] ) {
-		console.warn( 'Unknown VG id: ' , id ) ;
-		return ;
-	}
-
-	this.clearGEntity( this.vgs[ id ] ) ;
-
-	delete this.vgs[ id ] ;
+Dom.prototype.defineTexturePack = function( uid , data ) {
+	this.texturePacks[ uid ] = data ;
+	console.warn( "All texture packes so far:" , this.texturePacks ) ;
 } ;
 
 
 
-Dom.prototype.clearMarker = function( id ) {
-	if ( ! this.markers[ id ] ) {
-		console.warn( 'Unknown Marker id: ' , id ) ;
+Dom.prototype.clearGEntity = function( id ) {
+	var gEntity = this.gEntities[ id ] ;
+
+	if ( ! gEntity ) {
+		console.warn( 'Unknown gEntity id: ' , id ) ;
 		return ;
 	}
+	
+	if ( gEntity.$locationSlot ) { gEntity.$locationSlot.remove() ; }
+	gEntity.$wrapper.remove() ;
+	/*
+	gEntity.$image.remove() ;
+	if ( gEntity.$mask ) { gEntity.$mask.remove() ; }
+	*/
 
-	this.clearGEntity( this.markers[ id ] ) ;
-
-	delete this.markers[ id ] ;
-} ;
-
-
-
-Dom.prototype.clearCard = function( id ) {
-	if ( ! this.cards[ id ] ) {
-		console.warn( 'Unknown Card id: ' , id ) ;
-		return ;
-	}
-
-	this.clearGEntity( this.cards[ id ] ) ;
-
-	delete this.cards[ id ] ;
+	delete this.gEntities[ id ] ;
 } ;
 
 
@@ -1514,17 +1499,6 @@ Dom.prototype.createGEntity = function( data ) {
 	gEntity.defineStates( 'loaded' , 'loading' ) ;
 
 	return gEntity ;
-} ;
-
-
-
-Dom.prototype.clearGEntity = function( gEntity ) {
-	if ( gEntity.$locationSlot ) { gEntity.$locationSlot.remove() ; }
-	gEntity.$wrapper.remove() ;
-	/*
-	gEntity.$image.remove() ;
-	if ( gEntity.$mask ) { gEntity.$mask.remove() ; }
-	*/
 } ;
 
 
@@ -2465,14 +2439,6 @@ Dom.prototype.animateGEntity = async function( gEntity , animation ) {
 
 
 
-Dom.prototype.defineTexturePack = function( data ) {
-	var key = data.id + '/' + data.theme ;
-	this.texturePacks[ key ] = data ;
-	console.warn( "All texture packes so far:" , this.texturePacks ) ;
-} ;
-
-
-
 Dom.prototype.defineAnimation = function( id , data ) {
 	data.id = id ;
 	this.animations[ id ] = data ;
@@ -3074,11 +3040,19 @@ UI.prototype.initBus = function() {
 	this.bus.on( 'sound' , UI.sound.bind( this ) ) ;
 	this.bus.on( 'music' , UI.music.bind( this ) ) ;
 
-	this.bus.on( 'defineAnimation' , UI.defineAnimation.bind( this ) ) ;
-
-	this.bus.on( 'createGScene' , UI.createGScene.bind( this ) , { async: true } ) ;
+	this.bus.on( 'textureTheme' , UI.textureTheme.bind( this ) ) ;
 	this.bus.on( 'texturePack' , UI.texturePack.bind( this ) , { async: true } ) ;
 
+	this.bus.on( 'createGScene' , UI.createGScene.bind( this ) , { async: true } ) ;
+
+	this.bus.on( 'defineAnimation' , UI.defineAnimation.bind( this ) ) ;
+
+	this.bus.on( 'showGEntity' , UI.showGEntity.bind( this ) , { async: true } ) ;
+	this.bus.on( 'updateGEntity' , UI.updateGEntity.bind( this ) , { async: true } ) ;
+	this.bus.on( 'animateGEntity' , UI.animateGEntity.bind( this ) , { async: true } ) ;
+	this.bus.on( 'clearGEntity' , UI.clearGEntity.bind( this ) ) ;
+
+	/*
 	this.bus.on( 'showSprite' , UI.showSprite.bind( this ) , { async: true } ) ;
 	this.bus.on( 'updateSprite' , UI.updateSprite.bind( this ) , { async: true } ) ;
 	this.bus.on( 'animateSprite' , UI.animateSprite.bind( this ) , { async: true } ) ;
@@ -3098,6 +3072,7 @@ UI.prototype.initBus = function() {
 	this.bus.on( 'updateCard' , UI.updateCard.bind( this ) ) ;
 	this.bus.on( 'animateCard' , UI.animateCard.bind( this ) ) ;
 	this.bus.on( 'clearCard' , UI.clearCard.bind( this ) ) ;
+	*/
 
 	this.bus.on( 'enterScene' , UI.enterScene.bind( this ) ) ;
 	this.bus.on( 'leaveScene' , UI.leaveScene.bind( this ) ) ;
@@ -3534,9 +3509,16 @@ UI.image = function( data ) {
 
 
 
-UI.texturePack = function( data , callback ) {
-	console.warn( "texturePack" , data ) ;
-	this.dom.defineTexturePack( data ) ;
+UI.textureTheme = function( theme ) {
+	console.warn( "textureTheme" , theme ) ;
+	this.dom.setTextureTheme( theme ) ;
+} ;
+
+
+
+UI.texturePack = function( uid , data , callback ) {
+	console.warn( "texturePack" , uid , data ) ;
+	this.dom.defineTexturePack( uid , data ) ;
 	callback() ;
 } ;
 
@@ -3555,12 +3537,40 @@ UI.createGScene = function( id , data , callback ) {
 
 
 
-UI.showSprite = function( id , data , callback ) {
-	if ( ! data.url || typeof data.url !== 'string' ) {
-		callback() ;
-		return ;
-	}
+UI.clearGEntity = function( id ) {
+	this.dom.clearGEntity( id ) ;
+} ;
 
+
+
+UI.showGEntity = function( id , data , callback ) {
+	data.actionCallback = UI.gEntityActionCallback.bind( this ) ;
+	this.dom.showGEntity( id , data ).then( callback ) ;
+} ;
+
+
+
+UI.gEntityActionCallback = function( action ) {
+	console.warn( "GEntity action triggered: " , action ) ;
+	this.bus.emit( 'action' , action ) ;
+} ;
+
+
+
+UI.updateGEntity = function( id , data , callback ) {
+	this.dom.updateGEntity( id , data ).then( callback ) ;
+} ;
+
+
+
+UI.animateGEntity = function( gEntityId , animationId , callback ) {
+	this.dom.animateGEntity( gEntityId , animationId ).then( callback ) ;
+} ;
+
+
+
+/*
+UI.showSprite = function( id , data , callback ) {
 	data.actionCallback = UI.spriteActionCallback.bind( this ) ;
 	this.dom.showSprite( id , data ).then( callback ) ;
 } ;
@@ -3694,6 +3704,7 @@ UI.animateCard = function( cardId , animationId ) {
 UI.clearCard = function( id ) {
 	this.dom.clearCard( id ) ;
 } ;
+*/
 
 
 

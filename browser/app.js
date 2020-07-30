@@ -1612,6 +1612,8 @@ function GEntity( dom , data ) {
 	this.positionMode = 'default' ;
 	this.size = { x: 1 , y: 1 , z: 1 } ;
 	this.sizeMode = 'default' ;
+	this.rotation = { x: 0 , y: 0 , z: 0 } ;
+	this.rotationMode = 'default' ;
 	//this.rotation = TO BE DEFINED....
 
 	this.data = {} ;
@@ -1666,7 +1668,11 @@ GEntity.prototype.update = async function( data , initial = false ) {
 	
 	// Continuous part
 
-	if ( data.position !== undefined || data.positionMode !== undefined || data.size !== undefined || data.sizeMode !== undefined ) {
+	if (
+		data.position !== undefined || data.positionMode !== undefined
+		|| data.size !== undefined || data.sizeMode !== undefined
+		|| data.rotation !== undefined || data.rotationMode !== undefined
+	) {
 		this.updateTransform( data ) ;
 	}
 
@@ -1753,8 +1759,15 @@ GEntity.prototype.updateTransform = function( data ) {
 		if ( data.size.z !== undefined ) { this.size.z = data.size.z ; }
 	}
 
+	if ( data.rotation ) {
+		if ( data.rotation.x !== undefined ) { this.rotation.x = data.rotation.x ; }
+		if ( data.rotation.y !== undefined ) { this.rotation.y = data.rotation.y ; }
+		if ( data.rotation.z !== undefined ) { this.rotation.z = data.rotation.z ; }
+	}
+
 	if ( data.positionMode ) { this.positionMode = data.positionMode || 'default' ; }
 	if ( data.sizeMode ) { this.sizeMode = data.sizeMode || 'default' ; }
+	if ( data.rotationMode ) { this.rotationMode = data.rotationMode || 'default' ; }
 
 	// For instance, marker are excluded
 	if ( ! this.$wrapper || ! this.$image ) { return ; }
@@ -1910,6 +1923,12 @@ GEntity.prototype.updateTransform = function( data ) {
 			break ;
 	}
 	console.log( "._transform after position computing" , this._transform ) ;
+
+	this._transform.eulerOrder = this.rotationMode === 'default' ? null : this.rotationMode ;
+	this._transform.rotateX = this.rotation.x ;
+	this._transform.rotateY = this.rotation.y ;
+	this._transform.rotateZ = this.rotation.z ;
+	console.log( "._transform after rotation computing" , this._transform ) ;
 
 	// Finally, create the transformation CSS string
 	domKit.transform( this.$wrapper , this._transform ) ;
@@ -4678,8 +4697,19 @@ domKit.decomposeMatrix3d = matrix => {
 
 
 
+const AXIS_TO_ROT = {
+	x: 'rotateX' ,
+	X: 'rotateX' ,
+	y: 'rotateY' ,
+	Y: 'rotateY' ,
+	z: 'rotateZ' ,
+	Z: 'rotateZ'
+} ;
+
+
+
 domKit.stringifyTransform = object => {
-	var str = [] ;
+	var str = [] , eulerOrder , i , rot ;
 
 	if ( object.translateX ) { str.push( 'translateX(' + object.translateX + 'px)' ) ; }
 	if ( object.translateY ) { str.push( 'translateY(' + object.translateY + 'px)' ) ; }
@@ -4689,9 +4719,11 @@ domKit.stringifyTransform = object => {
 		str.push( 'rotate(' + object.rotate + 'deg)' ) ;
 	}
 	else {
-		if ( object.rotateX ) { str.push( 'rotateX(' + object.rotateX + 'deg)' ) ; }
-		if ( object.rotateY ) { str.push( 'rotateY(' + object.rotateY + 'deg)' ) ; }
-		if ( object.rotateZ ) { str.push( 'rotateZ(' + object.rotateZ + 'deg)' ) ; }
+		eulerOrder = object.eulerOrder || 'zyx' ;
+		for ( i = 0 ; i < 3 ; i ++ ) {
+			rot = AXIS_TO_ROT[ eulerOrder[ i ] ] ;
+			if ( object[ rot ] ) { str.push( rot + '(' + object[ rot ] + 'deg)' ) ; }
+		}
 	}
 
 	if ( object.scale ) {

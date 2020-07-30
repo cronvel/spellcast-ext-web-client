@@ -77,6 +77,9 @@ body {
 	height: 100vh;
 	width: 100vw;
 	overflow: hidden;
+
+	/* Later, it will be set by a GScene or a Camera */
+	perspective: 1000px;
 	
 	-moz-user-select: none;
 	-webkit-user-select: none;

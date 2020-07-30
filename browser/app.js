@@ -1668,6 +1668,10 @@ GEntity.prototype.update = async function( data , initial = false ) {
 	
 	// Continuous part
 
+	if ( ! initial && this.usage !== 'marker' && data.transitions !== undefined ) {
+		this.updateTransition( data.transitions ) ;
+	}
+
 	if (
 		data.position !== undefined || data.positionMode !== undefined
 		|| data.size !== undefined || data.sizeMode !== undefined
@@ -1681,8 +1685,8 @@ GEntity.prototype.update = async function( data , initial = false ) {
 		// At creation, the visibility is turned off, now we need to turn it on again
 		this.$wrapper.style.visibility = 'visible' ;
 
-		// If it's done immediately, the transition can kick in nonetheless
-		//await Promise.resolveTimeout( 5 ) ;
+		// If it's done immediately, the transition can kick in nonetheless, so wait for TWO animation frames (one is not sufficient)
+		await Promise.resolveAtAnimationFrame() ;
 		await Promise.resolveAtAnimationFrame() ;
 
 		if ( data.transitions !== undefined ) { this.updateTransition( data.transitions ) ; }
@@ -1741,6 +1745,7 @@ GEntity.prototype.updateTexture = function( texturePackId , variantId , themeId 
 
 
 
+// Size, positioning and rotation
 GEntity.prototype.updateTransform = function( data ) {
 	var areaAspect , areaWidth , areaHeight , areaMin , areaMax ,
 		wrapperAspect , wrapperWidth , wrapperHeight ,
@@ -1937,7 +1942,7 @@ GEntity.prototype.updateTransform = function( data ) {
 
 
 GEntity.prototype.updateTransition = function( transitions ) {
-	console.warn( "GEntity.updateTransition()" , data ) ;
+	console.warn( "GEntity.updateTransition()" , transitions ) ;
 	var parts = [] ;
 
 	if ( transitions.transform !== undefined ) { this.transitions.transform = transitions.transform ? new GTransition( transitions.transform ) : transitions.transform ; }

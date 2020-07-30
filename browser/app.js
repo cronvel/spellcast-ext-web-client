@@ -1619,14 +1619,20 @@ function GEntity( dom , data ) {
 	this.engine = {} ;
 
 	this.transitions = {
-		position: null ,
-		size: null ,
-		//rotation: null ,
+		transform: null ,	// change in position, size, rotation, 3D transform/matrix and more...
+		//position: null , size: null , rotation: null ,
 		opacity: null ,
 		color: null ,
 		effect: null
 	} ;
 
+
+	// Internal
+
+	this.$wrapper = null ;
+	this.$image = null ;
+	this._transform = {} ;
+	
 	if ( this.usage !== 'marker' ) {
 		this.$wrapper = document.createElement( 'div' ) ;
 		// At creation, the visibility is turned off, the initial update will turn it on again
@@ -1643,33 +1649,68 @@ function GEntity( dom , data ) {
 GEntity.prototype = Object.create( Ngev.prototype ) ;
 GEntity.prototype.constructor = GEntity ;
 
+module.exports = GEntity ;
+
 
 
 // !THIS SHOULD TRACK SERVER-SIDE GEntity! spellcast/lib/gfx/GEntity.js
-GEntity.prototype.update = async function( id , data , initial = false ) {
-	if ( data.texturePack || data.variant ) { await this.updateTexture( data.texturePack , data.variant ) ; }
+GEntity.prototype.update = async function( data , initial = false ) {
+	console.warn( "GEntity.update()" , data ) ;
+
+	// Structural/discrete part
+
+	if ( data.texturePack !== undefined || data.variant !== undefined || data.theme !== undefined ) {
+		await this.updateTexture( data.texturePack , data.variant , data.theme ) ;
+	}
+
+	
+	// Continuous part
+
+	if ( data.position !== undefined || data.positionMode !== undefined || data.size !== undefined || data.sizeMode !== undefined ) {
+		this.updateTransform( data ) ;
+	}
+
+	// Should comes last: for initial update, restore the transition value and turn visibility on
+	if ( initial && this.usage !== 'marker' ) {
+		// At creation, the visibility is turned off, now we need to turn it on again
+		this.$wrapper.style.visibility = 'visible' ;
+
+		// If it's done immediately, the transition can kick in nonetheless
+		//await Promise.resolveTimeout( 5 ) ;
+		await Promise.resolveAtAnimationFrame() ;
+
+		if ( data.transitions !== undefined ) { this.updateTransition( data.transitions ) ; }
+	}
 } ;
 
 
 
 // Load/replace the gEntity image (data.url)
-GEntity.prototype.updateTexture = function( texturePackId , variantId ) {
-	variantId = variantId || this.variant ;
-	texturePackId = texturePackId || this.texturePack ;
+GEntity.prototype.updateTexture = function( texturePackId , variantId , themeId ) {
+	var texturePack , variant , url ;
 	
-	var texturePack = this.dom.texturePack[ texturePackId ] ;
+	if ( texturePackId !== undefined ) { this.texturePack = texturePackId || null ; }
+	if ( variantId !== undefined ) { this.variant = variantId || null ; }
+	if ( themeId !== undefined ) { this.texturePack = themeId || null ; }
+
+	console.warn( "GEntity.updateTexture()" , texturePackId , variantId , themeId ) ;
+	
+	texturePack = this.dom.texturePacks[ this.texturePack + '/' + ( this.theme || this.dom.textureTheme ) ] ;
 
 	if ( ! texturePack ) {
-		console.warn( "Texture pack" , texturePackId , "not found" ) ;
-		return Promise.resolved ;
+		console.warn( "Texture pack" , this.texturePack + '/' + ( this.theme || this.dom.textureTheme ) , "not found" ) ;
+		texturePack = this.dom.texturePacks[ this.texturePack + '/default' ] ;
+
+		if ( ! texturePack ) {
+			console.warn( "Texture pack fallback" , this.texturePack + '/default' , "not found" ) ;
+			return Promise.resolved ;
+		}
 	}
 	
-	this.texturePack = texturePackId ;
-	
-	variant = texturePack.variants[ variant ] || texturePack.variants.default ;
+	variant = texturePack.variants[ this.variant ] || texturePack.variants.default ;
 
 	if ( ! variant ) {
-		console.warn( "Texture pack variant" , variantId , "not found, and default variant missing too" ) ;
+		console.warn( "Texture pack variant" , this.variant , "not found, and default variant missing too" ) ;
 		return Promise.resolved ;
 	}
 
@@ -1681,7 +1722,7 @@ GEntity.prototype.updateTexture = function( texturePackId , variantId ) {
 		this.$image.classList.add( this.usage ) ;
 	}
 
-	var url = variant.frames[ 0 ].url ;
+	url = variant.frames[ 0 ].url ;
 	console.warn( ".updateTexture()" , url ) ;
 
 	this.$image.setAttribute( 'src' , this.dom.cleanUrl( url ) ) ;
@@ -1694,24 +1735,11 @@ GEntity.prototype.updateTexture = function( texturePackId , variantId ) {
 
 
 
-
-
-// Below are things not yet migrated from old Dom.js/Server-side!
-
-
-
-
-
-// !THIS SHOULD TRACK SERVER-SIDE GEntity! spellcast/lib/gfx/GEntity.js
-GEntity.prototype.update_serverside = function( data , initial = false ) {
-	var key ;
-
-	if ( data.show !== undefined ) { this.show = !! data.show ; }
-	if ( data.persistent !== undefined ) { this.persistent = !! data.persistent ; }
-	if ( data.button !== undefined ) { this.button = data.button || null ; }
-	if ( data.theme !== undefined ) { this.theme = data.theme || null ; }
-	if ( data.texturePack !== undefined ) { this.texturePack = data.texturePack || null ; }
-	if ( data.variant !== undefined ) { this.variant = data.variant || 'default' ; }
+GEntity.prototype.updateTransform = function( data ) {
+	var areaAspect , areaWidth , areaHeight , areaMin , areaMax ,
+		wrapperAspect , wrapperWidth , wrapperHeight ,
+		imageAspect , imageNaturalWidth , imageNaturalHeight , imageWidth , imageHeight ,
+		xMinOffset , yMinOffset , xFactor , yFactor ;
 
 	if ( data.position ) {
 		if ( data.position.x !== undefined ) { this.position.x = data.position.x ; }
@@ -1728,7 +1756,224 @@ GEntity.prototype.update_serverside = function( data , initial = false ) {
 	if ( data.positionMode ) { this.positionMode = data.positionMode || 'default' ; }
 	if ( data.sizeMode ) { this.sizeMode = data.sizeMode || 'default' ; }
 
-	//this.rotation = TO BE DEFINED....
+	// For instance, marker are excluded
+	if ( ! this.$wrapper || ! this.$image ) { return ; }
+
+
+	// Pre-compute few thing necessary for the following stuff
+
+	areaWidth = this.dom.$gfx.offsetWidth ;
+	areaHeight = this.dom.$gfx.offsetHeight ;
+	areaAspect = areaWidth / areaHeight ;
+
+	if ( areaAspect > 1 ) {
+		areaMin = areaHeight ;
+		areaMax = areaWidth ;
+	}
+	else {
+		areaMin = areaWidth ;
+		areaMax = areaHeight ;
+	}
+	
+	wrapperWidth = this.$wrapper.offsetWidth ;
+	wrapperHeight = this.$wrapper.offsetHeight ;
+	wrapperAspect = wrapperWidth / wrapperHeight ;
+
+	if ( this.$image.tagName.toLowerCase() === 'svg' ) {
+		// The SVG element is not a DOM HTML element, it does not have offsetWidth/offsetHeight,
+		// hence it' a little bit trickier to get its real boxmodel size
+		imageNaturalWidth = this.$image.width.baseVal.value ;
+		imageNaturalHeight = this.$image.height.baseVal.value ;
+		imageAspect = imageNaturalWidth / imageNaturalHeight ;
+
+		if ( imageAspect > wrapperAspect ) {
+			imageWidth = wrapperWidth ;
+			imageHeight = imageWidth / imageAspect ;
+		}
+		else {
+			imageHeight = wrapperHeight ;
+			imageWidth = imageHeight * imageAspect ;
+		}
+	}
+	else {
+		imageNaturalWidth = this.$image.naturalWidth ;
+		imageNaturalHeight = this.$image.naturalHeight ;
+		imageWidth = this.$image.offsetWidth ;
+		imageHeight = this.$image.offsetHeight ;
+		imageAspect = imageNaturalWidth / imageNaturalHeight ;
+	}
+
+	
+	console.log( "dbg img:" , {
+		areaWidth , areaHeight , areaAspect , areaMin , areaMax ,
+		wrapperWidth , wrapperHeight , wrapperAspect ,
+		imageNaturalWidth , imageNaturalHeight , imageAspect , imageWidth , imageHeight
+	} ) ;
+
+
+	// Compute scaling -- should comes first for this to work!
+	switch ( this.sizeMode ) {
+		case 'area' :
+			// In this mode, the sprite is scaled relative to its container area width and height (so it use the area aspect ratio!!!).
+			this._transform.scaleX = this.size.x * areaWidth / imageWidth ;
+			this._transform.scaleY = this.size.y * areaHeight / imageHeight ;
+			break ;
+
+		case 'areaWidth' :
+			// In this mode, the sprite is scaled relative to its container area width.
+			this._transform.scaleX = this.size.x * areaWidth / imageWidth ;
+			this._transform.scaleY = this.size.y * areaWidth / imageHeight ;
+			break ;
+
+		case 'areaHeight' :
+			// In this mode, the sprite is scaled relative to its container area height.
+			this._transform.scaleX = this.size.x * areaHeight / imageWidth ;
+			this._transform.scaleY = this.size.y * areaHeight / imageHeight ;
+			break ;
+
+		case 'areaMax' :
+			// In this mode, the sprite is scaled relative to its container area maximum size.
+			this._transform.scaleX = this.size.x * areaMax / imageWidth ;
+			this._transform.scaleY = this.size.y * areaMax / imageHeight ;
+			break ;
+
+		case 'areaMin' :
+		default :
+			// In this mode, the sprite is scaled relative to its container area minimum size.
+			this._transform.scaleX = this.size.x * areaMin / imageWidth ;
+			this._transform.scaleY = this.size.y * areaMin / imageHeight ;
+			break ;
+	}
+	console.log( "._transform after size computing" , this._transform ) ;
+
+
+	// Compute position
+	switch ( this.positionMode ) {
+		case 'areaInSpriteOut' :
+			// In this mode, the sprite is positioned relative to its container area -1,-1 being bottom-left and 1,1 being top-right and 0,0 being the center
+			// Any value in [-1,1] ensure the whole sprite is inside the area.
+			// For values <-1 or >1 the extra are scaled using the sprite scale, e.g.:
+			// x=-1.5 means that the sprite is on the left, its left half being invisible (outside the container), its right half being visible (inside the container).
+
+			xMinOffset = yMinOffset = 0 ;
+			xFactor = areaWidth - imageWidth ;
+			yFactor = areaHeight - imageHeight ;
+
+			xMinOffset = -0.5 * imageWidth * ( 1 - this._transform.scaleX ) ;
+			yMinOffset = -0.5 * imageHeight * ( 1 - this._transform.scaleY ) ;
+			xFactor += imageWidth * ( 1 - this._transform.scaleX ) ;
+			yFactor += imageHeight * ( 1 - this._transform.scaleY ) ;
+
+			console.log( "dbg:" , { xMinOffset , xFactor , yFactor } ) ;
+
+			if ( this.position.x < -1 ) {
+				this._transform.translateX = xMinOffset + ( this.position.x + 1 ) * imageWidth * this._transform.scaleX ;
+			}
+			else if ( this.position.x > 1 ) {
+				this._transform.translateX = xMinOffset + xFactor + ( this.position.x - 1 ) * imageWidth * this._transform.scaleX ;
+			}
+			else {
+				this._transform.translateX = xMinOffset + ( 0.5 + this.position.x / 2 ) * xFactor ;
+			}
+
+			if ( this.position.y < -1 ) {
+				this._transform.translateY = yMinOffset + yFactor - ( this.position.y + 1 ) * imageHeight * this._transform.scaleY ;
+			}
+			else if ( this.position.y > 1 ) {
+				this._transform.translateY = yMinOffset - ( this.position.y - 1 ) * imageHeight * this._transform.scaleY ;
+			}
+			else {
+				this._transform.translateY = yMinOffset + ( 0.5 - this.position.y / 2 ) * yFactor ;
+			}
+
+			break ;
+
+		case 'area' :
+		default :
+			// In this mode, the sprite is positioned relative to its container area -1,-1 being bottom-left and 1,1 being top-right and 0,0 being the center
+			// Any value in [-1,1] ensure the whole sprite is inside the area.
+			// Values <-1 or >1 still use the same linear coordinate (so are scaled using the container size).
+
+			xMinOffset = yMinOffset = 0 ;
+			xFactor = areaWidth - imageWidth ;
+			yFactor = areaHeight - imageHeight ;
+
+			xMinOffset = -0.5 * imageWidth * ( 1 - this._transform.scaleX ) ;
+			yMinOffset = -0.5 * imageHeight * ( 1 - this._transform.scaleY ) ;
+			xFactor += imageWidth * ( 1 - this._transform.scaleX ) ;
+			yFactor += imageHeight * ( 1 - this._transform.scaleY ) ;
+
+			console.log( "dbg:" , { xMinOffset , xFactor , yFactor } ) ;
+			this._transform.translateX = xMinOffset + ( 0.5 + this.position.x / 2 ) * xFactor ;
+			this._transform.translateY = yMinOffset + ( 0.5 - this.position.y / 2 ) * yFactor ;
+
+			break ;
+	}
+	console.log( "._transform after position computing" , this._transform ) ;
+
+	// Finally, create the transformation CSS string
+	domKit.transform( this.$wrapper , this._transform ) ;
+} ;
+
+
+
+GEntity.prototype.updateTransition = function( transitions ) {
+	console.warn( "GEntity.updateTransition()" , data ) ;
+	var parts = [] ;
+
+	if ( transitions.transform !== undefined ) { this.transitions.transform = transitions.transform ? new GTransition( transitions.transform ) : transitions.transform ; }
+	if ( transitions.opacity !== undefined ) { this.transitions.opacity = transitions.opacity ? new GTransition( transitions.opacity ) : transitions.opacity ; }
+	if ( transitions.color !== undefined ) { this.transitions.color = transitions.color ? new GTransition( transitions.color ) : transitions.color ; }
+	if ( transitions.effect !== undefined ) { this.transitions.effect = transitions.effect ? new GTransition( transitions.effect ) : transitions.effect ; }
+	
+	if ( this.transitions.transform !== null ) {
+		if ( ! transitions.transform ) { parts.push( 'transform 0ms' ) ; }
+		else { parts.push( this.transitions.transform.toString( 'transform' ) ) ; }
+	}
+	
+	if ( this.transitions.opacity !== null ) {
+		if ( ! transitions.opacity ) { parts.push( 'opacity 0ms' ) ; }
+		else { parts.push( this.transitions.opacity.toString( 'opacity' ) ) ; }
+	}
+	
+	/* /!\ TO BE DEFINED /!\
+	if ( this.transitions.color !== null ) {
+		if ( ! transitions.color ) { parts.push( 'color 0ms' ) ; }
+		else { parts.push( this.transitions.color.toString( 'color' ) ) ; }
+	}
+	
+	if ( this.transitions.effect !== null ) {
+		if ( ! transitions.effect ) { parts.push( 'effect 0ms' ) ; }
+		else { parts.push( this.transitions.effect.toString( 'effect' ) ) ; }
+	}
+	*/
+	
+	
+	if ( ! parts.length ) {
+		this.$wrapper.style.transition = '' ;	// reset it to default stylesheet value
+	}
+	else {
+		this.$wrapper.style.transition = parts.join( '; ' ) ;
+	}
+} ;
+
+
+
+
+
+// Below are things not yet migrated from old Dom.js/Server-side!
+
+
+
+
+
+// Remaining server-side properties to port...
+GEntity.prototype.update_serverside = function( data , initial = false ) {
+	var key ;
+
+	if ( data.show !== undefined ) { this.show = !! data.show ; }
+	if ( data.persistent !== undefined ) { this.persistent = !! data.persistent ; }
+	if ( data.button !== undefined ) { this.button = data.button || null ; }
 
 	if ( data.data && typeof data.data === 'object' ) {
 		Object.assign( this.data , data.data ) ;
@@ -1742,24 +1987,6 @@ GEntity.prototype.update_serverside = function( data , initial = false ) {
 		Object.assign( this.engine , data.engine ) ;
 	}
 
-	if ( data.transitions && typeof data.transitions === 'object' ) {
-		for ( key in data.transitions ) {
-			if ( ! ( key in this.transitions ) ) { continue ; }
-
-			if ( ! data.transitions[ key ] ) {
-				this.transitions[ key ] = null ;
-			}
-			else if ( typeof data.transitions[ key ] === 'object' ) {
-				if ( this.transitions[ key ] ) {
-					this.transitions[ key ].update( data.transitions[ key ] ) ;
-				}
-				else {
-					this.transitions[ key ] = new GTransition( data.transitions[ key ] ) ;
-				}
-			}
-		}
-	}
-
 	return this ;
 } ;
 
@@ -1771,6 +1998,7 @@ GEntity.prototype.update_serverside = function( data , initial = false ) {
 	Execute only DOM and critical stuff first.
 */
 GEntity.prototype.update_ = async function( id , data , initial = false ) {
+	// Critical/structural part
 	// The order matters
 	if ( data.vgObject ) { this.updateVgObject( data ) ; }
 	else if ( data.vgMorph ) { this.updateVgMorph( data ) ; }
@@ -1791,17 +2019,8 @@ GEntity.prototype.update_ = async function( id , data , initial = false ) {
 		this.updateMarkerLocation( data.vg , data.location ) ;
 	}
 
-	// For some unknown reasons, that timeout removes animation glitches
-	//await Promise.resolveTimeout( 5 ) ;
-	return this.updateCosmetics( data , initial ) ;
-} ;
 
-
-
-/*
-	Execute less important things, like things triggering animations
-*/
-GEntity.prototype.updateCosmetics = async function( data , initial = false ) {
+	// Non-critical part
 	// The order matters
 
 	// Should comes first: Transition,
@@ -2106,136 +2325,6 @@ GEntity.prototype.updateMask = function( data ) {
 
 
 
-// Update “framework” size/position
-GEntity.prototype.updateTransform = function( data ) {
-	var wrapperAspect , imageAspect , imageWidth , imageHeight ,
-		scale , xMinOffset , yMinOffset , xFactor , yFactor ;
-
-	// For instance, marker are excluded
-	if ( ! this.$wrapper || ! this.$image ) { return ; }
-
-
-	// First, assign new size and position
-	// /!\ Size and position MUST be checked! /!\
-	if ( data.size ) {
-		this.size = data.size ;
-	}
-
-	if ( data.position ) {
-		this.position = data.position ;
-	}
-
-
-	// Pre-compute few thing necessary for the following stuff
-	if ( this.$image.tagName.toLowerCase() === 'svg' ) {
-		// The SVG element is not a DOM HTML element, it does not have offsetWidth/offsetHeight,
-		// hence it' a little bit trickier to get its real boxmodel size
-
-		wrapperAspect = this.$wrapper.offsetWidth / this.$wrapper.offsetHeight ;
-		imageAspect = this.$image.width.baseVal.value / this.$image.height.baseVal.value ;
-
-		if ( imageAspect > wrapperAspect ) {
-			imageWidth = this.$wrapper.offsetWidth ;
-			imageHeight = imageWidth / imageAspect ;
-		}
-		else {
-			imageHeight = this.$wrapper.offsetHeight ;
-			imageWidth = imageHeight * imageAspect ;
-		}
-		console.log( "dbg svg:" , {
-			wrapperAspect , imageAspect , imageWidth , imageHeight
-		} ) ;
-	}
-	else {
-		imageWidth = this.$image.offsetWidth ;
-		imageHeight = this.$image.offsetHeight ;
-	}
-
-
-	// Compute scaling -- should comes first for this to work!
-	switch ( this.size.mode ) {
-		case 'area' :
-		case 'areaMin' :
-		default :
-			// In this mode, the sprite is scaled relative to its container area.
-			scale = this.transform.scaleX = this.transform.scaleY = this.size.xy ;
-			console.log( "transform after .updateSize()" , this.transform ) ;
-			break ;
-	}
-
-
-	// Compute position
-	switch ( this.position.mode ) {
-		case 'areaInSpriteOut' :
-			// In this mode, the sprite is positioned relative to its container area -1,-1 being bottom-left and 1,1 being top-right and 0,0 being the center
-			// Any value in [-1,1] ensure the whole sprite is inside the area.
-			// For values <-1 or >1 the extra are scaled using the sprite scale, e.g.:
-			// x=-1.5 means that the sprite is on the left, its left half being invisible (outside the container), its right half being visible (inside the container).
-
-			xMinOffset = yMinOffset = 0 ;
-			xFactor = this.dom.$gfx.offsetWidth - imageWidth ;
-			yFactor = this.dom.$gfx.offsetHeight - imageHeight ;
-
-			if ( scale !== undefined ) {
-				xMinOffset = -0.5 * imageWidth * ( 1 - scale ) ;
-				yMinOffset = -0.5 * imageHeight * ( 1 - scale ) ;
-				xFactor += imageWidth * ( 1 - scale ) ;
-				yFactor += imageHeight * ( 1 - scale ) ;
-			}
-
-			console.log( "dbg:" , { xMinOffset , xFactor , yFactor } ) ;
-
-			if ( this.position.x < -1 ) {
-				this.transform.translateX = xMinOffset + ( this.position.x + 1 ) * imageWidth * scale ;
-			}
-			else if ( this.position.x > 1 ) {
-				this.transform.translateX = xMinOffset + xFactor + ( this.position.x - 1 ) * imageWidth * scale ;
-			}
-			else {
-				this.transform.translateX = xMinOffset + ( 0.5 + this.position.x / 2 ) * xFactor ;
-			}
-
-			if ( this.position.y < -1 ) {
-				this.transform.translateY = yMinOffset + yFactor - ( this.position.y + 1 ) * imageHeight * scale ;
-			}
-			else if ( this.position.y > 1 ) {
-				this.transform.translateY = yMinOffset - ( this.position.y - 1 ) * imageHeight * scale ;
-			}
-			else {
-				this.transform.translateY = yMinOffset + ( 0.5 - this.position.y / 2 ) * yFactor ;
-			}
-
-			console.log( "transform after .updatePosition()" , this.transform ) ;
-			break ;
-
-		case 'area' :
-		default :
-			// In this mode, the sprite is positioned relative to its container area -1,-1 being bottom-left and 1,1 being top-right and 0,0 being the center
-			// Any value in [-1,1] ensure the whole sprite is inside the area.
-			// Values <-1 or >1 still use the same linear coordinate (so are scaled using the container size).
-
-			xMinOffset = yMinOffset = 0 ;
-			xFactor = this.dom.$gfx.offsetWidth - imageWidth ;
-			yFactor = this.dom.$gfx.offsetHeight - imageHeight ;
-
-			if ( scale !== undefined ) {
-				xMinOffset = -0.5 * imageWidth * ( 1 - scale ) ;
-				yMinOffset = -0.5 * imageHeight * ( 1 - scale ) ;
-				xFactor += imageWidth * ( 1 - scale ) ;
-				yFactor += imageHeight * ( 1 - scale ) ;
-			}
-
-			console.log( "dbg:" , { xMinOffset , xFactor , yFactor } ) ;
-			this.transform.translateX = xMinOffset + ( 0.5 + this.position.x / 2 ) * xFactor ;
-			this.transform.translateY = yMinOffset + ( 0.5 - this.position.y / 2 ) * yFactor ;
-
-			console.log( "transform after .updatePosition()" , this.transform ) ;
-			break ;
-	}
-
-	// Finally, create the transformation CSS string
-	domKit.transform( this.$wrapper , this.transform ) ;
-} ;
 
 
 
@@ -2778,6 +2867,12 @@ GTransition.prototype.update = function( data ) {
 	if ( data.easing !== undefined ) { this.easing = data.easing || 'linear' ; }
 
 	return this ;
+} ;
+
+
+
+GTransition.prototype.toString = function( property ) {
+	return property + ' ' + this.duration + 'ms' + ( ' ' + this.easing || '' ) ;
 } ;
 
 
@@ -15354,7 +15449,7 @@ camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' ) ;
 arguments[4][31][0].apply(exports,arguments)
 },{"dup":31}],49:[function(require,module,exports){
 module.exports={
-  "_from": "svg-kit@^0.3.0",
+  "_from": "svg-kit@0.3.0",
   "_id": "svg-kit@0.3.0",
   "_inBundle": false,
   "_integrity": "sha512-+lqQ8WQp8UD1BlNBeVOawBKpXCBCqdwnEfRiWxG7vI3NBmZ9CBPN/eMmMt2OpJRU8UcZUOrarAjiZV3dZsqWtA==",
@@ -15363,21 +15458,22 @@ module.exports={
     "@cronvel/xmldom": "0.1.31"
   },
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "svg-kit@^0.3.0",
+    "raw": "svg-kit@0.3.0",
     "name": "svg-kit",
     "escapedName": "svg-kit",
-    "rawSpec": "^0.3.0",
+    "rawSpec": "0.3.0",
     "saveSpec": null,
-    "fetchSpec": "^0.3.0"
+    "fetchSpec": "0.3.0"
   },
   "_requiredBy": [
+    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/svg-kit/-/svg-kit-0.3.0.tgz",
   "_shasum": "a53aadb7152cf7374e2a791b9d45b7cc6d0fe25d",
-  "_spec": "svg-kit@^0.3.0",
+  "_spec": "svg-kit@0.3.0",
   "_where": "/home/cedric/inside/github/spellcast-ext-web-client",
   "author": {
     "name": "Cédric Ronvel"

@@ -1610,6 +1610,7 @@ function GEntity( dom , data ) {
 	this.theme = null ;
 	this.texturePack = null ;
 	this.variant = 'default' ;
+	this.location = null ;
 	this.position = { x: 0 , y: 0 , z: 0 } ;
 	this.positionMode = 'default' ;
 	this.size = { x: 1 , y: 1 , z: 1 } ;
@@ -1668,7 +1669,7 @@ GEntity.prototype.update = async function( data , initial = false ) {
 	}
 
 	if ( data.data ) {
-		if ( data.data.vgUrl ) { console.warn( "Has vgUrl" ) ; await this.updateVgImage( data.data.vgUrl ) ; }
+		if ( data.data.vgUrl ) { await this.updateVgImage( data.data.vgUrl ) ; }
 		else if ( data.data.vgObject ) { this.updateVgObject( data.data.vgObject ) ; }
 		else if ( data.data.vgMorph ) { this.updateVgMorph( data.data.vgMorph ) ; }
 
@@ -1676,10 +1677,14 @@ GEntity.prototype.update = async function( data , initial = false ) {
 			this.updateVgArea( data.data.area ) ;
 		}
 
-		if ( this.usage === 'marker' && ( data.data.vg || data.data.location ) ) {
-			this.updateMarkerLocation( data.data.vg , data.data.location ) ;
-		}
 	}
+
+	if ( this.usage === 'marker' && ( data.location || ( data.data && data.data.inVg ) ) ) {
+		this.updateMarkerLocation( data.data && data.data.inVg , data.location ) ;
+	}
+
+	if ( data.button !== undefined ) { this.updateButton( data.button ) ; }
+
 
 	// Continuous part
 
@@ -1689,6 +1694,11 @@ GEntity.prototype.update = async function( data , initial = false ) {
 		this.updateTransition( data.transitions ) ;
 	}
 
+	if ( data.location !== undefined && this.usage !== 'marker' ) {
+		// Should be triggered first, or pose/style would conflict with it
+		await this.moveToLocation( data.location ) ;
+	}
+
 	if (
 		data.position !== undefined || data.positionMode !== undefined
 		|| data.size !== undefined || data.sizeMode !== undefined
@@ -1696,6 +1706,8 @@ GEntity.prototype.update = async function( data , initial = false ) {
 	) {
 		this.updateTransform( data ) ;
 	}
+
+	if ( data.meta ) { this.updateMeta( data.meta ) ; }
 
 	// Should comes last: for initial update, restore the transition value and turn visibility on
 	if ( initial && this.usage !== 'marker' ) {
@@ -1973,6 +1985,220 @@ GEntity.prototype.updateTransition = function( transitions ) {
 
 
 
+// Button ID (data.button)
+GEntity.prototype.updateButton = function( buttonId ) {
+	var $element = this.$mask || this.$wrapper ;
+
+	$element.setAttribute( 'id' , 'button-' + buttonId ) ;
+	$element.classList.add( 'button' ) ;
+	$element.classList.add( 'disabled' ) ;
+} ;
+
+
+
+// Update meta (data.meta)
+GEntity.prototype.updateMeta = function( metaObject ) {
+	var meta , metaName ;
+
+	for ( metaName in metaObject ) {
+		meta = metaObject[ metaName ] ;
+
+		if ( meta ) {
+			this.$wrapper.classList.add( 'meta-' + metaName ) ;
+
+			if ( typeof meta === 'number' || typeof meta === 'string' ) {
+				this.$wrapper.setAttribute( 'meta-' + metaName , meta ) ;
+			}
+		}
+		else {
+			this.$wrapper.classList.remove( 'meta-' + metaName ) ;
+
+			if ( this.$wrapper.hasAttribute( 'meta-' + metaName ) ) {
+				this.$wrapper.removeAttribute( 'meta-' + metaName ) ;
+			}
+		}
+	}
+} ;
+
+
+
+// Move to a location and perform a FLIP (First Last Invert Play)
+GEntity.prototype.moveToLocation = function( locationName ) {
+	if ( this.location === locationName ) { return Promise.resolved ; }
+
+	var promise = new Promise() ;
+
+	var $location , $oldLocation , oldLocationName , $slot , $oldSlot , direction , oldDirection ,
+		siblingGEntities , siblingSlotRectsBefore , siblingSlotRectsAfter ,
+		slotSize , slotBbox , oldSlotBbox ;
+
+	// Timeout value used to enable FLIP transition
+	var flipTimeout = 10 ;
+
+	oldLocationName = this.location ;
+	$oldLocation = oldLocationName ? this.dom.gEntityLocations[ oldLocationName ] : this.dom.$gfx ;
+	$oldSlot = this.$locationSlot || this.dom.$gfx ;
+	this.location = locationName ;
+
+	$location = locationName ? this.dom.gEntityLocations[ locationName ] : this.dom.$gfx ;
+
+	if ( ! $location ) {
+		// Create the location if it doesn't exist
+		$location = this.dom.gEntityLocations[ locationName ] = document.createElement( 'div' ) ;
+		$location.classList.add( 'g-entity-location' ) ;
+		$location.classList.add( 'g-entity-location-' + locationName ) ;
+		this.dom.$gfx.append( $location ) ;
+	}
+
+	// Save computed styles now
+	var gEntityComputedStyle = window.getComputedStyle( this.$wrapper ) ;
+	var locationComputedStyle = window.getComputedStyle( $location ) ;
+
+	// GEntity size
+	var gEntityWidth = parseFloat( gEntityComputedStyle.width ) ;
+	var gEntityHeight = parseFloat( gEntityComputedStyle.height ) ;
+
+	if ( $location === this.dom.$gfx ) {
+		$slot = this.dom.$gfx ;
+	}
+	else {
+		$slot = this.$locationSlot = document.createElement( 'div' ) ;
+		$slot.classList.add( 'g-entity-slot' ) ;
+		$slot.style.order = this.order ;
+		//$slot.style.zIndex = this.order ;	// Not needed, rendering preserve ordering, not DOM precedence, so it's ok
+	}
+
+	// Before appending, save all rects of existing sibling slots
+
+	siblingGEntities = [ ... Object.values( this.dom.gEntities ) ]
+		.filter( e => e !== this && e.usage !== 'marker' && e.location && ( e.location === locationName || e.location === oldLocationName ) ) ;
+
+	siblingSlotRectsBefore = siblingGEntities.map( e => e.$locationSlot.getBoundingClientRect() ) ;
+
+
+	// Insert the slot, if it's not $gfx
+	if ( $slot !== this.dom.$gfx ) {
+		// We should preserve the :last-child pseudo selector, since there isn't any :last-ordered-child for flex-box...
+		if ( $location.lastChild && parseFloat( $location.lastChild.style.order ) > this.order ) {
+			// The last entity has a greater order, so we prepend instead
+			$location.prepend( $slot ) ;
+		}
+		else {
+			$location.append( $slot ) ;
+		}
+	}
+
+	// Save the old slot BBox
+	oldSlotBbox = $oldSlot.getBoundingClientRect() ;
+
+	// Remove that slot now
+	if ( $oldSlot !== this.dom.$gfx ) { $oldSlot.remove() ; }
+
+
+	// Get slots rects after
+	siblingSlotRectsAfter = siblingGEntities.map( e => e.$locationSlot.getBoundingClientRect() ) ;
+
+	// Immediately compute the translation delta and the FLIP for siblings
+	siblingGEntities.forEach( ( siblingGEntity , index ) => {
+		var beforeRect = siblingSlotRectsBefore[ index ] ,
+			afterRect = siblingSlotRectsAfter[ index ] ;
+
+		var transitionStr = siblingGEntity.$wrapper.style.transition ;
+		var transformStr = siblingGEntity.$wrapper.style.transform ;
+
+		// Get the local transform, and patch it!
+		var transformDelta = Object.assign( {} , siblingGEntity.localTransform ) ;
+		transformDelta.translateX += beforeRect.left - afterRect.left ;
+		transformDelta.translateY += beforeRect.top - beforeRect.top ;
+
+		// First, disable transitions, so the transform will apply now!
+		siblingGEntity.$wrapper.style.transition = 'none' ;
+		siblingGEntity.$wrapper.style.transform = domKit.stringifyTransform( transformDelta ) ;
+
+		setTimeout( () => {
+			// Re-enable transitions, restore the transform value
+			siblingGEntity.$wrapper.style.transition = transitionStr ;
+			siblingGEntity.$wrapper.style.transform = transformStr ;
+		} , flipTimeout ) ;
+	} ) ;
+
+
+	var targetTransform = { translateX: 0 , translateY: 0 } ;
+
+	// Scale transform
+	switch ( locationComputedStyle.flexDirection ) {
+		case 'row' :
+		case 'row-reverse' :
+			slotSize = parseFloat( locationComputedStyle.height ) ;
+			targetTransform.scaleX = targetTransform.scaleY = slotSize / gEntityHeight ;
+			break ;
+		case 'column' :
+		case 'column-reverse' :
+			slotSize = parseFloat( locationComputedStyle.width ) ;
+			targetTransform.scaleX = targetTransform.scaleY = slotSize / gEntityWidth ;
+			break ;
+		default :
+			slotSize = parseFloat( locationComputedStyle.height ) ;
+			targetTransform.scaleX = targetTransform.scaleY = slotSize / gEntityHeight ;
+			console.warn( 'flex-direction' , locationComputedStyle.flexDirection ) ;
+	}
+
+	// Translation compensation due to scaling, since the origin is in the middle
+	targetTransform.translateX -= ( gEntityWidth - gEntityWidth * targetTransform.scaleX ) / 2 ;
+	targetTransform.translateY -= ( gEntityHeight - gEntityHeight * targetTransform.scaleY ) / 2 ;
+
+	var localTransform = this.localTransform ;
+	this.localTransform = targetTransform ;
+
+	// If this is not a true slot, then just put the gEntity on this slot immediately
+	if ( $oldSlot === this.dom.$gfx ) {
+		this.$wrapper.style.transform = domKit.stringifyTransform( targetTransform ) ;
+		$slot.append( this.$wrapper ) ;
+		promise.resolve() ;
+		return promise ;
+	}
+
+
+	// Computed styles
+	var oldLocationComputedStyle = window.getComputedStyle( $oldLocation ) ;
+
+	// Old location direction
+	switch ( oldLocationComputedStyle.flexDirection ) {
+		case 'column' :
+		case 'column-reverse' :
+			oldDirection = 'column' ;
+			break ;
+		default :
+			oldDirection = 'row' ;
+	}
+
+	// Compute the FLIP (First Last Invert Play)
+	slotBbox = $slot.getBoundingClientRect() ;
+	//console.warn( 'bboxes' , slotBbox ,  oldSlotBbox ) ;
+
+	// Old/new difference
+	var sourceTransform = {
+		translateX: oldSlotBbox.left + localTransform.translateX - slotBbox.left ,
+		translateY: oldSlotBbox.top + localTransform.translateY - slotBbox.top ,
+		scaleX: localTransform.scaleX ,
+		scaleY: localTransform.scaleY
+	} ;
+
+	this.$wrapper.style.transform = domKit.stringifyTransform( sourceTransform ) ;
+	$slot.append( this.$wrapper ) ;
+
+	// Do not initiate the new transform value in the same synchronous flow,
+	// it would not animate anything
+	setTimeout( () => {
+		this.$wrapper.style.transform = domKit.stringifyTransform( targetTransform ) ;
+		promise.resolve() ;
+	} , flipTimeout ) ;
+
+	return promise ;
+} ;
+
+
+
 // Vector Graphics
 
 GEntity.prototype.updateVgObject = function( vgObject ) {
@@ -2142,6 +2368,8 @@ GEntity.prototype.setVgPassiveHints = function( $svg ) {
 
 
 
+// Markers inside Vector Graphics
+
 GEntity.prototype.updateMarkerLocation = function( vgId , areaId ) {
 	var vg , $area , areaBBox , markerViewBox , width , height , originX , originY , posX , posY ;
 
@@ -2152,8 +2380,8 @@ GEntity.prototype.updateMarkerLocation = function( vgId , areaId ) {
 		return ;
 	}
 
-	if ( ! vgId ) { vgId = this.data.vg ; }
-	if ( ! areaId ) { areaId = this.data.location ; }
+	if ( ! vgId ) { vgId = this.data.inVg ; }
+	if ( ! areaId ) { areaId = this.location ; }
 
 	if ( ! this.dom.gEntities[ vgId ] ) {
 		console.warn( 'Unknown VG id: ' , vgId ) ;
@@ -2181,8 +2409,8 @@ GEntity.prototype.updateMarkerLocation = function( vgId , areaId ) {
 
 
 	// Once everything is ok, update the marker
-	this.data.vg = vgId ;
-	this.data.location = areaId ;
+	this.data.inVg = vgId ;
+	this.location = areaId ;
 
 
 	// Get or compute the area active point
@@ -2239,15 +2467,6 @@ GEntity.prototype.update_serverside = function( data , initial = false ) {
 
 	if ( data.show !== undefined ) { this.show = !! data.show ; }
 	if ( data.persistent !== undefined ) { this.persistent = !! data.persistent ; }
-	if ( data.button !== undefined ) { this.button = data.button || null ; }
-
-	if ( data.data && typeof data.data === 'object' ) {
-		Object.assign( this.data , data.data ) ;
-	}
-
-	if ( data.meta && typeof data.meta === 'object' ) {
-		Object.assign( this.meta , data.meta ) ;
-	}
 
 	if ( data.engine && typeof data.engine === 'object' ) {
 		Object.assign( this.engine , data.engine ) ;
@@ -2269,21 +2488,11 @@ GEntity.prototype.update_ = async function( id , data , initial = false ) {
 	if ( data.maskUrl ) { await this.updateMask( data ) ; }
 	if ( data.content ) { this.updateContent( data ) ; }
 
-	if ( data.button !== undefined ) { this.updateButton( data ) ; }
-	//if ( data.action !== undefined ) { this.updateAction( data ) ; }
-
-
 
 	// Non-critical part
 	// The order matters
 
-	if ( data.location !== undefined && this.usage !== 'marker' ) {
-		// Should be triggered first, or pose/style would conflict with it
-		await this.moveToLocation( data ) ;
-	}
-
 	if ( data.pose !== undefined ) { this.updatePose( data ) ; }
-	if ( data.meta ) { this.updateMeta( data ) ; }
 
 	// Use data.style, NOT this.style: we have to set only new/updated styles
 	if ( data.style && this.$wrapper ) {
@@ -2406,249 +2615,7 @@ GEntity.prototype.updatePose = function( data ) {
 
 
 
-// Update meta (data.meta)
-GEntity.prototype.updateMeta = function( data ) {
-	var meta , metaName ;
-
-	for ( metaName in data.meta ) {
-		meta = data.meta[ metaName ] ;
-
-		if ( meta ) {
-			this.$wrapper.classList.add( 'meta-' + metaName ) ;
-
-			if ( typeof meta === 'number' || typeof meta === 'string' ) {
-				this.$wrapper.setAttribute( 'meta-' + metaName , meta ) ;
-			}
-		}
-		else {
-			this.$wrapper.classList.remove( 'meta-' + metaName ) ;
-
-			if ( this.$wrapper.hasAttribute( 'meta-' + metaName ) ) {
-				this.$wrapper.removeAttribute( 'meta-' + metaName ) ;
-			}
-		}
-	}
-} ;
-
-
-
-// Button ID (data.button)
-GEntity.prototype.updateButton = function( data ) {
-	var $element = this.$mask || this.$wrapper ;
-
-	var buttonId = data.button ;
-
-	$element.setAttribute( 'id' , 'button-' + buttonId ) ;
-	$element.classList.add( 'button' ) ;
-	$element.classList.add( 'disabled' ) ;
-} ;
-
-
-
-// /!\ DEPRECATED /!\
-// Click action (data.action)
-GEntity.prototype.updateAction = function( data ) {
-	var $element = this.$mask || this.$image ;
-
-	if ( data.action && ! this.action ) {
-		this.onClick = ( event ) => {
-			this.actionCallback( this.action ) ;
-			event.stopPropagation() ;
-		} ;
-
-		$element.classList.add( 'button' ) ;
-		$element.addEventListener( 'click' , this.onClick ) ;
-	}
-	else if ( ! data.action && this.action ) {
-		$element.classList.remove( 'button' ) ;
-		$element.removeEventListener( 'click' , this.onClick ) ;
-	}
-
-	this.action = data.action || null ;
-} ;
-
-
-
-// Move to a location and perform a FLIP (First Last Invert Play)
-GEntity.prototype.moveToLocation = function( data ) {
-	var promise = new Promise() ,
-		locationName = data.location ;
-
-	if ( this.location === locationName ) { promise.resolve() ; return promise ; }
-
-	var $location , $oldLocation , oldLocationName , $slot , $oldSlot , direction , oldDirection ,
-		siblingGEntities , siblingSlotRectsBefore , siblingSlotRectsAfter ,
-		slotSize , slotBbox , oldSlotBbox ;
-
-	// Timeout value used to enable FLIP transition
-	var flipTimeout = 10 ;
-
-	oldLocationName = this.location ;
-	$oldLocation = oldLocationName ? this.dom.gEntityLocations[ oldLocationName ] : this.dom.$gfx ;
-	$oldSlot = this.$locationSlot || this.dom.$gfx ;
-	this.location = locationName ;
-
-	$location = locationName ? this.dom.gEntityLocations[ locationName ] : this.dom.$gfx ;
-
-	if ( ! $location ) {
-		// Create the location if it doesn't exist
-		$location = this.dom.gEntityLocations[ locationName ] = document.createElement( 'div' ) ;
-		$location.classList.add( 'g-entity-location' ) ;
-		$location.classList.add( 'g-entity-location-' + locationName ) ;
-		this.dom.$gfx.append( $location ) ;
-	}
-
-	// Save computed styles now
-	var gEntityComputedStyle = window.getComputedStyle( this.$wrapper ) ;
-	var locationComputedStyle = window.getComputedStyle( $location ) ;
-
-	// GEntity size
-	var gEntityWidth = parseFloat( gEntityComputedStyle.width ) ;
-	var gEntityHeight = parseFloat( gEntityComputedStyle.height ) ;
-
-	if ( $location === this.dom.$gfx ) {
-		$slot = this.dom.$gfx ;
-	}
-	else {
-		$slot = this.$locationSlot = document.createElement( 'div' ) ;
-		$slot.classList.add( 'g-entity-slot' ) ;
-		$slot.style.order = this.order ;
-		//$slot.style.zIndex = this.order ;	// Not needed, rendering preserve ordering, not DOM precedence, so it's ok
-	}
-
-	// Before appending, save all rects of existing sibling slots
-
-	// /!\ BROKEN: this.cards, this.sprites, this.vgs do not exist anymore, filter it and exclude markers
-
-	siblingGEntities = [ ... Object.values( this.dom.cards ) , ... Object.values( this.dom.sprites ) , ... Object.values( this.dom.vgs ) ]
-		.filter( e => e !== this && e.location && ( e.location === locationName || e.location === oldLocationName ) ) ;
-
-	siblingSlotRectsBefore = siblingGEntities.map( e => e.$locationSlot.getBoundingClientRect() ) ;
-
-
-	// Insert the slot, if it's not $gfx
-	if ( $slot !== this.dom.$gfx ) {
-		// We should preserve the :last-child pseudo selector, since there isn't any :last-ordered-child for flex-box...
-		if ( $location.lastChild && parseFloat( $location.lastChild.style.order ) > this.order ) {
-			// The last entity has a greater order, so we prepend instead
-			$location.prepend( $slot ) ;
-		}
-		else {
-			$location.append( $slot ) ;
-		}
-	}
-
-	// Save the old slot BBox
-	oldSlotBbox = $oldSlot.getBoundingClientRect() ;
-
-	// Remove that slot now
-	if ( $oldSlot !== this.dom.$gfx ) { $oldSlot.remove() ; }
-
-
-	// Get slots rects after
-	siblingSlotRectsAfter = siblingGEntities.map( e => e.$locationSlot.getBoundingClientRect() ) ;
-
-	// Immediately compute the translation delta and the FLIP for siblings
-	siblingGEntities.forEach( ( siblingGEntity , index ) => {
-		var beforeRect = siblingSlotRectsBefore[ index ] ,
-			afterRect = siblingSlotRectsAfter[ index ] ;
-
-		var transitionStr = siblingGEntity.$wrapper.style.transition ;
-		var transformStr = siblingGEntity.$wrapper.style.transform ;
-
-		// Get the local transform, and patch it!
-		var transformDelta = Object.assign( {} , siblingGEntity.localTransform ) ;
-		transformDelta.translateX += beforeRect.left - afterRect.left ;
-		transformDelta.translateY += beforeRect.top - beforeRect.top ;
-
-		// First, disable transitions, so the transform will apply now!
-		siblingGEntity.$wrapper.style.transition = 'none' ;
-		siblingGEntity.$wrapper.style.transform = domKit.stringifyTransform( transformDelta ) ;
-
-		setTimeout( () => {
-			// Re-enable transitions, restore the transform value
-			siblingGEntity.$wrapper.style.transition = transitionStr ;
-			siblingGEntity.$wrapper.style.transform = transformStr ;
-		} , flipTimeout ) ;
-	} ) ;
-
-
-	var targetTransform = { translateX: 0 , translateY: 0 } ;
-
-	// Scale transform
-	switch ( locationComputedStyle.flexDirection ) {
-		case 'row' :
-		case 'row-reverse' :
-			slotSize = parseFloat( locationComputedStyle.height ) ;
-			targetTransform.scaleX = targetTransform.scaleY = slotSize / gEntityHeight ;
-			break ;
-		case 'column' :
-		case 'column-reverse' :
-			slotSize = parseFloat( locationComputedStyle.width ) ;
-			targetTransform.scaleX = targetTransform.scaleY = slotSize / gEntityWidth ;
-			break ;
-		default :
-			slotSize = parseFloat( locationComputedStyle.height ) ;
-			targetTransform.scaleX = targetTransform.scaleY = slotSize / gEntityHeight ;
-			console.warn( 'flex-direction' , locationComputedStyle.flexDirection ) ;
-	}
-
-	// Translation compensation due to scaling, since the origin is in the middle
-	targetTransform.translateX -= ( gEntityWidth - gEntityWidth * targetTransform.scaleX ) / 2 ;
-	targetTransform.translateY -= ( gEntityHeight - gEntityHeight * targetTransform.scaleY ) / 2 ;
-
-	var localTransform = this.localTransform ;
-	this.localTransform = targetTransform ;
-
-	// If this is not a true slot, then just put the gEntity on this slot immediately
-	if ( $oldSlot === this.dom.$gfx ) {
-		this.$wrapper.style.transform = domKit.stringifyTransform( targetTransform ) ;
-		$slot.append( this.$wrapper ) ;
-		promise.resolve() ;
-		return promise ;
-	}
-
-
-	// Computed styles
-	var oldLocationComputedStyle = window.getComputedStyle( $oldLocation ) ;
-
-	// Old location direction
-	switch ( oldLocationComputedStyle.flexDirection ) {
-		case 'column' :
-		case 'column-reverse' :
-			oldDirection = 'column' ;
-			break ;
-		default :
-			oldDirection = 'row' ;
-	}
-
-	// Compute the FLIP (First Last Invert Play)
-	slotBbox = $slot.getBoundingClientRect() ;
-	//console.warn( 'bboxes' , slotBbox ,  oldSlotBbox ) ;
-
-	// Old/new difference
-	var sourceTransform = {
-		translateX: oldSlotBbox.left + localTransform.translateX - slotBbox.left ,
-		translateY: oldSlotBbox.top + localTransform.translateY - slotBbox.top ,
-		scaleX: localTransform.scaleX ,
-		scaleY: localTransform.scaleY
-	} ;
-
-	this.$wrapper.style.transform = domKit.stringifyTransform( sourceTransform ) ;
-	$slot.append( this.$wrapper ) ;
-
-	// Do not initiate the new transform value in the same synchronous flow,
-	// it would not animate anything
-	setTimeout( () => {
-		this.$wrapper.style.transform = domKit.stringifyTransform( targetTransform ) ;
-		promise.resolve() ;
-	} , flipTimeout ) ;
-
-	return promise ;
-} ;
-
-
-
+// ??? GEntity ??? Maybe move it back to Dom.js...
 GEntity.prototype.createGEntityLocation = function( locationName ) {
 	var $location ;
 
@@ -3109,21 +3076,20 @@ exports.toClassObject = function toClassObject( data ) {
 
 
 
-// In this mode, the sprite is positioned relative to its container area -1,-1 being bottom-left and 1,1 being top-right and 0,0 being the center
-// Any value in [-1,1] ensure the whole sprite is inside the area.
-// Values <-1 or >1 still use the same linear coordinate (so are scaled using the container size).
+/*
+	In this mode, the sprite is positioned relative to its container area -1,-1 being bottom-left and 1,1 being top-right and 0,0 being the center
+	Any value in [-1,1] ensure the whole sprite is inside the area.
+	Values <-1 or >1 still use the same linear coordinate (so are scaled using the container size).
+*/
 exports.default =
-exports.contain =
-exports.area = ( transform , position , areaWidth , areaHeight , imageWidth , imageHeight ) => {
+exports.area =
+exports.contain = ( transform , position , areaWidth , areaHeight , imageWidth , imageHeight ) => {
 	var xMinOffset , yMinOffset , xFactor , yFactor ;
 
-	xFactor = areaWidth - imageWidth ;
-	yFactor = areaHeight - imageHeight ;
-
+	xFactor = areaWidth - transform.scaleX * imageWidth ;
+	yFactor = areaHeight - transform.scaleY * imageHeight ;
 	xMinOffset = -0.5 * imageWidth * ( 1 - transform.scaleX ) ;
 	yMinOffset = -0.5 * imageHeight * ( 1 - transform.scaleY ) ;
-	xFactor += imageWidth * ( 1 - transform.scaleX ) ;
-	yFactor += imageHeight * ( 1 - transform.scaleY ) ;
 
 	console.log( "dbg:" , { xMinOffset , xFactor , yFactor } ) ;
 	transform.translateX = xMinOffset + ( 0.5 + position.x / 2 ) * xFactor ;
@@ -3135,20 +3101,41 @@ exports.area = ( transform , position , areaWidth , areaHeight , imageWidth , im
 
 
 
-// In this mode, the sprite is positioned relative to its container area -1,-1 being bottom-left and 1,1 being top-right and 0,0 being the center
-// Any value in [-1,1] ensure the whole sprite is inside the area.
-// For values <-1 or >1 the extra are scaled using the sprite scale, e.g.:
-// x=-1.5 means that the sprite is on the left, its left half being invisible (outside the container), its right half being visible (inside the container).
+/*
+	The center of the image is used as the origin.
+	That origin is placed inside the container, [-1,1] coords make the origin inside the container.
+*/
+exports.origin = ( transform , position , areaWidth , areaHeight , imageWidth , imageHeight ) => {
+	var xMinOffset , yMinOffset , xFactor , yFactor ;
+
+	xFactor = areaWidth ;
+	yFactor = areaHeight ;
+	xMinOffset = -0.5 * imageWidth ;
+	yMinOffset = -0.5 * imageHeight ;
+
+	console.log( "dbg:" , { xMinOffset , xFactor , yFactor } ) ;
+	transform.translateX = xMinOffset + ( 0.5 + position.x / 2 ) * xFactor ;
+	transform.translateY = yMinOffset + ( 0.5 - position.y / 2 ) * yFactor ;
+
+	// What should be done for the z-axis?
+	transform.translateZ = position.z ;
+} ;
+
+
+
+/*
+	In this mode, the sprite is positioned relative to its container area -1,-1 being bottom-left and 1,1 being top-right and 0,0 being the center
+	Any value in [-1,1] ensure the whole sprite is inside the area.
+	For values <-1 or >1 the extra are scaled using the sprite scale, e.g.:
+	x=-1.5 means that the sprite is on the left, its left half being invisible (outside the container), its right half being visible (inside the container).
+*/
 exports.areaInSpriteOut = ( transform , position , areaWidth , areaHeight , imageWidth , imageHeight ) => {
 	var xMinOffset , yMinOffset , xFactor , yFactor ;
 
-	xFactor = areaWidth - imageWidth ,
-	yFactor = areaHeight - imageHeight ;
-
+	xFactor = areaWidth - transform.scaleX * imageWidth ;
+	yFactor = areaHeight - transform.scaleY * imageHeight ;
 	xMinOffset = -0.5 * imageWidth * ( 1 - transform.scaleX ) ;
 	yMinOffset = -0.5 * imageHeight * ( 1 - transform.scaleY ) ;
-	xFactor += imageWidth * ( 1 - transform.scaleX ) ;
-	yFactor += imageHeight * ( 1 - transform.scaleY ) ;
 
 	console.log( "dbg:" , { xMinOffset , xFactor , yFactor } ) ;
 
@@ -3209,8 +3196,8 @@ exports.areaInSpriteOut = ( transform , position , areaWidth , areaHeight , imag
 
 
 exports.default =
-exports.contain =
-exports.areaMinSpriteMax = ( transform , size , areaWidth , areaHeight , imageWidth , imageHeight ) => {
+exports.areaMinSpriteMax =
+exports.contain = ( transform , size , areaWidth , areaHeight , imageWidth , imageHeight ) => {
 	var areaMin = Math.min( areaWidth , areaHeight ) ,
 		imageMax = Math.max( imageWidth , imageHeight ) ;
 
@@ -3220,8 +3207,8 @@ exports.areaMinSpriteMax = ( transform , size , areaWidth , areaHeight , imageWi
 
 
 
-exports.cover =
-exports.areaMaxSpriteMin = ( transform , size , areaWidth , areaHeight , imageWidth , imageHeight ) => {
+exports.areaMaxSpriteMin =
+exports.cover = ( transform , size , areaWidth , areaHeight , imageWidth , imageHeight ) => {
 	var areaMin = Math.min( areaWidth , areaHeight ) ,
 		imageMax = Math.max( imageWidth , imageHeight ) ;
 

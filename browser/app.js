@@ -1556,7 +1556,7 @@ function soundFadeOut( $element , callback ) {
 }
 
 
-},{"./GEntity.js":2,"./TexturePack.js":4,"./commonUtils.js":6,"dom-kit":10,"nextgen-events/lib/browser.js":14,"seventh":28,"svg-kit":45}],2:[function(require,module,exports){
+},{"./GEntity.js":2,"./TexturePack.js":4,"./commonUtils.js":6,"dom-kit":12,"nextgen-events/lib/browser.js":16,"seventh":30,"svg-kit":47}],2:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -1589,6 +1589,8 @@ function soundFadeOut( $element , callback ) {
 
 const GTransition = require( './GTransition.js' ) ;
 const commonUtils = require( './commonUtils.js' ) ;
+const sizeModes = require( './sizeModes.js' ) ;
+const positionModes = require( './positionModes.js' ) ;
 
 const Ngev = require( 'nextgen-events/lib/browser.js' ) ;
 const Promise = require( 'seventh' ) ;
@@ -1858,10 +1860,7 @@ GEntity.prototype.updateVgImage = function( url ) {
 
 // Size, positioning and rotation
 GEntity.prototype.updateTransform = function( data ) {
-	var areaAspect , areaWidth , areaHeight , areaMin , areaMax ,
-		wrapperAspect , wrapperWidth , wrapperHeight ,
-		imageAspect , imageNaturalWidth , imageNaturalHeight , imageWidth , imageHeight ,
-		xMinOffset , yMinOffset , xFactor , yFactor ;
+	var areaWidth , areaHeight , imageWidth , imageHeight ;
 
 	if ( data.position ) {
 		if ( data.position.x !== undefined ) { this.position.x = data.position.x ; }
@@ -1893,167 +1892,30 @@ GEntity.prototype.updateTransform = function( data ) {
 
 	areaWidth = this.dom.$gfx.offsetWidth ;
 	areaHeight = this.dom.$gfx.offsetHeight ;
-	areaAspect = areaWidth / areaHeight ;
-
-	if ( areaAspect > 1 ) {
-		areaMin = areaHeight ;
-		areaMax = areaWidth ;
-	}
-	else {
-		areaMin = areaWidth ;
-		areaMax = areaHeight ;
-	}
-
-	wrapperWidth = this.$wrapper.offsetWidth ;
-	wrapperHeight = this.$wrapper.offsetHeight ;
-	wrapperAspect = wrapperWidth / wrapperHeight ;
-
+	
 	if ( this.$image.tagName.toLowerCase() === 'svg' ) {
-		// The SVG element is not a DOM HTML element, it does not have offsetWidth/offsetHeight,
-		// hence it' a little bit trickier to get its real boxmodel size
-		imageNaturalWidth = this.$image.width.baseVal.value ;
-		imageNaturalHeight = this.$image.height.baseVal.value ;
-		imageAspect = imageNaturalWidth / imageNaturalHeight ;
-
-		if ( imageAspect > wrapperAspect ) {
-			imageWidth = wrapperWidth ;
-			imageHeight = imageWidth / imageAspect ;
-		}
-		else {
-			imageHeight = wrapperHeight ;
-			imageWidth = imageHeight * imageAspect ;
-		}
+		// The SVG element is not a DOM HTML element, it does not have offsetWidth/offsetHeight.
+		//imageNaturalWidth = this.$image.width.baseVal.value ;
+		//imageNaturalHeight = this.$image.height.baseVal.value ;
+		imageWidth = this.$wrapper.offsetWidth ;
+		imageHeight = this.$wrapper.offsetHeight ;
 	}
 	else {
-		imageNaturalWidth = this.$image.naturalWidth ;
-		imageNaturalHeight = this.$image.naturalHeight ;
+		//imageNaturalWidth = this.$image.naturalWidth ;
+		//imageNaturalHeight = this.$image.naturalHeight ;
 		imageWidth = this.$image.offsetWidth ;
 		imageHeight = this.$image.offsetHeight ;
-		imageAspect = imageNaturalWidth / imageNaturalHeight ;
 	}
-
-
-	console.log( "dbg img:" , {
-		areaWidth ,
-		areaHeight ,
-		areaAspect ,
-		areaMin ,
-		areaMax ,
-		wrapperWidth ,
-		wrapperHeight ,
-		wrapperAspect ,
-		imageNaturalWidth ,
-		imageNaturalHeight ,
-		imageAspect ,
-		imageWidth ,
-		imageHeight
-	} ) ;
+	console.log( "dbg img:" , { areaWidth , areaHeight , imageWidth , imageHeight } ) ;
 
 
 	// Compute scaling -- should comes first for this to work!
-	switch ( this.sizeMode ) {
-		case 'area' :
-			// In this mode, the sprite is scaled relative to its container area width and height (so it use the area aspect ratio!!!).
-			this._transform.scaleX = this.size.x * areaWidth / imageWidth ;
-			this._transform.scaleY = this.size.y * areaHeight / imageHeight ;
-			break ;
-
-		case 'areaWidth' :
-			// In this mode, the sprite is scaled relative to its container area width.
-			this._transform.scaleX = this.size.x * areaWidth / imageWidth ;
-			this._transform.scaleY = this.size.y * areaWidth / imageHeight ;
-			break ;
-
-		case 'areaHeight' :
-			// In this mode, the sprite is scaled relative to its container area height.
-			this._transform.scaleX = this.size.x * areaHeight / imageWidth ;
-			this._transform.scaleY = this.size.y * areaHeight / imageHeight ;
-			break ;
-
-		case 'areaMax' :
-			// In this mode, the sprite is scaled relative to its container area maximum size.
-			this._transform.scaleX = this.size.x * areaMax / imageWidth ;
-			this._transform.scaleY = this.size.y * areaMax / imageHeight ;
-			break ;
-
-		case 'areaMin' :
-		default :
-			// In this mode, the sprite is scaled relative to its container area minimum size.
-			this._transform.scaleX = this.size.x * areaMin / imageWidth ;
-			this._transform.scaleY = this.size.y * areaMin / imageHeight ;
-			break ;
-	}
+	( sizeModes[ this.sizeMode ] || sizeModes.default )( this._transform , this.size , areaWidth , areaHeight , imageWidth , imageHeight ) ;
 	console.log( "._transform after size computing" , this._transform ) ;
 
 
 	// Compute position
-	switch ( this.positionMode ) {
-		case 'areaInSpriteOut' :
-			// In this mode, the sprite is positioned relative to its container area -1,-1 being bottom-left and 1,1 being top-right and 0,0 being the center
-			// Any value in [-1,1] ensure the whole sprite is inside the area.
-			// For values <-1 or >1 the extra are scaled using the sprite scale, e.g.:
-			// x=-1.5 means that the sprite is on the left, its left half being invisible (outside the container), its right half being visible (inside the container).
-
-			xMinOffset = yMinOffset = 0 ;
-			xFactor = areaWidth - imageWidth ;
-			yFactor = areaHeight - imageHeight ;
-
-			xMinOffset = -0.5 * imageWidth * ( 1 - this._transform.scaleX ) ;
-			yMinOffset = -0.5 * imageHeight * ( 1 - this._transform.scaleY ) ;
-			xFactor += imageWidth * ( 1 - this._transform.scaleX ) ;
-			yFactor += imageHeight * ( 1 - this._transform.scaleY ) ;
-
-			console.log( "dbg:" , { xMinOffset , xFactor , yFactor } ) ;
-
-			if ( this.position.x < -1 ) {
-				this._transform.translateX = xMinOffset + ( this.position.x + 1 ) * imageWidth * this._transform.scaleX ;
-			}
-			else if ( this.position.x > 1 ) {
-				this._transform.translateX = xMinOffset + xFactor + ( this.position.x - 1 ) * imageWidth * this._transform.scaleX ;
-			}
-			else {
-				this._transform.translateX = xMinOffset + ( 0.5 + this.position.x / 2 ) * xFactor ;
-			}
-
-			if ( this.position.y < -1 ) {
-				this._transform.translateY = yMinOffset + yFactor - ( this.position.y + 1 ) * imageHeight * this._transform.scaleY ;
-			}
-			else if ( this.position.y > 1 ) {
-				this._transform.translateY = yMinOffset - ( this.position.y - 1 ) * imageHeight * this._transform.scaleY ;
-			}
-			else {
-				this._transform.translateY = yMinOffset + ( 0.5 - this.position.y / 2 ) * yFactor ;
-			}
-
-			// What should be done for the z-axis?
-			this._transform.translateZ = this.position.z ;
-
-			break ;
-
-		case 'area' :
-		default :
-			// In this mode, the sprite is positioned relative to its container area -1,-1 being bottom-left and 1,1 being top-right and 0,0 being the center
-			// Any value in [-1,1] ensure the whole sprite is inside the area.
-			// Values <-1 or >1 still use the same linear coordinate (so are scaled using the container size).
-
-			xMinOffset = yMinOffset = 0 ;
-			xFactor = areaWidth - imageWidth ;
-			yFactor = areaHeight - imageHeight ;
-
-			xMinOffset = -0.5 * imageWidth * ( 1 - this._transform.scaleX ) ;
-			yMinOffset = -0.5 * imageHeight * ( 1 - this._transform.scaleY ) ;
-			xFactor += imageWidth * ( 1 - this._transform.scaleX ) ;
-			yFactor += imageHeight * ( 1 - this._transform.scaleY ) ;
-
-			console.log( "dbg:" , { xMinOffset , xFactor , yFactor } ) ;
-			this._transform.translateX = xMinOffset + ( 0.5 + this.position.x / 2 ) * xFactor ;
-			this._transform.translateY = yMinOffset + ( 0.5 - this.position.y / 2 ) * yFactor ;
-
-			// What should be done for the z-axis?
-			this._transform.translateZ = this.position.z ;
-
-			break ;
-	}
+	( positionModes[ this.positionMode ] || positionModes.default )( this._transform , this.position , areaWidth , areaHeight , imageWidth , imageHeight ) ;
 	console.log( "._transform after position computing" , this._transform ) ;
 
 	// We use the math convention, x-right, y-up, z-to-cam, z-rotation is counter clockwise, and so on
@@ -2824,7 +2686,7 @@ GEntity.prototype.createCardMarkup = function( card ) {
 } ;
 
 
-},{"./GTransition.js":3,"./commonUtils.js":6,"dom-kit":10,"nextgen-events/lib/browser.js":14,"seventh":28,"svg-kit":45}],3:[function(require,module,exports){
+},{"./GTransition.js":3,"./commonUtils.js":6,"./positionModes.js":7,"./sizeModes.js":8,"dom-kit":12,"nextgen-events/lib/browser.js":16,"seventh":30,"svg-kit":47}],3:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3153,7 +3015,7 @@ domKit.ready( () => {
 } ) ;
 
 
-},{"./ui/classic.js":8,"dom-kit":10,"nextgen-events/lib/browser.js":14,"url":51}],6:[function(require,module,exports){
+},{"./ui/classic.js":10,"dom-kit":12,"nextgen-events/lib/browser.js":16,"url":53}],6:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3217,6 +3079,200 @@ exports.toClassObject = function toClassObject( data ) {
 
 
 },{}],7:[function(require,module,exports){
+/*
+	Spellcast's Web Client Extension
+
+	Copyright (c) 2014 - 2020 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+// In this mode, the sprite is positioned relative to its container area -1,-1 being bottom-left and 1,1 being top-right and 0,0 being the center
+// Any value in [-1,1] ensure the whole sprite is inside the area.
+// Values <-1 or >1 still use the same linear coordinate (so are scaled using the container size).
+exports.default =
+exports.contain =
+exports.area = ( transform , position , areaWidth , areaHeight , imageWidth , imageHeight ) => {
+	var xMinOffset , yMinOffset , xFactor , yFactor ;
+
+	xFactor = areaWidth - imageWidth ;
+	yFactor = areaHeight - imageHeight ;
+
+	xMinOffset = -0.5 * imageWidth * ( 1 - transform.scaleX ) ;
+	yMinOffset = -0.5 * imageHeight * ( 1 - transform.scaleY ) ;
+	xFactor += imageWidth * ( 1 - transform.scaleX ) ;
+	yFactor += imageHeight * ( 1 - transform.scaleY ) ;
+
+	console.log( "dbg:" , { xMinOffset , xFactor , yFactor } ) ;
+	transform.translateX = xMinOffset + ( 0.5 + position.x / 2 ) * xFactor ;
+	transform.translateY = yMinOffset + ( 0.5 - position.y / 2 ) * yFactor ;
+
+	// What should be done for the z-axis?
+	transform.translateZ = position.z ;
+} ;
+
+
+
+// In this mode, the sprite is positioned relative to its container area -1,-1 being bottom-left and 1,1 being top-right and 0,0 being the center
+// Any value in [-1,1] ensure the whole sprite is inside the area.
+// For values <-1 or >1 the extra are scaled using the sprite scale, e.g.:
+// x=-1.5 means that the sprite is on the left, its left half being invisible (outside the container), its right half being visible (inside the container).
+exports.areaInSpriteOut = ( transform , position , areaWidth , areaHeight , imageWidth , imageHeight ) => {
+	var xMinOffset , yMinOffset , xFactor , yFactor ;
+
+	xFactor = areaWidth - imageWidth ,
+	yFactor = areaHeight - imageHeight ;
+
+	xMinOffset = -0.5 * imageWidth * ( 1 - transform.scaleX ) ;
+	yMinOffset = -0.5 * imageHeight * ( 1 - transform.scaleY ) ;
+	xFactor += imageWidth * ( 1 - transform.scaleX ) ;
+	yFactor += imageHeight * ( 1 - transform.scaleY ) ;
+
+	console.log( "dbg:" , { xMinOffset , xFactor , yFactor } ) ;
+
+	if ( position.x < -1 ) {
+		transform.translateX = xMinOffset + ( position.x + 1 ) * imageWidth * transform.scaleX ;
+	}
+	else if ( position.x > 1 ) {
+		transform.translateX = xMinOffset + xFactor + ( position.x - 1 ) * imageWidth * transform.scaleX ;
+	}
+	else {
+		transform.translateX = xMinOffset + ( 0.5 + position.x / 2 ) * xFactor ;
+	}
+
+	if ( position.y < -1 ) {
+		transform.translateY = yMinOffset + yFactor - ( position.y + 1 ) * imageHeight * transform.scaleY ;
+	}
+	else if ( position.y > 1 ) {
+		transform.translateY = yMinOffset - ( position.y - 1 ) * imageHeight * transform.scaleY ;
+	}
+	else {
+		transform.translateY = yMinOffset + ( 0.5 - position.y / 2 ) * yFactor ;
+	}
+
+	// What should be done for the z-axis?
+	transform.translateZ = position.z ;
+} ;
+
+
+},{}],8:[function(require,module,exports){
+/*
+	Spellcast's Web Client Extension
+
+	Copyright (c) 2014 - 2020 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+exports.default =
+exports.contain =
+exports.areaMinSpriteMax = ( transform , size , areaWidth , areaHeight , imageWidth , imageHeight ) => {
+	var areaMin = Math.min( areaWidth , areaHeight ) ,
+		imageMax = Math.max( imageWidth , imageHeight ) ;
+
+	transform.scaleX = size.x * areaMin / imageMax ;
+	transform.scaleY = size.y * areaMin / imageMax ;
+} ;
+
+
+
+exports.cover =
+exports.areaMaxSpriteMin = ( transform , size , areaWidth , areaHeight , imageWidth , imageHeight ) => {
+	var areaMin = Math.min( areaWidth , areaHeight ) ,
+		imageMax = Math.max( imageWidth , imageHeight ) ;
+
+	transform.scaleX = size.x * areaMin / imageMax ;
+	transform.scaleY = size.y * areaMin / imageMax ;
+} ;
+
+
+
+exports.relativeWidth =
+exports.areaWidth = ( transform , size , areaWidth , areaHeight , imageWidth , imageHeight ) => {
+	transform.scaleX = size.x * areaWidth / imageWidth ;
+	transform.scaleY = size.y * areaWidth / imageWidth ;
+} ;
+
+
+
+exports.relativeHeight =
+exports.areaHeight = ( transform , size , areaWidth , areaHeight , imageWidth , imageHeight ) => {
+	transform.scaleX = size.x * areaHeight / imageHeight ;
+	transform.scaleY = size.y * areaHeight / imageHeight ;
+} ;
+
+
+
+exports.relative =
+exports.area = ( transform , size , areaWidth , areaHeight , imageWidth , imageHeight ) => {
+	transform.scaleX = size.x * areaWidth / imageWidth ;
+	transform.scaleY = size.y * areaHeight / imageHeight ;
+} ;
+
+
+
+exports.relativeMax =
+exports.areaMax = ( transform , size , areaWidth , areaHeight , imageWidth , imageHeight ) => {
+	var areaMax = Math.max( areaWidth , areaHeight ) ;
+	transform.scaleX = size.x * areaMax / imageWidth ;
+	transform.scaleY = size.y * areaMax / imageHeight ;
+} ;
+
+
+
+exports.relativeMin =
+exports.areaMin = ( transform , size , areaWidth , areaHeight , imageWidth , imageHeight ) => {
+	var areaMin = Math.min( areaWidth , areaHeight ) ;
+	transform.scaleX = size.x * areaMin / imageWidth ;
+	transform.scaleY = size.y * areaMin / imageHeight ;
+} ;
+
+
+},{}],9:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3321,7 +3377,7 @@ toolkit.stripMarkup = text => text.replace(
 ) ;
 
 
-},{"string-kit/lib/escape.js":31,"string-kit/lib/format.js":32}],8:[function(require,module,exports){
+},{"string-kit/lib/escape.js":33,"string-kit/lib/format.js":34}],10:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4156,9 +4212,9 @@ UI.exit = function( error , timeout , callback ) {
 } ;
 
 
-},{"../Dom.js":1,"../toolkit.js":7,"nextgen-events/lib/browser.js":14,"seventh":28}],9:[function(require,module,exports){
+},{"../Dom.js":1,"../toolkit.js":9,"nextgen-events/lib/browser.js":16,"seventh":30}],11:[function(require,module,exports){
 
-},{}],10:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 (function (process){
 /*
 	Dom Kit
@@ -4754,7 +4810,7 @@ domKit.html = ( $element , html ) => $element.innerHTML = html ;
 
 
 }).call(this,require('_process'))
-},{"@cronvel/xmldom":9,"_process":16}],11:[function(require,module,exports){
+},{"@cronvel/xmldom":11,"_process":18}],13:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -4777,7 +4833,7 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],12:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 (function (process,global,setImmediate){
 /*
 	Next-Gen Events
@@ -6175,7 +6231,7 @@ NextGenEvents.Proxy = require( './Proxy.js' ) ;
 
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"../package.json":15,"./Proxy.js":13,"_process":16,"timers":50}],13:[function(require,module,exports){
+},{"../package.json":17,"./Proxy.js":15,"_process":18,"timers":52}],15:[function(require,module,exports){
 /*
 	Next-Gen Events
 
@@ -6722,7 +6778,7 @@ RemoteService.prototype.receiveAckEmit = function( message ) {
 } ;
 
 
-},{"./NextGenEvents.js":12}],14:[function(require,module,exports){
+},{"./NextGenEvents.js":14}],16:[function(require,module,exports){
 (function (process){
 /*
 	Next-Gen Events
@@ -6768,7 +6824,7 @@ module.exports.isBrowser = true ;
 
 
 }).call(this,require('_process'))
-},{"./NextGenEvents.js":12,"_process":16}],15:[function(require,module,exports){
+},{"./NextGenEvents.js":14,"_process":18}],17:[function(require,module,exports){
 module.exports={
   "_from": "nextgen-events@^1.3.0",
   "_id": "nextgen-events@1.3.0",
@@ -6856,7 +6912,7 @@ module.exports={
   "version": "1.3.0"
 }
 
-},{}],16:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -7042,7 +7098,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],17:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 (function (global){
 /*! https://mths.be/punycode v1.4.1 by @mathias */
 ;(function(root) {
@@ -7579,7 +7635,7 @@ process.umask = function() { return 0; };
 }(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],18:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -7665,7 +7721,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],19:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -7752,13 +7808,13 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],20:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":18,"./encode":19}],21:[function(require,module,exports){
+},{"./decode":20,"./encode":21}],23:[function(require,module,exports){
 (function (process,global){
 (function (global, undefined) {
     "use strict";
@@ -7948,7 +8004,7 @@ exports.encode = exports.stringify = require('./encode');
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":16}],22:[function(require,module,exports){
+},{"_process":18}],24:[function(require,module,exports){
 /*
 	Seventh
 
@@ -8032,7 +8088,7 @@ Promise.promisifyAnyNodeApi = ( api , suffix , multiSuffix , filter ) => {
 
 
 
-},{"./seventh.js":28}],23:[function(require,module,exports){
+},{"./seventh.js":30}],25:[function(require,module,exports){
 /*
 	Seventh
 
@@ -8641,7 +8697,7 @@ Promise.race = ( iterable ) => {
 } ;
 
 
-},{"./seventh.js":28}],24:[function(require,module,exports){
+},{"./seventh.js":30}],26:[function(require,module,exports){
 (function (process,global,setImmediate){
 /*
 	Seventh
@@ -9396,7 +9452,7 @@ if ( process.browser ) {
 
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"_process":16,"setimmediate":21,"timers":50}],25:[function(require,module,exports){
+},{"_process":18,"setimmediate":23,"timers":52}],27:[function(require,module,exports){
 /*
 	Seventh
 
@@ -9902,7 +9958,7 @@ Promise.variableRetry = ( asyncFn , thisBinding ) => {
 */
 
 
-},{"./seventh.js":28}],26:[function(require,module,exports){
+},{"./seventh.js":30}],28:[function(require,module,exports){
 (function (process){
 /*
 	Seventh
@@ -10002,7 +10058,7 @@ Promise.resolveSafeTimeout = function( timeout , value ) {
 
 
 }).call(this,require('_process'))
-},{"./seventh.js":28,"_process":16}],27:[function(require,module,exports){
+},{"./seventh.js":30,"_process":18}],29:[function(require,module,exports){
 /*
 	Seventh
 
@@ -10054,7 +10110,7 @@ Promise.parasite = () => {
 } ;
 
 
-},{"./seventh.js":28}],28:[function(require,module,exports){
+},{"./seventh.js":30}],30:[function(require,module,exports){
 /*
 	Seventh
 
@@ -10097,7 +10153,7 @@ require( './parasite.js' ) ;
 require( './misc.js' ) ;
 
 
-},{"./api.js":22,"./batch.js":23,"./core.js":24,"./decorators.js":25,"./misc.js":26,"./parasite.js":27,"./wrapper.js":29}],29:[function(require,module,exports){
+},{"./api.js":24,"./batch.js":25,"./core.js":26,"./decorators.js":27,"./misc.js":28,"./parasite.js":29,"./wrapper.js":31}],31:[function(require,module,exports){
 /*
 	Seventh
 
@@ -10262,7 +10318,7 @@ Promise.onceEventAllOrError = ( emitter , eventName , excludeEvents ) => {
 } ;
 
 
-},{"./seventh.js":28}],30:[function(require,module,exports){
+},{"./seventh.js":30}],32:[function(require,module,exports){
 /*
 	String Kit
 
@@ -10344,7 +10400,7 @@ module.exports = {
 } ;
 
 
-},{}],31:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 /*
 	String Kit
 
@@ -10449,7 +10505,7 @@ exports.unicodePercentEncode = str => str.replace( /[\x00-\x1f\u0100-\uffff\x7f%
 exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
 
 
-},{}],32:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 (function (Buffer){
 /*
 	String Kit
@@ -11450,7 +11506,7 @@ function iround( v , istep ) {
 
 
 }).call(this,require("buffer").Buffer)
-},{"./ansi.js":30,"./escape.js":31,"./inspect.js":33,"./naturalSort.js":34,"./unicode.js":35,"buffer":9}],33:[function(require,module,exports){
+},{"./ansi.js":32,"./escape.js":33,"./inspect.js":35,"./naturalSort.js":36,"./unicode.js":37,"buffer":11}],35:[function(require,module,exports){
 (function (Buffer,process){
 /*
 	String Kit
@@ -12147,7 +12203,7 @@ inspectStyle.html = Object.assign( {} , inspectStyle.none , {
 
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")},require('_process'))
-},{"../../is-buffer/index.js":11,"./ansi.js":30,"./escape.js":31,"_process":16}],34:[function(require,module,exports){
+},{"../../is-buffer/index.js":13,"./ansi.js":32,"./escape.js":33,"_process":18}],36:[function(require,module,exports){
 /*
 	HTTP Requester
 
@@ -12233,7 +12289,7 @@ module.exports = function( a , b ) {
 } ;
 
 
-},{}],35:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 /*
 	String Kit
 
@@ -12644,7 +12700,7 @@ unicode.toFullWidth = str => {
 } ;
 
 
-},{}],36:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -12764,7 +12820,7 @@ VG.prototype.addCssRule = function( rule ) {
 } ;
 
 
-},{"../package.json":49,"./VGContainer.js":37,"./svg-kit.js":45}],37:[function(require,module,exports){
+},{"../package.json":51,"./VGContainer.js":39,"./svg-kit.js":47}],39:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -12885,7 +12941,7 @@ VGContainer.prototype.morphDom = function( root = this ) {
 } ;
 
 
-},{"../package.json":49,"./VGEntity.js":39,"./svg-kit.js":45}],38:[function(require,module,exports){
+},{"../package.json":51,"./VGEntity.js":41,"./svg-kit.js":47}],40:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -12970,7 +13026,7 @@ VGEllipse.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":49,"./VGEntity.js":39}],39:[function(require,module,exports){
+},{"../package.json":51,"./VGEntity.js":41}],41:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13355,7 +13411,7 @@ VGEntity.prototype.morphOneEntryDom = function( data , root = this ) {
 } ;
 
 
-},{"../package.json":49,"string-kit/lib/camel":47,"string-kit/lib/escape":48}],40:[function(require,module,exports){
+},{"../package.json":51,"string-kit/lib/camel":49,"string-kit/lib/escape":50}],42:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13412,7 +13468,7 @@ VGGroup.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":49,"./VGContainer.js":37,"./svg-kit.js":45}],41:[function(require,module,exports){
+},{"../package.json":51,"./VGContainer.js":39,"./svg-kit.js":47}],43:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -14079,7 +14135,7 @@ VGPath.prototype.forwardNegativeTurn = function( data ) {
 } ;
 
 
-},{"../package.json":49,"./VGEntity.js":39}],42:[function(require,module,exports){
+},{"../package.json":51,"./VGEntity.js":41}],44:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -14170,7 +14226,7 @@ VGRect.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":49,"./VGEntity.js":39}],43:[function(require,module,exports){
+},{"../package.json":51,"./VGEntity.js":41}],45:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -14282,7 +14338,7 @@ VGText.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":49,"./VGEntity.js":39}],44:[function(require,module,exports){
+},{"../package.json":51,"./VGEntity.js":41}],46:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -14330,7 +14386,7 @@ path.dFromPoints = ( points , invertY ) => {
 } ;
 
 
-},{}],45:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 (function (process){
 /*
 	SVG Kit
@@ -14808,7 +14864,7 @@ svgKit.objectToVG = function( object ) {
 
 
 }).call(this,require('_process'))
-},{"./VG.js":36,"./VGContainer.js":37,"./VGEllipse.js":38,"./VGEntity.js":39,"./VGGroup.js":40,"./VGPath.js":41,"./VGRect.js":42,"./VGText.js":43,"./path.js":44,"_process":16,"dom-kit":46,"fs":9,"seventh":28,"string-kit/lib/escape.js":48}],46:[function(require,module,exports){
+},{"./VG.js":38,"./VGContainer.js":39,"./VGEllipse.js":40,"./VGEntity.js":41,"./VGGroup.js":42,"./VGPath.js":43,"./VGRect.js":44,"./VGText.js":45,"./path.js":46,"_process":18,"dom-kit":48,"fs":11,"seventh":30,"string-kit/lib/escape.js":50}],48:[function(require,module,exports){
 (function (process){
 /*
 	Dom Kit
@@ -15396,7 +15452,7 @@ domKit.html = function( $element , html ) { $element.innerHTML = html ; } ;
 
 
 }).call(this,require('_process'))
-},{"@cronvel/xmldom":9,"_process":16}],47:[function(require,module,exports){
+},{"@cronvel/xmldom":11,"_process":18}],49:[function(require,module,exports){
 /*
 	String Kit
 
@@ -15470,11 +15526,11 @@ camel.camelCaseToDash =
 camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' ) ;
 
 
-},{}],48:[function(require,module,exports){
-arguments[4][31][0].apply(exports,arguments)
-},{"dup":31}],49:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
+arguments[4][33][0].apply(exports,arguments)
+},{"dup":33}],51:[function(require,module,exports){
 module.exports={
-  "_from": "svg-kit@^0.3.0",
+  "_from": "svg-kit@0.3.0",
   "_id": "svg-kit@0.3.0",
   "_inBundle": false,
   "_integrity": "sha512-+lqQ8WQp8UD1BlNBeVOawBKpXCBCqdwnEfRiWxG7vI3NBmZ9CBPN/eMmMt2OpJRU8UcZUOrarAjiZV3dZsqWtA==",
@@ -15483,21 +15539,22 @@ module.exports={
     "@cronvel/xmldom": "0.1.31"
   },
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "svg-kit@^0.3.0",
+    "raw": "svg-kit@0.3.0",
     "name": "svg-kit",
     "escapedName": "svg-kit",
-    "rawSpec": "^0.3.0",
+    "rawSpec": "0.3.0",
     "saveSpec": null,
-    "fetchSpec": "^0.3.0"
+    "fetchSpec": "0.3.0"
   },
   "_requiredBy": [
+    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/svg-kit/-/svg-kit-0.3.0.tgz",
   "_shasum": "a53aadb7152cf7374e2a791b9d45b7cc6d0fe25d",
-  "_spec": "svg-kit@^0.3.0",
+  "_spec": "svg-kit@0.3.0",
   "_where": "/home/cedric/inside/github/spellcast-ext-web-client",
   "author": {
     "name": "Cédric Ronvel"
@@ -15548,7 +15605,7 @@ module.exports={
   "version": "0.3.0"
 }
 
-},{}],50:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 (function (setImmediate,clearImmediate){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -15627,7 +15684,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":16,"timers":50}],51:[function(require,module,exports){
+},{"process/browser.js":18,"timers":52}],53:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -16361,7 +16418,7 @@ Url.prototype.parseHost = function() {
   if (host) this.hostname = host;
 };
 
-},{"./util":52,"punycode":17,"querystring":20}],52:[function(require,module,exports){
+},{"./util":54,"punycode":19,"querystring":22}],54:[function(require,module,exports){
 'use strict';
 
 module.exports = {

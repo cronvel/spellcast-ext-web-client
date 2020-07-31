@@ -1636,6 +1636,10 @@ function GEntity( dom , data ) {
 
 	this.$wrapper = null ;
 	this.$image = null ;
+	this.$backImage = null ;
+	this.$mask = null ;
+	this.$locationSlot = null ;
+	this.$front = null ;
 	this._transform = {} ;
 
 	if ( this.usage !== 'marker' ) {
@@ -1953,23 +1957,23 @@ GEntity.prototype.updateTransition = function( transitions ) {
 	if ( transitions.effect !== undefined ) { this.transitions.effect = transitions.effect ? new GTransition( transitions.effect ) : transitions.effect ; }
 
 	if ( this.transitions.transform !== null ) {
-		if ( ! transitions.transform ) { parts.push( 'transform 0ms' ) ; }
+		if ( ! transitions.transform ) { parts.push( 'transform 0s' ) ; }
 		else { parts.push( this.transitions.transform.toString( 'transform' ) ) ; }
 	}
 
 	if ( this.transitions.opacity !== null ) {
-		if ( ! transitions.opacity ) { parts.push( 'opacity 0ms' ) ; }
+		if ( ! transitions.opacity ) { parts.push( 'opacity 0s' ) ; }
 		else { parts.push( this.transitions.opacity.toString( 'opacity' ) ) ; }
 	}
 
 	/* /!\ TO BE DEFINED /!\
 	if ( this.transitions.color !== null ) {
-		if ( ! transitions.color ) { parts.push( 'color 0ms' ) ; }
+		if ( ! transitions.color ) { parts.push( 'color 0s' ) ; }
 		else { parts.push( this.transitions.color.toString( 'color' ) ) ; }
 	}
 
 	if ( this.transitions.effect !== null ) {
-		if ( ! transitions.effect ) { parts.push( 'effect 0ms' ) ; }
+		if ( ! transitions.effect ) { parts.push( 'effect 0s' ) ; }
 		else { parts.push( this.transitions.effect.toString( 'effect' ) ) ; }
 	}
 	*/

@@ -1666,7 +1666,8 @@ GEntity.prototype.update = async function( data , initial = false ) {
 	}
 
 	if ( data.data ) {
-		if ( data.data.vgObject ) { this.updateVgObject( data.data.vgObject ) ; }
+		if ( data.data.vgUrl ) { console.warn( "Has vgUrl" ) ; await this.updateVgImage( data.data.vgUrl ) ; }
+		else if ( data.data.vgObject ) { this.updateVgObject( data.data.vgObject ) ; }
 		else if ( data.data.vgMorph ) { this.updateVgMorph( data.data.vgMorph ) ; }
 
 		if ( data.data.area ) {
@@ -1745,100 +1746,108 @@ GEntity.prototype.updateTexture = function( texturePackId , variantId , themeId 
 
 // Load/replace the gEntity's image
 GEntity.prototype.updateImage = function( url ) {
-	var shouldAppend = ! this.$image ;
-
-	url = this.dom.cleanUrl( url ) ;
-
-	var promise = new Promise() ;
-
-	//this.vgObject = null ;
-
 	if ( this.usage === 'card' ) {
-		this.$image.style.backgroundImage = 'url("' + url + '")' ;
-		promise.resolve() ;
-		return promise ;
+		this.$image.style.backgroundImage = 'url("' + this.dom.cleanUrl( url ) + '")' ;
+		return Promise.resolved ;
 	}
 
-	if ( url.endsWith( '.svg' ) ) {
-		// Always wipe any existing $image element and pre-create the <svg> tag
-		if ( this.$image ) {
-			this.$image.remove() ;
-			shouldAppend = true ;
-		}
+	if ( url.endsWith( '.svg' ) ) { return this.updateVgImage( url ) ; }
+	
+	var promise = new Promise() ,
+		shouldAppend = ! this.$image ;
 
-		if ( this.usage === 'marker' ) {
-			// If it's a marker, load it inside a <g> tag, that will be part of the main VG's <svg>
-			// <svg> inside <svg> are great, but Chrome sucks at it (it does not support CSS transform, etc)
-			this.$image = document.createElementNS( 'http://www.w3.org/2000/svg' , 'g' ) ;
-		}
-		else {
-			this.$image = document.createElementNS( 'http://www.w3.org/2000/svg' , 'svg' ) ;
-			this.$image.classList.add( 'svg' ) ;
-		}
-
-		switch ( this.usage ) {
-			case 'vg' :
-				// Stop event propagation
-				this.onClick = ( event ) => {
-					//this.actionCallback( this.action ) ;
-					event.stopPropagation() ;
-				} ;
-
-				this.$image.addEventListener( 'click' , this.onClick ) ;
-				this.$image.classList.add( 'vg' ) ;
-				this.dom.uiLoadingCount ++ ;
-				break ;
-			case 'sprite' :
-				this.$image.classList.add( 'sprite' ) ;
-				break ;
-			case 'marker' :
-				this.$image.classList.add( 'marker' ) ;
-				break ;
-		}
-
-		svgKit.load( url , {
-			removeSvgStyle: true ,
-			//removeSize: true ,
-			//removeIds: true ,
-			removeComments: true ,
-			removeExoticNamespaces: true ,
-			//removeDefaultStyles: true ,
-			as: this.$image
-		} ).then( () => {
-			console.warn( "loaded!" ) ;
-			if ( this.usage === 'vg' ) {
-				this.setVgButtons( this.$image ) ;
-				this.setVgPassiveHints( this.$image ) ;
-				this.emit( 'loaded' ) ;
-				if ( -- this.dom.uiLoadingCount <= 0 ) { this.emit( 'uiLoaded' ) ; }
-			}
-			else {
-				this.emit( 'loaded' ) ;
-			}
-
-			promise.resolve() ;
-		} ) ;
-
-		console.warn( "Aft load" ) ;
-		this.emit( 'loading' ) ;
+	if ( this.$image && this.$image.tagName.toLowerCase() !== 'img' ) {
+		this.$image.remove() ;
+		this.$image = null ;
 	}
-	else {
-		if ( this.$image && this.$image.tagName.toLowerCase() !== 'img' ) {
-			this.$image.remove() ;
-			this.$image = null ;
-		}
 
-		if ( ! this.$image ) {
-			shouldAppend = true ;
-			this.$image = document.createElement( 'img' ) ;
-			this.$image.classList.add( this.usage ) ;
-		}
-
-		this.$image.setAttribute( 'src' , url ) ;
-		this.$image.onload = () => promise.resolve() ;
+	if ( ! this.$image ) {
+		shouldAppend = true ;
+		this.$image = document.createElement( 'img' ) ;
+		this.$image.classList.add( this.usage ) ;
 	}
+
+	this.$image.setAttribute( 'src' , this.dom.cleanUrl( url ) ) ;
+	this.$image.onload = () => promise.resolve() ;
 
 	if ( shouldAppend && this.usage !== 'marker' ) {
+		this.$wrapper.append( this.$image ) ;
+	}
+
+	return promise ;
+} ;
+
+
+
+GEntity.prototype.updateVgImage = function( url ) {
+	console.warn( ".updateVgImage()" ) ;
+	if ( ! url.endsWith( '.svg' ) ) {
+		console.warn( ".updateVgImage(): not a .svg file" ) ;
+		return Promise.resolved ;
+	}
+	
+	var promise = new Promise() ;
+
+	// Always wipe any existing $image element and pre-create the <svg> tag
+	if ( this.$image ) { this.$image.remove() ; }
+
+	if ( this.usage === 'marker' ) {
+		// If it's a marker, load it inside a <g> tag, that will be part of the main VG's <svg>
+		// <svg> inside <svg> are great, but Chrome sucks at it (it does not support CSS transform, etc)
+		this.$image = document.createElementNS( 'http://www.w3.org/2000/svg' , 'g' ) ;
+	}
+	else {
+		this.$image = document.createElementNS( 'http://www.w3.org/2000/svg' , 'svg' ) ;
+		this.$image.classList.add( 'svg' ) ;
+	}
+
+	switch ( this.usage ) {
+		case 'vg' :
+			// Stop event propagation
+			this.onClick = ( event ) => {
+				//this.actionCallback( this.action ) ;
+				event.stopPropagation() ;
+			} ;
+
+			this.$image.addEventListener( 'click' , this.onClick ) ;
+			this.$image.classList.add( 'vg' ) ;
+			this.dom.uiLoadingCount ++ ;
+			break ;
+		case 'sprite' :
+			this.$image.classList.add( 'sprite' ) ;
+			break ;
+		case 'marker' :
+			this.$image.classList.add( 'marker' ) ;
+			break ;
+	}
+
+	svgKit.load( this.dom.cleanUrl( url ) , {
+		removeSvgStyle: true ,
+		//removeSize: true ,
+		//removeIds: true ,
+		removeComments: true ,
+		removeExoticNamespaces: true ,
+		//removeDefaultStyles: true ,
+		as: this.$image
+	} ).then( () => {
+		console.warn( "loaded!" ) ;
+		if ( this.usage === 'vg' ) {
+			this.setVgButtons( this.$image ) ;
+			this.setVgPassiveHints( this.$image ) ;
+			this.emit( 'loaded' ) ;
+			if ( -- this.dom.uiLoadingCount <= 0 ) { this.emit( 'uiLoaded' ) ; }
+		}
+		else {
+			this.emit( 'loaded' ) ;
+		}
+
+		promise.resolve() ;
+	} ) ;
+
+	console.warn( "Aft load" ) ;
+	this.emit( 'loading' ) ;
+
+	if ( this.usage !== 'marker' ) {
 		this.$wrapper.append( this.$image ) ;
 	}
 
@@ -2190,6 +2199,8 @@ GEntity.prototype.updateVgArea = function( areaData ) {
 		return ;
 	}
 
+	if ( ! this.data.area ) { this.data.area = {} ; }
+
 	for ( area in areaData ) {
 		if ( ! this.data.area[ area ] ) { this.data.area[ area ] = {} ; }
 		if ( ! this.data.area[ area ].meta ) { this.data.area[ area ].meta = {} ; }
@@ -2282,12 +2293,12 @@ GEntity.prototype.updateMarkerLocation = function( vgId , areaId ) {
 	if ( ! vgId ) { vgId = this.data.vg ; }
 	if ( ! areaId ) { areaId = this.data.location ; }
 
-	if ( ! this.gEntities[ vgId ] ) {
+	if ( ! this.dom.gEntities[ vgId ] ) {
 		console.warn( 'Unknown VG id: ' , vgId ) ;
 		return ;
 	}
 
-	vg = this.gEntities[ vgId ] ;
+	vg = this.dom.gEntities[ vgId ] ;
 
 	if ( ! vg.usage === 'vg' ) {
 		console.warn( 'This gEntity is not a VG, id: ' , vgId ) ;
@@ -2436,8 +2447,6 @@ GEntity.prototype.update_ = async function( id , data , initial = false ) {
 		Object.assign( this.maskStyle , data.maskStyle ) ;
 		domKit.css( this.$mask , data.maskStyle ) ;
 	}
-
-	if ( data.size || data.position ) { this.updateTransform( data ) ; }
 
 	if ( data.class ) {
 		data.class = commonUtils.toClassObject( data.class ) ;
@@ -15465,7 +15474,7 @@ camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' ) ;
 arguments[4][31][0].apply(exports,arguments)
 },{"dup":31}],49:[function(require,module,exports){
 module.exports={
-  "_from": "svg-kit@0.3.0",
+  "_from": "svg-kit@^0.3.0",
   "_id": "svg-kit@0.3.0",
   "_inBundle": false,
   "_integrity": "sha512-+lqQ8WQp8UD1BlNBeVOawBKpXCBCqdwnEfRiWxG7vI3NBmZ9CBPN/eMmMt2OpJRU8UcZUOrarAjiZV3dZsqWtA==",
@@ -15474,22 +15483,21 @@ module.exports={
     "@cronvel/xmldom": "0.1.31"
   },
   "_requested": {
-    "type": "version",
+    "type": "range",
     "registry": true,
-    "raw": "svg-kit@0.3.0",
+    "raw": "svg-kit@^0.3.0",
     "name": "svg-kit",
     "escapedName": "svg-kit",
-    "rawSpec": "0.3.0",
+    "rawSpec": "^0.3.0",
     "saveSpec": null,
-    "fetchSpec": "0.3.0"
+    "fetchSpec": "^0.3.0"
   },
   "_requiredBy": [
-    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/svg-kit/-/svg-kit-0.3.0.tgz",
   "_shasum": "a53aadb7152cf7374e2a791b9d45b7cc6d0fe25d",
-  "_spec": "svg-kit@0.3.0",
+  "_spec": "svg-kit@^0.3.0",
   "_where": "/home/cedric/inside/github/spellcast-ext-web-client",
   "author": {
     "name": "Cédric Ronvel"

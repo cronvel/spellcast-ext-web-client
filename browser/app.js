@@ -2685,12 +2685,12 @@ GEntity.prototype.createCardMarkup = function( card ) {
 
 
 /*
-	duration: transition duration in ms
+	duration: transition duration in s
 	easing: the easing function used
 */
 // !THIS SHOULD TRACK SERVER-SIDE GEntity! spellcast/lib/gfx/GTransition.js
 function GTransition( data ) {
-	this.duration = 200 ;
+	this.duration = 0.2 ;
 	this.easing = 'linear' ;
 
 	if ( data ) { this.update( data ) ; }
@@ -2713,7 +2713,7 @@ GTransition.prototype.update = function( data ) {
 
 
 GTransition.prototype.toString = function( property ) {
-	return property + ' ' + this.duration + 'ms' + ( ' ' + this.easing || '' ) ;
+	return property + ' ' + this.duration + 's' + ( ' ' + this.easing || '' ) ;
 } ;
 
 
@@ -3196,24 +3196,28 @@ exports.areaInSpriteOut = ( transform , position , areaWidth , areaHeight , imag
 
 
 exports.default =
-exports.areaMinSpriteMax =
 exports.contain = ( transform , size , areaWidth , areaHeight , imageWidth , imageHeight ) => {
-	var areaMin = Math.min( areaWidth , areaHeight ) ,
-		imageMax = Math.max( imageWidth , imageHeight ) ;
-
-	transform.scaleX = size.x * areaMin / imageMax ;
-	transform.scaleY = size.y * areaMin / imageMax ;
+	if ( imageWidth / areaWidth > imageHeight / areaHeight ) {
+		transform.scaleX = size.x * areaWidth / imageWidth ;
+		transform.scaleY = size.y * areaWidth / imageWidth ;
+	}
+	else {
+		transform.scaleX = size.x * areaHeight / imageHeight ;
+		transform.scaleY = size.y * areaHeight / imageHeight ;
+	}
 } ;
 
 
 
-exports.areaMaxSpriteMin =
 exports.cover = ( transform , size , areaWidth , areaHeight , imageWidth , imageHeight ) => {
-	var areaMin = Math.min( areaWidth , areaHeight ) ,
-		imageMax = Math.max( imageWidth , imageHeight ) ;
-
-	transform.scaleX = size.x * areaMin / imageMax ;
-	transform.scaleY = size.y * areaMin / imageMax ;
+	if ( imageWidth / areaWidth > imageHeight / areaHeight ) {
+		transform.scaleX = size.x * areaHeight / imageHeight ;
+		transform.scaleY = size.y * areaHeight / imageHeight ;
+	}
+	else {
+		transform.scaleX = size.x * areaWidth / imageWidth ;
+		transform.scaleY = size.y * areaWidth / imageWidth ;
+	}
 } ;
 
 
@@ -15517,7 +15521,7 @@ camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' ) ;
 arguments[4][33][0].apply(exports,arguments)
 },{"dup":33}],51:[function(require,module,exports){
 module.exports={
-  "_from": "svg-kit@0.3.0",
+  "_from": "svg-kit@^0.3.0",
   "_id": "svg-kit@0.3.0",
   "_inBundle": false,
   "_integrity": "sha512-+lqQ8WQp8UD1BlNBeVOawBKpXCBCqdwnEfRiWxG7vI3NBmZ9CBPN/eMmMt2OpJRU8UcZUOrarAjiZV3dZsqWtA==",
@@ -15526,22 +15530,21 @@ module.exports={
     "@cronvel/xmldom": "0.1.31"
   },
   "_requested": {
-    "type": "version",
+    "type": "range",
     "registry": true,
-    "raw": "svg-kit@0.3.0",
+    "raw": "svg-kit@^0.3.0",
     "name": "svg-kit",
     "escapedName": "svg-kit",
-    "rawSpec": "0.3.0",
+    "rawSpec": "^0.3.0",
     "saveSpec": null,
-    "fetchSpec": "0.3.0"
+    "fetchSpec": "^0.3.0"
   },
   "_requiredBy": [
-    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/svg-kit/-/svg-kit-0.3.0.tgz",
   "_shasum": "a53aadb7152cf7374e2a791b9d45b7cc6d0fe25d",
-  "_spec": "svg-kit@0.3.0",
+  "_spec": "svg-kit@^0.3.0",
   "_where": "/home/cedric/inside/github/spellcast-ext-web-client",
   "author": {
     "name": "Cédric Ronvel"

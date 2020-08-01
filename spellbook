@@ -43,6 +43,8 @@
 	[summon]
 		- lib/app.js
 		- lib/Dom.js
+		- lib/GScene.js
+		- lib/Camera.js
 		- lib/GEntity.js
 		- lib/GTransition.js
 		- lib/TexturePack.js

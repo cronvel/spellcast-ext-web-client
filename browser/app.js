@@ -29,6 +29,84 @@
 
 
 
+//const domKit = require( 'dom-kit' ) ;
+
+
+
+// !THIS SHOULD TRACK SERVER-SIDE Camera! spellcast/lib/gfx/Camera.js
+function Camera( dom , data ) {
+	this.dom = dom ;    // Dom instance, immutable
+
+	this.position = { x: 0 , y: 0 , z: 10 } ;
+	this.targetPosition = { x: 0 , y: 0 , z: 0 } ;
+	this.free = false ;
+	this.trackingMode = null ;
+	this.perspective = null ;
+}
+
+module.exports = Camera ;
+
+
+
+// !THIS SHOULD TRACK SERVER-SIDE Camera! spellcast/lib/gfx/Camera.js
+Camera.prototype.update = function( data , eventData ) {
+	if ( data.position ) {
+		if ( data.position.x !== undefined ) { this.position.x = data.position.x ; }
+		if ( data.position.y !== undefined ) { this.position.y = data.position.y ; }
+		if ( data.position.z !== undefined ) { this.position.z = data.position.z ; }
+	}
+
+	if ( data.targetPosition ) {
+		if ( data.targetPosition.x !== undefined ) { this.targetPosition.x = data.targetPosition.x ; }
+		if ( data.targetPosition.y !== undefined ) { this.targetPosition.y = data.targetPosition.y ; }
+		if ( data.targetPosition.z !== undefined ) { this.targetPosition.z = data.targetPosition.z ; }
+	}
+
+	if ( data.free !== undefined ) { this.free = !! data.free ; }
+	if ( data.trackingMode !== undefined ) { this.trackingMode = data.trackingMode || null ; }
+
+	if ( data.perspective !== undefined ) {
+		this.perspective = data.perspective || null ;
+		// The perspective is relative to the viewport size
+		let avg = ( this.dom.$gfx.offsetWidth + this.dom.$gfx.offsetHeight ) / 2 ;
+		this.dom.$gfx.style.perspective = this.perspective ? Math.round( avg * this.perspective ) + 'px' : null ;
+	}
+} ;
+
+
+},{}],2:[function(require,module,exports){
+/*
+	Spellcast's Web Client Extension
+
+	Copyright (c) 2014 - 2020 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const GScene = require( './GScene.js' ) ;
+const Camera = require( './Camera.js' ) ;
 const TexturePack = require( './TexturePack.js' ) ;
 const GEntity = require( './GEntity.js' ) ;
 const commonUtils = require( './commonUtils.js' ) ;
@@ -76,16 +154,9 @@ function Dom() {
 
 	this.nextSoundChannel = 0 ;
 
-	this.textureTheme = 'default' ;
-	this.texturePacks = {} ;
-	this.gEntities = {} ;
-	/*
-	this.sprites = {} ;
-	this.vgs = {} ;
-	this.markers = {} ;
-	this.cards = {} ;
-	*/
-	this.gEntityLocations = {} ;
+	this.gScenes = {} ;
+	
+	// Move it to GScene?
 	this.animations = {} ;
 
 	this.hintTimer = null ;
@@ -1240,7 +1311,7 @@ Dom.prototype.setSceneImage = function( data ) {
 		case 'left' :
 			this.$spellcast.setAttribute( 'data-image-position' , 'left' ) ;
 			break ;
-		case 'right' :	// jshint ignore:line
+		case 'right' :
 		default :
 			this.$spellcast.setAttribute( 'data-image-position' , 'right' ) ;
 			break ;
@@ -1249,22 +1320,66 @@ Dom.prototype.setSceneImage = function( data ) {
 
 
 
-Dom.prototype.setTextureTheme = function( theme ) {
-	this.textureTheme = theme ;
+Dom.prototype.createGScene = function( gSceneId , data ) {
+	if ( this.gScenes[ gSceneId ] ) { this.clearGScene( gSceneId ) ; }
+	var gScene = this.gScenes[ gSceneId ] = new GScene( this , data ) ;
+	return gScene.update( data , true ) ;
+} ;
+
+
+
+Dom.prototype.updateGScene = function( gSceneId , data ) {
+	var gScene = this.gScenes[ gSceneId ] ;
+
+	if ( ! gScene ) {
+		console.warn( 'Unknown GScene id: ' , gSceneId ) ;
+		return Promise.resolved ;
+	}
+
+	return gScene.update( data ) ;
+} ;
+
+
+
+Dom.prototype.clearGScene = function( gSceneId ) {
+	var gScene = this.gScenes[ gSceneId ] ;
+
+	if ( ! gScene ) {
+		console.warn( 'Unknown GScene id: ' , gSceneId ) ;
+		return ;
+	}
+	
+	gScene.$gscene.remove() ;
+	delete this.gScenes[ gSceneId ] ;
 } ;
 
 
 
 Dom.prototype.defineTexturePack = function( gSceneId , textureUid , data ) {
-	this.texturePacks[ textureUid ] = new TexturePack( data ) ;
-	console.warn( "All texture packs so far:" , this.texturePacks ) ;
+	var gScene = this.gScenes[ gSceneId ] ;
+
+	if ( ! gScene ) {
+		console.warn( 'Unknown GScene id: ' , gSceneId ) ;
+		return Promise.resolved ;
+	}
+
+	gScene.texturePacks[ textureUid ] = new TexturePack( data ) ;
+	console.warn( "All texture packs so far for gScene:" , gSceneId , gScene.texturePacks ) ;
 } ;
 
 
 
 Dom.prototype.showGEntity = function( gSceneId , gEntityId , data ) {
-	if ( this.gEntities[ gEntityId ] ) { this.clearGEntity( gSceneId , gEntityId ) ; }
-	var gEntity = this.gEntities[ gEntityId ] = new GEntity( this , data ) ;
+	var gScene = this.gScenes[ gSceneId ] ;
+
+	if ( ! gScene ) {
+		console.warn( 'Unknown GScene id: ' , gSceneId ) ;
+		return Promise.resolved ;
+	}
+
+	if ( gScene.gEntities[ gEntityId ] ) { this.clearGEntity( gSceneId , gEntityId ) ; }
+
+	var gEntity = gScene.gEntities[ gEntityId ] = new GEntity( this , gScene , data ) ;
 	return gEntity.update( data , true ) ;
 } ;
 
@@ -1296,7 +1411,14 @@ Dom.prototype.showCard = function( gEntityId , data ) {
 
 
 Dom.prototype.updateGEntity = function( gSceneId , gEntityId , data ) {
-	var gEntity = this.gEntities[ gEntityId ] ;
+	var gScene = this.gScenes[ gSceneId ] ;
+
+	if ( ! gScene ) {
+		console.warn( 'Unknown GScene id: ' , gSceneId ) ;
+		return Promise.resolved ;
+	}
+
+	var gEntity = gScene.gEntities[ gEntityId ] ;
 
 	if ( ! gEntity ) {
 		console.warn( 'Unknown GEntity id: ' , gEntityId ) ;
@@ -1374,10 +1496,17 @@ Dom.prototype.animateCard = function( cardId , animationId ) {
 
 
 Dom.prototype.clearGEntity = function( gSceneId , gEntityId ) {
-	var gEntity = this.gEntities[ gEntityId ] ;
+	var gScene = this.gScenes[ gSceneId ] ;
+
+	if ( ! gScene ) {
+		console.warn( 'Unknown GScene id: ' , gSceneId ) ;
+		return Promise.resolved ;
+	}
+
+	var gEntity = gScene.gEntities[ gEntityId ] ;
 
 	if ( ! gEntity ) {
-		console.warn( 'Unknown gEntity id: ' , gEntityId ) ;
+		console.warn( 'Unknown GEntity id: ' , gEntityId ) ;
 		return ;
 	}
 	
@@ -1388,7 +1517,7 @@ Dom.prototype.clearGEntity = function( gSceneId , gEntityId ) {
 	if ( gEntity.$mask ) { gEntity.$mask.remove() ; }
 	*/
 
-	delete this.gEntities[ gEntityId ] ;
+	delete gScene.gEntities[ gEntityId ] ;
 } ;
 
 
@@ -1519,7 +1648,681 @@ function soundFadeOut( $element , callback ) {
 }
 
 
-},{"./GEntity.js":2,"./TexturePack.js":4,"./commonUtils.js":6,"dom-kit":12,"nextgen-events/lib/browser.js":16,"seventh":30,"svg-kit":47}],2:[function(require,module,exports){
+},{"./Camera.js":1,"./GEntity.js":4,"./GScene.js":5,"./TexturePack.js":7,"./commonUtils.js":9,"dom-kit":14,"nextgen-events/lib/browser.js":18,"seventh":32,"svg-kit":49}],3:[function(require,module,exports){
+/*
+	Spellcast's Web Client Extension
+
+	Copyright (c) 2014 - 2020 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const Promise = require( 'seventh' ) ;
+const Ngev = require( 'nextgen-events/lib/browser.js' ) ;
+const Dom = require( './Dom.js' ) ;
+//const treeExtend = require( 'tree-kit/lib/extend.js' ) ;
+//const treeOps = require( 'kung-fig/lib/treeOps.js' ) ;
+const toolkit = require( './toolkit.js' ) ;
+
+
+
+function EventDispatcher( bus , client ) {
+	console.log( Array.from( arguments ) ) ;	// eslint-disable-line
+
+	this.bus = bus ;
+	this.client = client ;
+	this.user = null ;
+	this.users = null ;
+	this.roles = null ;
+	this.roleId = null ;
+	this.config = null ;
+	this.inGame = false ;
+	this.nexts = null ;
+	this.afterNext = false ;
+	this.afterNextTriggered = false ;
+	this.afterLeave = false ;
+	this.hasNewContent = false ;
+	this.dom = new Dom() ;
+	this.ended = false ;
+
+	this.client.once( 'connecting' , EventDispatcher.clientConnecting.bind( this ) ) ;
+	this.client.once( 'open' , EventDispatcher.clientOpen.bind( this ) ) ;
+	this.client.once( 'close' , EventDispatcher.clientClose.bind( this ) ) ;
+	this.client.on( 'error' , EventDispatcher.clientError.bind( this ) ) ;
+
+	this.commandConfig( { enabled: true } ) ;
+
+	this.dom.preload() ;
+}
+
+module.exports = EventDispatcher ;
+
+EventDispatcher.prototype = Object.create( Ngev.prototype ) ;
+EventDispatcher.prototype.constructor = EventDispatcher ;
+
+
+
+function arrayGetById( id ) { return this.find( ( e ) => { return e.id === id ; } ) ; }	// jshint ignore:line
+
+
+
+// 'open' event on client
+EventDispatcher.prototype.initBus = function() {
+	this.bus.on( 'clientConfig' , EventDispatcher.clientConfig.bind( this ) , { async: true } ) ;
+	this.bus.on( 'user' , EventDispatcher.user.bind( this ) ) ;
+	this.bus.on( 'userList' , EventDispatcher.userList.bind( this ) ) ;
+	this.bus.on( 'roleList' , EventDispatcher.roleList.bind( this ) ) ;
+
+	//this.bus.on( 'coreMessage' , EventDispatcher.coreMessage.bind( this ) ) ;
+	//this.bus.on( 'errorMessage' , EventDispatcher.errorMessage.bind( this ) ) ;
+	this.bus.on( 'extOutput' , EventDispatcher.extOutput.bind( this ) ) ;
+	this.bus.on( 'extErrorOutput' , EventDispatcher.extErrorOutput.bind( this ) ) ;
+
+	this.bus.on( 'message' , EventDispatcher.message.bind( this ) , { async: true } ) ;
+	this.bus.on( 'indicators' , EventDispatcher.indicators.bind( this ) ) ;
+	this.bus.on( 'status' , EventDispatcher.status.bind( this ) ) ;
+	this.bus.on( 'panel' , EventDispatcher.panel.bind( this ) ) ;
+
+	this.bus.on( 'theme' , EventDispatcher.theme.bind( this ) ) ;
+	this.bus.on( 'image' , EventDispatcher.image.bind( this ) ) ;
+	this.bus.on( 'sound' , EventDispatcher.sound.bind( this ) ) ;
+	this.bus.on( 'music' , EventDispatcher.music.bind( this ) ) ;
+
+	this.bus.on( 'createGScene' , EventDispatcher.createGScene.bind( this ) ) ;
+	this.bus.on( 'updateGScene' , EventDispatcher.updateGScene.bind( this ) ) ;
+	this.bus.on( 'clearGScene' , EventDispatcher.clearGScene.bind( this ) ) ;
+
+	this.bus.on( 'texturePack' , EventDispatcher.texturePack.bind( this ) , { async: true } ) ;
+
+	this.bus.on( 'showGEntity' , EventDispatcher.showGEntity.bind( this ) , { async: true } ) ;
+	this.bus.on( 'updateGEntity' , EventDispatcher.updateGEntity.bind( this ) , { async: true } ) ;
+	this.bus.on( 'clearGEntity' , EventDispatcher.clearGEntity.bind( this ) ) ;
+	this.bus.on( 'animateGEntity' , EventDispatcher.animateGEntity.bind( this ) , { async: true } ) ;
+
+	this.bus.on( 'defineAnimation' , EventDispatcher.defineAnimation.bind( this ) ) ;
+
+	this.bus.on( 'enterScene' , EventDispatcher.enterScene.bind( this ) ) ;
+	this.bus.on( 'leaveScene' , EventDispatcher.leaveScene.bind( this ) ) ;
+	this.bus.on( 'nextList' , EventDispatcher.nextList.bind( this ) ) ;
+	this.bus.on( 'nextTriggered' , EventDispatcher.nextTriggered.bind( this ) ) ;
+
+	this.bus.on( 'textInput' , EventDispatcher.textInput.bind( this ) ) ;
+	this.bus.on( 'commandConfig' , EventDispatcher.prototype.commandConfig.bind( this ) ) ;
+
+	//this.bus.on( 'splitRoles' , EventDispatcher.splitRoles.bind( this ) ) ;
+	this.bus.on( 'rejoinRoles' , EventDispatcher.rejoinRoles.bind( this ) ) ;
+
+	this.bus.on( 'pause' , EventDispatcher.pause.bind( this ) ) ;
+	this.bus.on( 'unpause' , EventDispatcher.unpause.bind( this ) ) ;
+
+	this.bus.on( 'wait' , EventDispatcher.wait.bind( this ) ) ;
+	this.bus.on( 'end' , EventDispatcher.end.bind( this ) , { async: true } ) ;
+
+	this.bus.on( 'custom' , EventDispatcher.custom.bind( this ) ) ;
+
+	this.bus.on( 'exit' , EventDispatcher.exit.bind( this ) , { async: true } ) ;
+
+	this.bus.emit( 'ready' ) ;
+
+	this.defineStates( 'end' ) ;
+} ;
+
+
+
+EventDispatcher.clientConnecting = function() {
+	console.log( 'Connecting!' ) ;
+	this.dom.clientStatus( 'connecting' ) ;
+} ;
+
+
+
+EventDispatcher.clientOpen = function() {
+	console.log( 'Connected!' ) ;
+	this.dom.clientStatus( 'connected' ) ;
+	this.initBus() ;
+
+	/*
+	this.dom.setDialog( 'Yo!' , { modal: true , big: true , fun: true , slow: true } ) ;
+	setTimeout( () => {
+		this.dom.setDialog( 'Yo2!' , { modal: true , big: true , fun: true , slow: true } ) ;
+	} , 5000 ) ;
+	//*/
+} ;
+
+
+
+EventDispatcher.clientClose = function() {
+	console.log( 'Closed!' ) ;
+	this.dom.clientStatus( 'closed' ) ;
+} ;
+
+
+
+EventDispatcher.clientError = function( code ) {
+	switch ( code ) {
+		case 'unreachable' :
+			this.dom.clientStatus( 'unreachable' ) ;
+			break ;
+	}
+} ;
+
+
+
+EventDispatcher.clientConfig = async function( config , callback ) {
+	var extension ;
+	
+	this.config = config ;
+	console.warn( 'Client config received: ' , config ) ;
+
+	if ( this.config.theme ) {
+		this.dom.setTheme( this.config.theme ) ;
+	}
+
+	// Client extension loading is a blocking process, the client will malfunction if it doesn't have it
+	if ( this.config.clientExtensions && this.config.clientExtensions.length ) {
+		await Promise.every( this.config.clientExtensions , extension => this.dom.addScript( '/ext/' + extension + '/ext.js' ) ) ;
+	}
+
+	callback() ;
+} ;
+
+
+
+EventDispatcher.user = function( user_ ) {
+	console.log( 'User received: ' , user_ ) ;
+	this.user = user_ ;
+} ;
+
+
+
+EventDispatcher.userList = function( users ) {
+	console.log( 'User-list received: ' , users ) ;
+
+	// Add the get method to the array
+	users.get = arrayGetById ;
+	this.users = users ;
+} ;
+
+
+
+EventDispatcher.roleList = function( roles , unassignedUsers , assigned ) {
+	var choices = [] , undecidedNames ;
+
+	// If there are many roles, this is a multiplayer game
+	if ( ! this.roles && roles.length > 1 ) { this.dom.setMultiplayer( true ) ; }
+
+	// Add the get method to the array
+	roles.get = arrayGetById ;
+
+	this.roles = roles ;
+
+	// If already in-game, nothing more to do...
+	if ( this.inGame ) { return ; }
+
+	if ( assigned && roles.length <= 1 ) {
+		// Nothing to do and nothing to display...
+		this.roleId = roles[ 0 ].id ;
+		return ;
+	}
+
+	roles.forEach( ( role , i ) => {
+
+		var userName = role.clientId && this.users.get( role.clientId ).name ;
+
+		choices.push( {
+			index: i ,
+			label: role.name ,
+			type: 'role' ,
+			selectedBy: userName && [ userName ]
+		} ) ;
+	} ) ;
+
+	if ( unassignedUsers.length ) {
+		undecidedNames = unassignedUsers.map( ( e ) => { return this.users.get( e ).name ; } ) ;
+	}
+
+	var onSelect = ( index ) => {
+
+		if ( roles[ index ].clientId === this.user.id ) {
+			// Here we want to unassign
+			this.bus.emit( 'selectRole' , null ) ;
+		}
+		else if ( roles[ index ].clientId !== null ) {
+			// Already holded by someone else
+			return ;
+		}
+		else {
+			this.bus.emit( 'selectRole' , roles[ index ].id ) ;
+		}
+	} ;
+
+	this.dom.setChoices( choices , undecidedNames , onSelect ) ;
+
+	if ( assigned ) {
+		roles.find( ( e , i ) => {
+			if ( e.clientId === this.user.id ) { this.roleId = e.id ; return true ; }
+			return false ;
+		} ) ;
+
+		this.afterLeave = true ;	// tmp
+		return ;
+	}
+} ;
+
+
+
+// Formated message emitted by the core engine, core execution continue
+//EventDispatcher.coreMessage = function coreMessage() { term.apply( term , arguments ) ; } ;
+// Error formated message, mostly emitted by the core engine, but may be emitted from the script
+//EventDispatcher.errorMessage = function errorMessage() { term.apply( term , arguments ) ; } ;
+
+
+
+// Script [message], execution can be suspended if the listener is async, waiting for completion.
+// E.g.: possible use: wait for a user input before continuing processing.
+EventDispatcher.message = function( text , options , callback ) {
+	this.hasNewContent = true ;
+
+	if ( ! options ) { options = {} ; }
+
+	if ( options.speech ) {
+		if ( ! options.speechLang ) { options.speechLang = this.config.defaultLocale ; }
+		options.useService = this.config.hasSpeechService ;
+
+		if ( options.speechOnly ) {
+			this.dom.addSpeech( toolkit.stripMarkup( text ) , options , callback ) ;
+		}
+		else {
+			let messageDone = false , speechDone = false ;
+
+			this.dom.addMessage( toolkit.markup( text ) , options , () => {
+				messageDone = true ;
+				if ( speechDone ) { callback() ; }
+			} ) ;
+
+			this.dom.addSpeech( toolkit.stripMarkup( text ) , options , () => {
+				speechDone = true ;
+				if ( messageDone ) { callback() ; }
+			} ) ;
+		}
+	}
+	else {
+		this.dom.addMessage( toolkit.markup( text ) , options , callback ) ;
+	}
+} ;
+
+
+
+EventDispatcher.indicators = function( data ) {
+	this.dom.addIndicators( data ) ;
+} ;
+
+
+
+EventDispatcher.status = function( data ) {
+	this.dom.addIndicators( data , true ) ;
+} ;
+
+
+
+EventDispatcher.panel = function( data , reset ) {
+	this.dom.addPanel( data , reset ) ;
+} ;
+
+
+
+// 'enterScene' event
+EventDispatcher.enterScene = function( isGosub , toAltBuffer ) {
+	var switchedToAltBuffer ;
+
+	this.inGame = true ;
+
+	if ( toAltBuffer ) {
+		switchedToAltBuffer = this.dom.toAltBuffer() ;
+	}
+
+	if ( ! isGosub && ! switchedToAltBuffer ) {
+		this.dom.newSegmentOnContent() ;
+	}
+
+	this.afterNext = this.afterLeave = this.afterNextTriggered = false ;
+} ;
+
+
+
+// 'leaveScene' event
+EventDispatcher.leaveScene = function( isReturn , backToMainBuffer ) {
+	if ( backToMainBuffer ) { this.dom.toMainBuffer() ; }
+	//else { this.dom.newSegmentOnContent() ; }
+
+	// if ( isReturn ) {}
+
+	this.afterNext = this.afterNextTriggered = false ;
+	this.afterLeave = true ;
+} ;
+
+
+
+// 'nextTriggered' event
+EventDispatcher.nextTriggered = function( nextId ) {
+	var selected = this.nexts.find( e => e.id === nextId ) ;
+
+	this.dom.newSegmentOnContent( 'inter-segment' ) ;
+
+	if ( selected && selected.label && ! selected.button ) {
+		this.dom.addSelectedChoice( selected.label ) ;
+	}
+
+	this.dom.clearChoices() ;
+	this.afterNextTriggered = true ;
+	this.hasNewContent = false ;
+} ;
+
+
+
+EventDispatcher.nextList = function( nexts , undecidedRoleIds , options , isUpdate ) {
+	var choices = [] , undecidedNames , charCount = 0 ;
+
+	this.nexts = nexts ;
+	this.afterNext = true ;
+
+	// No need to update if we are alone
+	if ( isUpdate && this.roles.length === 1 ) { return ; }
+
+	nexts.forEach( ( next , i ) => {
+
+		var roles = next.roleIds.map( id => { return this.roles.get( id ).name ; } ) ;
+
+		if ( next.label ) { charCount += next.label.length ; }
+
+		choices.push( {
+			index: i ,
+			label: next.label || 'Next' ,
+			style: next.style ,
+			class: next.class ,
+			image: next.image ,
+			button: next.button ,
+			groupBreak: !! next.groupBreak ,
+			//orderedList: nexts.length > 1 ,
+			type: 'next' ,
+			selectedBy: roles
+		} ) ;
+	} ) ;
+
+	if ( ! options.nextStyle || options.nextStyle === 'auto' ) {
+		if ( this.roles.length <= 1 && choices.length <= 3 && charCount < 20 ) {
+			options.nextStyle = 'inline' ;
+		}
+		else if ( choices.length > 8 ) {
+			options.nextStyle = 'smallList' ;
+		}
+		else {
+			options.nextStyle = 'list' ;
+		}
+	}
+
+	if ( undecidedRoleIds.length && this.roles.length ) {
+		undecidedNames = undecidedRoleIds.map( ( e ) => { return this.roles.get( e ).name ; } ) ;
+	}
+
+	var onSelect = index => {
+		if ( nexts[ index ].roleIds.indexOf( this.roleId ) !== -1 ) {
+			this.bus.emit( 'selectNext' , null ) ;
+		}
+		else {
+			this.bus.emit( 'selectNext' , nexts[ index ].id ) ;
+		}
+	} ;
+
+	this.dom.setChoices( choices , undecidedNames , onSelect , { timeout: options.timeout , nextStyle: options.nextStyle } ) ;
+} ;
+
+
+
+// External raw output (e.g. shell command stdout)
+EventDispatcher.extOutput = function( output ) {
+	alert( 'not coded ATM!' ) ;
+	//process.stdout.write( output ) ;
+} ;
+
+
+
+// External raw error output (e.g. shell command stderr)
+EventDispatcher.extErrorOutput = function( output ) {
+	alert( 'not coded ATM!' ) ;
+	//process.stderr.write( output ) ;
+} ;
+
+
+
+// Text input field
+EventDispatcher.textInput = function( label , grantedRoleIds ) {
+	var options = {
+		label: label
+	} ;
+
+	if ( grantedRoleIds.indexOf( this.roleId ) === -1 ) {
+		options.placeholder = 'YOU CAN\'T RESPOND - WAIT...' ;
+		this.dom.textInputDisabled( options ) ;
+	}
+	else {
+		this.dom.textInput( options , ( text ) => {
+			this.bus.emit( 'textSubmit' , text ) ;
+		} ) ;
+	}
+} ;
+
+
+
+EventDispatcher.prototype.commandConfig = function( config ) {
+	console.warn( "Received command config:" , config ) ;
+	if ( config.enabled === true ) {
+		this.dom.enableCommand( ( message ) => {
+			//console.log( 'inGame?' , this.inGame ) ;
+			this.bus.emit( this.inGame ? 'command' : 'chat' , message ) ;
+		} ) ;
+	}
+	else if ( config.enabled === false ) {
+		this.dom.disableCommand() ;
+	}
+} ;
+
+
+
+EventDispatcher.pause = function( duration ) {
+	console.log( "Received a pause event for" , duration , "seconds" ) ;
+} ;
+
+
+
+EventDispatcher.unpause = function() {
+	console.log( "Received an unpause event" ) ;
+} ;
+
+
+
+// rejoinRoles event (probably better to listen to that event before using it in the 'wait' event)
+EventDispatcher.rejoinRoles = function() {} ;
+
+
+
+EventDispatcher.wait = function( what ) {
+	switch ( what ) {
+		case 'otherBranches' :
+			this.dom.setBigHint( "WAITING FOR OTHER BRANCHES TO FINISH..." , { wait: true , "pulse-animation": true } ) ;
+			this.bus.once( 'rejoinRoles' , () => this.dom.clearHint() ) ;
+			break ;
+		default :
+			this.dom.setBigHint( "WAITING FOR " + what , { wait: true , "pulse-animation": true } ) ;
+	}
+} ;
+
+
+
+EventDispatcher.theme = function( data ) {
+	if ( ! data.url ) {
+		if ( this.config.theme ) { this.dom.setTheme( this.config.theme ) ; }
+		return ;
+	}
+
+	this.dom.setTheme( data ) ;
+} ;
+
+
+
+EventDispatcher.image = function( data ) {
+	this.dom.setSceneImage( data ) ;
+} ;
+
+
+
+EventDispatcher.createGScene = function( gSceneId , data ) {
+	console.warn( "createGScene" , gSceneId , data ) ;
+	this.dom.createGScene( gSceneId , data ) ;	//.then( callback ) ;
+} ;
+
+
+
+EventDispatcher.updateGScene = function( gSceneId , data ) {
+	console.warn( "updateGScene" , gSceneId , data ) ;
+	this.dom.updateGScene( gSceneId , data ) ;	//.then( callback ) ;
+} ;
+
+
+
+EventDispatcher.clearGScene = function( gSceneId ) {
+	console.warn( "clearGScene" , gSceneId ) ;
+	this.dom.clearGScene( gSceneId ) ;	//.then( callback ) ;
+} ;
+
+
+
+EventDispatcher.texturePack = function( gSceneId , textureUid , data , callback ) {
+	console.warn( "texturePack" , gSceneId , textureUid , data ) ;
+	this.dom.defineTexturePack( gSceneId , textureUid , data ) ;
+	callback() ;
+} ;
+
+
+
+EventDispatcher.showGEntity = function( gSceneId , gEntityId , data , callback ) {
+	this.dom.showGEntity( gSceneId , gEntityId , data ).then( callback ) ;
+} ;
+
+
+
+EventDispatcher.updateGEntity = function( gSceneId , gEntityId , data , callback ) {
+	this.dom.updateGEntity( gSceneId , gEntityId , data ).then( callback ) ;
+} ;
+
+
+
+EventDispatcher.clearGEntity = function( gSceneId , gEntityId ) {
+	this.dom.clearGEntity( gSceneId , gEntityId ) ;
+} ;
+
+
+
+EventDispatcher.animateGEntity = function( gSceneId , gEntityId , animationId , callback ) {
+	this.dom.animateGEntity( gSceneId , gEntityId , animationId ).then( callback ) ;
+} ;
+
+
+
+EventDispatcher.defineAnimation = function( id , data ) {
+	this.dom.defineAnimation( id , data ) ;
+} ;
+
+
+
+// add a callback here?
+EventDispatcher.sound = function( data ) {
+	this.dom.sound( data ) ;
+} ;
+
+
+
+EventDispatcher.music = function( data ) {
+	this.dom.music( data ) ;
+} ;
+
+
+
+// End event
+EventDispatcher.end = function( result , data , callback ) {
+	// /!\ this.afterNext is not the good way to detect extra content...
+	var options = {
+		modal: true , big: true , fun: true , contentDelay: this.hasNewContent , slow: true
+	} ;
+
+	var finished = () => {
+		if ( this.ended ) { return ; }
+		this.ended = true ;
+		console.log( 'finished!' ) ;
+		this.emit( 'end' ) ;
+		callback() ;
+	} ;
+
+	switch ( result ) {
+		case 'end' :
+			this.dom.setDialog( 'The End.' , options , finished ) ;
+			break ;
+		case 'win' :
+			this.dom.setDialog( 'You Win!' , options , finished ) ;
+			break ;
+		case 'lost' :
+			this.dom.setDialog( 'You Lose...' , options , finished ) ;
+			break ;
+		case 'draw' :
+			this.dom.setDialog( 'Draw.' , options , finished ) ;
+			break ;
+	}
+} ;
+
+
+
+// Custom event, not used in vanilla client
+EventDispatcher.custom = function( event , data ) {
+	console.log( "Received a custom event" , event , data ) ;
+} ;
+
+
+
+// Exit event
+EventDispatcher.exit = function( error , timeout , callback ) {
+	console.log( 'exit cb' , callback ) ;
+	this.once( 'end' , () => {
+		// Add at least few ms, because DOM may be OK, but parallel image download are still in progress.
+		// E.g.: after .setDialog()'s callback, boxes/geometric-gold.svg is not loaded.
+		// Keep in mind that once the exit callback is sent, the remote server will disconnect us as soon as possible.
+		setTimeout( 200 , callback ) ;
+	} ) ;
+} ;
+
+
+},{"./Dom.js":2,"./toolkit.js":12,"nextgen-events/lib/browser.js":18,"seventh":32}],4:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -1563,8 +2366,9 @@ const svgKit = require( 'svg-kit' ) ;
 
 
 // !THIS SHOULD TRACK SERVER-SIDE GEntity! spellcast/lib/gfx/GEntity.js
-function GEntity( dom , data ) {
+function GEntity( dom , gScene , data ) {
 	this.dom = dom ;	// Dom instance, immutable
+	this.gScene = gScene ;
 	this.usage = data.usage || 'sprite' ;	// immutable
 
 	this.show = false ;
@@ -1611,8 +2415,7 @@ function GEntity( dom , data ) {
 		this.$wrapper.style.visibility = 'hidden' ;
 		this.$wrapper.style.transition = 'none' ;
 		this.$wrapper.classList.add( 'g-entity-wrapper' , 'g-entity-' + this.usage + '-wrapper' ) ;
-		//this.$gfx.append( this.$wrapper ) ;
-		this.dom.$gfx.append( this.$wrapper ) ;
+		this.gScene.$gscene.append( this.$wrapper ) ;
 	}
 
 	this.defineStates( 'loaded' , 'loading' ) ;
@@ -1701,11 +2504,11 @@ GEntity.prototype.updateTexture = function( texturePackId , variantId , themeId 
 
 	console.warn( "GEntity.updateTexture()" , texturePackId , variantId , themeId ) ;
 
-	texturePack = this.dom.texturePacks[ this.texturePack + '/' + ( this.theme || this.dom.textureTheme ) ] ;
+	texturePack = this.gScene.texturePacks[ this.texturePack + '/' + ( this.theme || this.gScene.textureTheme ) ] ;
 
 	if ( ! texturePack ) {
-		console.warn( "Texture pack" , this.texturePack + '/' + ( this.theme || this.dom.textureTheme ) , "not found" ) ;
-		texturePack = this.dom.texturePacks[ this.texturePack + '/default' ] ;
+		console.warn( "Texture pack" , this.texturePack + '/' + ( this.theme || this.gScene.textureTheme ) , "not found" ) ;
+		texturePack = this.gScene.texturePacks[ this.texturePack + '/default' ] ;
 
 		if ( ! texturePack ) {
 			console.warn( "Texture pack fallback" , this.texturePack + '/default' , "not found" ) ;
@@ -1869,8 +2672,8 @@ GEntity.prototype.updateTransform = function( data ) {
 
 	// Pre-compute few thing necessary for the following stuff
 
-	areaWidth = this.dom.$gfx.offsetWidth ;
-	areaHeight = this.dom.$gfx.offsetHeight ;
+	areaWidth = this.gScene.$gscene.offsetWidth ;
+	areaHeight = this.gScene.$gscene.offsetHeight ;
 	
 	if ( this.$image.tagName.toLowerCase() === 'svg' ) {
 		// The SVG element is not a DOM HTML element, it does not have offsetWidth/offsetHeight.
@@ -2003,18 +2806,18 @@ GEntity.prototype.moveToLocation = function( locationName ) {
 	var flipTimeout = 10 ;
 
 	oldLocationName = this.location ;
-	$oldLocation = oldLocationName ? this.dom.gEntityLocations[ oldLocationName ] : this.dom.$gfx ;
-	$oldSlot = this.$locationSlot || this.dom.$gfx ;
+	$oldLocation = oldLocationName ? this.gScene.gEntityLocations[ oldLocationName ] : this.gScene.$gscene ;
+	$oldSlot = this.$locationSlot || this.gScene.$gscene ;
 	this.location = locationName ;
 
-	$location = locationName ? this.dom.gEntityLocations[ locationName ] : this.dom.$gfx ;
+	$location = locationName ? this.gScene.gEntityLocations[ locationName ] : this.gScene.$gscene ;
 
 	if ( ! $location ) {
 		// Create the location if it doesn't exist
-		$location = this.dom.gEntityLocations[ locationName ] = document.createElement( 'div' ) ;
+		$location = this.gScene.gEntityLocations[ locationName ] = document.createElement( 'div' ) ;
 		$location.classList.add( 'g-entity-location' ) ;
 		$location.classList.add( 'g-entity-location-' + locationName ) ;
-		this.dom.$gfx.append( $location ) ;
+		this.gScene.$gscene.append( $location ) ;
 	}
 
 	// Save computed styles now
@@ -2025,8 +2828,8 @@ GEntity.prototype.moveToLocation = function( locationName ) {
 	var gEntityWidth = parseFloat( gEntityComputedStyle.width ) ;
 	var gEntityHeight = parseFloat( gEntityComputedStyle.height ) ;
 
-	if ( $location === this.dom.$gfx ) {
-		$slot = this.dom.$gfx ;
+	if ( $location === this.gScene.$gscene ) {
+		$slot = this.gScene.$gscene ;
 	}
 	else {
 		$slot = this.$locationSlot = document.createElement( 'div' ) ;
@@ -2037,14 +2840,14 @@ GEntity.prototype.moveToLocation = function( locationName ) {
 
 	// Before appending, save all rects of existing sibling slots
 
-	siblingGEntities = [ ... Object.values( this.dom.gEntities ) ]
+	siblingGEntities = [ ... Object.values( this.gScene.gEntities ) ]
 		.filter( e => e !== this && e.usage !== 'marker' && e.location && ( e.location === locationName || e.location === oldLocationName ) ) ;
 
 	siblingSlotRectsBefore = siblingGEntities.map( e => e.$locationSlot.getBoundingClientRect() ) ;
 
 
 	// Insert the slot, if it's not $gfx
-	if ( $slot !== this.dom.$gfx ) {
+	if ( $slot !== this.gScene.$gscene ) {
 		// We should preserve the :last-child pseudo selector, since there isn't any :last-ordered-child for flex-box...
 		if ( $location.lastChild && parseFloat( $location.lastChild.style.order ) > this.order ) {
 			// The last entity has a greater order, so we prepend instead
@@ -2059,7 +2862,7 @@ GEntity.prototype.moveToLocation = function( locationName ) {
 	oldSlotBbox = $oldSlot.getBoundingClientRect() ;
 
 	// Remove that slot now
-	if ( $oldSlot !== this.dom.$gfx ) { $oldSlot.remove() ; }
+	if ( $oldSlot !== this.gScene.$gscene ) { $oldSlot.remove() ; }
 
 
 	// Get slots rects after
@@ -2118,7 +2921,7 @@ GEntity.prototype.moveToLocation = function( locationName ) {
 	this.localTransform = targetTransform ;
 
 	// If this is not a true slot, then just put the gEntity on this slot immediately
-	if ( $oldSlot === this.dom.$gfx ) {
+	if ( $oldSlot === this.gScene.$gscene ) {
 		this.$wrapper.style.transform = domKit.stringifyTransform( targetTransform ) ;
 		$slot.append( this.$wrapper ) ;
 		promise.resolve() ;
@@ -2350,12 +3153,12 @@ GEntity.prototype.updateMarkerLocation = function( vgId , areaId ) {
 	if ( ! vgId ) { vgId = this.data.inVg ; }
 	if ( ! areaId ) { areaId = this.location ; }
 
-	if ( ! this.dom.gEntities[ vgId ] ) {
+	if ( ! this.gScene.gEntities[ vgId ] ) {
 		console.warn( 'Unknown VG id: ' , vgId ) ;
 		return ;
 	}
 
-	vg = this.dom.gEntities[ vgId ] ;
+	vg = this.gScene.gEntities[ vgId ] ;
 
 	if ( ! vg.usage === 'vg' ) {
 		console.warn( 'This gEntity is not a VG, id: ' , vgId ) ;
@@ -2586,12 +3389,12 @@ GEntity.prototype.updatePose = function( data ) {
 GEntity.prototype.createGEntityLocation = function( locationName ) {
 	var $location ;
 
-	if ( this.dom.gEntityLocations[ locationName ] ) { return ; }
+	if ( this.gScene.gEntityLocations[ locationName ] ) { return ; }
 
-	$location = this.dom.gEntityLocations[ locationName ] = document.createElement( 'div' ) ;
+	$location = this.gScene.gEntityLocations[ locationName ] = document.createElement( 'div' ) ;
 	$location.classList.add( 'g-entity-location' ) ;
 	$location.classList.add( 'g-entity-location-' + locationName ) ;
-	this.dom.$gfx.append( $location ) ;
+	this.gScene.$gscene.append( $location ) ;
 } ;
 
 
@@ -2620,7 +3423,104 @@ GEntity.prototype.createCardMarkup = function( card ) {
 } ;
 
 
-},{"./GTransition.js":3,"./commonUtils.js":6,"./positionModes.js":7,"./sizeModes.js":8,"dom-kit":12,"nextgen-events/lib/browser.js":16,"seventh":30,"svg-kit":47}],3:[function(require,module,exports){
+},{"./GTransition.js":6,"./commonUtils.js":9,"./positionModes.js":10,"./sizeModes.js":11,"dom-kit":14,"nextgen-events/lib/browser.js":18,"seventh":32,"svg-kit":49}],5:[function(require,module,exports){
+/*
+	Spellcast's Web Client Extension
+
+	Copyright (c) 2014 - 2020 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const Camera = require( './Camera.js' ) ;
+
+const Ngev = require( 'nextgen-events/lib/browser.js' ) ;
+const Promise = require( 'seventh' ) ;
+
+
+
+// !THIS SHOULD TRACK SERVER-SIDE GScene! spellcast/lib/gfx/GScene.js
+function GScene( dom , data ) {
+	this.dom = dom ;    // Dom instance, immutable
+	//this.id = data.id ;		// immutable
+	this.engineId = data.engineId ;	// immutable
+
+	this.active = false ;
+	this.paused = false ;
+	this.persistent = false ;
+	this.theme = 'default' ;
+	this.engine = {} ;
+	this.texturePacks = {} ;
+	this.gEntities = {} ;
+	this.gEntityLocations = {} ;
+
+	this.globalCamera = null ;
+	this.roleCamera = null ;	// For multiplayer, not implemented yet
+
+	this.$gscene = document.createElement( 'gscene' ) ;
+	// At creation, the visibility is turned off, the initial update will turn it on again
+	this.$gscene.style.visibility = 'hidden' ;
+	this.dom.$gfx.append( this.$gscene ) ;
+}
+
+GScene.prototype = Object.create( Ngev.prototype ) ;
+GScene.prototype.constructor = GScene ;
+
+module.exports = GScene ;
+
+
+
+// !THIS SHOULD TRACK SERVER-SIDE GScene! spellcast/lib/gfx/GScene.js
+GScene.prototype.update = function( data ) {
+	if ( data.active !== undefined ) {
+		this.active = !! data.active ;
+		this.$gscene.style.visibility = this.active ? 'visible' : 'hidden' ;
+	}
+
+	if ( data.paused !== undefined ) { this.paused = !! data.paused ; }
+	if ( data.persistent !== undefined ) { this.persistent = !! data.persistent ; }
+	//if ( data.roles !== undefined ) { this.roles = data.roles ; }
+	if ( data.theme !== undefined ) { this.theme = data.theme || 'default' ; }
+
+	if ( data.engine && typeof data.engine === 'object' ) {
+		Object.assign( this.engine , data.engine ) ;
+	}
+
+	if ( data.globalCamera !== undefined ) {
+		this.globalCamera =
+			data.globalCamera instanceof Camera ? data.globalCamera :
+			data.globalCamera ? new Camera( data.globalCamera ) :
+			null ;
+	}
+
+	// For instance, there is no async code in GScene, but the API have to allow it
+	return Promise.resolved ;
+} ;
+
+
+},{"./Camera.js":1,"nextgen-events/lib/browser.js":18,"seventh":32}],6:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -2684,7 +3584,7 @@ GTransition.prototype.toString = function( property ) {
 } ;
 
 
-},{}],4:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -2716,7 +3616,7 @@ GTransition.prototype.toString = function( property ) {
 
 
 // !THIS SHOULD TRACK SERVER-SIDE GEntity! spellcast/lib/gfx/TexturePack.js
-function TexturePack( data = {} ) {
+function TexturePack( data ) {
 	this.theme = data.theme || 'default' ;
 	this.id = data.id ;		// theme+id is unique
 
@@ -2762,7 +3662,7 @@ function Frame( data = {} ) {
 TexturePack.Frame = Frame ;
 
 
-},{}],5:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -2794,6 +3694,7 @@ TexturePack.Frame = Frame ;
 
 
 const Ngev = require( 'nextgen-events/lib/browser.js' ) ;
+const EventDispatcher = require( './EventDispatcher.js' ) ;
 const domKit = require( 'dom-kit' ) ;
 const url = require( 'url' ) ;
 
@@ -2816,12 +3717,6 @@ SpellcastClient.prototype.constructor = SpellcastClient ;
 
 
 
-const uiList = {
-	classic: require( './ui/classic.js' )
-} ;
-
-
-
 SpellcastClient.autoCreate = function() {
 	var options = {
 		port: window.location.port ,
@@ -2833,11 +3728,6 @@ SpellcastClient.autoCreate = function() {
 
 	window.spellcastClient = new SpellcastClient( options ) ;
 	//window.spellcastClient.init() ;
-
-	if ( ! options.ui ) { options.ui = [ 'classic' ] ; }
-	else if ( ! Array.isArray( options.ui ) ) { options.ui = [ options.ui ] ; }
-
-	window.spellcastClient.ui = options.ui ;
 
 	return window.spellcastClient ;
 } ;
@@ -2852,9 +3742,7 @@ SpellcastClient.prototype.run = function( callback ) {
 	// Add the remote service we want to access
 	this.proxy.addRemoteService( 'bus' ) ;
 
-	this.ui.forEach( ( ui ) => {
-		if ( uiList[ ui ] ) { new uiList[ ui ]( this.proxy.remoteServices.bus , this ) ; }
-	} ) ;
+	new EventDispatcher( this.proxy.remoteServices.bus , this ) ;
 
 	var wsUrl = 'ws://' + this.domain +
 		( this.port ? ':' + this.port : '' ) +
@@ -2949,7 +3837,7 @@ domKit.ready( () => {
 } ) ;
 
 
-},{"./ui/classic.js":10,"dom-kit":12,"nextgen-events/lib/browser.js":16,"url":53}],6:[function(require,module,exports){
+},{"./EventDispatcher.js":3,"dom-kit":14,"nextgen-events/lib/browser.js":18,"url":55}],9:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -2982,7 +3870,7 @@ domKit.ready( () => {
 
 /*
 	Things that can be common between clients and server.
-	Since Spellcast is now splitted and use extensions, this need to be copied to client that need it,
+	Since Spellcast is now splitted and use extensions, this need to be copied to all clients that need it,
 	because the extension manager do not operate over network.
 */
 
@@ -3012,7 +3900,7 @@ exports.toClassObject = function toClassObject( data ) {
 } ;
 
 
-},{}],7:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3131,7 +4019,7 @@ exports.areaInSpriteOut = ( transform , position , areaWidth , areaHeight , imag
 } ;
 
 
-},{}],8:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3230,7 +4118,7 @@ exports.areaMin = ( transform , size , areaWidth , areaHeight , imageWidth , ima
 } ;
 
 
-},{}],9:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3335,680 +4223,9 @@ toolkit.stripMarkup = text => text.replace(
 ) ;
 
 
-},{"string-kit/lib/escape.js":33,"string-kit/lib/format.js":34}],10:[function(require,module,exports){
-/*
-	Spellcast's Web Client Extension
+},{"string-kit/lib/escape.js":35,"string-kit/lib/format.js":36}],13:[function(require,module,exports){
 
-	Copyright (c) 2014 - 2020 Cédric Ronvel
-
-	The MIT License (MIT)
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-*/
-
-"use strict" ;
-
-
-
-const Promise = require( 'seventh' ) ;
-const Ngev = require( 'nextgen-events/lib/browser.js' ) ;
-const Dom = require( '../Dom.js' ) ;
-//const treeExtend = require( 'tree-kit/lib/extend.js' ) ;
-//const treeOps = require( 'kung-fig/lib/treeOps.js' ) ;
-const toolkit = require( '../toolkit.js' ) ;
-
-
-
-function UI( bus , client ) {
-	console.log( Array.from( arguments ) ) ;	// eslint-disable-line
-
-	this.bus = bus ;
-	this.client = client ;
-	this.user = null ;
-	this.users = null ;
-	this.roles = null ;
-	this.roleId = null ;
-	this.config = null ;
-	this.inGame = false ;
-	this.nexts = null ;
-	this.afterNext = false ;
-	this.afterNextTriggered = false ;
-	this.afterLeave = false ;
-	this.hasNewContent = false ;
-	this.dom = new Dom() ;
-	this.ended = false ;
-
-	this.client.once( 'connecting' , UI.clientConnecting.bind( this ) ) ;
-	this.client.once( 'open' , UI.clientOpen.bind( this ) ) ;
-	this.client.once( 'close' , UI.clientClose.bind( this ) ) ;
-	this.client.on( 'error' , UI.clientError.bind( this ) ) ;
-
-	this.commandConfig( { enabled: true } ) ;
-
-	this.dom.preload() ;
-}
-
-module.exports = UI ;
-
-UI.prototype = Object.create( Ngev.prototype ) ;
-UI.prototype.constructor = UI ;
-
-
-
-function arrayGetById( id ) { return this.find( ( e ) => { return e.id === id ; } ) ; }	// jshint ignore:line
-
-
-
-// 'open' event on client
-UI.prototype.initBus = function() {
-	this.bus.on( 'clientConfig' , UI.clientConfig.bind( this ) , { async: true } ) ;
-	this.bus.on( 'user' , UI.user.bind( this ) ) ;
-	this.bus.on( 'userList' , UI.userList.bind( this ) ) ;
-	this.bus.on( 'roleList' , UI.roleList.bind( this ) ) ;
-
-	//this.bus.on( 'coreMessage' , UI.coreMessage.bind( this ) ) ;
-	//this.bus.on( 'errorMessage' , UI.errorMessage.bind( this ) ) ;
-	this.bus.on( 'extOutput' , UI.extOutput.bind( this ) ) ;
-	this.bus.on( 'extErrorOutput' , UI.extErrorOutput.bind( this ) ) ;
-
-	this.bus.on( 'message' , UI.message.bind( this ) , { async: true } ) ;
-	this.bus.on( 'indicators' , UI.indicators.bind( this ) ) ;
-	this.bus.on( 'status' , UI.status.bind( this ) ) ;
-	this.bus.on( 'panel' , UI.panel.bind( this ) ) ;
-
-	this.bus.on( 'theme' , UI.theme.bind( this ) ) ;
-	this.bus.on( 'image' , UI.image.bind( this ) ) ;
-	this.bus.on( 'sound' , UI.sound.bind( this ) ) ;
-	this.bus.on( 'music' , UI.music.bind( this ) ) ;
-
-	this.bus.on( 'createGScene' , UI.createGScene.bind( this ) ) ;
-	this.bus.on( 'updateGScene' , UI.updateGScene.bind( this ) ) ;
-	this.bus.on( 'clearGScene' , UI.clearGScene.bind( this ) ) ;
-
-	this.bus.on( 'texturePack' , UI.texturePack.bind( this ) , { async: true } ) ;
-
-	this.bus.on( 'showGEntity' , UI.showGEntity.bind( this ) , { async: true } ) ;
-	this.bus.on( 'updateGEntity' , UI.updateGEntity.bind( this ) , { async: true } ) ;
-	this.bus.on( 'clearGEntity' , UI.clearGEntity.bind( this ) ) ;
-	this.bus.on( 'animateGEntity' , UI.animateGEntity.bind( this ) , { async: true } ) ;
-
-	this.bus.on( 'defineAnimation' , UI.defineAnimation.bind( this ) ) ;
-
-	this.bus.on( 'enterScene' , UI.enterScene.bind( this ) ) ;
-	this.bus.on( 'leaveScene' , UI.leaveScene.bind( this ) ) ;
-	this.bus.on( 'nextList' , UI.nextList.bind( this ) ) ;
-	this.bus.on( 'nextTriggered' , UI.nextTriggered.bind( this ) ) ;
-
-	this.bus.on( 'textInput' , UI.textInput.bind( this ) ) ;
-	this.bus.on( 'commandConfig' , UI.prototype.commandConfig.bind( this ) ) ;
-
-	//this.bus.on( 'splitRoles' , UI.splitRoles.bind( this ) ) ;
-	this.bus.on( 'rejoinRoles' , UI.rejoinRoles.bind( this ) ) ;
-
-	this.bus.on( 'pause' , UI.pause.bind( this ) ) ;
-	this.bus.on( 'unpause' , UI.unpause.bind( this ) ) ;
-
-	this.bus.on( 'wait' , UI.wait.bind( this ) ) ;
-	this.bus.on( 'end' , UI.end.bind( this ) , { async: true } ) ;
-
-	this.bus.on( 'custom' , UI.custom.bind( this ) ) ;
-
-	this.bus.on( 'exit' , UI.exit.bind( this ) , { async: true } ) ;
-
-	this.bus.emit( 'ready' ) ;
-
-	this.defineStates( 'end' ) ;
-} ;
-
-
-
-UI.clientConnecting = function() {
-	console.log( 'Connecting!' ) ;
-	this.dom.clientStatus( 'connecting' ) ;
-} ;
-
-
-
-UI.clientOpen = function() {
-	console.log( 'Connected!' ) ;
-	this.dom.clientStatus( 'connected' ) ;
-	this.initBus() ;
-
-	/*
-	this.dom.setDialog( 'Yo!' , { modal: true , big: true , fun: true , slow: true } ) ;
-	setTimeout( () => {
-		this.dom.setDialog( 'Yo2!' , { modal: true , big: true , fun: true , slow: true } ) ;
-	} , 5000 ) ;
-	//*/
-} ;
-
-
-
-UI.clientClose = function() {
-	console.log( 'Closed!' ) ;
-	this.dom.clientStatus( 'closed' ) ;
-} ;
-
-
-
-UI.clientError = function( code ) {
-	switch ( code ) {
-		case 'unreachable' :
-			this.dom.clientStatus( 'unreachable' ) ;
-			break ;
-	}
-} ;
-
-
-
-UI.clientConfig = async function( config , callback ) {
-	var extension ;
-	
-	this.config = config ;
-	console.warn( 'Client config received: ' , config ) ;
-
-	if ( this.config.theme ) {
-		this.dom.setTheme( this.config.theme ) ;
-	}
-
-	// Client extension loading is a blocking process, the client will malfunction if it doesn't have it
-	if ( this.config.clientExtensions && this.config.clientExtensions.length ) {
-		await Promise.every( this.config.clientExtensions , extension => this.dom.addScript( '/ext/' + extension + '/ext.js' ) ) ;
-	}
-
-	callback() ;
-} ;
-
-
-
-UI.user = function( user_ ) {
-	console.log( 'User received: ' , user_ ) ;
-	this.user = user_ ;
-} ;
-
-
-
-UI.userList = function( users ) {
-	console.log( 'User-list received: ' , users ) ;
-
-	// Add the get method to the array
-	users.get = arrayGetById ;
-	this.users = users ;
-} ;
-
-
-
-UI.roleList = function( roles , unassignedUsers , assigned ) {
-	var choices = [] , undecidedNames ;
-
-	// If there are many roles, this is a multiplayer game
-	if ( ! this.roles && roles.length > 1 ) { this.dom.setMultiplayer( true ) ; }
-
-	// Add the get method to the array
-	roles.get = arrayGetById ;
-
-	this.roles = roles ;
-
-	// If already in-game, nothing more to do...
-	if ( this.inGame ) { return ; }
-
-	if ( assigned && roles.length <= 1 ) {
-		// Nothing to do and nothing to display...
-		this.roleId = roles[ 0 ].id ;
-		return ;
-	}
-
-	roles.forEach( ( role , i ) => {
-
-		var userName = role.clientId && this.users.get( role.clientId ).name ;
-
-		choices.push( {
-			index: i ,
-			label: role.name ,
-			type: 'role' ,
-			selectedBy: userName && [ userName ]
-		} ) ;
-	} ) ;
-
-	if ( unassignedUsers.length ) {
-		undecidedNames = unassignedUsers.map( ( e ) => { return this.users.get( e ).name ; } ) ;
-	}
-
-	var onSelect = ( index ) => {
-
-		if ( roles[ index ].clientId === this.user.id ) {
-			// Here we want to unassign
-			this.bus.emit( 'selectRole' , null ) ;
-		}
-		else if ( roles[ index ].clientId !== null ) {
-			// Already holded by someone else
-			return ;
-		}
-		else {
-			this.bus.emit( 'selectRole' , roles[ index ].id ) ;
-		}
-	} ;
-
-	this.dom.setChoices( choices , undecidedNames , onSelect ) ;
-
-	if ( assigned ) {
-		roles.find( ( e , i ) => {
-			if ( e.clientId === this.user.id ) { this.roleId = e.id ; return true ; }
-			return false ;
-		} ) ;
-
-		this.afterLeave = true ;	// tmp
-		return ;
-	}
-} ;
-
-
-
-// Formated message emitted by the core engine, core execution continue
-//UI.coreMessage = function coreMessage() { term.apply( term , arguments ) ; } ;
-// Error formated message, mostly emitted by the core engine, but may be emitted from the script
-//UI.errorMessage = function errorMessage() { term.apply( term , arguments ) ; } ;
-
-
-
-// Script [message], execution can be suspended if the listener is async, waiting for completion.
-// E.g.: possible use: wait for a user input before continuing processing.
-UI.message = function( text , options , callback ) {
-	this.hasNewContent = true ;
-
-	if ( ! options ) { options = {} ; }
-
-	if ( options.speech ) {
-		if ( ! options.speechLang ) { options.speechLang = this.config.defaultLocale ; }
-		options.useService = this.config.hasSpeechService ;
-
-		if ( options.speechOnly ) {
-			this.dom.addSpeech( toolkit.stripMarkup( text ) , options , callback ) ;
-		}
-		else {
-			let messageDone = false , speechDone = false ;
-
-			this.dom.addMessage( toolkit.markup( text ) , options , () => {
-				messageDone = true ;
-				if ( speechDone ) { callback() ; }
-			} ) ;
-
-			this.dom.addSpeech( toolkit.stripMarkup( text ) , options , () => {
-				speechDone = true ;
-				if ( messageDone ) { callback() ; }
-			} ) ;
-		}
-	}
-	else {
-		this.dom.addMessage( toolkit.markup( text ) , options , callback ) ;
-	}
-} ;
-
-
-
-UI.indicators = function( data ) {
-	this.dom.addIndicators( data ) ;
-} ;
-
-
-
-UI.status = function( data ) {
-	this.dom.addIndicators( data , true ) ;
-} ;
-
-
-
-UI.panel = function( data , reset ) {
-	this.dom.addPanel( data , reset ) ;
-} ;
-
-
-
-// 'enterScene' event
-UI.enterScene = function( isGosub , toAltBuffer ) {
-	var switchedToAltBuffer ;
-
-	this.inGame = true ;
-
-	if ( toAltBuffer ) {
-		switchedToAltBuffer = this.dom.toAltBuffer() ;
-	}
-
-	if ( ! isGosub && ! switchedToAltBuffer ) {
-		this.dom.newSegmentOnContent() ;
-	}
-
-	this.afterNext = this.afterLeave = this.afterNextTriggered = false ;
-} ;
-
-
-
-// 'leaveScene' event
-UI.leaveScene = function( isReturn , backToMainBuffer ) {
-	if ( backToMainBuffer ) { this.dom.toMainBuffer() ; }
-	//else { this.dom.newSegmentOnContent() ; }
-
-	// if ( isReturn ) {}
-
-	this.afterNext = this.afterNextTriggered = false ;
-	this.afterLeave = true ;
-} ;
-
-
-
-// 'nextTriggered' event
-UI.nextTriggered = function( nextId ) {
-	var selected = this.nexts.find( e => e.id === nextId ) ;
-
-	this.dom.newSegmentOnContent( 'inter-segment' ) ;
-
-	if ( selected && selected.label && ! selected.button ) {
-		this.dom.addSelectedChoice( selected.label ) ;
-	}
-
-	this.dom.clearChoices() ;
-	this.afterNextTriggered = true ;
-	this.hasNewContent = false ;
-} ;
-
-
-
-UI.nextList = function( nexts , undecidedRoleIds , options , isUpdate ) {
-	var choices = [] , undecidedNames , charCount = 0 ;
-
-	this.nexts = nexts ;
-	this.afterNext = true ;
-
-	// No need to update if we are alone
-	if ( isUpdate && this.roles.length === 1 ) { return ; }
-
-	nexts.forEach( ( next , i ) => {
-
-		var roles = next.roleIds.map( id => { return this.roles.get( id ).name ; } ) ;
-
-		if ( next.label ) { charCount += next.label.length ; }
-
-		choices.push( {
-			index: i ,
-			label: next.label || 'Next' ,
-			style: next.style ,
-			class: next.class ,
-			image: next.image ,
-			button: next.button ,
-			groupBreak: !! next.groupBreak ,
-			//orderedList: nexts.length > 1 ,
-			type: 'next' ,
-			selectedBy: roles
-		} ) ;
-	} ) ;
-
-	if ( ! options.nextStyle || options.nextStyle === 'auto' ) {
-		if ( this.roles.length <= 1 && choices.length <= 3 && charCount < 20 ) {
-			options.nextStyle = 'inline' ;
-		}
-		else if ( choices.length > 8 ) {
-			options.nextStyle = 'smallList' ;
-		}
-		else {
-			options.nextStyle = 'list' ;
-		}
-	}
-
-	if ( undecidedRoleIds.length && this.roles.length ) {
-		undecidedNames = undecidedRoleIds.map( ( e ) => { return this.roles.get( e ).name ; } ) ;
-	}
-
-	var onSelect = index => {
-		if ( nexts[ index ].roleIds.indexOf( this.roleId ) !== -1 ) {
-			this.bus.emit( 'selectNext' , null ) ;
-		}
-		else {
-			this.bus.emit( 'selectNext' , nexts[ index ].id ) ;
-		}
-	} ;
-
-	this.dom.setChoices( choices , undecidedNames , onSelect , { timeout: options.timeout , nextStyle: options.nextStyle } ) ;
-} ;
-
-
-
-// External raw output (e.g. shell command stdout)
-UI.extOutput = function( output ) {
-	alert( 'not coded ATM!' ) ;
-	//process.stdout.write( output ) ;
-} ;
-
-
-
-// External raw error output (e.g. shell command stderr)
-UI.extErrorOutput = function( output ) {
-	alert( 'not coded ATM!' ) ;
-	//process.stderr.write( output ) ;
-} ;
-
-
-
-// Text input field
-UI.textInput = function( label , grantedRoleIds ) {
-	var options = {
-		label: label
-	} ;
-
-	if ( grantedRoleIds.indexOf( this.roleId ) === -1 ) {
-		options.placeholder = 'YOU CAN\'T RESPOND - WAIT...' ;
-		this.dom.textInputDisabled( options ) ;
-	}
-	else {
-		this.dom.textInput( options , ( text ) => {
-			this.bus.emit( 'textSubmit' , text ) ;
-		} ) ;
-	}
-} ;
-
-
-
-UI.prototype.commandConfig = function( config ) {
-	console.warn( "Received command config:" , config ) ;
-	if ( config.enabled === true ) {
-		this.dom.enableCommand( ( message ) => {
-			//console.log( 'inGame?' , this.inGame ) ;
-			this.bus.emit( this.inGame ? 'command' : 'chat' , message ) ;
-		} ) ;
-	}
-	else if ( config.enabled === false ) {
-		this.dom.disableCommand() ;
-	}
-} ;
-
-
-
-UI.pause = function( duration ) {
-	console.log( "Received a pause event for" , duration , "seconds" ) ;
-} ;
-
-
-
-UI.unpause = function() {
-	console.log( "Received an unpause event" ) ;
-} ;
-
-
-
-// rejoinRoles event (probably better to listen to that event before using it in the 'wait' event)
-UI.rejoinRoles = function() {} ;
-
-
-
-UI.wait = function( what ) {
-	switch ( what ) {
-		case 'otherBranches' :
-			this.dom.setBigHint( "WAITING FOR OTHER BRANCHES TO FINISH..." , { wait: true , "pulse-animation": true } ) ;
-			this.bus.once( 'rejoinRoles' , () => this.dom.clearHint() ) ;
-			break ;
-		default :
-			this.dom.setBigHint( "WAITING FOR " + what , { wait: true , "pulse-animation": true } ) ;
-	}
-} ;
-
-
-
-UI.theme = function( data ) {
-	if ( ! data.url ) {
-		if ( this.config.theme ) { this.dom.setTheme( this.config.theme ) ; }
-		return ;
-	}
-
-	this.dom.setTheme( data ) ;
-} ;
-
-
-
-UI.image = function( data ) {
-	this.dom.setSceneImage( data ) ;
-} ;
-
-
-
-UI.createGScene = function( id , data ) {
-	console.warn( "createGScene" , id , data ) ;
-} ;
-
-
-
-UI.updateGScene = function( id , data ) {
-	console.warn( "updateGScene" , id , data ) ;
-} ;
-
-
-
-UI.clearGScene = function( id ) {
-	console.warn( "clearGScene" , id ) ;
-} ;
-
-
-
-UI.texturePack = function( gSceneId , textureUid , data , callback ) {
-	console.warn( "texturePack" , gSceneId , textureUid , data ) ;
-	this.dom.defineTexturePack( gSceneId , textureUid , data ) ;
-	callback() ;
-} ;
-
-
-
-UI.showGEntity = function( gSceneId , gEntityId , data , callback ) {
-	this.dom.showGEntity( gSceneId , gEntityId , data ).then( callback ) ;
-} ;
-
-
-
-UI.updateGEntity = function( gSceneId , gEntityId , data , callback ) {
-	this.dom.updateGEntity( gSceneId , gEntityId , data ).then( callback ) ;
-} ;
-
-
-
-UI.clearGEntity = function( gSceneId , gEntityId ) {
-	this.dom.clearGEntity( gSceneId , gEntityId ) ;
-} ;
-
-
-
-UI.animateGEntity = function( gSceneId , gEntityId , animationId , callback ) {
-	this.dom.animateGEntity( gSceneId , gEntityId , animationId ).then( callback ) ;
-} ;
-
-
-
-UI.defineAnimation = function( id , data ) {
-	this.dom.defineAnimation( id , data ) ;
-} ;
-
-
-
-// add a callback here?
-UI.sound = function( data ) {
-	this.dom.sound( data ) ;
-} ;
-
-
-
-UI.music = function( data ) {
-	this.dom.music( data ) ;
-} ;
-
-
-
-// End event
-UI.end = function( result , data , callback ) {
-	// /!\ this.afterNext is not the good way to detect extra content...
-	var options = {
-		modal: true , big: true , fun: true , contentDelay: this.hasNewContent , slow: true
-	} ;
-
-	var finished = () => {
-		if ( this.ended ) { return ; }
-		this.ended = true ;
-		console.log( 'finished!' ) ;
-		this.emit( 'end' ) ;
-		callback() ;
-	} ;
-
-	switch ( result ) {
-		case 'end' :
-			this.dom.setDialog( 'The End.' , options , finished ) ;
-			break ;
-		case 'win' :
-			this.dom.setDialog( 'You Win!' , options , finished ) ;
-			break ;
-		case 'lost' :
-			this.dom.setDialog( 'You Lose...' , options , finished ) ;
-			break ;
-		case 'draw' :
-			this.dom.setDialog( 'Draw.' , options , finished ) ;
-			break ;
-	}
-} ;
-
-
-
-// Custom event, not used in vanilla client
-UI.custom = function( event , data ) {
-	console.log( "Received a custom event" , event , data ) ;
-} ;
-
-
-
-// Exit event
-UI.exit = function( error , timeout , callback ) {
-	console.log( 'exit cb' , callback ) ;
-	this.once( 'end' , () => {
-		// Add at least few ms, because DOM may be OK, but parallel image download are still in progress.
-		// E.g.: after .setDialog()'s callback, boxes/geometric-gold.svg is not loaded.
-		// Keep in mind that once the exit callback is sent, the remote server will disconnect us as soon as possible.
-		setTimeout( 200 , callback ) ;
-	} ) ;
-} ;
-
-
-},{"../Dom.js":1,"../toolkit.js":9,"nextgen-events/lib/browser.js":16,"seventh":30}],11:[function(require,module,exports){
-
-},{}],12:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 (function (process){
 /*
 	Dom Kit
@@ -4604,7 +4821,7 @@ domKit.html = ( $element , html ) => $element.innerHTML = html ;
 
 
 }).call(this,require('_process'))
-},{"@cronvel/xmldom":11,"_process":18}],13:[function(require,module,exports){
+},{"@cronvel/xmldom":13,"_process":20}],15:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -4627,7 +4844,7 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],14:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 (function (process,global,setImmediate){
 /*
 	Next-Gen Events
@@ -6025,7 +6242,7 @@ NextGenEvents.Proxy = require( './Proxy.js' ) ;
 
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"../package.json":17,"./Proxy.js":15,"_process":18,"timers":52}],15:[function(require,module,exports){
+},{"../package.json":19,"./Proxy.js":17,"_process":20,"timers":54}],17:[function(require,module,exports){
 /*
 	Next-Gen Events
 
@@ -6572,7 +6789,7 @@ RemoteService.prototype.receiveAckEmit = function( message ) {
 } ;
 
 
-},{"./NextGenEvents.js":14}],16:[function(require,module,exports){
+},{"./NextGenEvents.js":16}],18:[function(require,module,exports){
 (function (process){
 /*
 	Next-Gen Events
@@ -6618,7 +6835,7 @@ module.exports.isBrowser = true ;
 
 
 }).call(this,require('_process'))
-},{"./NextGenEvents.js":14,"_process":18}],17:[function(require,module,exports){
+},{"./NextGenEvents.js":16,"_process":20}],19:[function(require,module,exports){
 module.exports={
   "_from": "nextgen-events@^1.3.0",
   "_id": "nextgen-events@1.3.0",
@@ -6706,7 +6923,7 @@ module.exports={
   "version": "1.3.0"
 }
 
-},{}],18:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -6892,7 +7109,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],19:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 (function (global){
 /*! https://mths.be/punycode v1.4.1 by @mathias */
 ;(function(root) {
@@ -7429,7 +7646,7 @@ process.umask = function() { return 0; };
 }(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],20:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -7515,7 +7732,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],21:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -7602,13 +7819,13 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],22:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":20,"./encode":21}],23:[function(require,module,exports){
+},{"./decode":22,"./encode":23}],25:[function(require,module,exports){
 (function (process,global){
 (function (global, undefined) {
     "use strict";
@@ -7798,7 +8015,7 @@ exports.encode = exports.stringify = require('./encode');
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":18}],24:[function(require,module,exports){
+},{"_process":20}],26:[function(require,module,exports){
 /*
 	Seventh
 
@@ -7882,7 +8099,7 @@ Promise.promisifyAnyNodeApi = ( api , suffix , multiSuffix , filter ) => {
 
 
 
-},{"./seventh.js":30}],25:[function(require,module,exports){
+},{"./seventh.js":32}],27:[function(require,module,exports){
 /*
 	Seventh
 
@@ -8491,7 +8708,7 @@ Promise.race = ( iterable ) => {
 } ;
 
 
-},{"./seventh.js":30}],26:[function(require,module,exports){
+},{"./seventh.js":32}],28:[function(require,module,exports){
 (function (process,global,setImmediate){
 /*
 	Seventh
@@ -9246,7 +9463,7 @@ if ( process.browser ) {
 
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"_process":18,"setimmediate":23,"timers":52}],27:[function(require,module,exports){
+},{"_process":20,"setimmediate":25,"timers":54}],29:[function(require,module,exports){
 /*
 	Seventh
 
@@ -9752,7 +9969,7 @@ Promise.variableRetry = ( asyncFn , thisBinding ) => {
 */
 
 
-},{"./seventh.js":30}],28:[function(require,module,exports){
+},{"./seventh.js":32}],30:[function(require,module,exports){
 (function (process){
 /*
 	Seventh
@@ -9852,7 +10069,7 @@ Promise.resolveSafeTimeout = function( timeout , value ) {
 
 
 }).call(this,require('_process'))
-},{"./seventh.js":30,"_process":18}],29:[function(require,module,exports){
+},{"./seventh.js":32,"_process":20}],31:[function(require,module,exports){
 /*
 	Seventh
 
@@ -9904,7 +10121,7 @@ Promise.parasite = () => {
 } ;
 
 
-},{"./seventh.js":30}],30:[function(require,module,exports){
+},{"./seventh.js":32}],32:[function(require,module,exports){
 /*
 	Seventh
 
@@ -9947,7 +10164,7 @@ require( './parasite.js' ) ;
 require( './misc.js' ) ;
 
 
-},{"./api.js":24,"./batch.js":25,"./core.js":26,"./decorators.js":27,"./misc.js":28,"./parasite.js":29,"./wrapper.js":31}],31:[function(require,module,exports){
+},{"./api.js":26,"./batch.js":27,"./core.js":28,"./decorators.js":29,"./misc.js":30,"./parasite.js":31,"./wrapper.js":33}],33:[function(require,module,exports){
 /*
 	Seventh
 
@@ -10112,7 +10329,7 @@ Promise.onceEventAllOrError = ( emitter , eventName , excludeEvents ) => {
 } ;
 
 
-},{"./seventh.js":30}],32:[function(require,module,exports){
+},{"./seventh.js":32}],34:[function(require,module,exports){
 /*
 	String Kit
 
@@ -10194,7 +10411,7 @@ module.exports = {
 } ;
 
 
-},{}],33:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 /*
 	String Kit
 
@@ -10299,7 +10516,7 @@ exports.unicodePercentEncode = str => str.replace( /[\x00-\x1f\u0100-\uffff\x7f%
 exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
 
 
-},{}],34:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 (function (Buffer){
 /*
 	String Kit
@@ -11300,7 +11517,7 @@ function iround( v , istep ) {
 
 
 }).call(this,require("buffer").Buffer)
-},{"./ansi.js":32,"./escape.js":33,"./inspect.js":35,"./naturalSort.js":36,"./unicode.js":37,"buffer":11}],35:[function(require,module,exports){
+},{"./ansi.js":34,"./escape.js":35,"./inspect.js":37,"./naturalSort.js":38,"./unicode.js":39,"buffer":13}],37:[function(require,module,exports){
 (function (Buffer,process){
 /*
 	String Kit
@@ -11997,7 +12214,7 @@ inspectStyle.html = Object.assign( {} , inspectStyle.none , {
 
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")},require('_process'))
-},{"../../is-buffer/index.js":13,"./ansi.js":32,"./escape.js":33,"_process":18}],36:[function(require,module,exports){
+},{"../../is-buffer/index.js":15,"./ansi.js":34,"./escape.js":35,"_process":20}],38:[function(require,module,exports){
 /*
 	HTTP Requester
 
@@ -12083,7 +12300,7 @@ module.exports = function( a , b ) {
 } ;
 
 
-},{}],37:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 /*
 	String Kit
 
@@ -12494,7 +12711,7 @@ unicode.toFullWidth = str => {
 } ;
 
 
-},{}],38:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -12614,7 +12831,7 @@ VG.prototype.addCssRule = function( rule ) {
 } ;
 
 
-},{"../package.json":51,"./VGContainer.js":39,"./svg-kit.js":47}],39:[function(require,module,exports){
+},{"../package.json":53,"./VGContainer.js":41,"./svg-kit.js":49}],41:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -12735,7 +12952,7 @@ VGContainer.prototype.morphDom = function( root = this ) {
 } ;
 
 
-},{"../package.json":51,"./VGEntity.js":41,"./svg-kit.js":47}],40:[function(require,module,exports){
+},{"../package.json":53,"./VGEntity.js":43,"./svg-kit.js":49}],42:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -12820,7 +13037,7 @@ VGEllipse.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":51,"./VGEntity.js":41}],41:[function(require,module,exports){
+},{"../package.json":53,"./VGEntity.js":43}],43:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13205,7 +13422,7 @@ VGEntity.prototype.morphOneEntryDom = function( data , root = this ) {
 } ;
 
 
-},{"../package.json":51,"string-kit/lib/camel":49,"string-kit/lib/escape":50}],42:[function(require,module,exports){
+},{"../package.json":53,"string-kit/lib/camel":51,"string-kit/lib/escape":52}],44:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13262,7 +13479,7 @@ VGGroup.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":51,"./VGContainer.js":39,"./svg-kit.js":47}],43:[function(require,module,exports){
+},{"../package.json":53,"./VGContainer.js":41,"./svg-kit.js":49}],45:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13929,7 +14146,7 @@ VGPath.prototype.forwardNegativeTurn = function( data ) {
 } ;
 
 
-},{"../package.json":51,"./VGEntity.js":41}],44:[function(require,module,exports){
+},{"../package.json":53,"./VGEntity.js":43}],46:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -14020,7 +14237,7 @@ VGRect.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":51,"./VGEntity.js":41}],45:[function(require,module,exports){
+},{"../package.json":53,"./VGEntity.js":43}],47:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -14132,7 +14349,7 @@ VGText.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":51,"./VGEntity.js":41}],46:[function(require,module,exports){
+},{"../package.json":53,"./VGEntity.js":43}],48:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -14180,7 +14397,7 @@ path.dFromPoints = ( points , invertY ) => {
 } ;
 
 
-},{}],47:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 (function (process){
 /*
 	SVG Kit
@@ -14658,7 +14875,7 @@ svgKit.objectToVG = function( object ) {
 
 
 }).call(this,require('_process'))
-},{"./VG.js":38,"./VGContainer.js":39,"./VGEllipse.js":40,"./VGEntity.js":41,"./VGGroup.js":42,"./VGPath.js":43,"./VGRect.js":44,"./VGText.js":45,"./path.js":46,"_process":18,"dom-kit":48,"fs":11,"seventh":30,"string-kit/lib/escape.js":50}],48:[function(require,module,exports){
+},{"./VG.js":40,"./VGContainer.js":41,"./VGEllipse.js":42,"./VGEntity.js":43,"./VGGroup.js":44,"./VGPath.js":45,"./VGRect.js":46,"./VGText.js":47,"./path.js":48,"_process":20,"dom-kit":50,"fs":13,"seventh":32,"string-kit/lib/escape.js":52}],50:[function(require,module,exports){
 (function (process){
 /*
 	Dom Kit
@@ -15246,7 +15463,7 @@ domKit.html = function( $element , html ) { $element.innerHTML = html ; } ;
 
 
 }).call(this,require('_process'))
-},{"@cronvel/xmldom":11,"_process":18}],49:[function(require,module,exports){
+},{"@cronvel/xmldom":13,"_process":20}],51:[function(require,module,exports){
 /*
 	String Kit
 
@@ -15320,9 +15537,9 @@ camel.camelCaseToDash =
 camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' ) ;
 
 
-},{}],50:[function(require,module,exports){
-arguments[4][33][0].apply(exports,arguments)
-},{"dup":33}],51:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
+arguments[4][35][0].apply(exports,arguments)
+},{"dup":35}],53:[function(require,module,exports){
 module.exports={
   "_from": "svg-kit@^0.3.0",
   "_id": "svg-kit@0.3.0",
@@ -15398,7 +15615,7 @@ module.exports={
   "version": "0.3.0"
 }
 
-},{}],52:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 (function (setImmediate,clearImmediate){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -15477,7 +15694,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":18,"timers":52}],53:[function(require,module,exports){
+},{"process/browser.js":20,"timers":54}],55:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -16211,7 +16428,7 @@ Url.prototype.parseHost = function() {
   if (host) this.hostname = host;
 };
 
-},{"./util":54,"punycode":19,"querystring":22}],54:[function(require,module,exports){
+},{"./util":56,"punycode":21,"querystring":24}],56:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -16229,5 +16446,5 @@ module.exports = {
   }
 };
 
-},{}]},{},[5])(5)
+},{}]},{},[8])(8)
 });

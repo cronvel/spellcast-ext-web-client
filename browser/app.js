@@ -29,19 +29,26 @@
 
 
 
+const GTransition = require( './GTransition.js' ) ;
+
 //const domKit = require( 'dom-kit' ) ;
+const Promise = require( 'seventh' ) ;
 
 
 
 // !THIS SHOULD TRACK SERVER-SIDE Camera! spellcast/lib/gfx/Camera.js
-function Camera( dom , data ) {
-	this.dom = dom ;    // Dom instance, immutable
+function Camera( gScene , data ) {
+	this.gScene = gScene ;    // immutable
 
 	this.position = { x: 0 , y: 0 , z: 10 } ;
 	this.targetPosition = { x: 0 , y: 0 , z: 0 } ;
 	this.free = false ;
 	this.trackingMode = null ;
-	this.perspective = null ;
+	this.perspective = 1 ;
+
+	this.transitions = {
+		perspective: null   // transition on perspective changes
+	} ;
 }
 
 module.exports = Camera ;
@@ -50,6 +57,8 @@ module.exports = Camera ;
 
 // !THIS SHOULD TRACK SERVER-SIDE Camera! spellcast/lib/gfx/Camera.js
 Camera.prototype.update = function( data , eventData ) {
+	if ( data.transitions !== undefined ) { this.updateTransition( data.transitions ) ; }
+
 	if ( data.position ) {
 		if ( data.position.x !== undefined ) { this.position.x = data.position.x ; }
 		if ( data.position.y !== undefined ) { this.position.y = data.position.y ; }
@@ -68,13 +77,37 @@ Camera.prototype.update = function( data , eventData ) {
 	if ( data.perspective !== undefined ) {
 		this.perspective = data.perspective || null ;
 		// The perspective is relative to the viewport size
-		let avg = ( this.dom.$gfx.offsetWidth + this.dom.$gfx.offsetHeight ) / 2 ;
-		this.dom.$gfx.style.perspective = this.perspective ? Math.round( avg * this.perspective ) + 'px' : null ;
+		let avg = ( this.gScene.$gscene.offsetWidth + this.gScene.$gscene.offsetHeight ) / 2 ;
+		this.gScene.$gscene.style.perspective = this.perspective ? Math.round( avg * this.perspective ) + 'px' : null ;
+	}
+	
+	// It may be async later, waiting for transitions to finish the camera move?
+	return Promise.resolved ;
+} ;
+
+
+
+Camera.prototype.updateTransition = function( transitions ) {
+	console.warn( "Camera.updateTransition()" , transitions ) ;
+	var parts = [] ;
+
+	if ( transitions.perspective !== undefined ) { this.transitions.perspective = transitions.perspective ? new GTransition( transitions.perspective ) : transitions.perspective ; }
+
+	if ( this.transitions.perspective !== null ) {
+		if ( ! transitions.perspective ) { parts.push( 'perspective 0s' ) ; }
+		else { parts.push( this.transitions.perspective.toString( 'perspective' ) ) ; }
+	}
+
+	if ( ! parts.length ) {
+		this.gScene.$gscene.style.transition = '' ;	// reset it to default stylesheet value
+	}
+	else {
+		this.gScene.$gscene.style.transition = parts.join( '; ' ) ;
 	}
 } ;
 
 
-},{}],2:[function(require,module,exports){
+},{"./GTransition.js":6,"seventh":32}],2:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -1355,6 +1388,19 @@ Dom.prototype.clearGScene = function( gSceneId ) {
 
 
 
+Dom.prototype.updateCamera = function( gSceneId , data ) {
+	var gScene = this.gScenes[ gSceneId ] ;
+
+	if ( ! gScene ) {
+		console.warn( 'Unknown GScene id: ' , gSceneId ) ;
+		return Promise.resolved ;
+	}
+
+	return gScene.globalCamera.update( data ) ;
+} ;
+
+
+
 Dom.prototype.defineTexturePack = function( gSceneId , textureUid , data ) {
 	var gScene = this.gScenes[ gSceneId ] ;
 
@@ -1753,6 +1799,8 @@ EventDispatcher.prototype.initBus = function() {
 	this.bus.on( 'createGScene' , EventDispatcher.createGScene.bind( this ) ) ;
 	this.bus.on( 'updateGScene' , EventDispatcher.updateGScene.bind( this ) ) ;
 	this.bus.on( 'clearGScene' , EventDispatcher.clearGScene.bind( this ) ) ;
+
+	this.bus.on( 'camera' , EventDispatcher.camera.bind( this ) , { async: true } ) ;
 
 	this.bus.on( 'texturePack' , EventDispatcher.texturePack.bind( this ) , { async: true } ) ;
 
@@ -2215,6 +2263,13 @@ EventDispatcher.updateGScene = function( gSceneId , data ) {
 EventDispatcher.clearGScene = function( gSceneId ) {
 	console.warn( "clearGScene" , gSceneId ) ;
 	this.dom.clearGScene( gSceneId ) ;	//.then( callback ) ;
+} ;
+
+
+
+EventDispatcher.camera = function( gSceneId , data , callback ) {
+	console.warn( "camera" , gSceneId ,data ) ;
+	this.dom.updateCamera( gSceneId , data ).then( callback ) ;
 } ;
 
 
@@ -3476,7 +3531,7 @@ function GScene( dom , data ) {
 	this.gEntities = {} ;
 	this.gEntityLocations = {} ;
 
-	this.globalCamera = null ;
+	this.globalCamera = new Camera( this ) ;
 	this.roleCamera = null ;	// For multiplayer, not implemented yet
 
 	this.$gscene = document.createElement( 'gscene' ) ;

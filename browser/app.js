@@ -47,7 +47,7 @@ function Camera( gScene , data ) {
 	this.perspective = 1 ;
 
 	this.transitions = {
-		perspective: null   // transition on perspective changes
+		transform: null   // transition on position, target, perspective and parallax changes
 	} ;
 }
 
@@ -63,6 +63,9 @@ Camera.prototype.update = function( data , eventData ) {
 		if ( data.position.x !== undefined ) { this.position.x = data.position.x ; }
 		if ( data.position.y !== undefined ) { this.position.y = data.position.y ; }
 		if ( data.position.z !== undefined ) { this.position.z = data.position.z ; }
+
+		// perspective-origin changes have nasty bug and no transition (at least in FF 08/2020)
+		//this.gScene.$gscene.style.perspectiveOrigin = ( ( 1 + this.position.x ) * 50 ) + '%' + ( ( 1 + this.position.y ) * 50 ) + '%' ;
 	}
 
 	if ( data.targetPosition ) {
@@ -77,8 +80,8 @@ Camera.prototype.update = function( data , eventData ) {
 	if ( data.perspective !== undefined ) {
 		this.perspective = data.perspective || null ;
 		// The perspective is relative to the viewport size
-		let avg = ( this.gScene.$gscene.offsetWidth + this.gScene.$gscene.offsetHeight ) / 2 ;
-		this.gScene.$gscene.style.perspective = this.perspective ? Math.round( avg * this.perspective ) + 'px' : null ;
+		let max = Math.max( this.gScene.$gscene.offsetWidth , this.gScene.$gscene.offsetHeight ) ;
+		this.gScene.$gscene.style.perspective = this.perspective ? Math.round( max * this.perspective ) + 'px' : null ;
 	}
 	
 	// It may be async later, waiting for transitions to finish the camera move?
@@ -91,18 +94,24 @@ Camera.prototype.updateTransition = function( transitions ) {
 	console.warn( "Camera.updateTransition()" , transitions ) ;
 	var parts = [] ;
 
-	if ( transitions.perspective !== undefined ) { this.transitions.perspective = transitions.perspective ? new GTransition( transitions.perspective ) : transitions.perspective ; }
+	if ( transitions.transform !== undefined ) { this.transitions.transform = transitions.transform ? new GTransition( transitions.transform ) : transitions.transform ; }
 
-	if ( this.transitions.perspective !== null ) {
-		if ( ! transitions.perspective ) { parts.push( 'perspective 0s' ) ; }
-		else { parts.push( this.transitions.perspective.toString( 'perspective' ) ) ; }
+	if ( this.transitions.transform !== null ) {
+		if ( ! transitions.transform ) {
+			parts.push( 'perspective 0s' ) ;
+			//parts.push( 'perspective-origin 0s' ) ;
+		}
+		else {
+			parts.push( this.transitions.transform.toString( 'perspective' ) ) ;
+			//parts.push( this.transitions.transform.toString( 'perspective-origin' ) ) ;
+		}
 	}
 
 	if ( ! parts.length ) {
 		this.gScene.$gscene.style.transition = '' ;	// reset it to default stylesheet value
 	}
 	else {
-		this.gScene.$gscene.style.transition = parts.join( '; ' ) ;
+		this.gScene.$gscene.style.transition = parts.join( ', ' ) ;
 	}
 } ;
 
@@ -2555,14 +2564,14 @@ GEntity.prototype.updateTexture = function( texturePackId , variantId , themeId 
 
 	if ( texturePackId !== undefined ) { this.texturePack = texturePackId || null ; }
 	if ( variantId !== undefined ) { this.variant = variantId || null ; }
-	if ( themeId !== undefined ) { this.texturePack = themeId || null ; }
+	if ( themeId !== undefined ) { this.theme = themeId || null ; }
 
 	console.warn( "GEntity.updateTexture()" , texturePackId , variantId , themeId ) ;
 
-	texturePack = this.gScene.texturePacks[ this.texturePack + '/' + ( this.theme || this.gScene.textureTheme ) ] ;
+	texturePack = this.gScene.texturePacks[ this.texturePack + '/' + ( this.theme || this.gScene.theme ) ] ;
 
 	if ( ! texturePack ) {
-		console.warn( "Texture pack" , this.texturePack + '/' + ( this.theme || this.gScene.textureTheme ) , "not found" ) ;
+		console.warn( "Texture pack" , this.texturePack + '/' + ( this.theme || this.gScene.theme ) , "not found" ) ;
 		texturePack = this.gScene.texturePacks[ this.texturePack + '/default' ] ;
 
 		if ( ! texturePack ) {
@@ -2804,7 +2813,7 @@ GEntity.prototype.updateTransition = function( transitions ) {
 		this.$wrapper.style.transition = '' ;	// reset it to default stylesheet value
 	}
 	else {
-		this.$wrapper.style.transition = parts.join( '; ' ) ;
+		this.$wrapper.style.transition = parts.join( ', ' ) ;
 	}
 } ;
 
@@ -3994,10 +4003,11 @@ exports.toClassObject = function toClassObject( data ) {
 exports.default =
 exports.area =
 exports.contain = ( transform , position , areaWidth , areaHeight , imageWidth , imageHeight ) => {
-	var xMinOffset , yMinOffset , xFactor , yFactor ;
+	var xMinOffset , yMinOffset , xFactor , yFactor , zFactor ;
 
 	xFactor = areaWidth - transform.scaleX * imageWidth ;
 	yFactor = areaHeight - transform.scaleY * imageHeight ;
+	zFactor = Math.max( areaWidth , areaHeight ) ;
 	xMinOffset = -0.5 * imageWidth * ( 1 - transform.scaleX ) ;
 	yMinOffset = -0.5 * imageHeight * ( 1 - transform.scaleY ) ;
 
@@ -4005,8 +4015,7 @@ exports.contain = ( transform , position , areaWidth , areaHeight , imageWidth ,
 	transform.translateX = xMinOffset + ( 0.5 + position.x / 2 ) * xFactor ;
 	transform.translateY = yMinOffset + ( 0.5 - position.y / 2 ) * yFactor ;
 
-	// What should be done for the z-axis?
-	transform.translateZ = position.z ;
+	transform.translateZ = position.z * zFactor ;
 } ;
 
 
@@ -4016,10 +4025,11 @@ exports.contain = ( transform , position , areaWidth , areaHeight , imageWidth ,
 	That origin is placed inside the container, [-1,1] coords make the origin inside the container.
 */
 exports.origin = ( transform , position , areaWidth , areaHeight , imageWidth , imageHeight ) => {
-	var xMinOffset , yMinOffset , xFactor , yFactor ;
+	var xMinOffset , yMinOffset , xFactor , yFactor , zFactor ;
 
 	xFactor = areaWidth ;
 	yFactor = areaHeight ;
+	zFactor = Math.max( areaWidth , areaHeight ) ;
 	xMinOffset = -0.5 * imageWidth ;
 	yMinOffset = -0.5 * imageHeight ;
 
@@ -4027,8 +4037,7 @@ exports.origin = ( transform , position , areaWidth , areaHeight , imageWidth , 
 	transform.translateX = xMinOffset + ( 0.5 + position.x / 2 ) * xFactor ;
 	transform.translateY = yMinOffset + ( 0.5 - position.y / 2 ) * yFactor ;
 
-	// What should be done for the z-axis?
-	transform.translateZ = position.z ;
+	transform.translateZ = position.z * zFactor ;
 } ;
 
 
@@ -4040,10 +4049,11 @@ exports.origin = ( transform , position , areaWidth , areaHeight , imageWidth , 
 	x=-1.5 means that the sprite is on the left, its left half being invisible (outside the container), its right half being visible (inside the container).
 */
 exports.areaInSpriteOut = ( transform , position , areaWidth , areaHeight , imageWidth , imageHeight ) => {
-	var xMinOffset , yMinOffset , xFactor , yFactor ;
+	var xMinOffset , yMinOffset , xFactor , yFactor , zFactor ;
 
 	xFactor = areaWidth - transform.scaleX * imageWidth ;
 	yFactor = areaHeight - transform.scaleY * imageHeight ;
+	zFactor = Math.max( areaWidth , areaHeight ) ;
 	xMinOffset = -0.5 * imageWidth * ( 1 - transform.scaleX ) ;
 	yMinOffset = -0.5 * imageHeight * ( 1 - transform.scaleY ) ;
 
@@ -4069,8 +4079,7 @@ exports.areaInSpriteOut = ( transform , position , areaWidth , areaHeight , imag
 		transform.translateY = yMinOffset + ( 0.5 - position.y / 2 ) * yFactor ;
 	}
 
-	// What should be done for the z-axis?
-	transform.translateZ = position.z ;
+	transform.translateZ = position.z * zFactor ;
 } ;
 
 

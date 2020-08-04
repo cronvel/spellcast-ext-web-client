@@ -94,6 +94,7 @@ gscene {
 	bottom: 0;
 	transform-style: preserve-3d;
 	/*overflow: hidden;*/
+	pointer-events: none;
 }
 
 
@@ -102,6 +103,8 @@ gscene {
 
 .g-entity-wrapper {
 	position: absolute;
+	/* This causes glitches with VG when enabled */
+	/*transform-style: preserve-3d;*/
 }
 
 .g-entity-location {
@@ -142,21 +145,22 @@ svg.vg-object * {
 	width: 100%;
 	height: 100%;
 	box-sizing: border-box;
-	z-index: 2;
 	opacity: 1;
-	transition: all 1s ;
+	/*z-index: 2;*/
+	/*transition: all 1s ;*/
+	/*transform-style: preserve-3d;*/
 	pointer-events: none;
 }
 
 .sprite-mask {
 	position: absolute;
-	z-index: 1;
+	z-index: -1;
 	width: 100%;
 	height: 100%;
 	top: 0;
 	left: 0;
 	opacity: 1;
-	transition: all 1s ;
+	/*transition: all 1s ;*/
 	
 	/* "none" should be put on the <svg> tag itself, "painted" on the <path> tag */
 	pointer-events: none;

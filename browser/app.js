@@ -116,7 +116,7 @@ Camera.prototype.updateTransition = function( transitions ) {
 } ;
 
 
-},{"./GTransition.js":6,"seventh":32}],2:[function(require,module,exports){
+},{"./GTransition.js":6,"seventh":34}],2:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -1703,7 +1703,7 @@ function soundFadeOut( $element , callback ) {
 }
 
 
-},{"./Camera.js":1,"./GEntity.js":4,"./GScene.js":5,"./TexturePack.js":7,"./commonUtils.js":9,"dom-kit":14,"nextgen-events/lib/browser.js":18,"seventh":32,"svg-kit":49}],3:[function(require,module,exports){
+},{"./Camera.js":1,"./GEntity.js":4,"./GScene.js":5,"./TexturePack.js":7,"./commonUtils.js":9,"dom-kit":15,"nextgen-events/lib/browser.js":20,"seventh":34,"svg-kit":51}],3:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -1734,12 +1734,14 @@ function soundFadeOut( $element , callback ) {
 
 
 
+const exm = require( './exm.js' ) ;
+const Dom = require( './Dom.js' ) ;
+const toolkit = require( './toolkit.js' ) ;
+
 const Promise = require( 'seventh' ) ;
 const Ngev = require( 'nextgen-events/lib/browser.js' ) ;
-const Dom = require( './Dom.js' ) ;
 //const treeExtend = require( 'tree-kit/lib/extend.js' ) ;
 //const treeOps = require( 'kung-fig/lib/treeOps.js' ) ;
-const toolkit = require( './toolkit.js' ) ;
 
 
 
@@ -1898,9 +1900,18 @@ EventDispatcher.clientConfig = async function( config , callback ) {
 	}
 
 	// Client extension loading is a blocking process, the client will malfunction if it doesn't have it
+	/*
 	if ( this.config.clientExtensions && this.config.clientExtensions.length ) {
-		await Promise.every( this.config.clientExtensions , extension => this.dom.addScript( '/ext/' + extension + '/ext.js' ) ) ;
+		await Promise.every( this.config.clientExtensions , extension => this.dom.addScript( '/ext/' + extension + '/extension.js' ) ) ;
 	}
+	//*/
+	//*
+	if ( this.config.clientExtensions ) {
+		for ( let extension of this.config.clientExtensions ) {
+			await exm.requireExtension( extension ) ;
+		}
+	}
+	//*/
 
 	callback() ;
 } ;
@@ -2109,7 +2120,6 @@ EventDispatcher.nextList = function( nexts , undecidedRoleIds , options , isUpda
 	if ( isUpdate && this.roles.length === 1 ) { return ; }
 
 	nexts.forEach( ( next , i ) => {
-
 		var roles = next.roleIds.map( id => { return this.roles.get( id ).name ; } ) ;
 
 		if ( next.label ) { charCount += next.label.length ; }
@@ -2386,7 +2396,7 @@ EventDispatcher.exit = function( error , timeout , callback ) {
 } ;
 
 
-},{"./Dom.js":2,"./toolkit.js":12,"nextgen-events/lib/browser.js":18,"seventh":32}],4:[function(require,module,exports){
+},{"./Dom.js":2,"./exm.js":10,"./toolkit.js":13,"nextgen-events/lib/browser.js":20,"seventh":34}],4:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3487,7 +3497,7 @@ GEntity.prototype.createCardMarkup = function( card ) {
 } ;
 
 
-},{"./GTransition.js":6,"./commonUtils.js":9,"./positionModes.js":10,"./sizeModes.js":11,"dom-kit":14,"nextgen-events/lib/browser.js":18,"seventh":32,"svg-kit":49}],5:[function(require,module,exports){
+},{"./GTransition.js":6,"./commonUtils.js":9,"./positionModes.js":11,"./sizeModes.js":12,"dom-kit":15,"nextgen-events/lib/browser.js":20,"seventh":34,"svg-kit":51}],5:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3584,7 +3594,7 @@ GScene.prototype.update = function( data ) {
 } ;
 
 
-},{"./Camera.js":1,"nextgen-events/lib/browser.js":18,"seventh":32}],6:[function(require,module,exports){
+},{"./Camera.js":1,"nextgen-events/lib/browser.js":20,"seventh":34}],6:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3901,7 +3911,7 @@ domKit.ready( () => {
 } ) ;
 
 
-},{"./EventDispatcher.js":3,"dom-kit":14,"nextgen-events/lib/browser.js":18,"url":55}],9:[function(require,module,exports){
+},{"./EventDispatcher.js":3,"dom-kit":15,"nextgen-events/lib/browser.js":20,"url":57}],9:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3965,6 +3975,57 @@ exports.toClassObject = function toClassObject( data ) {
 
 
 },{}],10:[function(require,module,exports){
+/*
+	Spellcast
+
+	Copyright (c) 2014 - 2020 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const BrowserExm = require( 'exm/lib/BrowserExm.js' ) ;
+
+
+
+module.exports = BrowserExm.registerNs( {
+	ns: 'spellcast-web-client' ,
+	extensionPath: '/ext' ,
+	exports: {
+		EventDispatcher: require( './EventDispatcher.js' ) ,
+		Dom: require( './Dom.js' ) ,
+		Camera: require( './Camera.js' ) ,
+		GEntity: require( './GEntity.js' ) ,
+		GScene: require( './GScene.js' ) ,
+		GTransition: require( './GTransition.js' ) ,
+		TexturePack: require( './TexturePack.js' )
+	} ,
+	api: {}
+} ) ;
+
+
+},{"./Camera.js":1,"./Dom.js":2,"./EventDispatcher.js":3,"./GEntity.js":4,"./GScene.js":5,"./GTransition.js":6,"./TexturePack.js":7,"exm/lib/BrowserExm.js":16}],11:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4083,7 +4144,7 @@ exports.areaInSpriteOut = ( transform , position , areaWidth , areaHeight , imag
 } ;
 
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4182,7 +4243,7 @@ exports.areaMin = ( transform , size , areaWidth , areaHeight , imageWidth , ima
 } ;
 
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4287,9 +4348,9 @@ toolkit.stripMarkup = text => text.replace(
 ) ;
 
 
-},{"string-kit/lib/escape.js":35,"string-kit/lib/format.js":36}],13:[function(require,module,exports){
+},{"string-kit/lib/escape.js":37,"string-kit/lib/format.js":38}],14:[function(require,module,exports){
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 (function (process){
 /*
 	Dom Kit
@@ -4885,7 +4946,131 @@ domKit.html = ( $element , html ) => $element.innerHTML = html ;
 
 
 }).call(this,require('_process'))
-},{"@cronvel/xmldom":13,"_process":20}],15:[function(require,module,exports){
+},{"@cronvel/xmldom":14,"_process":22}],16:[function(require,module,exports){
+(function (global){
+/*
+	EXM
+
+	Copyright (c) 2020 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+function Exm( options = {} ) {
+	if ( ! options.ns ) { throw new Error( "EXM: namespace ('ns') is required!" ) ; }
+
+	this.ns = options.ns ;
+	this.extensionPath = options.extensionPath || '/ext' ;
+	this.suffix = '/extension.js' ;
+
+	this.api = options.api || {} ;
+	this.exports = options.exports || {} ;
+
+	this.extensions = new Map() ;
+}
+
+module.exports = Exm ;
+
+Exm.prototype.__prototypeUID__ = 'exm/browser/Exm' ;
+Exm.prototype.__prototypeVersion__ = '0.3' ;
+
+
+
+Exm.ns = {} ;
+Exm.registerNs = function( options = {} ) {
+	if ( ! options.ns ) { throw new Error( "EXM: namespace ('ns' property) is required!" ) ; }
+	if ( Exm.ns[ options.ns ] ) { throw new Error( "EXM: namespace '" + options.ns + "' is already registered!" ) ; }
+
+	var exm = new Exm( options ) ;
+	Exm.ns[ options.ns ] = exm ;
+	return exm ;
+} ;
+
+
+
+Exm.prototype.requireExtension = async function( extName ) {
+	if ( this.extensions.has( extName ) ) { return this.extensions.get( extName ) ; }
+
+	var module_ ,
+		extModulePath = this.extensionPath + '/' + extName + this.suffix ;
+
+	try {
+		console.warn( "Trying" , extModulePath ) ;
+		let imod = await import( extModulePath ) ;
+		console.warn( "imported module:" , imod ) ;
+		module_ = global.EXM_EXTENSIONS && global.EXM_EXTENSIONS[ extName ] ;
+	}
+	catch ( error ) {
+		throw new Error( "Required extension '" + extName + "' not found." ) ;
+	}
+
+	console.warn( "module:" , module_ ) ;
+	//module_ = module_.extension ;
+
+	if ( ! module_ || typeof module_ !== 'object' || ( module_.__prototypeUID__ !== 'exm/Extension' && module_.__prototypeUID__ !== 'exm/browser/Extension' ) ) {
+		throw new Error( "EXM: this is not an EXM Extension" ) ;
+	}
+
+	if ( module_.id !== extName ) {
+		throw new Error( "EXM: Extension ID mismatch (wanted '" + extName + "' but got " + module_.id + "'." ) ;
+	}
+
+	await module_.init( this ) ;
+	this.extensions.set( extName , module_ ) ;
+	return module_ ;
+} ;
+
+
+
+Exm.Extension = function( options = {} ) {
+	this.isInit = false ;
+	this.host = null ;	// the host Exm
+	this.id = options.id || null ;
+	this.require = options.require ;
+	this.hooks = options.hooks || {} ;
+	this.api = options.api || {} ;
+	this.exports = options.exports || {} ;
+} ;
+
+Exm.Extension.prototype.__prototypeUID__ = 'exm/browser/Extension' ;
+Exm.Extension.prototype.__prototypeVersion__ = Exm.prototype.__prototypeVersion__ ;
+
+
+
+Exm.Extension.prototype.init = function( host ) {
+	if ( this.isInit ) { return ; }
+	console.warn( "Extension loaded" , host ) ;
+	this.isInit = true ;
+	this.host = host ;
+
+	if ( typeof this.hooks.init === 'function' ) { this.hooks.init() ; }
+} ;
+
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],17:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -4908,7 +5093,7 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],16:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 (function (process,global,setImmediate){
 /*
 	Next-Gen Events
@@ -6306,7 +6491,7 @@ NextGenEvents.Proxy = require( './Proxy.js' ) ;
 
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"../package.json":19,"./Proxy.js":17,"_process":20,"timers":54}],17:[function(require,module,exports){
+},{"../package.json":21,"./Proxy.js":19,"_process":22,"timers":56}],19:[function(require,module,exports){
 /*
 	Next-Gen Events
 
@@ -6853,7 +7038,7 @@ RemoteService.prototype.receiveAckEmit = function( message ) {
 } ;
 
 
-},{"./NextGenEvents.js":16}],18:[function(require,module,exports){
+},{"./NextGenEvents.js":18}],20:[function(require,module,exports){
 (function (process){
 /*
 	Next-Gen Events
@@ -6899,7 +7084,7 @@ module.exports.isBrowser = true ;
 
 
 }).call(this,require('_process'))
-},{"./NextGenEvents.js":16,"_process":20}],19:[function(require,module,exports){
+},{"./NextGenEvents.js":18,"_process":22}],21:[function(require,module,exports){
 module.exports={
   "_from": "nextgen-events@^1.3.0",
   "_id": "nextgen-events@1.3.0",
@@ -6987,7 +7172,7 @@ module.exports={
   "version": "1.3.0"
 }
 
-},{}],20:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -7173,7 +7358,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],21:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 (function (global){
 /*! https://mths.be/punycode v1.4.1 by @mathias */
 ;(function(root) {
@@ -7710,7 +7895,7 @@ process.umask = function() { return 0; };
 }(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],22:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -7796,7 +7981,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],23:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -7883,13 +8068,13 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],24:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":22,"./encode":23}],25:[function(require,module,exports){
+},{"./decode":24,"./encode":25}],27:[function(require,module,exports){
 (function (process,global){
 (function (global, undefined) {
     "use strict";
@@ -8079,7 +8264,7 @@ exports.encode = exports.stringify = require('./encode');
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":20}],26:[function(require,module,exports){
+},{"_process":22}],28:[function(require,module,exports){
 /*
 	Seventh
 
@@ -8163,7 +8348,7 @@ Promise.promisifyAnyNodeApi = ( api , suffix , multiSuffix , filter ) => {
 
 
 
-},{"./seventh.js":32}],27:[function(require,module,exports){
+},{"./seventh.js":34}],29:[function(require,module,exports){
 /*
 	Seventh
 
@@ -8772,7 +8957,7 @@ Promise.race = ( iterable ) => {
 } ;
 
 
-},{"./seventh.js":32}],28:[function(require,module,exports){
+},{"./seventh.js":34}],30:[function(require,module,exports){
 (function (process,global,setImmediate){
 /*
 	Seventh
@@ -9527,7 +9712,7 @@ if ( process.browser ) {
 
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"_process":20,"setimmediate":25,"timers":54}],29:[function(require,module,exports){
+},{"_process":22,"setimmediate":27,"timers":56}],31:[function(require,module,exports){
 /*
 	Seventh
 
@@ -10033,7 +10218,7 @@ Promise.variableRetry = ( asyncFn , thisBinding ) => {
 */
 
 
-},{"./seventh.js":32}],30:[function(require,module,exports){
+},{"./seventh.js":34}],32:[function(require,module,exports){
 (function (process){
 /*
 	Seventh
@@ -10133,7 +10318,7 @@ Promise.resolveSafeTimeout = function( timeout , value ) {
 
 
 }).call(this,require('_process'))
-},{"./seventh.js":32,"_process":20}],31:[function(require,module,exports){
+},{"./seventh.js":34,"_process":22}],33:[function(require,module,exports){
 /*
 	Seventh
 
@@ -10185,7 +10370,7 @@ Promise.parasite = () => {
 } ;
 
 
-},{"./seventh.js":32}],32:[function(require,module,exports){
+},{"./seventh.js":34}],34:[function(require,module,exports){
 /*
 	Seventh
 
@@ -10228,7 +10413,7 @@ require( './parasite.js' ) ;
 require( './misc.js' ) ;
 
 
-},{"./api.js":26,"./batch.js":27,"./core.js":28,"./decorators.js":29,"./misc.js":30,"./parasite.js":31,"./wrapper.js":33}],33:[function(require,module,exports){
+},{"./api.js":28,"./batch.js":29,"./core.js":30,"./decorators.js":31,"./misc.js":32,"./parasite.js":33,"./wrapper.js":35}],35:[function(require,module,exports){
 /*
 	Seventh
 
@@ -10393,7 +10578,7 @@ Promise.onceEventAllOrError = ( emitter , eventName , excludeEvents ) => {
 } ;
 
 
-},{"./seventh.js":32}],34:[function(require,module,exports){
+},{"./seventh.js":34}],36:[function(require,module,exports){
 /*
 	String Kit
 
@@ -10475,7 +10660,7 @@ module.exports = {
 } ;
 
 
-},{}],35:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 /*
 	String Kit
 
@@ -10580,7 +10765,7 @@ exports.unicodePercentEncode = str => str.replace( /[\x00-\x1f\u0100-\uffff\x7f%
 exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
 
 
-},{}],36:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 (function (Buffer){
 /*
 	String Kit
@@ -11581,7 +11766,7 @@ function iround( v , istep ) {
 
 
 }).call(this,require("buffer").Buffer)
-},{"./ansi.js":34,"./escape.js":35,"./inspect.js":37,"./naturalSort.js":38,"./unicode.js":39,"buffer":13}],37:[function(require,module,exports){
+},{"./ansi.js":36,"./escape.js":37,"./inspect.js":39,"./naturalSort.js":40,"./unicode.js":41,"buffer":14}],39:[function(require,module,exports){
 (function (Buffer,process){
 /*
 	String Kit
@@ -12278,7 +12463,7 @@ inspectStyle.html = Object.assign( {} , inspectStyle.none , {
 
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")},require('_process'))
-},{"../../is-buffer/index.js":15,"./ansi.js":34,"./escape.js":35,"_process":20}],38:[function(require,module,exports){
+},{"../../is-buffer/index.js":17,"./ansi.js":36,"./escape.js":37,"_process":22}],40:[function(require,module,exports){
 /*
 	HTTP Requester
 
@@ -12364,7 +12549,7 @@ module.exports = function( a , b ) {
 } ;
 
 
-},{}],39:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 /*
 	String Kit
 
@@ -12775,7 +12960,7 @@ unicode.toFullWidth = str => {
 } ;
 
 
-},{}],40:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -12895,7 +13080,7 @@ VG.prototype.addCssRule = function( rule ) {
 } ;
 
 
-},{"../package.json":53,"./VGContainer.js":41,"./svg-kit.js":49}],41:[function(require,module,exports){
+},{"../package.json":55,"./VGContainer.js":43,"./svg-kit.js":51}],43:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13016,7 +13201,7 @@ VGContainer.prototype.morphDom = function( root = this ) {
 } ;
 
 
-},{"../package.json":53,"./VGEntity.js":43,"./svg-kit.js":49}],42:[function(require,module,exports){
+},{"../package.json":55,"./VGEntity.js":45,"./svg-kit.js":51}],44:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13101,7 +13286,7 @@ VGEllipse.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":53,"./VGEntity.js":43}],43:[function(require,module,exports){
+},{"../package.json":55,"./VGEntity.js":45}],45:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13486,7 +13671,7 @@ VGEntity.prototype.morphOneEntryDom = function( data , root = this ) {
 } ;
 
 
-},{"../package.json":53,"string-kit/lib/camel":51,"string-kit/lib/escape":52}],44:[function(require,module,exports){
+},{"../package.json":55,"string-kit/lib/camel":53,"string-kit/lib/escape":54}],46:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13543,7 +13728,7 @@ VGGroup.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":53,"./VGContainer.js":41,"./svg-kit.js":49}],45:[function(require,module,exports){
+},{"../package.json":55,"./VGContainer.js":43,"./svg-kit.js":51}],47:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -14210,7 +14395,7 @@ VGPath.prototype.forwardNegativeTurn = function( data ) {
 } ;
 
 
-},{"../package.json":53,"./VGEntity.js":43}],46:[function(require,module,exports){
+},{"../package.json":55,"./VGEntity.js":45}],48:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -14301,7 +14486,7 @@ VGRect.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":53,"./VGEntity.js":43}],47:[function(require,module,exports){
+},{"../package.json":55,"./VGEntity.js":45}],49:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -14413,7 +14598,7 @@ VGText.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":53,"./VGEntity.js":43}],48:[function(require,module,exports){
+},{"../package.json":55,"./VGEntity.js":45}],50:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -14461,7 +14646,7 @@ path.dFromPoints = ( points , invertY ) => {
 } ;
 
 
-},{}],49:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 (function (process){
 /*
 	SVG Kit
@@ -14939,7 +15124,7 @@ svgKit.objectToVG = function( object ) {
 
 
 }).call(this,require('_process'))
-},{"./VG.js":40,"./VGContainer.js":41,"./VGEllipse.js":42,"./VGEntity.js":43,"./VGGroup.js":44,"./VGPath.js":45,"./VGRect.js":46,"./VGText.js":47,"./path.js":48,"_process":20,"dom-kit":50,"fs":13,"seventh":32,"string-kit/lib/escape.js":52}],50:[function(require,module,exports){
+},{"./VG.js":42,"./VGContainer.js":43,"./VGEllipse.js":44,"./VGEntity.js":45,"./VGGroup.js":46,"./VGPath.js":47,"./VGRect.js":48,"./VGText.js":49,"./path.js":50,"_process":22,"dom-kit":52,"fs":14,"seventh":34,"string-kit/lib/escape.js":54}],52:[function(require,module,exports){
 (function (process){
 /*
 	Dom Kit
@@ -15527,7 +15712,7 @@ domKit.html = function( $element , html ) { $element.innerHTML = html ; } ;
 
 
 }).call(this,require('_process'))
-},{"@cronvel/xmldom":13,"_process":20}],51:[function(require,module,exports){
+},{"@cronvel/xmldom":14,"_process":22}],53:[function(require,module,exports){
 /*
 	String Kit
 
@@ -15601,9 +15786,9 @@ camel.camelCaseToDash =
 camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' ) ;
 
 
-},{}],52:[function(require,module,exports){
-arguments[4][35][0].apply(exports,arguments)
-},{"dup":35}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
+arguments[4][37][0].apply(exports,arguments)
+},{"dup":37}],55:[function(require,module,exports){
 module.exports={
   "_from": "svg-kit@^0.3.0",
   "_id": "svg-kit@0.3.0",
@@ -15679,7 +15864,7 @@ module.exports={
   "version": "0.3.0"
 }
 
-},{}],54:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 (function (setImmediate,clearImmediate){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -15758,7 +15943,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":20,"timers":54}],55:[function(require,module,exports){
+},{"process/browser.js":22,"timers":56}],57:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -16492,7 +16677,7 @@ Url.prototype.parseHost = function() {
   if (host) this.hostname = host;
 };
 
-},{"./util":56,"punycode":21,"querystring":24}],56:[function(require,module,exports){
+},{"./util":58,"punycode":23,"querystring":26}],58:[function(require,module,exports){
 'use strict';
 
 module.exports = {

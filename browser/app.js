@@ -116,7 +116,7 @@ Camera.prototype.updateTransition = function( transitions ) {
 } ;
 
 
-},{"./GTransition.js":6,"seventh":34}],2:[function(require,module,exports){
+},{"./GTransition.js":6,"seventh":35}],2:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -218,7 +218,13 @@ Dom.prototype.constructor = Dom ;
 
 
 
-Dom.prototype.cleanUrl = function( url ) {
+// Require after, because of circular dep
+const engineLib = require( './engineLib.js' ) ;
+const exm = require( './exm.js' ) ;
+
+
+
+Dom.cleanUrl = Dom.prototype.cleanUrl = function( url ) {
 	if ( url[ 0 ] === '/' ) { return window.location.pathname + url.slice( 1 ) ; }
 	return window.location.pathname + 'script/' + url ;
 } ;
@@ -1364,7 +1370,9 @@ Dom.prototype.setSceneImage = function( data ) {
 
 Dom.prototype.createGScene = function( gSceneId , data ) {
 	if ( this.gScenes[ gSceneId ] ) { this.clearGScene( gSceneId ) ; }
-	var gScene = this.gScenes[ gSceneId ] = new GScene( this , data ) ;
+
+	var GSceneClass = ( engineLib[ data.engineId ] && engineLib[ data.engineId ].GScene ) || GScene ;
+	var gScene = this.gScenes[ gSceneId ] = new GSceneClass( this , data ) ;
 	return gScene.update( data , true ) ;
 } ;
 
@@ -1703,7 +1711,7 @@ function soundFadeOut( $element , callback ) {
 }
 
 
-},{"./Camera.js":1,"./GEntity.js":4,"./GScene.js":5,"./TexturePack.js":7,"./commonUtils.js":9,"dom-kit":15,"nextgen-events/lib/browser.js":20,"seventh":34,"svg-kit":51}],3:[function(require,module,exports){
+},{"./Camera.js":1,"./GEntity.js":4,"./GScene.js":5,"./TexturePack.js":7,"./commonUtils.js":9,"./engineLib.js":10,"./exm.js":11,"dom-kit":16,"nextgen-events/lib/browser.js":21,"seventh":35,"svg-kit":52}],3:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -1734,7 +1742,6 @@ function soundFadeOut( $element , callback ) {
 
 
 
-const exm = require( './exm.js' ) ;
 const Dom = require( './Dom.js' ) ;
 const toolkit = require( './toolkit.js' ) ;
 
@@ -1778,6 +1785,11 @@ module.exports = EventDispatcher ;
 
 EventDispatcher.prototype = Object.create( Ngev.prototype ) ;
 EventDispatcher.prototype.constructor = EventDispatcher ;
+
+
+
+// Require after, because of circular dep
+const exm = require( './exm.js' ) ;
 
 
 
@@ -1900,18 +1912,11 @@ EventDispatcher.clientConfig = async function( config , callback ) {
 	}
 
 	// Client extension loading is a blocking process, the client will malfunction if it doesn't have it
-	/*
-	if ( this.config.clientExtensions && this.config.clientExtensions.length ) {
-		await Promise.every( this.config.clientExtensions , extension => this.dom.addScript( '/ext/' + extension + '/extension.js' ) ) ;
-	}
-	//*/
-	//*
 	if ( this.config.clientExtensions ) {
 		for ( let extension of this.config.clientExtensions ) {
 			await exm.requireExtension( extension ) ;
 		}
 	}
-	//*/
 
 	callback() ;
 } ;
@@ -2396,7 +2401,7 @@ EventDispatcher.exit = function( error , timeout , callback ) {
 } ;
 
 
-},{"./Dom.js":2,"./exm.js":10,"./toolkit.js":13,"nextgen-events/lib/browser.js":20,"seventh":34}],4:[function(require,module,exports){
+},{"./Dom.js":2,"./exm.js":11,"./toolkit.js":14,"nextgen-events/lib/browser.js":21,"seventh":35}],4:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3497,7 +3502,7 @@ GEntity.prototype.createCardMarkup = function( card ) {
 } ;
 
 
-},{"./GTransition.js":6,"./commonUtils.js":9,"./positionModes.js":11,"./sizeModes.js":12,"dom-kit":15,"nextgen-events/lib/browser.js":20,"seventh":34,"svg-kit":51}],5:[function(require,module,exports){
+},{"./GTransition.js":6,"./commonUtils.js":9,"./positionModes.js":12,"./sizeModes.js":13,"dom-kit":16,"nextgen-events/lib/browser.js":21,"seventh":35,"svg-kit":52}],5:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3554,6 +3559,7 @@ function GScene( dom , data ) {
 	this.roleCamera = null ;	// For multiplayer, not implemented yet
 
 	this.$gscene = document.createElement( 'gscene' ) ;
+	this.$gscene.classList.add( 'gscene' ) ;
 	// At creation, the visibility is turned off, the initial update will turn it on again
 	this.$gscene.style.visibility = 'hidden' ;
 	this.dom.$gfx.append( this.$gscene ) ;
@@ -3594,7 +3600,7 @@ GScene.prototype.update = function( data ) {
 } ;
 
 
-},{"./Camera.js":1,"nextgen-events/lib/browser.js":20,"seventh":34}],6:[function(require,module,exports){
+},{"./Camera.js":1,"nextgen-events/lib/browser.js":21,"seventh":35}],6:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3911,7 +3917,7 @@ domKit.ready( () => {
 } ) ;
 
 
-},{"./EventDispatcher.js":3,"dom-kit":15,"nextgen-events/lib/browser.js":20,"url":57}],9:[function(require,module,exports){
+},{"./EventDispatcher.js":3,"dom-kit":16,"nextgen-events/lib/browser.js":21,"url":58}],9:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4005,7 +4011,62 @@ exports.toClassObject = function toClassObject( data ) {
 
 
 
+exports.lib = {} ;
+
+exports.get = name => exports.lib[ name ] ;
+
+exports.add = ( name , engine ) => {
+	if ( ! name || typeof name !== 'string' ) {
+		throw new Error( "Can't add an engine: the 'name' argument must be a string." ) ;
+	}
+
+	if ( ! engine || typeof engine !== 'object' ) {
+		throw new Error( "Can't add engine '" + name + "': the 'engine' argument must be an object." ) ;
+	}
+
+	if ( exports.lib[ name ] ) {
+		throw new Error( "Can't add an engine: '" + name + "' already exists." ) ;
+	}
+
+	console.warn( "Add new engine:" , name , engine ) ;
+	exports.lib[ name ] = engine ;
+} ;
+
+
+},{}],11:[function(require,module,exports){
+/*
+	Spellcast
+
+	Copyright (c) 2014 - 2020 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
 const BrowserExm = require( 'exm/lib/BrowserExm.js' ) ;
+const Dom = require( './Dom.js' ) ;
+const engineLib = require( './engineLib.js' ) ;
 
 
 
@@ -4013,19 +4074,24 @@ module.exports = BrowserExm.registerNs( {
 	ns: 'spellcast-web-client' ,
 	extensionPath: '/ext' ,
 	exports: {
+		// Useful??? Everything should use engine hooks, there is probably little use in re-using existing classes
 		EventDispatcher: require( './EventDispatcher.js' ) ,
-		Dom: require( './Dom.js' ) ,
+		Dom: Dom ,
 		Camera: require( './Camera.js' ) ,
 		GEntity: require( './GEntity.js' ) ,
 		GScene: require( './GScene.js' ) ,
 		GTransition: require( './GTransition.js' ) ,
 		TexturePack: require( './TexturePack.js' )
 	} ,
-	api: {}
+	api: {
+		getEngine: engineLib.get ,
+		addEngine: engineLib.add ,
+		cleanUrl: Dom.cleanUrl
+	}
 } ) ;
 
 
-},{"./Camera.js":1,"./Dom.js":2,"./EventDispatcher.js":3,"./GEntity.js":4,"./GScene.js":5,"./GTransition.js":6,"./TexturePack.js":7,"exm/lib/BrowserExm.js":16}],11:[function(require,module,exports){
+},{"./Camera.js":1,"./Dom.js":2,"./EventDispatcher.js":3,"./GEntity.js":4,"./GScene.js":5,"./GTransition.js":6,"./TexturePack.js":7,"./engineLib.js":10,"exm/lib/BrowserExm.js":17}],12:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4144,7 +4210,7 @@ exports.areaInSpriteOut = ( transform , position , areaWidth , areaHeight , imag
 } ;
 
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4243,7 +4309,7 @@ exports.areaMin = ( transform , size , areaWidth , areaHeight , imageWidth , ima
 } ;
 
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4348,9 +4414,9 @@ toolkit.stripMarkup = text => text.replace(
 ) ;
 
 
-},{"string-kit/lib/escape.js":37,"string-kit/lib/format.js":38}],14:[function(require,module,exports){
+},{"string-kit/lib/escape.js":38,"string-kit/lib/format.js":39}],15:[function(require,module,exports){
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 (function (process){
 /*
 	Dom Kit
@@ -4946,7 +5012,7 @@ domKit.html = ( $element , html ) => $element.innerHTML = html ;
 
 
 }).call(this,require('_process'))
-},{"@cronvel/xmldom":14,"_process":22}],16:[function(require,module,exports){
+},{"@cronvel/xmldom":15,"_process":23}],17:[function(require,module,exports){
 (function (global){
 /*
 	EXM
@@ -5018,18 +5084,31 @@ Exm.prototype.requireExtension = async function( extName ) {
 
 	try {
 		console.warn( "Trying" , extModulePath ) ;
-		let imod = await import( extModulePath ) ;
-		console.warn( "imported module:" , imod ) ;
-		module_ = global.EXM_EXTENSIONS && global.EXM_EXTENSIONS[ extName ] ;
+		module_ = await import( extModulePath ) ;
 	}
 	catch ( error ) {
 		throw new Error( "Required extension '" + extName + "' not found." ) ;
 	}
 
-	console.warn( "module:" , module_ ) ;
-	//module_ = module_.extension ;
 
-	if ( ! module_ || typeof module_ !== 'object' || ( module_.__prototypeUID__ !== 'exm/Extension' && module_.__prototypeUID__ !== 'exm/browser/Extension' ) ) {
+	if ( ! module_ || typeof module_ !== 'object' ) {
+		throw new Error( "EXM: this is not an EXM Extension" ) ;
+	}
+
+	if ( module_.extension ) {
+		// This is an ES6 module extension, the extension instance is exported as 'extension'
+		module_ = module_.extension ;
+	}
+	else {
+		// This is not an ES6 module (e.g. a CommonJS module), so import() somewhat failed except for side-effect.
+		// And since Extension save itself on the global scope as a workaround, we will use that.
+		module_ = global.EXM_EXTENSIONS && global.EXM_EXTENSIONS[ extName ] ;
+		if ( ! module_ || typeof module_ !== 'object' ) {
+			throw new Error( "EXM: this is not an EXM Extension" ) ;
+		}
+	}
+
+	if ( ( module_.__prototypeUID__ !== 'exm/Extension' && module_.__prototypeUID__ !== 'exm/browser/Extension' ) ) {
 		throw new Error( "EXM: this is not an EXM Extension" ) ;
 	}
 
@@ -5052,6 +5131,10 @@ Exm.Extension = function( options = {} ) {
 	this.hooks = options.hooks || {} ;
 	this.api = options.api || {} ;
 	this.exports = options.exports || {} ;
+
+	// Necessary for CommonJS modules:
+	if ( ! global.EXM_EXTENSIONS ) { global.EXM_EXTENSIONS = {} ; }
+	global.EXM_EXTENSIONS[ this.id ] = this ;
 } ;
 
 Exm.Extension.prototype.__prototypeUID__ = 'exm/browser/Extension' ;
@@ -5070,7 +5153,7 @@ Exm.Extension.prototype.init = function( host ) {
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -5093,7 +5176,7 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 (function (process,global,setImmediate){
 /*
 	Next-Gen Events
@@ -6491,7 +6574,7 @@ NextGenEvents.Proxy = require( './Proxy.js' ) ;
 
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"../package.json":21,"./Proxy.js":19,"_process":22,"timers":56}],19:[function(require,module,exports){
+},{"../package.json":22,"./Proxy.js":20,"_process":23,"timers":57}],20:[function(require,module,exports){
 /*
 	Next-Gen Events
 
@@ -7038,7 +7121,7 @@ RemoteService.prototype.receiveAckEmit = function( message ) {
 } ;
 
 
-},{"./NextGenEvents.js":18}],20:[function(require,module,exports){
+},{"./NextGenEvents.js":19}],21:[function(require,module,exports){
 (function (process){
 /*
 	Next-Gen Events
@@ -7084,7 +7167,7 @@ module.exports.isBrowser = true ;
 
 
 }).call(this,require('_process'))
-},{"./NextGenEvents.js":18,"_process":22}],21:[function(require,module,exports){
+},{"./NextGenEvents.js":19,"_process":23}],22:[function(require,module,exports){
 module.exports={
   "_from": "nextgen-events@^1.3.0",
   "_id": "nextgen-events@1.3.0",
@@ -7172,7 +7255,7 @@ module.exports={
   "version": "1.3.0"
 }
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -7358,7 +7441,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 (function (global){
 /*! https://mths.be/punycode v1.4.1 by @mathias */
 ;(function(root) {
@@ -7895,7 +7978,7 @@ process.umask = function() { return 0; };
 }(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -7981,7 +8064,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -8068,13 +8151,13 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":24,"./encode":25}],27:[function(require,module,exports){
+},{"./decode":25,"./encode":26}],28:[function(require,module,exports){
 (function (process,global){
 (function (global, undefined) {
     "use strict";
@@ -8264,7 +8347,7 @@ exports.encode = exports.stringify = require('./encode');
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":22}],28:[function(require,module,exports){
+},{"_process":23}],29:[function(require,module,exports){
 /*
 	Seventh
 
@@ -8348,7 +8431,7 @@ Promise.promisifyAnyNodeApi = ( api , suffix , multiSuffix , filter ) => {
 
 
 
-},{"./seventh.js":34}],29:[function(require,module,exports){
+},{"./seventh.js":35}],30:[function(require,module,exports){
 /*
 	Seventh
 
@@ -8957,7 +9040,7 @@ Promise.race = ( iterable ) => {
 } ;
 
 
-},{"./seventh.js":34}],30:[function(require,module,exports){
+},{"./seventh.js":35}],31:[function(require,module,exports){
 (function (process,global,setImmediate){
 /*
 	Seventh
@@ -9712,7 +9795,7 @@ if ( process.browser ) {
 
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"_process":22,"setimmediate":27,"timers":56}],31:[function(require,module,exports){
+},{"_process":23,"setimmediate":28,"timers":57}],32:[function(require,module,exports){
 /*
 	Seventh
 
@@ -10218,7 +10301,7 @@ Promise.variableRetry = ( asyncFn , thisBinding ) => {
 */
 
 
-},{"./seventh.js":34}],32:[function(require,module,exports){
+},{"./seventh.js":35}],33:[function(require,module,exports){
 (function (process){
 /*
 	Seventh
@@ -10318,7 +10401,7 @@ Promise.resolveSafeTimeout = function( timeout , value ) {
 
 
 }).call(this,require('_process'))
-},{"./seventh.js":34,"_process":22}],33:[function(require,module,exports){
+},{"./seventh.js":35,"_process":23}],34:[function(require,module,exports){
 /*
 	Seventh
 
@@ -10370,7 +10453,7 @@ Promise.parasite = () => {
 } ;
 
 
-},{"./seventh.js":34}],34:[function(require,module,exports){
+},{"./seventh.js":35}],35:[function(require,module,exports){
 /*
 	Seventh
 
@@ -10413,7 +10496,7 @@ require( './parasite.js' ) ;
 require( './misc.js' ) ;
 
 
-},{"./api.js":28,"./batch.js":29,"./core.js":30,"./decorators.js":31,"./misc.js":32,"./parasite.js":33,"./wrapper.js":35}],35:[function(require,module,exports){
+},{"./api.js":29,"./batch.js":30,"./core.js":31,"./decorators.js":32,"./misc.js":33,"./parasite.js":34,"./wrapper.js":36}],36:[function(require,module,exports){
 /*
 	Seventh
 
@@ -10578,7 +10661,7 @@ Promise.onceEventAllOrError = ( emitter , eventName , excludeEvents ) => {
 } ;
 
 
-},{"./seventh.js":34}],36:[function(require,module,exports){
+},{"./seventh.js":35}],37:[function(require,module,exports){
 /*
 	String Kit
 
@@ -10660,7 +10743,7 @@ module.exports = {
 } ;
 
 
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 /*
 	String Kit
 
@@ -10765,7 +10848,7 @@ exports.unicodePercentEncode = str => str.replace( /[\x00-\x1f\u0100-\uffff\x7f%
 exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
 
 
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 (function (Buffer){
 /*
 	String Kit
@@ -11766,7 +11849,7 @@ function iround( v , istep ) {
 
 
 }).call(this,require("buffer").Buffer)
-},{"./ansi.js":36,"./escape.js":37,"./inspect.js":39,"./naturalSort.js":40,"./unicode.js":41,"buffer":14}],39:[function(require,module,exports){
+},{"./ansi.js":37,"./escape.js":38,"./inspect.js":40,"./naturalSort.js":41,"./unicode.js":42,"buffer":15}],40:[function(require,module,exports){
 (function (Buffer,process){
 /*
 	String Kit
@@ -12463,7 +12546,7 @@ inspectStyle.html = Object.assign( {} , inspectStyle.none , {
 
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")},require('_process'))
-},{"../../is-buffer/index.js":17,"./ansi.js":36,"./escape.js":37,"_process":22}],40:[function(require,module,exports){
+},{"../../is-buffer/index.js":18,"./ansi.js":37,"./escape.js":38,"_process":23}],41:[function(require,module,exports){
 /*
 	HTTP Requester
 
@@ -12549,7 +12632,7 @@ module.exports = function( a , b ) {
 } ;
 
 
-},{}],41:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 /*
 	String Kit
 
@@ -12960,7 +13043,7 @@ unicode.toFullWidth = str => {
 } ;
 
 
-},{}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13080,7 +13163,7 @@ VG.prototype.addCssRule = function( rule ) {
 } ;
 
 
-},{"../package.json":55,"./VGContainer.js":43,"./svg-kit.js":51}],43:[function(require,module,exports){
+},{"../package.json":56,"./VGContainer.js":44,"./svg-kit.js":52}],44:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13201,7 +13284,7 @@ VGContainer.prototype.morphDom = function( root = this ) {
 } ;
 
 
-},{"../package.json":55,"./VGEntity.js":45,"./svg-kit.js":51}],44:[function(require,module,exports){
+},{"../package.json":56,"./VGEntity.js":46,"./svg-kit.js":52}],45:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13286,7 +13369,7 @@ VGEllipse.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":55,"./VGEntity.js":45}],45:[function(require,module,exports){
+},{"../package.json":56,"./VGEntity.js":46}],46:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13671,7 +13754,7 @@ VGEntity.prototype.morphOneEntryDom = function( data , root = this ) {
 } ;
 
 
-},{"../package.json":55,"string-kit/lib/camel":53,"string-kit/lib/escape":54}],46:[function(require,module,exports){
+},{"../package.json":56,"string-kit/lib/camel":54,"string-kit/lib/escape":55}],47:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13728,7 +13811,7 @@ VGGroup.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":55,"./VGContainer.js":43,"./svg-kit.js":51}],47:[function(require,module,exports){
+},{"../package.json":56,"./VGContainer.js":44,"./svg-kit.js":52}],48:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -14395,7 +14478,7 @@ VGPath.prototype.forwardNegativeTurn = function( data ) {
 } ;
 
 
-},{"../package.json":55,"./VGEntity.js":45}],48:[function(require,module,exports){
+},{"../package.json":56,"./VGEntity.js":46}],49:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -14486,7 +14569,7 @@ VGRect.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":55,"./VGEntity.js":45}],49:[function(require,module,exports){
+},{"../package.json":56,"./VGEntity.js":46}],50:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -14598,7 +14681,7 @@ VGText.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":55,"./VGEntity.js":45}],50:[function(require,module,exports){
+},{"../package.json":56,"./VGEntity.js":46}],51:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -14646,7 +14729,7 @@ path.dFromPoints = ( points , invertY ) => {
 } ;
 
 
-},{}],51:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 (function (process){
 /*
 	SVG Kit
@@ -15124,7 +15207,7 @@ svgKit.objectToVG = function( object ) {
 
 
 }).call(this,require('_process'))
-},{"./VG.js":42,"./VGContainer.js":43,"./VGEllipse.js":44,"./VGEntity.js":45,"./VGGroup.js":46,"./VGPath.js":47,"./VGRect.js":48,"./VGText.js":49,"./path.js":50,"_process":22,"dom-kit":52,"fs":14,"seventh":34,"string-kit/lib/escape.js":54}],52:[function(require,module,exports){
+},{"./VG.js":43,"./VGContainer.js":44,"./VGEllipse.js":45,"./VGEntity.js":46,"./VGGroup.js":47,"./VGPath.js":48,"./VGRect.js":49,"./VGText.js":50,"./path.js":51,"_process":23,"dom-kit":53,"fs":15,"seventh":35,"string-kit/lib/escape.js":55}],53:[function(require,module,exports){
 (function (process){
 /*
 	Dom Kit
@@ -15712,7 +15795,7 @@ domKit.html = function( $element , html ) { $element.innerHTML = html ; } ;
 
 
 }).call(this,require('_process'))
-},{"@cronvel/xmldom":14,"_process":22}],53:[function(require,module,exports){
+},{"@cronvel/xmldom":15,"_process":23}],54:[function(require,module,exports){
 /*
 	String Kit
 
@@ -15786,9 +15869,9 @@ camel.camelCaseToDash =
 camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' ) ;
 
 
-},{}],54:[function(require,module,exports){
-arguments[4][37][0].apply(exports,arguments)
-},{"dup":37}],55:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
+arguments[4][38][0].apply(exports,arguments)
+},{"dup":38}],56:[function(require,module,exports){
 module.exports={
   "_from": "svg-kit@^0.3.0",
   "_id": "svg-kit@0.3.0",
@@ -15864,7 +15947,7 @@ module.exports={
   "version": "0.3.0"
 }
 
-},{}],56:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 (function (setImmediate,clearImmediate){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -15943,7 +16026,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":22,"timers":56}],57:[function(require,module,exports){
+},{"process/browser.js":23,"timers":57}],58:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -16677,7 +16760,7 @@ Url.prototype.parseHost = function() {
   if (host) this.hostname = host;
 };
 
-},{"./util":58,"punycode":23,"querystring":26}],58:[function(require,module,exports){
+},{"./util":59,"punycode":24,"querystring":27}],59:[function(require,module,exports){
 'use strict';
 
 module.exports = {

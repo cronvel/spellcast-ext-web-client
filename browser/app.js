@@ -1371,7 +1371,8 @@ Dom.prototype.setSceneImage = function( data ) {
 Dom.prototype.createGScene = function( gSceneId , data ) {
 	if ( this.gScenes[ gSceneId ] ) { this.clearGScene( gSceneId ) ; }
 
-	var GSceneClass = ( engineLib[ data.engineId ] && engineLib[ data.engineId ].GScene ) || GScene ;
+	console.warn( "createGScene:" , data.engineId , engineLib.lib , engineLib.lib[ data.engineId ] && engineLib.lib[ data.engineId ].GScene ) ;
+	var GSceneClass = ( engineLib.lib[ data.engineId ] && engineLib.lib[ data.engineId ].GScene ) || GScene ;
 	var gScene = this.gScenes[ gSceneId ] = new GSceneClass( this , data ) ;
 	return gScene.update( data , true ) ;
 } ;

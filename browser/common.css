@@ -99,6 +99,10 @@ body {
 	pointer-events: none;
 }
 
+canvas.gscene {
+	pointer-events: all;
+}
+
 
 
 /* G Entity */

@@ -45,10 +45,6 @@ function Camera( gScene , data ) {
 	this.free = false ;
 	this.trackingMode = null ;
 	this.perspective = 1 ;
-
-	this.transitions = {
-		transform: null   // transition on position, target, perspective and parallax changes
-	} ;
 }
 
 module.exports = Camera ;
@@ -57,7 +53,7 @@ module.exports = Camera ;
 
 // !THIS SHOULD TRACK SERVER-SIDE Camera! spellcast/lib/gfx/Camera.js
 Camera.prototype.update = function( data , eventData ) {
-	if ( data.transitions !== undefined ) { this.updateTransition( data.transitions ) ; }
+	if ( data.transition !== undefined ) { this.updateTransition( data ) ; }
 
 	if ( data.position ) {
 		if ( data.position.x !== undefined ) { this.position.x = data.position.x ; }
@@ -90,25 +86,23 @@ Camera.prototype.update = function( data , eventData ) {
 
 
 
-Camera.prototype.updateTransition = function( transitions ) {
-	console.warn( "Camera.updateTransition()" , transitions ) ;
-	var parts = [] ;
+Camera.prototype.updateTransition = function( data ) {
+	console.warn( "Camera.updateTransition()" , data.transition , data ) ;
 
-	if ( transitions.transform !== undefined ) { this.transitions.transform = transitions.transform ? new GTransition( transitions.transform ) : transitions.transform ; }
+	if ( ! data.transition ) {
+		this.gScene.$gscene.style.transition = 'none' ;
+		return ;
+	}
 
-	if ( this.transitions.transform !== null ) {
-		if ( ! transitions.transform ) {
-			parts.push( 'perspective 0s' ) ;
-			//parts.push( 'perspective-origin 0s' ) ;
-		}
-		else {
-			parts.push( this.transitions.transform.toString( 'perspective' ) ) ;
-			//parts.push( this.transitions.transform.toString( 'perspective-origin' ) ) ;
-		}
+	var transition = new GTransition( data.transition ) ,
+		parts = [] ;
+
+	if ( data.perspective !== undefined ) {
+		parts.push( transition.toString( 'transform' ) ) ;
 	}
 
 	if ( ! parts.length ) {
-		this.gScene.$gscene.style.transition = '' ;	// reset it to default stylesheet value
+		this.gScene.$gscene.style.transition = 'none' ;
 	}
 	else {
 		this.gScene.$gscene.style.transition = parts.join( ', ' ) ;

@@ -45,6 +45,7 @@ function Camera( gScene , data ) {
 	this.free = false ;
 	this.trackingMode = null ;
 	this.perspective = 1 ;
+	this.fov = 90 ;
 }
 
 module.exports = Camera ;
@@ -52,23 +53,11 @@ module.exports = Camera ;
 
 
 // !THIS SHOULD TRACK SERVER-SIDE Camera! spellcast/lib/gfx/Camera.js
-Camera.prototype.update = function( data , eventData ) {
+Camera.prototype.update = function( data ) {
 	if ( data.transition !== undefined ) { this.updateTransition( data ) ; }
 
-	if ( data.position ) {
-		if ( data.position.x !== undefined ) { this.position.x = data.position.x ; }
-		if ( data.position.y !== undefined ) { this.position.y = data.position.y ; }
-		if ( data.position.z !== undefined ) { this.position.z = data.position.z ; }
-
-		// perspective-origin changes have nasty bug and no transition (at least in FF 08/2020)
-		//this.gScene.$gscene.style.perspectiveOrigin = ( ( 1 + this.position.x ) * 50 ) + '%' + ( ( 1 + this.position.y ) * 50 ) + '%' ;
-	}
-
-	if ( data.targetPosition ) {
-		if ( data.targetPosition.x !== undefined ) { this.targetPosition.x = data.targetPosition.x ; }
-		if ( data.targetPosition.y !== undefined ) { this.targetPosition.y = data.targetPosition.y ; }
-		if ( data.targetPosition.z !== undefined ) { this.targetPosition.z = data.targetPosition.z ; }
-	}
+	if ( data.position ) { this.position = data.position ; }
+	if ( data.targetPosition ) { this.targetPosition = data.targetPosition ; }
 
 	if ( data.free !== undefined ) { this.free = !! data.free ; }
 	if ( data.trackingMode !== undefined ) { this.trackingMode = data.trackingMode || null ; }
@@ -79,6 +68,12 @@ Camera.prototype.update = function( data , eventData ) {
 		let max = Math.max( this.gScene.$gscene.offsetWidth , this.gScene.$gscene.offsetHeight ) ;
 		this.gScene.$gscene.style.perspective = this.perspective ? Math.round( max * this.perspective ) + 'px' : null ;
 	}
+
+	// perspective-origin changes have nasty bug and no transition (at least in FF 08/2020)
+	//this.gScene.$gscene.style.perspectiveOrigin = ( ( 1 + this.position.x ) * 50 ) + '%' + ( ( 1 + this.position.y ) * 50 ) + '%' ;
+	
+	// Unused
+	if ( data.fov !== undefined ) { this.fov = data.fov || 90 ; }
 	
 	// It may be async later, waiting for transitions to finish the camera move?
 	return Promise.resolved ;
@@ -2704,23 +2699,9 @@ GEntity.prototype.updateVgImage = function( url ) {
 GEntity.prototype.updateTransform = function( data ) {
 	var areaWidth , areaHeight , imageWidth , imageHeight ;
 
-	if ( data.position ) {
-		if ( data.position.x !== undefined ) { this.position.x = data.position.x ; }
-		if ( data.position.y !== undefined ) { this.position.y = data.position.y ; }
-		if ( data.position.z !== undefined ) { this.position.z = data.position.z ; }
-	}
-
-	if ( data.size ) {
-		if ( data.size.x !== undefined ) { this.size.x = data.size.x ; }
-		if ( data.size.y !== undefined ) { this.size.y = data.size.y ; }
-		if ( data.size.z !== undefined ) { this.size.z = data.size.z ; }
-	}
-
-	if ( data.rotation ) {
-		if ( data.rotation.x !== undefined ) { this.rotation.x = data.rotation.x ; }
-		if ( data.rotation.y !== undefined ) { this.rotation.y = data.rotation.y ; }
-		if ( data.rotation.z !== undefined ) { this.rotation.z = data.rotation.z ; }
-	}
+	if ( data.position ) { this.position = data.position ; }
+	if ( data.size ) { this.size = data.size ; }
+	if ( data.rotation ) { this.rotation = data.rotation ; }
 
 	if ( data.positionMode ) { this.positionMode = data.positionMode || 'default' ; }
 	if ( data.sizeMode ) { this.sizeMode = data.sizeMode || 'default' ; }
@@ -3558,12 +3539,7 @@ GScene.prototype.update = function( data ) {
 		Object.assign( this.engine , data.engine ) ;
 	}
 
-	if ( data.globalCamera !== undefined ) {
-		this.globalCamera =
-			data.globalCamera instanceof Camera ? data.globalCamera :
-			data.globalCamera ? new Camera( data.globalCamera ) :
-			null ;
-	}
+	if ( data.globalCamera !== undefined ) { this.globalCamera.update( data.globalCamera ) ; }
 
 	// For instance, there is no async code in GScene, but the API have to allow it
 	return Promise.resolved ;

@@ -1423,7 +1423,8 @@ Dom.prototype.defineTexturePack = function( gSceneId , textureUid , data ) {
 
 
 Dom.prototype.showGEntity = function( gSceneId , gEntityId , data ) {
-	var gScene = this.gScenes[ gSceneId ] ;
+	var GEntityClass , engine , gEntity ,
+		gScene = this.gScenes[ gSceneId ] ;
 
 	if ( ! gScene ) {
 		console.warn( 'Unknown GScene id: ' , gSceneId ) ;
@@ -1433,8 +1434,16 @@ Dom.prototype.showGEntity = function( gSceneId , gEntityId , data ) {
 	if ( gScene.gEntities[ gEntityId ] ) { this.clearGEntity( gSceneId , gEntityId ) ; }
 
 	console.warn( "showGEntity:" , gScene.engineId , engineLib.lib , engineLib.lib[ gScene.engineId ] && engineLib.lib[ gScene.engineId ].GEntity ) ;
-	var GEntityClass = ( engineLib.lib[ gScene.engineId ] && engineLib.lib[ gScene.engineId ].GEntity ) || GEntity ;
-	var gEntity = gScene.gEntities[ gEntityId ] = new GEntityClass( this , gScene , data ) ;
+	engine = engineLib.lib[ gScene.engineId ] ;
+
+	if ( engine ) {
+		GEntityClass = ( engine.perUsageGEntity && engine.perUsageGEntity[ data.usage ] ) || engine.GEntity || GEntity ;
+	}
+	else {
+		GEntityClass = GEntity ;
+	}
+
+	gEntity = gScene.gEntities[ gEntityId ] = new GEntityClass( this , gScene , data ) ;
 	return gEntity.update( data , true ) ;
 } ;
 

@@ -40,6 +40,7 @@ const Promise = require( 'seventh' ) ;
 function Camera( gScene , data ) {
 	this.gScene = gScene ;    // immutable
 
+	this.up = { x: 0 , y: 1 , z: 0 } ;	// Unused, unused in base Web engine
 	this.position = { x: 0 , y: 0 , z: 10 } ;
 	this.targetPosition = { x: 0 , y: 0 , z: 0 } ;
 	this.free = false ;
@@ -56,6 +57,7 @@ module.exports = Camera ;
 Camera.prototype.update = function( data ) {
 	if ( data.transition !== undefined ) { this.updateTransition( data ) ; }
 
+	if ( data.up ) { this.up = data.up ; }
 	if ( data.position ) { this.position = data.position ; }
 	if ( data.targetPosition ) { this.targetPosition = data.targetPosition ; }
 
@@ -3505,6 +3507,7 @@ function GScene( dom , data ) {
 	this.dom = dom ;    // Dom instance, immutable
 	//this.id = data.id ;		// immutable
 	this.engineId = data.engineId ;	// immutable
+	this.rightHanded = data.rightHanded !== undefined ? !! data.rightHanded : true ;    // immutable, unused in base Web engine
 
 	this.active = false ;
 	this.paused = false ;

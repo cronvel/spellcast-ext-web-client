@@ -1424,7 +1424,7 @@ Dom.prototype.defineTexturePack = function( gSceneId , textureUid , data ) {
 
 
 
-Dom.prototype.showGEntity = function( gSceneId , gEntityId , data ) {
+Dom.prototype.createGEntity = function( gSceneId , gEntityId , data ) {
 	var GEntityClass , engine , gEntity ,
 		gScene = this.gScenes[ gSceneId ] ;
 
@@ -1435,7 +1435,7 @@ Dom.prototype.showGEntity = function( gSceneId , gEntityId , data ) {
 
 	if ( gScene.gEntities[ gEntityId ] ) { this.clearGEntity( gSceneId , gEntityId ) ; }
 
-	console.warn( "showGEntity:" , gScene.engineId , engineLib.lib , engineLib.lib[ gScene.engineId ] && engineLib.lib[ gScene.engineId ].GEntity ) ;
+	console.warn( "createGEntity:" , gScene.engineId , engineLib.lib , engineLib.lib[ gScene.engineId ] && engineLib.lib[ gScene.engineId ].GEntity ) ;
 	engine = engineLib.lib[ gScene.engineId ] ;
 
 	if ( engine ) {
@@ -1454,7 +1454,7 @@ Dom.prototype.showGEntity = function( gSceneId , gEntityId , data ) {
 /*
 var cardAutoIncrement = 0 ;
 
-Dom.prototype.showCard = function( gEntityId , data ) {
+Dom.prototype.createCard = function( gEntityId , data ) {
 	var card = this.cards[ gEntityId ] = this.createGEntity( {
 		actionCallback: data.actionCallback ,
 		action: null ,
@@ -1830,7 +1830,7 @@ EventDispatcher.prototype.initBus = function() {
 
 	this.bus.on( 'texturePack' , EventDispatcher.texturePack.bind( this ) , { async: true } ) ;
 
-	this.bus.on( 'showGEntity' , EventDispatcher.showGEntity.bind( this ) , { async: true } ) ;
+	this.bus.on( 'createGEntity' , EventDispatcher.createGEntity.bind( this ) , { async: true } ) ;
 	this.bus.on( 'updateGEntity' , EventDispatcher.updateGEntity.bind( this ) , { async: true } ) ;
 	this.bus.on( 'clearGEntity' , EventDispatcher.clearGEntity.bind( this ) ) ;
 	this.bus.on( 'animateGEntity' , EventDispatcher.animateGEntity.bind( this ) , { async: true } ) ;
@@ -2309,8 +2309,8 @@ EventDispatcher.texturePack = function( gSceneId , textureUid , data , callback 
 
 
 
-EventDispatcher.showGEntity = function( gSceneId , gEntityId , data , callback ) {
-	this.dom.showGEntity( gSceneId , gEntityId , data ).then( callback ) ;
+EventDispatcher.createGEntity = function( gSceneId , gEntityId , data , callback ) {
+	this.dom.createGEntity( gSceneId , gEntityId , data ).then( callback ) ;
 } ;
 
 

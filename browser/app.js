@@ -55,7 +55,7 @@ module.exports = Camera ;
 
 // !THIS SHOULD TRACK SERVER-SIDE Camera! spellcast/lib/gfx/Camera.js
 Camera.prototype.update = function( data , awaiting = false ) {
-	if ( data.transition !== undefined ) { this.updateTransition( data ) ; }
+	var transitionPromise = this.updateTransition( data , awaiting ) ;
 
 	if ( data.position ) { this.position = data.position ; }
 	if ( data.target ) { this.target = data.target ; }
@@ -77,32 +77,18 @@ Camera.prototype.update = function( data , awaiting = false ) {
 	// perspective-origin changes have nasty bug and no transition (at least in FF 08/2020)
 	//this.gScene.$gscene.style.perspectiveOrigin = ( ( 1 + this.position.x ) * 50 ) + '%' + ( ( 1 + this.position.y ) * 50 ) + '%' ;
 	
-	if ( awaiting && data.transition !== undefined ) {
-		let promise = new Promise() ;
-		
-		// Whichever comes first, prevent from 'transitioncancel'
-		promise.resolveTimeout( 1000 * data.transition + 20 ) ;
-		
-		this.gScene.$gscene.ontransitionend = () => {
-			this.gScene.$gscene.ontransitionend = null ;
-			promise.resolve() ;
-		} ;
-		
-		return promise ;
-	}
-	else {
-		return Promise.resolved ;
-	}
+	return awaiting ? transitionPromise : Promise.resolved ;
 } ;
 
 
 
-Camera.prototype.updateTransition = function( data ) {
+Camera.prototype.updateTransition = function( data , awaiting = false ) {
 	console.warn( "Camera.updateTransition()" , data.transition , data ) ;
+	var promise = Promise.resolved ;
 
 	if ( ! data.transition ) {
 		this.gScene.$gscene.style.transition = 'none' ;
-		return ;
+		return promise ;
 	}
 
 	var transition = new GTransition( data.transition ) ,
@@ -117,7 +103,21 @@ Camera.prototype.updateTransition = function( data ) {
 	}
 	else {
 		this.gScene.$gscene.style.transition = parts.join( ', ' ) ;
+
+		if ( awaiting ) {
+			promise = new Promise() ;
+			
+			// Whichever comes first, prevent from 'transitioncancel'
+			promise.resolveTimeout( 1000 * transition.duration + 20 ) ;
+			
+			this.gScene.$gscene.ontransitionend = () => {
+				this.gScene.$gscene.ontransitionend = null ;
+				promise.resolve() ;
+			} ;
+		}
 	}
+
+	return promise ;
 } ;
 
 
@@ -1460,7 +1460,7 @@ Dom.prototype.createGEntity = function( gSceneId , gEntityId , data , awaiting =
 	}
 
 	gEntity = gScene.gEntities[ gEntityId ] = new GEntityClass( this , gScene , data ) ;
-	return gEntity.update( data , true ) ;
+	return gEntity.update( data , awaiting , true ) ;
 } ;
 
 
@@ -2530,7 +2530,9 @@ module.exports = GEntity ;
 
 
 // !THIS SHOULD TRACK SERVER-SIDE GEntity! spellcast/lib/gfx/GEntity.js
-GEntity.prototype.update = async function( data , initial = false ) {
+GEntity.prototype.update = async function( data , awaiting = false , initial = false ) {
+	var transitionPromise = Promise.resolved ;
+
 	console.warn( "GEntity.update()" , data ) ;
 
 	// Structural/discrete part
@@ -2561,7 +2563,7 @@ GEntity.prototype.update = async function( data , initial = false ) {
 
 	// Should comes first: Transition,
 	// Either remove them (for initial value) or set them to the user value before changing anything
-	if ( ! initial && this.usage !== 'marker' ) { this.updateTransition( data ) ; }
+	if ( ! initial && this.usage !== 'marker' ) { transitionPromise = this.updateTransition( data , awaiting ) ; }
 
 	if ( data.location !== undefined && this.usage !== 'marker' ) {
 		// Should be triggered first, or pose/style would conflict with it
@@ -2583,6 +2585,8 @@ GEntity.prototype.update = async function( data , initial = false ) {
 		// At creation, the visibility is turned off, now we need to turn it on again
 		this.$wrapper.style.visibility = 'visible' ;
 	}
+	
+	return awaiting ? transitionPromise : null ;
 } ;
 
 
@@ -2792,12 +2796,13 @@ GEntity.prototype.updateTransform = function( data ) {
 
 
 
-GEntity.prototype.updateTransition = function( data ) {
+GEntity.prototype.updateTransition = function( data , awaiting = false ) {
 	console.warn( "GEntity.updateTransition()" , data.transition , data ) ;
+	var promise = Promise.resolved ;
 
 	if ( ! data.transition ) {
 		this.$wrapper.style.transition = 'none' ;
-		return ;
+		return promise ;
 	}
 	
 	var transition = new GTransition( data.transition ) ,
@@ -2818,7 +2823,21 @@ GEntity.prototype.updateTransition = function( data ) {
 	}
 	else {
 		this.$wrapper.style.transition = parts.join( ', ' ) ;
+
+		if ( awaiting ) {
+			promise = new Promise() ;
+
+			// Whichever comes first, prevent from 'transitioncancel'
+			promise.resolveTimeout( 1000 * transition.duration + 20 ) ;
+
+			this.$wrapper.ontransitionend = () => {
+				this.$wrapper.ontransitionend = null ;
+				promise.resolve() ;
+			} ;
+		}
 	}
+	
+	return promise ;
 } ;
 
 

@@ -54,7 +54,7 @@ module.exports = Camera ;
 
 
 // !THIS SHOULD TRACK SERVER-SIDE Camera! spellcast/lib/gfx/Camera.js
-Camera.prototype.update = function( data ) {
+Camera.prototype.update = function( data , awaiting = false ) {
 	if ( data.transition !== undefined ) { this.updateTransition( data ) ; }
 
 	if ( data.position ) { this.position = data.position ; }
@@ -77,8 +77,22 @@ Camera.prototype.update = function( data ) {
 	// perspective-origin changes have nasty bug and no transition (at least in FF 08/2020)
 	//this.gScene.$gscene.style.perspectiveOrigin = ( ( 1 + this.position.x ) * 50 ) + '%' + ( ( 1 + this.position.y ) * 50 ) + '%' ;
 	
-	// It may be async later, waiting for transitions to finish the camera move?
-	return Promise.resolved ;
+	if ( awaiting && data.transition !== undefined ) {
+		let promise = new Promise() ;
+		
+		// Whichever comes first, prevent from 'transitioncancel'
+		promise.resolveTimeout( 1000 * data.transition + 20 ) ;
+		
+		this.gScene.$gscene.ontransitionend = () => {
+			this.gScene.$gscene.ontransitionend = null ;
+			promise.resolve() ;
+		} ;
+		
+		return promise ;
+	}
+	else {
+		return Promise.resolved ;
+	}
 } ;
 
 
@@ -1397,7 +1411,7 @@ Dom.prototype.clearGScene = function( gSceneId ) {
 
 
 
-Dom.prototype.updateCamera = function( gSceneId , data ) {
+Dom.prototype.updateCamera = function( gSceneId , data , awaiting = false ) {
 	var gScene = this.gScenes[ gSceneId ] ;
 
 	if ( ! gScene ) {
@@ -1405,7 +1419,7 @@ Dom.prototype.updateCamera = function( gSceneId , data ) {
 		return Promise.resolved ;
 	}
 
-	return gScene.globalCamera.update( data ) ;
+	return gScene.globalCamera.update( data , awaiting ) ;
 } ;
 
 
@@ -1424,7 +1438,7 @@ Dom.prototype.defineTexturePack = function( gSceneId , textureUid , data ) {
 
 
 
-Dom.prototype.createGEntity = function( gSceneId , gEntityId , data ) {
+Dom.prototype.createGEntity = function( gSceneId , gEntityId , data , awaiting = false ) {
 	var GEntityClass , engine , gEntity ,
 		gScene = this.gScenes[ gSceneId ] ;
 
@@ -1476,7 +1490,7 @@ Dom.prototype.createCard = function( gEntityId , data ) {
 
 
 
-Dom.prototype.updateGEntity = function( gSceneId , gEntityId , data ) {
+Dom.prototype.updateGEntity = function( gSceneId , gEntityId , data , awaiting = false ) {
 	var gScene = this.gScenes[ gSceneId ] ;
 
 	if ( ! gScene ) {
@@ -1491,7 +1505,7 @@ Dom.prototype.updateGEntity = function( gSceneId , gEntityId , data ) {
 		return Promise.resolved ;
 	}
 
-	return gEntity.update( data ) ;
+	return gEntity.update( data , awaiting ) ;
 } ;
 
 
@@ -1588,6 +1602,7 @@ Dom.prototype.clearGEntity = function( gSceneId , gEntityId ) {
 
 
 
+// OUT OF DATE! SHOULD BE FIXED!
 Dom.prototype.animateGEntity = async function( gEntity , animation ) {
 	var frame , frameIndex = 0 ;
 
@@ -1905,8 +1920,6 @@ EventDispatcher.clientError = function( code ) {
 
 
 EventDispatcher.clientConfig = async function( config , callback ) {
-	var extension ;
-	
 	this.config = config ;
 	console.warn( 'Client config received: ' , config ) ;
 
@@ -2294,9 +2307,15 @@ EventDispatcher.clearGScene = function( gSceneId ) {
 
 
 
-EventDispatcher.camera = function( gSceneId , data , callback ) {
-	console.warn( "camera" , gSceneId ,data ) ;
-	this.dom.updateCamera( gSceneId , data ).then( callback ) ;
+EventDispatcher.camera = function( gSceneId , data , awaiting , callback ) {
+	console.warn( "camera" , gSceneId , data ) ;
+	if ( awaiting ) {
+		this.dom.updateCamera( gSceneId , data , true ).then( callback ) ;
+	}
+	else {
+		this.dom.updateCamera( gSceneId , data , false ) ;
+		callback() ;
+	}
 } ;
 
 
@@ -2309,14 +2328,21 @@ EventDispatcher.texturePack = function( gSceneId , textureUid , data , callback 
 
 
 
-EventDispatcher.createGEntity = function( gSceneId , gEntityId , data , callback ) {
-	this.dom.createGEntity( gSceneId , gEntityId , data ).then( callback ) ;
+EventDispatcher.createGEntity = function( gSceneId , gEntityId , data , awaiting , callback ) {
+	// Do something about awaiting?
+	this.dom.createGEntity( gSceneId , gEntityId , data , awaiting ).then( callback ) ;
 } ;
 
 
 
-EventDispatcher.updateGEntity = function( gSceneId , gEntityId , data , callback ) {
-	this.dom.updateGEntity( gSceneId , gEntityId , data ).then( callback ) ;
+EventDispatcher.updateGEntity = function( gSceneId , gEntityId , data , awaiting , callback ) {
+	if ( awaiting ) {
+		this.dom.updateGEntity( gSceneId , gEntityId , data , true ).then( callback ) ;
+	}
+	else {
+		this.dom.updateGEntity( gSceneId , gEntityId , data , false ) ;
+		callback() ;
+	}
 } ;
 
 
@@ -2327,8 +2353,9 @@ EventDispatcher.clearGEntity = function( gSceneId , gEntityId ) {
 
 
 
-EventDispatcher.animateGEntity = function( gSceneId , gEntityId , animationId , callback ) {
-	this.dom.animateGEntity( gSceneId , gEntityId , animationId ).then( callback ) ;
+EventDispatcher.animateGEntity = function( gSceneId , gEntityId , animationId , awaiting , callback ) {
+	// Do something about awaiting?
+	this.dom.animateGEntity( gSceneId , gEntityId , animationId , awaiting ).then( callback ) ;
 } ;
 
 

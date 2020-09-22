@@ -37,10 +37,10 @@ const Promise = require( 'seventh' ) ;
 
 
 // !THIS SHOULD TRACK SERVER-SIDE Camera! spellcast/lib/gfx/Camera.js
-function Camera( gScene , data ) {
+function Camera( gScene ) {
 	this.gScene = gScene ;    // immutable
 
-	this.mode = null ;
+	this.mode = 'firstPerson' ;
 	this.position = { x: 0 , y: 0 , z: 10 } ;
 	this.target = { x: 0 , y: 0 , z: 0 } ;
 	this.rotation = { x: 0 , y: 0 , z: 0 , w: 1 } ;

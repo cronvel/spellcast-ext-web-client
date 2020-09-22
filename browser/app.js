@@ -40,8 +40,12 @@ const Promise = require( 'seventh' ) ;
 function Camera( gScene , data ) {
 	this.gScene = gScene ;    // immutable
 
+	this.mode = null ;
 	this.position = { x: 0 , y: 0 , z: 10 } ;
 	this.target = { x: 0 , y: 0 , z: 0 } ;
+	this.rotation = { x: 0 , y: 0 , z: 0 , w: 1 } ;
+	this.yaw = 0 ;
+	this.pitch = 0 ;
 	this.roll = 0 ;
 	this.fov = 90 ;
 	this.perspective = 1 ;
@@ -57,10 +61,14 @@ module.exports = Camera ;
 Camera.prototype.update = function( data , awaiting = false ) {
 	var transitionPromise = this.updateTransition( data , awaiting ) ;
 
+	if ( data.mode ) { this.mode = data.mode ; }
 	if ( data.position ) { this.position = data.position ; }
 	if ( data.target ) { this.target = data.target ; }
 
 	// Unused
+	if ( data.rotation ) { this.rotation = data.rotation ; }
+	if ( data.yaw !== undefined ) { this.yaw = data.yaw || 0 ; }
+	if ( data.pitch !== undefined ) { this.pitch = data.pitch || 0 ; }
 	if ( data.roll !== undefined ) { this.roll = data.roll || 0 ; }
 	if ( data.fov !== undefined ) { this.fov = data.fov || 90 ; }
 	

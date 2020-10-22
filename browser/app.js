@@ -2503,7 +2503,7 @@ function GEntity( dom , gScene , data ) {
 	this.sizeMode = 'default' ;
 	this.rotation = { x: 0 , y: 0 , z: 0 } ;
 	this.rotationMode = 'default' ;
-	//this.rotation = TO BE DEFINED....
+	this.rotation = { x: 0 , y: 0 , z: 1 } ;
 
 	this.data = {} ;
 	this.meta = {} ;
@@ -2579,6 +2579,9 @@ GEntity.prototype.update = async function( data , awaiting = false , initial = f
 		// Should be triggered first, or pose/style would conflict with it
 		await this.moveToLocation( data.location ) ;
 	}
+
+	// For instance, this engine does not care about direction, we just set it without doing anything
+	if ( data.direction !== undefined ) { this.direction = data.direction ; }
 
 	if (
 		data.position !== undefined || data.positionMode !== undefined
@@ -3649,7 +3652,7 @@ GScene.prototype.update = function( data ) {
 	duration: transition duration in s
 	easing: the easing function used
 */
-// !THIS SHOULD TRACK SERVER-SIDE GEntity! spellcast/lib/gfx/GTransition.js
+// !THIS SHOULD TRACK SERVER-SIDE GTransition! spellcast/lib/gfx/GTransition.js
 function GTransition( data ) {
 	this.duration = 0.2 ;
 	this.easing = 'linear' ;
@@ -3661,7 +3664,6 @@ module.exports = GTransition ;
 
 
 
-// !THIS SHOULD TRACK SERVER-SIDE GEntity! spellcast/lib/gfx/GTransition.js
 GTransition.prototype.update = function( data ) {
 	if ( ! data || typeof data !== 'object' ) { return ; }
 

@@ -2504,6 +2504,9 @@ function GEntity( dom , gScene , data ) {
 	this.rotation = { x: 0 , y: 0 , z: 0 } ;
 	this.rotationMode = 'default' ;
 	this.rotation = { x: 0 , y: 0 , z: 1 } ;
+	//this.direction = new Vector3D( 0 , 0 , 1 ) ;
+	this.facing = 0 ;
+
 
 	this.data = {} ;
 	this.meta = {} ;

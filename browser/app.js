@@ -3711,7 +3711,7 @@ GTransition.prototype.toString = function( property ) {
 
 
 
-// !THIS SHOULD TRACK SERVER-SIDE GEntity! spellcast/lib/gfx/TexturePack.js
+// !THIS SHOULD TRACK SERVER-SIDE TexturePack! spellcast/lib/gfx/TexturePack.js
 function TexturePack( data ) {
 	this.theme = data.theme || 'default' ;
 	this.id = data.id ;		// theme+id is unique
@@ -3734,7 +3734,7 @@ module.exports = TexturePack ;
 
 
 
-// !THIS SHOULD TRACK SERVER-SIDE GEntity! spellcast/lib/gfx/TexturePack.js
+// !THIS SHOULD TRACK SERVER-SIDE TexturePack! spellcast/lib/gfx/TexturePack.js
 function Variant( data = {} ) {
 	this.animate = data.type || null ;		// null: static image, other can be: 'loop' for looping animation, and so on...
 	this.engine = data.engine || null ;		// engine-specific, like shaders?
@@ -3746,13 +3746,15 @@ TexturePack.Variant = Variant ;
 
 
 
-// !THIS SHOULD TRACK SERVER-SIDE GEntity! spellcast/lib/gfx/TexturePack.js
+// !THIS SHOULD TRACK SERVER-SIDE TexturePack! spellcast/lib/gfx/TexturePack.js
 function Frame( data = {} ) {
 	this.url = data.url ;
 	this.maskUrl = data.maskUrl || null ;	// only few type of engine+usage combo support mask, most of them relying on SVG
 	this.engine = data.engine || null ;		// engine-specific, like shaders?
 	this.origin = data.origin || null ;		// the origin used for this image
 	this.duration = data.duration || 100 ;	// the duration of this frame in ms
+	this.xFlip = !! data.xFlip ;			// flip the image, +x and -x are flipped
+	this.yFlip = !! data.yFlip ;			// flip the image, +y and -y are flipped
 }
 
 TexturePack.Frame = Frame ;
@@ -5697,6 +5699,18 @@ NextGenEvents.prototype.emit = function( ... args ) {
 
 
 
+// For performance, do not emit if there is no listener for that event,
+// do not even return an Event object, do not throw if the event name is error,
+// or whatever the .emit() process could do when there is no listener.
+NextGenEvents.prototype.emitIfListener = function( ... args ) {
+	var eventName = typeof args[ 0 ] === 'number' ? args[ 1 ] : args[ 0 ] ;
+	if ( ! this.__ngev || ! this.__ngev.listeners[ eventName ] || ! this.__ngev.listeners[ eventName ].length ) { return null ; }
+	var event = NextGenEvents.createEvent( this , ... args ) ;
+	return NextGenEvents.emitEvent( event ) ;
+} ;
+
+
+
 NextGenEvents.prototype.waitForEmit = function( ... args ) {
 	return new Promise( resolve => {
 		this.emit( ... args , ( interrupt ) => resolve( interrupt ) ) ;
@@ -6031,10 +6045,7 @@ NextGenEvents.listenerCount = function( emitter , eventName ) {
 
 NextGenEvents.prototype.listenerCount = function( eventName ) {
 	if ( ! eventName || typeof eventName !== 'string' ) { throw new TypeError( ".listenerCount(): argument #1 should be a non-empty string" ) ; }
-
-	if ( ! this.__ngev ) { NextGenEvents.init.call( this ) ; }
-	if ( ! this.__ngev.listeners[ eventName ] ) { this.__ngev.listeners[ eventName ] = [] ; }
-
+	if ( ! this.__ngev || ! this.__ngev.listeners[ eventName ] ) { return 0 ; }
 	return this.__ngev.listeners[ eventName ].length ;
 } ;
 
@@ -7186,9 +7197,9 @@ module.exports.isBrowser = true ;
 },{"./NextGenEvents.js":19,"_process":23}],22:[function(require,module,exports){
 module.exports={
   "_from": "nextgen-events@^1.3.0",
-  "_id": "nextgen-events@1.3.0",
+  "_id": "nextgen-events@1.3.3",
   "_inBundle": false,
-  "_integrity": "sha512-eBz5mrO4Hw2eenPVm0AVPHuAzg/RZetAWMI547RH8O9+a0UYhCysiZ3KoNWslnWNlHetb9kzowEshsKsmFo2YQ==",
+  "_integrity": "sha512-5h9U7had+Q+a95Rwgu4JL6otqXs3y4474g7ruQtd8TAsoG6ycvjccnuLxhXEv32/HOKTC09K+HkbFaITIexLkg==",
   "_location": "/nextgen-events",
   "_phantomChildren": {},
   "_requested": {
@@ -7202,11 +7213,13 @@ module.exports={
     "fetchSpec": "^1.3.0"
   },
   "_requiredBy": [
+    "#USER",
     "/",
-    "/terminal-kit"
+    "/terminal-kit",
+    "/utterminal/terminal-kit"
   ],
-  "_resolved": "https://registry.npmjs.org/nextgen-events/-/nextgen-events-1.3.0.tgz",
-  "_shasum": "a32665d1ab6f026448b19d75c4603ec20292fa22",
+  "_resolved": "https://registry.npmjs.org/nextgen-events/-/nextgen-events-1.3.3.tgz",
+  "_shasum": "3023cdf4299771918d6be1ad5f6049ca6b4d907d",
   "_spec": "nextgen-events@^1.3.0",
   "_where": "/home/cedric/inside/github/spellcast-ext-web-client",
   "author": {
@@ -7268,7 +7281,7 @@ module.exports={
   "scripts": {
     "test": "tea-time -R dot"
   },
-  "version": "1.3.0"
+  "version": "1.3.3"
 }
 
 },{}],23:[function(require,module,exports){
@@ -9745,6 +9758,10 @@ Promise.prototype._unhandledRejection = function() {
 	}
 	//*/
 } ;
+
+
+
+Promise.prototype.isSettled = function() { return this._then.settled ; } ;
 
 
 

@@ -3752,13 +3752,14 @@ TexturePack.Variant = Variant ;
 
 // !THIS SHOULD TRACK SERVER-SIDE TexturePack! spellcast/lib/gfx/TexturePack.js
 function Frame( data = {} ) {
-	this.url = data.url ;
-	this.maskUrl = data.maskUrl || null ;	// only few type of engine+usage combo support mask, most of them relying on SVG
-	this.engine = data.engine || null ;		// engine-specific, like shaders?
+	this.url = data.url ;					// default image/texture URL (or diffuse/albedo map)
+    this.maps = data.maps || null ;         // null or object of URLs, like 'normal' or 'specular' for 3D engine, and so on
+    this.maskUrl = data.maskUrl || null ;   // /!\ SHOULD BE MOVED TO .maps /!\ only few type of engine+usage combo support mask, most of them relying on SVG
 	this.origin = data.origin || null ;		// the origin used for this image
 	this.duration = data.duration || 100 ;	// the duration of this frame in ms
 	this.xFlip = !! data.xFlip ;			// flip the image, +x and -x are flipped
 	this.yFlip = !! data.yFlip ;			// flip the image, +y and -y are flipped
+	this.engine = data.engine || null ;		// engine-specific, like shaders?
 }
 
 TexturePack.Frame = Frame ;

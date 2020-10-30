@@ -7,6 +7,14 @@
 
 # Browser client
 
+[spell dev-browser]
+	[summon]
+		- browser/app.html
+		- browser/app.js
+		- browser/common.css
+#		- browser/themes/default/main.css
+#		- browser/themes/visual-novel/main.css
+
 [spell browser]
 	[summon]
 		- browser/app.html

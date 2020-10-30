@@ -1457,7 +1457,7 @@ Dom.prototype.createGEntity = function( gSceneId , gEntityId , data , awaiting =
 		return Promise.resolved ;
 	}
 
-	if ( gScene.gEntities[ gEntityId ] ) { this.clearGEntity( gSceneId , gEntityId ) ; }
+	if ( gScene.hasGEntity( gEntityId ) ) { gScene.removeGEntity( gEntityId ) ; }
 
 	console.warn( "createGEntity:" , gScene.engineId , engineLib.lib , engineLib.lib[ gScene.engineId ] && engineLib.lib[ gScene.engineId ].GEntity ) ;
 	engine = engineLib.lib[ gScene.engineId ] ;
@@ -1469,7 +1469,8 @@ Dom.prototype.createGEntity = function( gSceneId , gEntityId , data , awaiting =
 		GEntityClass = GEntity ;
 	}
 
-	gEntity = gScene.gEntities[ gEntityId ] = new GEntityClass( this , gScene , data ) ;
+	gEntity = new GEntityClass( this , gScene , data ) ;
+	gScene.addGEntity( gEntityId , gEntity ) ;
 	return gEntity.update( data , awaiting , true ) ;
 } ;
 
@@ -1508,7 +1509,7 @@ Dom.prototype.updateGEntity = function( gSceneId , gEntityId , data , awaiting =
 		return Promise.resolved ;
 	}
 
-	var gEntity = gScene.gEntities[ gEntityId ] ;
+	var gEntity = gScene.getGEntity( gEntityId ) ;
 
 	if ( ! gEntity ) {
 		console.warn( 'Unknown GEntity id: ' , gEntityId ) ;
@@ -1593,21 +1594,7 @@ Dom.prototype.clearGEntity = function( gSceneId , gEntityId ) {
 		return Promise.resolved ;
 	}
 
-	var gEntity = gScene.gEntities[ gEntityId ] ;
-
-	if ( ! gEntity ) {
-		console.warn( 'Unknown GEntity id: ' , gEntityId ) ;
-		return ;
-	}
-	
-	if ( gEntity.$locationSlot ) { gEntity.$locationSlot.remove() ; }
-	gEntity.$wrapper.remove() ;
-	/*
-	gEntity.$image.remove() ;
-	if ( gEntity.$mask ) { gEntity.$mask.remove() ; }
-	*/
-
-	delete gScene.gEntities[ gEntityId ] ;
+	gScene.removeGEntity( gEntityId ) ;
 } ;
 
 
@@ -2504,11 +2491,11 @@ function GEntity( dom , gScene , data ) {
 	this.rotation = { x: 0 , y: 0 , z: 0 } ;
 	this.rotationMode = 'default' ;
 	this.rotation = { x: 0 , y: 0 , z: 1 } ;
-	//this.direction = new Vector3D( 0 , 0 , 1 ) ;
+	this.direction = { x: 1 , y: 0 , z: 0 } ;
 	this.facing = 0 ;
 
 
-	this.data = {} ;
+	this.special = {} ;
 	this.meta = {} ;
 	this.engine = {} ;
 
@@ -2554,19 +2541,19 @@ GEntity.prototype.update = async function( data , awaiting = false , initial = f
 		await this.updateTexture( data.texturePack , data.variant , data.theme ) ;
 	}
 
-	if ( data.data ) {
-		if ( data.data.vgUrl ) { await this.updateVgImage( data.data.vgUrl ) ; }
-		else if ( data.data.vgObject ) { this.updateVgObject( data.data.vgObject ) ; }
-		else if ( data.data.vgMorph ) { this.updateVgMorph( data.data.vgMorph ) ; }
+	if ( data.special ) {
+		if ( data.special.vgUrl ) { await this.updateVgImage( data.special.vgUrl ) ; }
+		else if ( data.special.vgObject ) { this.updateVgObject( data.special.vgObject ) ; }
+		else if ( data.special.vgMorph ) { this.updateVgMorph( data.special.vgMorph ) ; }
 
-		if ( data.data.area ) {
-			this.updateVgArea( data.data.area ) ;
+		if ( data.special.area ) {
+			this.updateVgArea( data.special.area ) ;
 		}
 
 	}
 
-	if ( this.usage === 'marker' && ( data.location || ( data.data && data.data.inVg ) ) ) {
-		this.updateMarkerLocation( data.data && data.data.inVg , data.location ) ;
+	if ( this.usage === 'marker' && ( data.location || ( data.special && data.special.inVg ) ) ) {
+		this.updateMarkerLocation( data.special && data.special.inVg , data.location ) ;
 	}
 
 	if ( data.button !== undefined ) { this.updateButton( data.button ) ; }
@@ -2584,7 +2571,7 @@ GEntity.prototype.update = async function( data , awaiting = false , initial = f
 	}
 
 	// For instance, this engine does not care about facing direction, we just set it without doing anything
-	//if ( data.direction !== undefined ) { this.direction = data.direction ; }
+	if ( data.direction !== undefined ) { this.direction = data.direction ; }
 	if ( data.facing !== undefined ) { this.facing = data.facing ; }
 
 	if (
@@ -3085,7 +3072,7 @@ GEntity.prototype.updateVgObject = function( vgObject ) {
 	}
 
 	// Save it now!
-	this.data.vgObject = vgObject ;
+	this.special.vgObject = vgObject ;
 
 	// Always wipe any existing $image element and pre-create the <svg> tag
 	if ( this.$image ) { this.$image.remove() ; }
@@ -3133,7 +3120,7 @@ GEntity.prototype.updateVgObject = function( vgObject ) {
 
 
 GEntity.prototype.updateVgMorph = function( vgMorph ) {
-	var vgObject = this.data.vgObject ;
+	var vgObject = this.special.vgObject ;
 
 	if ( ! vgObject ) {
 		// Do nothing if it's not a VG object
@@ -3161,14 +3148,14 @@ GEntity.prototype.updateVgArea = function( areaData ) {
 		return ;
 	}
 
-	if ( ! this.data.area ) { this.data.area = {} ; }
+	if ( ! this.special.area ) { this.special.area = {} ; }
 
 	for ( area in areaData ) {
-		if ( ! this.data.area[ area ] ) { this.data.area[ area ] = {} ; }
-		if ( ! this.data.area[ area ].meta ) { this.data.area[ area ].meta = {} ; }
+		if ( ! this.special.area[ area ] ) { this.special.area[ area ] = {} ; }
+		if ( ! this.special.area[ area ].meta ) { this.special.area[ area ].meta = {} ; }
 
-		if ( areaData[ area ].hint !== undefined ) { this.data.area[ area ].hint = areaData[ area ].hint || null ; }
-		if ( areaData[ area ].meta ) { Object.assign( this.data.area[ area ].meta , areaData[ area ].meta ) ; }
+		if ( areaData[ area ].hint !== undefined ) { this.special.area[ area ].hint = areaData[ area ].hint || null ; }
+		if ( areaData[ area ].meta ) { Object.assign( this.special.area[ area ].meta , areaData[ area ].meta ) ; }
 
 		Array.from( this.$image.querySelectorAll( '[area=' + area + ']' ) ).forEach( ( $element ) => {
 			var metaName ;
@@ -3254,7 +3241,7 @@ GEntity.prototype.updateMarkerLocation = function( vgId , areaId ) {
 		return ;
 	}
 
-	if ( ! vgId ) { vgId = this.data.inVg ; }
+	if ( ! vgId ) { vgId = this.special.inVg ; }
 	if ( ! areaId ) { areaId = this.location ; }
 
 	if ( ! this.gScene.gEntities[ vgId ] ) {
@@ -3283,7 +3270,7 @@ GEntity.prototype.updateMarkerLocation = function( vgId , areaId ) {
 
 
 	// Once everything is ok, update the marker
-	this.data.inVg = vgId ;
+	this.special.inVg = vgId ;
 	this.location = areaId ;
 
 
@@ -3618,6 +3605,23 @@ GScene.prototype.update = function( data ) {
 
 	// For instance, there is no async code in GScene, but the API have to allow it
 	return Promise.resolved ;
+} ;
+
+
+
+GScene.prototype.hasGEntity = function( gEntityId ) { return gEntityId in this.gEntities ; } ;
+GScene.prototype.getGEntity = function( gEntityId ) { return this.gEntities[ gEntityId ] ; } ;
+GScene.prototype.addGEntity = function( gEntityId , gEntity ) { this.gEntities[ gEntityId ] = gEntity ; } ;
+
+GScene.prototype.removeGEntity = function( gEntityId ) {
+	var gEntity = this.gEntities[ gEntityId ] ;
+	if ( ! gEntity ) { return false ; }
+
+	if ( gEntity.$locationSlot ) { gEntity.$locationSlot.remove() ; }
+    gEntity.$wrapper.remove() ;
+
+	delete this.gEntities[ gEntityId ] ;
+	return true ;
 } ;
 
 
@@ -7201,7 +7205,7 @@ module.exports.isBrowser = true ;
 }).call(this,require('_process'))
 },{"./NextGenEvents.js":19,"_process":23}],22:[function(require,module,exports){
 module.exports={
-  "_from": "nextgen-events@^1.3.0",
+  "_from": "nextgen-events@^1.3.3",
   "_id": "nextgen-events@1.3.3",
   "_inBundle": false,
   "_integrity": "sha512-5h9U7had+Q+a95Rwgu4JL6otqXs3y4474g7ruQtd8TAsoG6ycvjccnuLxhXEv32/HOKTC09K+HkbFaITIexLkg==",
@@ -7210,22 +7214,21 @@ module.exports={
   "_requested": {
     "type": "range",
     "registry": true,
-    "raw": "nextgen-events@^1.3.0",
+    "raw": "nextgen-events@^1.3.3",
     "name": "nextgen-events",
     "escapedName": "nextgen-events",
-    "rawSpec": "^1.3.0",
+    "rawSpec": "^1.3.3",
     "saveSpec": null,
-    "fetchSpec": "^1.3.0"
+    "fetchSpec": "^1.3.3"
   },
   "_requiredBy": [
-    "#USER",
     "/",
     "/terminal-kit",
     "/utterminal/terminal-kit"
   ],
   "_resolved": "https://registry.npmjs.org/nextgen-events/-/nextgen-events-1.3.3.tgz",
   "_shasum": "3023cdf4299771918d6be1ad5f6049ca6b4d907d",
-  "_spec": "nextgen-events@^1.3.0",
+  "_spec": "nextgen-events@^1.3.3",
   "_where": "/home/cedric/inside/github/spellcast-ext-web-client",
   "author": {
     "name": "Cédric Ronvel"
@@ -15911,7 +15914,7 @@ camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' ) ;
 arguments[4][38][0].apply(exports,arguments)
 },{"dup":38}],56:[function(require,module,exports){
 module.exports={
-  "_from": "svg-kit@^0.3.0",
+  "_from": "svg-kit@0.3.0",
   "_id": "svg-kit@0.3.0",
   "_inBundle": false,
   "_integrity": "sha512-+lqQ8WQp8UD1BlNBeVOawBKpXCBCqdwnEfRiWxG7vI3NBmZ9CBPN/eMmMt2OpJRU8UcZUOrarAjiZV3dZsqWtA==",
@@ -15920,21 +15923,22 @@ module.exports={
     "@cronvel/xmldom": "0.1.31"
   },
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "svg-kit@^0.3.0",
+    "raw": "svg-kit@0.3.0",
     "name": "svg-kit",
     "escapedName": "svg-kit",
-    "rawSpec": "^0.3.0",
+    "rawSpec": "0.3.0",
     "saveSpec": null,
-    "fetchSpec": "^0.3.0"
+    "fetchSpec": "0.3.0"
   },
   "_requiredBy": [
+    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/svg-kit/-/svg-kit-0.3.0.tgz",
   "_shasum": "a53aadb7152cf7374e2a791b9d45b7cc6d0fe25d",
-  "_spec": "svg-kit@^0.3.0",
+  "_spec": "svg-kit@0.3.0",
   "_where": "/home/cedric/inside/github/spellcast-ext-web-client",
   "author": {
     "name": "Cédric Ronvel"

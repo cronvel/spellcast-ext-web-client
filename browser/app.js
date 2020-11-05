@@ -5114,7 +5114,7 @@ function Exm( options = {} ) {
 
 	this.ns = options.ns ;
 	this.extensionPath = options.extensionPath || '/ext' ;
-	this.suffix = '/extension.js' ;
+	this.suffix = options.suffix || '/extension.js' ;
 
 	this.api = options.api || {} ;
 	this.exports = options.exports || {} ;

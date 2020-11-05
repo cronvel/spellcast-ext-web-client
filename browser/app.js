@@ -131,7 +131,7 @@ Camera.prototype.updateTransition = function( data , awaiting = false ) {
 } ;
 
 
-},{"./GTransition.js":6,"seventh":35}],2:[function(require,module,exports){
+},{"./GTransition.js":6,"seventh":40}],2:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -1726,7 +1726,7 @@ function soundFadeOut( $element , callback ) {
 }
 
 
-},{"./Camera.js":1,"./GEntity.js":4,"./GScene.js":5,"./TexturePack.js":7,"./commonUtils.js":9,"./engineLib.js":10,"./exm.js":11,"dom-kit":16,"nextgen-events/lib/browser.js":21,"seventh":35,"svg-kit":52}],3:[function(require,module,exports){
+},{"./Camera.js":1,"./GEntity.js":4,"./GScene.js":5,"./TexturePack.js":7,"./commonUtils.js":9,"./engineLib.js":10,"./exm.js":11,"dom-kit":17,"nextgen-events/lib/browser.js":26,"seventh":40,"svg-kit":60}],3:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -2428,7 +2428,7 @@ EventDispatcher.exit = function( error , timeout , callback ) {
 } ;
 
 
-},{"./Dom.js":2,"./exm.js":11,"./toolkit.js":14,"nextgen-events/lib/browser.js":21,"seventh":35}],4:[function(require,module,exports){
+},{"./Dom.js":2,"./exm.js":11,"./toolkit.js":15,"nextgen-events/lib/browser.js":26,"seventh":40}],4:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3514,7 +3514,7 @@ GEntity.prototype.createCardMarkup = function( card ) {
 } ;
 
 
-},{"./GTransition.js":6,"./commonUtils.js":9,"./positionModes.js":12,"./sizeModes.js":13,"dom-kit":16,"nextgen-events/lib/browser.js":21,"seventh":35,"svg-kit":52}],5:[function(require,module,exports){
+},{"./GTransition.js":6,"./commonUtils.js":9,"./positionModes.js":13,"./sizeModes.js":14,"dom-kit":17,"nextgen-events/lib/browser.js":26,"seventh":40,"svg-kit":60}],5:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3625,7 +3625,7 @@ GScene.prototype.removeGEntity = function( gEntityId ) {
 } ;
 
 
-},{"./Camera.js":1,"nextgen-events/lib/browser.js":21,"seventh":35}],6:[function(require,module,exports){
+},{"./Camera.js":1,"nextgen-events/lib/browser.js":26,"seventh":40}],6:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3944,7 +3944,7 @@ domKit.ready( () => {
 } ) ;
 
 
-},{"./EventDispatcher.js":3,"dom-kit":16,"nextgen-events/lib/browser.js":21,"url":58}],9:[function(require,module,exports){
+},{"./EventDispatcher.js":3,"dom-kit":17,"nextgen-events/lib/browser.js":26,"url":66}],9:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4108,7 +4108,8 @@ module.exports = BrowserExm.registerNs( {
 		GEntity: require( './GEntity.js' ) ,
 		GScene: require( './GScene.js' ) ,
 		GTransition: require( './GTransition.js' ) ,
-		TexturePack: require( './TexturePack.js' )
+		TexturePack: require( './TexturePack.js' ) ,
+		expressionOperators: require( './expressionOperators.js' )
 	} ,
 	api: {
 		getEngine: engineLib.get ,
@@ -4118,7 +4119,44 @@ module.exports = BrowserExm.registerNs( {
 } ) ;
 
 
-},{"./Camera.js":1,"./Dom.js":2,"./EventDispatcher.js":3,"./GEntity.js":4,"./GScene.js":5,"./GTransition.js":6,"./TexturePack.js":7,"./engineLib.js":10,"exm/lib/BrowserExm.js":17}],12:[function(require,module,exports){
+},{"./Camera.js":1,"./Dom.js":2,"./EventDispatcher.js":3,"./GEntity.js":4,"./GScene.js":5,"./GTransition.js":6,"./TexturePack.js":7,"./engineLib.js":10,"./expressionOperators.js":12,"exm/lib/BrowserExm.js":18}],12:[function(require,module,exports){
+/*
+	Spellcast's Web Client Extension
+
+	Copyright (c) 2014 - 2020 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+Object.assign(
+	module.exports ,
+	require( 'kung-fig-expression/lib/fnOperators.js' ) ,
+	require( 'spellcast-shared/lib/operators.js' )
+) ;
+
+
+},{"kung-fig-expression/lib/fnOperators.js":22,"spellcast-shared/lib/operators.js":42}],13:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4237,7 +4275,7 @@ exports.areaInSpriteOut = ( transform , position , areaWidth , areaHeight , imag
 } ;
 
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4336,7 +4374,7 @@ exports.areaMin = ( transform , size , areaWidth , areaHeight , imageWidth , ima
 } ;
 
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4441,9 +4479,9 @@ toolkit.stripMarkup = text => text.replace(
 ) ;
 
 
-},{"string-kit/lib/escape.js":38,"string-kit/lib/format.js":39}],15:[function(require,module,exports){
+},{"string-kit/lib/escape.js":46,"string-kit/lib/format.js":47}],16:[function(require,module,exports){
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 (function (process){
 /*
 	Dom Kit
@@ -5039,7 +5077,7 @@ domKit.html = ( $element , html ) => $element.innerHTML = html ;
 
 
 }).call(this,require('_process'))
-},{"@cronvel/xmldom":15,"_process":23}],17:[function(require,module,exports){
+},{"@cronvel/xmldom":16,"_process":28}],18:[function(require,module,exports){
 (function (global){
 /*
 	EXM
@@ -5180,7 +5218,7 @@ Exm.Extension.prototype.init = function( host ) {
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -5203,7 +5241,729 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
+/*
+	Kung Fig Expression
+
+	Copyright (c) 2015 - 2020 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+class ObjectEntry extends Array {
+	constructor( ... args ) {
+		super( ... args ) ;
+	}
+
+	getFinalValue( ctx ) {
+		return this.map( e => e && typeof e === 'object' && e.__isDynamic__ ? e.getFinalValue( ctx ) : e ) ;
+	}
+
+	// Commented out because we DO WANT that .map() from .getFinalValue() DO return an ObjectEntry
+	// This allow stack.map()/.slice()/etc to return an Array, not a Stack
+	//static get [Symbol.species]() { return Array ; }
+}
+
+module.exports = ObjectEntry ;
+
+ObjectEntry.prototype.__isDynamic__ = true ;
+ObjectEntry.serializerFnId = 'Expression.ObjectEntry' ;
+
+ObjectEntry.serializer = function( object ) {
+	return {
+		args: object.args ,
+		overideKeys: [ '__isDynamic__' , '__isApplicable__' ]
+	} ;
+} ;
+
+ObjectEntry.unserializer = function( ... args ) {
+	return new ObjectEntry( ... args ) ;
+} ;
+
+
+},{}],21:[function(require,module,exports){
+/*
+	Kung Fig Expression
+
+	Copyright (c) 2015 - 2020 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+class Stack extends Array {
+	constructor( ... args ) {
+		if ( args.length === 1 ) {
+			// The Array constructor is ambigous, with one argument, it is used as the array length, not as the first element
+			super() ;
+			this[ 0 ] = args[ 0 ] ;
+		}
+		else {
+			super( ... args ) ;
+		}
+	}
+
+	// This allow stack.map()/.slice()/etc to return an Array, not a Stack
+	static get [Symbol.species]() { return Array ; }
+}
+
+module.exports = Stack ;
+
+
+},{}],22:[function(require,module,exports){
+/*
+	Kung Fig Expression
+
+	Copyright (c) 2015 - 2020 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const mode = require( './mode.js' ) ;
+const EMPTY_ARRAY = [] ;
+const Stack = require( './Stack.js' ) ;
+const ObjectEntry = require( './ObjectEntry.js' ) ;
+
+
+
+// Utilities
+
+function toDash( str ) {
+	return str.replace( /^([A-Z])|([A-Z])/g , ( match , firstLetter , letter ) => {
+		if ( firstLetter ) { return firstLetter.toLowerCase() ; }
+		return '-' + letter.toLowerCase() ;
+	} ) ;
+}
+
+function batchOfNativeStatic( scope , scopeName , fnNames ) {
+	fnNames.forEach( fnName => {
+		//exports[ fnName ] = scope[ fnName ] ;		// This would modify a native method
+		exports[ fnName ] = ( ... args ) => scope[ fnName ]( ... args ) ;
+		exports[ fnName ].mode = mode.FN ;
+		exports[ fnName ].nativeJsFn = scopeName + '.' + fnName ;
+	} ) ;
+}
+
+function batchOfNativeStringMethod( mode_ , turnToDash , fnNames ) {
+	fnNames.forEach( fnName => {
+		var opName = turnToDash ? toDash( fnName ) : fnName ;
+		//exports[ opName ] = String.prototype[ fnName ] ;	// This would modify a native method
+		exports[ opName ] = ( str , ... args ) => ( '' + str )[ fnName ]( ... args ) ;
+		exports[ opName ].mode = mode_ ;
+		//exports[ opName ].useCall = true ;
+		exports[ opName ].nativeJsMethod = fnName ;
+		exports[ opName ].nativeJsMethodCast = 'string' ;
+	} ) ;
+}
+
+
+
+// Any change here should be reflected in the official Atom grammar package
+
+
+
+// Arithmetic operators
+
+exports.add = exports['+'] = ( ... args ) => {
+	var sum = 0 ;
+	args.forEach( e => sum += + e ) ;
+	return sum ;
+} ;
+exports['+'].mode = mode.MULTI_OP ;
+exports['+'].jsOp = '+' ;
+
+exports.sub = exports['-'] = ( ... args ) => {
+	if ( args.length === 1 ) { return -args[ 0 ] ; }	// unary minus
+
+	var i = 1 , iMax = args.length , v ;
+
+	v = + args[ 0 ] ;
+	for ( ; i < iMax ; i ++ ) { v -= + args[ i ] ; }
+	return v ;
+} ;
+exports['-'].mode = mode.MULTI_OP ;
+exports['-'].jsOp = '-' ;
+
+exports.mul = exports['*'] = ( ... args ) => {
+	var v = 1 ;
+	args.forEach( e => v *= + e ) ;
+	return v ;
+} ;
+exports['*'].mode = mode.MULTI_OP ;
+exports['*'].jsOp = '*' ;
+
+exports.div = exports['/'] = ( ... args ) => {
+	var i = 1 , iMax = args.length , v = + args[ 0 ] ;
+	for ( ; i < iMax ; i ++ ) { v /= + args[ i ] ; }
+	return v ;
+} ;
+exports['/'].mode = mode.MULTI_OP ;
+exports['/'].jsOp = '/' ;
+
+exports.intdiv = exports['\\'] = ( ... args ) => {
+	var i = 1 , iMax = args.length , v = + args[ 0 ] ;
+	for ( ; i < iMax ; i ++ ) { v = Math.trunc( v / ( + args[ i ] ) ) ; }
+	return v ;
+} ;
+exports['\\'].mode = mode.MULTI_OP ;
+exports['\\'].jsFn = 'intdiv' ;
+
+exports.modulo = exports['%'] = ( ... args ) => {
+	var i = 1 , iMax = args.length , v = + args[ 0 ] ;
+	for ( ; i < iMax ; i ++ ) { v = v % ( + args[ i ] ) ; }
+	return v ;
+} ;
+exports['%'].mode = mode.MULTI_OP ;
+exports['%'].jsOp = '%' ;
+
+exports.floordiv = exports['\\\\'] = ( ... args ) => {
+	var i = 1 , iMax = args.length , v = + args[ 0 ] ;
+	for ( ; i < iMax ; i ++ ) { v = Math.floor( v / ( + args[ i ] ) ) ; }
+	return v ;
+} ;
+exports['\\\\'].mode = mode.MULTI_OP ;
+exports['\\'].jsFn = 'floordiv' ;
+
+// Positive modulo
+exports.positiveModulo = exports['%+'] = ( ... args ) => {
+	var i = 1 , iMax = args.length , v = + args[ 0 ] ;
+
+	for ( ; i < iMax ; i ++ ) {
+		v = v % ( + args[ i ] ) ;
+		if ( v < 0 ) { v += + args[ i ] ; }
+	}
+
+	return v ;
+} ;
+exports['%+'].mode = mode.MULTI_OP ;
+exports['%+'].jsFn = 'positiveModulo' ;
+
+
+// Comparison operators
+
+exports['>'] = ( ... args ) => {
+	var i = 0 , iMax = args.length - 1 ;
+
+	for ( ; i < iMax ; i ++ ) {
+		// Intentional construct, because of NaN
+		if ( ! ( args[ i ] > args[ i + 1 ] ) ) { return false ; }
+	}
+
+	return true ;
+} ;
+exports['>'].mode = mode.MULTI_OP ;
+exports['>'].jsOp = '>' ;
+
+exports['≥'] = exports['>='] = ( ... args ) => {
+	var i = 0 , iMax = args.length - 1 ;
+
+	for ( ; i < iMax ; i ++ ) {
+		// Intentional construct, because of NaN
+		if ( ! ( args[ i ] >= args[ i + 1 ] ) ) { return false ; }
+	}
+
+	return true ;
+} ;
+exports['>='].mode = mode.MULTI_OP ;
+exports['>='].jsOp = '>=' ;
+
+exports['<'] = ( ... args ) => {
+	var i = 0 , iMax = args.length - 1 ;
+
+	for ( ; i < iMax ; i ++ ) {
+		// Intentional construct, because of NaN
+		if ( ! ( args[ i ] < args[ i + 1 ] ) ) { return false ; }
+	}
+
+	return true ;
+} ;
+exports['<'].mode = mode.MULTI_OP ;
+exports['<'].jsOp = '<' ;
+
+exports['≤'] = exports['<='] = ( ... args ) => {
+	var i = 0 , iMax = args.length - 1 ;
+
+	for ( ; i < iMax ; i ++ ) {
+		// Intentional construct, because of NaN
+		if ( ! ( args[ i ] <= args[ i + 1 ] ) ) { return false ; }
+	}
+
+	return true ;
+} ;
+exports['<='].mode = mode.MULTI_OP ;
+exports['<='].jsOp = '<=' ;
+
+exports['==='] = exports['=='] = exports['='] = ( ... args ) => {
+	var i = 0 , iMax = args.length - 1 ;
+
+	for ( ; i < iMax ; i ++ ) {
+		// Intentional construct, because of NaN
+		if ( ! ( args[ i ] === args[ i + 1 ] ) ) { return false ; }
+	}
+
+	return true ;
+} ;
+exports['='].mode = mode.MULTI_OP ;
+exports['='].jsOp = '===' ;
+
+exports['≠'] = exports['!=='] = exports['!='] = ( ... args ) => {
+	var i = 0 , iMax = args.length - 1 ;
+
+	for ( ; i < iMax ; i ++ ) {
+		// Intentional construct, because of NaN
+		if ( ! ( args[ i ] !== args[ i + 1 ] ) ) { return false ; }
+	}
+
+	return true ;
+} ;
+exports['!='].mode = mode.MULTI_OP ;
+exports['!='].jsOp = '!==' ;
+
+// Around, almost equal to, with a factor
+exports.around = exports['≈'] = exports['%='] = ( left , right , maxRate ) => {
+	if ( left === right ) { return true ; }
+
+	if (
+		typeof left !== 'number' ||
+		typeof right !== 'number' ||
+		typeof maxRate !== 'number' ||
+		! ( left * right > 0 )		// to catch NaN...
+	) {
+		return false ;
+	}
+
+	if ( maxRate < 1 ) { maxRate = 1 / maxRate ; }
+
+	var deltaRate = left / right ;
+	if ( deltaRate < 1 ) { deltaRate = 1 / deltaRate ; }
+
+	return deltaRate <= maxRate ;
+} ;
+exports['%='].mode = mode.SINGLE_OP_AFTER ;
+exports['%='].jsFn = 'around' ;
+
+
+// Logical operators
+
+exports.not = exports['!'] = arg => ! arg ;
+exports['!'].mode = mode.SINGLE_OP_BEFORE ;
+exports['!'].jsOp = '!' ;
+
+exports.and = ( ... args ) => {
+	var i = 1 , iMax = args.length , v = args[ 0 ] ;
+	for ( ; v && i < iMax ; i ++ ) { v = v && args[ i ] ; }
+	return !! v ;
+} ;
+exports.and.mode = mode.MULTI_OP ;
+
+exports.or = ( ... args ) => {
+	var i = 1 , iMax = args.length , v = args[ 0 ] ;
+	for ( ; ! v && i < iMax ; i ++ ) { v = v || args[ i ] ; }
+	return !! v ;
+} ;
+exports.or.mode = mode.MULTI_OP ;
+
+/* Iterative XOR variant
+exports.xor = function xor( args )
+{
+	var i = 1 , iMax = args.length , v = !! args[ 0 ] ;
+	for ( ; i < iMax ; i ++ ) { v ^= !! args[ i ] ; }
+	return !! v ;
+} ;
+//*/
+
+//* True exclusive XOR variant
+exports.xor = ( ... args ) => {
+	var i = 0 , iMax = args.length , trueCount = 0 ;
+	for ( ; trueCount <= 1 && i < iMax ; i ++ ) { trueCount += args[ i ] && 1 || 0 ; }
+	return trueCount === 1 ;
+} ;
+//*/
+exports.xor.mode = mode.MULTI_OP ;
+
+// Guard operator
+exports.guard = exports['&&'] = ( ... args ) => {
+	var i = 1 , iMax = args.length , v = args[ 0 ] ;
+	for ( ; v && i < iMax ; i ++ ) { v = v && args[ i ] ; }
+	return v ;
+} ;
+exports['&&'].mode = mode.MULTI_OP ;
+exports['&&'].jsOp = '&&' ;
+
+// Default operator
+exports.default = exports['||'] = ( ... args ) => {
+	var i = 1 , iMax = args.length , v = args[ 0 ] ;
+	for ( ; ! v && i < iMax ; i ++ ) { v = v || args[ i ] ; }
+	return v ;
+} ;
+exports['||'].mode = mode.MULTI_OP ;
+exports['||'].jsOp = '||' ;
+
+// Ternary
+exports['?'] = ( condition , trueExpr = true , falseExpr = false ) => condition ? trueExpr : falseExpr ;
+exports['?'].mode = mode.SINGLE_OP_AFTER ;
+exports['?'].jsSpecial = 'ternary' ;
+
+// Null-coalescing
+exports['??'] = ( value , defaultExpr = false ) => value != null ? value : defaultExpr ;	/* eslint-disable-line eqeqeq */
+exports['??'].mode = mode.SINGLE_OP_AFTER ;
+
+// Three-way operator
+exports.threeWay = exports['???'] = ( evaluation , negativeExpr , equalExpr , positiveExpr ) => {
+	if ( evaluation < 0 ) { return negativeExpr ; }
+	else if ( evaluation > 0 ) { return positiveExpr ; }
+	return equalExpr ;
+} ;
+exports['???'].mode = mode.SINGLE_OP_AFTER ;
+exports['???'].jsFn = 'threeWay' ;
+
+
+// Cast
+
+exports.int = ( value ) => {
+	value = Math.round( + value ) ;
+	if ( isFinite( value ) ) { return value ; }
+	return NaN ;
+} ;
+exports.int.mode = mode.SINGLE_OP_BEFORE ;
+
+exports.float = ( value ) => + value ;
+exports.float.mode = mode.SINGLE_OP_BEFORE ;
+
+exports.string = ( value ) => '' + value ;
+exports.string.mode = mode.SINGLE_OP_BEFORE ;
+
+// Rounding
+
+exports.round = ( value , step = 1 ) => {
+	if ( step === 1 ) { return Math.round( value ) ; }
+	// use: value * ( 1 / step )
+	// not: value / step
+	// reason: epsilon rounding errors
+	return step * Math.round( value * ( 1 / step ) ) ;
+} ;
+exports.round.mode = mode.FN ;
+
+exports.floor = ( value , step = 1 ) => {
+	if ( step === 1 ) { return Math.floor( value ) ; }
+	// use: value * ( 1 / step )
+	// not: value / step
+	// reason: epsilon rounding errors
+	return step * Math.floor( value * ( 1 / step ) ) ;
+} ;
+exports.floor.mode = mode.FN ;
+
+exports.ceil = ( value , step = 1 ) => {
+	if ( step === 1 ) { return Math.ceil( value ) ; }
+	// use: value * ( 1 / step )
+	// not: value / step
+	// reason: epsilon rounding errors
+	return step * Math.ceil( value * ( 1 / step ) ) ;
+} ;
+exports.ceil.mode = mode.FN ;
+
+exports.trunc = ( value , step = 1 ) => {
+	if ( step === 1 ) { return Math.trunc( value ) ; }
+	// use: value * ( 1 / step )
+	// not: value / step
+	// reason: epsilon rounding errors
+	return step * Math.trunc( value * ( 1 / step ) ) ;
+} ;
+exports.trunc.mode = mode.FN ;
+
+
+// Various math functions
+
+batchOfNativeStatic( Math , 'Math' , [
+	'sign' , 'abs' ,
+	'max' , 'min' ,
+	'pow' , 'exp' ,
+	'sqrt' , 'cbrt' ,
+	'log' , 'log2' , 'log10' ,
+	'cos' , 'sin' , 'tan' , 'acos' , 'asin' , 'atan' , 'atan2' , 'cosh' , 'sinh' , 'tanh' , 'acosh' , 'asinh' , 'atanh' ,
+	'hypot'
+] ) ;
+
+// Aliases of native static function
+exports['^'] = exports.pow ;
+
+exports.avg = ( ... args ) => args.reduce( ( s , e ) => s + e , 0 ) / args.length ;
+exports.avg.mode = mode.FN ;
+
+
+// Around/almost equal to: sort of equal, with a delta error rate
+
+// String operators
+
+// Strcat
+exports.strcat = exports['..'] = ( ... args ) => args.join( '' ) ;
+exports['..'].mode = mode.MULTI_OP ;
+exports['..'].jsOp = '+' ;
+
+batchOfNativeStringMethod( mode.SINGLE_OP_AFTER , true , [
+	'startsWith' , 'endsWith' , 'includes'
+] ) ;
+
+batchOfNativeStringMethod( mode.SINGLE_OP , true , [
+	'indexOf' , 'lastIndexOf' , 'padStart' , 'padEnd' , 'slice'
+] ) ;
+
+batchOfNativeStringMethod( mode.FN , true , [
+	'trim' , 'trimStart' , 'trimEnd' , 'toLowerCase' , 'toUpperCase'
+] ) ;
+
+// Aliases of native methods
+exports.ltrim = exports['trim-start'] ;
+exports.rtrim = exports['trim-end'] ;
+
+// Trim also extra inner spaces
+exports.itrim = ( str ) => ( '' + str ).trim().replace( /  +/g , ' ' ) ;
+exports.itrim.mode = mode.FN ;
+
+
+
+// Array operators
+
+exports.array = ( ... args ) => args ;
+exports.array.mode = mode.LIST ;
+
+exports.concat = ( ... args ) => Array.prototype.concat.call( EMPTY_ARRAY , ... args ) ;
+exports.concat.mode = mode.FN ;
+
+exports.join = ( array , glue ) => {
+	if ( ! Array.isArray( array ) ) { return array ; }
+	return array.join( typeof glue === 'string' ? glue : '' ) ;
+} ;
+exports.join.mode = mode.FN ;
+
+
+// Object operators
+
+//exports[':'] =
+exports.object = ( ... args ) => Object.fromEntries( args ) ;
+exports.object.mode = mode.KV ;
+
+
+
+// Type checker operators
+
+exports['is-set?'] = ( value , trueExpr = true , falseExpr = false ) => value !== undefined ? trueExpr : falseExpr ;
+exports['is-set?'].mode = mode.SINGLE_OP_AFTER ;
+
+exports['is-boolean?'] = ( value , trueExpr = true , falseExpr = false ) => typeof value === 'boolean' ? trueExpr : falseExpr ;
+exports['is-boolean?'].mode = mode.SINGLE_OP_AFTER ;
+
+exports['is-number?'] = ( value , trueExpr = true , falseExpr = false ) => typeof value === 'number' ? trueExpr : falseExpr ;
+exports['is-number?'].mode = mode.SINGLE_OP_AFTER ;
+
+exports['is-string?'] = ( value , trueExpr = true , falseExpr = false ) => typeof value === 'string' ? trueExpr : falseExpr ;
+exports['is-string?'].mode = mode.SINGLE_OP_AFTER ;
+
+exports['is-array?'] = ( value , trueExpr = true , falseExpr = false ) => Array.isArray( value ) ? trueExpr : falseExpr ;
+exports['is-array?'].mode = mode.SINGLE_OP_AFTER ;
+
+exports['is-object?'] = ( value , trueExpr = true , falseExpr = false ) => value && typeof value === 'object' && ! Array.isArray( value ) ? trueExpr : falseExpr ;
+exports['is-object?'].mode = mode.SINGLE_OP_AFTER ;
+
+exports['is-real?'] = ( value , trueExpr = true , falseExpr = false ) =>
+	typeof value === 'number' && ! Number.isNaN( value ) && value !== Infinity && value !== -Infinity ? trueExpr : falseExpr ;
+exports['is-real?'].mode = mode.SINGLE_OP_AFTER ;
+
+exports['is-empty?'] = ( value , trueExpr = true , falseExpr = false ) => {
+	var proto ;
+
+	return ! value ? trueExpr :
+		typeof value !== 'object' ? falseExpr :
+		value.length === 0 ? trueExpr :
+		value.size === 0 ? trueExpr :
+		( proto = Object.getPrototypeOf( value ) ) === Object.prototype && Object.keys( value ).length === 0 ? trueExpr :
+		proto === null && Object.keys( value ).length === 0 ? trueExpr :
+		falseExpr ;
+} ;
+exports['is-empty?'].mode = mode.SINGLE_OP_AFTER ;
+
+exports['is-not-empty?'] = ( value , trueExpr = true , falseExpr = false ) => {
+	var proto ;
+
+	return ! value ? falseExpr :
+		typeof value !== 'object' ? trueExpr :
+		value.length === 0 ? falseExpr :
+		value.size === 0 ? falseExpr :
+		( proto = Object.getPrototypeOf( value ) ) === Object.prototype && Object.keys( value ).length === 0 ? falseExpr :
+		proto === null && Object.keys( value ).length === 0 ? falseExpr :
+		trueExpr ;
+} ;
+exports['is-not-empty?'].mode = mode.SINGLE_OP_AFTER ;
+
+
+// Misc operators
+
+exports.has = ( stack , searchValue ) => {
+	if ( ! stack || typeof stack !== 'object' ) { return false ; }
+	else if ( Array.isArray( stack ) ) { return stack.includes( searchValue ) ; }
+	else if ( typeof stack.has === 'function' ) { return !! stack.has( searchValue ) ; }
+	return false ;
+} ;
+exports.has.mode = mode.SINGLE_OP_AFTER ;
+
+
+
+// Navigation operator
+exports['.'] = ( pointer , ... args ) => {
+	for ( let i = 0 , iMax = args.length ; i < iMax ; i ++ ) {
+		if ( ! pointer || typeof pointer !== 'object' ) { return undefined ; }
+		pointer = pointer[ args[ i ] ] ;
+	}
+
+	return pointer ;
+} ;
+exports['.'].mode = mode.MULTI_OP ;
+exports['.'].jsSpecial = 'navigation' ;
+
+
+
+// Spread operator
+exports['...'] = arg => {
+	if ( Array.isArray( arg ) ) {
+		// Transform an array to a Stack
+		return new Stack( ... arg ) ;
+	}
+
+	if ( arg && typeof arg === 'object' ) {
+		// Transform an object to a Stack of ObjectEntry
+		return new Stack( ... Object.entries( arg ).map( e => new ObjectEntry( ... e ) ) ) ;
+	}
+
+	return arg ;
+} ;
+exports['...'].mode = mode.SINGLE_OP_BEFORE ;
+exports['...'].jsSpecial = 'spread' ;
+
+
+
+// Apply operator
+exports['->'] = ( fn , ... args ) => {
+	if ( typeof fn !== 'function' ) { throw new SyntaxError( 'The apply operator needs a function as its left-hand-side operand' ) ; }
+	return fn( ... args ) ;
+} ;
+exports['->'].boundFirst = true ;	// We need to bound the function, which is the first argument
+exports['->'].mode = mode.SINGLE_OP_AFTER ;
+exports['->'].jsSpecial = 'call' ;
+
+
+
+// The function itself should know its identifier
+for ( let key in exports ) {
+	if ( ! exports[ key ].id ) { exports[ key ].id = key ; }
+}
+
+
+},{"./ObjectEntry.js":20,"./Stack.js":21,"./mode.js":23}],23:[function(require,module,exports){
+/*
+	Kung Fig Expression
+
+	Copyright (c) 2015 - 2020 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+exports.FN = 0 ;
+exports.SINGLE_OP = 1 ;
+exports.MULTI_OP = 2 ;
+exports.SINGLE_OP_BEFORE = 3 ;
+exports.SINGLE_OP_AFTER = 4 ;
+exports.LIST = 5 ;
+exports.KV = 6 ;
+
+
+},{}],24:[function(require,module,exports){
 (function (process,global,setImmediate){
 /*
 	Next-Gen Events
@@ -6610,7 +7370,7 @@ NextGenEvents.Proxy = require( './Proxy.js' ) ;
 
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"../package.json":22,"./Proxy.js":20,"_process":23,"timers":57}],20:[function(require,module,exports){
+},{"../package.json":27,"./Proxy.js":25,"_process":28,"timers":65}],25:[function(require,module,exports){
 /*
 	Next-Gen Events
 
@@ -7157,7 +7917,7 @@ RemoteService.prototype.receiveAckEmit = function( message ) {
 } ;
 
 
-},{"./NextGenEvents.js":19}],21:[function(require,module,exports){
+},{"./NextGenEvents.js":24}],26:[function(require,module,exports){
 (function (process){
 /*
 	Next-Gen Events
@@ -7203,9 +7963,9 @@ module.exports.isBrowser = true ;
 
 
 }).call(this,require('_process'))
-},{"./NextGenEvents.js":19,"_process":23}],22:[function(require,module,exports){
+},{"./NextGenEvents.js":24,"_process":28}],27:[function(require,module,exports){
 module.exports={
-  "_from": "nextgen-events@^1.3.3",
+  "_from": "nextgen-events@^1.3.0",
   "_id": "nextgen-events@1.3.3",
   "_inBundle": false,
   "_integrity": "sha512-5h9U7had+Q+a95Rwgu4JL6otqXs3y4474g7ruQtd8TAsoG6ycvjccnuLxhXEv32/HOKTC09K+HkbFaITIexLkg==",
@@ -7214,21 +7974,22 @@ module.exports={
   "_requested": {
     "type": "range",
     "registry": true,
-    "raw": "nextgen-events@^1.3.3",
+    "raw": "nextgen-events@^1.3.0",
     "name": "nextgen-events",
     "escapedName": "nextgen-events",
-    "rawSpec": "^1.3.3",
+    "rawSpec": "^1.3.0",
     "saveSpec": null,
-    "fetchSpec": "^1.3.3"
+    "fetchSpec": "^1.3.0"
   },
   "_requiredBy": [
+    "#USER",
     "/",
     "/terminal-kit",
     "/utterminal/terminal-kit"
   ],
   "_resolved": "https://registry.npmjs.org/nextgen-events/-/nextgen-events-1.3.3.tgz",
   "_shasum": "3023cdf4299771918d6be1ad5f6049ca6b4d907d",
-  "_spec": "nextgen-events@^1.3.3",
+  "_spec": "nextgen-events@^1.3.0",
   "_where": "/home/cedric/inside/github/spellcast-ext-web-client",
   "author": {
     "name": "Cédric Ronvel"
@@ -7292,7 +8053,7 @@ module.exports={
   "version": "1.3.3"
 }
 
-},{}],23:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -7478,7 +8239,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],24:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 (function (global){
 /*! https://mths.be/punycode v1.4.1 by @mathias */
 ;(function(root) {
@@ -8015,7 +8776,7 @@ process.umask = function() { return 0; };
 }(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],25:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -8101,7 +8862,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],26:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -8188,13 +8949,13 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],27:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":25,"./encode":26}],28:[function(require,module,exports){
+},{"./decode":30,"./encode":31}],33:[function(require,module,exports){
 (function (process,global){
 (function (global, undefined) {
     "use strict";
@@ -8384,7 +9145,7 @@ exports.encode = exports.stringify = require('./encode');
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":23}],29:[function(require,module,exports){
+},{"_process":28}],34:[function(require,module,exports){
 /*
 	Seventh
 
@@ -8468,7 +9229,7 @@ Promise.promisifyAnyNodeApi = ( api , suffix , multiSuffix , filter ) => {
 
 
 
-},{"./seventh.js":35}],30:[function(require,module,exports){
+},{"./seventh.js":40}],35:[function(require,module,exports){
 /*
 	Seventh
 
@@ -9077,7 +9838,7 @@ Promise.race = ( iterable ) => {
 } ;
 
 
-},{"./seventh.js":35}],31:[function(require,module,exports){
+},{"./seventh.js":40}],36:[function(require,module,exports){
 (function (process,global,setImmediate){
 /*
 	Seventh
@@ -9836,7 +10597,7 @@ if ( process.browser ) {
 
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"_process":23,"setimmediate":28,"timers":57}],32:[function(require,module,exports){
+},{"_process":28,"setimmediate":33,"timers":65}],37:[function(require,module,exports){
 /*
 	Seventh
 
@@ -10342,7 +11103,7 @@ Promise.variableRetry = ( asyncFn , thisBinding ) => {
 */
 
 
-},{"./seventh.js":35}],33:[function(require,module,exports){
+},{"./seventh.js":40}],38:[function(require,module,exports){
 (function (process){
 /*
 	Seventh
@@ -10442,7 +11203,7 @@ Promise.resolveSafeTimeout = function( timeout , value ) {
 
 
 }).call(this,require('_process'))
-},{"./seventh.js":35,"_process":23}],34:[function(require,module,exports){
+},{"./seventh.js":40,"_process":28}],39:[function(require,module,exports){
 /*
 	Seventh
 
@@ -10494,7 +11255,7 @@ Promise.parasite = () => {
 } ;
 
 
-},{"./seventh.js":35}],35:[function(require,module,exports){
+},{"./seventh.js":40}],40:[function(require,module,exports){
 /*
 	Seventh
 
@@ -10537,7 +11298,7 @@ require( './parasite.js' ) ;
 require( './misc.js' ) ;
 
 
-},{"./api.js":29,"./batch.js":30,"./core.js":31,"./decorators.js":32,"./misc.js":33,"./parasite.js":34,"./wrapper.js":36}],36:[function(require,module,exports){
+},{"./api.js":34,"./batch.js":35,"./core.js":36,"./decorators.js":37,"./misc.js":38,"./parasite.js":39,"./wrapper.js":41}],41:[function(require,module,exports){
 /*
 	Seventh
 
@@ -10702,7 +11463,183 @@ Promise.onceEventAllOrError = ( emitter , eventName , excludeEvents ) => {
 } ;
 
 
-},{"./seventh.js":35}],37:[function(require,module,exports){
+},{"./seventh.js":40}],42:[function(require,module,exports){
+/*
+	Spellcast - shared utilities
+
+	Copyright (c) 2020 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+/*
+	KFG Expression custom operators that are shared with the client:
+	- operators that does not requires dependencies
+	- operators useful for the client, like gfx parametric animations, so mostly simple math operators
+*/
+
+
+
+const getNamedParameters = require( 'kung-fig-expression/lib/getNamedParameters.js' ) ;
+
+
+
+/*
+	Rebased power
+
+	syntax: base ^° exp [rebase]
+	formula: rebase * ( base / rebase ) ^ exp
+	rebase default value: 10
+*/
+exports['^°'] = ( base , exponent , rebase = 10 ) => rebase * Math.pow( base / rebase , exponent ) ;
+
+
+
+// Return an array of dot coordinate, dot are spreaded around 0,0
+// It uses the sunflower model, with r=sqrt(n) and a=goldenAngle*n
+const GOLDEN_ANGLE = 2 * Math.PI * ( 1 - ( ( 1 + Math.sqrt( 5 ) ) / 2 - 1 ) ) ;
+const SUNFLOWER_SPREAD_MAPPING = [ 'n' , 'distance' , 'x-offset' , 'y-offset' , 'order-by' , 'farthest-angle-deg' ] ;
+exports['sunflower-spread'] = ( ... args ) => {
+	var params = getNamedParameters( args , SUNFLOWER_SPREAD_MAPPING , {
+		n: 0 ,
+		distance: 1 ,
+		'x-offset': 0 ,
+		'y-offset': 0 ,
+		'order-by': null
+	} ) ;
+
+	var r , angle , i , baseAngle ,
+		output = [] ;
+
+	if ( typeof params['farthest-angle-deg'] === 'number' ) {
+		baseAngle = params['farthest-angle-deg'] * Math.PI / 180 - ( params.n - 1 ) * GOLDEN_ANGLE ;
+	}
+	else {
+		baseAngle = Math.random() * 2 * Math.PI ;
+	}
+
+	r = params.distance ;
+	output.push( {
+		x: params['x-offset'] + r * Math.cos( baseAngle ) ,
+		y: params['y-offset'] + r * Math.sin( baseAngle )
+	} ) ;
+
+	for ( i = 1 ; i < params.n ; i ++ ) {
+		angle = baseAngle + i * GOLDEN_ANGLE ;
+		r = params.distance * Math.sqrt( i ) ;
+		output.push( {
+			x: params['x-offset'] + r * Math.cos( angle ) ,
+			y: params['y-offset'] + r * Math.sin( angle )
+		} ) ;
+	}
+
+	if ( ! params['order-by'] ) { return output ; }
+
+	var lastDot = output[ output.length - 1 ] ;
+
+	switch ( params['order-by'] ) {
+		case 'distance-from-farthest' :
+			// Try to order dot with the dot closest to the last dot last
+			lastDot.delta = 0 ;
+
+			for ( i = output.length - 2 ; i >= 0 ; i -- ) {
+				output[ i ].delta = Math.sqrt( ( output[ i ].x - lastDot.x ) ** 2 + ( output[ i ].y - lastDot.y ) ** 2 ) ;
+			}
+
+			output.sort( ( a , b ) => b.delta - a.delta ) ;
+			break ;
+	}
+
+	return output ;
+} ;
+
+
+},{"kung-fig-expression/lib/getNamedParameters.js":44}],43:[function(require,module,exports){
+arguments[4][20][0].apply(exports,arguments)
+},{"dup":20}],44:[function(require,module,exports){
+/*
+	Kung Fig Expression
+
+	Copyright (c) 2015 - 2020 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const ObjectEntry = require( './ObjectEntry.js' ) ;
+
+
+
+// .getNamedParameters( parameters, paramToNamedMapping , defaultNamedParameters )
+module.exports = ( params , mapping , named = {} ) => {
+	var firstNamed = null ;
+
+	params.forEach( ( element , index ) => {
+		if ( element instanceof ObjectEntry ) {
+			if ( firstNamed === null ) { firstNamed = index ; }
+			named[ element[ 0 ] ] = element[ 1 ] ;
+		}
+	} ) ;
+
+	// Regular parameter MUST comes before the first named
+	if ( firstNamed !== null ) { params.length = firstNamed ; }
+
+	if ( mapping ) {
+		for ( let i = 0 , iMax = Math.min( params.length , mapping.length ) ; i < iMax ; i ++ ) {
+			named[ mapping[ i ] ] = params[ i ] ;
+		}
+
+		params.length = 0 ;
+	}
+
+	return named ;
+} ;
+
+
+},{"./ObjectEntry.js":43}],45:[function(require,module,exports){
 /*
 	String Kit
 
@@ -10784,7 +11721,7 @@ module.exports = {
 } ;
 
 
-},{}],38:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 /*
 	String Kit
 
@@ -10889,7 +11826,7 @@ exports.unicodePercentEncode = str => str.replace( /[\x00-\x1f\u0100-\uffff\x7f%
 exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
 
 
-},{}],39:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 (function (Buffer){
 /*
 	String Kit
@@ -11890,7 +12827,7 @@ function iround( v , istep ) {
 
 
 }).call(this,require("buffer").Buffer)
-},{"./ansi.js":37,"./escape.js":38,"./inspect.js":40,"./naturalSort.js":41,"./unicode.js":42,"buffer":15}],40:[function(require,module,exports){
+},{"./ansi.js":45,"./escape.js":46,"./inspect.js":48,"./naturalSort.js":49,"./unicode.js":50,"buffer":16}],48:[function(require,module,exports){
 (function (Buffer,process){
 /*
 	String Kit
@@ -12587,7 +13524,7 @@ inspectStyle.html = Object.assign( {} , inspectStyle.none , {
 
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")},require('_process'))
-},{"../../is-buffer/index.js":18,"./ansi.js":37,"./escape.js":38,"_process":23}],41:[function(require,module,exports){
+},{"../../is-buffer/index.js":19,"./ansi.js":45,"./escape.js":46,"_process":28}],49:[function(require,module,exports){
 /*
 	HTTP Requester
 
@@ -12673,7 +13610,7 @@ module.exports = function( a , b ) {
 } ;
 
 
-},{}],42:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 /*
 	String Kit
 
@@ -13084,7 +14021,7 @@ unicode.toFullWidth = str => {
 } ;
 
 
-},{}],43:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13204,7 +14141,7 @@ VG.prototype.addCssRule = function( rule ) {
 } ;
 
 
-},{"../package.json":56,"./VGContainer.js":44,"./svg-kit.js":52}],44:[function(require,module,exports){
+},{"../package.json":64,"./VGContainer.js":52,"./svg-kit.js":60}],52:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13325,7 +14262,7 @@ VGContainer.prototype.morphDom = function( root = this ) {
 } ;
 
 
-},{"../package.json":56,"./VGEntity.js":46,"./svg-kit.js":52}],45:[function(require,module,exports){
+},{"../package.json":64,"./VGEntity.js":54,"./svg-kit.js":60}],53:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13410,7 +14347,7 @@ VGEllipse.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":56,"./VGEntity.js":46}],46:[function(require,module,exports){
+},{"../package.json":64,"./VGEntity.js":54}],54:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13795,7 +14732,7 @@ VGEntity.prototype.morphOneEntryDom = function( data , root = this ) {
 } ;
 
 
-},{"../package.json":56,"string-kit/lib/camel":54,"string-kit/lib/escape":55}],47:[function(require,module,exports){
+},{"../package.json":64,"string-kit/lib/camel":62,"string-kit/lib/escape":63}],55:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -13852,7 +14789,7 @@ VGGroup.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":56,"./VGContainer.js":44,"./svg-kit.js":52}],48:[function(require,module,exports){
+},{"../package.json":64,"./VGContainer.js":52,"./svg-kit.js":60}],56:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -14519,7 +15456,7 @@ VGPath.prototype.forwardNegativeTurn = function( data ) {
 } ;
 
 
-},{"../package.json":56,"./VGEntity.js":46}],49:[function(require,module,exports){
+},{"../package.json":64,"./VGEntity.js":54}],57:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -14610,7 +15547,7 @@ VGRect.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":56,"./VGEntity.js":46}],50:[function(require,module,exports){
+},{"../package.json":64,"./VGEntity.js":54}],58:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -14722,7 +15659,7 @@ VGText.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":56,"./VGEntity.js":46}],51:[function(require,module,exports){
+},{"../package.json":64,"./VGEntity.js":54}],59:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -14770,7 +15707,7 @@ path.dFromPoints = ( points , invertY ) => {
 } ;
 
 
-},{}],52:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 (function (process){
 /*
 	SVG Kit
@@ -15248,7 +16185,7 @@ svgKit.objectToVG = function( object ) {
 
 
 }).call(this,require('_process'))
-},{"./VG.js":43,"./VGContainer.js":44,"./VGEllipse.js":45,"./VGEntity.js":46,"./VGGroup.js":47,"./VGPath.js":48,"./VGRect.js":49,"./VGText.js":50,"./path.js":51,"_process":23,"dom-kit":53,"fs":15,"seventh":35,"string-kit/lib/escape.js":55}],53:[function(require,module,exports){
+},{"./VG.js":51,"./VGContainer.js":52,"./VGEllipse.js":53,"./VGEntity.js":54,"./VGGroup.js":55,"./VGPath.js":56,"./VGRect.js":57,"./VGText.js":58,"./path.js":59,"_process":28,"dom-kit":61,"fs":16,"seventh":40,"string-kit/lib/escape.js":63}],61:[function(require,module,exports){
 (function (process){
 /*
 	Dom Kit
@@ -15836,7 +16773,7 @@ domKit.html = function( $element , html ) { $element.innerHTML = html ; } ;
 
 
 }).call(this,require('_process'))
-},{"@cronvel/xmldom":15,"_process":23}],54:[function(require,module,exports){
+},{"@cronvel/xmldom":16,"_process":28}],62:[function(require,module,exports){
 /*
 	String Kit
 
@@ -15910,11 +16847,11 @@ camel.camelCaseToDash =
 camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' ) ;
 
 
-},{}],55:[function(require,module,exports){
-arguments[4][38][0].apply(exports,arguments)
-},{"dup":38}],56:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
+arguments[4][46][0].apply(exports,arguments)
+},{"dup":46}],64:[function(require,module,exports){
 module.exports={
-  "_from": "svg-kit@0.3.0",
+  "_from": "svg-kit@^0.3.0",
   "_id": "svg-kit@0.3.0",
   "_inBundle": false,
   "_integrity": "sha512-+lqQ8WQp8UD1BlNBeVOawBKpXCBCqdwnEfRiWxG7vI3NBmZ9CBPN/eMmMt2OpJRU8UcZUOrarAjiZV3dZsqWtA==",
@@ -15923,22 +16860,21 @@ module.exports={
     "@cronvel/xmldom": "0.1.31"
   },
   "_requested": {
-    "type": "version",
+    "type": "range",
     "registry": true,
-    "raw": "svg-kit@0.3.0",
+    "raw": "svg-kit@^0.3.0",
     "name": "svg-kit",
     "escapedName": "svg-kit",
-    "rawSpec": "0.3.0",
+    "rawSpec": "^0.3.0",
     "saveSpec": null,
-    "fetchSpec": "0.3.0"
+    "fetchSpec": "^0.3.0"
   },
   "_requiredBy": [
-    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/svg-kit/-/svg-kit-0.3.0.tgz",
   "_shasum": "a53aadb7152cf7374e2a791b9d45b7cc6d0fe25d",
-  "_spec": "svg-kit@0.3.0",
+  "_spec": "svg-kit@^0.3.0",
   "_where": "/home/cedric/inside/github/spellcast-ext-web-client",
   "author": {
     "name": "Cédric Ronvel"
@@ -15989,7 +16925,7 @@ module.exports={
   "version": "0.3.0"
 }
 
-},{}],57:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 (function (setImmediate,clearImmediate){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -16068,7 +17004,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":23,"timers":57}],58:[function(require,module,exports){
+},{"process/browser.js":28,"timers":65}],66:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -16802,7 +17738,7 @@ Url.prototype.parseHost = function() {
   if (host) this.hostname = host;
 };
 
-},{"./util":59,"punycode":24,"querystring":27}],59:[function(require,module,exports){
+},{"./util":67,"punycode":29,"querystring":32}],67:[function(require,module,exports){
 'use strict';
 
 module.exports = {

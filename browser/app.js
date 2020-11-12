@@ -2473,9 +2473,12 @@ const svgKit = require( 'svg-kit' ) ;
 
 // !THIS SHOULD TRACK SERVER-SIDE GEntity! spellcast/lib/gfx/GEntity.js
 function GEntity( dom , gScene , data ) {
-	this.dom = dom ;	// Dom instance, immutable
+	this.id = data.id || null ;
+	this.dom = dom ;    // Dom instance, immutable
 	this.gScene = gScene ;
-	this.usage = data.usage || 'sprite' ;	// immutable
+	this.usage = data.usage || 'sprite' ;   // immutable
+	this.transient = data.transient || undefined ;  // immutable
+	this.parent = undefined ;   // immutable, set later in the constructor
 
 	this.show = false ;
 	this.persistent = true ;
@@ -8030,7 +8033,7 @@ module.exports.isBrowser = true ;
 }).call(this,require('_process'))
 },{"./NextGenEvents.js":25,"_process":29}],28:[function(require,module,exports){
 module.exports={
-  "_from": "nextgen-events@^1.3.0",
+  "_from": "nextgen-events@^1.3.3",
   "_id": "nextgen-events@1.3.3",
   "_inBundle": false,
   "_integrity": "sha512-5h9U7had+Q+a95Rwgu4JL6otqXs3y4474g7ruQtd8TAsoG6ycvjccnuLxhXEv32/HOKTC09K+HkbFaITIexLkg==",
@@ -8039,22 +8042,21 @@ module.exports={
   "_requested": {
     "type": "range",
     "registry": true,
-    "raw": "nextgen-events@^1.3.0",
+    "raw": "nextgen-events@^1.3.3",
     "name": "nextgen-events",
     "escapedName": "nextgen-events",
-    "rawSpec": "^1.3.0",
+    "rawSpec": "^1.3.3",
     "saveSpec": null,
-    "fetchSpec": "^1.3.0"
+    "fetchSpec": "^1.3.3"
   },
   "_requiredBy": [
-    "#USER",
     "/",
     "/terminal-kit",
     "/utterminal/terminal-kit"
   ],
   "_resolved": "https://registry.npmjs.org/nextgen-events/-/nextgen-events-1.3.3.tgz",
   "_shasum": "3023cdf4299771918d6be1ad5f6049ca6b4d907d",
-  "_spec": "nextgen-events@^1.3.0",
+  "_spec": "nextgen-events@^1.3.3",
   "_where": "/home/cedric/inside/github/spellcast-ext-web-client",
   "author": {
     "name": "Cédric Ronvel"
@@ -17014,7 +17016,7 @@ camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' ) ;
 arguments[4][45][0].apply(exports,arguments)
 },{"dup":45}],63:[function(require,module,exports){
 module.exports={
-  "_from": "svg-kit@^0.3.0",
+  "_from": "svg-kit@0.3.0",
   "_id": "svg-kit@0.3.0",
   "_inBundle": false,
   "_integrity": "sha512-+lqQ8WQp8UD1BlNBeVOawBKpXCBCqdwnEfRiWxG7vI3NBmZ9CBPN/eMmMt2OpJRU8UcZUOrarAjiZV3dZsqWtA==",
@@ -17023,21 +17025,22 @@ module.exports={
     "@cronvel/xmldom": "0.1.31"
   },
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "svg-kit@^0.3.0",
+    "raw": "svg-kit@0.3.0",
     "name": "svg-kit",
     "escapedName": "svg-kit",
-    "rawSpec": "^0.3.0",
+    "rawSpec": "0.3.0",
     "saveSpec": null,
-    "fetchSpec": "^0.3.0"
+    "fetchSpec": "0.3.0"
   },
   "_requiredBy": [
+    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/svg-kit/-/svg-kit-0.3.0.tgz",
   "_shasum": "a53aadb7152cf7374e2a791b9d45b7cc6d0fe25d",
-  "_spec": "svg-kit@^0.3.0",
+  "_spec": "svg-kit@0.3.0",
   "_where": "/home/cedric/inside/github/spellcast-ext-web-client",
   "author": {
     "name": "Cédric Ronvel"

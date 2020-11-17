@@ -5762,6 +5762,29 @@ exports.avg.mode = mode.FN ;
 exports.lerp = ( a , b , t ) => a + t * ( b - a ) ;
 exports.lerp.mode = mode.FN ;
 
+// Fourier series: fourier( t , period , [ weight1 , phase1 ] , [ weight2 , phase2 ] , ... )
+// If a number is found instead of an array, it is a weight without phase change.
+// If a phase is omitted, it uses the previous one.
+exports.fourier = ( t , period , ... args ) => {
+	var i , iMax , v = 0 , phase = 0 , weight ,
+		baseF = ( 2 * Math.PI ) / period ;
+
+	for ( i = 0 , iMax = args.length ; i < iMax ; i ++ ) {
+		if ( Array.isArray( args[ i ] ) ) {
+			weight = args[ i ][ 0 ] ;
+			if ( args[ i ][ 1 ] !== undefined ) { phase = args[ i ][ 1 ] ; }
+		}
+		else {
+			weight = args[ i ] ;
+		}
+
+		v += weight * Math.cos( ( i + 1 ) * baseF * t + phase ) ;
+	}
+
+	return v ;
+} ;
+exports.fourier.mode = mode.FN ;
+
 
 // Around/almost equal to: sort of equal, with a delta error rate
 

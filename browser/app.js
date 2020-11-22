@@ -43,7 +43,9 @@ function Camera( gScene ) {
 	this.mode = 'firstPerson' ;
 	this.position = { x: 0 , y: 0 , z: 10 } ;
 	this.target = { x: 0 , y: 0 , z: 0 } ;
-	this.rotation = { x: 0 , y: 0 , z: 0 , w: 1 } ;
+	this.rotation = {
+		x: 0 , y: 0 , z: 0 , w: 1
+	} ;
 	this.yaw = 0 ;
 	this.pitch = 0 ;
 	this.roll = 0 ;
@@ -73,7 +75,7 @@ Camera.prototype.update = function( data , awaiting = false ) {
 	if ( data.roll !== undefined ) { this.roll = data.roll || 0 ; }
 	if ( data.distance !== undefined ) { this.distance = data.distance || 0 ; }
 	if ( data.fov !== undefined ) { this.fov = data.fov || 90 ; }
-	
+
 	if ( data.perspective !== undefined ) {
 		this.perspective = data.perspective || null ;
 		// The perspective is relative to the viewport size
@@ -86,7 +88,7 @@ Camera.prototype.update = function( data , awaiting = false ) {
 
 	// perspective-origin changes have nasty bug and no transition (at least in FF 08/2020)
 	//this.gScene.$gscene.style.perspectiveOrigin = ( ( 1 + this.position.x ) * 50 ) + '%' + ( ( 1 + this.position.y ) * 50 ) + '%' ;
-	
+
 	return awaiting ? transitionPromise : Promise.resolved ;
 } ;
 
@@ -116,10 +118,10 @@ Camera.prototype.updateTransition = function( data , awaiting = false ) {
 
 		if ( awaiting ) {
 			promise = new Promise() ;
-			
+
 			// Whichever comes first, prevent from 'transitioncancel'
 			promise.resolveTimeout( 1000 * transition.duration + 20 ) ;
-			
+
 			this.gScene.$gscene.ontransitionend = () => {
 				this.gScene.$gscene.ontransitionend = null ;
 				promise.resolve() ;
@@ -212,7 +214,7 @@ function Dom() {
 	this.nextSoundChannel = 0 ;
 
 	this.gScenes = {} ;
-	
+
 	// Move it to GScene?
 	this.animations = {} ;
 
@@ -1389,12 +1391,12 @@ Dom.prototype.createGScene = function( gSceneId , data ) {
 	console.warn( "createGScene:" , data.engineId , engineLib.lib , engineLib.lib[ data.engineId ] && engineLib.lib[ data.engineId ].GScene ) ;
 	var GSceneClass = ( engineLib.lib[ data.engineId ] && engineLib.lib[ data.engineId ].GScene ) || GScene ;
 	var gScene = this.gScenes[ gSceneId ] = new GSceneClass( this , data ) ;
-	return gScene.update( data , true ) ;
+	return gScene.update( data , false , true ) ;
 } ;
 
 
 
-Dom.prototype.updateGScene = function( gSceneId , data ) {
+Dom.prototype.updateGScene = function( gSceneId , data , awaiting ) {
 	var gScene = this.gScenes[ gSceneId ] ;
 
 	if ( ! gScene ) {
@@ -1402,7 +1404,7 @@ Dom.prototype.updateGScene = function( gSceneId , data ) {
 		return Promise.resolved ;
 	}
 
-	return gScene.update( data ) ;
+	return gScene.update( data , awaiting ) ;
 } ;
 
 
@@ -1414,7 +1416,7 @@ Dom.prototype.clearGScene = function( gSceneId ) {
 		console.warn( 'Unknown GScene id: ' , gSceneId ) ;
 		return ;
 	}
-	
+
 	gScene.$gscene.remove() ;
 	delete this.gScenes[ gSceneId ] ;
 } ;
@@ -1835,7 +1837,7 @@ EventDispatcher.prototype.initBus = function() {
 	this.bus.on( 'music' , EventDispatcher.music.bind( this ) ) ;
 
 	this.bus.on( 'createGScene' , EventDispatcher.createGScene.bind( this ) ) ;
-	this.bus.on( 'updateGScene' , EventDispatcher.updateGScene.bind( this ) ) ;
+	this.bus.on( 'updateGScene' , EventDispatcher.updateGScene.bind( this ) , { async: true } ) ;
 	this.bus.on( 'clearGScene' , EventDispatcher.clearGScene.bind( this ) ) ;
 
 	this.bus.on( 'camera' , EventDispatcher.camera.bind( this ) , { async: true } ) ;
@@ -2290,9 +2292,9 @@ EventDispatcher.createGScene = function( gSceneId , data ) {
 
 
 
-EventDispatcher.updateGScene = function( gSceneId , data ) {
+EventDispatcher.updateGScene = function( gSceneId , data , awaiting , callback ) {
 	console.warn( "updateGScene" , gSceneId , data ) ;
-	this.dom.updateGScene( gSceneId , data ) ;	//.then( callback ) ;
+	this.dom.updateGScene( gSceneId , data , awaiting ).then( callback ) ;
 } ;
 
 
@@ -2496,6 +2498,7 @@ function GEntity( dom , gScene , data ) {
 	this.rotation = { x: 0 , y: 0 , z: 1 } ;
 	this.direction = { x: 1 , y: 0 , z: 0 } ;
 	this.facing = 0 ;
+	this.opacity = 1 ;
 
 
 	this.special = {} ;
@@ -2576,6 +2579,7 @@ GEntity.prototype.update = async function( data , awaiting = false , initial = f
 	// For instance, this engine does not care about facing direction, we just set it without doing anything
 	if ( data.direction !== undefined ) { this.direction = data.direction ; }
 	if ( data.facing !== undefined ) { this.facing = data.facing ; }
+	if ( data.opacity !== undefined ) { this.opacity = data.opacity ; }
 
 	if (
 		data.position !== undefined || data.positionMode !== undefined
@@ -2592,7 +2596,7 @@ GEntity.prototype.update = async function( data , awaiting = false , initial = f
 		// At creation, the visibility is turned off, now we need to turn it on again
 		this.$wrapper.style.visibility = 'visible' ;
 	}
-	
+
 	return awaiting ? transitionPromise : null ;
 } ;
 
@@ -2640,7 +2644,7 @@ GEntity.prototype.updateImage = function( url ) {
 	}
 
 	if ( url.endsWith( '.svg' ) ) { return this.updateVgImage( url ) ; }
-	
+
 	var promise = new Promise() ,
 		shouldAppend = ! this.$image ;
 
@@ -2673,7 +2677,7 @@ GEntity.prototype.updateVgImage = function( url ) {
 		console.warn( ".updateVgImage(): not a .svg file" ) ;
 		return Promise.resolved ;
 	}
-	
+
 	var promise = new Promise() ;
 
 	// Always wipe any existing $image element and pre-create the <svg> tag
@@ -2764,7 +2768,7 @@ GEntity.prototype.updateTransform = function( data ) {
 
 	areaWidth = this.gScene.$gscene.offsetWidth ;
 	areaHeight = this.gScene.$gscene.offsetHeight ;
-	
+
 	if ( this.$image.tagName.toLowerCase() === 'svg' ) {
 		// The SVG element is not a DOM HTML element, it does not have offsetWidth/offsetHeight.
 		//imageNaturalWidth = this.$image.width.baseVal.value ;
@@ -2778,7 +2782,9 @@ GEntity.prototype.updateTransform = function( data ) {
 		imageWidth = this.$image.offsetWidth ;
 		imageHeight = this.$image.offsetHeight ;
 	}
-	console.log( "dbg img:" , { areaWidth , areaHeight , imageWidth , imageHeight } ) ;
+	console.log( "dbg img:" , {
+		areaWidth , areaHeight , imageWidth , imageHeight
+	} ) ;
 
 
 	// Compute scaling -- should comes first for this to work!
@@ -2811,7 +2817,7 @@ GEntity.prototype.updateTransition = function( data , awaiting = false ) {
 		this.$wrapper.style.transition = 'none' ;
 		return promise ;
 	}
-	
+
 	var transition = new GTransition( data.transition ) ,
 		parts = [] ;
 
@@ -2843,7 +2849,7 @@ GEntity.prototype.updateTransition = function( data , awaiting = false ) {
 			} ;
 		}
 	}
-	
+
 	return promise ;
 } ;
 
@@ -3566,6 +3572,7 @@ function GScene( dom , data ) {
 	this.paused = false ;
 	this.persistent = false ;
 	this.theme = 'default' ;
+	this.special = {} ;
 	this.engine = {} ;
 	this.texturePacks = {} ;
 	this.gEntities = {} ;
@@ -3589,7 +3596,9 @@ module.exports = GScene ;
 
 
 // !THIS SHOULD TRACK SERVER-SIDE GScene! spellcast/lib/gfx/GScene.js
-GScene.prototype.update = function( data ) {
+GScene.prototype.update = function( data , awaiting = false , initial = false ) {
+	var transitionPromise = Promise.resolved ;
+
 	if ( data.active !== undefined ) {
 		this.active = !! data.active ;
 		this.$gscene.style.visibility = this.active ? 'visible' : 'hidden' ;
@@ -3600,6 +3609,21 @@ GScene.prototype.update = function( data ) {
 	//if ( data.roles !== undefined ) { this.roles = data.roles ; }
 	if ( data.theme !== undefined ) { this.theme = data.theme || 'default' ; }
 
+	if ( data.special && typeof data.special === 'object' ) {
+		eventData.special = {} ;
+
+		for ( let key in data.special ) {
+			eventData.special[ key ] = data.special[ key ] ;
+
+			if ( this.special[ key ] && typeof this.special[ key ] === 'object' ) {
+				Object.assign( this.special[ key ] , data.special[ key ] ) ;
+			}
+			else {
+				this.special[ key ] = data.special[ key ] ;
+			}
+		}
+	}
+
 	if ( data.engine && typeof data.engine === 'object' ) {
 		Object.assign( this.engine , data.engine ) ;
 	}
@@ -3607,7 +3631,7 @@ GScene.prototype.update = function( data ) {
 	if ( data.globalCamera !== undefined ) { this.globalCamera.update( data.globalCamera ) ; }
 
 	// For instance, there is no async code in GScene, but the API have to allow it
-	return Promise.resolved ;
+	return awaiting ? transitionPromise : Promise.resolved ;
 } ;
 
 
@@ -3621,7 +3645,7 @@ GScene.prototype.removeGEntity = function( gEntityId ) {
 	if ( ! gEntity ) { return false ; }
 
 	if ( gEntity.$locationSlot ) { gEntity.$locationSlot.remove() ; }
-    gEntity.$wrapper.remove() ;
+	gEntity.$wrapper.remove() ;
 
 	delete this.gEntities[ gEntityId ] ;
 	return true ;
@@ -3760,8 +3784,8 @@ TexturePack.Variant = Variant ;
 // !THIS SHOULD TRACK SERVER-SIDE TexturePack! spellcast/lib/gfx/TexturePack.js
 function Frame( data = {} ) {
 	this.url = data.url ;					// default image/texture URL (or diffuse/albedo map)
-    this.maps = data.maps || null ;         // null or object of URLs, like 'normal' or 'specular' for 3D engine, and so on
-    this.maskUrl = data.maskUrl || null ;   // /!\ SHOULD BE MOVED TO .maps /!\ only few type of engine+usage combo support mask, most of them relying on SVG
+	this.maps = data.maps || null ;         // null or object of URLs, like 'normal' or 'specular' for 3D engine, and so on
+	this.maskUrl = data.maskUrl || null ;   // /!\ SHOULD BE MOVED TO .maps /!\ only few type of engine+usage combo support mask, most of them relying on SVG
 	this.origin = data.origin || null ;		// the origin used for this image
 	this.duration = data.duration || 100 ;	// the duration of this frame in ms
 	this.xFlip = !! data.xFlip ;			// flip the image, +x and -x are flipped
@@ -5761,29 +5785,6 @@ exports.avg.mode = mode.FN ;
 // Linear interpolation, t should be [0;1]
 exports.lerp = ( a , b , t ) => a + t * ( b - a ) ;
 exports.lerp.mode = mode.FN ;
-
-// Fourier series: fourier( t , period , [ weight1 , phase1 ] , [ weight2 , phase2 ] , ... )
-// If a number is found instead of an array, it is a weight without phase change.
-// If a phase is omitted, it uses the previous one.
-exports.fourier = ( t , period , ... args ) => {
-	var i , iMax , v = 0 , phase = 0 , weight ,
-		baseF = ( 2 * Math.PI ) / period ;
-
-	for ( i = 0 , iMax = args.length ; i < iMax ; i ++ ) {
-		if ( Array.isArray( args[ i ] ) ) {
-			weight = args[ i ][ 0 ] ;
-			if ( args[ i ][ 1 ] !== undefined ) { phase = args[ i ][ 1 ] ; }
-		}
-		else {
-			weight = args[ i ] ;
-		}
-
-		v += weight * Math.cos( ( i + 1 ) * baseF * t + phase ) ;
-	}
-
-	return v ;
-} ;
-exports.fourier.mode = mode.FN ;
 
 
 // Around/almost equal to: sort of equal, with a delta error rate
@@ -8056,7 +8057,7 @@ module.exports.isBrowser = true ;
 }).call(this,require('_process'))
 },{"./NextGenEvents.js":25,"_process":29}],28:[function(require,module,exports){
 module.exports={
-  "_from": "nextgen-events@^1.3.3",
+  "_from": "nextgen-events@^1.3.0",
   "_id": "nextgen-events@1.3.3",
   "_inBundle": false,
   "_integrity": "sha512-5h9U7had+Q+a95Rwgu4JL6otqXs3y4474g7ruQtd8TAsoG6ycvjccnuLxhXEv32/HOKTC09K+HkbFaITIexLkg==",
@@ -8065,21 +8066,22 @@ module.exports={
   "_requested": {
     "type": "range",
     "registry": true,
-    "raw": "nextgen-events@^1.3.3",
+    "raw": "nextgen-events@^1.3.0",
     "name": "nextgen-events",
     "escapedName": "nextgen-events",
-    "rawSpec": "^1.3.3",
+    "rawSpec": "^1.3.0",
     "saveSpec": null,
-    "fetchSpec": "^1.3.3"
+    "fetchSpec": "^1.3.0"
   },
   "_requiredBy": [
+    "#USER",
     "/",
     "/terminal-kit",
     "/utterminal/terminal-kit"
   ],
   "_resolved": "https://registry.npmjs.org/nextgen-events/-/nextgen-events-1.3.3.tgz",
   "_shasum": "3023cdf4299771918d6be1ad5f6049ca6b4d907d",
-  "_spec": "nextgen-events@^1.3.3",
+  "_spec": "nextgen-events@^1.3.0",
   "_where": "/home/cedric/inside/github/spellcast-ext-web-client",
   "author": {
     "name": "Cédric Ronvel"
@@ -17039,7 +17041,7 @@ camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' ) ;
 arguments[4][45][0].apply(exports,arguments)
 },{"dup":45}],63:[function(require,module,exports){
 module.exports={
-  "_from": "svg-kit@0.3.0",
+  "_from": "svg-kit@^0.3.0",
   "_id": "svg-kit@0.3.0",
   "_inBundle": false,
   "_integrity": "sha512-+lqQ8WQp8UD1BlNBeVOawBKpXCBCqdwnEfRiWxG7vI3NBmZ9CBPN/eMmMt2OpJRU8UcZUOrarAjiZV3dZsqWtA==",
@@ -17048,22 +17050,21 @@ module.exports={
     "@cronvel/xmldom": "0.1.31"
   },
   "_requested": {
-    "type": "version",
+    "type": "range",
     "registry": true,
-    "raw": "svg-kit@0.3.0",
+    "raw": "svg-kit@^0.3.0",
     "name": "svg-kit",
     "escapedName": "svg-kit",
-    "rawSpec": "0.3.0",
+    "rawSpec": "^0.3.0",
     "saveSpec": null,
-    "fetchSpec": "0.3.0"
+    "fetchSpec": "^0.3.0"
   },
   "_requiredBy": [
-    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/svg-kit/-/svg-kit-0.3.0.tgz",
   "_shasum": "a53aadb7152cf7374e2a791b9d45b7cc6d0fe25d",
-  "_spec": "svg-kit@0.3.0",
+  "_spec": "svg-kit@^0.3.0",
   "_where": "/home/cedric/inside/github/spellcast-ext-web-client",
   "author": {
     "name": "Cédric Ronvel"

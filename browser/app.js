@@ -133,7 +133,7 @@ Camera.prototype.updateTransition = function( data , awaiting = false ) {
 } ;
 
 
-},{"./GTransition.js":6,"seventh":41}],2:[function(require,module,exports){
+},{"./GTransition.js":6,"seventh":42}],2:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -1728,7 +1728,7 @@ function soundFadeOut( $element , callback ) {
 }
 
 
-},{"./Camera.js":1,"./GEntity.js":4,"./GScene.js":5,"./TexturePack.js":7,"./commonUtils.js":9,"./engineLib.js":10,"./exm.js":11,"dom-kit":17,"nextgen-events/lib/browser.js":27,"seventh":41,"svg-kit":59}],3:[function(require,module,exports){
+},{"./Camera.js":1,"./GEntity.js":4,"./GScene.js":5,"./TexturePack.js":7,"./commonUtils.js":9,"./engineLib.js":10,"./exm.js":11,"dom-kit":17,"nextgen-events/lib/browser.js":27,"seventh":42,"svg-kit":60}],3:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -2430,7 +2430,7 @@ EventDispatcher.exit = function( error , timeout , callback ) {
 } ;
 
 
-},{"./Dom.js":2,"./exm.js":11,"./toolkit.js":15,"nextgen-events/lib/browser.js":27,"seventh":41}],4:[function(require,module,exports){
+},{"./Dom.js":2,"./exm.js":11,"./toolkit.js":15,"nextgen-events/lib/browser.js":27,"seventh":42}],4:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3523,7 +3523,7 @@ GEntity.prototype.createCardMarkup = function( card ) {
 } ;
 
 
-},{"./GTransition.js":6,"./commonUtils.js":9,"./positionModes.js":13,"./sizeModes.js":14,"dom-kit":17,"nextgen-events/lib/browser.js":27,"seventh":41,"svg-kit":59}],5:[function(require,module,exports){
+},{"./GTransition.js":6,"./commonUtils.js":9,"./positionModes.js":13,"./sizeModes.js":14,"dom-kit":17,"nextgen-events/lib/browser.js":27,"seventh":42,"svg-kit":60}],5:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3652,7 +3652,7 @@ GScene.prototype.removeGEntity = function( gEntityId ) {
 } ;
 
 
-},{"./Camera.js":1,"nextgen-events/lib/browser.js":27,"seventh":41}],6:[function(require,module,exports){
+},{"./Camera.js":1,"nextgen-events/lib/browser.js":27,"seventh":42}],6:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3757,6 +3757,7 @@ function TexturePack( data ) {
 	}
 
 	this.usage = data.usage || 'default' ;
+	this.pixelDensity = data.pixelDensity ;
 
 	this.variants = {} ;
 
@@ -3790,6 +3791,10 @@ function Frame( data = {} ) {
 	this.duration = data.duration || 100 ;	// the duration of this frame in ms
 	this.xFlip = !! data.xFlip ;			// flip the image, +x and -x are flipped
 	this.yFlip = !! data.yFlip ;			// flip the image, +y and -y are flipped
+
+	this.origin = data.origin ;
+	this.relSize = data.relSize ;
+
 	this.engine = data.engine || null ;		// engine-specific, like shaders?
 }
 
@@ -3971,7 +3976,7 @@ domKit.ready( () => {
 } ) ;
 
 
-},{"./EventDispatcher.js":3,"dom-kit":17,"nextgen-events/lib/browser.js":27,"url":65}],9:[function(require,module,exports){
+},{"./EventDispatcher.js":3,"dom-kit":17,"nextgen-events/lib/browser.js":27,"url":66}],9:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4183,7 +4188,7 @@ Object.assign(
 ) ;
 
 
-},{"kung-fig-expression/lib/fnOperators.js":22,"spellcast-shared/lib/operators.js":43}],13:[function(require,module,exports){
+},{"kung-fig-expression/lib/fnOperators.js":22,"spellcast-shared/lib/operators.js":44}],13:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4506,7 +4511,7 @@ toolkit.stripMarkup = text => text.replace(
 ) ;
 
 
-},{"string-kit/lib/escape.js":45,"string-kit/lib/format.js":46}],16:[function(require,module,exports){
+},{"string-kit/lib/escape.js":46,"string-kit/lib/format.js":47}],16:[function(require,module,exports){
 
 },{}],17:[function(require,module,exports){
 (function (process){
@@ -5786,6 +5791,29 @@ exports.avg.mode = mode.FN ;
 exports.lerp = ( a , b , t ) => a + t * ( b - a ) ;
 exports.lerp.mode = mode.FN ;
 
+// Fourier series: fourier( t , period , [ weight1 , phase1 ] , [ weight2 , phase2 ] , ... )
+// If a number is found instead of an array, it is a weight without phase change.
+// If a phase is omitted, it uses the previous one.
+exports.fourier = ( t , period , ... args ) => {
+	var i , iMax , v = 0 , phase = 0 , weight ,
+		baseF = ( 2 * Math.PI ) / period ;
+
+	for ( i = 0 , iMax = args.length ; i < iMax ; i ++ ) {
+		if ( Array.isArray( args[ i ] ) ) {
+			weight = args[ i ][ 0 ] ;
+			if ( args[ i ][ 1 ] !== undefined ) { phase = args[ i ][ 1 ] ; }
+		}
+		else {
+			weight = args[ i ] ;
+		}
+
+		v += weight * Math.cos( ( i + 1 ) * baseF * t + phase ) ;
+	}
+
+	return v ;
+} ;
+exports.fourier.mode = mode.FN ;
+
 
 // Around/almost equal to: sort of equal, with a delta error rate
 
@@ -5838,6 +5866,10 @@ exports.join.mode = mode.FN ;
 //exports[':'] =
 exports.object = ( ... args ) => Object.fromEntries( args ) ;
 exports.object.mode = mode.KV ;
+
+// Must not modify existing, merge in a new object
+exports.merge = ( ... args ) => Object.assign( {} , ... args ) ;
+exports.merge.mode = mode.FN ;
 
 
 
@@ -7462,7 +7494,7 @@ NextGenEvents.Proxy = require( './Proxy.js' ) ;
 
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"../package.json":28,"./Proxy.js":26,"_process":29,"timers":64}],26:[function(require,module,exports){
+},{"../package.json":28,"./Proxy.js":26,"_process":29,"timers":65}],26:[function(require,module,exports){
 /*
 	Next-Gen Events
 
@@ -9268,7 +9300,217 @@ exports.encode = exports.stringify = require('./encode');
 
 
 
-var Promise = require( './seventh.js' ) ;
+const Promise = require( './seventh.js' ) ;
+
+
+
+function Queue( jobRunner , concurrency = 4 ) {
+	this.jobRunner = jobRunner ;
+	this.jobs = new Map() ;			// all jobs
+	this.pendingJobs = new Map() ;	// only pending jobs (not run)
+	this.runningJobs = new Map() ;	// only running jobs (not done)
+	this.errorJobs = new Map() ;	// jobs that have failed
+	this.jobsDone = new Map() ;		// jobs that finished successfully
+	this.concurrency = + concurrency || 1 ;
+
+	// Internal
+	this.isQueueRunning = true ;
+	this.isLoopRunning = false ;
+	this.canLoopAgain = false ;
+	this.ready = Promise.resolved ;
+
+	// Misc
+	this.startTime = null ;		// timestamp at the first time the loop is run
+	this.endTime = null ;		// timestamp at the last time the loop exited
+
+	// External API, resolved when there is no jobs anymore in the queue, a new Promise is created when new element are injected
+	this.drained = Promise.resolved ;
+
+	// External API, resolved when the Queue has nothing to do: either it's drained or the pending jobs have dependencies that cannot be solved
+	this.idle = Promise.resolved ;
+}
+
+Promise.Queue = Queue ;
+
+
+
+function Job( id , dependencies , data ) {
+	this.id = id ;
+	this.dependencies = dependencies === null ? null : [ ... dependencies ] ;
+	this.data = data ;
+	this.error = null ;
+	this.startTime = null ;
+	this.endTime = null ;
+}
+
+Queue.Job = Job ;
+
+
+
+Queue.prototype.setConcurrency = function( concurrency ) { this.concurrency = + concurrency || 1 ; } ;
+Queue.prototype.stop = Queue.prototype.pause = function() { this.isQueueRunning = false ; } ;
+Queue.prototype.has = function( id ) { return this.jobs.has( id ) ; } ;
+
+
+
+Queue.prototype.add = Queue.prototype.addJob = function( id , data , dependencies = null ) {
+	// Don't add it twice!
+	if ( this.jobs.has( id ) ) { return false ; }
+
+	var job = new Job( id , dependencies , data ) ;
+	this.jobs.set( id , job ) ;
+	this.pendingJobs.set( id , job ) ;
+	this.canLoopAgain = true ;
+	if ( this.isQueueRunning && ! this.isLoopRunning ) { this.run() ; }
+	if ( this.drained.isSettled() ) { this.drained = new Promise() ; }
+	return job ;
+} ;
+
+
+
+Queue.prototype.run = Queue.prototype.resume = async function() {
+	var job ;
+
+	this.isQueueRunning = true ;
+
+	if ( this.isLoopRunning ) { return ; }
+	this.isLoopRunning = true ;
+
+	if ( ! this.startTime ) { this.startTime = Date.now() ; }
+
+	do {
+		this.canLoopAgain = false ;
+
+		for ( job of this.pendingJobs.values() ) {
+			if ( job.dependencies && job.dependencies.some( dependencyId => ! this.jobsDone.has( dependencyId ) ) ) { continue ; }
+			// This should be done synchronously:
+			if ( this.idle.isSettled() ) { this.idle = new Promise() ; }
+			this.canLoopAgain = true ;
+
+			await this.ready ;
+
+			// Something has stopped the queue while we were awaiting.
+			// This check MUST be done only after "await", before is potentially synchronous, and things only change concurrently during an "await"
+			if ( ! this.isQueueRunning ) { this.finishRun() ; return ; }
+
+			this.runJob( job ) ;
+		}
+	} while ( this.canLoopAgain ) ;
+
+	this.finishRun() ;
+} ;
+
+
+
+// Finish current run
+Queue.prototype.finishRun = function() {
+	this.isLoopRunning = false ;
+
+	if ( ! this.pendingJobs.size ) { this.drained.resolve() ; }
+
+	if ( ! this.runningJobs.size ) {
+		this.endTime = Date.now() ;
+		this.idle.resolve() ;
+	}
+} ;
+
+
+
+Queue.prototype.runJob = async function( job ) {
+	// Immediately remove it synchronously from the pending queue and add it to the running one
+	this.pendingJobs.delete( job.id ) ;
+	this.runningJobs.set( job.id , job ) ;
+
+	if ( this.runningJobs.size >= this.concurrency ) { this.ready = new Promise() ; }
+
+	// Async part
+	try {
+		job.startTime = Date.now() ;
+		await this.jobRunner( job.data ) ;
+		job.endTime = Date.now() ;
+		this.jobsDone.set( job.id , job ) ;
+		this.canLoopAgain = true ;
+	}
+	catch ( error ) {
+		job.endTime = Date.now() ;
+		job.error = error ;
+		this.errorJobs.set( job.id , job ) ;
+	}
+
+	this.runningJobs.delete( job.id ) ;
+	if ( this.runningJobs.size < this.concurrency ) { this.ready.resolve() ; }
+
+	// This MUST come last, because it retry the loop: dependencies may have been unlocked!
+	if ( ! this.isLoopRunning ) {
+		if ( this.isQueueRunning && this.pendingJobs.size ) { this.run() ; }
+		else { this.finishRun() ; }
+	}
+} ;
+
+
+
+Queue.prototype.getJobTimes = function() {
+	var job , stats = {} ;
+	for ( job of this.jobsDone.values() ) { stats[ job.id ] = job.endTime - job.startTime ; }
+	return stats ;
+} ;
+
+
+
+Queue.prototype.getStats = function() {
+	var job , sum = 0 ,
+		stats = {
+			pending: this.pendingJobs.size ,
+			running: this.runningJobs.size ,
+			failed: this.errorJobs.size ,
+			done: this.jobsDone.size ,
+			averageJobTime: null ,
+			queueTime: null
+		} ;
+
+	if ( this.jobsDone.size ) {
+		for ( job of this.jobsDone.values() ) { sum += job.endTime - job.startTime ; }
+		stats.averageJobTime = sum / this.jobsDone.size ;
+	}
+
+	if ( this.endTime ) { stats.queueTime = this.endTime - this.startTime ; }
+
+	return stats ;
+} ;
+
+
+},{"./seventh.js":42}],36:[function(require,module,exports){
+/*
+	Seventh
+
+	Copyright (c) 2017 - 2020 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const Promise = require( './seventh.js' ) ;
 
 
 
@@ -9321,7 +9563,7 @@ Promise.promisifyAnyNodeApi = ( api , suffix , multiSuffix , filter ) => {
 
 
 
-},{"./seventh.js":41}],36:[function(require,module,exports){
+},{"./seventh.js":42}],37:[function(require,module,exports){
 /*
 	Seventh
 
@@ -9352,7 +9594,7 @@ Promise.promisifyAnyNodeApi = ( api , suffix , multiSuffix , filter ) => {
 
 
 
-var Promise = require( './seventh.js' ) ;
+const Promise = require( './seventh.js' ) ;
 
 
 
@@ -9820,7 +10062,7 @@ Promise.concurrent = ( limit , iterable , iterator ) => {
 	// The array-like may contains promises that could be rejected before being handled
 	if ( Promise.warnUnhandledRejection ) { Promise._handleAll( iterable ) ; }
 
-	limit = limit || 1 ;
+	limit = + limit || 1 ;
 
 	const runBatch = () => {
 		while ( ! done && running < limit ) {
@@ -9930,7 +10172,7 @@ Promise.race = ( iterable ) => {
 } ;
 
 
-},{"./seventh.js":41}],37:[function(require,module,exports){
+},{"./seventh.js":42}],38:[function(require,module,exports){
 (function (process,global,setImmediate){
 /*
 	Seventh
@@ -10689,7 +10931,7 @@ if ( process.browser ) {
 
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"_process":29,"setimmediate":34,"timers":64}],38:[function(require,module,exports){
+},{"_process":29,"setimmediate":34,"timers":65}],39:[function(require,module,exports){
 /*
 	Seventh
 
@@ -10720,7 +10962,7 @@ if ( process.browser ) {
 
 
 
-var Promise = require( './seventh.js' ) ;
+const Promise = require( './seventh.js' ) ;
 
 
 
@@ -11195,7 +11437,7 @@ Promise.variableRetry = ( asyncFn , thisBinding ) => {
 */
 
 
-},{"./seventh.js":41}],39:[function(require,module,exports){
+},{"./seventh.js":42}],40:[function(require,module,exports){
 (function (process){
 /*
 	Seventh
@@ -11227,7 +11469,7 @@ Promise.variableRetry = ( asyncFn , thisBinding ) => {
 
 
 
-var Promise = require( './seventh.js' ) ;
+const Promise = require( './seventh.js' ) ;
 
 
 
@@ -11295,7 +11537,7 @@ Promise.resolveSafeTimeout = function( timeout , value ) {
 
 
 }).call(this,require('_process'))
-},{"./seventh.js":41,"_process":29}],40:[function(require,module,exports){
+},{"./seventh.js":42,"_process":29}],41:[function(require,module,exports){
 /*
 	Seventh
 
@@ -11326,7 +11568,7 @@ Promise.resolveSafeTimeout = function( timeout , value ) {
 
 
 
-var Promise = require( './seventh.js' ) ;
+const Promise = require( './seventh.js' ) ;
 
 
 
@@ -11347,7 +11589,7 @@ Promise.parasite = () => {
 } ;
 
 
-},{"./seventh.js":41}],41:[function(require,module,exports){
+},{"./seventh.js":42}],42:[function(require,module,exports){
 /*
 	Seventh
 
@@ -11385,12 +11627,13 @@ module.exports = seventh ;
 require( './batch.js' ) ;
 require( './wrapper.js' ) ;
 require( './decorators.js' ) ;
+require( './Queue.js' ) ;
 require( './api.js' ) ;
 require( './parasite.js' ) ;
 require( './misc.js' ) ;
 
 
-},{"./api.js":35,"./batch.js":36,"./core.js":37,"./decorators.js":38,"./misc.js":39,"./parasite.js":40,"./wrapper.js":42}],42:[function(require,module,exports){
+},{"./Queue.js":35,"./api.js":36,"./batch.js":37,"./core.js":38,"./decorators.js":39,"./misc.js":40,"./parasite.js":41,"./wrapper.js":43}],43:[function(require,module,exports){
 /*
 	Seventh
 
@@ -11421,7 +11664,7 @@ require( './misc.js' ) ;
 
 
 
-var Promise = require( './seventh.js' ) ;
+const Promise = require( './seventh.js' ) ;
 
 
 
@@ -11555,7 +11798,7 @@ Promise.onceEventAllOrError = ( emitter , eventName , excludeEvents ) => {
 } ;
 
 
-},{"./seventh.js":41}],43:[function(require,module,exports){
+},{"./seventh.js":42}],44:[function(require,module,exports){
 /*
 	Spellcast - shared utilities
 
@@ -11829,7 +12072,7 @@ for ( let key in exports ) {
 }
 
 
-},{"kung-fig-expression/lib/getNamedParameters.js":23}],44:[function(require,module,exports){
+},{"kung-fig-expression/lib/getNamedParameters.js":23}],45:[function(require,module,exports){
 /*
 	String Kit
 
@@ -11911,7 +12154,7 @@ module.exports = {
 } ;
 
 
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 /*
 	String Kit
 
@@ -12016,7 +12259,7 @@ exports.unicodePercentEncode = str => str.replace( /[\x00-\x1f\u0100-\uffff\x7f%
 exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
 
 
-},{}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 (function (Buffer){
 /*
 	String Kit
@@ -13017,7 +13260,7 @@ function iround( v , istep ) {
 
 
 }).call(this,require("buffer").Buffer)
-},{"./ansi.js":44,"./escape.js":45,"./inspect.js":47,"./naturalSort.js":48,"./unicode.js":49,"buffer":16}],47:[function(require,module,exports){
+},{"./ansi.js":45,"./escape.js":46,"./inspect.js":48,"./naturalSort.js":49,"./unicode.js":50,"buffer":16}],48:[function(require,module,exports){
 (function (Buffer,process){
 /*
 	String Kit
@@ -13714,7 +13957,7 @@ inspectStyle.html = Object.assign( {} , inspectStyle.none , {
 
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")},require('_process'))
-},{"../../is-buffer/index.js":19,"./ansi.js":44,"./escape.js":45,"_process":29}],48:[function(require,module,exports){
+},{"../../is-buffer/index.js":19,"./ansi.js":45,"./escape.js":46,"_process":29}],49:[function(require,module,exports){
 /*
 	HTTP Requester
 
@@ -13800,7 +14043,7 @@ module.exports = function( a , b ) {
 } ;
 
 
-},{}],49:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 /*
 	String Kit
 
@@ -14211,7 +14454,7 @@ unicode.toFullWidth = str => {
 } ;
 
 
-},{}],50:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -14331,7 +14574,7 @@ VG.prototype.addCssRule = function( rule ) {
 } ;
 
 
-},{"../package.json":63,"./VGContainer.js":51,"./svg-kit.js":59}],51:[function(require,module,exports){
+},{"../package.json":64,"./VGContainer.js":52,"./svg-kit.js":60}],52:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -14452,7 +14695,7 @@ VGContainer.prototype.morphDom = function( root = this ) {
 } ;
 
 
-},{"../package.json":63,"./VGEntity.js":53,"./svg-kit.js":59}],52:[function(require,module,exports){
+},{"../package.json":64,"./VGEntity.js":54,"./svg-kit.js":60}],53:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -14537,7 +14780,7 @@ VGEllipse.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":63,"./VGEntity.js":53}],53:[function(require,module,exports){
+},{"../package.json":64,"./VGEntity.js":54}],54:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -14922,7 +15165,7 @@ VGEntity.prototype.morphOneEntryDom = function( data , root = this ) {
 } ;
 
 
-},{"../package.json":63,"string-kit/lib/camel":61,"string-kit/lib/escape":62}],54:[function(require,module,exports){
+},{"../package.json":64,"string-kit/lib/camel":62,"string-kit/lib/escape":63}],55:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -14979,7 +15222,7 @@ VGGroup.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":63,"./VGContainer.js":51,"./svg-kit.js":59}],55:[function(require,module,exports){
+},{"../package.json":64,"./VGContainer.js":52,"./svg-kit.js":60}],56:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -15646,7 +15889,7 @@ VGPath.prototype.forwardNegativeTurn = function( data ) {
 } ;
 
 
-},{"../package.json":63,"./VGEntity.js":53}],56:[function(require,module,exports){
+},{"../package.json":64,"./VGEntity.js":54}],57:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -15737,7 +15980,7 @@ VGRect.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":63,"./VGEntity.js":53}],57:[function(require,module,exports){
+},{"../package.json":64,"./VGEntity.js":54}],58:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -15849,7 +16092,7 @@ VGText.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":63,"./VGEntity.js":53}],58:[function(require,module,exports){
+},{"../package.json":64,"./VGEntity.js":54}],59:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -15897,7 +16140,7 @@ path.dFromPoints = ( points , invertY ) => {
 } ;
 
 
-},{}],59:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 (function (process){
 /*
 	SVG Kit
@@ -16375,7 +16618,7 @@ svgKit.objectToVG = function( object ) {
 
 
 }).call(this,require('_process'))
-},{"./VG.js":50,"./VGContainer.js":51,"./VGEllipse.js":52,"./VGEntity.js":53,"./VGGroup.js":54,"./VGPath.js":55,"./VGRect.js":56,"./VGText.js":57,"./path.js":58,"_process":29,"dom-kit":60,"fs":16,"seventh":41,"string-kit/lib/escape.js":62}],60:[function(require,module,exports){
+},{"./VG.js":51,"./VGContainer.js":52,"./VGEllipse.js":53,"./VGEntity.js":54,"./VGGroup.js":55,"./VGPath.js":56,"./VGRect.js":57,"./VGText.js":58,"./path.js":59,"_process":29,"dom-kit":61,"fs":16,"seventh":42,"string-kit/lib/escape.js":63}],61:[function(require,module,exports){
 (function (process){
 /*
 	Dom Kit
@@ -16963,7 +17206,7 @@ domKit.html = function( $element , html ) { $element.innerHTML = html ; } ;
 
 
 }).call(this,require('_process'))
-},{"@cronvel/xmldom":16,"_process":29}],61:[function(require,module,exports){
+},{"@cronvel/xmldom":16,"_process":29}],62:[function(require,module,exports){
 /*
 	String Kit
 
@@ -17037,9 +17280,9 @@ camel.camelCaseToDash =
 camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' ) ;
 
 
-},{}],62:[function(require,module,exports){
-arguments[4][45][0].apply(exports,arguments)
-},{"dup":45}],63:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
+arguments[4][46][0].apply(exports,arguments)
+},{"dup":46}],64:[function(require,module,exports){
 module.exports={
   "_from": "svg-kit@^0.3.0",
   "_id": "svg-kit@0.3.0",
@@ -17115,7 +17358,7 @@ module.exports={
   "version": "0.3.0"
 }
 
-},{}],64:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 (function (setImmediate,clearImmediate){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -17194,7 +17437,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":29,"timers":64}],65:[function(require,module,exports){
+},{"process/browser.js":29,"timers":65}],66:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -17928,7 +18171,7 @@ Url.prototype.parseHost = function() {
   if (host) this.hostname = host;
 };
 
-},{"./util":66,"punycode":30,"querystring":33}],66:[function(require,module,exports){
+},{"./util":67,"punycode":30,"querystring":33}],67:[function(require,module,exports){
 'use strict';
 
 module.exports = {

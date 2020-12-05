@@ -3772,9 +3772,8 @@ module.exports = TexturePack ;
 
 // !THIS SHOULD TRACK SERVER-SIDE TexturePack! spellcast/lib/gfx/TexturePack.js
 function Variant( data = {} ) {
-	this.animate = data.type || null ;		// null: static image, other can be: 'loop' for looping animation, and so on...
+	this.animation = data.animation || null ;      // null: static image
 	this.engine = data.engine || null ;		// engine-specific, like shaders?
-
 	this.frames = data.frames.map( f => new Frame( f ) ) ;
 }
 
@@ -3788,7 +3787,7 @@ function Frame( data = {} ) {
 	this.maps = data.maps || null ;         // null or object of URLs, like 'normal' or 'specular' for 3D engine, and so on
 	this.maskUrl = data.maskUrl || null ;   // /!\ SHOULD BE MOVED TO .maps /!\ only few type of engine+usage combo support mask, most of them relying on SVG
 	this.origin = data.origin || null ;		// the origin used for this image
-	this.duration = data.duration || 100 ;	// the duration of this frame in ms
+	this.duration = + data.duration || 250 ;	// the duration of this frame in ms
 	this.xFlip = !! data.xFlip ;			// flip the image, +x and -x are flipped
 	this.yFlip = !! data.yFlip ;			// flip the image, +y and -y are flipped
 

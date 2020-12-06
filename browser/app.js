@@ -5238,13 +5238,13 @@ Exm.Extension.prototype.__prototypeVersion__ = Exm.prototype.__prototypeVersion_
 
 
 
-Exm.Extension.prototype.init = function( host ) {
+Exm.Extension.prototype.init = async function( host ) {
 	if ( this.isInit ) { return ; }
 	console.warn( "Extension loaded" , host ) ;
 	this.isInit = true ;
 	this.host = host ;
 
-	if ( typeof this.hooks.init === 'function' ) { this.hooks.init() ; }
+	if ( typeof this.hooks.init === 'function' ) { await this.hooks.init() ; }
 } ;
 
 

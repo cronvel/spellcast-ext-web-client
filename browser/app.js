@@ -1728,7 +1728,7 @@ function soundFadeOut( $element , callback ) {
 }
 
 
-},{"./Camera.js":1,"./GEntity.js":4,"./GScene.js":5,"./TexturePack.js":7,"./commonUtils.js":9,"./engineLib.js":10,"./exm.js":11,"dom-kit":17,"nextgen-events/lib/browser.js":27,"seventh":42,"svg-kit":60}],3:[function(require,module,exports){
+},{"./Camera.js":1,"./GEntity.js":4,"./GScene.js":5,"./TexturePack.js":7,"./commonUtils.js":9,"./engineLib.js":10,"./exm.js":11,"dom-kit":17,"nextgen-events/lib/browser.js":27,"seventh":42,"svg-kit":61}],3:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3523,7 +3523,7 @@ GEntity.prototype.createCardMarkup = function( card ) {
 } ;
 
 
-},{"./GTransition.js":6,"./commonUtils.js":9,"./positionModes.js":13,"./sizeModes.js":14,"dom-kit":17,"nextgen-events/lib/browser.js":27,"seventh":42,"svg-kit":60}],5:[function(require,module,exports){
+},{"./GTransition.js":6,"./commonUtils.js":9,"./positionModes.js":13,"./sizeModes.js":14,"dom-kit":17,"nextgen-events/lib/browser.js":27,"seventh":42,"svg-kit":61}],5:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3610,11 +3610,7 @@ GScene.prototype.update = function( data , awaiting = false , initial = false ) 
 	if ( data.theme !== undefined ) { this.theme = data.theme || 'default' ; }
 
 	if ( data.special && typeof data.special === 'object' ) {
-		eventData.special = {} ;
-
 		for ( let key in data.special ) {
-			eventData.special[ key ] = data.special[ key ] ;
-
 			if ( this.special[ key ] && typeof this.special[ key ] === 'object' ) {
 				Object.assign( this.special[ key ] , data.special[ key ] ) ;
 			}
@@ -3975,7 +3971,7 @@ domKit.ready( () => {
 } ) ;
 
 
-},{"./EventDispatcher.js":3,"dom-kit":17,"nextgen-events/lib/browser.js":27,"url":66}],9:[function(require,module,exports){
+},{"./EventDispatcher.js":3,"dom-kit":17,"nextgen-events/lib/browser.js":27,"url":67}],9:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4129,10 +4125,10 @@ const engineLib = require( './engineLib.js' ) ;
 
 
 module.exports = BrowserExm.registerNs( {
-	ns: 'spellcast-web-client' ,
+	ns: 'spellcast.web-client' ,
 	extensionPath: '/ext' ,
 	exports: {
-		// Useful??? Everything should use engine hooks, there is probably little use in re-using existing classes
+		// Useful??? Everything should use engine hooks, there is probably little interest in re-using existing classes
 		EventDispatcher: require( './EventDispatcher.js' ) ,
 		Dom: Dom ,
 		Camera: require( './Camera.js' ) ,
@@ -4510,7 +4506,7 @@ toolkit.stripMarkup = text => text.replace(
 ) ;
 
 
-},{"string-kit/lib/escape.js":46,"string-kit/lib/format.js":47}],16:[function(require,module,exports){
+},{"string-kit/lib/escape.js":47,"string-kit/lib/format.js":48}],16:[function(require,module,exports){
 
 },{}],17:[function(require,module,exports){
 (function (process){
@@ -5113,7 +5109,7 @@ domKit.html = ( $element , html ) => $element.innerHTML = html ;
 /*
 	EXM
 
-	Copyright (c) 2020 Cédric Ronvel
+	Copyright (c) 2020 - 2021 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -5156,17 +5152,16 @@ function Exm( options = {} ) {
 module.exports = Exm ;
 
 Exm.prototype.__prototypeUID__ = 'exm/browser/Exm' ;
-Exm.prototype.__prototypeVersion__ = '0.3' ;
+Exm.prototype.__prototypeVersion__ = '0.5' ;
 
 
 
-Exm.ns = {} ;
 Exm.registerNs = function( options = {} ) {
-	if ( ! options.ns ) { throw new Error( "EXM: namespace ('ns' property) is required!" ) ; }
-	if ( Exm.ns[ options.ns ] ) { throw new Error( "EXM: namespace '" + options.ns + "' is already registered!" ) ; }
+	if ( ! options.ns || typeof options.ns !== 'string' ) { throw new Error( "EXM: namespace ('ns' property) is required!" ) ; }
+	if ( global.EXM.ns[ options.ns ] ) { throw new Error( "EXM: namespace '" + options.ns + "' is already registered!" ) ; }
 
 	var exm = new Exm( options ) ;
-	Exm.ns[ options.ns ] = exm ;
+	global.EXM.ns[ options.ns ] = exm ;
 	return exm ;
 } ;
 
@@ -5176,10 +5171,12 @@ Exm.prototype.requireExtension = async function( extName ) {
 	if ( this.extensions.has( extName ) ) { return this.extensions.get( extName ) ; }
 
 	var module_ ,
-		extModulePath = this.extensionPath + '/' + extName + this.suffix ;
+		extUid = this.ns + '.' + extName ,
+		extModuleDir = this.extensionPath + '/' + extUid ,
+		extModulePath = extModuleDir + this.suffix ;
 
 	try {
-		console.warn( "Trying" , extModulePath ) ;
+		console.warn( "Trying EXM extension: " , extModulePath ) ;
 		module_ = await import( extModulePath ) ;
 	}
 	catch ( error ) {
@@ -5188,7 +5185,7 @@ Exm.prototype.requireExtension = async function( extName ) {
 
 
 	if ( ! module_ || typeof module_ !== 'object' ) {
-		throw new Error( "EXM: this is not an EXM Extension" ) ;
+		throw new Error( "EXM: this is not an EXM Extension (not an object)" ) ;
 	}
 
 	if ( module_.extension ) {
@@ -5198,21 +5195,30 @@ Exm.prototype.requireExtension = async function( extName ) {
 	else {
 		// This is not an ES6 module (e.g. a CommonJS module), so import() somewhat failed except for side-effect.
 		// And since Extension save itself on the global scope as a workaround, we will use that.
-		module_ = global.EXM_EXTENSIONS && global.EXM_EXTENSIONS[ extName ] ;
+		module_ = global.EXM.extensions[ extUid ] ;
 		if ( ! module_ || typeof module_ !== 'object' ) {
-			throw new Error( "EXM: this is not an EXM Extension" ) ;
+			throw new Error( "EXM: this is not an EXM Extension (not an ES6 module extension and not registered)" ) ;
 		}
 	}
 
 	if ( ( module_.__prototypeUID__ !== 'exm/Extension' && module_.__prototypeUID__ !== 'exm/browser/Extension' ) ) {
-		throw new Error( "EXM: this is not an EXM Extension" ) ;
+		throw new Error( "EXM: this is not an EXM Extension (no prototype UID found)" ) ;
 	}
 
 	if ( module_.id !== extName ) {
 		throw new Error( "EXM: Extension ID mismatch (wanted '" + extName + "' but got " + module_.id + "'." ) ;
 	}
 
-	await module_.init( this ) ;
+	try {
+		await module_.init( this , extModulePath , extModuleDir ) ;
+		console.log( "Extension '" + module_.id + "'" + ( module_.version ? " (v" + module_.version + ") " : '' ) + "is loaded." ) ;
+	}
+	catch ( error ) {
+		let error_ = new Error( "EXM: Failed to init extension '" + extName + "': " + error ) ;
+		error_.from = error ;
+		throw error ;
+	}
+
 	this.extensions.set( extName , module_ ) ;
 	return module_ ;
 } ;
@@ -5221,16 +5227,17 @@ Exm.prototype.requireExtension = async function( extName ) {
 
 Exm.Extension = function( options = {} ) {
 	this.isInit = false ;
+	this.id = options.id ;	// this is the id of the extension
+	this.ns = options.ns ;	// this is the namespace of the host
+	this.uid = options.ns + '.' + options.id ;
+	this.version = options.version || null ;
 	this.host = null ;	// the host Exm
-	this.id = options.id || null ;
-	this.require = options.require ;
+	this.path = null ;
+	this.dirPath = null ;
+	this.fromModule = options.module ;
 	this.hooks = options.hooks || {} ;
 	this.api = options.api || {} ;
 	this.exports = options.exports || {} ;
-
-	// Necessary for CommonJS modules:
-	if ( ! global.EXM_EXTENSIONS ) { global.EXM_EXTENSIONS = {} ; }
-	global.EXM_EXTENSIONS[ this.id ] = this ;
 } ;
 
 Exm.Extension.prototype.__prototypeUID__ = 'exm/browser/Extension' ;
@@ -5238,14 +5245,47 @@ Exm.Extension.prototype.__prototypeVersion__ = Exm.prototype.__prototypeVersion_
 
 
 
-Exm.Extension.prototype.init = async function( host ) {
+Exm.registerExtension = Exm.Extension.register = function( options = {} ) {
+	if ( ! options.id || typeof options.id !== 'string' ) { throw new Error( "EXM Extension: ID ('id' property) is required!" ) ; }
+	if ( ! options.ns || typeof options.ns !== 'string' ) { throw new Error( "EXM Extension: namespace ('ns' property) is required!" ) ; }
+
+	var extension = new Exm.Extension( options ) ;
+
+	if ( global.EXM.extensions[ extension.uid ] ) {
+		throw new Error( "EXM Extension: ID '" + extension.id + "' is already registered for namespace '" + extension.ns + "'!" ) ;
+	}
+
+	global.EXM.extensions[ extension.uid ] = extension ;
+	return extension ;
+} ;
+
+
+
+Exm.Extension.prototype.init = async function( host , path_ , dirPath ) {
 	if ( this.isInit ) { return ; }
-	console.warn( "Extension loaded" , host ) ;
-	this.isInit = true ;
+
+	if ( host.ns !== this.ns ) { throw new Error( "EXM Extension's namespace mismatches the Host!" ) ; }
+	if ( path_ ) { this.path = path_ ; }
+	if ( dirPath ) { this.dirPath = dirPath ; }
 	this.host = host ;
 
 	if ( typeof this.hooks.init === 'function' ) { await this.hooks.init() ; }
+
+	this.isInit = true ;
 } ;
+
+
+
+// Should be done at the end, when the whole file is loaded
+
+// Global storage is necessary
+if ( ! global.EXM ) {
+	global.EXM = {
+		master: null ,
+		ns: {} ,
+		extensions: {}
+	} ;
+}
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
@@ -6256,7 +6296,6 @@ NextGenEvents.mergeListeners = function( foreigners ) {
 
 	// Now we can scan by eventName first
 	Object.keys( this.__ngev.listeners ).forEach( eventName => {
-
 		var i , iMax , blacklist = [] ;
 
 		// First pass: find all removed listeners and add them to the blacklist
@@ -6428,28 +6467,34 @@ NextGenEvents.prototype.waitForAll = function( eventName ) {
 
 
 NextGenEvents.prototype.removeListener = function( eventName , id ) {
-	var i , length , newListeners = [] , removedListeners = [] ;
-
 	if ( ! eventName || typeof eventName !== 'string' ) { throw new TypeError( ".removeListener(): argument #0 should be a non-empty string" ) ; }
 
 	if ( ! this.__ngev ) { NextGenEvents.init.call( this ) ; }
-	if ( ! this.__ngev.listeners[ eventName ] ) { this.__ngev.listeners[ eventName ] = [] ; }
 
-	length = this.__ngev.listeners[ eventName ].length ;
+	var listeners = this.__ngev.listeners[ eventName ] ;
+	if ( ! listeners || ! listeners.length ) { return this ; }
 
-	// It's probably faster to create a new array of listeners
+	var i , removedListeners , removeCount = 0 ,
+		length = listeners.length ,
+		hasRemoveListener = this.__ngev.listeners.removeListener.length ;
+
+	if ( hasRemoveListener ) { removedListeners = [] ; }
+
+	// In-place remove (from the listener array)
 	for ( i = 0 ; i < length ; i ++ ) {
-		if ( this.__ngev.listeners[ eventName ][ i ].id === id ) {
-			removedListeners.push( this.__ngev.listeners[ eventName ][ i ] ) ;
+		if ( listeners[ i ].id === id ) {
+			removeCount ++ ;
+			if ( hasRemoveListener ) { removedListeners.push( listeners[ i ] ) ; }
 		}
-		else {
-			newListeners.push( this.__ngev.listeners[ eventName ][ i ] ) ;
+		else if ( removeCount ) {
+			listeners[ i - removeCount ] = listeners[ i ] ;
 		}
 	}
 
-	this.__ngev.listeners[ eventName ] = newListeners ;
+	// Adjust the length
+	if ( removeCount ) { listeners.length -= removeCount ; }
 
-	if ( removedListeners.length && this.__ngev.listeners.removeListener.length ) {
+	if ( hasRemoveListener && removedListeners.length ) {
 		this.emit( 'removeListener' , removedListeners ) ;
 	}
 
@@ -7493,7 +7538,7 @@ NextGenEvents.Proxy = require( './Proxy.js' ) ;
 
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"../package.json":28,"./Proxy.js":26,"_process":29,"timers":65}],26:[function(require,module,exports){
+},{"../package.json":28,"./Proxy.js":26,"_process":29,"timers":66}],26:[function(require,module,exports){
 /*
 	Next-Gen Events
 
@@ -8088,39 +8133,46 @@ module.exports.isBrowser = true ;
 }).call(this,require('_process'))
 },{"./NextGenEvents.js":25,"_process":29}],28:[function(require,module,exports){
 module.exports={
-  "_from": "nextgen-events@^1.3.0",
-  "_id": "nextgen-events@1.3.3",
-  "_inBundle": false,
-  "_integrity": "sha512-5h9U7had+Q+a95Rwgu4JL6otqXs3y4474g7ruQtd8TAsoG6ycvjccnuLxhXEv32/HOKTC09K+HkbFaITIexLkg==",
-  "_location": "/nextgen-events",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "range",
-    "registry": true,
-    "raw": "nextgen-events@^1.3.0",
-    "name": "nextgen-events",
-    "escapedName": "nextgen-events",
-    "rawSpec": "^1.3.0",
-    "saveSpec": null,
-    "fetchSpec": "^1.3.0"
+  "name": "nextgen-events",
+  "version": "1.3.4",
+  "description": "The next generation of events handling for javascript! New: abstract away the network!",
+  "main": "lib/NextGenEvents.js",
+  "engines": {
+    "node": ">=6.0.0"
   },
-  "_requiredBy": [
-    "#USER",
-    "/",
-    "/terminal-kit",
-    "/utterminal/terminal-kit"
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "browserify": "^16.2.2",
+    "uglify-js-es6": "^2.8.9",
+    "ws": "^5.1.1"
+  },
+  "scripts": {
+    "test": "tea-time -R dot"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cronvel/nextgen-events.git"
+  },
+  "keywords": [
+    "events",
+    "async",
+    "emit",
+    "listener",
+    "context",
+    "series",
+    "serialize",
+    "namespace",
+    "proxy",
+    "network"
   ],
-  "_resolved": "https://registry.npmjs.org/nextgen-events/-/nextgen-events-1.3.3.tgz",
-  "_shasum": "3023cdf4299771918d6be1ad5f6049ca6b4d907d",
-  "_spec": "nextgen-events@^1.3.0",
-  "_where": "/home/cedric/inside/github/spellcast-ext-web-client",
-  "author": {
-    "name": "Cédric Ronvel"
-  },
+  "author": "Cédric Ronvel",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/cronvel/nextgen-events/issues"
   },
-  "bundleDependencies": false,
   "config": {
     "tea-time": {
       "coverDir": [
@@ -8135,45 +8187,7 @@ module.exports={
       2019
     ],
     "owner": "Cédric Ronvel"
-  },
-  "dependencies": {},
-  "deprecated": false,
-  "description": "The next generation of events handling for javascript! New: abstract away the network!",
-  "devDependencies": {
-    "browserify": "^16.2.2",
-    "uglify-js-es6": "^2.8.9",
-    "ws": "^5.1.1"
-  },
-  "directories": {
-    "test": "test"
-  },
-  "engines": {
-    "node": ">=6.0.0"
-  },
-  "homepage": "https://github.com/cronvel/nextgen-events#readme",
-  "keywords": [
-    "events",
-    "async",
-    "emit",
-    "listener",
-    "context",
-    "series",
-    "serialize",
-    "namespace",
-    "proxy",
-    "network"
-  ],
-  "license": "MIT",
-  "main": "lib/NextGenEvents.js",
-  "name": "nextgen-events",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/cronvel/nextgen-events.git"
-  },
-  "scripts": {
-    "test": "tea-time -R dot"
-  },
-  "version": "1.3.3"
+  }
 }
 
 },{}],29:[function(require,module,exports){
@@ -9333,10 +9347,10 @@ Promise.Queue = Queue ;
 
 
 
-function Job( id , dependencies , data ) {
+function Job( id , dependencies = null , data = undefined ) {
 	this.id = id ;
 	this.dependencies = dependencies === null ? null : [ ... dependencies ] ;
-	this.data = data ;
+	this.data = data === undefined ? id : data ;
 	this.error = null ;
 	this.startTime = null ;
 	this.endTime = null ;
@@ -9363,6 +9377,25 @@ Queue.prototype.add = Queue.prototype.addJob = function( id , data , dependencie
 	if ( this.isQueueRunning && ! this.isLoopRunning ) { this.run() ; }
 	if ( this.drained.isSettled() ) { this.drained = new Promise() ; }
 	return job ;
+} ;
+
+
+
+// Add a batch of jobs, with only id (data=id) and no dependencies
+Queue.prototype.addBatch = Queue.prototype.addJobBatch = function( ids ) {
+	var id , job ;
+
+	for ( id of ids ) {
+		// Don't add it twice!
+		if ( this.jobs.has( id ) ) { return false ; }
+		job = new Job( id ) ;
+		this.jobs.set( id , job ) ;
+		this.pendingJobs.set( id , job ) ;
+	}
+
+	this.canLoopAgain = true ;
+	if ( this.isQueueRunning && ! this.isLoopRunning ) { this.run() ; }
+	if ( this.drained.isSettled() ) { this.drained = new Promise() ; }
 } ;
 
 
@@ -10930,7 +10963,7 @@ if ( process.browser ) {
 
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"_process":29,"setimmediate":34,"timers":65}],39:[function(require,module,exports){
+},{"_process":29,"setimmediate":34,"timers":66}],39:[function(require,module,exports){
 /*
 	Seventh
 
@@ -12075,7 +12108,373 @@ for ( let key in exports ) {
 /*
 	String Kit
 
-	Copyright (c) 2014 - 2019 Cédric Ronvel
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+/*
+	Number formatting class.
+	.format() should entirely use it for everything related to number formatting.
+	It avoids unsolvable rounding error with epsilon.
+	It is dedicated for number display, not for computing.
+*/
+
+
+
+function StringNumber( number , decimalSeparator = '.' , groupSeparator = '' ) {
+	this.sign = 1 ;
+	this.digits = [] ;
+	this.exposant = 0 ;
+	this.special = null ;	// 'special' store special values like NaN, Infinity, etc
+
+	this.decimalSeparator = decimalSeparator ;
+	this.groupSeparator = groupSeparator ;
+
+	this.set( number ) ;
+}
+
+module.exports = StringNumber ;
+
+
+
+StringNumber.prototype.set = function( number ) {
+	var matches , digits , exposant , v , i , iMax , index , hasNonZeroHead , tailIndex ;
+
+	number = + number ;
+
+	if ( ! Number.isFinite( number ) ) {
+		this.special = number ;
+		return null ;
+	}
+
+	number = '' + number ;
+	matches = number.match( /(-)?([0-9]+)(?:.([0-9]+))?(?:e([+-][0-9]+))?/ ) ;
+	if ( ! matches ) { throw new Error( 'Unexpected error' ) ; }
+
+	this.sign = matches[ 1 ] ? -1 : 1 ;
+	this.exposant = matches[ 2 ].length + ( parseInt( matches[ 4 ] , 10 ) || 0 ) ;
+
+	// Copy each digits and cast them back into a number
+	index = 0 ;
+	hasNonZeroHead = false ;
+	tailIndex = 0 ;	// used to cut trailing zero
+
+	for ( i = 0 , iMax = matches[ 2 ].length ; i < iMax ; i ++ ) {
+		v = + matches[ 2 ][ i ] ;
+		if ( v !== 0 ) {
+			hasNonZeroHead = true ;
+			this.digits[ index ] = v ;
+			index ++ ;
+			tailIndex = index ;
+		}
+		else if ( hasNonZeroHead ) {
+			this.digits[ index ] = v ;
+			index ++ ;
+		}
+		else {
+			this.exposant -- ;
+		}
+	}
+
+	if ( matches[ 3 ] ) {
+		for ( i = 0 , iMax = matches[ 3 ].length ; i < iMax ; i ++ ) {
+			v = + matches[ 3 ][ i ] ;
+
+			if ( v !== 0 ) {
+				hasNonZeroHead = true ;
+				this.digits[ index ] = v ;
+				index ++ ;
+				tailIndex = index ;
+			}
+			else if ( hasNonZeroHead ) {
+				this.digits[ index ] = v ;
+				index ++ ;
+			}
+			else {
+				this.exposant -- ;
+			}
+		}
+	}
+
+	if ( tailIndex !== index ) {
+		this.digits.length = tailIndex ;
+	}
+} ;
+
+
+
+StringNumber.prototype.toNumber = function() {
+	// Using a string representation
+	if ( this.special !== null ) { return this.special ; }
+	return parseFloat( ( this.sign < 0 ? '-' : '' ) + '0.' + this.digits.join( '' ) + 'e' + this.exposant ) ;
+} ;
+
+
+
+StringNumber.prototype.toString = function( ... args ) {
+	if ( this.special !== null ) { return '' + this.special ; }
+	if ( this.exposant > 20 || this.exposant < -20 ) { return this.toScientificString( ... args ) ; }
+	return this.toNoExpString( ... args ) ;
+} ;
+
+
+
+StringNumber.prototype.toExponential =
+StringNumber.prototype.toExponentialString = function() {
+	if ( this.special !== null ) { return '' + this.special ; }
+
+	var str = this.sign < 0 ? '-' : '' ;
+	if ( ! this.digits.length ) { return str + '0' ; }
+
+	str += this.digits[ 0 ] ;
+
+	if ( this.digits.length > 1 ) {
+		str += this.decimalSeparator + this.digits.join( '' ).slice( 1 ) ;
+	}
+
+	str += 'e' + ( this.exposant > 0 ? '+' : '' ) + ( this.exposant - 1 ) ;
+	return str ;
+} ;
+
+
+
+const SUPER_NUMBER = [ '⁰' , '¹' , '²' , '³' , '⁴' , '⁵' , '⁶' , '⁷' , '⁸' , '⁹' ] ;
+const SUPER_PLUS = '⁺' ;
+const SUPER_MINUS = '⁻' ;
+const ZERO_CHAR_CODE = '0'.charCodeAt( 0 ) ;
+
+StringNumber.prototype.toScientific =
+StringNumber.prototype.toScientificString = function() {
+	if ( this.special !== null ) { return '' + this.special ; }
+
+	var str = this.sign < 0 ? '-' : '' ;
+	if ( ! this.digits.length ) { return str + '0' ; }
+
+	str += this.digits[ 0 ] ;
+
+	if ( this.digits.length > 1 ) {
+		str += this.decimalSeparator + this.digits.join( '' ).slice( 1 ) ;
+	}
+
+	var exposantStr =
+		( this.exposant <= 0 ? SUPER_MINUS : '' ) +
+		( '' + Math.abs( this.exposant - 1 ) ).split( '' ).map( c => SUPER_NUMBER[ c.charCodeAt( 0 ) - ZERO_CHAR_CODE ] )
+			.join( '' ) ;
+
+	str += ' × 10' + exposantStr ;
+	return str ;
+} ;
+
+
+
+// leadingZero = minimal number of number before the dot, they will be left-padded with zero if needed.
+// trailingZero = minimal number of number after the dot, they will be right-padded with zero if needed.
+// onlyIfDecimal: set it to true if you don't want right padding zero when there is no decimal
+StringNumber.prototype.toNoExp =
+StringNumber.prototype.toNoExpString = function( leadingZero = 1 , trailingZero = 0 , onlyIfDecimal = false , forcePlusSign = false , exposant = this.exposant ) {
+	if ( this.special !== null ) { return '' + this.special ; }
+
+	var integerDigits = [] , decimalDigits = [] ,
+		str = this.sign < 0 ? '-' : forcePlusSign ? '+' : '' ;
+
+	if ( ! this.digits.length ) {
+		arrayFill( integerDigits , 0 , leadingZero ) ;
+
+		if ( trailingZero && ! onlyIfDecimal ) {
+			arrayFill( decimalDigits , 0 , trailingZero ) ;
+		}
+	}
+	else if ( exposant <= 0 ) {
+		// This number is of type 0.[0...]xyz
+		arrayFill( integerDigits , 0 , leadingZero ) ;
+
+		arrayFill( decimalDigits , 0 , -exposant ) ;
+		arrayConcatSlice( decimalDigits , this.digits ) ;
+
+		if ( trailingZero && this.digits.length - exposant < trailingZero ) {
+			arrayFill( decimalDigits , 0 , trailingZero - this.digits.length + exposant ) ;
+		}
+	}
+	else if ( exposant >= this.digits.length ) {
+		// This number is of type xyz[0...]
+		if ( exposant < leadingZero ) { arrayFill( integerDigits , 0 , leadingZero - exposant ) ; }
+		arrayConcatSlice( integerDigits , this.digits ) ;
+		arrayFill( integerDigits , 0 , exposant - this.digits.length ) ;
+
+		if ( trailingZero && ! onlyIfDecimal ) {
+			arrayFill( decimalDigits , 0 , trailingZero ) ;
+		}
+	}
+	else {
+		// Here the digits are splitted with a dot in the middle
+		if ( exposant < leadingZero ) { arrayFill( integerDigits , 0 , leadingZero - exposant ) ; }
+		arrayConcatSlice( integerDigits , this.digits , 0 , exposant ) ;
+
+		arrayConcatSlice( decimalDigits , this.digits , exposant ) ;
+
+		if (
+			trailingZero && this.digits.length - exposant < trailingZero
+			&& ( ! onlyIfDecimal || this.digits.length - exposant > 0 )
+		) {
+			arrayFill( decimalDigits , 0 , trailingZero - this.digits.length + exposant ) ;
+		}
+	}
+
+	str += this.groupSeparator ?
+		this.groupDigits( integerDigits , this.groupSeparator ) :
+		integerDigits.join( '' ) ;
+
+	if ( decimalDigits.length ) {
+		str += this.decimalSeparator + (
+			this.decimalGroupSeparator ?
+				this.groupDigits( decimalDigits , this.decimalGroupSeparator ) :
+				decimalDigits.join( '' )
+		) ;
+	}
+
+	return str ;
+} ;
+
+
+
+// Metric prefix
+const MUL_PREFIX = [ '' , 'k' , 'M' , 'G' , 'T' , 'P' , 'E' , 'Z' , 'Y' ] ;
+const SUB_MUL_PREFIX = [ '' , 'm' , 'µ' , 'n' , 'p' , 'f' , 'a' , 'z' , 'y' ] ;
+
+
+
+StringNumber.prototype.toMetric =
+StringNumber.prototype.toMetricString = function( leadingZero = 1 , trailingZero = 0 , onlyIfDecimal = false , forcePlusSign = false ) {
+	if ( this.special !== null ) { return '' + this.special ; }
+	if ( ! this.digits.length ) { return this.sign > 0 ? '0' : '-0' ; }
+
+	var prefix = '' , fakeExposant ;
+
+	if ( this.exposant > 0 ) {
+		fakeExposant = 1 + ( ( this.exposant - 1 ) % 3 ) ;
+		prefix = MUL_PREFIX[ Math.floor( ( this.exposant - 1 ) / 3 ) ] ;
+		// Fallback to scientific if the number is to big
+		if ( prefix === undefined ) { return this.toScientificString() ; }
+	}
+	else {
+		fakeExposant = 3 - ( -this.exposant % 3 ) ;
+		prefix = SUB_MUL_PREFIX[ 1 + Math.floor( -this.exposant / 3 ) ] ;
+		// Fallback to scientific if the number is to small
+		if ( prefix === undefined ) { return this.toScientificString() ; }
+	}
+
+	return this.toNoExpString( leadingZero , trailingZero , onlyIfDecimal , forcePlusSign , fakeExposant ) + prefix ;
+} ;
+
+
+
+StringNumber.prototype.precision = function( n ) {
+	if ( this.special !== null || n >= this.digits.length ) { return this ; }
+
+	if ( n < 0 ) { this.digits.length = 0 ; return this ; }
+
+	if ( this.digits[ n ] >= 5 ) {
+		let i = n - 1 ,
+			done = false ;
+
+		// Cascading increase
+		for ( ; i >= 0 ; i -- ) {
+			if ( this.digits[ i ] < 9 ) { this.digits[ i ] ++ ; done = true ; break ; }
+			else { this.digits[ i ] = 0 ; }
+		}
+
+		if ( ! done ) {
+			this.exposant ++ ;
+			this.digits[ 0 ] = 1 ;
+			this.digits.length = 1 ;
+		}
+		else {
+			this.digits.length = i + 1 ;
+		}
+	}
+	else {
+		this.digits.length = n ;
+		this.removeTrailingZero() ;
+	}
+
+	return this ;
+} ;
+
+
+
+StringNumber.prototype.round = function( decimalPlace = 0 ) {
+	var n = this.exposant + decimalPlace ;
+	return this.precision( n ) ;
+} ;
+
+
+
+StringNumber.prototype.removeTrailingZero = function() {
+	var i = this.digits.length - 1 ;
+	while( i >= 0 && this.digits[ i ] === 0 ) { i -- ; }
+	this.digits.length = i + 1 ;
+} ;
+
+
+
+const GROUP_SIZE = 3 ;
+
+StringNumber.prototype.groupDigits = function( digits , separator , inverseOrder = false ) {
+	var str = '' ,
+		offset = inverseOrder ? 0 : GROUP_SIZE - ( digits.length % GROUP_SIZE ) ,
+		i = 0 ,
+		iMax = digits.length ;
+
+	for ( ; i < iMax ; i ++ ) {
+		str += i && ( ( i + offset ) % GROUP_SIZE === 0 ) ? separator + digits[ i ] : digits[ i ] ;
+	}
+
+	return str ;
+} ;
+
+
+
+function arrayFill( intoArray , value , repeat ) {
+	while ( repeat -- ) { intoArray[ intoArray.length ] = value ; }
+	return intoArray ;
+}
+
+
+
+function arrayConcatSlice( intoArray , sourceArray , start = 0 , end = sourceArray.length ) {
+	for ( let i = start ; i < end ; i ++ ) { intoArray[ intoArray.length ] = sourceArray[ i ] ; }
+	return intoArray ;
+}
+
+
+},{}],46:[function(require,module,exports){
+/*
+	String Kit
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -12153,11 +12552,11 @@ module.exports = {
 } ;
 
 
-},{}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 /*
 	String Kit
 
-	Copyright (c) 2014 - 2019 Cédric Ronvel
+	Copyright (c) 2014 - 2021 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -12258,12 +12657,12 @@ exports.unicodePercentEncode = str => str.replace( /[\x00-\x1f\u0100-\uffff\x7f%
 exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
 
 
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 (function (Buffer){
 /*
 	String Kit
 
-	Copyright (c) 2014 - 2019 Cédric Ronvel
+	Copyright (c) 2014 - 2021 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -12302,6 +12701,7 @@ const escape = require( './escape.js' ) ;
 const ansi = require( './ansi.js' ) ;
 const unicode = require( './unicode.js' ) ;
 const naturalSort = require( './naturalSort.js' ) ;
+const StringNumber = require( './StringNumber.js' ) ;
 
 
 
@@ -12313,16 +12713,21 @@ const naturalSort = require( './naturalSort.js' ) ;
 	%n		natural: output the most natural representation for this type, object entries are sorted by keys
 	%N		even more natural: avoid type hinting marks like bracket for array
 	%f		float
-	%e		for scientific notation
-	%d	%i	integer
+	%k		number with metric system prefixes
+	%e		for exponential notation (e.g. 1.23e+2)
+	%K		for scientific notation (e.g. 1.23 × 10²)
+	%i	%d	integer
 	%u		unsigned integer
 	%U		unsigned positive integer (>0)
-	%k		number with metric system prefixes
+	%P		number to (absolute) percent (e.g.: 0.75 -> 75%)
+	%p		number to relative percent (e.g.: 1.25 -> +25% ; 0.75 -> -25%)
 	%t		time duration, convert ms into H:min:s
-	%h		hexadecimal
-	%x		hexadecimal, force pair of symbols (e.g. 'f' -> '0f')
+	%m		convert degree into degree, minutes and seconds
+	%h		hexadecimal (input is a number)
+	%x		hexadecimal (input is a number), force pair of symbols (e.g. 'f' -> '0f')
 	%o		octal
 	%b		binary
+	%X		hexadecimal: convert a string into hex charcode, force pair of symbols (e.g. 'f' -> '0f')
 	%z		base64
 	%Z		base64url
 	%O		object (like inspect, but with ultra minimal options)
@@ -12545,8 +12950,12 @@ modes.S.noCommonModeArg = true ;
 modes.N = ( arg , isSubCall ) => {
 	if ( typeof arg === 'string' ) { return arg ; }
 
-	if ( arg === null || arg === undefined || arg === true || arg === false || typeof arg === 'number' ) {
+	if ( arg === null || arg === undefined || arg === true || arg === false ) {
 		return '' + arg ;
+	}
+
+	if ( typeof arg === 'number' ) {
+		return modes.f( arg , '.3g ' ) ;
 	}
 
 	if ( Array.isArray( arg ) ) {
@@ -12594,106 +13003,117 @@ modes.n = arg => modes.N( arg , true ) ;
 
 // float
 modes.f = ( arg , modeArg ) => {
-	var match , k , v , lv , n , step = 0 ,
-		toFixed , toFixedIfDecimal , padding ;
-
 	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
 	if ( typeof arg !== 'number' ) { arg = 0 ; }
 
-	if ( modeArg ) {
-		MODE_ARG_FORMAT_REGEX.lastIndex = 0 ;
+	var modes = floatModeArg( modeArg ) ,
+		sn = new StringNumber( arg , '.' , modes.groupSeparator ) ;
 
-		while ( ( match = MODE_ARG_FORMAT_REGEX.exec( modeArg ) ) ) {
-			[ , k , v ] = match ;
+	if ( modes.rounding !== null ) { sn.round( modes.rounding ) ; }
+	if ( modes.precision ) { sn.precision( modes.precision ) ; }
 
-			if ( k === 'z' ) {
-				padding = + v ;
-			}
-			else if ( ! k ) {
-				if ( v[ 0 ] === '.' ) {
-					lv = v[ v.length - 1 ] ;
-
-					if ( lv === '!' ) {
-						n = parseInt( v.slice( 1 , -1 ) , 10 ) ;
-						step = 10 ** ( -n ) ;
-						toFixed = n ;
-					}
-					else if ( lv === '?' ) {
-						n = parseInt( v.slice( 1 , -1 ) , 10 ) ;
-						step = 10 ** ( -n ) ;
-						toFixed = n ;
-						toFixedIfDecimal = true ;
-					}
-					else {
-						n = parseInt( v.slice( 1 ) , 10 ) ;
-						step = 10 ** ( -n ) ;
-					}
-				}
-				else if ( v[ v.length - 1 ] === '.' ) {
-					n = parseInt( v.slice( 0 , -1 ) , 10 ) ;
-					step = 10 ** n ;
-				}
-				else {
-					n = parseInt( v , 10 ) ;
-					step = 10 ** ( Math.ceil( Math.log10( arg + Number.EPSILON ) + Number.EPSILON ) - n ) ;
-				}
-			}
-		}
-	}
-
-	if ( step ) { arg = round( arg , step ) ; }
-
-	if ( toFixed !== undefined && ( ! toFixedIfDecimal || arg !== Math.trunc( arg ) ) ) {
-		arg = arg.toFixed( toFixed ) ;
-	}
-	else {
-		arg = '' + arg ;
-	}
-
-	if ( padding ) {
-		n = arg.indexOf( '.' ) ;
-		if ( n === -1 ) { n = arg.length ; }
-		if ( arg[ 0 ] === '-' ) {
-			if ( n - 1 < padding ) {
-				arg = '-' + '0'.repeat( 1 + padding - n ) + arg.slice( 1 ) ;
-			}
-		}
-		else if ( n < padding ) {
-			arg = '0'.repeat( padding - n ) + arg ;
-		}
-	}
-
-	return arg ;
+	return sn.toString( modes.leftPadding , modes.rightPadding , modes.rightPaddingOnlyIfDecimal ) ;
 } ;
 
 modes.f.noSanitize = true ;
 
 
 
-// scientific notation
-modes.e = ( arg , modeArg ) => {
-	var match , k , v ;
-
+// absolute percent
+modes.P = ( arg , modeArg ) => {
 	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
 	if ( typeof arg !== 'number' ) { arg = 0 ; }
 
-	if ( modeArg ) {
-		MODE_ARG_FORMAT_REGEX.lastIndex = 0 ;
+	arg *= 100 ;
 
-		if ( ( match = MODE_ARG_FORMAT_REGEX.exec( modeArg ) ) ) {
-			[ , k , v ] = match ;
+	var modes = floatModeArg( modeArg ) ,
+		sn = new StringNumber( arg , '.' , modes.groupSeparator ) ;
 
-			if ( ! k ) {
-				return '' + arg.toExponential( parseInt( v , 10 ) - 1 ) ;
-			}
-		}
-	}
+	// Force rounding to zero by default
+	if ( modes.rounding !== null || ! modes.precision ) { sn.round( modes.rounding || 0 ) ; }
+	if ( modes.precision ) { sn.precision( modes.precision ) ; }
 
-	return '' + arg.toExponential() ;
+	return sn.toNoExpString( modes.leftPadding , modes.rightPadding , modes.rightPaddingOnlyIfDecimal ) + '%' ;
+} ;
 
+modes.P.noSanitize = true ;
+
+
+
+// relative percent
+modes.p = ( arg , modeArg ) => {
+	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
+	if ( typeof arg !== 'number' ) { arg = 0 ; }
+
+	arg = ( arg - 1 ) * 100 ;
+
+	var modes = floatModeArg( modeArg ) ,
+		sn = new StringNumber( arg , '.' , modes.groupSeparator ) ;
+
+	// Force rounding to zero by default
+	if ( modes.rounding !== null || ! modes.precision ) { sn.round( modes.rounding || 0 ) ; }
+	if ( modes.precision ) { sn.precision( modes.precision ) ; }
+
+	// 4th argument force a '+' sign
+	return sn.toNoExpString( modes.leftPadding , modes.rightPadding , modes.rightPaddingOnlyIfDecimal , true ) + '%' ;
+} ;
+
+modes.p.noSanitize = true ;
+
+
+
+// metric system
+modes.k = ( arg , modeArg ) => {
+	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
+	if ( typeof arg !== 'number' ) { return '0' ; }
+
+	var modes = floatModeArg( modeArg ) ,
+		sn = new StringNumber( arg , '.' , modes.groupSeparator ) ;
+
+	if ( modes.rounding !== null ) { sn.round( modes.rounding ) ; }
+	// Default to 3 numbers precision
+	if ( modes.precision || modes.rounding === null ) { sn.precision( modes.precision || 3 ) ; }
+
+	return sn.toMetricString( modes.leftPadding , modes.rightPadding , modes.rightPaddingOnlyIfDecimal ) ;
+} ;
+
+modes.k.noSanitize = true ;
+
+
+
+// exponential notation, a.k.a. "E notation" (e.g. 1.23e+2)
+modes.e = ( arg , modeArg ) => {
+	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
+	if ( typeof arg !== 'number' ) { arg = 0 ; }
+
+	var modes = floatModeArg( modeArg ) ,
+		sn = new StringNumber( arg , '.' , modes.groupSeparator ) ;
+
+	if ( modes.rounding !== null ) { sn.round( modes.rounding ) ; }
+	if ( modes.precision ) { sn.precision( modes.precision ) ; }
+
+	return sn.toExponential() ;
 } ;
 
 modes.e.noSanitize = true ;
+
+
+
+// scientific notation (e.g. 1.23 × 10²)
+modes.K = ( arg , modeArg ) => {
+	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
+	if ( typeof arg !== 'number' ) { arg = 0 ; }
+
+	var modes = floatModeArg( modeArg ) ,
+		sn = new StringNumber( arg , '.' , modes.groupSeparator ) ;
+
+	if ( modes.rounding !== null ) { sn.round( modes.rounding ) ; }
+	if ( modes.precision ) { sn.precision( modes.precision ) ; }
+
+	return sn.toScientific() ;
+} ;
+
+modes.K.noSanitize = true ;
 
 
 
@@ -12730,17 +13150,7 @@ modes.U.noSanitize = true ;
 
 
 
-// metric system
-modes.k = arg => {
-	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
-	if ( typeof arg !== 'number' ) { return '0' ; }
-	return metricPrefix( arg ) ;
-} ;
-
-modes.k.noSanitize = true ;
-
-
-
+// /!\ Should use StringNumber???
 // Degree, minutes and seconds.
 // Unlike %t which receive ms, here the input is in degree.
 modes.m = arg => {
@@ -12770,6 +13180,7 @@ modes.m.noSanitize = true ;
 
 
 
+// /!\ Should use StringNumber???
 // time duration, transform ms into H:min:s
 // Later it should format Date as well: number=duration, date object=date
 // Note that it would not replace moment.js, but it could uses it.
@@ -12840,6 +13251,17 @@ modes.b = arg => {
 } ;
 
 modes.b.noSanitize = true ;
+
+
+
+// String to hexadecimal, force pair of symboles
+modes.X = arg => {
+	if ( typeof arg === 'string' ) { arg = Buffer.from( arg ) ; }
+	else if ( ! Buffer.isBuffer( arg ) ) { return '' ; }
+	return arg.toString( 'hex' ) ;
+} ;
+
+modes.X.noSanitize = true ;
 
 
 
@@ -13151,6 +13573,78 @@ function commonModeArg( str , modeArg ) {
 
 
 
+const FLOAT_MODES = {
+	leftPadding: 1 ,
+	rightPadding: 0 ,
+	rightPaddingOnlyIfDecimal: false ,
+	rounding: null ,
+	precision: null ,
+	groupSeparator: ''
+} ;
+
+// Generic number modes
+function floatModeArg( modeArg ) {
+	var match , k , v , lv ;
+
+	FLOAT_MODES.leftPadding = 1 ;
+	FLOAT_MODES.rightPadding = 0 ;
+	FLOAT_MODES.rightPaddingOnlyIfDecimal = false ;
+	FLOAT_MODES.rounding = null ;
+	FLOAT_MODES.precision = null ;
+	FLOAT_MODES.groupSeparator = '' ;
+
+	if ( modeArg ) {
+		MODE_ARG_FORMAT_REGEX.lastIndex = 0 ;
+
+		while ( ( match = MODE_ARG_FORMAT_REGEX.exec( modeArg ) ) ) {
+			[ , k , v ] = match ;
+
+			if ( k === 'z' ) {
+				// Zero-left padding
+				FLOAT_MODES.leftPadding = + v ;
+			}
+			else if ( k === 'g' ) {
+				// Group separator
+				FLOAT_MODES.groupSeparator = v || ' ' ;
+			}
+			else if ( ! k ) {
+				if ( v === 'g' ) {
+					// Group separator
+					FLOAT_MODES.groupSeparator = ' ' ;
+				}
+				else if ( v[ 0 ] === '.' ) {
+					// Rounding after the decimal
+					lv = v[ v.length - 1 ] ;
+
+					// Zero-right padding?
+					if ( lv === '!' ) {
+						FLOAT_MODES.rounding = FLOAT_MODES.rightPadding = parseInt( v.slice( 1 , -1 ) , 10 ) || 0 ;
+					}
+					else if ( lv === '?' ) {
+						FLOAT_MODES.rounding = FLOAT_MODES.rightPadding = parseInt( v.slice( 1 , -1 ) , 10 ) || 0 ;
+						FLOAT_MODES.rightPaddingOnlyIfDecimal = true ;
+					}
+					else {
+						FLOAT_MODES.rounding = parseInt( v.slice( 1 ) , 10 ) || 0 ;
+					}
+				}
+				else if ( v[ v.length - 1 ] === '.' ) {
+					// Rounding before the decimal
+					FLOAT_MODES.rounding = -parseInt( v.slice( 0 , -1 ) , 10 ) || 0 ;
+				}
+				else {
+					// Precision, but only if integer
+					FLOAT_MODES.precision = parseInt( v , 10 ) || null ;
+				}
+			}
+		}
+	}
+
+	return FLOAT_MODES ;
+}
+
+
+
 // Generic inspect
 function genericInspectMode( arg , modeArg , options , modeOptions , isInspectError = false ) {
 	var match , k , v ,
@@ -13218,53 +13712,13 @@ function round( v , step ) {
 }
 
 
-
-// Metric prefix
-const MUL_PREFIX = [ '' , 'k' , 'M' , 'G' , 'T' , 'P' , 'E' , 'Z' , 'Y' ] ;
-const SUB_MUL_PREFIX = [ '' , 'm' , 'µ' , 'n' , 'p' , 'f' , 'a' , 'z' , 'y' ] ;
-const IROUND_STEP = [ 100 , 10 , 1 ] ;
-
-
-
-function metricPrefix( n ) {
-	var log , logDiv3 , logMod , base , prefix ;
-
-	if ( ! n || n === 1 ) { return '' + n ; }
-	if ( n < 0 ) { return '-' + metricPrefix( -n ) ; }
-
-	if ( n > 1 ) {
-		log = Math.floor( Math.log10( n ) ) ;
-		logDiv3 = Math.floor( log / 3 ) ;
-		logMod = log % 3 ;
-		base = iround( n / ( Math.pow( 1000 , logDiv3 ) ) , IROUND_STEP[ logMod ] ) ;
-		prefix = MUL_PREFIX[ logDiv3 ] ;
-	}
-	else {
-		log = Math.floor( Math.log10( n ) ) ;
-		logDiv3 = Math.floor( log / 3 ) ;
-		logMod = log % 3 ;
-		if ( logMod < 0 ) { logMod += 3 ; }
-		base = iround( n / ( Math.pow( 1000 , logDiv3 ) ) , IROUND_STEP[ logMod ] ) ;
-		prefix = SUB_MUL_PREFIX[ -logDiv3 ] ;
-	}
-
-	return '' + base + prefix ;
-}
-
-
-
-function iround( v , istep ) {
-	return Math.round( ( v + Number.EPSILON ) * istep ) / istep ;
-}
-
-
 }).call(this,require("buffer").Buffer)
-},{"./ansi.js":45,"./escape.js":46,"./inspect.js":48,"./naturalSort.js":49,"./unicode.js":50,"buffer":16}],48:[function(require,module,exports){
+},{"./StringNumber.js":45,"./ansi.js":46,"./escape.js":47,"./inspect.js":49,"./naturalSort.js":50,"./unicode.js":51,"buffer":16}],49:[function(require,module,exports){
 (function (Buffer,process){
 /*
 	String Kit
 
-	Copyright (c) 2014 - 2019 Cédric Ronvel
+	Copyright (c) 2014 - 2021 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -13299,6 +13753,7 @@ const escape = require( './escape.js' ) ;
 const ansi = require( './ansi.js' ) ;
 
 const EMPTY = {} ;
+const TRIVIAL_CONSTRUCTOR = new Set( [ Object , Array ] ) ;
 
 
 
@@ -13320,12 +13775,14 @@ const EMPTY = {} ;
 		* noArrayProperty: do not display array properties
 		* noIndex: do not display array indexes
 		* noType: do not display type and constructor
+		* noTypeButConstructor: do not display type, display non-trivial constructor (not Object or Array, but all others)
 		* enumOnly: only display enumerable properties
 		* funcDetails: display function's details
 		* proto: display object's prototype
 		* sort: sort the keys
 		* minimal: imply noFunc: true, noDescriptor: true, noType: true, noArrayProperty: true, enumOnly: true, proto: false and funcDetails: false.
 		  Display a minimal JSON-like output
+		* minimalPlusConstructor: like minimal, but output non-trivial constructor
 		* protoBlackList: `Set` of blacklisted object prototype (will not recurse inside it)
 		* propertyBlackList: `Set` of blacklisted property names (will not even display it)
 		* useInspect: use .inspect() method when available on an object (default to false)
@@ -13361,6 +13818,16 @@ function inspect( options , variable ) {
 		options.funcDetails = false ;
 	}
 
+	if ( options.minimalPlusConstructor ) {
+		options.noFunc = true ;
+		options.noDescriptor = true ;
+		options.noTypeButConstructor = true ;
+		options.noArrayProperty = true ;
+		options.enumOnly = true ;
+		options.proto = false ;
+		options.funcDetails = false ;
+	}
+
 	var str = inspect_( runtime , options , variable ) ;
 
 	if ( str.length > options.outputMaxLength ) {
@@ -13373,7 +13840,7 @@ function inspect( options , variable ) {
 
 
 function inspect_( runtime , options , variable ) {
-	var i , funcName , length , proto , propertyList , constructor , keyIsProperty ,
+	var i , funcName , length , proto , propertyList , isTrivialConstructor , constructor , keyIsProperty ,
 		type , pre , indent , isArray , isFunc , specialObject ,
 		str = '' , key = '' , descriptorStr = '' , descriptor , nextAncestors ;
 
@@ -13438,18 +13905,18 @@ function inspect_( runtime , options , variable ) {
 	}
 	else if ( type === 'number' ) {
 		str += pre + options.style.number( variable.toString() ) +
-			( options.noType ? '' : ' ' + options.style.type( 'number' ) ) +
+			( options.noType || options.noTypeButConstructor ? '' : ' ' + options.style.type( 'number' ) ) +
 			descriptorStr + options.style.newline ;
 	}
 	else if ( type === 'string' ) {
 		if ( variable.length > options.maxLength ) {
 			str += pre + '"' + options.style.string( escape.control( variable.slice( 0 , options.maxLength - 1 ) ) ) + '…"' +
-				( options.noType ? '' : ' ' + options.style.type( 'string' ) + options.style.length( '(' + variable.length + ' - TRUNCATED)' ) ) +
+				( options.noType || options.noTypeButConstructor ? '' : ' ' + options.style.type( 'string' ) + options.style.length( '(' + variable.length + ' - TRUNCATED)' ) ) +
 				descriptorStr + options.style.newline ;
 		}
 		else {
 			str += pre + '"' + options.style.string( escape.control( variable ) ) + '"' +
-				( options.noType ? '' : ' ' + options.style.type( 'string' ) + options.style.length( '(' + variable.length + ')' ) ) +
+				( options.noType || options.noTypeButConstructor ? '' : ' ' + options.style.type( 'string' ) + options.style.length( '(' + variable.length + ')' ) ) +
 				descriptorStr + options.style.newline ;
 		}
 	}
@@ -13479,14 +13946,23 @@ function inspect_( runtime , options , variable ) {
 		else if ( ! variable.constructor.name ) { constructor = '(anonymous)' ; }
 		else { constructor = variable.constructor.name ; }
 
+		isTrivialConstructor = ! variable.constructor || TRIVIAL_CONSTRUCTOR.has( variable.constructor ) ;
+
 		constructor = options.style.constructorName( constructor ) ;
 		proto = Object.getPrototypeOf( variable ) ;
 
 		str += pre ;
 
-		if ( ! options.noType ) {
-			if ( runtime.forceType ) { str += options.style.type( runtime.forceType ) ; }
-			else { str += constructor + funcName + length + ' ' + options.style.type( type ) + descriptorStr ; }
+		if ( ! options.noType && ( ! options.noTypeButConstructor || ! isTrivialConstructor ) ) {
+			if ( runtime.forceType && ! options.noType && ! options.noTypeButConstructor ) {
+				str += options.style.type( runtime.forceType ) ;
+			}
+			else if ( options.noTypeButConstructor ) {
+				str += constructor ;
+			}
+			else {
+				str += constructor + funcName + length + ' ' + options.style.type( type ) + descriptorStr ;
+			}
 
 			if ( ! isFunc || options.funcDetails ) { str += ' ' ; }	// if no funcDetails imply no space here
 		}
@@ -13535,7 +14011,7 @@ function inspect_( runtime , options , variable ) {
 			str += options.style.limit( '[circular]' ) + options.style.newline ;
 		}
 		else {
-			str += ( isArray && options.noType && options.noArrayProperty ? '[' : '{' ) + options.style.newline ;
+			str += ( isArray ? '[' : '{' ) + options.style.newline ;
 
 			// Do not use .concat() here, it doesn't works as expected with arrays...
 			nextAncestors = runtime.ancestors.slice() ;
@@ -13628,7 +14104,7 @@ function inspect_( runtime , options , variable ) {
 				) ;
 			}
 
-			str += indent + ( isArray && options.noType && options.noArrayProperty ? ']' : '}' ) ;
+			str += indent + ( isArray ? ']' : '}' ) ;
 			str += options.style.newline ;
 		}
 	}
@@ -13956,11 +14432,11 @@ inspectStyle.html = Object.assign( {} , inspectStyle.none , {
 
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")},require('_process'))
-},{"../../is-buffer/index.js":19,"./ansi.js":45,"./escape.js":46,"_process":29}],49:[function(require,module,exports){
+},{"../../is-buffer/index.js":19,"./ansi.js":46,"./escape.js":47,"_process":29}],50:[function(require,module,exports){
 /*
-	HTTP Requester
+	String Kit
 
-	Copyright (c) 2015 - 2019 Cédric Ronvel
+	Copyright (c) 2014 - 2021 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -14042,11 +14518,11 @@ module.exports = function( a , b ) {
 } ;
 
 
-},{}],50:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 /*
 	String Kit
 
-	Copyright (c) 2014 - 2019 Cédric Ronvel
+	Copyright (c) 2014 - 2021 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -14453,7 +14929,7 @@ unicode.toFullWidth = str => {
 } ;
 
 
-},{}],51:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -14573,7 +15049,7 @@ VG.prototype.addCssRule = function( rule ) {
 } ;
 
 
-},{"../package.json":64,"./VGContainer.js":52,"./svg-kit.js":60}],52:[function(require,module,exports){
+},{"../package.json":65,"./VGContainer.js":53,"./svg-kit.js":61}],53:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -14694,7 +15170,7 @@ VGContainer.prototype.morphDom = function( root = this ) {
 } ;
 
 
-},{"../package.json":64,"./VGEntity.js":54,"./svg-kit.js":60}],53:[function(require,module,exports){
+},{"../package.json":65,"./VGEntity.js":55,"./svg-kit.js":61}],54:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -14779,7 +15255,7 @@ VGEllipse.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":64,"./VGEntity.js":54}],54:[function(require,module,exports){
+},{"../package.json":65,"./VGEntity.js":55}],55:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -15164,7 +15640,7 @@ VGEntity.prototype.morphOneEntryDom = function( data , root = this ) {
 } ;
 
 
-},{"../package.json":64,"string-kit/lib/camel":62,"string-kit/lib/escape":63}],55:[function(require,module,exports){
+},{"../package.json":65,"string-kit/lib/camel":63,"string-kit/lib/escape":64}],56:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -15221,7 +15697,7 @@ VGGroup.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":64,"./VGContainer.js":52,"./svg-kit.js":60}],56:[function(require,module,exports){
+},{"../package.json":65,"./VGContainer.js":53,"./svg-kit.js":61}],57:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -15888,7 +16364,7 @@ VGPath.prototype.forwardNegativeTurn = function( data ) {
 } ;
 
 
-},{"../package.json":64,"./VGEntity.js":54}],57:[function(require,module,exports){
+},{"../package.json":65,"./VGEntity.js":55}],58:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -15979,7 +16455,7 @@ VGRect.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":64,"./VGEntity.js":54}],58:[function(require,module,exports){
+},{"../package.json":65,"./VGEntity.js":55}],59:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -16091,7 +16567,7 @@ VGText.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":64,"./VGEntity.js":54}],59:[function(require,module,exports){
+},{"../package.json":65,"./VGEntity.js":55}],60:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -16139,7 +16615,7 @@ path.dFromPoints = ( points , invertY ) => {
 } ;
 
 
-},{}],60:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 (function (process){
 /*
 	SVG Kit
@@ -16617,7 +17093,7 @@ svgKit.objectToVG = function( object ) {
 
 
 }).call(this,require('_process'))
-},{"./VG.js":51,"./VGContainer.js":52,"./VGEllipse.js":53,"./VGEntity.js":54,"./VGGroup.js":55,"./VGPath.js":56,"./VGRect.js":57,"./VGText.js":58,"./path.js":59,"_process":29,"dom-kit":61,"fs":16,"seventh":42,"string-kit/lib/escape.js":63}],61:[function(require,module,exports){
+},{"./VG.js":52,"./VGContainer.js":53,"./VGEllipse.js":54,"./VGEntity.js":55,"./VGGroup.js":56,"./VGPath.js":57,"./VGRect.js":58,"./VGText.js":59,"./path.js":60,"_process":29,"dom-kit":62,"fs":16,"seventh":42,"string-kit/lib/escape.js":64}],62:[function(require,module,exports){
 (function (process){
 /*
 	Dom Kit
@@ -17205,7 +17681,7 @@ domKit.html = function( $element , html ) { $element.innerHTML = html ; } ;
 
 
 }).call(this,require('_process'))
-},{"@cronvel/xmldom":16,"_process":29}],62:[function(require,module,exports){
+},{"@cronvel/xmldom":16,"_process":29}],63:[function(require,module,exports){
 /*
 	String Kit
 
@@ -17279,11 +17755,114 @@ camel.camelCaseToDash =
 camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' ) ;
 
 
-},{}],63:[function(require,module,exports){
-arguments[4][46][0].apply(exports,arguments)
-},{"dup":46}],64:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
+/*
+	String Kit
+
+	Copyright (c) 2014 - 2019 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+/*
+	Escape collection.
+*/
+
+
+
+"use strict" ;
+
+
+
+// From Mozilla Developper Network
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
+exports.regExp = exports.regExpPattern = str => str.replace( /([.*+?^${}()|[\]/\\])/g , '\\$1' ) ;
+
+// This replace any single $ by a double $$
+exports.regExpReplacement = str => str.replace( /\$/g , '$$$$' ) ;
+
+// Escape for string.format()
+// This replace any single % by a double %%
+exports.format = str => str.replace( /%/g , '%%' ) ;
+
+exports.jsSingleQuote = str => exports.control( str ).replace( /'/g , "\\'" ) ;
+exports.jsDoubleQuote = str => exports.control( str ).replace( /"/g , '\\"' ) ;
+
+exports.shellArg = str => '\'' + str.replace( /'/g , "'\\''" ) + '\'' ;
+
+
+
+var escapeControlMap = {
+	'\r': '\\r' ,
+	'\n': '\\n' ,
+	'\t': '\\t' ,
+	'\x7f': '\\x7f'
+} ;
+
+// Escape \r \n \t so they become readable again, escape all ASCII control character as well, using \x syntaxe
+exports.control = ( str , keepNewLineAndTab = false ) => str.replace( /[\x00-\x1f\x7f]/g , match => {
+	if ( keepNewLineAndTab && ( match === '\n' || match === '\t' ) ) { return match ; }
+	if ( escapeControlMap[ match ] !== undefined ) { return escapeControlMap[ match ] ; }
+	var hex = match.charCodeAt( 0 ).toString( 16 ) ;
+	if ( hex.length % 2 ) { hex = '0' + hex ; }
+	return '\\x' + hex ;
+} ) ;
+
+
+
+var escapeHtmlMap = {
+	'&': '&amp;' ,
+	'<': '&lt;' ,
+	'>': '&gt;' ,
+	'"': '&quot;' ,
+	"'": '&#039;'
+} ;
+
+// Only escape & < > so this is suited for content outside tags
+exports.html = str => str.replace( /[&<>]/g , match => escapeHtmlMap[ match ] ) ;
+
+// Escape & < > " so this is suited for content inside a double-quoted attribute
+exports.htmlAttr = str => str.replace( /[&<>"]/g , match => escapeHtmlMap[ match ] ) ;
+
+// Escape all html special characters & < > " '
+exports.htmlSpecialChars = str => str.replace( /[&<>"']/g , match => escapeHtmlMap[ match ] ) ;
+
+// Percent-encode all control chars and codepoint greater than 255 using percent encoding
+exports.unicodePercentEncode = str => str.replace( /[\x00-\x1f\u0100-\uffff\x7f%]/g , match => {
+	try {
+		return encodeURI( match ) ;
+	}
+	catch ( error ) {
+		// encodeURI can throw on bad surrogate pairs, but we just strip those characters
+		return '' ;
+	}
+} ) ;
+
+// Encode HTTP header value
+exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
+
+
+},{}],65:[function(require,module,exports){
 module.exports={
-  "_from": "svg-kit@^0.3.0",
+  "_from": "svg-kit@0.3.0",
   "_id": "svg-kit@0.3.0",
   "_inBundle": false,
   "_integrity": "sha512-+lqQ8WQp8UD1BlNBeVOawBKpXCBCqdwnEfRiWxG7vI3NBmZ9CBPN/eMmMt2OpJRU8UcZUOrarAjiZV3dZsqWtA==",
@@ -17292,21 +17871,22 @@ module.exports={
     "@cronvel/xmldom": "0.1.31"
   },
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "svg-kit@^0.3.0",
+    "raw": "svg-kit@0.3.0",
     "name": "svg-kit",
     "escapedName": "svg-kit",
-    "rawSpec": "^0.3.0",
+    "rawSpec": "0.3.0",
     "saveSpec": null,
-    "fetchSpec": "^0.3.0"
+    "fetchSpec": "0.3.0"
   },
   "_requiredBy": [
+    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/svg-kit/-/svg-kit-0.3.0.tgz",
   "_shasum": "a53aadb7152cf7374e2a791b9d45b7cc6d0fe25d",
-  "_spec": "svg-kit@^0.3.0",
+  "_spec": "svg-kit@0.3.0",
   "_where": "/home/cedric/inside/github/spellcast-ext-web-client",
   "author": {
     "name": "Cédric Ronvel"
@@ -17357,7 +17937,7 @@ module.exports={
   "version": "0.3.0"
 }
 
-},{}],65:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 (function (setImmediate,clearImmediate){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -17436,7 +18016,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":29,"timers":65}],66:[function(require,module,exports){
+},{"process/browser.js":29,"timers":66}],67:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -18170,7 +18750,7 @@ Url.prototype.parseHost = function() {
   if (host) this.hostname = host;
 };
 
-},{"./util":67,"punycode":30,"querystring":33}],67:[function(require,module,exports){
+},{"./util":68,"punycode":30,"querystring":33}],68:[function(require,module,exports){
 'use strict';
 
 module.exports = {

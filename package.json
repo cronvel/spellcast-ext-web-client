@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "browserify": "^16.5.2",
-    "uglify-es": "^3.3.9"
+    "uglify-js": "^3.13.7"
   },
   "scripts": {
     "test": "tea-time -R dot -O"

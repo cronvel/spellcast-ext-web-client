@@ -6019,6 +6019,21 @@ exports['->'].jsSpecial = 'call' ;
 
 
 
+// Unit conversion
+const units = {} ;
+// Use radian
+units.deg = units.degree = units['°'] = v => v / 180 * Math.PI ;
+// Use Kelvin
+units.celsius = units['°C'] = v => v + 273.15 ;
+
+for ( let unit in units ) {
+	exports[ unit ] = units[ unit ] ;
+	exports[ unit ].mode = mode.SINGLE_OP_AFTER ;
+	exports[ unit ].jsFn = unit ;
+}
+
+
+
 // The function itself should know its identifier
 for ( let key in exports ) {
 	if ( ! exports[ key ].id ) { exports[ key ].id = key ; }

@@ -1,6 +1,6 @@
 {
   "name": "spellcast-ext-web-client",
-  "version": "0.50.7",
+  "version": "0.50.8",
   "description": "Spellcast's Web Client extension.",
   "main": "lib/extension.js",
   "engines": {
@@ -12,10 +12,10 @@
   "dependencies": {
     "dom-kit": "^0.4.1",
     "exm": "^0.5.12",
-    "kung-fig-expression": "^0.45.6",
+    "kung-fig-expression": "^0.45.7",
     "nextgen-events": "^1.4.0",
     "seventh": "^0.7.38",
-    "spellcast-shared": "^0.50.7",
+    "spellcast-shared": "^0.50.8",
     "string-kit": "^0.12.5",
     "svg-kit": "^0.3.0"
   },

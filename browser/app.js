@@ -1633,6 +1633,41 @@ Dom.prototype.defineAnimation = function( id , data ) {
 
 
 
+/* Dice Roller */
+
+
+
+Dom.prototype.diceRollerDisabled = function( data ) {
+	// TODO
+} ;
+
+
+
+Dom.prototype.diceRoller = async function( data ) {
+	var submitData , engine , diceRoller ,
+		gSceneId = data.gScene || 'default' ,
+		gScene = this.gScenes[ gSceneId ] ;
+
+	console.warn( "DOM diceRoller()" , data , gScene , engineLib.lib[ gScene?.engineId ] ) ;
+	if ( ! gScene ) { return { unsupported: true } ; }
+	engine = engineLib.lib[ gScene.engineId ] ;
+	if ( ! engine || ! engine.DiceRoller ) { return { unsupported: true } ; }
+
+	try {
+		diceRoller = new engine.DiceRoller( gScene , data ) ;
+		diceRoller.init() ;
+		submitData = await diceRoller.roll() ;
+	}
+	catch ( error ) {
+		console.warn( "DOM diceRoller() error:" , error ) ;
+		return { unsupported: true } ;
+	}
+
+	return submitData ;
+} ;
+
+
+
 /* SFX */
 
 
@@ -1867,6 +1902,8 @@ EventDispatcher.prototype.initBus = function() {
 
 	this.bus.on( 'wait' , EventDispatcher.wait.bind( this ) ) ;
 	this.bus.on( 'end' , EventDispatcher.end.bind( this ) , { async: true } ) ;
+
+	this.bus.on( 'diceRoller' , EventDispatcher.diceRoller.bind( this ) ) ;
 
 	this.bus.on( 'custom' , EventDispatcher.custom.bind( this ) ) ;
 
@@ -2406,6 +2443,19 @@ EventDispatcher.end = function( result , data , callback ) {
 		case 'draw' :
 			this.dom.setDialog( 'Draw.' , options , finished ) ;
 			break ;
+	}
+} ;
+
+
+
+EventDispatcher.diceRoller = function( grantedRoleIds , data ) {
+	if ( grantedRoleIds.indexOf( this.roleId ) === -1 ) {
+		this.dom.diceRollerDisabled( data ) ;
+	}
+	else {
+		this.dom.diceRoller( data ).then( submitData => {
+			this.bus.emit( 'diceRollerSubmit' , submitData ) ;
+		} ) ;
 	}
 } ;
 

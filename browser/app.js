@@ -2531,8 +2531,8 @@ function GEntity( dom , gScene , data ) {
 	
 	this.dom = dom ;    // Dom instance, immutable
 	this.usage = data.usage || 'sprite' ;   // immutable
-	this.transient = data.transient || undefined ;  // immutable
 	this.parent = undefined ;   // immutable, set later in the constructor
+	this.transient = data.transient || undefined ;  // immutable
 	this.destroyed = false ;
 
 	this.show = false ;
@@ -2562,6 +2562,7 @@ function GEntity( dom , gScene , data ) {
 
 	// Internal
 
+	this.firstUpdate = true ;
 	this.$wrapper = null ;
 	this.$image = null ;
 	this.$backImage = null ;
@@ -2606,6 +2607,11 @@ GEntity.prototype.update = async function( data , awaiting = false , initial = f
 	var transitionPromise = Promise.resolved ;
 
 	console.warn( "GEntity.update()" , data ) ;
+	if ( data.delay ) { await Promise.resolveTimeout( data.delay * 1000 ) ; }
+	if ( this.firstUpdate ) {
+		if ( this.transient ) { setTimeout( () => this.destroy() , this.transient * 1000 ) ; }
+		this.firstUpdate = false ;
+	}
 
 	// Structural/discrete part
 
@@ -9447,10 +9453,10 @@ Promise.Queue = Queue ;
 
 
 
-function Job( id , dependencies = null , data = undefined ) {
+function Job( id , dependencies , data ) {
 	this.id = id ;
 	this.dependencies = dependencies === null ? null : [ ... dependencies ] ;
-	this.data = data === undefined ? id : data ;
+	this.data = data ;
 	this.error = null ;
 	this.startTime = null ;
 	this.endTime = null ;
@@ -9477,25 +9483,6 @@ Queue.prototype.add = Queue.prototype.addJob = function( id , data , dependencie
 	if ( this.isQueueRunning && ! this.isLoopRunning ) { this.run() ; }
 	if ( this.drained.isSettled() ) { this.drained = new Promise() ; }
 	return job ;
-} ;
-
-
-
-// Add a batch of jobs, with only id (data=id) and no dependencies
-Queue.prototype.addBatch = Queue.prototype.addJobBatch = function( ids ) {
-	var id , job ;
-
-	for ( id of ids ) {
-		// Don't add it twice!
-		if ( this.jobs.has( id ) ) { return false ; }
-		job = new Job( id ) ;
-		this.jobs.set( id , job ) ;
-		this.pendingJobs.set( id , job ) ;
-	}
-
-	this.canLoopAgain = true ;
-	if ( this.isQueueRunning && ! this.isLoopRunning ) { this.run() ; }
-	if ( this.drained.isSettled() ) { this.drained = new Promise() ; }
 } ;
 
 
@@ -17962,7 +17949,7 @@ exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
 
 },{}],65:[function(require,module,exports){
 module.exports={
-  "_from": "svg-kit@0.3.0",
+  "_from": "svg-kit@^0.3.0",
   "_id": "svg-kit@0.3.0",
   "_inBundle": false,
   "_integrity": "sha512-+lqQ8WQp8UD1BlNBeVOawBKpXCBCqdwnEfRiWxG7vI3NBmZ9CBPN/eMmMt2OpJRU8UcZUOrarAjiZV3dZsqWtA==",
@@ -17971,22 +17958,21 @@ module.exports={
     "@cronvel/xmldom": "0.1.31"
   },
   "_requested": {
-    "type": "version",
+    "type": "range",
     "registry": true,
-    "raw": "svg-kit@0.3.0",
+    "raw": "svg-kit@^0.3.0",
     "name": "svg-kit",
     "escapedName": "svg-kit",
-    "rawSpec": "0.3.0",
+    "rawSpec": "^0.3.0",
     "saveSpec": null,
-    "fetchSpec": "0.3.0"
+    "fetchSpec": "^0.3.0"
   },
   "_requiredBy": [
-    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/svg-kit/-/svg-kit-0.3.0.tgz",
   "_shasum": "a53aadb7152cf7374e2a791b9d45b7cc6d0fe25d",
-  "_spec": "svg-kit@0.3.0",
+  "_spec": "svg-kit@^0.3.0",
   "_where": "/home/cedric/inside/github/spellcast-ext-web-client",
   "author": {
     "name": "Cédric Ronvel"

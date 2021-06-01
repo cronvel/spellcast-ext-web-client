@@ -1460,6 +1460,7 @@ Dom.prototype.createGEntity = function( gSceneId , gEntityId , data , awaiting =
 	}
 
 	if ( gScene.hasGEntity( gEntityId ) ) { gScene.removeGEntity( gEntityId ) ; }
+	data.id = gEntityId ;	// Should be the same (come from server), but ensure it
 
 	console.warn( "createGEntity:" , gScene.engineId , engineLib.lib , engineLib.lib[ gScene.engineId ] && engineLib.lib[ gScene.engineId ].GEntity ) ;
 	engine = engineLib.lib[ gScene.engineId ] ;
@@ -1472,7 +1473,6 @@ Dom.prototype.createGEntity = function( gSceneId , gEntityId , data , awaiting =
 	}
 
 	gEntity = new GEntityClass( this , gScene , data ) ;
-	gScene.addGEntity( gEntityId , gEntity ) ;
 	return gEntity.update( data , awaiting , true ) ;
 } ;
 
@@ -2526,11 +2526,14 @@ const svgKit = require( 'svg-kit' ) ;
 // !THIS SHOULD TRACK SERVER-SIDE GEntity! spellcast/lib/gfx/GEntity.js
 function GEntity( dom , gScene , data ) {
 	this.id = data.id || null ;
-	this.dom = dom ;    // Dom instance, immutable
 	this.gScene = gScene ;
+	this.gScene.registerGEntity( this.id , this ) ;	// Immediately check that we can register it
+	
+	this.dom = dom ;    // Dom instance, immutable
 	this.usage = data.usage || 'sprite' ;   // immutable
 	this.transient = data.transient || undefined ;  // immutable
 	this.parent = undefined ;   // immutable, set later in the constructor
+	this.destroyed = false ;
 
 	this.show = false ;
 	this.persistent = true ;
@@ -2548,6 +2551,7 @@ function GEntity( dom , gScene , data ) {
 	this.rotation = { x: 0 , y: 0 , z: 1 } ;
 	this.direction = { x: 1 , y: 0 , z: 0 } ;
 	this.facing = 0 ;
+	this.billboard = null ;
 	this.opacity = 1 ;
 
 
@@ -2582,6 +2586,18 @@ GEntity.prototype = Object.create( Ngev.prototype ) ;
 GEntity.prototype.constructor = GEntity ;
 
 module.exports = GEntity ;
+
+
+
+GEntity.prototype.destroy = function() {
+	if ( this.destroyed ) { return ; }
+
+	if ( this.$locationSlot ) { this.$locationSlot.remove() ; }
+	this.$wrapper.remove() ;
+
+	this.gScene.unregisterGEntity( this.id ) ;
+	this.destroyed = true ;
+} ;
 
 
 
@@ -2629,6 +2645,7 @@ GEntity.prototype.update = async function( data , awaiting = false , initial = f
 	// For instance, this engine does not care about facing direction, we just set it without doing anything
 	if ( data.direction !== undefined ) { this.direction = data.direction ; }
 	if ( data.facing !== undefined ) { this.facing = data.facing ; }
+	if ( data.billboard !== undefined ) { this.billboard = data.billboard ; }
 	if ( data.opacity !== undefined ) { this.opacity = data.opacity ; }
 
 	if (
@@ -3684,16 +3701,26 @@ GScene.prototype.update = function( data , awaiting = false , initial = false ) 
 
 GScene.prototype.hasGEntity = function( gEntityId ) { return gEntityId in this.gEntities ; } ;
 GScene.prototype.getGEntity = function( gEntityId ) { return this.gEntities[ gEntityId ] ; } ;
-GScene.prototype.addGEntity = function( gEntityId , gEntity ) { this.gEntities[ gEntityId ] = gEntity ; } ;
+
+
+
+GScene.prototype.registerGEntity = function( gEntityId , gEntity ) {
+	if ( this.gEntities[ gEntityId ] ) { throw new Error( "Entity '" + gEntityId + "' already exists for this gScene" ) ; }
+	this.gEntities[ gEntityId ] = gEntity ;
+} ;
+
+
+
+GScene.prototype.unregisterGEntity = function( gEntityId ) {
+	delete this.gEntities[ gEntityId ] ;
+} ;
+
+
 
 GScene.prototype.removeGEntity = function( gEntityId ) {
 	var gEntity = this.gEntities[ gEntityId ] ;
 	if ( ! gEntity ) { return false ; }
-
-	if ( gEntity.$locationSlot ) { gEntity.$locationSlot.remove() ; }
-	gEntity.$wrapper.remove() ;
-
-	delete this.gEntities[ gEntityId ] ;
+	gEntity.destroy() ;
 	return true ;
 } ;
 

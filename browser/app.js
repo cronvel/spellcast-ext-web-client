@@ -2532,6 +2532,7 @@ function GEntity( dom , gScene , data ) {
 	this.dom = dom ;    // Dom instance, immutable
 	this.usage = data.usage || 'sprite' ;   // immutable
 	this.parent = undefined ;   // immutable, set later in the constructor
+	this.parentMode = undefined ;   // immutable, set later in the constructor
 	this.transient = data.transient || undefined ;  // immutable
 	this.destroyed = false ;
 
@@ -3871,6 +3872,7 @@ function Frame( data = {} ) {
 	this.yFlip = !! data.yFlip ;			// flip the image, +y and -y are flipped
 
 	this.origin = data.origin ;
+	this.zOffset = data.zOffset ;			// sort of z-origin but better suited for sprite-planting
 	this.relSize = data.relSize ;
 
 	this.engine = data.engine || null ;		// engine-specific, like shaders?

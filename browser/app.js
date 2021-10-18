@@ -169,6 +169,7 @@ const Camera = require( './Camera.js' ) ;
 const TexturePack = require( './TexturePack.js' ) ;
 const GEntity = require( './GEntity.js' ) ;
 const commonUtils = require( './commonUtils.js' ) ;
+const toolkit = require( './toolkit.js' ) ;
 
 const Ngev = require( 'nextgen-events/lib/browser.js' ) ;
 const Promise = require( 'seventh' ) ;
@@ -214,6 +215,11 @@ function Dom() {
 	this.nextSoundChannel = 0 ;
 
 	this.gScenes = {} ;
+	
+	// Event to dispatch to a GScene
+	this.gSceneDispatch = {
+		message: null
+	} ;
 
 	// Move it to GScene?
 	this.animations = {} ;
@@ -506,9 +512,16 @@ Dom.prototype.addSelectedChoice = function( text ) {
 
 
 Dom.prototype.addMessage = function( text , options , callback ) {
+	if ( this.gSceneDispatch.message && this.gSceneDispatch.message.addMessage ) {
+		this.gSceneDispatch.message.addMessage( text , options ).then( callback ) ;
+		return ;
+	}
+	
 	var triggered = false ;
-
 	callback = callback || noop ;
+	
+	// Transform markup to HTML markup
+	text = toolkit.markup( text ) ;
 
 	var triggerCallback = () => {
 		if ( triggered ) { return ; }
@@ -581,6 +594,9 @@ Dom.prototype.messageNext = function( value , callback ) {
 
 Dom.prototype.addSpeech = function( text , options , callback ) {
 	var $button ;
+
+	// Remove markup
+	text = toolkit.stripMarkup( text ) ;
 
 	if ( options.speechReplay ) {
 		if ( options.speechOnly && this.newSegmentNeeded ) {
@@ -1391,6 +1407,9 @@ Dom.prototype.createGScene = function( gSceneId , data ) {
 	console.warn( "createGScene:" , data.engineId , engineLib.lib , engineLib.lib[ data.engineId ] && engineLib.lib[ data.engineId ].GScene ) ;
 	var GSceneClass = ( engineLib.lib[ data.engineId ] && engineLib.lib[ data.engineId ].GScene ) || GScene ;
 	var gScene = this.gScenes[ gSceneId ] = new GSceneClass( this , data ) ;
+
+	if ( data.catch ) { this.updateGSceneDispatch( gScene , data.catch ) ; }
+
 	return gScene.update( data , false , true ) ;
 } ;
 
@@ -1403,6 +1422,8 @@ Dom.prototype.updateGScene = function( gSceneId , data , awaiting ) {
 		console.warn( 'Unknown GScene id: ' , gSceneId ) ;
 		return Promise.resolved ;
 	}
+
+	if ( data.catch ) { this.updateGSceneDispatch( gScene , data.catch ) ; }
 
 	return gScene.update( data , awaiting ) ;
 } ;
@@ -1417,8 +1438,32 @@ Dom.prototype.clearGScene = function( gSceneId ) {
 		return ;
 	}
 
+	// Don't dispatch anymore to the GScene to be removed
+	this.removeGSceneDispatch( gScene ) ;
+
 	gScene.$gscene.remove() ;
 	delete this.gScenes[ gSceneId ] ;
+} ;
+
+
+
+// Configure GScene event dispatching
+Dom.prototype.updateGSceneDispatch = function( gScene , list ) {
+	if ( ! list || typeof list !== 'object' ) { return ; }
+
+	for ( let key in list ) {
+		if ( this.gSceneDispatch[ key ] === undefined ) { continue ; }
+		this.gSceneDispatch[ key ] = list[ key ] ? gScene : null ;
+	}
+} ;
+
+
+
+// Don't dispatch anymore to the provided GScene
+Dom.prototype.removeGSceneDispatch = function( gScene ) {
+	for ( let key in this.gSceneDispatch ) {
+		if ( this.gSceneDispatch[ key ] === gScene ) { this.gSceneDispatch[ key ] = null ; }
+	}
 } ;
 
 
@@ -1763,7 +1808,7 @@ function soundFadeOut( $element , callback ) {
 }
 
 
-},{"./Camera.js":1,"./GEntity.js":4,"./GScene.js":5,"./TexturePack.js":7,"./commonUtils.js":9,"./engineLib.js":10,"./exm.js":11,"dom-kit":16,"nextgen-events/lib/browser.js":26,"seventh":41,"svg-kit":60}],3:[function(require,module,exports){
+},{"./Camera.js":1,"./GEntity.js":4,"./GScene.js":5,"./TexturePack.js":7,"./commonUtils.js":9,"./engineLib.js":10,"./exm.js":11,"./toolkit.js":14,"dom-kit":16,"nextgen-events/lib/browser.js":26,"seventh":41,"svg-kit":60}],3:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -1795,7 +1840,6 @@ function soundFadeOut( $element , callback ) {
 
 
 const Dom = require( './Dom.js' ) ;
-const toolkit = require( './toolkit.js' ) ;
 
 const Promise = require( 'seventh' ) ;
 const Ngev = require( 'nextgen-events/lib/browser.js' ) ;
@@ -2077,24 +2121,24 @@ EventDispatcher.message = function( text , options , callback ) {
 		options.useService = this.config.hasSpeechService ;
 
 		if ( options.speechOnly ) {
-			this.dom.addSpeech( toolkit.stripMarkup( text ) , options , callback ) ;
+			this.dom.addSpeech( text , options , callback ) ;
 		}
 		else {
 			let messageDone = false , speechDone = false ;
 
-			this.dom.addMessage( toolkit.markup( text ) , options , () => {
+			this.dom.addMessage( text , options , () => {
 				messageDone = true ;
 				if ( speechDone ) { callback() ; }
 			} ) ;
 
-			this.dom.addSpeech( toolkit.stripMarkup( text ) , options , () => {
+			this.dom.addSpeech( text , options , () => {
 				speechDone = true ;
 				if ( messageDone ) { callback() ; }
 			} ) ;
 		}
 	}
 	else {
-		this.dom.addMessage( toolkit.markup( text ) , options , callback ) ;
+		this.dom.addMessage( text , options , callback ) ;
 	}
 } ;
 
@@ -2480,7 +2524,7 @@ EventDispatcher.exit = function( error , timeout , callback ) {
 } ;
 
 
-},{"./Dom.js":2,"./exm.js":11,"./toolkit.js":14,"nextgen-events/lib/browser.js":26,"seventh":41}],4:[function(require,module,exports){
+},{"./Dom.js":2,"./exm.js":11,"nextgen-events/lib/browser.js":26,"seventh":41}],4:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -2528,7 +2572,7 @@ function GEntity( dom , gScene , data ) {
 	this.id = data.id || null ;
 	this.gScene = gScene ;
 	this.gScene.registerGEntity( this.id , this ) ;	// Immediately check that we can register it
-	
+
 	this.dom = dom ;    // Dom instance, immutable
 	this.usage = data.usage || 'sprite' ;   // immutable
 	this.parent = undefined ;   // immutable, set later in the constructor
@@ -3406,7 +3450,7 @@ GEntity.prototype.updateMarkerLocation = function( vgId , areaId ) {
 
 
 // Remaining server-side properties to port...
-GEntity.prototype.update_serverside = function( data , initial = false ) {
+GEntity.prototype.update_serverside = function( data , initial = false ) {	/* eslint-disable-line camelcase */
 	var key ;
 
 	if ( data.show !== undefined ) { this.show = !! data.show ; }
@@ -4216,6 +4260,7 @@ module.exports = BrowserExm.registerNs( {
 		// Useful??? Everything should use engine hooks, there is probably little interest in re-using existing classes
 		EventDispatcher: require( './EventDispatcher.js' ) ,
 		Dom: Dom ,
+		toolkit: require( './toolkit.js' ) ,
 		Camera: require( './Camera.js' ) ,
 		GEntity: require( './GEntity.js' ) ,
 		GScene: require( './GScene.js' ) ,
@@ -4232,7 +4277,7 @@ module.exports = BrowserExm.registerNs( {
 } ) ;
 
 
-},{"./Camera.js":1,"./Dom.js":2,"./EventDispatcher.js":3,"./GEntity.js":4,"./GScene.js":5,"./GTransition.js":6,"./TexturePack.js":7,"./engineLib.js":10,"exm/lib/BrowserExm.js":17,"kung-fig-expression/lib/fnOperators.js":21,"spellcast-shared/lib/operators.js":43}],12:[function(require,module,exports){
+},{"./Camera.js":1,"./Dom.js":2,"./EventDispatcher.js":3,"./GEntity.js":4,"./GScene.js":5,"./GTransition.js":6,"./TexturePack.js":7,"./engineLib.js":10,"./toolkit.js":14,"exm/lib/BrowserExm.js":17,"kung-fig-expression/lib/fnOperators.js":21,"spellcast-shared/lib/operators.js":43}],12:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 

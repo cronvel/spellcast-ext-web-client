@@ -224,6 +224,7 @@ function Dom() {
 	// Move it to GScene?
 	this.animations = {} ;
 
+	this.themeData = null ;
 	this.hintTimer = null ;
 	this.sceneImageOnTimer = null ;
 	this.onCommandSubmit = null ;
@@ -262,8 +263,9 @@ Dom.prototype.addScript = function( url ) {
 
 
 
-Dom.prototype.setTheme = function( theme ) {
-	this.$theme.setAttribute( 'href' , this.cleanUrl( theme.url ) ) ;
+Dom.prototype.setTheme = function( themeConfig ) {
+	this.$theme.setAttribute( 'href' , this.cleanUrl( themeConfig.url ) ) ;
+	this.themeConfig = themeConfig ;
 } ;
 
 

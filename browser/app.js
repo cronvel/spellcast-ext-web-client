@@ -4540,18 +4540,18 @@ const escapeHtml = require( 'string-kit/lib/escape.js' ).html ;
 
 const markupConfig = {
 	endingMarkupReset: true ,
-	markupReset: function( markupStack ) {
+	markupReset: markupStack => {
 		var str = '</span>'.repeat( markupStack.length ) ;
 		markupStack.length = 0 ;
 		return str ;
 	} ,
 	markup: {
-		":": function( markupStack ) {
+		":": markupStack => {
 			var str = '</span>'.repeat( markupStack.length ) ;
 			markupStack.length = 0 ;
 			return str ;
 		} ,
-		" ": function( markupStack ) {
+		" ": markupStack => {
 			var str = '</span>'.repeat( markupStack.length ) ;
 			markupStack.length = 0 ;
 			return str + ' ' ;
@@ -4584,9 +4584,57 @@ const markupConfig = {
 
 
 
+const parseMarkupConfig = {
+	markupReset: markupStack => {
+		markupStack.length = 0 ;
+	} ,
+	parse: true ,
+	markup: {
+		":": markupStack => {
+			markupStack.length = 0 ;
+			return null ;
+		} ,
+		" ": markupStack => {
+			markupStack.length = 0 ;
+			return { text: ' ' } ;
+		} ,
+
+		"-": { dim: true } ,
+		"+": { bold: true } ,
+		"_": { underline: true } ,
+		"/": { italic: true } ,
+		"!": { inverse: true } ,
+
+		"b": { color: "blue" } ,
+		"B": { color: "brightBlue" } ,
+		"c": { color: "cyan" } ,
+		"C": { color: "brightCyan" } ,
+		"g": { color: "green" } ,
+		"G": { color: "brightGreen" } ,
+		"k": { color: "black" } ,
+		"K": { color: "grey" } ,
+		"m": { color: "magenta" } ,
+		"M": { color: "brightMagenta" } ,
+		"r": { color: "red" } ,
+		"R": { color: "brightRed" } ,
+		"w": { color: "white" } ,
+		"W": { color: "brightWhite" } ,
+		"y": { color: "yellow" } ,
+		"Y": { color: "brightYellow" }
+	}
+} ;
+
+
+
 toolkit.markup = ( ... args ) => {
 	args[ 0 ] = escapeHtml( args[ 0 ] ).replace( /\n/ , '<br />' ) ;
 	return markupMethod.apply( markupConfig , args ) ;
+} ;
+
+
+
+toolkit.parseMarkup = ( ... args ) => {
+	return markupMethod.apply( parseMarkupConfig , args ) ;
 } ;
 
 
@@ -4605,7 +4653,7 @@ toolkit.stripMarkup = text => text.replace(
 },{"string-kit/lib/escape.js":46,"string-kit/lib/format.js":47}],15:[function(require,module,exports){
 
 },{}],16:[function(require,module,exports){
-(function (process){
+(function (process){(function (){
 /*
 	Dom Kit
 
@@ -5199,9 +5247,9 @@ domKit.text = ( $element , text ) => $element.textContent = text ;
 domKit.html = ( $element , html ) => $element.innerHTML = html ;
 
 
-}).call(this,require('_process'))
+}).call(this)}).call(this,require('_process'))
 },{"@cronvel/xmldom":15,"_process":28}],17:[function(require,module,exports){
-(function (global){
+(function (global){(function (){
 /*
 	EXM
 
@@ -5384,7 +5432,7 @@ if ( ! global.EXM ) {
 }
 
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+}).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],18:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
@@ -5412,7 +5460,7 @@ function isSlowBuffer (obj) {
 /*
 	Kung Fig Expression
 
-	Copyright (c) 2015 - 2020 Cédric Ronvel
+	Copyright (c) 2015 - 2021 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -5474,7 +5522,7 @@ ObjectEntry.unserializer = function( ... args ) {
 /*
 	Kung Fig Expression
 
-	Copyright (c) 2015 - 2020 Cédric Ronvel
+	Copyright (c) 2015 - 2021 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -5524,7 +5572,7 @@ module.exports = Stack ;
 /*
 	Kung Fig Expression
 
-	Copyright (c) 2015 - 2020 Cédric Ronvel
+	Copyright (c) 2015 - 2021 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -5671,6 +5719,7 @@ exports['%+'].mode = mode.MULTI_OP ;
 exports['%+'].jsFn = 'positiveModulo' ;
 
 
+
 // Comparison operators
 
 exports['>'] = ( ... args ) => {
@@ -5729,8 +5778,7 @@ exports['==='] = exports['=='] = exports['='] = ( ... args ) => {
 	var i = 0 , iMax = args.length - 1 ;
 
 	for ( ; i < iMax ; i ++ ) {
-		// Intentional construct, because of NaN
-		if ( ! ( args[ i ] === args[ i + 1 ] ) ) { return false ; }
+		if ( args[ i ] !== args[ i + 1 ] ) { return false ; }
 	}
 
 	return true ;
@@ -5742,8 +5790,7 @@ exports['≠'] = exports['!=='] = exports['!='] = ( ... args ) => {
 	var i = 0 , iMax = args.length - 1 ;
 
 	for ( ; i < iMax ; i ++ ) {
-		// Intentional construct, because of NaN
-		if ( ! ( args[ i ] !== args[ i + 1 ] ) ) { return false ; }
+		if ( args[ i ] === args[ i + 1 ] ) { return false ; }
 	}
 
 	return true ;
@@ -5773,6 +5820,19 @@ exports.around = exports['≈'] = exports['%='] = ( left , right , maxRate ) => 
 } ;
 exports['%='].mode = mode.SINGLE_OP_AFTER ;
 exports['%='].jsFn = 'around' ;
+
+// Is equal to one of the following
+exports['is-one-of'] = ( ... args ) => {
+	var i , iMax = args.length ;
+
+	for ( i = 1 ; i < iMax ; i ++ ) {
+		if ( args[ 0 ] === args[ i ] ) { return true ; }
+	}
+
+	return false ;
+} ;
+exports['is-one-of'].mode = mode.SINGLE_OP_AFTER ;
+
 
 
 // Logical operators
@@ -5831,14 +5891,26 @@ exports.default = exports['||'] = ( ... args ) => {
 exports['||'].mode = mode.MULTI_OP ;
 exports['||'].jsOp = '||' ;
 
-// Ternary
-exports['?'] = ( condition , trueExpr = true , falseExpr = false ) => condition ? trueExpr : falseExpr ;
+// Ternary, with switch-case-like behavior (like JS inline/nested ternaries)
+exports['?'] = ( condition , trueExpr = true , ... args ) => {
+	if ( condition ) { return trueExpr ; }
+
+	// Switch-case-like
+	var i , iMax ;
+	for ( i = 0 , iMax = args.length ; i < iMax - 1 ; i += 2 ) {
+		if ( args[ i ] ) { return args[ i + 1 ] ; }
+	}
+
+	if ( i < iMax ) { return args[ i ] ; }
+	return false ;
+} ;
 exports['?'].mode = mode.SINGLE_OP_AFTER ;
 exports['?'].jsSpecial = 'ternary' ;
 
 // Null-coalescing
 exports['??'] = ( value , defaultExpr = false ) => value != null ? value : defaultExpr ;	/* eslint-disable-line eqeqeq */
 exports['??'].mode = mode.SINGLE_OP_AFTER ;
+exports['??'].jsOp = '??' ;
 
 // Three-way operator
 exports.threeWay = exports['???'] = ( evaluation , negativeExpr , equalExpr , positiveExpr ) => {
@@ -5918,6 +5990,12 @@ batchOfNativeStatic( Math , 'Math' , [
 
 // Aliases of native static function
 exports['^'] = exports.pow ;
+
+// Clamp a value, ensure it in bounds
+exports.clamp = ( v , min , max ) =>
+	min <= max ? ( v < min ? min : v > max ? max : v ) :
+	( v < max ? max : v > min ? min : v ) ;
+exports.clamp.mode = mode.FN ;
 
 exports.avg = ( ... args ) => args.reduce( ( s , e ) => s + e , 0 ) / args.length ;
 exports.avg.mode = mode.FN ;
@@ -6140,7 +6218,7 @@ for ( let key in exports ) {
 /*
 	Kung Fig Expression
 
-	Copyright (c) 2015 - 2020 Cédric Ronvel
+	Copyright (c) 2015 - 2021 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -6201,7 +6279,7 @@ module.exports = ( params , mapping , named = {} ) => {
 /*
 	Kung Fig Expression
 
-	Copyright (c) 2015 - 2020 Cédric Ronvel
+	Copyright (c) 2015 - 2021 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -6238,11 +6316,11 @@ exports.KV = 6 ;
 
 
 },{}],24:[function(require,module,exports){
-(function (process,global,setImmediate){
+(function (process,global,setImmediate){(function (){
 /*
 	Next-Gen Events
 
-	Copyright (c) 2015 - 2019 Cédric Ronvel
+	Copyright (c) 2015 - 2021 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -7656,12 +7734,12 @@ if ( global.AsyncTryCatch ) {
 NextGenEvents.Proxy = require( './Proxy.js' ) ;
 
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
+}).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
 },{"../package.json":27,"./Proxy.js":25,"_process":28,"timers":65}],25:[function(require,module,exports){
 /*
 	Next-Gen Events
 
-	Copyright (c) 2015 - 2019 Cédric Ronvel
+	Copyright (c) 2015 - 2021 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -8205,11 +8283,11 @@ RemoteService.prototype.receiveAckEmit = function( message ) {
 
 
 },{"./NextGenEvents.js":24}],26:[function(require,module,exports){
-(function (process){
+(function (process){(function (){
 /*
 	Next-Gen Events
 
-	Copyright (c) 2015 - 2019 Cédric Ronvel
+	Copyright (c) 2015 - 2021 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -8249,24 +8327,25 @@ module.exports = require( './NextGenEvents.js' ) ;
 module.exports.isBrowser = true ;
 
 
-}).call(this,require('_process'))
+}).call(this)}).call(this,require('_process'))
 },{"./NextGenEvents.js":24,"_process":28}],27:[function(require,module,exports){
 module.exports={
   "name": "nextgen-events",
-  "version": "1.4.0",
+  "version": "1.5.2",
   "description": "The next generation of events handling for javascript! New: abstract away the network!",
   "main": "lib/NextGenEvents.js",
   "engines": {
     "node": ">=6.0.0"
   },
   "directories": {
-    "test": "test"
+    "test": "test",
+    "bench": "bench"
   },
   "dependencies": {},
   "devDependencies": {
-    "browserify": "^16.2.2",
+    "browserify": "^17.0.0",
     "uglify-js-es6": "^2.8.9",
-    "ws": "^5.1.1"
+    "ws": "^7.4.6"
   },
   "scripts": {
     "test": "tea-time -R dot"
@@ -8303,7 +8382,7 @@ module.exports={
     "title": "Next-Gen Events",
     "years": [
       2015,
-      2019
+      2021
     ],
     "owner": "Cédric Ronvel"
   }
@@ -8496,7 +8575,7 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],29:[function(require,module,exports){
-(function (global){
+(function (global){(function (){
 /*! https://mths.be/punycode v1.4.1 by @mathias */
 ;(function(root) {
 
@@ -9031,7 +9110,7 @@ process.umask = function() { return 0; };
 
 }(this));
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+}).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],30:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -9212,7 +9291,7 @@ exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
 },{"./decode":30,"./encode":31}],33:[function(require,module,exports){
-(function (process,global){
+(function (process,global){(function (){
 (function (global, undefined) {
     "use strict";
 
@@ -9400,7 +9479,7 @@ exports.encode = exports.stringify = require('./encode');
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+}).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"_process":28}],34:[function(require,module,exports){
 /*
 	Seventh
@@ -10324,7 +10403,7 @@ Promise.race = ( iterable ) => {
 
 
 },{"./seventh.js":41}],37:[function(require,module,exports){
-(function (process,global,setImmediate){
+(function (process,global,setImmediate){(function (){
 /*
 	Seventh
 
@@ -11081,7 +11160,7 @@ if ( process.browser ) {
 }
 
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
+}).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
 },{"_process":28,"setimmediate":33,"timers":65}],38:[function(require,module,exports){
 /*
 	Seventh
@@ -11589,7 +11668,7 @@ Promise.variableRetry = ( asyncFn , thisBinding ) => {
 
 
 },{"./seventh.js":41}],39:[function(require,module,exports){
-(function (process){
+(function (process){(function (){
 /*
 	Seventh
 
@@ -11687,7 +11766,7 @@ Promise.resolveSafeTimeout = function( timeout , value ) {
 } ;
 
 
-}).call(this,require('_process'))
+}).call(this)}).call(this,require('_process'))
 },{"./seventh.js":41,"_process":28}],40:[function(require,module,exports){
 /*
 	Seventh
@@ -12777,7 +12856,7 @@ exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
 
 
 },{}],47:[function(require,module,exports){
-(function (Buffer){
+(function (Buffer){(function (){
 /*
 	String Kit
 
@@ -12866,7 +12945,10 @@ const StringNumber = require( './StringNumber.js' ) ;
 */
 
 exports.formatMethod = function( ... args ) {
-	var str = args[ 0 ] ;
+	var arg ,
+		str = args[ 0 ] ,
+		autoIndex = 1 ,
+		length = args.length ;
 
 	if ( typeof str !== 'string' ) {
 		if ( ! str ) { str = '' ; }
@@ -12874,11 +12956,14 @@ exports.formatMethod = function( ... args ) {
 		else { str = '' ; }
 	}
 
-	var arg , autoIndex = 1 , length = args.length ,
-		hasMarkup = false , shift = null , markupStack = [] ;
+	var runtime = {
+		hasMarkup: false ,
+		shift: null ,
+		markupStack: []
+	} ;
 
 	if ( this.markupReset && this.startingMarkupReset ) {
-		str = ( typeof this.markupReset === 'function' ? this.markupReset( markupStack ) : this.markupReset ) + str ;
+		str = ( typeof this.markupReset === 'function' ? this.markupReset( runtime.markupStack ) : this.markupReset ) + str ;
 	}
 
 	//console.log( 'format args:' , arguments ) ;
@@ -12895,51 +12980,8 @@ exports.formatMethod = function( ... args ) {
 
 			if ( markup ) {
 				if ( this.noMarkup ) { return '^' + markup ; }
-				if ( markup === '^' ) { return '^' ; }
-
-				if ( this.shiftMarkup && this.shiftMarkup[ markup ] ) {
-					shift = this.shiftMarkup[ markup ] ;
-					return '' ;
-				}
-
-				if ( shift ) {
-					if ( ! this.shiftedMarkup || ! this.shiftedMarkup[ shift ] || ! this.shiftedMarkup[ shift ][ markup ] ) {
-						return '' ;
-					}
-
-					hasMarkup = true ;
-
-					if ( typeof this.shiftedMarkup[ shift ][ markup ] === 'function' ) {
-						replacement = this.shiftedMarkup[ shift ][ markup ]( markupStack ) ;
-						// method should manage markup stack themselves
-					}
-					else {
-						replacement = this.shiftedMarkup[ shift ][ markup ] ;
-						markupStack.push( replacement ) ;
-					}
-
-					shift = null ;
-				}
-				else {
-					if ( ! this.markup || ! this.markup[ markup ] ) {
-						return '' ;
-					}
-
-					hasMarkup = true ;
-
-					if ( typeof this.markup[ markup ] === 'function' ) {
-						replacement = this.markup[ markup ]( markupStack ) ;
-						// method should manage markup stack themselves
-					}
-					else {
-						replacement = this.markup[ markup ] ;
-						markupStack.push( replacement ) ;
-					}
-				}
-
-				return replacement ;
+				return markupReplace.call( this , runtime , match , markup ) ;
 			}
-
 
 			if ( index ) {
 				index = parseInt( index , 10 ) ;
@@ -13009,8 +13051,8 @@ exports.formatMethod = function( ... args ) {
 		}
 	) ;
 
-	if ( hasMarkup && this.markupReset && this.endingMarkupReset ) {
-		str += typeof this.markupReset === 'function' ? this.markupReset( markupStack ) : this.markupReset ;
+	if ( runtime.hasMarkup && this.markupReset && this.endingMarkupReset ) {
+		str += typeof this.markupReset === 'function' ? this.markupReset( runtime.markupStack ) : this.markupReset ;
 	}
 
 	if ( this.extraArguments ) {
@@ -13125,13 +13167,13 @@ modes.f = ( arg , modeArg ) => {
 	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
 	if ( typeof arg !== 'number' ) { arg = 0 ; }
 
-	var modes = floatModeArg( modeArg ) ,
-		sn = new StringNumber( arg , '.' , modes.groupSeparator ) ;
+	var subModes = floatModeArg( modeArg ) ,
+		sn = new StringNumber( arg , '.' , subModes.groupSeparator ) ;
 
-	if ( modes.rounding !== null ) { sn.round( modes.rounding ) ; }
-	if ( modes.precision ) { sn.precision( modes.precision ) ; }
+	if ( subModes.rounding !== null ) { sn.round( subModes.rounding ) ; }
+	if ( subModes.precision ) { sn.precision( subModes.precision ) ; }
 
-	return sn.toString( modes.leftPadding , modes.rightPadding , modes.rightPaddingOnlyIfDecimal ) ;
+	return sn.toString( subModes.leftPadding , subModes.rightPadding , subModes.rightPaddingOnlyIfDecimal ) ;
 } ;
 
 modes.f.noSanitize = true ;
@@ -13145,14 +13187,14 @@ modes.P = ( arg , modeArg ) => {
 
 	arg *= 100 ;
 
-	var modes = floatModeArg( modeArg ) ,
-		sn = new StringNumber( arg , '.' , modes.groupSeparator ) ;
+	var subModes = floatModeArg( modeArg ) ,
+		sn = new StringNumber( arg , '.' , subModes.groupSeparator ) ;
 
 	// Force rounding to zero by default
-	if ( modes.rounding !== null || ! modes.precision ) { sn.round( modes.rounding || 0 ) ; }
-	if ( modes.precision ) { sn.precision( modes.precision ) ; }
+	if ( subModes.rounding !== null || ! subModes.precision ) { sn.round( subModes.rounding || 0 ) ; }
+	if ( subModes.precision ) { sn.precision( subModes.precision ) ; }
 
-	return sn.toNoExpString( modes.leftPadding , modes.rightPadding , modes.rightPaddingOnlyIfDecimal ) + '%' ;
+	return sn.toNoExpString( subModes.leftPadding , subModes.rightPadding , subModes.rightPaddingOnlyIfDecimal ) + '%' ;
 } ;
 
 modes.P.noSanitize = true ;
@@ -13166,15 +13208,15 @@ modes.p = ( arg , modeArg ) => {
 
 	arg = ( arg - 1 ) * 100 ;
 
-	var modes = floatModeArg( modeArg ) ,
-		sn = new StringNumber( arg , '.' , modes.groupSeparator ) ;
+	var subModes = floatModeArg( modeArg ) ,
+		sn = new StringNumber( arg , '.' , subModes.groupSeparator ) ;
 
 	// Force rounding to zero by default
-	if ( modes.rounding !== null || ! modes.precision ) { sn.round( modes.rounding || 0 ) ; }
-	if ( modes.precision ) { sn.precision( modes.precision ) ; }
+	if ( subModes.rounding !== null || ! subModes.precision ) { sn.round( subModes.rounding || 0 ) ; }
+	if ( subModes.precision ) { sn.precision( subModes.precision ) ; }
 
 	// 4th argument force a '+' sign
-	return sn.toNoExpString( modes.leftPadding , modes.rightPadding , modes.rightPaddingOnlyIfDecimal , true ) + '%' ;
+	return sn.toNoExpString( subModes.leftPadding , subModes.rightPadding , subModes.rightPaddingOnlyIfDecimal , true ) + '%' ;
 } ;
 
 modes.p.noSanitize = true ;
@@ -13186,14 +13228,14 @@ modes.k = ( arg , modeArg ) => {
 	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
 	if ( typeof arg !== 'number' ) { return '0' ; }
 
-	var modes = floatModeArg( modeArg ) ,
-		sn = new StringNumber( arg , '.' , modes.groupSeparator ) ;
+	var subModes = floatModeArg( modeArg ) ,
+		sn = new StringNumber( arg , '.' , subModes.groupSeparator ) ;
 
-	if ( modes.rounding !== null ) { sn.round( modes.rounding ) ; }
+	if ( subModes.rounding !== null ) { sn.round( subModes.rounding ) ; }
 	// Default to 3 numbers precision
-	if ( modes.precision || modes.rounding === null ) { sn.precision( modes.precision || 3 ) ; }
+	if ( subModes.precision || subModes.rounding === null ) { sn.precision( subModes.precision || 3 ) ; }
 
-	return sn.toMetricString( modes.leftPadding , modes.rightPadding , modes.rightPaddingOnlyIfDecimal ) ;
+	return sn.toMetricString( subModes.leftPadding , subModes.rightPadding , subModes.rightPaddingOnlyIfDecimal ) ;
 } ;
 
 modes.k.noSanitize = true ;
@@ -13205,11 +13247,11 @@ modes.e = ( arg , modeArg ) => {
 	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
 	if ( typeof arg !== 'number' ) { arg = 0 ; }
 
-	var modes = floatModeArg( modeArg ) ,
-		sn = new StringNumber( arg , '.' , modes.groupSeparator ) ;
+	var subModes = floatModeArg( modeArg ) ,
+		sn = new StringNumber( arg , '.' , subModes.groupSeparator ) ;
 
-	if ( modes.rounding !== null ) { sn.round( modes.rounding ) ; }
-	if ( modes.precision ) { sn.precision( modes.precision ) ; }
+	if ( subModes.rounding !== null ) { sn.round( subModes.rounding ) ; }
+	if ( subModes.precision ) { sn.precision( subModes.precision ) ; }
 
 	return sn.toExponential() ;
 } ;
@@ -13223,11 +13265,11 @@ modes.K = ( arg , modeArg ) => {
 	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
 	if ( typeof arg !== 'number' ) { arg = 0 ; }
 
-	var modes = floatModeArg( modeArg ) ,
-		sn = new StringNumber( arg , '.' , modes.groupSeparator ) ;
+	var subModes = floatModeArg( modeArg ) ,
+		sn = new StringNumber( arg , '.' , subModes.groupSeparator ) ;
 
-	if ( modes.rounding !== null ) { sn.round( modes.rounding ) ; }
-	if ( modes.precision ) { sn.precision( modes.precision ) ; }
+	if ( subModes.rounding !== null ) { sn.round( subModes.rounding ) ; }
+	if ( subModes.precision ) { sn.precision( subModes.precision ) ; }
 
 	return sn.toScientific() ;
 } ;
@@ -13515,6 +13557,7 @@ var defaultFormatter = {
 exports.createFormatter = ( options ) => exports.formatMethod.bind( Object.assign( {} , defaultFormatter , options ) ) ;
 exports.format = exports.formatMethod.bind( defaultFormatter ) ;
 exports.format.default = defaultFormatter ;
+exports.format.modes = modes ;	// <-- expose modes, used by Babel-Tower for String Kit interop'
 
 
 
@@ -13528,68 +13571,128 @@ exports.markupMethod = function( str ) {
 		else { str = '' ; }
 	}
 
-	var hasMarkup = false , shift = null , markupStack = [] ;
+	var runtime = {
+		hasMarkup: false ,
+		shift: null ,
+		markupStack: []
+	} ;
+
+	if ( this.parse ) {
+		let object , matchArray , match , markup , offset ,
+			output = [] ,
+			lastOffset = 0 ;
+
+		for ( matchArray of str.matchAll( /\^(.?)/g ) ) {
+			[ match , markup ] = matchArray ;
+			offset = matchArray.index ;
+			object = markupReplace.call( this , runtime , ... matchArray ) ;
+
+			// First, check if you have text to add to the last chunk
+			if ( offset > lastOffset ) {
+				if ( output.length ) { output[ output.length - 1 ].text += str.slice( lastOffset , offset ) ; }
+				else { output.push( { text: str.slice( lastOffset , offset ) } ) ; }
+			}
+
+			if ( typeof object === 'string' ) {
+				// This markup is actually a text to add to the last chunk (e.g. "^^" markup is converted to a single "^")
+				if ( output.length ) { output[ output.length - 1 ].text += object ; }
+				else { output.push( { text: object } ) ; }
+			}
+			else if ( offset > lastOffset ) {
+				// If there was text added to the last chunk, then this means that the new mark starts a new chunk
+				if ( object ) {
+					runtime.markupStack.push( object ) ;
+					output.push( Object.assign( { text: '' } , ... runtime.markupStack ) ) ;
+				}
+				else {
+					output.push( { text: '' } ) ;
+				}
+			}
+			else {
+				// There wasn't any text added, so append the current markup style to the current chunk
+				if ( object ) {
+					runtime.markupStack.push( object ) ;
+					Object.assign( output[ output.length - 1 ] , object ) ;
+				}
+			}
+
+			lastOffset = offset + match.length ;
+		}
+
+		// Finally, add the remainder to the last chunk
+		if ( lastOffset < str.length ) {
+			if ( output.length ) { output[ output.length - 1 ].text += str.slice( lastOffset ) ; }
+			else { output.push( { text: str.slice( lastOffset ) } ) ; }
+		}
+
+		return output ;
+	}
 
 	if ( this.markupReset && this.startingMarkupReset ) {
-		str = ( typeof this.markupReset === 'function' ? this.markupReset( markupStack ) : this.markupReset ) + str ;
+		str = ( typeof this.markupReset === 'function' ? this.markupReset( runtime.markupStack ) : this.markupReset ) + str ;
 	}
 
 	//console.log( 'format args:' , arguments ) ;
 
-	str = str.replace( /\^(.?)/g , ( match , markup ) => {
-		var replacement ;
+	str = str.replace( /\^(.?)/g , ( match , markup , offset ) => markupReplace.call( this , runtime , match , markup ) ) ;
 
-		if ( markup === '^' ) { return '^' ; }
-
-		if ( this.shiftMarkup && this.shiftMarkup[ markup ] ) {
-			shift = this.shiftMarkup[ markup ] ;
-			return '' ;
-		}
-
-		if ( shift ) {
-			if ( ! this.shiftedMarkup || ! this.shiftedMarkup[ shift ] || ! this.shiftedMarkup[ shift ][ markup ] ) {
-				return '' ;
-			}
-
-			hasMarkup = true ;
-
-			if ( typeof this.shiftedMarkup[ shift ][ markup ] === 'function' ) {
-				replacement = this.shiftedMarkup[ shift ][ markup ]( markupStack ) ;
-				// method should manage markup stack themselves
-			}
-			else {
-				replacement = this.shiftedMarkup[ shift ][ markup ] ;
-				markupStack.push( replacement ) ;
-			}
-
-			shift = null ;
-		}
-		else {
-			if ( ! this.markup || ! this.markup[ markup ] ) {
-				return '' ;
-			}
-
-			hasMarkup = true ;
-
-			if ( typeof this.markup[ markup ] === 'function' ) {
-				replacement = this.markup[ markup ]( markupStack ) ;
-				// method should manage markup stack themselves
-			}
-			else {
-				replacement = this.markup[ markup ] ;
-				markupStack.push( replacement ) ;
-			}
-		}
-
-		return replacement ;
-	} ) ;
-
-	if ( hasMarkup && this.markupReset && this.endingMarkupReset ) {
-		str += typeof this.markupReset === 'function' ? this.markupReset( markupStack ) : this.markupReset ;
+	if ( runtime.hasMarkup && this.markupReset && this.endingMarkupReset ) {
+		str += typeof this.markupReset === 'function' ? this.markupReset( runtime.markupStack ) : this.markupReset ;
 	}
 
 	return str ;
 } ;
+
+
+
+// Used by both formatMethod and markupMethod
+function markupReplace( runtime , match , markup ) {
+	var replacement ;
+
+	if ( markup === '^' ) { return '^' ; }
+
+	if ( this.shiftMarkup && this.shiftMarkup[ markup ] ) {
+		runtime.shift = this.shiftMarkup[ markup ] ;
+		return '' ;
+	}
+
+	if ( runtime.shift ) {
+		if ( ! this.shiftedMarkup || ! this.shiftedMarkup[ runtime.shift ] || ! this.shiftedMarkup[ runtime.shift ][ markup ] ) {
+			return '' ;
+		}
+
+		runtime.hasMarkup = true ;
+
+		if ( typeof this.shiftedMarkup[ runtime.shift ][ markup ] === 'function' ) {
+			replacement = this.shiftedMarkup[ runtime.shift ][ markup ]( runtime.markupStack ) ;
+			// method should manage markup stack themselves
+		}
+		else {
+			replacement = this.shiftedMarkup[ runtime.shift ][ markup ] ;
+			runtime.markupStack.push( replacement ) ;
+		}
+
+		runtime.shift = null ;
+	}
+	else {
+		if ( ! this.markup || ! this.markup[ markup ] ) {
+			return '' ;
+		}
+
+		runtime.hasMarkup = true ;
+
+		if ( typeof this.markup[ markup ] === 'function' ) {
+			replacement = this.markup[ markup ]( runtime.markupStack ) ;
+			// method should manage markup stack themselves
+		}
+		else {
+			replacement = this.markup[ markup ] ;
+			runtime.markupStack.push( replacement ) ;
+		}
+	}
+
+	return replacement ;
+}
 
 
 
@@ -13831,9 +13934,9 @@ function round( v , step ) {
 }
 
 
-}).call(this,require("buffer").Buffer)
+}).call(this)}).call(this,require("buffer").Buffer)
 },{"./StringNumber.js":44,"./ansi.js":45,"./escape.js":46,"./inspect.js":48,"./naturalSort.js":49,"./unicode.js":50,"buffer":15}],48:[function(require,module,exports){
-(function (Buffer,process){
+(function (Buffer,process){(function (){
 /*
 	String Kit
 
@@ -14550,7 +14653,7 @@ inspectStyle.html = Object.assign( {} , inspectStyle.none , {
 } ) ;
 
 
-}).call(this,{"isBuffer":require("../../is-buffer/index.js")},require('_process'))
+}).call(this)}).call(this,{"isBuffer":require("../../is-buffer/index.js")},require('_process'))
 },{"../../is-buffer/index.js":18,"./ansi.js":45,"./escape.js":46,"_process":28}],49:[function(require,module,exports){
 /*
 	String Kit
@@ -14582,59 +14685,120 @@ inspectStyle.html = Object.assign( {} , inspectStyle.none , {
 
 
 
-/*
- * Natural Sort algorithm for Javascript - Version 0.8 - Released under MIT license
- * Author: Jim Palmer (based on chunking idea from Dave Koelle)
- */
-module.exports = function( a , b ) {
-	var re = /(^([+-]?(?:\d*)(?:\.\d*)?(?:[eE][+-]?\d+)?)?$|^0x[\da-fA-F]+$|\d+)/g ,
-		sre = /^\s+|\s+$/g ,   // trim pre-post whitespace
-		snre = /\s+/g ,        // normalize all whitespace to single ' ' character
-		dre = /(^([\w ]+,?[\w ]+)?[\w ]+,?[\w ]+\d+:\d+(:\d+)?[\w ]?|^\d{1,4}[/-]\d{1,4}[/-]\d{1,4}|^\w+, \w+ \d+, \d{4})/ ,
-		hre = /^0x[0-9a-f]+$/i ,
-		ore = /^0/ ,
-		i = function( s ) {
-			return ( '' + s ).toLowerCase().replace( sre , '' ) ;
-		} ,
-		// convert all to strings strip whitespace
-		x = i( a ) || '' ,
-		y = i( b ) || '' ,
-		// chunk/tokenize
-		xN = x.replace( re , '\0$1\0' ).replace( /\0$/ , '' )
-			.replace( /^\0/ , '' )
-			.split( '\0' ) ,
-		yN = y.replace( re , '\0$1\0' ).replace( /\0$/ , '' )
-			.replace( /^\0/ , '' )
-			.split( '\0' ) ,
-		// numeric, hex or date detection
-		xD = parseInt( x.match( hre ) , 16 ) || ( xN.length !== 1 && Date.parse( x ) ) ,
-		yD = parseInt( y.match( hre ) , 16 ) || xD && y.match( dre ) && Date.parse( y ) || null ,
-		normChunk = function( s , l ) {
-			// normalize spaces; find floats not starting with '0', string or 0 if not defined (Clint Priest)
-			return ( ! s.match( ore ) || l === 1 ) && parseFloat( s ) || s.replace( snre , ' ' ).replace( sre , '' ) || 0 ;	// jshint ignore:line
-		} ,
-		oFxNcL , oFyNcL ;
-	// first try and sort Hex codes or Dates
-	if ( yD ) {
-		if ( xD < yD ) { return -1 ; }
-		else if ( xD > yD ) { return 1 ; }
+const CONTROL_CLASS = 1 ;
+const WORD_SEPARATOR_CLASS = 2 ;
+const LETTER_CLASS = 3 ;
+const NUMBER_CLASS = 4 ;
+const SYMBOL_CLASS = 5 ;
+
+
+
+function getCharacterClass( char , code ) {
+	if ( isWordSeparator( code ) ) { return WORD_SEPARATOR_CLASS ; }
+	if ( code <= 0x1f || code === 0x7f ) { return CONTROL_CLASS ; }
+	if ( isNumber( code ) ) { return NUMBER_CLASS ; }
+	// Here we assume that a letter is a char with a “case”
+	if ( char.toUpperCase() !== char.toLowerCase() ) { return LETTER_CLASS ; }
+	return SYMBOL_CLASS ;
+}
+
+
+
+function isWordSeparator( code ) {
+	if (
+		// space, tab, no-break space
+		code === 0x20 || code === 0x09 || code === 0xa0 ||
+		// hyphen, underscore
+		code === 0x2d || code === 0x5f
+	) {
+		return true ;
 	}
-	// natural sorting through split numeric strings and default strings
-	for( var cLoc = 0 , xNl = xN.length , yNl = yN.length , numS = Math.max( xNl , yNl ) ; cLoc < numS ; cLoc ++ ) {
-		oFxNcL = normChunk( xN[cLoc] , xNl ) ;
-		oFyNcL = normChunk( yN[cLoc] , yNl ) ;
-		// handle numeric vs string comparison - number < string - (Kyle Adams)
-		if ( isNaN( oFxNcL ) !== isNaN( oFyNcL ) ) { return ( isNaN( oFxNcL ) ) ? 1 : -1 ; }
-		// rely on string comparison if different types - i.e. '02' < 2 != '02' < '2'
-		else if ( typeof oFxNcL !== typeof oFyNcL ) {
-			oFxNcL += '' ;
-			oFyNcL += '' ;
+
+	return false ;
+}
+
+
+
+function isNumber( code ) {
+	if ( code >= 0x30 && code <= 0x39 ) { return true ; }
+	return false ;
+}
+
+
+
+function naturalSort( a , b ) {
+	a = '' + a ;
+	b = '' + b ;
+
+	var aIndex , aEndIndex , aChar , aCode , aClass , aCharLc , aNumber ,
+		aTrim = a.trim() ,
+		aLength = aTrim.length ,
+		bIndex , bEndIndex , bChar , bCode , bClass , bCharLc , bNumber ,
+		bTrim = b.trim() ,
+		bLength = bTrim.length ,
+		advantage = 0 ;
+
+	for ( aIndex = bIndex = 0 ; aIndex < aLength && bIndex < bLength ; aIndex ++ , bIndex ++ ) {
+		aChar = aTrim[ aIndex ] ;
+		bChar = bTrim[ bIndex ] ;
+		aCode = aTrim.charCodeAt( aIndex ) ;
+		bCode = bTrim.charCodeAt( bIndex ) ;
+		aClass = getCharacterClass( aChar , aCode ) ;
+		bClass = getCharacterClass( bChar , bCode ) ;
+		if ( aClass !== bClass ) { return aClass - bClass ; }
+
+		switch ( aClass ) {
+			case WORD_SEPARATOR_CLASS :
+				// Eat all white chars and continue
+				while ( isWordSeparator( aTrim.charCodeAt( aIndex + 1 ) ) ) { aIndex ++ ; }
+				while ( isWordSeparator( bTrim.charCodeAt( bIndex + 1 ) ) ) { bIndex ++ ; }
+				break ;
+
+			case CONTROL_CLASS :
+			case SYMBOL_CLASS :
+				if ( aCode !== bCode ) { return aCode - bCode ; }
+				break ;
+
+			case LETTER_CLASS :
+				aCharLc = aChar.toLowerCase() ;
+				bCharLc = bChar.toLowerCase() ;
+				if ( aCharLc !== bCharLc ) { return aCharLc > bCharLc ? 1 : -1 ; }
+
+				// As a last resort, we would sort uppercase first
+				if ( ! advantage && aChar !== bChar ) { advantage = aChar !== aCharLc ? -1 : 1 ; }
+
+				break ;
+
+			case NUMBER_CLASS :
+				// Lookup for a whole number and parse it
+				aEndIndex = aIndex + 1 ;
+				while ( isNumber( aTrim.charCodeAt( aEndIndex ) ) ) { aEndIndex ++ ; }
+				aNumber = parseFloat( aTrim.slice( aIndex , aEndIndex ) ) ;
+
+				bEndIndex = bIndex + 1 ;
+				while ( isNumber( bTrim.charCodeAt( bEndIndex ) ) ) { bEndIndex ++ ; }
+				bNumber = parseFloat( bTrim.slice( bIndex , bEndIndex ) ) ;
+
+				if ( aNumber !== bNumber ) { return aNumber - bNumber ; }
+
+				// As a last resort, we would sort the number with the less char first
+				if ( ! advantage && aEndIndex - aIndex !== bEndIndex - bIndex ) { advantage = ( aEndIndex - aIndex ) - ( bEndIndex - bIndex ) ; }
+
+				// Advance the index at the end of the number area
+				aIndex = aEndIndex - 1 ;
+				bIndex = bEndIndex - 1 ;
+				break ;
 		}
-		if ( oFxNcL < oFyNcL ) { return -1 ; }
-		if ( oFxNcL > oFyNcL ) { return 1 ; }
 	}
-	return 0 ;
-} ;
+
+	// If there was an “advantage”, use it now
+	if ( advantage ) { return advantage ; }
+
+	// Finally, sort by remaining char, or by trimmed length or by full length
+	return ( aLength - aIndex ) - ( bLength - bIndex ) || aLength - bLength || a.length - b.length ;
+}
+
+module.exports = naturalSort ;
 
 
 },{}],50:[function(require,module,exports){
@@ -16735,7 +16899,7 @@ path.dFromPoints = ( points , invertY ) => {
 
 
 },{}],60:[function(require,module,exports){
-(function (process){
+(function (process){(function (){
 /*
 	SVG Kit
 
@@ -17211,9 +17375,9 @@ svgKit.objectToVG = function( object ) {
 } ;
 
 
-}).call(this,require('_process'))
+}).call(this)}).call(this,require('_process'))
 },{"./VG.js":51,"./VGContainer.js":52,"./VGEllipse.js":53,"./VGEntity.js":54,"./VGGroup.js":55,"./VGPath.js":56,"./VGRect.js":57,"./VGText.js":58,"./path.js":59,"_process":28,"dom-kit":61,"fs":15,"seventh":41,"string-kit/lib/escape.js":63}],61:[function(require,module,exports){
-(function (process){
+(function (process){(function (){
 /*
 	Dom Kit
 
@@ -17799,7 +17963,7 @@ domKit.html = function( $element , html ) { $element.innerHTML = html ; } ;
 
 
 
-}).call(this,require('_process'))
+}).call(this)}).call(this,require('_process'))
 },{"@cronvel/xmldom":15,"_process":28}],62:[function(require,module,exports){
 /*
 	String Kit
@@ -18057,7 +18221,7 @@ module.exports={
 }
 
 },{}],65:[function(require,module,exports){
-(function (setImmediate,clearImmediate){
+(function (setImmediate,clearImmediate){(function (){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
 var slice = Array.prototype.slice;
@@ -18134,7 +18298,7 @@ exports.setImmediate = typeof setImmediate === "function" ? setImmediate : funct
 exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
   delete immediateIds[id];
 };
-}).call(this,require("timers").setImmediate,require("timers").clearImmediate)
+}).call(this)}).call(this,require("timers").setImmediate,require("timers").clearImmediate)
 },{"process/browser.js":28,"timers":65}],66:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //

@@ -12,16 +12,16 @@
   "dependencies": {
     "dom-kit": "^0.4.1",
     "exm": "^0.5.12",
-    "kung-fig-expression": "^0.45.7",
-    "nextgen-events": "^1.4.0",
+    "kung-fig-expression": "^0.48.6",
+    "nextgen-events": "^1.5.2",
     "seventh": "^0.7.38",
-    "spellcast-shared": "^0.50.8",
-    "string-kit": "^0.12.5",
+    "spellcast-shared": "^0.50.9",
+    "string-kit": "^0.13.1",
     "svg-kit": "^0.3.0"
   },
   "devDependencies": {
-    "browserify": "^16.5.2",
-    "uglify-js": "^3.13.7"
+    "browserify": "^17.0.0",
+    "uglify-js": "^3.14.2"
   },
   "scripts": {
     "test": "tea-time -R dot -O"

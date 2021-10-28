@@ -4590,13 +4590,10 @@ const parseMarkupConfig = {
 	} ,
 	parse: true ,
 	markup: {
-		":": markupStack => {
-			markupStack.length = 0 ;
-			return null ;
-		} ,
+		":": null ,
 		" ": markupStack => {
 			markupStack.length = 0 ;
-			return { text: ' ' } ;
+			return [ null , ' ' ] ;
 		} ,
 
 		"-": { dim: true } ,
@@ -12971,7 +12968,7 @@ exports.formatMethod = function( ... args ) {
 
 	// /!\ each changes here should be reported on string.format.count() and string.format.hasFormatting() too /!\
 	//str = str.replace( /\^(.?)|%(?:([+-]?)([0-9]*)(?:\/([^\/]*)\/)?([a-zA-Z%])|\[([a-zA-Z0-9_]+)(?::([^\]]*))?\])/g ,
-	str = str.replace( /\^(.?)|(%%)|%([+-]?)([0-9]*)(?:\[([^\]]*)\])?([a-zA-Z])/g ,
+	str = str.replace( /\^(.)|(%%)|%([+-]?)([0-9]*)(?:\[([^\]]*)\])?([a-zA-Z])/g ,
 		( match , markup , doublePercent , relative , index , modeArg , mode ) => {
 
 			var replacement , i , tmp , fn , fnArgString , argMatches , argList = [] ;
@@ -13579,41 +13576,49 @@ exports.markupMethod = function( str ) {
 	} ;
 
 	if ( this.parse ) {
-		let object , matchArray , match , markup , offset ,
+		let objects , object , matchArray , match , markup , offset ,
 			output = [] ,
 			lastOffset = 0 ;
 
-		for ( matchArray of str.matchAll( /\^(.?)/g ) ) {
+		for ( matchArray of str.matchAll( /\^(.)/g ) ) {
 			[ match , markup ] = matchArray ;
 			offset = matchArray.index ;
-			object = markupReplace.call( this , runtime , ... matchArray ) ;
+			objects = markupReplace.call( this , runtime , ... matchArray ) ;
 
-			// First, check if you have text to add to the last chunk
+			// First, check if we have text to add to the last chunk
 			if ( offset > lastOffset ) {
 				if ( output.length ) { output[ output.length - 1 ].text += str.slice( lastOffset , offset ) ; }
 				else { output.push( { text: str.slice( lastOffset , offset ) } ) ; }
 			}
 
-			if ( typeof object === 'string' ) {
-				// This markup is actually a text to add to the last chunk (e.g. "^^" markup is converted to a single "^")
-				if ( output.length ) { output[ output.length - 1 ].text += object ; }
-				else { output.push( { text: object } ) ; }
-			}
-			else if ( offset > lastOffset ) {
-				// If there was text added to the last chunk, then this means that the new mark starts a new chunk
-				if ( object ) {
-					runtime.markupStack.push( object ) ;
-					output.push( Object.assign( { text: '' } , ... runtime.markupStack ) ) ;
+			if ( ! Array.isArray( objects ) ) { objects = [ objects ] ; }
+
+			for ( object of objects ) {
+				if ( typeof object === 'string' ) {
+					// This markup is actually a text to add to the last chunk (e.g. "^^" markup is converted to a single "^")
+					if ( output.length ) { output[ output.length - 1 ].text += object ; }
+					else { output.push( { text: object } ) ; }
+				}
+				else if ( ! object ) {
+					// Null is for a markup's style reset
+					if ( output.length && output[ output.length - 1 ].text.length ) {
+						// If there was text on the last chunk, then this means that the new markup starts a new chunk
+						// object can be null for markup reset function, but we have to create a new chunk
+						output.push( { text: '' } ) ;
+					}
 				}
 				else {
-					output.push( { text: '' } ) ;
-				}
-			}
-			else {
-				// There wasn't any text added, so append the current markup style to the current chunk
-				if ( object ) {
-					runtime.markupStack.push( object ) ;
-					Object.assign( output[ output.length - 1 ] , object ) ;
+					if ( output.length && output[ output.length - 1 ].text.length ) {
+						// If there was text on the last chunk, then this means that the new markup starts a new chunk
+						//runtime.markupStack.push( object ) ;
+						output.push( Object.assign( { text: '' } , ... runtime.markupStack ) ) ;
+					}
+					else {
+						// There wasn't any text added, so append the current markup style to the current chunk
+						//runtime.markupStack.push( object ) ;
+						if ( output.length ) { Object.assign( output[ output.length - 1 ] , object ) ; }
+						else { output.push( Object.assign( { text: '' } , object ) ) ; }
+					}
 				}
 			}
 
@@ -13635,7 +13640,7 @@ exports.markupMethod = function( str ) {
 
 	//console.log( 'format args:' , arguments ) ;
 
-	str = str.replace( /\^(.?)/g , ( match , markup , offset ) => markupReplace.call( this , runtime , match , markup ) ) ;
+	str = str.replace( /\^(.)/g , ( match , markup , offset ) => markupReplace.call( this , runtime , match , markup ) ) ;
 
 	if ( runtime.hasMarkup && this.markupReset && this.endingMarkupReset ) {
 		str += typeof this.markupReset === 'function' ? this.markupReset( runtime.markupStack ) : this.markupReset ;
@@ -13658,7 +13663,7 @@ function markupReplace( runtime , match , markup ) {
 	}
 
 	if ( runtime.shift ) {
-		if ( ! this.shiftedMarkup || ! this.shiftedMarkup[ runtime.shift ] || ! this.shiftedMarkup[ runtime.shift ][ markup ] ) {
+		if ( ! this.shiftedMarkup || ! this.shiftedMarkup[ runtime.shift ] || this.shiftedMarkup[ runtime.shift ][ markup ] === undefined ) {
 			return '' ;
 		}
 
@@ -13670,13 +13675,23 @@ function markupReplace( runtime , match , markup ) {
 		}
 		else {
 			replacement = this.shiftedMarkup[ runtime.shift ][ markup ] ;
-			runtime.markupStack.push( replacement ) ;
+
+			if ( Array.isArray( replacement ) ) {
+				for ( let item of replacement ) {
+					if ( item === null ) { runtime.markupStack.length = 0 ; }
+					else { runtime.markupStack.push( item ) ; }
+				}
+			}
+			else {
+				if ( replacement === null ) { runtime.markupStack.length = 0 ; }
+				else { runtime.markupStack.push( replacement ) ; }
+			}
 		}
 
 		runtime.shift = null ;
 	}
 	else {
-		if ( ! this.markup || ! this.markup[ markup ] ) {
+		if ( ! this.markup || this.markup[ markup ] === undefined ) {
 			return '' ;
 		}
 
@@ -13688,7 +13703,17 @@ function markupReplace( runtime , match , markup ) {
 		}
 		else {
 			replacement = this.markup[ markup ] ;
-			runtime.markupStack.push( replacement ) ;
+
+			if ( Array.isArray( replacement ) ) {
+				for ( let item of replacement ) {
+					if ( item === null ) { runtime.markupStack.length = 0 ; }
+					else { runtime.markupStack.push( item ) ; }
+				}
+			}
+			else {
+				if ( replacement === null ) { runtime.markupStack.length = 0 ; }
+				else { runtime.markupStack.push( replacement ) ; }
+			}
 		}
 	}
 
@@ -14839,6 +14864,9 @@ module.exports = naturalSort ;
 
 	Since the punycode module is deprecated in Node.js v8.x, this is an adaptation of punycode.ucs2.x
 	as found on Aug 16th 2017 at: https://github.com/bestiejs/punycode.js/blob/master/punycode.js.
+
+	2021 note -- Modern Javascript is way more unicode friendly since many years, e.g. `Array.from( string )` and `for ( char of string )` are unicode aware.
+	Some methods here are now useless, but have been modernized to use the correct ES features.
 */
 
 
@@ -14851,159 +14879,45 @@ module.exports = unicode ;
 
 unicode.encode = array => String.fromCodePoint( ... array ) ;
 
+// Decode a string into an array of unicode codepoints.
+// The 2nd argument of Array.from() is a map function, it avoids creating intermediate array.
+unicode.decode = str => Array.from( str , c => c.codePointAt( 0 ) ) ;
 
+// DEPRECATED: This function is totally useless now, with modern JS.
+unicode.firstCodePoint = str => str.codePointAt( 0 ) ;
 
-// Decode a string into an array of unicode codepoints
-unicode.decode = str => {
-	var value , extra , counter = 0 , output = [] ,
-		length = str.length ;
+// Extract only the first char.
+unicode.firstChar = str => str.length ? String.fromCodePoint( str.codePointAt( 0 ) ) : undefined ;
 
-	while ( counter < length ) {
-		value = str.charCodeAt( counter ++ ) ;
-
-		if ( value >= 0xD800 && value <= 0xDBFF && counter < length ) {
-			// It's a high surrogate, and there is a next character.
-			extra = str.charCodeAt( counter ++ ) ;
-
-			if ( ( extra & 0xFC00 ) === 0xDC00 ) {	// Low surrogate.
-				output.push( ( ( value & 0x3FF ) << 10 ) + ( extra & 0x3FF ) + 0x10000 ) ;
-			}
-			else {
-				// It's an unmatched surrogate; only append this code unit, in case the
-				// next code unit is the high surrogate of a surrogate pair.
-				output.push( value ) ;
-				counter -- ;
-			}
-		}
-		else {
-			output.push( value ) ;
-		}
-	}
-
-	return output ;
-} ;
+// DEPRECATED: This function is totally useless now, with modern JS.
+unicode.toArray = str => Array.from( str ) ;
 
 
 
-// Decode only the first char
-// Mostly an adaptation of .decode(), not factorized for performance's sake (used by Terminal-kit)
-unicode.firstCodePoint = str => {
-	var extra ,
-		value = str.charCodeAt( 0 ) ;
-
-	if ( value >= 0xD800 && value <= 0xDBFF && str.length >= 2 ) {
-		// It's a high surrogate, and there is a next character.
-		extra = str.charCodeAt( 1 ) ;
-
-		if ( ( extra & 0xFC00 ) === 0xDC00 ) {	// Low surrogate.
-			return ( ( value & 0x3FF ) << 10 ) + ( extra & 0x3FF ) + 0x10000 ;
-		}
-	}
-
-	return value ;
-} ;
-
-
-
-// Extract only the first char
-// Mostly an adaptation of .decode(), not factorized for performance's sake (used by Terminal-kit)
-unicode.firstChar = str => {
-	var extra ,
-		value = str.charCodeAt( 0 ) ;
-
-	if ( value >= 0xD800 && value <= 0xDBFF && str.length >= 2 ) {
-		// It's a high surrogate, and there is a next character.
-		extra = str.charCodeAt( 1 ) ;
-
-		if ( ( extra & 0xFC00 ) === 0xDC00 ) {	// Low surrogate.
-			return str.slice( 0 , 2 ) ;
-		}
-	}
-
-	return str[ 0 ] ;
-} ;
-
-
-
-// Decode a string into an array of unicode characters
-// Mostly an adaptation of .decode(), not factorized for performance's sake (used by Terminal-kit)
-unicode.toArray = str => {
-	var value , extra , counter = 0 , output = [] ,
-		length = str.length ;
-
-	while ( counter < length ) {
-		value = str.charCodeAt( counter ++ ) ;
-
-		if ( value >= 0xD800 && value <= 0xDBFF && counter < length ) {
-			// It's a high surrogate, and there is a next character.
-			extra = str.charCodeAt( counter ++ ) ;
-
-			if ( ( extra & 0xFC00 ) === 0xDC00 ) {	// Low surrogate.
-				output.push( str.slice( counter - 2 , counter ) ) ;
-			}
-			else {
-				// It's an unmatched surrogate; only append this code unit, in case the
-				// next code unit is the high surrogate of a surrogate pair.
-				output.push( str[ counter - 2 ] ) ;
-				counter -- ;
-			}
-		}
-		else {
-			output.push( str[ counter - 1 ] ) ;
-		}
-	}
-
-	return output ;
-} ;
-
-
-
-// Decode a string into an array of unicode characters
+// Decode a string into an array of Cell (used by Terminal-kit).
 // Wide chars have an additionnal filler cell, so position is correct
-// Mostly an adaptation of .decode(), not factorized for performance's sake (used by Terminal-kit)
 unicode.toCells = ( Cell , str , tabWidth = 4 , linePosition = 0 , ... extraCellArgs ) => {
-	var value , extra , counter = 0 , output = [] ,
-		fillSize ,
-		length = str.length ;
+	var char , code , fillSize ,
+		output = [] ;
 
-	while ( counter < length ) {
-		value = str.charCodeAt( counter ++ ) ;
+	for ( char of str ) {
+		code = char.codePointAt( 0 ) ;
 
-		if ( value === 0x0a ) {	// New line
+		if ( code === 0x0a ) {	// New line
 			linePosition = 0 ;
 		}
-		else if ( value === 0x09 ) {	// Tab
+		else if ( code === 0x09 ) {	// Tab
 			// Depends upon the next tab-stop
 			fillSize = tabWidth - ( linePosition % tabWidth ) - 1 ;
 			output.push( new Cell( '\t' , ... extraCellArgs ) ) ;
 			linePosition += 1 + fillSize ;
 			while ( fillSize -- ) { output.push( new Cell( null , ... extraCellArgs ) ) ; }
 		}
-		else if ( value >= 0xD800 && value <= 0xDBFF && counter < length ) {
-			// It's a high surrogate, and there is a next character.
-			extra = str.charCodeAt( counter ++ ) ;
-
-			if ( ( extra & 0xFC00 ) === 0xDC00 ) {	// Low surrogate.
-				value = ( ( value & 0x3FF ) << 10 ) + ( extra & 0x3FF ) + 0x10000 ;
-				output.push(  new Cell( str.slice( counter - 2 , counter ) , ... extraCellArgs )  ) ;
-				linePosition ++ ;
-
-				if ( unicode.codePointWidth( value ) === 2 ) {
-					linePosition ++ ;
-					output.push( new Cell( null , ... extraCellArgs ) ) ;
-				}
-			}
-			else {
-				// It's an unmatched surrogate, remove it.
-				// Preserve current char in case the next code unit is the high surrogate of a surrogate pair.
-				counter -- ;
-			}
-		}
 		else {
-			output.push(  new Cell( str[ counter - 1 ] , ... extraCellArgs )  ) ;
+			output.push(  new Cell( char , ... extraCellArgs )  ) ;
 			linePosition ++ ;
 
-			if ( unicode.codePointWidth( value ) === 2 ) {
+			if ( unicode.codePointWidth( code ) === 2 ) {
 				output.push( new Cell( null , ... extraCellArgs ) ) ;
 				linePosition ++ ;
 			}
@@ -15023,36 +14937,21 @@ unicode.fromCells = ( cells ) => {
 
 // Get the length of an unicode string
 // Mostly an adaptation of .decode(), not factorized for performance's sake (used by Terminal-kit)
+// /!\ Use Array.from().length instead??? Not using it is potentially faster, but it needs benchmark to be sure.
 unicode.length = str => {
-	var value , extra , counter = 0 , uLength = 0 ,
-		length = str.length ;
-
-	while ( counter < length ) {
-		value = str.charCodeAt( counter ++ ) ;
-
-		if ( value >= 0xD800 && value <= 0xDBFF && counter < length ) {
-			// It's a high surrogate, and there is a next character.
-			extra = str.charCodeAt( counter ++ ) ;
-
-			if ( ( extra & 0xFC00 ) !== 0xDC00 ) {
-				// It's an unmatched surrogate; only append this code unit, in case the
-				// next code unit is the high surrogate of a surrogate pair.
-				counter -- ;
-			}
-		}
-
-		uLength ++ ;
-	}
-
-	return uLength ;
+	// for ... of is unicode-aware
+	var char , length = 0 ;
+	for ( char of str ) { length ++ ; }		/* eslint-disable-line no-unused-vars */
+	return length ;
 } ;
 
 
 
 // Return the width of a string in a terminal/monospace font
 unicode.width = str => {
-	var count = 0 ;
-	unicode.decode( str ).forEach( code => count += unicode.codePointWidth( code ) ) ;
+	// for ... of is unicode-aware
+	var char , count = 0 ;
+	for ( char of str ) { count += unicode.codePointWidth( char.codePointAt( 0 ) ) ; }
 	return count ;
 } ;
 
@@ -15080,40 +14979,23 @@ unicode.getLastTruncateWidth = () => lastTruncateWidth ;
 
 
 
-// Return a string that does not exceed the limit
-// Mostly an adaptation of .decode(), not factorized for performance's sake (used by Terminal-kit)
+// Return a string that does not exceed the limit.
 unicode.widthLimit =	// DEPRECATED
 unicode.truncateWidth = ( str , limit ) => {
-	var value , extra , charWidth , counter = 0 , lastCounter = 0 ,
-		length = str.length ;
+	var char , charWidth , position = 0 ;
 
+	// Module global:
 	lastTruncateWidth = 0 ;
 
-	while ( counter < length ) {
-		value = str.charCodeAt( counter ++ ) ;
-
-		if ( value >= 0xD800 && value <= 0xDBFF && counter < length ) {
-			// It's a high surrogate, and there is a next character.
-			extra = str.charCodeAt( counter ++ ) ;
-
-			if ( ( extra & 0xFC00 ) === 0xDC00 ) {	// Low surrogate.
-				value = ( ( value & 0x3FF ) << 10 ) + ( extra & 0x3FF ) + 0x10000 ;
-			}
-			else {
-				// It's an unmatched surrogate; only append this code unit, in case the
-				// next code unit is the high surrogate of a surrogate pair.
-				counter -- ;
-			}
-		}
-
-		charWidth = unicode.codePointWidth( value ) ;
+	for ( char of str ) {
+		charWidth = unicode.codePointWidth( char.codePointAt( 0 ) ) ;
 
 		if ( lastTruncateWidth + charWidth > limit ) {
-			return str.slice( 0 , lastCounter ) ;
+			return str.slice( 0 , position ) ;
 		}
 
 		lastTruncateWidth += charWidth ;
-		lastCounter = counter ;
+		position += char.length ;
 	}
 
 	// The string remains unchanged
@@ -15123,6 +15005,10 @@ unicode.truncateWidth = ( str , limit ) => {
 
 
 /*
+	** PROBABLY DEPRECATED **
+
+	Check if a UCS2 char is a surrogate pair.
+
 	Returns:
 		0: single char
 		1: leading surrogate
@@ -15140,20 +15026,11 @@ unicode.surrogatePair = char => {
 
 
 
-/*
-	Check if a character is a full-width char or not.
-*/
-unicode.isFullWidth = char => {
-	if ( char.length <= 1 ) { return unicode.isFullWidthCodePoint( char.codePointAt( 0 ) ) ; }
-	return unicode.isFullWidthCodePoint( unicode.firstCodePoint( char ) ) ;
-} ;
-
+// Check if a character is a full-width char or not.
+unicode.isFullWidth = char => unicode.isFullWidthCodePoint( char.codePointAt( 0 ) ) ;
 
 // Return the width of a char, leaner than .width() for one char
-unicode.charWidth = char => {
-	if ( char.length <= 1 ) { return unicode.codePointWidth( char.codePointAt( 0 ) ) ; }
-	return unicode.codePointWidth( unicode.firstCodePoint( char ) ) ;
-} ;
+unicode.charWidth = char => unicode.codePointWidth( char.codePointAt( 0 ) ) ;
 
 
 
@@ -15207,9 +15084,10 @@ unicode.isFullWidthCodePoint = code => unicode.codePointWidth( code ) === 2 ;
 
 // Convert normal ASCII chars to their full-width counterpart
 unicode.toFullWidth = str => {
-	return String.fromCodePoint( ... unicode.decode( str ).map( code =>
-		code >= 33 && code <= 126  ?  0xff00 + code - 0x20  :  code
-	) ) ;
+	return String.fromCodePoint( ... Array.from( str , char => {
+		var code = char.codePointAt( 0 ) ;
+		return code >= 33 && code <= 126  ?  0xff00 + code - 0x20  :  code ;
+	} ) ) ;
 } ;
 
 

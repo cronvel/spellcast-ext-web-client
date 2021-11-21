@@ -4533,7 +4533,8 @@ module.exports = toolkit ;
 
 
 
-const markupMethod = require( 'string-kit/lib/format.js' ).markupMethod ;
+const format = require( 'string-kit/lib/format.js' ) ;
+const markupMethod = format.markupMethod ;
 const escapeHtml = require( 'string-kit/lib/escape.js' ).html ;
 
 
@@ -4637,15 +4638,7 @@ toolkit.parseMarkup = ( ... args ) => {
 
 
 
-const MARKUP_REGEX = /\^\[([^\]]*)]|\^(.)|([^^]+)/g ;
-
-toolkit.stripMarkup = text => text.replace(
-	MARKUP_REGEX ,
-	( match , complex , markup , raw ) =>
-		raw ? raw :
-		markup === '^' ? '^' :
-		''
-) ;
+toolkit.stripMarkup = format.stripMarkup ;
 
 
 },{"string-kit/lib/escape.js":46,"string-kit/lib/format.js":47}],15:[function(require,module,exports){
@@ -12698,7 +12691,7 @@ function arrayConcatSlice( intoArray , sourceArray , start = 0 , end = sourceArr
 
 
 // To solve dependency hell, we do not rely on terminal-kit anymore.
-module.exports = {
+const ansi = {
 	reset: '\x1b[0m' ,
 	bold: '\x1b[1m' ,
 	dim: '\x1b[2m' ,
@@ -12745,6 +12738,145 @@ module.exports = {
 	bgBrightMagenta: '\x1b[105m' ,
 	bgBrightCyan: '\x1b[106m' ,
 	bgBrightWhite: '\x1b[107m'
+} ;
+
+module.exports = ansi ;
+
+
+
+ansi.trueColor = ( r , g , b ) => {
+	if ( g === undefined && typeof r === 'string' ) {
+		let hex = r ;
+		if ( hex[ 0 ] === '#' ) { hex = hex.slice( 1 ) ; }	// Strip the # if necessary
+		if ( hex.length === 3 ) { hex = hex[ 0 ] + hex[ 0 ] + hex[ 1 ] + hex[ 1 ] + hex[ 2 ] + hex[ 2 ] ; }
+		r = parseInt( hex.slice( 0 , 2 ) , 16 ) ;
+		g = parseInt( hex.slice( 2 , 4 ) , 16 ) ;
+		b = parseInt( hex.slice( 4 , 6 ) , 16 ) ;
+	}
+
+	return '\x1b[38;2;' + r + ';' + g + ';' + b + 'm' ;
+} ;
+
+
+
+ansi.bgTrueColor = ( r , g , b ) => {
+	if ( g === undefined && typeof r === 'string' ) {
+		let hex = r ;
+		if ( hex[ 0 ] === '#' ) { hex = hex.slice( 1 ) ; }	// Strip the # if necessary
+		if ( hex.length === 3 ) { hex = hex[ 0 ] + hex[ 0 ] + hex[ 1 ] + hex[ 1 ] + hex[ 2 ] + hex[ 2 ] ; }
+		r = parseInt( hex.slice( 0 , 2 ) , 16 ) ;
+		g = parseInt( hex.slice( 2 , 4 ) , 16 ) ;
+		b = parseInt( hex.slice( 4 , 6 ) , 16 ) ;
+	}
+
+	return '\x1b[48;2;' + r + ';' + g + ';' + b + 'm' ;
+} ;
+
+
+
+const ANSI_CODES = {
+	'0': null ,
+
+	'1': { bold: true } ,
+	'2': { dim: true } ,
+	'22': { bold: false , dim: false } ,
+	'3': { italic: true } ,
+	'23': { italic: false } ,
+	'4': { underline: true } ,
+	'24': { underline: false } ,
+	'5': { blink: true } ,
+	'25': { blink: false } ,
+	'7': { inverse: true } ,
+	'27': { inverse: false } ,
+	'8': { hidden: true } ,
+	'28': { hidden: false } ,
+	'9': { strike: true } ,
+	'29': { strike: false } ,
+
+	'30': { color: 0 } ,
+	'31': { color: 1 } ,
+	'32': { color: 2 } ,
+	'33': { color: 3 } ,
+	'34': { color: 4 } ,
+	'35': { color: 5 } ,
+	'36': { color: 6 } ,
+	'37': { color: 7 } ,
+	//'39': { defaultColor: true } ,
+	'39': { color: 'default' } ,
+
+	'90': { color: 8 } ,
+	'91': { color: 9 } ,
+	'92': { color: 10 } ,
+	'93': { color: 11 } ,
+	'94': { color: 12 } ,
+	'95': { color: 13 } ,
+	'96': { color: 14 } ,
+	'97': { color: 15 } ,
+
+	'40': { bgColor: 0 } ,
+	'41': { bgColor: 1 } ,
+	'42': { bgColor: 2 } ,
+	'43': { bgColor: 3 } ,
+	'44': { bgColor: 4 } ,
+	'45': { bgColor: 5 } ,
+	'46': { bgColor: 6 } ,
+	'47': { bgColor: 7 } ,
+	//'49': { bgDefaultColor: true } ,
+	'49': { bgColor: 'default' } ,
+
+	'100': { bgColor: 8 } ,
+	'101': { bgColor: 9 } ,
+	'102': { bgColor: 10 } ,
+	'103': { bgColor: 11 } ,
+	'104': { bgColor: 12 } ,
+	'105': { bgColor: 13 } ,
+	'106': { bgColor: 14 } ,
+	'107': { bgColor: 15 }
+} ;
+
+
+
+// Parse ANSI codes, output is compatible with the markup parser
+ansi.parse = str => {
+	var ansiCodes , raw , part , style , output = [] ;
+
+	for ( [ , ansiCodes , raw ] of str.matchAll( /\x1b\[([0-9;]+)m|(.[^\x1b]*)/g ) ) {
+		if ( raw ) {
+			if ( output.length ) { output[ output.length - 1 ].text += raw ; }
+			else { output.push( { text: raw } ) ; }
+		}
+		else {
+			ansiCodes.split( ';' ).forEach( ansiCode => {
+				style = ANSI_CODES[ ansiCode ] ;
+				if ( style === undefined ) { return ; }
+
+				if ( ! output.length || output[ output.length - 1 ].text ) {
+					if ( ! style ) {
+						part = { text: '' } ;
+					}
+					else {
+						part = Object.assign( {} , part , style ) ;
+						part.text = '' ;
+					}
+
+					output.push( part ) ;
+				}
+				else {
+					// There is no text, no need to create a new part
+					if ( ! style ) {
+						// Replace the last part
+						output[ output.length - 1 ] = { text: '' } ;
+					}
+					else {
+						// update the last part
+						Object.assign( part , style ) ;
+					}
+				}
+			} ) ;
+		}
+	}
+
+	return output ;
 } ;
 
 
@@ -12967,15 +13099,15 @@ exports.formatMethod = function( ... args ) {
 	//console.log( 'format args:' , arguments ) ;
 
 	// /!\ each changes here should be reported on string.format.count() and string.format.hasFormatting() too /!\
-	//str = str.replace( /\^(.?)|%(?:([+-]?)([0-9]*)(?:\/([^\/]*)\/)?([a-zA-Z%])|\[([a-zA-Z0-9_]+)(?::([^\]]*))?\])/g ,
-	str = str.replace( /\^(.)|(%%)|%([+-]?)([0-9]*)(?:\[([^\]]*)\])?([a-zA-Z])/g ,
-		( match , markup , doublePercent , relative , index , modeArg , mode ) => {
-
+	// Note: the closing bracket is optional to prevent ReDoS
+	str = str.replace( /\^\[([^\]]*)]?|\^(.)|(%%)|%([+-]?)([0-9]*)(?:\[([^\]]*)\])?([a-zA-Z])/g ,
+		( match , complexMarkup , markup , doublePercent , relative , index , modeArg , mode ) => {
 			var replacement , i , tmp , fn , fnArgString , argMatches , argList = [] ;
 
 			//console.log( 'replaceArgs:' , arguments ) ;
 			if ( doublePercent ) { return '%' ; }
 
+			if ( complexMarkup ) { markup = complexMarkup ; }
 			if ( markup ) {
 				if ( this.noMarkup ) { return '^' + markup ; }
 				return markupReplace.call( this , runtime , match , markup ) ;
@@ -13068,9 +13200,317 @@ exports.formatMethod = function( ... args ) {
 
 
 
-// --- MODES ---
+exports.markupMethod = function( str ) {
+	if ( typeof str !== 'string' ) {
+		if ( ! str ) { str = '' ; }
+		else if ( typeof str.toString === 'function' ) { str = str.toString() ; }
+		else { str = '' ; }
+	}
+
+	var runtime = {
+		hasMarkup: false ,
+		shift: null ,
+		markupStack: []
+	} ;
+
+	if ( this.parse ) {
+		let markupObjects , markupObject , match , complexMarkup , markup , raw , lastChunk ,
+			output = [] ;
+
+		// Note: the closing bracket is optional to prevent ReDoS
+		for ( [ match , complexMarkup , markup , raw ] of str.matchAll( /\^\[([^\]]*)]?|\^(.)|([^^]+)/g ) ) {
+			if ( raw ) {
+				if ( output.length ) { output[ output.length - 1 ].text += raw ; }
+				else { output.push( { text: raw } ) ; }
+				continue ;
+			}
+
+			if ( complexMarkup ) { markup = complexMarkup ; }
+			markupObjects = markupReplace.call( this , runtime , match , markup ) ;
+
+			if ( ! Array.isArray( markupObjects ) ) { markupObjects = [ markupObjects ] ; }
+
+			for ( markupObject of markupObjects ) {
+				lastChunk = output.length ? output[ output.length - 1 ] : null ;
+				if ( typeof markupObject === 'string' ) {
+					// This markup is actually a text to add to the last chunk (e.g. "^^" markup is converted to a single "^")
+					if ( lastChunk ) { lastChunk.text += markupObject ; }
+					else { output.push( { text: markupObject } ) ; }
+				}
+				else if ( ! markupObject ) {
+					// Null is for a markup's style reset
+					if ( lastChunk && lastChunk.text.length && Object.keys( lastChunk ).length > 1 ) {
+						// If there was style and text on the last chunk, then this means that the new markup starts a new chunk
+						// markupObject can be null for markup reset function, but we have to create a new chunk
+						output.push( { text: '' } ) ;
+					}
+				}
+				else {
+					if ( lastChunk && lastChunk.text.length ) {
+						// If there was text on the last chunk, then this means that the new markup starts a new chunk
+						output.push( Object.assign( { text: '' } , ... runtime.markupStack ) ) ;
+					}
+					else {
+						// There wasn't any text added, so append the current markup style to the current chunk
+						if ( lastChunk ) { Object.assign( lastChunk , markupObject ) ; }
+						else { output.push( Object.assign( { text: '' } , markupObject ) ) ; }
+					}
+				}
+			}
+		}
+
+		return output ;
+	}
+
+	if ( this.markupReset && this.startingMarkupReset ) {
+		str = ( typeof this.markupReset === 'function' ? this.markupReset( runtime.markupStack ) : this.markupReset ) + str ;
+	}
+
+	str = str.replace( /\^\[([^\]]*)]?|\^(.)/g , ( match , complexMarkup , markup ) => markupReplace.call( this , runtime , match , complexMarkup || markup ) ) ;
+
+	if ( runtime.hasMarkup && this.markupReset && this.endingMarkupReset ) {
+		str += typeof this.markupReset === 'function' ? this.markupReset( runtime.markupStack ) : this.markupReset ;
+	}
+
+	return str ;
+} ;
+
+
+
+// Used by both formatMethod and markupMethod
+function markupReplace( runtime , match , markup ) {
+	var markupTarget , key , value , replacement , colonIndex ;
+
+	if ( markup === '^' ) { return '^' ; }
+
+	if ( this.shiftMarkup && this.shiftMarkup[ markup ] ) {
+		runtime.shift = this.shiftMarkup[ markup ] ;
+		return '' ;
+	}
+
+	if ( markup.length > 1 && this.dataMarkup && ( colonIndex = markup.indexOf( ':' ) ) !== -1 ) {
+		key = markup.slice( 0 , colonIndex ) ;
+		markupTarget = this.dataMarkup[ key ] ;
+
+		if ( markupTarget === undefined ) {
+			if ( this.markupCatchAll === undefined ) { return '' ; }
+			markupTarget = this.markupCatchAll ;
+		}
+
+		runtime.hasMarkup = true ;
+		value = markup.slice( colonIndex + 1 ) ;
+
+		if ( typeof markupTarget === 'function' ) {
+			replacement = markupTarget( runtime.markupStack , key , value ) ;
+			// method should manage markup stack themselves
+		}
+		else {
+			replacement = { [ markupTarget ]: value } ;
+			stackMarkup( runtime , replacement ) ;
+		}
+
+		return replacement ;
+	}
+
+	if ( runtime.shift ) {
+		markupTarget = this.shiftedMarkup?.[ runtime.shift ]?.[ markup ] ;
+		runtime.shift = null ;
+	}
+	else {
+		markupTarget = this.markup?.[ markup ] ;
+	}
+
+	if ( markupTarget === undefined ) {
+		if ( this.markupCatchAll === undefined ) { return '' ; }
+		markupTarget = this.markupCatchAll ;
+	}
+
+	runtime.hasMarkup = true ;
+
+	if ( typeof markupTarget === 'function' ) {
+		replacement = markupTarget( runtime.markupStack , markup ) ;
+		// method should manage markup stack themselves
+	}
+	else {
+		replacement = markupTarget ;
+		stackMarkup( runtime , replacement ) ;
+	}
+
+	return replacement ;
+}
+
+
+
+// internal method for markupReplace()
+function stackMarkup( runtime , replacement ) {
+	if ( Array.isArray( replacement ) ) {
+		for ( let item of replacement ) {
+			if ( item === null ) { runtime.markupStack.length = 0 ; }
+			else { runtime.markupStack.push( item ) ; }
+		}
+	}
+	else {
+		if ( replacement === null ) { runtime.markupStack.length = 0 ; }
+		else { runtime.markupStack.push( replacement ) ; }
+	}
+}
+
+
+
+// Note: the closing bracket is optional to prevent ReDoS
+exports.stripMarkup = str => str.replace( /\^\[[^\]]*]?|\^./g , match =>
+	match === '^^' ? '^' :
+	match === '^ ' ? ' ' :
+	''
+) ;
+
+
+
+const DEFAULT_FORMATTER = {
+	argumentSanitizer: str => escape.control( str , true ) ,
+	extraArguments: true ,
+	color: false ,
+	noMarkup: false ,
+	endingMarkupReset: true ,
+	startingMarkupReset: false ,
+	markupReset: ansi.reset ,
+	shiftMarkup: {
+		'#': 'background'
+	} ,
+	markup: {
+		":": ansi.reset ,
+		" ": ansi.reset + " " ,
+
+		"-": ansi.dim ,
+		"+": ansi.bold ,
+		"_": ansi.underline ,
+		"/": ansi.italic ,
+		"!": ansi.inverse ,
+
+		"b": ansi.blue ,
+		"B": ansi.brightBlue ,
+		"c": ansi.cyan ,
+		"C": ansi.brightCyan ,
+		"g": ansi.green ,
+		"G": ansi.brightGreen ,
+		"k": ansi.black ,
+		"K": ansi.brightBlack ,
+		"m": ansi.magenta ,
+		"M": ansi.brightMagenta ,
+		"r": ansi.red ,
+		"R": ansi.brightRed ,
+		"w": ansi.white ,
+		"W": ansi.brightWhite ,
+		"y": ansi.yellow ,
+		"Y": ansi.brightYellow
+	} ,
+	shiftedMarkup: {
+		background: {
+			":": ansi.reset ,
+			" ": ansi.reset + " " ,
+
+			"b": ansi.bgBlue ,
+			"B": ansi.bgBrightBlue ,
+			"c": ansi.bgCyan ,
+			"C": ansi.bgBrightCyan ,
+			"g": ansi.bgGreen ,
+			"G": ansi.bgBrightGreen ,
+			"k": ansi.bgBlack ,
+			"K": ansi.bgBrightBlack ,
+			"m": ansi.bgMagenta ,
+			"M": ansi.bgBrightMagenta ,
+			"r": ansi.bgRed ,
+			"R": ansi.bgBrightRed ,
+			"w": ansi.bgWhite ,
+			"W": ansi.bgBrightWhite ,
+			"y": ansi.bgYellow ,
+			"Y": ansi.bgBrightYellow
+		}
+	} ,
+	dataMarkup: {
+		fg: ( markupStack , key , value ) => {
+			var str = ansi.trueColor( value ) ;
+			markupStack.push( str ) ;
+			return str ;
+		} ,
+		bg: ( markupStack , key , value ) => {
+			var str = ansi.bgTrueColor( value ) ;
+			markupStack.push( str ) ;
+			return str ;
+		}
+	} ,
+	markupCatchAll: ( markupStack , key , value ) => {
+		var str = '' ;
+
+		if ( value === undefined ) {
+			if ( key[ 0 ] === '#' ) {
+				str = ansi.trueColor( key ) ;
+			}
+		}
+
+		markupStack.push( str ) ;
+		return str ;
+	}
+} ;
+
+exports.createFormatter = ( options ) => exports.formatMethod.bind( Object.assign( {} , DEFAULT_FORMATTER , options ) ) ;
+exports.format = exports.formatMethod.bind( DEFAULT_FORMATTER ) ;
+exports.format.default = DEFAULT_FORMATTER ;
+
+exports.createMarkup = ( options ) => exports.markupMethod.bind( Object.assign( {} , DEFAULT_FORMATTER , options ) ) ;
+exports.markup = exports.markupMethod.bind( DEFAULT_FORMATTER ) ;
+
+
+
+// Count the number of parameters needed for this string
+exports.format.count = function( str , noMarkup = false ) {
+	var markup , index , relative , autoIndex = 1 , maxIndex = 0 ;
+
+	if ( typeof str !== 'string' ) { return 0 ; }
+
+	// This regex differs slightly from the main regex: we do not count '%%' and %F is excluded
+	// Note: the closing bracket is optional to prevent ReDoS
+	var regexp = noMarkup ?
+		/%([+-]?)([0-9]*)(?:\[[^\]]*\])?[a-zA-EG-Z]/g :
+		/%([+-]?)([0-9]*)(?:\[[^\]]*\])?[a-zA-EG-Z]|(\^\[[^\]]*]?|\^.)/g ;
+
+	for ( [ , relative , index , markup ] of str.matchAll( regexp ) ) {
+		if ( markup ) { continue ; }
+
+		if ( index ) {
+			index = parseInt( index , 10 ) ;
+
+			if ( relative ) {
+				if ( relative === '+' ) { index = autoIndex + index ; }
+				else if ( relative === '-' ) { index = autoIndex - index ; }
+			}
+		}
+		else {
+			index = autoIndex ;
+		}
+
+		autoIndex ++ ;
+
+		if ( maxIndex < index ) { maxIndex = index ; }
+	}
+
+	return maxIndex ;
+} ;
+
+
+
+// Tell if this string contains formatter chars
+exports.format.hasFormatting = function( str ) {
+	if ( str.search( /\^(.?)|(%%)|%([+-]?)([0-9]*)(?:\[([^\]]*)\])?([a-zA-Z])/ ) !== -1 ) { return true ; }
+	return false ;
+} ;
+
+
+
+// --- Format MODES ---
 
 const modes = {} ;
+exports.format.modes = modes ;	// <-- expose modes, used by Babel-Tower for String Kit interop'
 
 
 
@@ -13486,289 +13926,6 @@ modes.J = arg => arg === undefined ? 'null' : JSON.stringify( arg ) ;
 // drop
 modes.D = () => '' ;
 modes.D.noSanitize = true ;
-
-
-
-var defaultFormatter = {
-	argumentSanitizer: str => escape.control( str , true ) ,
-	extraArguments: true ,
-	color: false ,
-	noMarkup: false ,
-	endingMarkupReset: true ,
-	startingMarkupReset: false ,
-	markupReset: ansi.reset ,
-	shiftMarkup: {
-		'#': 'background'
-	} ,
-	markup: {
-		":": ansi.reset ,
-		" ": ansi.reset + " " ,
-
-		"-": ansi.dim ,
-		"+": ansi.bold ,
-		"_": ansi.underline ,
-		"/": ansi.italic ,
-		"!": ansi.inverse ,
-
-		"b": ansi.blue ,
-		"B": ansi.brightBlue ,
-		"c": ansi.cyan ,
-		"C": ansi.brightCyan ,
-		"g": ansi.green ,
-		"G": ansi.brightGreen ,
-		"k": ansi.black ,
-		"K": ansi.brightBlack ,
-		"m": ansi.magenta ,
-		"M": ansi.brightMagenta ,
-		"r": ansi.red ,
-		"R": ansi.brightRed ,
-		"w": ansi.white ,
-		"W": ansi.brightWhite ,
-		"y": ansi.yellow ,
-		"Y": ansi.brightYellow
-	} ,
-	shiftedMarkup: {
-		background: {
-			":": ansi.reset ,
-			" ": ansi.reset + " " ,
-
-			"b": ansi.bgBlue ,
-			"B": ansi.bgBrightBlue ,
-			"c": ansi.bgCyan ,
-			"C": ansi.bgBrightCyan ,
-			"g": ansi.bgGreen ,
-			"G": ansi.bgBrightGreen ,
-			"k": ansi.bgBlack ,
-			"K": ansi.bgBrightBlack ,
-			"m": ansi.bgMagenta ,
-			"M": ansi.bgBrightMagenta ,
-			"r": ansi.bgRed ,
-			"R": ansi.bgBrightRed ,
-			"w": ansi.bgWhite ,
-			"W": ansi.bgBrightWhite ,
-			"y": ansi.bgYellow ,
-			"Y": ansi.bgBrightYellow
-		}
-	}
-} ;
-
-exports.createFormatter = ( options ) => exports.formatMethod.bind( Object.assign( {} , defaultFormatter , options ) ) ;
-exports.format = exports.formatMethod.bind( defaultFormatter ) ;
-exports.format.default = defaultFormatter ;
-exports.format.modes = modes ;	// <-- expose modes, used by Babel-Tower for String Kit interop'
-
-
-
-// /!\ Should upgrade that with Terminal-Kit Markup parser /!\
-// It supports complex markup, see: Terminal-Kit/lib/misc.js misc.parseMarkup().
-
-exports.markupMethod = function( str ) {
-	if ( typeof str !== 'string' ) {
-		if ( ! str ) { str = '' ; }
-		else if ( typeof str.toString === 'function' ) { str = str.toString() ; }
-		else { str = '' ; }
-	}
-
-	var runtime = {
-		hasMarkup: false ,
-		shift: null ,
-		markupStack: []
-	} ;
-
-	if ( this.parse ) {
-		let objects , object , matchArray , match , markup , offset ,
-			output = [] ,
-			lastOffset = 0 ;
-
-		for ( matchArray of str.matchAll( /\^(.)/g ) ) {
-			[ match , markup ] = matchArray ;
-			offset = matchArray.index ;
-			objects = markupReplace.call( this , runtime , ... matchArray ) ;
-
-			// First, check if we have text to add to the last chunk
-			if ( offset > lastOffset ) {
-				if ( output.length ) { output[ output.length - 1 ].text += str.slice( lastOffset , offset ) ; }
-				else { output.push( { text: str.slice( lastOffset , offset ) } ) ; }
-			}
-
-			if ( ! Array.isArray( objects ) ) { objects = [ objects ] ; }
-
-			for ( object of objects ) {
-				if ( typeof object === 'string' ) {
-					// This markup is actually a text to add to the last chunk (e.g. "^^" markup is converted to a single "^")
-					if ( output.length ) { output[ output.length - 1 ].text += object ; }
-					else { output.push( { text: object } ) ; }
-				}
-				else if ( ! object ) {
-					// Null is for a markup's style reset
-					if ( output.length && output[ output.length - 1 ].text.length ) {
-						// If there was text on the last chunk, then this means that the new markup starts a new chunk
-						// object can be null for markup reset function, but we have to create a new chunk
-						output.push( { text: '' } ) ;
-					}
-				}
-				else {
-					if ( output.length && output[ output.length - 1 ].text.length ) {
-						// If there was text on the last chunk, then this means that the new markup starts a new chunk
-						//runtime.markupStack.push( object ) ;
-						output.push( Object.assign( { text: '' } , ... runtime.markupStack ) ) ;
-					}
-					else {
-						// There wasn't any text added, so append the current markup style to the current chunk
-						//runtime.markupStack.push( object ) ;
-						if ( output.length ) { Object.assign( output[ output.length - 1 ] , object ) ; }
-						else { output.push( Object.assign( { text: '' } , object ) ) ; }
-					}
-				}
-			}
-
-			lastOffset = offset + match.length ;
-		}
-
-		// Finally, add the remainder to the last chunk
-		if ( lastOffset < str.length ) {
-			if ( output.length ) { output[ output.length - 1 ].text += str.slice( lastOffset ) ; }
-			else { output.push( { text: str.slice( lastOffset ) } ) ; }
-		}
-
-		return output ;
-	}
-
-	if ( this.markupReset && this.startingMarkupReset ) {
-		str = ( typeof this.markupReset === 'function' ? this.markupReset( runtime.markupStack ) : this.markupReset ) + str ;
-	}
-
-	//console.log( 'format args:' , arguments ) ;
-
-	str = str.replace( /\^(.)/g , ( match , markup , offset ) => markupReplace.call( this , runtime , match , markup ) ) ;
-
-	if ( runtime.hasMarkup && this.markupReset && this.endingMarkupReset ) {
-		str += typeof this.markupReset === 'function' ? this.markupReset( runtime.markupStack ) : this.markupReset ;
-	}
-
-	return str ;
-} ;
-
-
-
-// Used by both formatMethod and markupMethod
-function markupReplace( runtime , match , markup ) {
-	var replacement ;
-
-	if ( markup === '^' ) { return '^' ; }
-
-	if ( this.shiftMarkup && this.shiftMarkup[ markup ] ) {
-		runtime.shift = this.shiftMarkup[ markup ] ;
-		return '' ;
-	}
-
-	if ( runtime.shift ) {
-		if ( ! this.shiftedMarkup || ! this.shiftedMarkup[ runtime.shift ] || this.shiftedMarkup[ runtime.shift ][ markup ] === undefined ) {
-			return '' ;
-		}
-
-		runtime.hasMarkup = true ;
-
-		if ( typeof this.shiftedMarkup[ runtime.shift ][ markup ] === 'function' ) {
-			replacement = this.shiftedMarkup[ runtime.shift ][ markup ]( runtime.markupStack ) ;
-			// method should manage markup stack themselves
-		}
-		else {
-			replacement = this.shiftedMarkup[ runtime.shift ][ markup ] ;
-
-			if ( Array.isArray( replacement ) ) {
-				for ( let item of replacement ) {
-					if ( item === null ) { runtime.markupStack.length = 0 ; }
-					else { runtime.markupStack.push( item ) ; }
-				}
-			}
-			else {
-				if ( replacement === null ) { runtime.markupStack.length = 0 ; }
-				else { runtime.markupStack.push( replacement ) ; }
-			}
-		}
-
-		runtime.shift = null ;
-	}
-	else {
-		if ( ! this.markup || this.markup[ markup ] === undefined ) {
-			return '' ;
-		}
-
-		runtime.hasMarkup = true ;
-
-		if ( typeof this.markup[ markup ] === 'function' ) {
-			replacement = this.markup[ markup ]( runtime.markupStack ) ;
-			// method should manage markup stack themselves
-		}
-		else {
-			replacement = this.markup[ markup ] ;
-
-			if ( Array.isArray( replacement ) ) {
-				for ( let item of replacement ) {
-					if ( item === null ) { runtime.markupStack.length = 0 ; }
-					else { runtime.markupStack.push( item ) ; }
-				}
-			}
-			else {
-				if ( replacement === null ) { runtime.markupStack.length = 0 ; }
-				else { runtime.markupStack.push( replacement ) ; }
-			}
-		}
-	}
-
-	return replacement ;
-}
-
-
-
-exports.createMarkup = ( options ) => exports.markupMethod.bind( Object.assign( {} , defaultFormatter , options ) ) ;
-exports.markup = exports.markupMethod.bind( defaultFormatter ) ;
-
-
-
-// Count the number of parameters needed for this string
-exports.format.count = function( str ) {
-	var match , index , relative , autoIndex = 1 , maxIndex = 0 ;
-
-	if ( typeof str !== 'string' ) { return 0 ; }
-
-	// This regex differs slightly from the main regex: we do not count '%%' and %F is excluded
-	var regexp = /%([+-]?)([0-9]*)(?:\[([^\]]*)\])?([a-zA-EG-Z])/g ;
-
-
-	while ( ( match = regexp.exec( str ) ) !== null ) {
-		//console.log( match ) ;
-		relative = match[ 1 ] ;
-		index = match[ 2 ] ;
-
-		if ( index ) {
-			index = parseInt( index , 10 ) ;
-
-			if ( relative ) {
-				if ( relative === '+' ) { index = autoIndex + index ; }
-				else if ( relative === '-' ) { index = autoIndex - index ; }
-			}
-		}
-		else {
-			index = autoIndex ;
-		}
-
-		autoIndex ++ ;
-
-		if ( maxIndex < index ) { maxIndex = index ; }
-	}
-
-	return maxIndex ;
-} ;
-
-
-
-// Tell if this string contains formatter chars
-exports.format.hasFormatting = function( str ) {
-	if ( str.search( /\^(.?)|(%%)|%([+-]?)([0-9]*)(?:\[([^\]]*)\])?([a-zA-Z])/ ) !== -1 ) { return true ; }
-	return false ;
-} ;
 
 
 

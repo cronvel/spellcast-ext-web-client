@@ -15,13 +15,13 @@
     "kung-fig-expression": "^0.48.6",
     "nextgen-events": "^1.5.2",
     "seventh": "^0.7.38",
-    "spellcast-shared": "^0.50.9",
-    "string-kit": "^0.13.3",
+    "spellcast-shared": "^0.50.10",
+    "string-kit": "^0.14.2",
     "svg-kit": "^0.3.0"
   },
   "devDependencies": {
     "browserify": "^17.0.0",
-    "uglify-js": "^3.14.2"
+    "uglify-js": "^3.14.3"
   },
   "scripts": {
     "test": "tea-time -R dot -O"

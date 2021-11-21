@@ -4620,6 +4620,25 @@ const parseMarkupConfig = {
 		"W": { color: "brightWhite" } ,
 		"y": { color: "yellow" } ,
 		"Y": { color: "brightYellow" }
+	} ,
+	dataMarkup: {
+		color: 'color' ,
+		fgColor: 'color' ,
+		fg: 'color' ,
+		c: 'color' ,
+		bgColor: 'bgColor' ,
+		bg: 'bgColor'
+	} ,
+	markupCatchAll: ( markupStack , key , value ) => {
+		var attr = {} ;
+
+		if ( value === undefined ) {
+			//if ( key[ 0 ] === '#' ) {}
+			attr = { color: key } ;
+		}
+
+		markupStack.push( attr ) ;
+		return attr || {} ;
 	}
 } ;
 

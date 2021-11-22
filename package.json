@@ -16,7 +16,7 @@
     "nextgen-events": "^1.5.2",
     "seventh": "^0.7.38",
     "spellcast-shared": "^0.50.10",
-    "string-kit": "^0.14.2",
+    "string-kit": "^0.14.3",
     "svg-kit": "^0.3.0"
   },
   "devDependencies": {

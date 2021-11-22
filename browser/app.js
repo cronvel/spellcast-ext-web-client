@@ -4270,6 +4270,7 @@ module.exports = BrowserExm.registerNs( {
 		TexturePack: require( './TexturePack.js' ) ,
 		op: require( 'kung-fig-expression/lib/fnOperators.js' ) ,
 		xop: require( 'spellcast-shared/lib/operators.js' )
+		//, string: require( 'string-kit' )
 	} ,
 	api: {
 		getEngine: engineLib.get ,
@@ -4585,11 +4586,67 @@ const markupConfig = {
 
 
 
+// Catch-all keywords to key:value
+const CATCH_ALL_KEYWORDS = {
+	// Foreground colors
+	defaultColor: [ 'color' , 'default' ] ,
+	black: [ 'color' , 'black' ] ,
+	red: [ 'color' , 'red' ] ,
+	green: [ 'color' , 'green' ] ,
+	yellow: [ 'color' , 'yellow' ] ,
+	blue: [ 'color' , 'blue' ] ,
+	magenta: [ 'color' , 'magenta' ] ,
+	cyan: [ 'color' , 'cyan' ] ,
+	white: [ 'color' , 'white' ] ,
+	grey: [ 'color' , 'grey' ] ,
+	gray: [ 'color' , 'gray' ] ,
+	brightBlack: [ 'color' , 'brightBlack' ] ,
+	brightRed: [ 'color' , 'brightRed' ] ,
+	brightGreen: [ 'color' , 'brightGreen' ] ,
+	brightYellow: [ 'color' , 'brightYellow' ] ,
+	brightBlue: [ 'color' , 'brightBlue' ] ,
+	brightMagenta: [ 'color' , 'brightMagenta' ] ,
+	brightCyan: [ 'color' , 'brightCyan' ] ,
+	brightWhite: [ 'color' , 'brightWhite' ] ,
+
+	// Background colors
+	defaultBgColor: [ 'bgColor' , 'default' ] ,
+	bgBlack: [ 'bgColor' , 'black' ] ,
+	bgRed: [ 'bgColor' , 'red' ] ,
+	bgGreen: [ 'bgColor' , 'green' ] ,
+	bgYellow: [ 'bgColor' , 'yellow' ] ,
+	bgBlue: [ 'bgColor' , 'blue' ] ,
+	bgMagenta: [ 'bgColor' , 'magenta' ] ,
+	bgCyan: [ 'bgColor' , 'cyan' ] ,
+	bgWhite: [ 'bgColor' , 'white' ] ,
+	bgGrey: [ 'bgColor' , 'grey' ] ,
+	bgGray: [ 'bgColor' , 'gray' ] ,
+	bgBrightBlack: [ 'bgColor' , 'brightBlack' ] ,
+	bgBrightRed: [ 'bgColor' , 'brightRed' ] ,
+	bgBrightGreen: [ 'bgColor' , 'brightGreen' ] ,
+	bgBrightYellow: [ 'bgColor' , 'brightYellow' ] ,
+	bgBrightBlue: [ 'bgColor' , 'brightBlue' ] ,
+	bgBrightMagenta: [ 'bgColor' , 'brightMagenta' ] ,
+	bgBrightCyan: [ 'bgColor' , 'brightCyan' ] ,
+	bgBrightWhite: [ 'bgColor' , 'brightWhite' ] ,
+
+	// Other styles
+	dim: [ 'dim' , true ] ,
+	bold: [ 'bold' , true ] ,
+	underline: [ 'underline' , true ] ,
+	italic: [ 'italic' , true ] ,
+	inverse: [ 'inverse' , true ] ,
+	strike: [ 'strike' , true ]
+} ;
+
+
+
 const parseMarkupConfig = {
+	parse: true ,
 	markupReset: markupStack => {
 		markupStack.length = 0 ;
 	} ,
-	parse: true ,
+	//shiftMarkup: { '#': 'background' } ,
 	markup: {
 		":": null ,
 		" ": markupStack => {
@@ -4621,6 +4678,39 @@ const parseMarkupConfig = {
 		"y": { color: "yellow" } ,
 		"Y": { color: "brightYellow" }
 	} ,
+	shiftedMarkup: {
+		background: {
+			/*
+			':': [ null , { defaultColor: true , bgDefaultColor: true } ] ,
+			' ': markupStack => {
+				markupStack.length = 0 ;
+				return [ null , { defaultColor: true , bgDefaultColor: true } , ' ' ] ;
+			} ,
+			*/
+			":": null ,
+			" ": markupStack => {
+				markupStack.length = 0 ;
+				return [ null , ' ' ] ;
+			} ,
+
+			"b": { bgColor: "blue" } ,
+			"B": { bgColor: "brightBlue" } ,
+			"c": { bgColor: "cyan" } ,
+			"C": { bgColor: "brightCyan" } ,
+			"g": { bgColor: "green" } ,
+			"G": { bgColor: "brightGreen" } ,
+			"k": { bgColor: "black" } ,
+			"K": { bgColor: "grey" } ,
+			"m": { bgColor: "magenta" } ,
+			"M": { bgColor: "brightMagenta" } ,
+			"r": { bgColor: "red" } ,
+			"R": { bgColor: "brightRed" } ,
+			"w": { bgColor: "white" } ,
+			"W": { bgColor: "brightWhite" } ,
+			"y": { bgColor: "yellow" } ,
+			"Y": { bgColor: "brightYellow" }
+		}
+	} ,
 	dataMarkup: {
 		color: 'color' ,
 		fgColor: 'color' ,
@@ -4633,8 +4723,16 @@ const parseMarkupConfig = {
 		var attr = {} ;
 
 		if ( value === undefined ) {
-			//if ( key[ 0 ] === '#' ) {}
-			attr = { color: key } ;
+			if ( key[ 0 ] === '#' ) {
+				attr.color = key ;
+			}
+			else if ( CATCH_ALL_KEYWORDS[ key ] ) {
+				attr[ CATCH_ALL_KEYWORDS[ key ][ 0 ] ] = CATCH_ALL_KEYWORDS[ key ][ 1 ] ;
+			}
+			else {
+				// Fallback: it's a foreground color
+				attr.color = key ;
+			}
 		}
 
 		markupStack.push( attr ) ;
@@ -4658,6 +4756,63 @@ toolkit.parseMarkup = ( ... args ) => {
 
 
 toolkit.stripMarkup = format.stripMarkup ;
+
+
+
+// From Terminal-kit's misc.hexToRgba()
+toolkit.hexToRgba = hex => {
+	// Strip the # if necessary
+	if ( hex[ 0 ] === '#' ) { hex = hex.slice( 1 ) ; }
+
+	if ( hex.length === 3 ) {
+		hex = hex[ 0 ] + hex[ 0 ] + hex[ 1 ] + hex[ 1 ] + hex[ 2 ] + hex[ 2 ] ;
+	}
+
+	return {
+		r: parseInt( hex.slice( 0 , 2 ) , 16 ) || 0 ,
+		g: parseInt( hex.slice( 2 , 4 ) , 16 ) || 0 ,
+		b: parseInt( hex.slice( 4 , 6 ) , 16 ) || 0 ,
+		a: hex.length > 6 ? parseInt( hex.slice( 6 , 8 ) , 16 ) || 0 : 255
+	} ;
+} ;
+
+
+
+toolkit.hexToRgb = hex => {
+	// Strip the # if necessary
+	if ( hex[ 0 ] === '#' ) { hex = hex.slice( 1 ) ; }
+
+	if ( hex.length === 3 ) {
+		hex = hex[ 0 ] + hex[ 0 ] + hex[ 1 ] + hex[ 1 ] + hex[ 2 ] + hex[ 2 ] ;
+	}
+
+	return {
+		r: parseInt( hex.slice( 0 , 2 ) , 16 ) || 0 ,
+		g: parseInt( hex.slice( 2 , 4 ) , 16 ) || 0 ,
+		b: parseInt( hex.slice( 4 , 6 ) , 16 ) || 0
+	} ;
+} ;
+
+
+
+function to2HexDigits( n ) {
+	if ( ! n || n < 0 ) { return '00' ; }
+	if ( n < 16 ) { return '0' + n.toString( 16 ) ; }
+	return n.toString( 16 ) ;
+} ;
+
+
+
+toolkit.rgbToHex =
+toolkit.rgbaToHex = ( r , g , b , a = null ) => {
+	if ( r && typeof r === 'object' ) {
+		return typeof r.a !== 'number' ? '#' + to2HexDigits( r.r ) + to2HexDigits( r.g ) + to2HexDigits( r.b ) :
+			'#' + to2HexDigits( r.r ) + to2HexDigits( r.g ) + to2HexDigits( r.b ) + to2HexDigits( r.a ) ;
+	}
+
+	return a === null ? '#' + to2HexDigits( r ) + to2HexDigits( g ) + to2HexDigits( b ) :
+		'#' + to2HexDigits( r ) + to2HexDigits( g ) + to2HexDigits( b ) + to2HexDigits( a ) ;
+} ;
 
 
 },{"string-kit/lib/escape.js":46,"string-kit/lib/format.js":47}],15:[function(require,module,exports){
@@ -12763,14 +12918,62 @@ module.exports = ansi ;
 
 
 
+ansi.fgColor = {
+	defaultColor: ansi.defaultColor ,
+	black: ansi.black ,
+	red: ansi.red ,
+	green: ansi.green ,
+	yellow: ansi.yellow ,
+	blue: ansi.blue ,
+	magenta: ansi.magenta ,
+	cyan: ansi.cyan ,
+	white: ansi.white ,
+	grey: ansi.grey ,
+	gray: ansi.gray ,
+	brightBlack: ansi.brightBlack ,
+	brightRed: ansi.brightRed ,
+	brightGreen: ansi.brightGreen ,
+	brightYellow: ansi.brightYellow ,
+	brightBlue: ansi.brightBlue ,
+	brightMagenta: ansi.brightMagenta ,
+	brightCyan: ansi.brightCyan ,
+	brightWhite: ansi.brightWhite
+} ;
+
+
+
+ansi.bgColor = {
+	defaultColor: ansi.defaultBgColor ,
+	black: ansi.bgBlack ,
+	red: ansi.bgRed ,
+	green: ansi.bgGreen ,
+	yellow: ansi.bgYellow ,
+	blue: ansi.bgBlue ,
+	magenta: ansi.bgMagenta ,
+	cyan: ansi.bgCyan ,
+	white: ansi.bgWhite ,
+	grey: ansi.bgGrey ,
+	gray: ansi.bgGray ,
+	brightBlack: ansi.bgBrightBlack ,
+	brightRed: ansi.bgBrightRed ,
+	brightGreen: ansi.bgBrightGreen ,
+	brightYellow: ansi.bgBrightYellow ,
+	brightBlue: ansi.bgBrightBlue ,
+	brightMagenta: ansi.bgBrightMagenta ,
+	brightCyan: ansi.bgBrightCyan ,
+	brightWhite: ansi.bgBrightWhite
+} ;
+
+
+
 ansi.trueColor = ( r , g , b ) => {
 	if ( g === undefined && typeof r === 'string' ) {
 		let hex = r ;
 		if ( hex[ 0 ] === '#' ) { hex = hex.slice( 1 ) ; }	// Strip the # if necessary
 		if ( hex.length === 3 ) { hex = hex[ 0 ] + hex[ 0 ] + hex[ 1 ] + hex[ 1 ] + hex[ 2 ] + hex[ 2 ] ; }
-		r = parseInt( hex.slice( 0 , 2 ) , 16 ) ;
-		g = parseInt( hex.slice( 2 , 4 ) , 16 ) ;
-		b = parseInt( hex.slice( 4 , 6 ) , 16 ) ;
+		r = parseInt( hex.slice( 0 , 2 ) , 16 ) || 0 ;
+		g = parseInt( hex.slice( 2 , 4 ) , 16 ) || 0 ;
+		b = parseInt( hex.slice( 4 , 6 ) , 16 ) || 0 ;
 	}
 
 	return '\x1b[38;2;' + r + ';' + g + ';' + b + 'm' ;
@@ -12783,9 +12986,9 @@ ansi.bgTrueColor = ( r , g , b ) => {
 		let hex = r ;
 		if ( hex[ 0 ] === '#' ) { hex = hex.slice( 1 ) ; }	// Strip the # if necessary
 		if ( hex.length === 3 ) { hex = hex[ 0 ] + hex[ 0 ] + hex[ 1 ] + hex[ 1 ] + hex[ 2 ] + hex[ 2 ] ; }
-		r = parseInt( hex.slice( 0 , 2 ) , 16 ) ;
-		g = parseInt( hex.slice( 2 , 4 ) , 16 ) ;
-		b = parseInt( hex.slice( 4 , 6 ) , 16 ) ;
+		r = parseInt( hex.slice( 0 , 2 ) , 16 ) || 0 ;
+		g = parseInt( hex.slice( 2 , 4 ) , 16 ) || 0 ;
+		b = parseInt( hex.slice( 4 , 6 ) , 16 ) || 0 ;
 	}
 
 	return '\x1b[48;2;' + r + ';' + g + ';' + b + 'm' ;
@@ -13448,12 +13651,12 @@ const DEFAULT_FORMATTER = {
 	} ,
 	dataMarkup: {
 		fg: ( markupStack , key , value ) => {
-			var str = ansi.trueColor( value ) ;
+			var str = ansi.fgColor[ value ] || ansi.trueColor( value ) ;
 			markupStack.push( str ) ;
 			return str ;
 		} ,
 		bg: ( markupStack , key , value ) => {
-			var str = ansi.bgTrueColor( value ) ;
+			var str = ansi.bgColor[ value ] || ansi.bgTrueColor( value ) ;
 			markupStack.push( str ) ;
 			return str ;
 		}
@@ -13465,12 +13668,21 @@ const DEFAULT_FORMATTER = {
 			if ( key[ 0 ] === '#' ) {
 				str = ansi.trueColor( key ) ;
 			}
+			else if ( typeof ansi[ key ] === 'string' ) {
+				str = ansi[ key ] ;
+			}
 		}
 
 		markupStack.push( str ) ;
 		return str ;
 	}
 } ;
+
+// Aliases
+DEFAULT_FORMATTER.dataMarkup.color = DEFAULT_FORMATTER.dataMarkup.c = DEFAULT_FORMATTER.dataMarkup.fgColor = DEFAULT_FORMATTER.dataMarkup.fg ;
+DEFAULT_FORMATTER.dataMarkup.bgColor = DEFAULT_FORMATTER.dataMarkup.bg ;
+
+
 
 exports.createFormatter = ( options ) => exports.formatMethod.bind( Object.assign( {} , DEFAULT_FORMATTER , options ) ) ;
 exports.format = exports.formatMethod.bind( DEFAULT_FORMATTER ) ;
@@ -14191,6 +14403,7 @@ const TRIVIAL_CONSTRUCTOR = new Set( [ Object , Array ] ) ;
 			* 'color': colorful output suitable for terminal
 			* 'html': html output
 			* any object: full controle, inheriting from 'none'
+		* tab: `string` override the tab of the style
 		* depth: depth limit, default: 3
 		* maxLength: length limit for strings, default: 250
 		* outputMaxLength: length limit for the inspect output string, default: 5000
@@ -14261,6 +14474,8 @@ function inspect( options , variable ) {
 	return str ;
 }
 
+exports.inspect = inspect ;
+
 
 
 function inspect_( runtime , options , variable ) {
@@ -14268,11 +14483,11 @@ function inspect_( runtime , options , variable ) {
 		type , pre , indent , isArray , isFunc , specialObject ,
 		str = '' , key = '' , descriptorStr = '' , descriptor , nextAncestors ;
 
-
 	// Prepare things (indentation, key, descriptor, ... )
 
 	type = typeof variable ;
-	indent = options.style.tab.repeat( runtime.depth ) ;
+
+	indent = ( options.tab ?? options.style.tab ).repeat( runtime.depth ) ;
 
 	if ( type === 'function' && options.noFunc ) { return '' ; }
 
@@ -14544,8 +14759,6 @@ function inspect_( runtime , options , variable ) {
 
 	return str ;
 }
-
-exports.inspect = inspect ;
 
 
 

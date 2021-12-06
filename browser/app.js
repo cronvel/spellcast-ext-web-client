@@ -218,7 +218,8 @@ function Dom() {
 	
 	// Event to dispatch to a GScene
 	this.gSceneDispatch = {
-		message: null
+		message: null ,
+		choices: null
 	} ;
 
 	// Move it to GScene?
@@ -1063,8 +1064,12 @@ Dom.prototype.setChoices = function( choices , undecidedNames , onSelect , optio
 	options = options || {} ;
 	callback = callback || noop ;
 
-	this.clearChoices( () => {
+	if ( this.gSceneDispatch.choices && this.gSceneDispatch.choices.setChoices ) {
+		this.gSceneDispatch.choices.setChoices( choices , undecidedNames , onSelect , options ).then( callback ) ;
+		return ;
+	}
 
+	this.clearChoices( () => {
 		switch ( options.nextStyle ) {
 			case 'inline' :
 			case 'smallInline' :

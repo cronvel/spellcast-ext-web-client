@@ -215,7 +215,7 @@ function Dom() {
 	this.nextSoundChannel = 0 ;
 
 	this.gScenes = {} ;
-	
+
 	// Event to dispatch to a GScene
 	this.gSceneDispatch = {
 		message: null ,
@@ -519,10 +519,10 @@ Dom.prototype.addMessage = function( text , options , callback ) {
 		this.gSceneDispatch.message.addMessage( text , options ).then( callback ) ;
 		return ;
 	}
-	
+
 	var triggered = false ;
 	callback = callback || noop ;
-	
+
 	// Transform markup to HTML markup
 	text = toolkit.markup( text ) ;
 
@@ -793,34 +793,8 @@ Dom.prototype.addIndicators = function( indicators , isStatus , callback ) {
 
 
 
-Dom.prototype.createChoiceEventHandlers = function( onSelect ) {
-	this.onSelect = ( event ) => {
-		var $element = event.currentTarget ;
-		var index = $element.getAttribute( 'data-select-index' ) ;
-		if ( ! index ) { return ; }
-		index = parseInt( index , 10 ) ;
-		onSelect( index ) ;
-	} ;
-
-	this.onLeave = ( event ) => {
-		this.clearHint() ;
-		//event.stopPropagation() ; // useless for mouseleave events
-	} ;
-
-	this.onEnter = ( event ) => {
-		var $element = event.currentTarget ;
-		var hint = $element.getAttribute( 'data-button-hint' ) ;
-		if ( ! hint ) { return ; }
-		this.setHint( hint , { active: true } ) ;
-		//event.stopPropagation() ;	// useless for mouseenter events
-	} ;
-} ;
-
-
-
 Dom.prototype.addPanel = function( panel , clear , callback ) {
 	callback = callback || noop ;
-
 
 	// Clear part
 	if ( clear ) {
@@ -899,10 +873,27 @@ Dom.prototype.addPanel = function( panel , clear , callback ) {
 
 
 
-Dom.prototype.clearChoices = function( callback ) {
-	var $uiButton ;
+// This is used when new choices replaces the previous scene choices
+Dom.prototype.setChoices = async function( choices , undecidedNames , onSelect , options = {} ) {
+	await this.clearChoices() ;
+	await this.addChoices( choices , undecidedNames , onSelect , options ) ;
+	return ;
+} ;
 
-	callback = callback || noop ;
+
+
+// This is used when the scene update its choices details (selectedBy, ...)
+// /!\ For instance, it is the same than .setChoices
+Dom.prototype.updateChoices = Dom.prototype.setChoices ;
+
+
+
+Dom.prototype.clearChoices = function() {
+	if ( this.gSceneDispatch.choices && this.gSceneDispatch.choices.clearChoices ) {
+		return this.gSceneDispatch.choices.clearChoices() ;
+	}
+
+	var $uiButton ;
 
 	// First, unassign all UI buttons
 	this.choices.forEach( ( choice ) => {
@@ -929,28 +920,42 @@ Dom.prototype.clearChoices = function( callback ) {
 	this.onSelect = null ;
 	this.onLeave = null ;
 	this.onEnter = null ;
-
-	callback() ;
 } ;
 
 
 
-Dom.prototype.addChoices = function( choices , onSelect , callback ) {
+Dom.prototype.addChoices = async function( choices , undecidedNames , onSelect , options = {} ) {
+	if ( this.gSceneDispatch.choices && this.gSceneDispatch.choices.addChoices ) {
+		return this.gSceneDispatch.choices.addChoices( choices , undecidedNames , onSelect , options ) ;
+	}
+
 	if ( this.uiLoadingCount ) {
-		this.once( 'uiLoaded' , this.addChoices.bind( this , choices , onSelect , callback ) ) ;
-		return ;
+		await this.waitFor( 'uiLoaded' ) ;
+	}
+
+	switch ( options.nextStyle ) {
+		case 'inline' :
+		case 'smallInline' :
+		case 'list' :
+		case 'smallList' :
+			this.$choices.setAttribute( 'data-choice-style' , options.nextStyle ) ;
+			break ;
+		case 'table' :
+			this.$choices.setAttribute( 'data-choice-style' , options.nextStyle ) ;
+			this.$choices.classList.add( 'columns-' + this.getChoiceColumnsCount( choices ) ) ;
+			break ;
+		default :
+			// Default to list
+			this.$choices.setAttribute( 'data-choice-style' , 'list' ) ;
 	}
 
 	var groupBreak = false ;
 	var choicesFragment = document.createDocumentFragment() ;
 	var $group = document.createElement( 'group' ) ;
 
-	callback = callback || noop ;
-
 	this.createChoiceEventHandlers( onSelect ) ;
 
 	choices.forEach( ( choice ) => {
-
 		var $uiButton ;
 
 		// Add the choice to the list
@@ -1036,7 +1041,14 @@ Dom.prototype.addChoices = function( choices , onSelect , callback ) {
 
 	this.$choices.appendChild( choicesFragment ) ;
 
-	callback() ;
+	if ( undecidedNames && undecidedNames.length ) {
+		var $unassignedUsers = document.createElement( 'p' ) ;
+		$unassignedUsers.classList.add( 'unassigned-users' ) ;
+		$unassignedUsers.textContent = undecidedNames.join( ', ' ) ;
+		this.$choices.appendChild( $unassignedUsers ) ;
+	}
+
+	if ( typeof options.timeout === 'number' ) { this.choiceTimeout( options.timeout ) ; }
 } ;
 
 
@@ -1054,56 +1066,9 @@ Dom.prototype.getChoiceColumnsCount = function( choices ) {
 	} ) ;
 
 	if ( count > maxCount ) { maxCount = count ; }
+
 	return maxCount ;
 } ;
-
-
-
-// This is used when new choices replaces the previous scene choices
-Dom.prototype.setChoices = function( choices , undecidedNames , onSelect , options , callback ) {
-	options = options || {} ;
-	callback = callback || noop ;
-
-	if ( this.gSceneDispatch.choices && this.gSceneDispatch.choices.setChoices ) {
-		this.gSceneDispatch.choices.setChoices( choices , undecidedNames , onSelect , options ).then( callback ) ;
-		return ;
-	}
-
-	this.clearChoices( () => {
-		switch ( options.nextStyle ) {
-			case 'inline' :
-			case 'smallInline' :
-			case 'list' :
-			case 'smallList' :
-				this.$choices.setAttribute( 'data-choice-style' , options.nextStyle ) ;
-				break ;
-			case 'table' :
-				this.$choices.setAttribute( 'data-choice-style' , options.nextStyle ) ;
-				this.$choices.classList.add( 'columns-' + this.getChoiceColumnsCount( choices ) ) ;
-				break ;
-			default :
-				// Default to list
-				this.$choices.setAttribute( 'data-choice-style' , 'list' ) ;
-		}
-
-		this.addChoices( choices , onSelect , callback ) ;
-
-		if ( undecidedNames && undecidedNames.length ) {
-			var $unassignedUsers = document.createElement( 'p' ) ;
-			$unassignedUsers.classList.add( 'unassigned-users' ) ;
-			$unassignedUsers.textContent = undecidedNames.join( ', ' ) ;
-			this.$choices.appendChild( $unassignedUsers ) ;
-		}
-
-		if ( typeof options.timeout === 'number' ) { this.choiceTimeout( options.timeout ) ; }
-	} ) ;
-} ;
-
-
-
-// This is used when the scene update its choices details (selectedBy, ...)
-// /!\ For instance, it is the same than .setChoices
-Dom.prototype.updateChoices = Dom.prototype.setChoices ;
 
 
 
@@ -1122,6 +1087,31 @@ Dom.prototype.choiceTimeout = function( timeout ) {
 
 		$timer.textContent = Math.round( ( timeout + startTime - Date.now() ) / 1000 ) ;
 	} , 1000 ) ;
+} ;
+
+
+
+Dom.prototype.createChoiceEventHandlers = function( onSelect ) {
+	this.onSelect = ( event ) => {
+		var $element = event.currentTarget ;
+		var index = $element.getAttribute( 'data-select-index' ) ;
+		if ( ! index ) { return ; }
+		index = parseInt( index , 10 ) ;
+		onSelect( index ) ;
+	} ;
+
+	this.onLeave = ( event ) => {
+		this.clearHint() ;
+		//event.stopPropagation() ; // useless for mouseleave events
+	} ;
+
+	this.onEnter = ( event ) => {
+		var $element = event.currentTarget ;
+		var hint = $element.getAttribute( 'data-button-hint' ) ;
+		if ( ! hint ) { return ; }
+		this.setHint( hint , { active: true } ) ;
+		//event.stopPropagation() ;	// useless for mouseenter events
+	} ;
 } ;
 
 
@@ -2064,7 +2054,6 @@ EventDispatcher.roleList = function( roles , unassignedUsers , assigned ) {
 	}
 
 	roles.forEach( ( role , i ) => {
-
 		var userName = role.clientId && this.users.get( role.clientId ).name ;
 
 		choices.push( {
@@ -2080,7 +2069,6 @@ EventDispatcher.roleList = function( roles , unassignedUsers , assigned ) {
 	}
 
 	var onSelect = ( index ) => {
-
 		if ( roles[ index ].clientId === this.user.id ) {
 			// Here we want to unassign
 			this.bus.emit( 'selectRole' , null ) ;
@@ -2097,7 +2085,7 @@ EventDispatcher.roleList = function( roles , unassignedUsers , assigned ) {
 	this.dom.setChoices( choices , undecidedNames , onSelect ) ;
 
 	if ( assigned ) {
-		roles.find( ( e , i ) => {
+		roles.find( e => {
 			if ( e.clientId === this.user.id ) { this.roleId = e.id ; return true ; }
 			return false ;
 		} ) ;

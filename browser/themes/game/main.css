@@ -31,7 +31,7 @@ spellcast {
 
 
 #gfx {
-	height: 80vh;
+	height: 100vh;
 }
 
 .scene-image {
@@ -54,9 +54,9 @@ spellcast {
 }
 
 main {
-	display: block;
+	display: none;
 	position: absolute;
-	height: 20vh;
+	height: 0;
 	width: 100vw;
 	bottom: 0px;
 	opacity: 1;
@@ -66,7 +66,7 @@ main {
 
 #main-buffer {
 	position: relative;
-	height: 20vh;
+	height: 0;
 	width: 100%;
 	z-index: 1;
 	padding-top: 0.1em;	/* it seems to bug with 0 */

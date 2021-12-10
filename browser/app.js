@@ -219,7 +219,8 @@ function Dom() {
 	// Event to dispatch to a GScene
 	this.gSceneDispatch = {
 		message: null ,
-		choices: null
+		choices: null ,
+		textInput: null
 	} ;
 
 	// Move it to GScene?
@@ -515,7 +516,7 @@ Dom.prototype.addSelectedChoice = function( text ) {
 
 
 Dom.prototype.addMessage = function( text , options , callback ) {
-	if ( this.gSceneDispatch.message && this.gSceneDispatch.message.addMessage ) {
+	if ( this.gSceneDispatch.message?.addMessage ) {
 		this.gSceneDispatch.message.addMessage( text , options ).then( callback ) ;
 		return ;
 	}
@@ -889,7 +890,7 @@ Dom.prototype.updateChoices = Dom.prototype.setChoices ;
 
 
 Dom.prototype.clearChoices = function() {
-	if ( this.gSceneDispatch.choices && this.gSceneDispatch.choices.clearChoices ) {
+	if ( this.gSceneDispatch.choices?.clearChoices ) {
 		return this.gSceneDispatch.choices.clearChoices() ;
 	}
 
@@ -925,7 +926,7 @@ Dom.prototype.clearChoices = function() {
 
 
 Dom.prototype.addChoices = async function( choices , undecidedNames , onSelect , options = {} ) {
-	if ( this.gSceneDispatch.choices && this.gSceneDispatch.choices.addChoices ) {
+	if ( this.gSceneDispatch.choices?.addChoices ) {
 		return this.gSceneDispatch.choices.addChoices( choices , undecidedNames , onSelect , options ) ;
 	}
 
@@ -1117,6 +1118,11 @@ Dom.prototype.createChoiceEventHandlers = function( onSelect ) {
 
 
 Dom.prototype.textInputDisabled = function( options ) {
+	if ( this.gSceneDispatch.textInput?.textInputDisabled ) {
+		this.gSceneDispatch.textInput.textInputDisabled( options ) ;
+		return ;
+	}
+
 	var $form = document.createElement( 'form' ) ,
 		$label = document.createElement( 'label' ) ,
 		$input = document.createElement( 'input' ) ;
@@ -1138,6 +1144,11 @@ Dom.prototype.textInputDisabled = function( options ) {
 
 
 Dom.prototype.textInput = function( options , callback ) {
+	if ( this.gSceneDispatch.textInput?.textInput ) {
+		this.gSceneDispatch.textInput.textInput( options ).then( callback ) ;
+		return ;
+	}
+
 	var $form = document.createElement( 'form' ) ,
 		$label = document.createElement( 'label' ) ,
 		$input = document.createElement( 'input' ) ;
@@ -2287,7 +2298,7 @@ EventDispatcher.textInput = function( label , grantedRoleIds ) {
 	} ;
 
 	if ( grantedRoleIds.indexOf( this.roleId ) === -1 ) {
-		options.placeholder = 'YOU CAN\'T RESPOND - WAIT...' ;
+		options.placeholder = "YOU CAN'T RESPOND - WAIT..." ;
 		this.dom.textInputDisabled( options ) ;
 	}
 	else {

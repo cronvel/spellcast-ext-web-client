@@ -299,6 +299,18 @@ Dom.prototype.initEvents = function() {
 	this.$lobby.addEventListener( 'click' , () => { this.$lobby.classList.toggle( 'toggled' ) ; } ) ;
 	this.$status.addEventListener( 'click' , () => { this.$status.classList.toggle( 'toggled' ) ; } ) ;
 	this.$panel.addEventListener( 'click' , () => { this.$panel.classList.toggle( 'toggled' ) ; } ) ;
+	
+	
+	// Prevent nasty browser shorthand
+	document.addEventListener( 'keydown' , event => {
+		switch ( event.key ) {
+			// Prevent Firefox from opening the Quick Find, since 3D clients don't use HTML input/textarea for their 3D inputs
+			case "'":
+			case "/":
+				event.preventDefault() ;
+				break ;
+		}
+	} ) ;
 } ;
 
 

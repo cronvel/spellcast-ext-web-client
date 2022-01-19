@@ -4733,7 +4733,8 @@ const parseMarkupConfig = {
 		fg: 'color' ,
 		c: 'color' ,
 		bgColor: 'bgColor' ,
-		bg: 'bgColor'
+		bg: 'bgColor' ,
+		fx: 'fx'
 	} ,
 	markupCatchAll: ( markupStack , key , value ) => {
 		var attr = {} ;

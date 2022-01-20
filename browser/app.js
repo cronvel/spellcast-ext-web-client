@@ -133,7 +133,7 @@ Camera.prototype.updateTransition = function( data , awaiting = false ) {
 } ;
 
 
-},{"./GTransition.js":6,"seventh":41}],2:[function(require,module,exports){
+},{"./GTransition.js":6,"seventh":42}],2:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -168,6 +168,7 @@ const GScene = require( './GScene.js' ) ;
 const Camera = require( './Camera.js' ) ;
 const TexturePack = require( './TexturePack.js' ) ;
 const GEntity = require( './GEntity.js' ) ;
+const Gamepad = require( './Gamepad.js' ) ;
 const commonUtils = require( './commonUtils.js' ) ;
 const toolkit = require( './toolkit.js' ) ;
 
@@ -203,6 +204,8 @@ function Dom() {
 	this.$sound1 = document.querySelector( '#sound1' ) ;
 	this.$sound2 = document.querySelector( '#sound2' ) ;
 	this.$sound3 = document.querySelector( '#sound3' ) ;
+	
+	this.gamepads = [] ;
 
 	this.choices = [] ;
 
@@ -309,6 +312,21 @@ Dom.prototype.initEvents = function() {
 			case "/":
 				event.preventDefault() ;
 				break ;
+		}
+	} ) ;
+	
+	window.addEventListener( 'gamepadconnected' , event => {
+		if ( this.gamepads[ event.gamepad.index ] ) {
+			this.gamepads[ event.gamepad.index ].destroy() ;
+		}
+
+		this.gamepads[ event.gamepad.index ] = new Gamepad( event.gamepad ) ;
+	} ) ;
+	
+	window.addEventListener( 'gamepaddisconnected' , event => {
+		if ( this.gamepads[ event.gamepad.index ] ) {
+			this.gamepads[ event.gamepad.index ].destroy() ;
+			delete this.gamepads[ event.gamepad.index ] ;
 		}
 	} ) ;
 } ;
@@ -1828,7 +1846,7 @@ function soundFadeOut( $element , callback ) {
 }
 
 
-},{"./Camera.js":1,"./GEntity.js":4,"./GScene.js":5,"./TexturePack.js":7,"./commonUtils.js":9,"./engineLib.js":10,"./exm.js":11,"./toolkit.js":14,"dom-kit":16,"nextgen-events/lib/browser.js":26,"seventh":41,"svg-kit":60}],3:[function(require,module,exports){
+},{"./Camera.js":1,"./GEntity.js":4,"./GScene.js":5,"./Gamepad.js":7,"./TexturePack.js":8,"./commonUtils.js":10,"./engineLib.js":11,"./exm.js":12,"./toolkit.js":15,"dom-kit":17,"nextgen-events/lib/browser.js":27,"seventh":42,"svg-kit":61}],3:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -2542,7 +2560,7 @@ EventDispatcher.exit = function( error , timeout , callback ) {
 } ;
 
 
-},{"./Dom.js":2,"./exm.js":11,"nextgen-events/lib/browser.js":26,"seventh":41}],4:[function(require,module,exports){
+},{"./Dom.js":2,"./exm.js":12,"nextgen-events/lib/browser.js":27,"seventh":42}],4:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3659,7 +3677,7 @@ GEntity.prototype.createCardMarkup = function( card ) {
 } ;
 
 
-},{"./GTransition.js":6,"./commonUtils.js":9,"./positionModes.js":12,"./sizeModes.js":13,"dom-kit":16,"nextgen-events/lib/browser.js":26,"seventh":41,"svg-kit":60}],5:[function(require,module,exports){
+},{"./GTransition.js":6,"./commonUtils.js":10,"./positionModes.js":13,"./sizeModes.js":14,"dom-kit":17,"nextgen-events/lib/browser.js":27,"seventh":42,"svg-kit":61}],5:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3794,7 +3812,7 @@ GScene.prototype.removeGEntity = function( gEntityId ) {
 } ;
 
 
-},{"./Camera.js":1,"nextgen-events/lib/browser.js":26,"seventh":41}],6:[function(require,module,exports){
+},{"./Camera.js":1,"nextgen-events/lib/browser.js":27,"seventh":42}],6:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3888,6 +3906,68 @@ GTransition.prototype.toString = function( property ) {
 
 
 
+//const domKit = require( 'dom-kit' ) ;
+const Promise = require( 'seventh' ) ;
+
+
+
+function Gamepad( domGamepad ) {
+	this.domGamepad = domGamepad ;
+	
+	console.warn(
+		"Gamepad #%d connected: %s (%d buttons, %d axes, pose: %s)" ,
+		this.domGamepad.index , this.domGamepad.id , this.domGamepad.buttons.length , this.domGamepad.axes.length , !! this.domGamepad.pose
+	) ;
+
+	this.initEvents() ;
+}
+
+module.exports = Gamepad ;
+
+
+
+Gamepad.prototype.destroy = function() {
+	console.warn( "Gamepad #%d disconnected: %s" , this.domGamepad.index , this.domGamepad.id ) ;
+} ;
+
+
+
+Gamepad.prototype.initEvents = function() {
+	
+} ;
+
+
+},{"seventh":42}],8:[function(require,module,exports){
+/*
+	Spellcast's Web Client Extension
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
 // !THIS SHOULD TRACK SERVER-SIDE TexturePack! spellcast/lib/gfx/TexturePack.js
 function TexturePack( data ) {
 	this.theme = data.theme || 'default' ;
@@ -3943,7 +4023,7 @@ function Frame( data = {} ) {
 TexturePack.Frame = Frame ;
 
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4118,7 +4198,7 @@ domKit.ready( () => {
 } ) ;
 
 
-},{"./EventDispatcher.js":3,"dom-kit":16,"nextgen-events/lib/browser.js":26,"url":66}],9:[function(require,module,exports){
+},{"./EventDispatcher.js":3,"dom-kit":17,"nextgen-events/lib/browser.js":27,"url":67}],10:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4181,7 +4261,7 @@ exports.toClassObject = function toClassObject( data ) {
 } ;
 
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4234,7 +4314,7 @@ exports.add = ( name , engine ) => {
 } ;
 
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4296,7 +4376,7 @@ module.exports = BrowserExm.registerNs( {
 } ) ;
 
 
-},{"./Camera.js":1,"./Dom.js":2,"./EventDispatcher.js":3,"./GEntity.js":4,"./GScene.js":5,"./GTransition.js":6,"./TexturePack.js":7,"./engineLib.js":10,"./toolkit.js":14,"exm/lib/BrowserExm.js":17,"kung-fig-expression/lib/fnOperators.js":21,"spellcast-shared/lib/operators.js":43}],12:[function(require,module,exports){
+},{"./Camera.js":1,"./Dom.js":2,"./EventDispatcher.js":3,"./GEntity.js":4,"./GScene.js":5,"./GTransition.js":6,"./TexturePack.js":8,"./engineLib.js":11,"./toolkit.js":15,"exm/lib/BrowserExm.js":18,"kung-fig-expression/lib/fnOperators.js":22,"spellcast-shared/lib/operators.js":44}],13:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4415,7 +4495,7 @@ exports.areaInSpriteOut = ( transform , position , areaWidth , areaHeight , imag
 } ;
 
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4514,7 +4594,7 @@ exports.areaMin = ( transform , size , areaWidth , areaHeight , imageWidth , ima
 } ;
 
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4832,9 +4912,9 @@ toolkit.rgbaToHex = ( r , g , b , a = null ) => {
 } ;
 
 
-},{"string-kit/lib/escape.js":46,"string-kit/lib/format.js":47}],15:[function(require,module,exports){
+},{"string-kit/lib/escape.js":47,"string-kit/lib/format.js":48}],16:[function(require,module,exports){
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 (function (process){(function (){
 /*
 	Dom Kit
@@ -5430,7 +5510,7 @@ domKit.html = ( $element , html ) => $element.innerHTML = html ;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"@cronvel/xmldom":15,"_process":28}],17:[function(require,module,exports){
+},{"@cronvel/xmldom":16,"_process":29}],18:[function(require,module,exports){
 (function (global){(function (){
 /*
 	EXM
@@ -5615,7 +5695,7 @@ if ( ! global.EXM ) {
 
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -5638,7 +5718,7 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -5700,7 +5780,7 @@ ObjectEntry.unserializer = function( ... args ) {
 } ;
 
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -5750,7 +5830,7 @@ class Stack extends Array {
 module.exports = Stack ;
 
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -6396,7 +6476,7 @@ for ( let key in exports ) {
 }
 
 
-},{"./ObjectEntry.js":19,"./Stack.js":20,"./mode.js":23}],22:[function(require,module,exports){
+},{"./ObjectEntry.js":20,"./Stack.js":21,"./mode.js":24}],23:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -6457,7 +6537,7 @@ module.exports = ( params , mapping , named = {} ) => {
 } ;
 
 
-},{"./ObjectEntry.js":19}],23:[function(require,module,exports){
+},{"./ObjectEntry.js":20}],24:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -6497,7 +6577,7 @@ exports.LIST = 5 ;
 exports.KV = 6 ;
 
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 (function (process,global,setImmediate){(function (){
 /*
 	Next-Gen Events
@@ -7917,7 +7997,7 @@ NextGenEvents.Proxy = require( './Proxy.js' ) ;
 
 
 }).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"../package.json":27,"./Proxy.js":25,"_process":28,"timers":65}],25:[function(require,module,exports){
+},{"../package.json":28,"./Proxy.js":26,"_process":29,"timers":66}],26:[function(require,module,exports){
 /*
 	Next-Gen Events
 
@@ -8464,7 +8544,7 @@ RemoteService.prototype.receiveAckEmit = function( message ) {
 } ;
 
 
-},{"./NextGenEvents.js":24}],26:[function(require,module,exports){
+},{"./NextGenEvents.js":25}],27:[function(require,module,exports){
 (function (process){(function (){
 /*
 	Next-Gen Events
@@ -8510,7 +8590,7 @@ module.exports.isBrowser = true ;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./NextGenEvents.js":24,"_process":28}],27:[function(require,module,exports){
+},{"./NextGenEvents.js":25,"_process":29}],28:[function(require,module,exports){
 module.exports={
   "name": "nextgen-events",
   "version": "1.5.2",
@@ -8570,7 +8650,7 @@ module.exports={
   }
 }
 
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -8756,7 +8836,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 (function (global){(function (){
 /*! https://mths.be/punycode v1.4.1 by @mathias */
 ;(function(root) {
@@ -9293,7 +9373,7 @@ process.umask = function() { return 0; };
 }(this));
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -9379,7 +9459,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -9466,13 +9546,13 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":30,"./encode":31}],33:[function(require,module,exports){
+},{"./decode":31,"./encode":32}],34:[function(require,module,exports){
 (function (process,global){(function (){
 (function (global, undefined) {
     "use strict";
@@ -9662,7 +9742,7 @@ exports.encode = exports.stringify = require('./encode');
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
 }).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":28}],34:[function(require,module,exports){
+},{"_process":29}],35:[function(require,module,exports){
 /*
 	Seventh
 
@@ -9891,7 +9971,7 @@ Queue.prototype.getStats = function() {
 } ;
 
 
-},{"./seventh.js":41}],35:[function(require,module,exports){
+},{"./seventh.js":42}],36:[function(require,module,exports){
 /*
 	Seventh
 
@@ -9975,7 +10055,7 @@ Promise.promisifyAnyNodeApi = ( api , suffix , multiSuffix , filter ) => {
 
 
 
-},{"./seventh.js":41}],36:[function(require,module,exports){
+},{"./seventh.js":42}],37:[function(require,module,exports){
 /*
 	Seventh
 
@@ -10584,7 +10664,7 @@ Promise.race = ( iterable ) => {
 } ;
 
 
-},{"./seventh.js":41}],37:[function(require,module,exports){
+},{"./seventh.js":42}],38:[function(require,module,exports){
 (function (process,global,setImmediate){(function (){
 /*
 	Seventh
@@ -11343,7 +11423,7 @@ if ( process.browser ) {
 
 
 }).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"_process":28,"setimmediate":33,"timers":65}],38:[function(require,module,exports){
+},{"_process":29,"setimmediate":34,"timers":66}],39:[function(require,module,exports){
 /*
 	Seventh
 
@@ -11849,7 +11929,7 @@ Promise.variableRetry = ( asyncFn , thisBinding ) => {
 */
 
 
-},{"./seventh.js":41}],39:[function(require,module,exports){
+},{"./seventh.js":42}],40:[function(require,module,exports){
 (function (process){(function (){
 /*
 	Seventh
@@ -11949,7 +12029,7 @@ Promise.resolveSafeTimeout = function( timeout , value ) {
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./seventh.js":41,"_process":28}],40:[function(require,module,exports){
+},{"./seventh.js":42,"_process":29}],41:[function(require,module,exports){
 /*
 	Seventh
 
@@ -12001,7 +12081,7 @@ Promise.parasite = () => {
 } ;
 
 
-},{"./seventh.js":41}],41:[function(require,module,exports){
+},{"./seventh.js":42}],42:[function(require,module,exports){
 /*
 	Seventh
 
@@ -12045,7 +12125,7 @@ require( './parasite.js' ) ;
 require( './misc.js' ) ;
 
 
-},{"./Queue.js":34,"./api.js":35,"./batch.js":36,"./core.js":37,"./decorators.js":38,"./misc.js":39,"./parasite.js":40,"./wrapper.js":42}],42:[function(require,module,exports){
+},{"./Queue.js":35,"./api.js":36,"./batch.js":37,"./core.js":38,"./decorators.js":39,"./misc.js":40,"./parasite.js":41,"./wrapper.js":43}],43:[function(require,module,exports){
 /*
 	Seventh
 
@@ -12210,7 +12290,7 @@ Promise.onceEventAllOrError = ( emitter , eventName , excludeEvents ) => {
 } ;
 
 
-},{"./seventh.js":41}],43:[function(require,module,exports){
+},{"./seventh.js":42}],44:[function(require,module,exports){
 /*
 	Spellcast - shared utilities
 
@@ -12484,7 +12564,7 @@ for ( let key in exports ) {
 }
 
 
-},{"kung-fig-expression/lib/getNamedParameters.js":22}],44:[function(require,module,exports){
+},{"kung-fig-expression/lib/getNamedParameters.js":23}],45:[function(require,module,exports){
 /*
 	String Kit
 
@@ -12850,7 +12930,7 @@ function arrayConcatSlice( intoArray , sourceArray , start = 0 , end = sourceArr
 }
 
 
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 /*
 	String Kit
 
@@ -13119,7 +13199,7 @@ ansi.parse = str => {
 } ;
 
 
-},{}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 /*
 	String Kit
 
@@ -13224,7 +13304,7 @@ exports.unicodePercentEncode = str => str.replace( /[\x00-\x1f\u0100-\uffff\x7f%
 exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
 
 
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 (function (Buffer){(function (){
 /*
 	String Kit
@@ -14366,7 +14446,7 @@ function round( v , step ) {
 
 
 }).call(this)}).call(this,require("buffer").Buffer)
-},{"./StringNumber.js":44,"./ansi.js":45,"./escape.js":46,"./inspect.js":48,"./naturalSort.js":49,"./unicode.js":50,"buffer":15}],48:[function(require,module,exports){
+},{"./StringNumber.js":45,"./ansi.js":46,"./escape.js":47,"./inspect.js":49,"./naturalSort.js":50,"./unicode.js":51,"buffer":16}],49:[function(require,module,exports){
 (function (Buffer,process){(function (){
 /*
 	String Kit
@@ -15086,7 +15166,7 @@ inspectStyle.html = Object.assign( {} , inspectStyle.none , {
 
 
 }).call(this)}).call(this,{"isBuffer":require("../../is-buffer/index.js")},require('_process'))
-},{"../../is-buffer/index.js":18,"./ansi.js":45,"./escape.js":46,"_process":28}],49:[function(require,module,exports){
+},{"../../is-buffer/index.js":19,"./ansi.js":46,"./escape.js":47,"_process":29}],50:[function(require,module,exports){
 /*
 	String Kit
 
@@ -15233,7 +15313,7 @@ function naturalSort( a , b ) {
 module.exports = naturalSort ;
 
 
-},{}],50:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 /*
 	String Kit
 
@@ -15497,7 +15577,7 @@ unicode.toFullWidth = str => {
 } ;
 
 
-},{}],51:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -15617,7 +15697,7 @@ VG.prototype.addCssRule = function( rule ) {
 } ;
 
 
-},{"../package.json":64,"./VGContainer.js":52,"./svg-kit.js":60}],52:[function(require,module,exports){
+},{"../package.json":65,"./VGContainer.js":53,"./svg-kit.js":61}],53:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -15738,7 +15818,7 @@ VGContainer.prototype.morphDom = function( root = this ) {
 } ;
 
 
-},{"../package.json":64,"./VGEntity.js":54,"./svg-kit.js":60}],53:[function(require,module,exports){
+},{"../package.json":65,"./VGEntity.js":55,"./svg-kit.js":61}],54:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -15823,7 +15903,7 @@ VGEllipse.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":64,"./VGEntity.js":54}],54:[function(require,module,exports){
+},{"../package.json":65,"./VGEntity.js":55}],55:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -16208,7 +16288,7 @@ VGEntity.prototype.morphOneEntryDom = function( data , root = this ) {
 } ;
 
 
-},{"../package.json":64,"string-kit/lib/camel":62,"string-kit/lib/escape":63}],55:[function(require,module,exports){
+},{"../package.json":65,"string-kit/lib/camel":63,"string-kit/lib/escape":64}],56:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -16265,7 +16345,7 @@ VGGroup.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":64,"./VGContainer.js":52,"./svg-kit.js":60}],56:[function(require,module,exports){
+},{"../package.json":65,"./VGContainer.js":53,"./svg-kit.js":61}],57:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -16932,7 +17012,7 @@ VGPath.prototype.forwardNegativeTurn = function( data ) {
 } ;
 
 
-},{"../package.json":64,"./VGEntity.js":54}],57:[function(require,module,exports){
+},{"../package.json":65,"./VGEntity.js":55}],58:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -17023,7 +17103,7 @@ VGRect.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":64,"./VGEntity.js":54}],58:[function(require,module,exports){
+},{"../package.json":65,"./VGEntity.js":55}],59:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -17135,7 +17215,7 @@ VGText.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":64,"./VGEntity.js":54}],59:[function(require,module,exports){
+},{"../package.json":65,"./VGEntity.js":55}],60:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -17183,7 +17263,7 @@ path.dFromPoints = ( points , invertY ) => {
 } ;
 
 
-},{}],60:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 (function (process){(function (){
 /*
 	SVG Kit
@@ -17661,7 +17741,7 @@ svgKit.objectToVG = function( object ) {
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./VG.js":51,"./VGContainer.js":52,"./VGEllipse.js":53,"./VGEntity.js":54,"./VGGroup.js":55,"./VGPath.js":56,"./VGRect.js":57,"./VGText.js":58,"./path.js":59,"_process":28,"dom-kit":61,"fs":15,"seventh":41,"string-kit/lib/escape.js":63}],61:[function(require,module,exports){
+},{"./VG.js":52,"./VGContainer.js":53,"./VGEllipse.js":54,"./VGEntity.js":55,"./VGGroup.js":56,"./VGPath.js":57,"./VGRect.js":58,"./VGText.js":59,"./path.js":60,"_process":29,"dom-kit":62,"fs":16,"seventh":42,"string-kit/lib/escape.js":64}],62:[function(require,module,exports){
 (function (process){(function (){
 /*
 	Dom Kit
@@ -18249,7 +18329,7 @@ domKit.html = function( $element , html ) { $element.innerHTML = html ; } ;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"@cronvel/xmldom":15,"_process":28}],62:[function(require,module,exports){
+},{"@cronvel/xmldom":16,"_process":29}],63:[function(require,module,exports){
 /*
 	String Kit
 
@@ -18323,7 +18403,7 @@ camel.camelCaseToDash =
 camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' ) ;
 
 
-},{}],63:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 /*
 	String Kit
 
@@ -18428,7 +18508,7 @@ exports.unicodePercentEncode = str => str.replace( /[\x00-\x1f\u0100-\uffff\x7f%
 exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
 
 
-},{}],64:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 module.exports={
   "_from": "svg-kit@0.3.0",
   "_id": "svg-kit@0.3.0",
@@ -18505,7 +18585,7 @@ module.exports={
   "version": "0.3.0"
 }
 
-},{}],65:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 (function (setImmediate,clearImmediate){(function (){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -18584,7 +18664,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this)}).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":28,"timers":65}],66:[function(require,module,exports){
+},{"process/browser.js":29,"timers":66}],67:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -19318,7 +19398,7 @@ Url.prototype.parseHost = function() {
   if (host) this.hostname = host;
 };
 
-},{"./util":67,"punycode":29,"querystring":32}],67:[function(require,module,exports){
+},{"./util":68,"punycode":30,"querystring":33}],68:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -19336,5 +19416,5 @@ module.exports = {
   }
 };
 
-},{}]},{},[8])(8)
+},{}]},{},[9])(9)
 });

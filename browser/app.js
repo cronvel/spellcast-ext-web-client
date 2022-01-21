@@ -4578,14 +4578,11 @@ BrowserGamepadPorts.prototype.init = function() {
 	} ) ;
 	
 	//*
-	this.on( 'press' , ( name ) => {
-		console.warn( "Button pressed:" , name ) ;
+	this.on( 'key' , ( type , gp , oType ) => {
+		console.warn( "Key:" , type , oType ) ;
 	} ) ;
-	this.on( 'release' , ( name ) => {
-		console.warn( "Button released:" , name ) ;
-	} ) ;
-	this.on( 'change' , ( name , v1 , v2 ) => {
-		console.warn( "Changed:" , name , v1 , v2 ) ;
+	this.on( 'change' , ( type , gp , oType , v1 , v2 ) => {
+		console.warn( "Change:" , type , oType , v1 , v2 ) ;
 	} ) ;
 	//*/
 } ;
@@ -4636,7 +4633,12 @@ function Gamepad( gameports , index , id ) {
 	this.playerPrefix = 'P' + ( index + 1 ) + '_' ;
 	this.id = id ;
 	this.isPolling = false ;
-	
+
+	this.emitInputString = true ;
+	this.inputString = '' ;
+	this.inputStringEraseTime = 200 ;
+	this.lastInputStringTime = 0 ;
+
 	this.input = new GamepadInput() ;
 	this.lastInput = new GamepadInput() ;
 
@@ -4676,8 +4678,26 @@ Gamepad.prototype.postProcess = function() {
 
 
 Gamepad.prototype.dispatchEmit = function( eventName , type , v1 , v2 ) {
+	// Process string-input first, it should emit before since it would branch on specific code for userland
+	if ( this.emitInputString && eventName === 'key' ) {
+		var now = Date.now() ;
+
+		if ( ! this.inputString || now > this.lastInputStringTime + this.inputStringEraseTime ) {
+			// Too much time have passed, reset the string
+			this.inputString = v1 ? type : '' ;
+			this.lastInputStringTime = now ;
+			// Don't emit before it's combo'ed with something else...
+		}
+		else {
+			this.inputString += '+' + type ;
+			this.lastInputStringTime = now ;
+			this.emit( 'key' , type , v1 , v2 ) ;
+			this.gameports.emit( 'key' , this.playerPrefix + this.inputString , this , this.inputString ) ;
+		}
+	}
+
 	this.emit( eventName , type , v1 , v2 ) ;
-	this.gameports.emit( eventName , this.playerPrefix + type , v1 , v2 ) ;
+	this.gameports.emit( eventName , this.playerPrefix + type , this , type , v1 , v2 ) ;
 } ;
 
 
@@ -4751,10 +4771,10 @@ module.exports = GamepadInput ;
 
 
 GamepadInput.prototype.emitFromDiff = function( base , emit ) {
-	if ( base.dPad.up !== this.dPad.up ) { this.emitMulti( emit , base.dPad.up , this.dPad.up , 'DPAD_UP' ) ; }
-	if ( base.dPad.down !== this.dPad.down ) { this.emitMulti( emit , base.dPad.down , this.dPad.down , 'DPAD_DOWN' ) ; }
-	if ( base.dPad.left !== this.dPad.left ) { this.emitMulti( emit , base.dPad.left , this.dPad.left , 'DPAD_LEFT' ) ; }
-	if ( base.dPad.right !== this.dPad.right ) { this.emitMulti( emit , base.dPad.right , this.dPad.right , 'DPAD_RIGHT' ) ; }
+	if ( base.dPad.up !== this.dPad.up ) { this.emitBoth( emit , base.dPad.up , this.dPad.up , 'DPAD_UP' ) ; }
+	if ( base.dPad.down !== this.dPad.down ) { this.emitBoth( emit , base.dPad.down , this.dPad.down , 'DPAD_DOWN' ) ; }
+	if ( base.dPad.left !== this.dPad.left ) { this.emitBoth( emit , base.dPad.left , this.dPad.left , 'DPAD_LEFT' ) ; }
+	if ( base.dPad.right !== this.dPad.right ) { this.emitBoth( emit , base.dPad.right , this.dPad.right , 'DPAD_RIGHT' ) ; }
 
 	if ( base.leftStick.x !== this.leftStick.x || base.leftStick.y !== this.leftStick.y ) {
 		emit( 'change' , 'LEFT_STICK' , this.leftStick.x , this.leftStick.y ) ;
@@ -4764,28 +4784,28 @@ GamepadInput.prototype.emitFromDiff = function( base , emit ) {
 		emit( 'change' , 'RIGHT_STICK' , this.rightStick.x , this.rightStick.y ) ;
 	}
 
-	if ( base.button.top !== this.button.top ) { this.emitMulti( emit , base.button.top , this.button.top , 'TOP_BUTTON' ) ; }
-	if ( base.button.bottom !== this.button.bottom ) { this.emitMulti( emit , base.button.bottom , this.button.bottom , 'BOTTOM_BUTTON' ) ; }
-	if ( base.button.left !== this.button.left ) { this.emitMulti( emit , base.button.left , this.button.left , 'LEFT_BUTTON' ) ; }
-	if ( base.button.right !== this.button.right ) { this.emitMulti( emit , base.button.right , this.button.right , 'RIGHT_BUTTON' ) ; }
+	if ( base.button.top !== this.button.top ) { this.emitBoth( emit , base.button.top , this.button.top , 'TOP_BUTTON' ) ; }
+	if ( base.button.bottom !== this.button.bottom ) { this.emitBoth( emit , base.button.bottom , this.button.bottom , 'BOTTOM_BUTTON' ) ; }
+	if ( base.button.left !== this.button.left ) { this.emitBoth( emit , base.button.left , this.button.left , 'LEFT_BUTTON' ) ; }
+	if ( base.button.right !== this.button.right ) { this.emitBoth( emit , base.button.right , this.button.right , 'RIGHT_BUTTON' ) ; }
 
-	if ( base.shoulderButton.left !== this.shoulderButton.left ) { this.emitMulti( emit , base.shoulderButton.left , this.shoulderButton.left , 'LEFT_SHOULDER' ) ; }
-	if ( base.shoulderButton.right !== this.shoulderButton.right ) { this.emitMulti( emit , base.shoulderButton.right , this.shoulderButton.right , 'RIGHT_SHOULDER' ) ; }
-	if ( base.shoulderButton.leftTrigger !== this.shoulderButton.leftTrigger ) { this.emitMulti( emit , base.shoulderButton.leftTrigger , this.shoulderButton.leftTrigger , 'LEFT_TRIGGER' ) ; }
-	if ( base.shoulderButton.rightTrigger !== this.shoulderButton.rightTrigger ) { this.emitMulti( emit , base.shoulderButton.rightTrigger , this.shoulderButton.rightTrigger , 'RIGHT_TRIGGER' ) ; }
+	if ( base.shoulderButton.left !== this.shoulderButton.left ) { this.emitBoth( emit , base.shoulderButton.left , this.shoulderButton.left , 'LEFT_SHOULDER' ) ; }
+	if ( base.shoulderButton.right !== this.shoulderButton.right ) { this.emitBoth( emit , base.shoulderButton.right , this.shoulderButton.right , 'RIGHT_SHOULDER' ) ; }
+	if ( base.shoulderButton.leftTrigger !== this.shoulderButton.leftTrigger ) { this.emitBoth( emit , base.shoulderButton.leftTrigger , this.shoulderButton.leftTrigger , 'LEFT_TRIGGER' ) ; }
+	if ( base.shoulderButton.rightTrigger !== this.shoulderButton.rightTrigger ) { this.emitBoth( emit , base.shoulderButton.rightTrigger , this.shoulderButton.rightTrigger , 'RIGHT_TRIGGER' ) ; }
 
-	if ( base.specialButton.left !== this.specialButton.left ) { this.emitMulti( emit , base.specialButton.left , this.specialButton.left , 'LEFT_SPECIAL_BUTTON' ) ; }
-	if ( base.specialButton.right !== this.specialButton.right ) { this.emitMulti( emit , base.specialButton.right , this.specialButton.right , 'RIGHT_SPECIAL_BUTTON' ) ; }
-	if ( base.specialButton.center !== this.specialButton.center ) { this.emitMulti( emit , base.specialButton.center , this.specialButton.center , 'CENTER_SPECIAL_BUTTON' ) ; }
-	if ( base.specialButton.leftStick !== this.specialButton.leftStick ) { this.emitMulti( emit , base.specialButton.leftStick , this.specialButton.leftStick , 'LEFT_STICK_BUTTON' ) ; }
-	if ( base.specialButton.rightStick !== this.specialButton.rightStick ) { this.emitMulti( emit , base.specialButton.rightStick , this.specialButton.rightStick , 'RIGHT_STICK_BUTTON' ) ; }
+	if ( base.specialButton.left !== this.specialButton.left ) { this.emitBoth( emit , base.specialButton.left , this.specialButton.left , 'LEFT_SPECIAL_BUTTON' ) ; }
+	if ( base.specialButton.right !== this.specialButton.right ) { this.emitBoth( emit , base.specialButton.right , this.specialButton.right , 'RIGHT_SPECIAL_BUTTON' ) ; }
+	if ( base.specialButton.center !== this.specialButton.center ) { this.emitBoth( emit , base.specialButton.center , this.specialButton.center , 'CENTER_SPECIAL_BUTTON' ) ; }
+	if ( base.specialButton.leftStick !== this.specialButton.leftStick ) { this.emitBoth( emit , base.specialButton.leftStick , this.specialButton.leftStick , 'LEFT_STICK_BUTTON' ) ; }
+	if ( base.specialButton.rightStick !== this.specialButton.rightStick ) { this.emitBoth( emit , base.specialButton.rightStick , this.specialButton.rightStick , 'RIGHT_STICK_BUTTON' ) ; }
 } ;
 
 
 
-GamepadInput.prototype.emitMulti = function( emit , baseValue , newValue , type ) {
-	if ( ! newValue ) { emit( 'release' , type ) ; }
-	else if ( ! baseValue ) { emit( 'press' , type ) ; }
+GamepadInput.prototype.emitBoth = function( emit , baseValue , newValue , type ) {
+	if ( ! newValue ) { emit( 'key' , type + '_RELEASED' , 0 ) ; }
+	else if ( ! baseValue ) { emit( 'key' , type + '_PRESSED' , 1 ) ; }
 
 	emit( 'change' , type , newValue ) ;
 } ;

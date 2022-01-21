@@ -133,7 +133,7 @@ Camera.prototype.updateTransition = function( data , awaiting = false ) {
 } ;
 
 
-},{"./GTransition.js":6,"seventh":47}],2:[function(require,module,exports){
+},{"./GTransition.js":6,"seventh":48}],2:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -169,10 +169,12 @@ const Camera = require( './Camera.js' ) ;
 const TexturePack = require( './TexturePack.js' ) ;
 const GEntity = require( './GEntity.js' ) ;
 const BrowserGamepadPorts = require( './gamepad/BrowserGamepadPorts.js' ) ;
+const Keyboard = require( './keyboard/Keyboard.js' ) ;
 const commonUtils = require( './commonUtils.js' ) ;
 const toolkit = require( './toolkit.js' ) ;
 
 const Ngev = require( 'nextgen-events/lib/browser.js' ) ;
+const LeanEvents = require( 'nextgen-events/lib/LeanEvents.js' ) ;
 const Promise = require( 'seventh' ) ;
 const domKit = require( 'dom-kit' ) ;
 const svgKit = require( 'svg-kit' ) ;
@@ -205,7 +207,9 @@ function Dom() {
 	this.$sound2 = document.querySelector( '#sound2' ) ;
 	this.$sound3 = document.querySelector( '#sound3' ) ;
 	
-	this.gamepadPorts = new BrowserGamepadPorts() ;
+	this.input = new LeanEvents() ;
+	this.gamepadPorts = new BrowserGamepadPorts( this.input ) ;
+	this.keyboard = new Keyboard( this.input ) ;
 
 	this.choices = [] ;
 
@@ -236,7 +240,7 @@ function Dom() {
 
 	// The number of UI loading in progress
 	this.uiLoadingCount = 0 ;
-
+	
 	this.initEvents() ;
 }
 
@@ -302,18 +306,6 @@ Dom.prototype.initEvents = function() {
 	this.$lobby.addEventListener( 'click' , () => { this.$lobby.classList.toggle( 'toggled' ) ; } ) ;
 	this.$status.addEventListener( 'click' , () => { this.$status.classList.toggle( 'toggled' ) ; } ) ;
 	this.$panel.addEventListener( 'click' , () => { this.$panel.classList.toggle( 'toggled' ) ; } ) ;
-	
-	
-	// Prevent nasty browser shorthand
-	document.addEventListener( 'keydown' , event => {
-		switch ( event.key ) {
-			// Prevent Firefox from opening the Quick Find, since 3D clients don't use HTML input/textarea for their 3D inputs
-			case "'":
-			case "/":
-				event.preventDefault() ;
-				break ;
-		}
-	} ) ;
 	
 	// Temp!!!
 	this.gamepadPorts.once( 'newGamepad' , gamepad => gamepad.poll() ) ;
@@ -1834,7 +1826,7 @@ function soundFadeOut( $element , callback ) {
 }
 
 
-},{"./Camera.js":1,"./GEntity.js":4,"./GScene.js":5,"./TexturePack.js":7,"./commonUtils.js":9,"./engineLib.js":10,"./exm.js":11,"./gamepad/BrowserGamepadPorts.js":13,"./toolkit.js":19,"dom-kit":21,"nextgen-events/lib/browser.js":32,"seventh":47,"svg-kit":66}],3:[function(require,module,exports){
+},{"./Camera.js":1,"./GEntity.js":4,"./GScene.js":5,"./TexturePack.js":7,"./commonUtils.js":9,"./engineLib.js":10,"./exm.js":11,"./gamepad/BrowserGamepadPorts.js":13,"./keyboard/Keyboard.js":17,"./toolkit.js":20,"dom-kit":22,"nextgen-events/lib/LeanEvents.js":30,"nextgen-events/lib/browser.js":33,"seventh":48,"svg-kit":67}],3:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -2548,7 +2540,7 @@ EventDispatcher.exit = function( error , timeout , callback ) {
 } ;
 
 
-},{"./Dom.js":2,"./exm.js":11,"nextgen-events/lib/browser.js":32,"seventh":47}],4:[function(require,module,exports){
+},{"./Dom.js":2,"./exm.js":11,"nextgen-events/lib/browser.js":33,"seventh":48}],4:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3665,7 +3657,7 @@ GEntity.prototype.createCardMarkup = function( card ) {
 } ;
 
 
-},{"./GTransition.js":6,"./commonUtils.js":9,"./positionModes.js":17,"./sizeModes.js":18,"dom-kit":21,"nextgen-events/lib/browser.js":32,"seventh":47,"svg-kit":66}],5:[function(require,module,exports){
+},{"./GTransition.js":6,"./commonUtils.js":9,"./positionModes.js":18,"./sizeModes.js":19,"dom-kit":22,"nextgen-events/lib/browser.js":33,"seventh":48,"svg-kit":67}],5:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3800,7 +3792,7 @@ GScene.prototype.removeGEntity = function( gEntityId ) {
 } ;
 
 
-},{"./Camera.js":1,"nextgen-events/lib/browser.js":32,"seventh":47}],6:[function(require,module,exports){
+},{"./Camera.js":1,"nextgen-events/lib/browser.js":33,"seventh":48}],6:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4124,7 +4116,7 @@ domKit.ready( () => {
 } ) ;
 
 
-},{"./EventDispatcher.js":3,"dom-kit":21,"nextgen-events/lib/browser.js":32,"url":72}],9:[function(require,module,exports){
+},{"./EventDispatcher.js":3,"dom-kit":22,"nextgen-events/lib/browser.js":33,"url":73}],9:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4302,7 +4294,7 @@ module.exports = BrowserExm.registerNs( {
 } ) ;
 
 
-},{"./Camera.js":1,"./Dom.js":2,"./EventDispatcher.js":3,"./GEntity.js":4,"./GScene.js":5,"./GTransition.js":6,"./TexturePack.js":7,"./engineLib.js":10,"./toolkit.js":19,"exm/lib/BrowserExm.js":22,"kung-fig-expression/lib/fnOperators.js":26,"spellcast-shared/lib/operators.js":49}],12:[function(require,module,exports){
+},{"./Camera.js":1,"./Dom.js":2,"./EventDispatcher.js":3,"./GEntity.js":4,"./GScene.js":5,"./GTransition.js":6,"./TexturePack.js":7,"./engineLib.js":10,"./toolkit.js":20,"exm/lib/BrowserExm.js":23,"kung-fig-expression/lib/fnOperators.js":27,"spellcast-shared/lib/operators.js":50}],12:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4545,8 +4537,8 @@ const BrowserGamepad = require( './BrowserGamepad.js' ) ;
 
 
 
-function BrowserGamepadPorts() {
-	GamepadPorts.call( this ) ;
+function BrowserGamepadPorts( bus ) {
+	GamepadPorts.call( this , bus ) ;
 	this.init() ;
 }
 
@@ -4578,10 +4570,10 @@ BrowserGamepadPorts.prototype.init = function() {
 	} ) ;
 	
 	//*
-	this.on( 'key' , ( type , gp , oType ) => {
+	this.bus.on( 'key' , ( type , gp , oType ) => {
 		console.warn( "Key:" , type , oType ) ;
 	} ) ;
-	this.on( 'change' , ( type , gp , oType , v1 , v2 ) => {
+	this.bus.on( 'change' , ( type , gp , oType , v1 , v2 ) => {
 		console.warn( "Change:" , type , oType , v1 , v2 ) ;
 	} ) ;
 	//*/
@@ -4634,7 +4626,7 @@ function Gamepad( gameports , index , id ) {
 	this.id = id ;
 	this.isPolling = false ;
 
-	this.emitInputString = true ;
+	this.emitInputString = false ;
 	this.inputString = '' ;
 	this.inputStringEraseTime = 200 ;
 	this.lastInputStringTime = 0 ;
@@ -4653,6 +4645,15 @@ Gamepad.prototype.constructor = Gamepad ;
 
 
 Gamepad.prototype.destroy = function() {
+} ;
+
+
+
+Gamepad.prototype.setInputStringMode = function( mode , eraseTime = 200 ) {
+	this.emitInputString = !! mode ;
+	this.inputStringEraseTime = eraseTime ;
+	this.inputString = '' ;
+	this.lastInputStringTime = 0 ;
 } ;
 
 
@@ -4692,16 +4693,16 @@ Gamepad.prototype.dispatchEmit = function( eventName , type , v1 , v2 ) {
 			this.inputString += '+' + type ;
 			this.lastInputStringTime = now ;
 			this.emit( 'key' , type , v1 , v2 ) ;
-			this.gameports.emit( 'key' , this.playerPrefix + this.inputString , this , this.inputString ) ;
+			this.gameports.bus.emit( 'key' , this.playerPrefix + this.inputString , this , this.inputString ) ;
 		}
 	}
 
 	this.emit( eventName , type , v1 , v2 ) ;
-	this.gameports.emit( eventName , this.playerPrefix + type , this , type , v1 , v2 ) ;
+	this.gameports.bus.emit( eventName , this.playerPrefix + type , this , type , v1 , v2 ) ;
 } ;
 
 
-},{"./GamepadInput.js":15,"nextgen-events/lib/LeanEvents.js":29}],15:[function(require,module,exports){
+},{"./GamepadInput.js":15,"nextgen-events/lib/LeanEvents.js":30}],15:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4848,8 +4849,9 @@ const LeanEvents = require( 'nextgen-events/lib/LeanEvents.js' ) ;
 
 
 
-function GamepadPorts() {
+function GamepadPorts( bus ) {
 	this.gamepads = [] ;
+	this.bus = bus || this ;
 }
 
 module.exports = GamepadPorts ;
@@ -4882,7 +4884,74 @@ GamepadPorts.prototype.removeGamepadByIndex = function( index ) {
 } ;
 
 
-},{"nextgen-events/lib/LeanEvents.js":29}],17:[function(require,module,exports){
+},{"nextgen-events/lib/LeanEvents.js":30}],17:[function(require,module,exports){
+/*
+	Spellcast's Web Client Extension
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+//const domKit = require( 'dom-kit' ) ;
+//const Promise = require( 'seventh' ) ;
+const LeanEvents = require( 'nextgen-events/lib/LeanEvents.js' ) ;
+
+
+
+function Keyboard( bus ) {
+	this.bus = bus || this ;
+	this.initEvents() ;
+}
+
+module.exports = Keyboard ;
+
+Keyboard.prototype = Object.create( LeanEvents.prototype ) ;
+Keyboard.prototype.constructor = Keyboard ;
+
+
+
+Keyboard.prototype.initEvents = function() {
+	// Prevent nasty browser shorthand
+	document.addEventListener( 'keydown' , event => {
+		switch ( event.key ) {
+			// Prevent Firefox from opening the Quick Find, since 3D clients don't use HTML input/textarea for their 3D inputs
+			case "'":
+			case "/":
+				event.preventDefault() ;
+				break ;
+		}
+		
+		this.bus.emit( 'key' , event.key ) ;
+	} ) ;
+
+	//document.addEventListener( 'keyup' , event => {} ) ;
+} ;
+
+
+},{"nextgen-events/lib/LeanEvents.js":30}],18:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -5001,7 +5070,7 @@ exports.areaInSpriteOut = ( transform , position , areaWidth , areaHeight , imag
 } ;
 
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -5100,7 +5169,7 @@ exports.areaMin = ( transform , size , areaWidth , areaHeight , imageWidth , ima
 } ;
 
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -5418,9 +5487,9 @@ toolkit.rgbaToHex = ( r , g , b , a = null ) => {
 } ;
 
 
-},{"string-kit/lib/escape.js":52,"string-kit/lib/format.js":53}],20:[function(require,module,exports){
+},{"string-kit/lib/escape.js":53,"string-kit/lib/format.js":54}],21:[function(require,module,exports){
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 (function (process){(function (){
 /*
 	Dom Kit
@@ -6016,7 +6085,7 @@ domKit.html = ( $element , html ) => $element.innerHTML = html ;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"@cronvel/xmldom":20,"_process":34}],22:[function(require,module,exports){
+},{"@cronvel/xmldom":21,"_process":35}],23:[function(require,module,exports){
 (function (global){(function (){
 /*
 	EXM
@@ -6201,7 +6270,7 @@ if ( ! global.EXM ) {
 
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -6224,7 +6293,7 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -6286,7 +6355,7 @@ ObjectEntry.unserializer = function( ... args ) {
 } ;
 
 
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -6336,7 +6405,7 @@ class Stack extends Array {
 module.exports = Stack ;
 
 
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -6982,7 +7051,7 @@ for ( let key in exports ) {
 }
 
 
-},{"./ObjectEntry.js":24,"./Stack.js":25,"./mode.js":28}],27:[function(require,module,exports){
+},{"./ObjectEntry.js":25,"./Stack.js":26,"./mode.js":29}],28:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -7043,7 +7112,7 @@ module.exports = ( params , mapping , named = {} ) => {
 } ;
 
 
-},{"./ObjectEntry.js":24}],28:[function(require,module,exports){
+},{"./ObjectEntry.js":25}],29:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -7083,7 +7152,7 @@ exports.LIST = 5 ;
 exports.KV = 6 ;
 
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 /*
 	Next-Gen Events
 
@@ -7309,7 +7378,7 @@ LeanEvents.prototype.getAllStates = function() {
 } ;
 
 
-},{"../package.json":33}],30:[function(require,module,exports){
+},{"../package.json":34}],31:[function(require,module,exports){
 (function (process,global,setImmediate){(function (){
 /*
 	Next-Gen Events
@@ -8729,7 +8798,7 @@ NextGenEvents.Proxy = require( './Proxy.js' ) ;
 
 
 }).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"../package.json":33,"./Proxy.js":31,"_process":34,"timers":71}],31:[function(require,module,exports){
+},{"../package.json":34,"./Proxy.js":32,"_process":35,"timers":72}],32:[function(require,module,exports){
 /*
 	Next-Gen Events
 
@@ -9276,7 +9345,7 @@ RemoteService.prototype.receiveAckEmit = function( message ) {
 } ;
 
 
-},{"./NextGenEvents.js":30}],32:[function(require,module,exports){
+},{"./NextGenEvents.js":31}],33:[function(require,module,exports){
 (function (process){(function (){
 /*
 	Next-Gen Events
@@ -9322,7 +9391,7 @@ module.exports.isBrowser = true ;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./NextGenEvents.js":30,"_process":34}],33:[function(require,module,exports){
+},{"./NextGenEvents.js":31,"_process":35}],34:[function(require,module,exports){
 module.exports={
   "name": "nextgen-events",
   "version": "1.5.2",
@@ -9382,7 +9451,7 @@ module.exports={
   }
 }
 
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -9568,7 +9637,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],35:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 (function (global){(function (){
 /*! https://mths.be/punycode v1.4.1 by @mathias */
 ;(function(root) {
@@ -10105,7 +10174,7 @@ process.umask = function() { return 0; };
 }(this));
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -10191,7 +10260,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -10278,13 +10347,13 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":36,"./encode":37}],39:[function(require,module,exports){
+},{"./decode":37,"./encode":38}],40:[function(require,module,exports){
 (function (process,global){(function (){
 (function (global, undefined) {
     "use strict";
@@ -10474,7 +10543,7 @@ exports.encode = exports.stringify = require('./encode');
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
 }).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":34}],40:[function(require,module,exports){
+},{"_process":35}],41:[function(require,module,exports){
 /*
 	Seventh
 
@@ -10703,7 +10772,7 @@ Queue.prototype.getStats = function() {
 } ;
 
 
-},{"./seventh.js":47}],41:[function(require,module,exports){
+},{"./seventh.js":48}],42:[function(require,module,exports){
 /*
 	Seventh
 
@@ -10787,7 +10856,7 @@ Promise.promisifyAnyNodeApi = ( api , suffix , multiSuffix , filter ) => {
 
 
 
-},{"./seventh.js":47}],42:[function(require,module,exports){
+},{"./seventh.js":48}],43:[function(require,module,exports){
 /*
 	Seventh
 
@@ -11396,7 +11465,7 @@ Promise.race = ( iterable ) => {
 } ;
 
 
-},{"./seventh.js":47}],43:[function(require,module,exports){
+},{"./seventh.js":48}],44:[function(require,module,exports){
 (function (process,global,setImmediate){(function (){
 /*
 	Seventh
@@ -12155,7 +12224,7 @@ if ( process.browser ) {
 
 
 }).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"_process":34,"setimmediate":39,"timers":71}],44:[function(require,module,exports){
+},{"_process":35,"setimmediate":40,"timers":72}],45:[function(require,module,exports){
 /*
 	Seventh
 
@@ -12661,7 +12730,7 @@ Promise.variableRetry = ( asyncFn , thisBinding ) => {
 */
 
 
-},{"./seventh.js":47}],45:[function(require,module,exports){
+},{"./seventh.js":48}],46:[function(require,module,exports){
 (function (process){(function (){
 /*
 	Seventh
@@ -12761,7 +12830,7 @@ Promise.resolveSafeTimeout = function( timeout , value ) {
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./seventh.js":47,"_process":34}],46:[function(require,module,exports){
+},{"./seventh.js":48,"_process":35}],47:[function(require,module,exports){
 /*
 	Seventh
 
@@ -12813,7 +12882,7 @@ Promise.parasite = () => {
 } ;
 
 
-},{"./seventh.js":47}],47:[function(require,module,exports){
+},{"./seventh.js":48}],48:[function(require,module,exports){
 /*
 	Seventh
 
@@ -12857,7 +12926,7 @@ require( './parasite.js' ) ;
 require( './misc.js' ) ;
 
 
-},{"./Queue.js":40,"./api.js":41,"./batch.js":42,"./core.js":43,"./decorators.js":44,"./misc.js":45,"./parasite.js":46,"./wrapper.js":48}],48:[function(require,module,exports){
+},{"./Queue.js":41,"./api.js":42,"./batch.js":43,"./core.js":44,"./decorators.js":45,"./misc.js":46,"./parasite.js":47,"./wrapper.js":49}],49:[function(require,module,exports){
 /*
 	Seventh
 
@@ -13022,7 +13091,7 @@ Promise.onceEventAllOrError = ( emitter , eventName , excludeEvents ) => {
 } ;
 
 
-},{"./seventh.js":47}],49:[function(require,module,exports){
+},{"./seventh.js":48}],50:[function(require,module,exports){
 /*
 	Spellcast - shared utilities
 
@@ -13296,7 +13365,7 @@ for ( let key in exports ) {
 }
 
 
-},{"kung-fig-expression/lib/getNamedParameters.js":27}],50:[function(require,module,exports){
+},{"kung-fig-expression/lib/getNamedParameters.js":28}],51:[function(require,module,exports){
 /*
 	String Kit
 
@@ -13662,7 +13731,7 @@ function arrayConcatSlice( intoArray , sourceArray , start = 0 , end = sourceArr
 }
 
 
-},{}],51:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 /*
 	String Kit
 
@@ -13931,7 +14000,7 @@ ansi.parse = str => {
 } ;
 
 
-},{}],52:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 /*
 	String Kit
 
@@ -14036,7 +14105,7 @@ exports.unicodePercentEncode = str => str.replace( /[\x00-\x1f\u0100-\uffff\x7f%
 exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
 
 
-},{}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 (function (Buffer){(function (){
 /*
 	String Kit
@@ -15178,7 +15247,7 @@ function round( v , step ) {
 
 
 }).call(this)}).call(this,require("buffer").Buffer)
-},{"./StringNumber.js":50,"./ansi.js":51,"./escape.js":52,"./inspect.js":54,"./naturalSort.js":55,"./unicode.js":56,"buffer":20}],54:[function(require,module,exports){
+},{"./StringNumber.js":51,"./ansi.js":52,"./escape.js":53,"./inspect.js":55,"./naturalSort.js":56,"./unicode.js":57,"buffer":21}],55:[function(require,module,exports){
 (function (Buffer,process){(function (){
 /*
 	String Kit
@@ -15898,7 +15967,7 @@ inspectStyle.html = Object.assign( {} , inspectStyle.none , {
 
 
 }).call(this)}).call(this,{"isBuffer":require("../../is-buffer/index.js")},require('_process'))
-},{"../../is-buffer/index.js":23,"./ansi.js":51,"./escape.js":52,"_process":34}],55:[function(require,module,exports){
+},{"../../is-buffer/index.js":24,"./ansi.js":52,"./escape.js":53,"_process":35}],56:[function(require,module,exports){
 /*
 	String Kit
 
@@ -16045,7 +16114,7 @@ function naturalSort( a , b ) {
 module.exports = naturalSort ;
 
 
-},{}],56:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 /*
 	String Kit
 
@@ -16339,7 +16408,7 @@ unicode.isEmojiModifier = char => unicode.isEmojiModifierCodePoint( char.codePoi
 unicode.isEmojiModifierCodePoint = code => 0x1f3fb <= code && code <= 0x1f3ff ;
 
 
-},{}],57:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -16459,7 +16528,7 @@ VG.prototype.addCssRule = function( rule ) {
 } ;
 
 
-},{"../package.json":70,"./VGContainer.js":58,"./svg-kit.js":66}],58:[function(require,module,exports){
+},{"../package.json":71,"./VGContainer.js":59,"./svg-kit.js":67}],59:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -16580,7 +16649,7 @@ VGContainer.prototype.morphDom = function( root = this ) {
 } ;
 
 
-},{"../package.json":70,"./VGEntity.js":60,"./svg-kit.js":66}],59:[function(require,module,exports){
+},{"../package.json":71,"./VGEntity.js":61,"./svg-kit.js":67}],60:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -16665,7 +16734,7 @@ VGEllipse.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":70,"./VGEntity.js":60}],60:[function(require,module,exports){
+},{"../package.json":71,"./VGEntity.js":61}],61:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -17050,7 +17119,7 @@ VGEntity.prototype.morphOneEntryDom = function( data , root = this ) {
 } ;
 
 
-},{"../package.json":70,"string-kit/lib/camel":68,"string-kit/lib/escape":69}],61:[function(require,module,exports){
+},{"../package.json":71,"string-kit/lib/camel":69,"string-kit/lib/escape":70}],62:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -17107,7 +17176,7 @@ VGGroup.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":70,"./VGContainer.js":58,"./svg-kit.js":66}],62:[function(require,module,exports){
+},{"../package.json":71,"./VGContainer.js":59,"./svg-kit.js":67}],63:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -17774,7 +17843,7 @@ VGPath.prototype.forwardNegativeTurn = function( data ) {
 } ;
 
 
-},{"../package.json":70,"./VGEntity.js":60}],63:[function(require,module,exports){
+},{"../package.json":71,"./VGEntity.js":61}],64:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -17865,7 +17934,7 @@ VGRect.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":70,"./VGEntity.js":60}],64:[function(require,module,exports){
+},{"../package.json":71,"./VGEntity.js":61}],65:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -17977,7 +18046,7 @@ VGText.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":70,"./VGEntity.js":60}],65:[function(require,module,exports){
+},{"../package.json":71,"./VGEntity.js":61}],66:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -18025,7 +18094,7 @@ path.dFromPoints = ( points , invertY ) => {
 } ;
 
 
-},{}],66:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 (function (process){(function (){
 /*
 	SVG Kit
@@ -18503,7 +18572,7 @@ svgKit.objectToVG = function( object ) {
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./VG.js":57,"./VGContainer.js":58,"./VGEllipse.js":59,"./VGEntity.js":60,"./VGGroup.js":61,"./VGPath.js":62,"./VGRect.js":63,"./VGText.js":64,"./path.js":65,"_process":34,"dom-kit":67,"fs":20,"seventh":47,"string-kit/lib/escape.js":69}],67:[function(require,module,exports){
+},{"./VG.js":58,"./VGContainer.js":59,"./VGEllipse.js":60,"./VGEntity.js":61,"./VGGroup.js":62,"./VGPath.js":63,"./VGRect.js":64,"./VGText.js":65,"./path.js":66,"_process":35,"dom-kit":68,"fs":21,"seventh":48,"string-kit/lib/escape.js":70}],68:[function(require,module,exports){
 (function (process){(function (){
 /*
 	Dom Kit
@@ -19091,7 +19160,7 @@ domKit.html = function( $element , html ) { $element.innerHTML = html ; } ;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"@cronvel/xmldom":20,"_process":34}],68:[function(require,module,exports){
+},{"@cronvel/xmldom":21,"_process":35}],69:[function(require,module,exports){
 /*
 	String Kit
 
@@ -19165,7 +19234,7 @@ camel.camelCaseToDash =
 camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' ) ;
 
 
-},{}],69:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 /*
 	String Kit
 
@@ -19270,7 +19339,7 @@ exports.unicodePercentEncode = str => str.replace( /[\x00-\x1f\u0100-\uffff\x7f%
 exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
 
 
-},{}],70:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 module.exports={
   "_from": "svg-kit@^0.3.0",
   "_id": "svg-kit@0.3.0",
@@ -19346,7 +19415,7 @@ module.exports={
   "version": "0.3.0"
 }
 
-},{}],71:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 (function (setImmediate,clearImmediate){(function (){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -19425,7 +19494,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this)}).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":34,"timers":71}],72:[function(require,module,exports){
+},{"process/browser.js":35,"timers":72}],73:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -20159,7 +20228,7 @@ Url.prototype.parseHost = function() {
   if (host) this.hostname = host;
 };
 
-},{"./util":73,"punycode":35,"querystring":38}],73:[function(require,module,exports){
+},{"./util":74,"punycode":36,"querystring":39}],74:[function(require,module,exports){
 'use strict';
 
 module.exports = {

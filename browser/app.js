@@ -133,7 +133,7 @@ Camera.prototype.updateTransition = function( data , awaiting = false ) {
 } ;
 
 
-},{"./GTransition.js":6,"seventh":42}],2:[function(require,module,exports){
+},{"./GTransition.js":6,"seventh":47}],2:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -168,7 +168,7 @@ const GScene = require( './GScene.js' ) ;
 const Camera = require( './Camera.js' ) ;
 const TexturePack = require( './TexturePack.js' ) ;
 const GEntity = require( './GEntity.js' ) ;
-const Gamepad = require( './Gamepad.js' ) ;
+const BrowserGamepadPorts = require( './gamepad/BrowserGamepadPorts.js' ) ;
 const commonUtils = require( './commonUtils.js' ) ;
 const toolkit = require( './toolkit.js' ) ;
 
@@ -205,7 +205,7 @@ function Dom() {
 	this.$sound2 = document.querySelector( '#sound2' ) ;
 	this.$sound3 = document.querySelector( '#sound3' ) ;
 	
-	this.gamepads = [] ;
+	this.gamepadPorts = new BrowserGamepadPorts() ;
 
 	this.choices = [] ;
 
@@ -315,20 +315,8 @@ Dom.prototype.initEvents = function() {
 		}
 	} ) ;
 	
-	window.addEventListener( 'gamepadconnected' , event => {
-		if ( this.gamepads[ event.gamepad.index ] ) {
-			this.gamepads[ event.gamepad.index ].destroy() ;
-		}
-
-		this.gamepads[ event.gamepad.index ] = new Gamepad( event.gamepad ) ;
-	} ) ;
-	
-	window.addEventListener( 'gamepaddisconnected' , event => {
-		if ( this.gamepads[ event.gamepad.index ] ) {
-			this.gamepads[ event.gamepad.index ].destroy() ;
-			delete this.gamepads[ event.gamepad.index ] ;
-		}
-	} ) ;
+	// Temp!!!
+	this.gamepadPorts.once( 'newGamepad' , gamepad => gamepad.poll() ) ;
 } ;
 
 
@@ -1846,7 +1834,7 @@ function soundFadeOut( $element , callback ) {
 }
 
 
-},{"./Camera.js":1,"./GEntity.js":4,"./GScene.js":5,"./Gamepad.js":7,"./TexturePack.js":8,"./commonUtils.js":10,"./engineLib.js":11,"./exm.js":12,"./toolkit.js":15,"dom-kit":17,"nextgen-events/lib/browser.js":27,"seventh":42,"svg-kit":61}],3:[function(require,module,exports){
+},{"./Camera.js":1,"./GEntity.js":4,"./GScene.js":5,"./TexturePack.js":7,"./commonUtils.js":9,"./engineLib.js":10,"./exm.js":11,"./gamepad/BrowserGamepadPorts.js":13,"./toolkit.js":19,"dom-kit":21,"nextgen-events/lib/browser.js":32,"seventh":47,"svg-kit":66}],3:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -2560,7 +2548,7 @@ EventDispatcher.exit = function( error , timeout , callback ) {
 } ;
 
 
-},{"./Dom.js":2,"./exm.js":12,"nextgen-events/lib/browser.js":27,"seventh":42}],4:[function(require,module,exports){
+},{"./Dom.js":2,"./exm.js":11,"nextgen-events/lib/browser.js":32,"seventh":47}],4:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3677,7 +3665,7 @@ GEntity.prototype.createCardMarkup = function( card ) {
 } ;
 
 
-},{"./GTransition.js":6,"./commonUtils.js":10,"./positionModes.js":13,"./sizeModes.js":14,"dom-kit":17,"nextgen-events/lib/browser.js":27,"seventh":42,"svg-kit":61}],5:[function(require,module,exports){
+},{"./GTransition.js":6,"./commonUtils.js":9,"./positionModes.js":17,"./sizeModes.js":18,"dom-kit":21,"nextgen-events/lib/browser.js":32,"seventh":47,"svg-kit":66}],5:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3812,7 +3800,7 @@ GScene.prototype.removeGEntity = function( gEntityId ) {
 } ;
 
 
-},{"./Camera.js":1,"nextgen-events/lib/browser.js":27,"seventh":42}],6:[function(require,module,exports){
+},{"./Camera.js":1,"nextgen-events/lib/browser.js":32,"seventh":47}],6:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3906,68 +3894,6 @@ GTransition.prototype.toString = function( property ) {
 
 
 
-//const domKit = require( 'dom-kit' ) ;
-const Promise = require( 'seventh' ) ;
-
-
-
-function Gamepad( domGamepad ) {
-	this.domGamepad = domGamepad ;
-	
-	console.warn(
-		"Gamepad #%d connected: %s (%d buttons, %d axes, pose: %s)" ,
-		this.domGamepad.index , this.domGamepad.id , this.domGamepad.buttons.length , this.domGamepad.axes.length , !! this.domGamepad.pose
-	) ;
-
-	this.initEvents() ;
-}
-
-module.exports = Gamepad ;
-
-
-
-Gamepad.prototype.destroy = function() {
-	console.warn( "Gamepad #%d disconnected: %s" , this.domGamepad.index , this.domGamepad.id ) ;
-} ;
-
-
-
-Gamepad.prototype.initEvents = function() {
-	
-} ;
-
-
-},{"seventh":42}],8:[function(require,module,exports){
-/*
-	Spellcast's Web Client Extension
-
-	Copyright (c) 2014 - 2021 Cédric Ronvel
-
-	The MIT License (MIT)
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-*/
-
-"use strict" ;
-
-
-
 // !THIS SHOULD TRACK SERVER-SIDE TexturePack! spellcast/lib/gfx/TexturePack.js
 function TexturePack( data ) {
 	this.theme = data.theme || 'default' ;
@@ -4023,7 +3949,7 @@ function Frame( data = {} ) {
 TexturePack.Frame = Frame ;
 
 
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4198,7 +4124,7 @@ domKit.ready( () => {
 } ) ;
 
 
-},{"./EventDispatcher.js":3,"dom-kit":17,"nextgen-events/lib/browser.js":27,"url":67}],10:[function(require,module,exports){
+},{"./EventDispatcher.js":3,"dom-kit":21,"nextgen-events/lib/browser.js":32,"url":72}],9:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4261,7 +4187,7 @@ exports.toClassObject = function toClassObject( data ) {
 } ;
 
 
-},{}],11:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4314,7 +4240,7 @@ exports.add = ( name , engine ) => {
 } ;
 
 
-},{}],12:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4376,7 +4302,567 @@ module.exports = BrowserExm.registerNs( {
 } ) ;
 
 
-},{"./Camera.js":1,"./Dom.js":2,"./EventDispatcher.js":3,"./GEntity.js":4,"./GScene.js":5,"./GTransition.js":6,"./TexturePack.js":8,"./engineLib.js":11,"./toolkit.js":15,"exm/lib/BrowserExm.js":18,"kung-fig-expression/lib/fnOperators.js":22,"spellcast-shared/lib/operators.js":44}],13:[function(require,module,exports){
+},{"./Camera.js":1,"./Dom.js":2,"./EventDispatcher.js":3,"./GEntity.js":4,"./GScene.js":5,"./GTransition.js":6,"./TexturePack.js":7,"./engineLib.js":10,"./toolkit.js":19,"exm/lib/BrowserExm.js":22,"kung-fig-expression/lib/fnOperators.js":26,"spellcast-shared/lib/operators.js":49}],12:[function(require,module,exports){
+/*
+	Spellcast's Web Client Extension
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const Gamepad = require( './Gamepad.js' ) ;
+
+//const domKit = require( 'dom-kit' ) ;
+//const Promise = require( 'seventh' ) ;
+
+
+
+function BrowserGamepad( gameports , domGamepad ) {
+	Gamepad.call( this , gameports , domGamepad.index , domGamepad.id ) ;
+	
+	this.domGamepad = domGamepad ;
+	this.lastDomGamepadTimestamp = 0 ;	// store the last domGamepad.timestamp
+
+	this.pollingTimer = null ;
+	this.doPolling = this.doPolling.bind( this ) ;
+	
+	this.initMapping() ;
+
+	
+	console.warn(
+		"New Gamepad #%d: %s (%d buttons, %d axes)" ,
+		this.domGamepad.index , this.domGamepad.id , this.domGamepad.buttons.length ,
+		this.domGamepad.axes.length , this.domGamepad.pose
+	) ;
+}
+
+module.exports = BrowserGamepad ;
+
+BrowserGamepad.prototype = Object.create( Gamepad.prototype ) ;
+BrowserGamepad.prototype.constructor = BrowserGamepad ;
+
+
+
+BrowserGamepad.prototype.destroy = function() {
+	console.warn( "Gamepad #%d destroyed: %s" , this.domGamepad.index , this.domGamepad.id ) ;
+} ;
+
+
+
+BrowserGamepad.prototype.startPolling = function() {
+	this.doPolling() ;
+
+	/*
+	setInterval( () => {
+		console.warn( "D-pad: " , this.input.dPad , "buttons: " , this.input.button , "sticks:" , this.input.leftStick , this.input.rightStick , "shoulders:" , this.input.shoulderButton , "special:" , this.input.specialButton ) ;
+	} , 1000 ) ;
+	//*/
+
+	/*
+	this.on( 'press' , ( name ) => {
+		console.warn( "Button pressed:" , name ) ;
+	} ) ;
+	this.on( 'release' , ( name ) => {
+		console.warn( "Button released:" , name ) ;
+	} ) ;
+	this.on( 'change' , ( name , v1 , v2 ) => {
+		console.warn( "Changed:" , name , v1 , v2 ) ;
+	} ) ;
+	//*/
+} ;
+
+
+
+BrowserGamepad.prototype.doPolling = function() {
+	if ( this.pollingTimer ) { cancelAnimationFrame( this.pollingTimer ) ; }
+	
+	// First check if there is something new, avoiding wasting computing for nothing
+	if ( this.lastDomGamepadTimestamp < this.domGamepad.timestamp ) {
+		// Swap input and lastInput
+		var tmp = this.lastInput ; this.lastInput = this.input ; this.input = tmp ;
+
+		// Map the underlying browser gamepad to our gamepad input structure
+		this.map() ;
+		
+		// Update for the new value timestamp
+		this.lastDomGamepadTimestamp = this.domGamepad.timestamp ;
+
+		// Things to do after updating
+		this.postProcess() ;
+	}
+
+	this.pollingTimer = requestAnimationFrame( this.doPolling ) ;
+} ;
+
+
+
+BrowserGamepad.prototype.initMapping = function() {
+	if ( this.domGamepad.mapping ) {
+		console.warn( "The browser supports the Gamepad '%d' with this mapping: %s:" , this.domGamepad.id , this.domGamepad.mapping ) ;
+		return ;
+	}
+
+	if ( drivers[ this.domGamepad.id ] ) {
+		console.warn( "Found driver for Gamepad:" , this.domGamepad.id ) ;
+		this.map = drivers[ this.domGamepad.id ] ;
+	}
+	else {
+		console.warn( "Driver NOT FOUND for Gamepad ID:" , this.domGamepad.id ) ;
+	}
+} ;
+
+
+
+// This is the standard mapping
+BrowserGamepad.prototype.map = function() {
+	var input = this.input ;
+	
+	input.button.bottom = this.domGamepad.buttons[ 0 ]?.value || 0 ;
+	input.button.right = this.domGamepad.buttons[ 1 ]?.value || 0 ;
+	input.button.left = this.domGamepad.buttons[ 2 ]?.value || 0 ;
+	input.button.top = this.domGamepad.buttons[ 3 ]?.value || 0 ;
+
+	input.shoulderButton.left = this.domGamepad.buttons[ 4 ]?.value || 0 ;
+	input.shoulderButton.right = this.domGamepad.buttons[ 5 ]?.value || 0 ;
+	input.shoulderButton.leftTrigger = this.domGamepad.buttons[ 6 ]?.value || 0 ;
+	input.shoulderButton.rightTrigger = this.domGamepad.buttons[ 7 ]?.value || 0 ;
+
+	input.specialButton.left = this.domGamepad.buttons[ 8 ]?.value || 0 ;
+	input.specialButton.right = this.domGamepad.buttons[ 9 ]?.value || 0 ;
+	input.specialButton.leftStick = this.domGamepad.buttons[ 10 ]?.value || 0 ;
+	input.specialButton.rightStick = this.domGamepad.buttons[ 11 ]?.value || 0 ;
+
+	input.dPad.top = this.domGamepad.buttons[ 12 ]?.value || 0 ;
+	input.dPad.bottom = this.domGamepad.buttons[ 13 ]?.value || 0 ;
+	input.dPad.left = this.domGamepad.buttons[ 14 ]?.value || 0 ;
+	input.dPad.right = this.domGamepad.buttons[ 15 ]?.value || 0 ;
+
+	input.specialButton.center = this.domGamepad.buttons[ 16 ]?.value || 0 ;
+	
+	input.leftStick.x = this.domGamepad.axes[ 0 ] || 0 ;
+	input.leftStick.y = this.domGamepad.axes[ 1 ] || 0 ;
+	input.rightStick.x = this.domGamepad.axes[ 2 ] || 0 ;
+	input.rightStick.y = this.domGamepad.axes[ 3 ] || 0 ;
+} ;
+
+
+
+// Drivers, when no standard gamepad mapping was possible
+
+const drivers = {} ;
+
+drivers['046d-c21d-Logitech Gamepad F310'] = function() {
+	var input = this.input ;
+
+	input.button.bottom = this.domGamepad.buttons[ 0 ].value ;
+	input.button.right = this.domGamepad.buttons[ 1 ].value ;
+	input.button.left = this.domGamepad.buttons[ 2 ].value ;
+	input.button.top = this.domGamepad.buttons[ 3 ].value ;
+
+	input.shoulderButton.left = this.domGamepad.buttons[ 4 ].value ;
+	input.shoulderButton.right = this.domGamepad.buttons[ 5 ].value ;
+
+	input.specialButton.left = this.domGamepad.buttons[ 6 ].value ;
+	input.specialButton.right = this.domGamepad.buttons[ 7 ].value ;
+	input.specialButton.center = this.domGamepad.buttons[ 8 ].value ;
+	input.specialButton.leftStick = this.domGamepad.buttons[ 9 ].value ;
+	input.specialButton.rightStick = this.domGamepad.buttons[ 10 ].value ;
+
+	input.leftStick.x = this.domGamepad.axes[ 0 ] ;
+	input.leftStick.y = this.domGamepad.axes[ 1 ] ;
+	input.shoulderButton.leftTrigger = this.domGamepad.axes[ 2 ] * 0.5 + 0.5 ;
+
+	input.rightStick.x = this.domGamepad.axes[ 3 ] ;
+	input.rightStick.y = this.domGamepad.axes[ 4 ] ;
+	input.shoulderButton.rightTrigger = this.domGamepad.axes[ 5 ] * 0.5 + 0.5 ;
+	
+	input.dPad.left = + ( this.domGamepad.axes[ 6 ] < 0 ) ;
+	input.dPad.right = + ( this.domGamepad.axes[ 6 ] > 0 ) ;
+	input.dPad.up = + ( this.domGamepad.axes[ 7 ] < 0 ) ;
+	input.dPad.down = + ( this.domGamepad.axes[ 7 ] > 0 ) ;
+} ;
+
+
+},{"./Gamepad.js":14}],13:[function(require,module,exports){
+/*
+	Spellcast's Web Client Extension
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const GamepadPorts = require( './GamepadPorts.js' ) ;
+const BrowserGamepad = require( './BrowserGamepad.js' ) ;
+
+//const domKit = require( 'dom-kit' ) ;
+//const Promise = require( 'seventh' ) ;
+
+
+
+function BrowserGamepadPorts() {
+	GamepadPorts.call( this ) ;
+	this.init() ;
+}
+
+module.exports = BrowserGamepadPorts ;
+
+BrowserGamepadPorts.prototype = Object.create( GamepadPorts.prototype ) ;
+BrowserGamepadPorts.prototype.constructor = BrowserGamepadPorts ;
+
+
+
+BrowserGamepadPorts.prototype.init = function() {
+	// First, get all gamepads already connected
+	navigator.getGamepads().forEach( ( domGamepad , index ) => {
+		if ( ! domGamepad ) { return ; }
+		console.warn( "Gamepad #%d pre-connected: %s" , domGamepad.index , domGamepad.id ) ;
+		this.addGamepad( new BrowserGamepad( this , domGamepad ) ) ;
+	} ) ;
+
+	// Now watch for new gamepad
+	window.addEventListener( 'gamepadconnected' , event => {
+		console.warn( "Gamepad #%d connected: %s" , event.gamepad.index , event.gamepad.id ) ;
+		this.addGamepad( new BrowserGamepad( this , event.gamepad ) ) ;
+	} ) ;
+
+	// Watch for disconnecting gamepad
+	window.addEventListener( 'gamepaddisconnected' , event => {
+		console.warn( "Gamepad #%d disconnected: %s" , event.gamepad.index , event.gamepad.id ) ;
+		this.removeGamepadByIndex( event.gamepad.index ) ;
+	} ) ;
+	
+	//*
+	this.on( 'press' , ( name ) => {
+		console.warn( "Button pressed:" , name ) ;
+	} ) ;
+	this.on( 'release' , ( name ) => {
+		console.warn( "Button released:" , name ) ;
+	} ) ;
+	this.on( 'change' , ( name , v1 , v2 ) => {
+		console.warn( "Changed:" , name , v1 , v2 ) ;
+	} ) ;
+	//*/
+} ;
+
+
+},{"./BrowserGamepad.js":12,"./GamepadPorts.js":16}],14:[function(require,module,exports){
+/*
+	Spellcast's Web Client Extension
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const GamepadInput = require( './GamepadInput.js' ) ;
+
+//const domKit = require( 'dom-kit' ) ;
+//const Promise = require( 'seventh' ) ;
+const LeanEvents = require( 'nextgen-events/lib/LeanEvents.js' ) ;
+
+
+
+function Gamepad( gameports , index , id ) {
+	this.gameports = gameports ;
+	this.index = index ;
+	this.playerPrefix = 'P' + ( index + 1 ) + '_' ;
+	this.id = id ;
+	this.isPolling = false ;
+	
+	this.input = new GamepadInput() ;
+	this.lastInput = new GamepadInput() ;
+
+	this.dispatchEmit = this.dispatchEmit.bind( this ) ;
+}
+
+module.exports = Gamepad ;
+
+Gamepad.prototype = Object.create( LeanEvents.prototype ) ;
+Gamepad.prototype.constructor = Gamepad ;
+
+
+
+Gamepad.prototype.destroy = function() {
+} ;
+
+
+
+Gamepad.prototype.poll = function( poll = true ) {
+	poll = !! poll ;
+	if ( this.isPolling === poll ) { return ; }
+
+	if ( poll ) { this.startPolling() ; }
+	else { this.stopPolling() ; }
+} ;
+
+
+
+// Called when the internal state was updated
+Gamepad.prototype.postProcess = function() {
+	// Stick calibration and other related things should be done HERE, before emitting events
+	
+	// Emit event based on the diff beween the previous state and the new state
+	this.input.emitFromDiff( this.lastInput , this.dispatchEmit ) ;
+} ;
+
+
+
+Gamepad.prototype.dispatchEmit = function( eventName , type , v1 , v2 ) {
+	this.emit( eventName , type , v1 , v2 ) ;
+	this.gameports.emit( eventName , this.playerPrefix + type , v1 , v2 ) ;
+} ;
+
+
+},{"./GamepadInput.js":15,"nextgen-events/lib/LeanEvents.js":29}],15:[function(require,module,exports){
+/*
+	Spellcast's Web Client Extension
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+function GamepadInput() {
+	this.dPad = {
+		up: 0 ,
+		down: 0 ,
+		left: 0 ,
+		right: 0
+	} ;
+
+	this.leftStick = { x: 0 , y: 0 } ;
+	this.rightStick = { x: 0 , y: 0 } ;
+
+	this.button = {
+		top: 0 ,
+		bottom: 0 ,
+		left: 0 ,
+		right: 0
+	} ;
+
+	this.shoulderButton = {
+		left: 0 ,
+		right: 0 ,
+		leftTrigger: 0 ,
+		rightTrigger: 0
+	} ;
+
+	this.specialButton = {
+		left: 0 ,		// select/back/whatever
+		right: 0 ,		// start
+		center: 0 ,		// some gamepad have a button below "select" and "start"
+		leftStick: 0 ,	// click on the left thumbstick
+		rightStick: 0 ,	// click on the right thumbstick
+	} ;
+}
+
+module.exports = GamepadInput ;
+
+
+
+GamepadInput.prototype.emitFromDiff = function( base , emit ) {
+	if ( base.dPad.up !== this.dPad.up ) { this.emitMulti( emit , base.dPad.up , this.dPad.up , 'DPAD_UP' ) ; }
+	if ( base.dPad.down !== this.dPad.down ) { this.emitMulti( emit , base.dPad.down , this.dPad.down , 'DPAD_DOWN' ) ; }
+	if ( base.dPad.left !== this.dPad.left ) { this.emitMulti( emit , base.dPad.left , this.dPad.left , 'DPAD_LEFT' ) ; }
+	if ( base.dPad.right !== this.dPad.right ) { this.emitMulti( emit , base.dPad.right , this.dPad.right , 'DPAD_RIGHT' ) ; }
+
+	if ( base.leftStick.x !== this.leftStick.x || base.leftStick.y !== this.leftStick.y ) {
+		emit( 'change' , 'LEFT_STICK' , this.leftStick.x , this.leftStick.y ) ;
+	}
+
+	if ( base.rightStick.x !== this.rightStick.x || base.rightStick.y !== this.rightStick.y ) {
+		emit( 'change' , 'RIGHT_STICK' , this.rightStick.x , this.rightStick.y ) ;
+	}
+
+	if ( base.button.top !== this.button.top ) { this.emitMulti( emit , base.button.top , this.button.top , 'TOP_BUTTON' ) ; }
+	if ( base.button.bottom !== this.button.bottom ) { this.emitMulti( emit , base.button.bottom , this.button.bottom , 'BOTTOM_BUTTON' ) ; }
+	if ( base.button.left !== this.button.left ) { this.emitMulti( emit , base.button.left , this.button.left , 'LEFT_BUTTON' ) ; }
+	if ( base.button.right !== this.button.right ) { this.emitMulti( emit , base.button.right , this.button.right , 'RIGHT_BUTTON' ) ; }
+
+	if ( base.shoulderButton.left !== this.shoulderButton.left ) { this.emitMulti( emit , base.shoulderButton.left , this.shoulderButton.left , 'LEFT_SHOULDER' ) ; }
+	if ( base.shoulderButton.right !== this.shoulderButton.right ) { this.emitMulti( emit , base.shoulderButton.right , this.shoulderButton.right , 'RIGHT_SHOULDER' ) ; }
+	if ( base.shoulderButton.leftTrigger !== this.shoulderButton.leftTrigger ) { this.emitMulti( emit , base.shoulderButton.leftTrigger , this.shoulderButton.leftTrigger , 'LEFT_TRIGGER' ) ; }
+	if ( base.shoulderButton.rightTrigger !== this.shoulderButton.rightTrigger ) { this.emitMulti( emit , base.shoulderButton.rightTrigger , this.shoulderButton.rightTrigger , 'RIGHT_TRIGGER' ) ; }
+
+	if ( base.specialButton.left !== this.specialButton.left ) { this.emitMulti( emit , base.specialButton.left , this.specialButton.left , 'LEFT_SPECIAL_BUTTON' ) ; }
+	if ( base.specialButton.right !== this.specialButton.right ) { this.emitMulti( emit , base.specialButton.right , this.specialButton.right , 'RIGHT_SPECIAL_BUTTON' ) ; }
+	if ( base.specialButton.center !== this.specialButton.center ) { this.emitMulti( emit , base.specialButton.center , this.specialButton.center , 'CENTER_SPECIAL_BUTTON' ) ; }
+	if ( base.specialButton.leftStick !== this.specialButton.leftStick ) { this.emitMulti( emit , base.specialButton.leftStick , this.specialButton.leftStick , 'LEFT_STICK_BUTTON' ) ; }
+	if ( base.specialButton.rightStick !== this.specialButton.rightStick ) { this.emitMulti( emit , base.specialButton.rightStick , this.specialButton.rightStick , 'RIGHT_STICK_BUTTON' ) ; }
+} ;
+
+
+
+GamepadInput.prototype.emitMulti = function( emit , baseValue , newValue , type ) {
+	if ( ! newValue ) { emit( 'release' , type ) ; }
+	else if ( ! baseValue ) { emit( 'press' , type ) ; }
+
+	emit( 'change' , type , newValue ) ;
+} ;
+
+
+},{}],16:[function(require,module,exports){
+/*
+	Spellcast's Web Client Extension
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+//const domKit = require( 'dom-kit' ) ;
+//const Promise = require( 'seventh' ) ;
+const LeanEvents = require( 'nextgen-events/lib/LeanEvents.js' ) ;
+
+
+
+function GamepadPorts() {
+	this.gamepads = [] ;
+}
+
+module.exports = GamepadPorts ;
+
+GamepadPorts.prototype = Object.create( LeanEvents.prototype ) ;
+GamepadPorts.prototype.constructor = GamepadPorts ;
+
+
+
+GamepadPorts.prototype.addGamepad = function( gamepad ) {
+	if ( this.gamepads[ gamepad.index ] ) {
+		this.gamepads[ gamepad.index ].destroy() ;
+	}
+	
+	this.gamepads[ gamepad.index ] = gamepad ;
+	this.emit( 'newGamepad' , gamepad ) ;
+} ;
+
+
+
+GamepadPorts.prototype.removeGamepad = function( gamepad ) { this.removeGamepadByIndex( gamepad.index ) ; } ;
+
+GamepadPorts.prototype.removeGamepadByIndex = function( index ) {
+	if ( this.gamepads[ index ] ) {
+		let gamepad = this.gamepads[ index ] ;
+		gamepad.destroy() ;
+		delete this.gamepads[ index ] ;
+		this.emit( 'removedGamepad' , gamepad ) ;
+	}
+} ;
+
+
+},{"nextgen-events/lib/LeanEvents.js":29}],17:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4495,7 +4981,7 @@ exports.areaInSpriteOut = ( transform , position , areaWidth , areaHeight , imag
 } ;
 
 
-},{}],14:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4594,7 +5080,7 @@ exports.areaMin = ( transform , size , areaWidth , areaHeight , imageWidth , ima
 } ;
 
 
-},{}],15:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4912,9 +5398,9 @@ toolkit.rgbaToHex = ( r , g , b , a = null ) => {
 } ;
 
 
-},{"string-kit/lib/escape.js":47,"string-kit/lib/format.js":48}],16:[function(require,module,exports){
+},{"string-kit/lib/escape.js":52,"string-kit/lib/format.js":53}],20:[function(require,module,exports){
 
-},{}],17:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 (function (process){(function (){
 /*
 	Dom Kit
@@ -5510,7 +5996,7 @@ domKit.html = ( $element , html ) => $element.innerHTML = html ;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"@cronvel/xmldom":16,"_process":29}],18:[function(require,module,exports){
+},{"@cronvel/xmldom":20,"_process":34}],22:[function(require,module,exports){
 (function (global){(function (){
 /*
 	EXM
@@ -5695,7 +6181,7 @@ if ( ! global.EXM ) {
 
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],19:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -5718,7 +6204,7 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],20:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -5780,7 +6266,7 @@ ObjectEntry.unserializer = function( ... args ) {
 } ;
 
 
-},{}],21:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -5830,7 +6316,7 @@ class Stack extends Array {
 module.exports = Stack ;
 
 
-},{}],22:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -6476,7 +6962,7 @@ for ( let key in exports ) {
 }
 
 
-},{"./ObjectEntry.js":20,"./Stack.js":21,"./mode.js":24}],23:[function(require,module,exports){
+},{"./ObjectEntry.js":24,"./Stack.js":25,"./mode.js":28}],27:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -6537,7 +7023,7 @@ module.exports = ( params , mapping , named = {} ) => {
 } ;
 
 
-},{"./ObjectEntry.js":20}],24:[function(require,module,exports){
+},{"./ObjectEntry.js":24}],28:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -6577,7 +7063,233 @@ exports.LIST = 5 ;
 exports.KV = 6 ;
 
 
-},{}],25:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
+/*
+	Next-Gen Events
+
+	Copyright (c) 2015 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+function LeanEvents() {}
+module.exports = LeanEvents ;
+LeanEvents.prototype.__prototypeUID__ = 'nextgen-events/LeanEvents' ;
+LeanEvents.prototype.__prototypeVersion__ = require( '../package.json' ).version ;
+
+
+
+// .addListener( eventName , fn , [id] )
+LeanEvents.prototype.on = LeanEvents.prototype.addListener = function( eventName , fn , id , once ) {
+	if ( ! this.__listeners ) { this.__listeners = {} ; }
+	if ( ! this.__listeners[ eventName ] ) { this.__listeners[ eventName ] = [] ; }
+
+	var stateArgs = this.__states && this.__states[ eventName ] ;
+
+	if ( stateArgs && once ) {
+		// Don't even add it to listeners, just run it now
+		fn( ... stateArgs ) ;
+		return ;
+	}
+
+	var listener = {
+		id: id ?? fn ,
+		fn: fn ,
+		once: !! once
+	} ;
+
+	//this.__listeners[ eventName ].push( listener ) ;	// .push() is slower
+	var listeners = this.__listeners[ eventName ] ;
+	listeners[ listeners.length ] = listener ;
+
+	if ( stateArgs ) {
+		fn( ... stateArgs ) ;
+	}
+} ;
+
+
+
+// Short-hand
+// .once( eventName , fn , [id] )
+LeanEvents.prototype.once = function( eventName , fn , id ) { return this.addListener( eventName , fn , id , true ) ; } ;
+
+
+
+// .waitFor( eventName )
+// A Promise-returning .once() variant, only the first arg is returned
+LeanEvents.prototype.waitFor = function( eventName ) {
+	return new Promise( resolve => {
+		this.addListener( eventName , ( firstArg ) => resolve( firstArg ) , undefined , true ) ;
+	} ) ;
+} ;
+
+
+
+// .waitForAll( eventName )
+// A Promise-returning .once() variant, all args are returned as an array
+LeanEvents.prototype.waitForAll = function( eventName ) {
+	return new Promise( resolve => {
+		this.addListener( eventName , ( ... args ) => resolve( args ) , undefined , true ) ;
+	} ) ;
+} ;
+
+
+
+LeanEvents.prototype.off = LeanEvents.prototype.removeListener = function( eventName , id ) {
+	if ( ! this.__listeners || ! this.__listeners[ eventName ] || ! this.__listeners[ eventName ].length ) { return ; }
+
+	// Don't modify the listener array in place, an emit may be in progress (could cause recursive trouble).
+	// We assume that it's less frequent to remove a listener than to emit an event.
+	this.__listeners[ eventName ] = this.__listeners[ eventName ].filter( listener => listener.id !== id ) ;
+
+	/*	Same speed than .filter()
+	var i , iMax , iNew , newListeners = [] , listeners = this.__listeners[ eventName ] ;
+	for ( i = 0 , iMax = listeners.length , iNew = 0 ; i < iMax ; i ++ ) {
+		if ( listeners[ i ].id !== id ) {
+			newListeners[ iNew ++ ] = listeners[ i ] ;
+		}
+	}
+
+	this.__listeners[ eventName ] = newListeners ;
+	//*/
+
+	return this ;
+} ;
+
+
+
+LeanEvents.prototype.removeAllListeners = function( eventName ) {
+	if ( ! this.__listeners ) { return ; }
+
+	if ( eventName ) {
+		// Don't modify the listener array, an emit may be in progress (could cause recursive trouble)
+		//this.__listeners[ eventName ].length = 0 ;
+		delete this.__listeners[ eventName ] ;
+	}
+	else {
+		// Remove all listeners for any events
+		this.__listeners = {} ;
+	}
+
+	return this ;
+} ;
+
+
+
+/*
+	emit( eventName , [arg1] , [arg2] , [...] )
+*/
+LeanEvents.prototype.emit = function( eventName , ... args ) {
+	var i , iMax , listeners , listener , stateArgs , stateGroup ;
+
+	// Note that when a state is off, it is set to null, hence checking undefined is the way to know if it is a state event.
+	if ( this.__states && ( stateArgs = this.__states[ eventName ] ) !== undefined ) {
+		// This is a state event, register it NOW even if there is no listener!
+
+		if ( stateArgs && args.length === stateArgs.length && ( ! args.length || args.every( ( arg , index ) => arg === stateArgs[ index ] ) ) ) {
+			// The emitter is already in this exact state, skip it now!
+			return ;
+		}
+
+		// Unset all states of that group
+		stateGroup = this.__stateGroups[ eventName ] ;
+		for ( i = 0 , iMax = stateGroup.length ; i < iMax ; i ++ ) {
+			this.__states[ stateGroup[ i ] ] = null ;
+		}
+
+		this.__states[ eventName ] = args ;
+	}
+
+	if ( ! this.__listeners ) { return ; }
+
+	// listeners AND listeners.length MUST be cached, to avoid recursive trouble (adding/removing a listener inside of a listener)
+	listeners = this.__listeners[ eventName ] ;
+	if ( ! listeners || ! listeners.length ) { return ; }
+
+	// Emit the event to all listeners!
+	for ( i = 0 , iMax = listeners.length ; i < iMax ; i ++ ) {
+		listener = listeners[ i ] ;
+
+		// If it's a one-time listener, we should remove it RIGHT NOW because of recursive .emit() issues:
+		// one listener may eventually fire this very same event synchronously during the current loop.
+		if ( listener.once ) { this.removeListener( eventName , listener.id ) ; }
+
+		listener.fn( ... args ) ;
+	}
+	return this ;
+} ;
+
+
+
+LeanEvents.prototype.listeners = function( eventName ) {
+	if ( ! this.__listeners || ! this.__listeners[ eventName ] ) { return [] ; }
+
+	// Do not return the array, shallow copy it
+	return this.__listeners[ eventName ].slice() ;
+} ;
+
+
+
+LeanEvents.prototype.listenerCount = function( eventName ) {
+	if ( ! this.__listeners || ! this.__listeners[ eventName ] ) { return 0 ; }
+	return this.__listeners[ eventName ].length ;
+} ;
+
+
+
+/* Next Gen feature: states! */
+
+// .defineStates( exclusiveState1 , [exclusiveState2] , [exclusiveState3] , ... )
+LeanEvents.prototype.defineStates = function( ... states ) {
+	if ( ! this.__states ) {
+		this.__states = {} ;
+		this.__stateGroups = {} ;
+	}
+
+	states.forEach( state => {
+		this.__states[ state ] = null ;
+		this.__stateGroups[ state ] = states ;
+	} ) ;
+} ;
+
+
+
+LeanEvents.prototype.hasState = function( state ) {
+	if ( ! this.__states ) { return false ; }
+	return !! this.__states[ state ] ;
+} ;
+
+
+
+LeanEvents.prototype.getAllStates = function() {
+	if ( ! this.__states ) { return [] ; }
+	return Object.keys( this.__states ).filter( state => this.__states[ state ] ) ;
+} ;
+
+
+},{"../package.json":33}],30:[function(require,module,exports){
 (function (process,global,setImmediate){(function (){
 /*
 	Next-Gen Events
@@ -7997,7 +8709,7 @@ NextGenEvents.Proxy = require( './Proxy.js' ) ;
 
 
 }).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"../package.json":28,"./Proxy.js":26,"_process":29,"timers":66}],26:[function(require,module,exports){
+},{"../package.json":33,"./Proxy.js":31,"_process":34,"timers":71}],31:[function(require,module,exports){
 /*
 	Next-Gen Events
 
@@ -8544,7 +9256,7 @@ RemoteService.prototype.receiveAckEmit = function( message ) {
 } ;
 
 
-},{"./NextGenEvents.js":25}],27:[function(require,module,exports){
+},{"./NextGenEvents.js":30}],32:[function(require,module,exports){
 (function (process){(function (){
 /*
 	Next-Gen Events
@@ -8590,7 +9302,7 @@ module.exports.isBrowser = true ;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./NextGenEvents.js":25,"_process":29}],28:[function(require,module,exports){
+},{"./NextGenEvents.js":30,"_process":34}],33:[function(require,module,exports){
 module.exports={
   "name": "nextgen-events",
   "version": "1.5.2",
@@ -8650,7 +9362,7 @@ module.exports={
   }
 }
 
-},{}],29:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -8836,7 +9548,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],30:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 (function (global){(function (){
 /*! https://mths.be/punycode v1.4.1 by @mathias */
 ;(function(root) {
@@ -9373,7 +10085,7 @@ process.umask = function() { return 0; };
 }(this));
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],31:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -9459,7 +10171,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],32:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -9546,13 +10258,13 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],33:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":31,"./encode":32}],34:[function(require,module,exports){
+},{"./decode":36,"./encode":37}],39:[function(require,module,exports){
 (function (process,global){(function (){
 (function (global, undefined) {
     "use strict";
@@ -9742,7 +10454,7 @@ exports.encode = exports.stringify = require('./encode');
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
 }).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":29}],35:[function(require,module,exports){
+},{"_process":34}],40:[function(require,module,exports){
 /*
 	Seventh
 
@@ -9971,7 +10683,7 @@ Queue.prototype.getStats = function() {
 } ;
 
 
-},{"./seventh.js":42}],36:[function(require,module,exports){
+},{"./seventh.js":47}],41:[function(require,module,exports){
 /*
 	Seventh
 
@@ -10055,7 +10767,7 @@ Promise.promisifyAnyNodeApi = ( api , suffix , multiSuffix , filter ) => {
 
 
 
-},{"./seventh.js":42}],37:[function(require,module,exports){
+},{"./seventh.js":47}],42:[function(require,module,exports){
 /*
 	Seventh
 
@@ -10664,7 +11376,7 @@ Promise.race = ( iterable ) => {
 } ;
 
 
-},{"./seventh.js":42}],38:[function(require,module,exports){
+},{"./seventh.js":47}],43:[function(require,module,exports){
 (function (process,global,setImmediate){(function (){
 /*
 	Seventh
@@ -11423,7 +12135,7 @@ if ( process.browser ) {
 
 
 }).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"_process":29,"setimmediate":34,"timers":66}],39:[function(require,module,exports){
+},{"_process":34,"setimmediate":39,"timers":71}],44:[function(require,module,exports){
 /*
 	Seventh
 
@@ -11929,7 +12641,7 @@ Promise.variableRetry = ( asyncFn , thisBinding ) => {
 */
 
 
-},{"./seventh.js":42}],40:[function(require,module,exports){
+},{"./seventh.js":47}],45:[function(require,module,exports){
 (function (process){(function (){
 /*
 	Seventh
@@ -12029,7 +12741,7 @@ Promise.resolveSafeTimeout = function( timeout , value ) {
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./seventh.js":42,"_process":29}],41:[function(require,module,exports){
+},{"./seventh.js":47,"_process":34}],46:[function(require,module,exports){
 /*
 	Seventh
 
@@ -12081,7 +12793,7 @@ Promise.parasite = () => {
 } ;
 
 
-},{"./seventh.js":42}],42:[function(require,module,exports){
+},{"./seventh.js":47}],47:[function(require,module,exports){
 /*
 	Seventh
 
@@ -12125,7 +12837,7 @@ require( './parasite.js' ) ;
 require( './misc.js' ) ;
 
 
-},{"./Queue.js":35,"./api.js":36,"./batch.js":37,"./core.js":38,"./decorators.js":39,"./misc.js":40,"./parasite.js":41,"./wrapper.js":43}],43:[function(require,module,exports){
+},{"./Queue.js":40,"./api.js":41,"./batch.js":42,"./core.js":43,"./decorators.js":44,"./misc.js":45,"./parasite.js":46,"./wrapper.js":48}],48:[function(require,module,exports){
 /*
 	Seventh
 
@@ -12290,7 +13002,7 @@ Promise.onceEventAllOrError = ( emitter , eventName , excludeEvents ) => {
 } ;
 
 
-},{"./seventh.js":42}],44:[function(require,module,exports){
+},{"./seventh.js":47}],49:[function(require,module,exports){
 /*
 	Spellcast - shared utilities
 
@@ -12564,7 +13276,7 @@ for ( let key in exports ) {
 }
 
 
-},{"kung-fig-expression/lib/getNamedParameters.js":23}],45:[function(require,module,exports){
+},{"kung-fig-expression/lib/getNamedParameters.js":27}],50:[function(require,module,exports){
 /*
 	String Kit
 
@@ -12930,7 +13642,7 @@ function arrayConcatSlice( intoArray , sourceArray , start = 0 , end = sourceArr
 }
 
 
-},{}],46:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 /*
 	String Kit
 
@@ -13199,7 +13911,7 @@ ansi.parse = str => {
 } ;
 
 
-},{}],47:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 /*
 	String Kit
 
@@ -13304,7 +14016,7 @@ exports.unicodePercentEncode = str => str.replace( /[\x00-\x1f\u0100-\uffff\x7f%
 exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
 
 
-},{}],48:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 (function (Buffer){(function (){
 /*
 	String Kit
@@ -14446,7 +15158,7 @@ function round( v , step ) {
 
 
 }).call(this)}).call(this,require("buffer").Buffer)
-},{"./StringNumber.js":45,"./ansi.js":46,"./escape.js":47,"./inspect.js":49,"./naturalSort.js":50,"./unicode.js":51,"buffer":16}],49:[function(require,module,exports){
+},{"./StringNumber.js":50,"./ansi.js":51,"./escape.js":52,"./inspect.js":54,"./naturalSort.js":55,"./unicode.js":56,"buffer":20}],54:[function(require,module,exports){
 (function (Buffer,process){(function (){
 /*
 	String Kit
@@ -15166,7 +15878,7 @@ inspectStyle.html = Object.assign( {} , inspectStyle.none , {
 
 
 }).call(this)}).call(this,{"isBuffer":require("../../is-buffer/index.js")},require('_process'))
-},{"../../is-buffer/index.js":19,"./ansi.js":46,"./escape.js":47,"_process":29}],50:[function(require,module,exports){
+},{"../../is-buffer/index.js":23,"./ansi.js":51,"./escape.js":52,"_process":34}],55:[function(require,module,exports){
 /*
 	String Kit
 
@@ -15313,7 +16025,7 @@ function naturalSort( a , b ) {
 module.exports = naturalSort ;
 
 
-},{}],51:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 /*
 	String Kit
 
@@ -15383,7 +16095,7 @@ unicode.toArray = str => Array.from( str ) ;
 // Decode a string into an array of Cell (used by Terminal-kit).
 // Wide chars have an additionnal filler cell, so position is correct
 unicode.toCells = ( Cell , str , tabWidth = 4 , linePosition = 0 , ... extraCellArgs ) => {
-	var char , code , fillSize ,
+	var char , code , fillSize , width ,
 		output = [] ;
 
 	for ( char of str ) {
@@ -15395,18 +16107,20 @@ unicode.toCells = ( Cell , str , tabWidth = 4 , linePosition = 0 , ... extraCell
 		else if ( code === 0x09 ) {	// Tab
 			// Depends upon the next tab-stop
 			fillSize = tabWidth - ( linePosition % tabWidth ) - 1 ;
-			output.push( new Cell( '\t' , ... extraCellArgs ) ) ;
+			//output.push( new Cell( '\t' , ... extraCellArgs ) ) ;
+			output.push( new Cell( '\t' , 1 , ... extraCellArgs ) ) ;
 			linePosition += 1 + fillSize ;
-			while ( fillSize -- ) { output.push( new Cell( null , ... extraCellArgs ) ) ; }
+
+			// Add a filler cell
+			while ( fillSize -- ) { output.push( new Cell( ' ' , -2 , ... extraCellArgs ) ) ; }
 		}
 		else {
-			output.push(  new Cell( char , ... extraCellArgs )  ) ;
-			linePosition ++ ;
+			width = unicode.codePointWidth( code ) ,
+			output.push( new Cell( char , width , ... extraCellArgs ) ) ;
+			linePosition += width ;
 
-			if ( unicode.codePointWidth( code ) === 2 ) {
-				output.push( new Cell( null , ... extraCellArgs ) ) ;
-				linePosition ++ ;
-			}
+			// Add an anti-filler cell (a cell with 0 width, following a wide char)
+			while ( -- width > 0 ) { output.push( new Cell( ' ' , -1 , ... extraCellArgs ) ) ; }
 		}
 	}
 
@@ -15416,7 +16130,13 @@ unicode.toCells = ( Cell , str , tabWidth = 4 , linePosition = 0 , ... extraCell
 
 
 unicode.fromCells = ( cells ) => {
-	return cells.map( cell => cell.filler ? '' : cell.char ).join( '' ) ;
+	var cell , str = '' ;
+
+	for ( cell of cells ) {
+		if ( ! cell.filler ) { str += cell.char ; }
+	}
+
+	return str ;
 } ;
 
 
@@ -15512,7 +16232,7 @@ unicode.surrogatePair = char => {
 
 
 
-// Check if a character is a full-width char or not.
+// Check if a character is a full-width char or not
 unicode.isFullWidth = char => unicode.isFullWidthCodePoint( char.codePointAt( 0 ) ) ;
 
 // Return the width of a char, leaner than .width() for one char
@@ -15522,41 +16242,43 @@ unicode.charWidth = char => unicode.codePointWidth( char.codePointAt( 0 ) ) ;
 
 /*
 	Check if a codepoint represent a full-width char or not.
-
-	Borrowed from Node.js source, from readline.js.
 */
 unicode.codePointWidth = code => {
+	// Assuming all emoji are wide here
+	if ( unicode.isEmojiCodePoint( code ) ) { return 2 ; }
+
 	// Code points are derived from:
 	// http://www.unicode.org/Public/UNIDATA/EastAsianWidth.txt
 	if ( code >= 0x1100 && (
 		code <= 0x115f ||	// Hangul Jamo
-			0x2329 === code || // LEFT-POINTING ANGLE BRACKET
-			0x232a === code || // RIGHT-POINTING ANGLE BRACKET
-			// CJK Radicals Supplement .. Enclosed CJK Letters and Months
-			( 0x2e80 <= code && code <= 0x3247 && code !== 0x303f ) ||
-			// Enclosed CJK Letters and Months .. CJK Unified Ideographs Extension A
-			0x3250 <= code && code <= 0x4dbf ||
-			// CJK Unified Ideographs .. Yi Radicals
-			0x4e00 <= code && code <= 0xa4c6 ||
-			// Hangul Jamo Extended-A
-			0xa960 <= code && code <= 0xa97c ||
-			// Hangul Syllables
-			0xac00 <= code && code <= 0xd7a3 ||
-			// CJK Compatibility Ideographs
-			0xf900 <= code && code <= 0xfaff ||
-			// Vertical Forms
-			0xfe10 <= code && code <= 0xfe19 ||
-			// CJK Compatibility Forms .. Small Form Variants
-			0xfe30 <= code && code <= 0xfe6b ||
-			// Halfwidth and Fullwidth Forms
-			0xff01 <= code && code <= 0xff60 ||
-			0xffe0 <= code && code <= 0xffe6 ||
-			// Kana Supplement
-			0x1b000 <= code && code <= 0x1b001 ||
-			// Enclosed Ideographic Supplement
-			0x1f200 <= code && code <= 0x1f251 ||
-			// CJK Unified Ideographs Extension B .. Tertiary Ideographic Plane
-			0x20000 <= code && code <= 0x3fffd ) ) {
+		code === 0x2329 || // LEFT-POINTING ANGLE BRACKET
+		code === 0x232a || // RIGHT-POINTING ANGLE BRACKET
+		// CJK Radicals Supplement .. Enclosed CJK Letters and Months
+		( 0x2e80 <= code && code <= 0x3247 && code !== 0x303f ) ||
+		// Enclosed CJK Letters and Months .. CJK Unified Ideographs Extension A
+		( 0x3250 <= code && code <= 0x4dbf ) ||
+		// CJK Unified Ideographs .. Yi Radicals
+		( 0x4e00 <= code && code <= 0xa4c6 ) ||
+		// Hangul Jamo Extended-A
+		( 0xa960 <= code && code <= 0xa97c ) ||
+		// Hangul Syllables
+		( 0xac00 <= code && code <= 0xd7a3 ) ||
+		// CJK Compatibility Ideographs
+		( 0xf900 <= code && code <= 0xfaff ) ||
+		// Vertical Forms
+		( 0xfe10 <= code && code <= 0xfe19 ) ||
+		// CJK Compatibility Forms .. Small Form Variants
+		( 0xfe30 <= code && code <= 0xfe6b ) ||
+		// Halfwidth and Fullwidth Forms
+		( 0xff01 <= code && code <= 0xff60 ) ||
+		( 0xffe0 <= code && code <= 0xffe6 ) ||
+		// Kana Supplement
+		( 0x1b000 <= code && code <= 0x1b001 ) ||
+		// Enclosed Ideographic Supplement
+		( 0x1f200 <= code && code <= 0x1f251 ) ||
+		// CJK Unified Ideographs Extension B .. Tertiary Ideographic Plane
+		( 0x20000 <= code && code <= 0x3fffd )
+	) ) {
 		return 2 ;
 	}
 
@@ -15577,7 +16299,27 @@ unicode.toFullWidth = str => {
 } ;
 
 
-},{}],52:[function(require,module,exports){
+
+// Check if a character is an emoji or not
+unicode.isEmoji = char => unicode.isEmojiCodePoint( char.codePointAt( 0 ) ) ;
+
+// Some doc found here: https://stackoverflow.com/questions/30470079/emoji-value-range
+unicode.isEmojiCodePoint = code =>
+	// Miscellaneous symbols
+	( 0x2600 <= code && code <= 0x26ff ) ||
+	// Dingbats
+	( 0x2700 <= code && code <= 0x27bf ) ||
+	// Emoji
+	( 0x1f000 <= code && code <= 0x1f1ff ) ||
+	( 0x1f300 <= code && code <= 0x1f3fa ) ||
+	( 0x1f400 <= code && code <= 0x1faff ) ;
+
+// Emoji modifier (Fitzpatrick): https://en.wikipedia.org/wiki/Miscellaneous_Symbols_and_Pictographs#Emoji_modifiers
+unicode.isEmojiModifier = char => unicode.isEmojiModifierCodePoint( char.codePointAt( 0 ) ) ;
+unicode.isEmojiModifierCodePoint = code => 0x1f3fb <= code && code <= 0x1f3ff ;
+
+
+},{}],57:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -15697,7 +16439,7 @@ VG.prototype.addCssRule = function( rule ) {
 } ;
 
 
-},{"../package.json":65,"./VGContainer.js":53,"./svg-kit.js":61}],53:[function(require,module,exports){
+},{"../package.json":70,"./VGContainer.js":58,"./svg-kit.js":66}],58:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -15818,7 +16560,7 @@ VGContainer.prototype.morphDom = function( root = this ) {
 } ;
 
 
-},{"../package.json":65,"./VGEntity.js":55,"./svg-kit.js":61}],54:[function(require,module,exports){
+},{"../package.json":70,"./VGEntity.js":60,"./svg-kit.js":66}],59:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -15903,7 +16645,7 @@ VGEllipse.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":65,"./VGEntity.js":55}],55:[function(require,module,exports){
+},{"../package.json":70,"./VGEntity.js":60}],60:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -16288,7 +17030,7 @@ VGEntity.prototype.morphOneEntryDom = function( data , root = this ) {
 } ;
 
 
-},{"../package.json":65,"string-kit/lib/camel":63,"string-kit/lib/escape":64}],56:[function(require,module,exports){
+},{"../package.json":70,"string-kit/lib/camel":68,"string-kit/lib/escape":69}],61:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -16345,7 +17087,7 @@ VGGroup.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":65,"./VGContainer.js":53,"./svg-kit.js":61}],57:[function(require,module,exports){
+},{"../package.json":70,"./VGContainer.js":58,"./svg-kit.js":66}],62:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -17012,7 +17754,7 @@ VGPath.prototype.forwardNegativeTurn = function( data ) {
 } ;
 
 
-},{"../package.json":65,"./VGEntity.js":55}],58:[function(require,module,exports){
+},{"../package.json":70,"./VGEntity.js":60}],63:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -17103,7 +17845,7 @@ VGRect.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":65,"./VGEntity.js":55}],59:[function(require,module,exports){
+},{"../package.json":70,"./VGEntity.js":60}],64:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -17215,7 +17957,7 @@ VGText.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":65,"./VGEntity.js":55}],60:[function(require,module,exports){
+},{"../package.json":70,"./VGEntity.js":60}],65:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -17263,7 +18005,7 @@ path.dFromPoints = ( points , invertY ) => {
 } ;
 
 
-},{}],61:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 (function (process){(function (){
 /*
 	SVG Kit
@@ -17741,7 +18483,7 @@ svgKit.objectToVG = function( object ) {
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./VG.js":52,"./VGContainer.js":53,"./VGEllipse.js":54,"./VGEntity.js":55,"./VGGroup.js":56,"./VGPath.js":57,"./VGRect.js":58,"./VGText.js":59,"./path.js":60,"_process":29,"dom-kit":62,"fs":16,"seventh":42,"string-kit/lib/escape.js":64}],62:[function(require,module,exports){
+},{"./VG.js":57,"./VGContainer.js":58,"./VGEllipse.js":59,"./VGEntity.js":60,"./VGGroup.js":61,"./VGPath.js":62,"./VGRect.js":63,"./VGText.js":64,"./path.js":65,"_process":34,"dom-kit":67,"fs":20,"seventh":47,"string-kit/lib/escape.js":69}],67:[function(require,module,exports){
 (function (process){(function (){
 /*
 	Dom Kit
@@ -18329,7 +19071,7 @@ domKit.html = function( $element , html ) { $element.innerHTML = html ; } ;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"@cronvel/xmldom":16,"_process":29}],63:[function(require,module,exports){
+},{"@cronvel/xmldom":20,"_process":34}],68:[function(require,module,exports){
 /*
 	String Kit
 
@@ -18403,7 +19145,7 @@ camel.camelCaseToDash =
 camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' ) ;
 
 
-},{}],64:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 /*
 	String Kit
 
@@ -18508,9 +19250,9 @@ exports.unicodePercentEncode = str => str.replace( /[\x00-\x1f\u0100-\uffff\x7f%
 exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
 
 
-},{}],65:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 module.exports={
-  "_from": "svg-kit@0.3.0",
+  "_from": "svg-kit@^0.3.0",
   "_id": "svg-kit@0.3.0",
   "_inBundle": false,
   "_integrity": "sha512-+lqQ8WQp8UD1BlNBeVOawBKpXCBCqdwnEfRiWxG7vI3NBmZ9CBPN/eMmMt2OpJRU8UcZUOrarAjiZV3dZsqWtA==",
@@ -18519,22 +19261,21 @@ module.exports={
     "@cronvel/xmldom": "0.1.31"
   },
   "_requested": {
-    "type": "version",
+    "type": "range",
     "registry": true,
-    "raw": "svg-kit@0.3.0",
+    "raw": "svg-kit@^0.3.0",
     "name": "svg-kit",
     "escapedName": "svg-kit",
-    "rawSpec": "0.3.0",
+    "rawSpec": "^0.3.0",
     "saveSpec": null,
-    "fetchSpec": "0.3.0"
+    "fetchSpec": "^0.3.0"
   },
   "_requiredBy": [
-    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/svg-kit/-/svg-kit-0.3.0.tgz",
   "_shasum": "a53aadb7152cf7374e2a791b9d45b7cc6d0fe25d",
-  "_spec": "svg-kit@0.3.0",
+  "_spec": "svg-kit@^0.3.0",
   "_where": "/home/cedric/inside/github/spellcast-ext-web-client",
   "author": {
     "name": "Cédric Ronvel"
@@ -18585,7 +19326,7 @@ module.exports={
   "version": "0.3.0"
 }
 
-},{}],66:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 (function (setImmediate,clearImmediate){(function (){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -18664,7 +19405,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this)}).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":29,"timers":66}],67:[function(require,module,exports){
+},{"process/browser.js":34,"timers":71}],72:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -19398,7 +20139,7 @@ Url.prototype.parseHost = function() {
   if (host) this.hostname = host;
 };
 
-},{"./util":68,"punycode":30,"querystring":33}],68:[function(require,module,exports){
+},{"./util":73,"punycode":35,"querystring":38}],73:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -19416,5 +20157,5 @@ module.exports = {
   }
 };
 
-},{}]},{},[9])(9)
+},{}]},{},[8])(8)
 });

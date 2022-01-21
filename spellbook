@@ -49,7 +49,7 @@
 
 [summoning browser/app.js]
 	[summon]
-		- lib/*.js
+		- lib/**/*.js
 	[scroll]
 		- $> ${browserify} lib/app.js -s SpellcastClient -i @cronvel/xmldom -i xregexp -i fs -i buffer -o browser/app.js
 

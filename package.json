@@ -14,14 +14,14 @@
     "exm": "^0.5.12",
     "kung-fig-expression": "^0.48.6",
     "nextgen-events": "^1.5.2",
-    "seventh": "^0.7.38",
+    "seventh": "^0.7.40",
     "spellcast-shared": "^0.50.10",
-    "string-kit": "^0.14.3",
+    "string-kit": "^0.16.0",
     "svg-kit": "^0.3.0"
   },
   "devDependencies": {
     "browserify": "^17.0.0",
-    "uglify-js": "^3.14.3"
+    "uglify-js": "^3.14.5"
   },
   "scripts": {
     "test": "tea-time -R dot -O"

@@ -307,8 +307,8 @@ Dom.prototype.initEvents = function() {
 	this.$status.addEventListener( 'click' , () => { this.$status.classList.toggle( 'toggled' ) ; } ) ;
 	this.$panel.addEventListener( 'click' , () => { this.$panel.classList.toggle( 'toggled' ) ; } ) ;
 	
-	// Temp!!!
-	this.gamepadPorts.once( 'newGamepad' , gamepad => gamepad.poll() ) ;
+	// Temp?
+	this.gamepadPorts.on( 'newGamepad' , gamepad => gamepad.poll() ) ;
 } ;
 
 
@@ -4347,7 +4347,7 @@ function BrowserGamepad( gameports , domGamepad ) {
 	console.warn(
 		"New Gamepad #%d: %s (%d buttons, %d axes)" ,
 		this.domGamepad.index , this.domGamepad.id , this.domGamepad.buttons.length ,
-		this.domGamepad.axes.length , this.domGamepad.pose
+		this.domGamepad.axes.length , this
 	) ;
 }
 
@@ -4360,36 +4360,27 @@ BrowserGamepad.prototype.constructor = BrowserGamepad ;
 
 BrowserGamepad.prototype.destroy = function() {
 	console.warn( "Gamepad #%d destroyed: %s" , this.domGamepad.index , this.domGamepad.id ) ;
+
+	if ( this.pollingTimer ) {
+		this.pollingTimer = null ;
+		cancelAnimationFrame( this.pollingTimer ) ;
+	}
 } ;
 
 
 
 BrowserGamepad.prototype.startPolling = function() {
 	this.doPolling() ;
-
-	/*
-	setInterval( () => {
-		console.warn( "D-pad: " , this.input.dPad , "buttons: " , this.input.button , "sticks:" , this.input.leftStick , this.input.rightStick , "shoulders:" , this.input.shoulderButton , "special:" , this.input.specialButton ) ;
-	} , 1000 ) ;
-	//*/
-
-	/*
-	this.on( 'press' , ( name ) => {
-		console.warn( "Button pressed:" , name ) ;
-	} ) ;
-	this.on( 'release' , ( name ) => {
-		console.warn( "Button released:" , name ) ;
-	} ) ;
-	this.on( 'change' , ( name , v1 , v2 ) => {
-		console.warn( "Changed:" , name , v1 , v2 ) ;
-	} ) ;
-	//*/
 } ;
 
 
 
 BrowserGamepad.prototype.doPolling = function() {
-	if ( this.pollingTimer ) { cancelAnimationFrame( this.pollingTimer ) ; }
+	//console.warn( "doPolling() for" , this.index ) ;
+	if ( this.pollingTimer ) {
+		this.pollingTimer = null ;
+		cancelAnimationFrame( this.pollingTimer ) ;
+	}
 	
 	// First check if there is something new, avoiding wasting computing for nothing
 	if ( this.lastDomGamepadTimestamp < this.domGamepad.timestamp ) {

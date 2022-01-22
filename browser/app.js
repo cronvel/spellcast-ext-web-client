@@ -4218,6 +4218,16 @@ const LeanEvents = require( 'nextgen-events/lib/LeanEvents.js' ) ;
 
 
 function Controller() {
+	this.keyPressedList = [] ;
+	this.keyReleasedList = [] ;
+	this.gaugeList = [] ;
+	this.gauge2dList = [] ;
+	
+	this.keyBindings = {} ;
+	this.gaugeBindings = {} ;
+	this.gauge2dBindings = {} ;
+
+	this.init() ;
 }
 
 module.exports = Controller ;
@@ -4229,19 +4239,102 @@ Controller.prototype.constructor = Controller ;
 
 Controller.prototype.init = function() {
 	//*
-	this.on( 'key' , ( type , gp , oType ) => {
-		console.warn( "Key:" , type , oType ) ;
+	this.addKeyBinding( 'SPACE' , 'confirm' ) ;
+	this.addKeyBinding( 'RETURN' , 'confirm' ) ;
+	this.addKeyBinding( 'GP1_BOTTOM_BUTTON' , 'confirm' ) ;
+	this.addKeyBinding( 'GP1_RIGHT_SPECIAL_BUTTON' , 'confirm' ) ;
+	//*/
+	
+	//*
+	this.on( 'key' , ( key ) => {
+		console.warn( "Key:" , key ) ;
 	} ) ;
-	this.on( 'change' , ( type , gp , oType , v1 , v2 ) => {
-		console.warn( "Change:" , type , oType , v1 , v2 ) ;
+	this.on( 'gauge' , ( key , v ) => {
+		console.warn( "Gauge:" , key , v ) ;
+	} ) ;
+	this.on( 'gauge2d' , ( key , x , y ) => {
+		console.warn( "Gauge 2d:" , key , x , y ) ;
+	} ) ;
+	this.on( 'command' , ( command ) => {
+		console.warn( "Command:" , command ) ;
 	} ) ;
 	//*/
 } ;
 
 
 
-Controller.prototype.addKey = function( key ) {
-	this.emit( 'key' , key ) ;
+Controller.prototype.addKeyBinding = function( key , command ) {
+	if ( ! this.keyBindings[ key ] ) { this.keyBindings[ key ] = [ command ] ; }
+	else if ( ! this.keyBindings[ key ].includes( command ) ) { this.keyBindings[ key ].push( 'command' ) ; }
+} ;
+
+
+
+Controller.prototype.addKeyPressed = function( device , key ) {
+	if ( device.prefix ) { key = device.prefix + key ; }
+	this.keyPressedList.push( [ key , device ] ) ;
+} ;
+
+
+
+Controller.prototype.addKeyReleased = function( device , key ) {
+	if ( device.prefix ) { key = device.prefix + key ; }
+	this.keyReleasedList.push( [ key + ':RELEASED' , device ] ) ;
+} ;
+
+
+
+Controller.prototype.addGauge = function( device , key , value ) {
+	if ( device.prefix ) { key = device.prefix + key ; }
+	this.gaugeList.push( [ key , value , device ] ) ;
+} ;
+
+
+
+Controller.prototype.addGauge2d = function( device , key , x , y ) {
+	if ( device.prefix ) { key = device.prefix + key ; }
+	this.gauge2dList.push( [ key , x , y , device ] ) ;
+} ;
+
+
+
+Controller.prototype.addKeyAndGauge = function( device , key , value , oldValue ) {
+	if ( ! value ) { this.addKeyReleased( device , key ) ; }
+	else if ( ! oldValue ) { this.addKeyPressed( device , key ) ; }
+
+	this.addGauge( device , key , value ) ;
+} ;
+
+
+
+Controller.prototype.flushEvents = function() {
+	var args , key , device , command ;
+
+	// Released comes FIRST, it's important for "input string" to have the correct order
+	for ( [ key , device ] of this.keyReleasedList ) {
+		this.emit( 'key' , key , device ) ;
+
+		if ( this.keyBindings[ key ] ) {
+			for ( command of this.keyBindings[ key ] ) {
+				this.emit( 'command' , command ) ;
+			}
+		}
+	}
+
+	for ( [ key , device ] of this.keyPressedList ) {
+		this.emit( 'key' , key , device ) ;
+
+		if ( this.keyBindings[ key ] ) {
+			for ( command of this.keyBindings[ key ] ) {
+				this.emit( 'command' , command ) ;
+			}
+		}
+	}
+	
+	for ( args of this.gaugeList ) { this.emit( 'gauge' , ... args ) ; }
+	for ( args of this.gauge2dList ) { this.emit( 'gauge2d' , ... args ) ; }
+
+	this.keyPressedList.length = this.keyReleasedList.length = this.gaugeList.length = this.gauge2dList.length = 0 ;
 } ;
 
 
@@ -4555,7 +4648,7 @@ const LeanEvents = require( 'nextgen-events/lib/LeanEvents.js' ) ;
 function Gamepad( gamepadHub , index , id ) {
 	this.gamepadHub = gamepadHub ;
 	this.index = index ;
-	this.playerPrefix = 'P' + ( index + 1 ) + '_' ;
+	this.prefix = 'GP' + ( index + 1 ) + '_' ;
 	this.id = id ;
 	this.isPolling = false ;
 
@@ -4610,7 +4703,7 @@ Gamepad.prototype.postProcess = function() {
 	// Stick calibration and other related things should be done HERE, before emitting events
 	
 	// Emit event based on the diff beween the previous state and the new state
-	this.state.emitFromDiff( this.lastState , this.gamepadHub.controller ) ;
+	this.state.emitFromDiff( this.gamepadHub.controller , this.lastState , this ) ;
 } ;
 
 
@@ -4631,13 +4724,13 @@ Gamepad.prototype.dispatchEmit = function( eventName , type , v1 , v2 ) {
 			this.inputString += '+' + type ;
 			this.lastInputStringTime = now ;
 			//this.emit( 'key' , type , v1 , v2 ) ;
-			this.gamepadHub.controller.emit( 'key' , this.playerPrefix + this.inputString , this , this.inputString ) ;
+			this.gamepadHub.controller.emit( 'key' , this.prefix + this.inputString , this , this.inputString ) ;
 		}
 	}
 	*/
 
 	//this.emit( eventName , type , v1 , v2 ) ;
-	this.gamepadHub.controller.emit( eventName , this.playerPrefix + type , this , type , v1 , v2 ) ;
+	this.gamepadHub.controller.emit( eventName , this.prefix + type , this , type , v1 , v2 ) ;
 } ;
 
 
@@ -4782,46 +4875,37 @@ module.exports = GamepadState ;
 
 
 
-GamepadState.prototype.emitFromDiff = function( base , controller ) {
-	if ( base.dPad.up !== this.dPad.up ) { this.emitBoth( controller , base.dPad.up , this.dPad.up , 'DPAD_UP' ) ; }
-	if ( base.dPad.down !== this.dPad.down ) { this.emitBoth( controller , base.dPad.down , this.dPad.down , 'DPAD_DOWN' ) ; }
-	if ( base.dPad.left !== this.dPad.left ) { this.emitBoth( controller , base.dPad.left , this.dPad.left , 'DPAD_LEFT' ) ; }
-	if ( base.dPad.right !== this.dPad.right ) { this.emitBoth( controller , base.dPad.right , this.dPad.right , 'DPAD_RIGHT' ) ; }
+GamepadState.prototype.emitFromDiff = function( controller , old , gamepad ) {
+	if ( this.dPad.up !== old.dPad.up ) { controller.addKeyAndGauge( gamepad , 'DPAD_UP' , this.dPad.up , old.dPad.up ) ; }
+	if ( this.dPad.down !== old.dPad.down ) { controller.addKeyAndGauge( gamepad , 'DPAD_DOWN' , this.dPad.down , old.dPad.down ) ; }
+	if ( this.dPad.left !== old.dPad.left ) { controller.addKeyAndGauge( gamepad , 'DPAD_LEFT' , this.dPad.left , old.dPad.left ) ; }
+	if ( this.dPad.right !== old.dPad.right ) { controller.addKeyAndGauge( gamepad , 'DPAD_RIGHT' , this.dPad.right , old.dPad.right ) ; }
 
-	if ( base.leftStick.x !== this.leftStick.x || base.leftStick.y !== this.leftStick.y ) {
-		controller.addGauge2d( 'LEFT_STICK' , this.leftStick.x , this.leftStick.y ) ;
+	if ( this.leftStick.x !== old.leftStick.x || this.leftStick.y !== old.leftStick.y ) {
+		controller.addGauge2d( gamepad , 'LEFT_STICK' , this.leftStick.x , this.leftStick.y ) ;
 	}
 
-	if ( base.rightStick.x !== this.rightStick.x || base.rightStick.y !== this.rightStick.y ) {
-		controller.addGauge2d( 'RIGHT_STICK' , this.rightStick.x , this.rightStick.y ) ;
+	if ( this.rightStick.x !== old.rightStick.x || this.rightStick.y !== old.rightStick.y ) {
+		controller.addGauge2d( gamepad , 'RIGHT_STICK' , this.rightStick.x , this.rightStick.y ) ;
 	}
 
-	if ( base.button.top !== this.button.top ) { this.emitBoth( controller , base.button.top , this.button.top , 'TOP_BUTTON' ) ; }
-	if ( base.button.bottom !== this.button.bottom ) { this.emitBoth( controller , base.button.bottom , this.button.bottom , 'BOTTOM_BUTTON' ) ; }
-	if ( base.button.left !== this.button.left ) { this.emitBoth( controller , base.button.left , this.button.left , 'LEFT_BUTTON' ) ; }
-	if ( base.button.right !== this.button.right ) { this.emitBoth( controller , base.button.right , this.button.right , 'RIGHT_BUTTON' ) ; }
+	if ( this.button.top !== old.button.top ) { controller.addKeyAndGauge( gamepad , 'TOP_BUTTON' , this.button.top , old.button.top ) ; }
+	if ( this.button.bottom !== old.button.bottom ) { controller.addKeyAndGauge( gamepad , 'BOTTOM_BUTTON' , this.button.bottom , old.button.bottom ) ; }
+	if ( this.button.left !== old.button.left ) { controller.addKeyAndGauge( gamepad , 'LEFT_BUTTON' , this.button.left , old.button.left ) ; }
+	if ( this.button.right !== old.button.right ) { controller.addKeyAndGauge( gamepad , 'RIGHT_BUTTON' , this.button.right , old.button.right ) ; }
 
-	if ( base.shoulderButton.left !== this.shoulderButton.left ) { this.emitBoth( controller , base.shoulderButton.left , this.shoulderButton.left , 'LEFT_SHOULDER' ) ; }
-	if ( base.shoulderButton.right !== this.shoulderButton.right ) { this.emitBoth( controller , base.shoulderButton.right , this.shoulderButton.right , 'RIGHT_SHOULDER' ) ; }
-	if ( base.shoulderButton.leftTrigger !== this.shoulderButton.leftTrigger ) { this.emitBoth( controller , base.shoulderButton.leftTrigger , this.shoulderButton.leftTrigger , 'LEFT_TRIGGER' ) ; }
-	if ( base.shoulderButton.rightTrigger !== this.shoulderButton.rightTrigger ) { this.emitBoth( controller , base.shoulderButton.rightTrigger , this.shoulderButton.rightTrigger , 'RIGHT_TRIGGER' ) ; }
+	if ( this.shoulderButton.left !== old.shoulderButton.left ) { controller.addKeyAndGauge( gamepad , 'LEFT_SHOULDER' , this.shoulderButton.left , old.shoulderButton.left ) ; }
+	if ( this.shoulderButton.right !== old.shoulderButton.right ) { controller.addKeyAndGauge( gamepad , 'RIGHT_SHOULDER' , this.shoulderButton.right , old.shoulderButton.right ) ; }
+	if ( this.shoulderButton.leftTrigger !== old.shoulderButton.leftTrigger ) { controller.addKeyAndGauge( gamepad , 'LEFT_TRIGGER' , this.shoulderButton.leftTrigger , old.shoulderButton.leftTrigger ) ; }
+	if ( this.shoulderButton.rightTrigger !== old.shoulderButton.rightTrigger ) { controller.addKeyAndGauge( gamepad , 'RIGHT_TRIGGER' , this.shoulderButton.rightTrigger , old.shoulderButton.rightTrigger ) ; }
 
-	if ( base.specialButton.left !== this.specialButton.left ) { this.emitBoth( controller , base.specialButton.left , this.specialButton.left , 'LEFT_SPECIAL_BUTTON' ) ; }
-	if ( base.specialButton.right !== this.specialButton.right ) { this.emitBoth( controller , base.specialButton.right , this.specialButton.right , 'RIGHT_SPECIAL_BUTTON' ) ; }
-	if ( base.specialButton.center !== this.specialButton.center ) { this.emitBoth( controller , base.specialButton.center , this.specialButton.center , 'CENTER_SPECIAL_BUTTON' ) ; }
-	if ( base.specialButton.leftStick !== this.specialButton.leftStick ) { this.emitBoth( controller , base.specialButton.leftStick , this.specialButton.leftStick , 'LEFT_STICK_BUTTON' ) ; }
-	if ( base.specialButton.rightStick !== this.specialButton.rightStick ) { this.emitBoth( controller , base.specialButton.rightStick , this.specialButton.rightStick , 'RIGHT_STICK_BUTTON' ) ; }
+	if ( this.specialButton.left !== old.specialButton.left ) { controller.addKeyAndGauge( gamepad , 'LEFT_SPECIAL_BUTTON' , this.specialButton.left , old.specialButton.left ) ; }
+	if ( this.specialButton.right !== old.specialButton.right ) { controller.addKeyAndGauge( gamepad , 'RIGHT_SPECIAL_BUTTON' , this.specialButton.right , old.specialButton.right ) ; }
+	if ( this.specialButton.center !== old.specialButton.center ) { controller.addKeyAndGauge( gamepad , 'CENTER_SPECIAL_BUTTON' , this.specialButton.center , old.specialButton.center ) ; }
+	if ( this.specialButton.leftStick !== old.specialButton.leftStick ) { controller.addKeyAndGauge( gamepad , 'LEFT_STICK_BUTTON' , this.specialButton.leftStick , old.specialButton.leftStick ) ; }
+	if ( this.specialButton.rightStick !== old.specialButton.rightStick ) { controller.addKeyAndGauge( gamepad , 'RIGHT_STICK_BUTTON' , this.specialButton.rightStick , old.specialButton.rightStick ) ; }
 	
-	controller.flush() ;
-} ;
-
-
-
-GamepadState.prototype.emitBoth = function( controller , baseValue , newValue , type ) {
-	if ( ! newValue ) { controller.addKeyReleased( 'key' , type + '_RELEASED' , 0 ) ; }
-	else if ( ! baseValue ) { controller.addKeyPressed( 'key' , type + '_PRESSED' , 1 ) ; }
-
-	controller.addGauge( type , newValue ) ;
+	controller.flushEvents() ;
 } ;
 
 
@@ -4885,10 +4969,14 @@ BrowserKeyboard.prototype.initEvents = function() {
 				break ;
 		}
 		
-		this.controller.emit( 'key' , event.key ) ;
+		this.controller.addKeyPressed( this , event.key.toUpperCase() ) ;
+		this.controller.flushEvents() ;
 	} ) ;
 
-	//document.addEventListener( 'keyup' , event => {} ) ;
+	document.addEventListener( 'keyup' , event => {
+		this.controller.addKeyReleased( this , event.key.toUpperCase() ) ;
+		this.controller.flushEvents() ;
+	} ) ;
 } ;
 
 

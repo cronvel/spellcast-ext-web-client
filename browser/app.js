@@ -133,7 +133,7 @@ Camera.prototype.updateTransition = function( data , awaiting = false ) {
 } ;
 
 
-},{"./GTransition.js":6,"seventh":48}],2:[function(require,module,exports){
+},{"./GTransition.js":6,"seventh":50}],2:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -168,8 +168,9 @@ const GScene = require( './GScene.js' ) ;
 const Camera = require( './Camera.js' ) ;
 const TexturePack = require( './TexturePack.js' ) ;
 const GEntity = require( './GEntity.js' ) ;
-const BrowserGamepadPorts = require( './gamepad/BrowserGamepadPorts.js' ) ;
-const Keyboard = require( './keyboard/Keyboard.js' ) ;
+const BrowserGamepadHub = require( './controller/gamepad/BrowserGamepadHub.js' ) ;
+const BrowserKeyboard = require( './controller/keyboard/BrowserKeyboard.js' ) ;
+const Controller = require( './controller/Controller.js' ) ;
 const commonUtils = require( './commonUtils.js' ) ;
 const toolkit = require( './toolkit.js' ) ;
 
@@ -207,9 +208,9 @@ function Dom() {
 	this.$sound2 = document.querySelector( '#sound2' ) ;
 	this.$sound3 = document.querySelector( '#sound3' ) ;
 	
-	this.input = new LeanEvents() ;
-	this.gamepadPorts = new BrowserGamepadPorts( this.input ) ;
-	this.keyboard = new Keyboard( this.input ) ;
+	this.controller = new Controller() ;
+	this.gamepadHub = new BrowserGamepadHub( this.controller ) ;
+	this.keyboard = new BrowserKeyboard( this.controller ) ;
 
 	this.choices = [] ;
 
@@ -308,7 +309,7 @@ Dom.prototype.initEvents = function() {
 	this.$panel.addEventListener( 'click' , () => { this.$panel.classList.toggle( 'toggled' ) ; } ) ;
 	
 	// Temp?
-	this.gamepadPorts.on( 'newGamepad' , gamepad => gamepad.poll() ) ;
+	this.gamepadHub.on( 'newGamepad' , gamepad => gamepad.poll() ) ;
 } ;
 
 
@@ -1826,7 +1827,7 @@ function soundFadeOut( $element , callback ) {
 }
 
 
-},{"./Camera.js":1,"./GEntity.js":4,"./GScene.js":5,"./TexturePack.js":7,"./commonUtils.js":9,"./engineLib.js":10,"./exm.js":11,"./gamepad/BrowserGamepadPorts.js":13,"./keyboard/Keyboard.js":17,"./toolkit.js":20,"dom-kit":22,"nextgen-events/lib/LeanEvents.js":30,"nextgen-events/lib/browser.js":33,"seventh":48,"svg-kit":67}],3:[function(require,module,exports){
+},{"./Camera.js":1,"./GEntity.js":4,"./GScene.js":5,"./TexturePack.js":7,"./commonUtils.js":9,"./controller/Controller.js":10,"./controller/gamepad/BrowserGamepadHub.js":12,"./controller/keyboard/BrowserKeyboard.js":16,"./engineLib.js":18,"./exm.js":19,"./toolkit.js":22,"dom-kit":24,"nextgen-events/lib/LeanEvents.js":32,"nextgen-events/lib/browser.js":35,"seventh":50,"svg-kit":69}],3:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -2540,7 +2541,7 @@ EventDispatcher.exit = function( error , timeout , callback ) {
 } ;
 
 
-},{"./Dom.js":2,"./exm.js":11,"nextgen-events/lib/browser.js":33,"seventh":48}],4:[function(require,module,exports){
+},{"./Dom.js":2,"./exm.js":19,"nextgen-events/lib/browser.js":35,"seventh":50}],4:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3657,7 +3658,7 @@ GEntity.prototype.createCardMarkup = function( card ) {
 } ;
 
 
-},{"./GTransition.js":6,"./commonUtils.js":9,"./positionModes.js":18,"./sizeModes.js":19,"dom-kit":22,"nextgen-events/lib/browser.js":33,"seventh":48,"svg-kit":67}],5:[function(require,module,exports){
+},{"./GTransition.js":6,"./commonUtils.js":9,"./positionModes.js":20,"./sizeModes.js":21,"dom-kit":24,"nextgen-events/lib/browser.js":35,"seventh":50,"svg-kit":69}],5:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3792,7 +3793,7 @@ GScene.prototype.removeGEntity = function( gEntityId ) {
 } ;
 
 
-},{"./Camera.js":1,"nextgen-events/lib/browser.js":33,"seventh":48}],6:[function(require,module,exports){
+},{"./Camera.js":1,"nextgen-events/lib/browser.js":35,"seventh":50}],6:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4116,7 +4117,7 @@ domKit.ready( () => {
 } ) ;
 
 
-},{"./EventDispatcher.js":3,"dom-kit":22,"nextgen-events/lib/browser.js":33,"url":73}],9:[function(require,module,exports){
+},{"./EventDispatcher.js":3,"dom-kit":24,"nextgen-events/lib/browser.js":35,"url":75}],9:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4210,6 +4211,765 @@ exports.toClassObject = function toClassObject( data ) {
 
 
 
+//const domKit = require( 'dom-kit' ) ;
+//const Promise = require( 'seventh' ) ;
+const LeanEvents = require( 'nextgen-events/lib/LeanEvents.js' ) ;
+
+
+
+function Controller() {
+}
+
+module.exports = Controller ;
+
+Controller.prototype = Object.create( LeanEvents.prototype ) ;
+Controller.prototype.constructor = Controller ;
+
+
+
+Controller.prototype.init = function() {
+	//*
+	this.on( 'key' , ( type , gp , oType ) => {
+		console.warn( "Key:" , type , oType ) ;
+	} ) ;
+	this.on( 'change' , ( type , gp , oType , v1 , v2 ) => {
+		console.warn( "Change:" , type , oType , v1 , v2 ) ;
+	} ) ;
+	//*/
+} ;
+
+
+
+Controller.prototype.addKey = function( key ) {
+	this.emit( 'key' , key ) ;
+} ;
+
+
+},{"nextgen-events/lib/LeanEvents.js":32}],11:[function(require,module,exports){
+/*
+	Spellcast's Web Client Extension
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const Gamepad = require( './Gamepad.js' ) ;
+
+//const domKit = require( 'dom-kit' ) ;
+//const Promise = require( 'seventh' ) ;
+
+
+
+function BrowserGamepad( gamepadHub , domGamepad ) {
+	Gamepad.call( this , gamepadHub , domGamepad.index , domGamepad.id ) ;
+	
+	this.domGamepad = domGamepad ;
+	this.lastDomGamepadTimestamp = 0 ;	// store the last domGamepad.timestamp
+
+	this.pollingTimer = null ;
+	this.doPolling = this.doPolling.bind( this ) ;
+	
+	this.initMapping() ;
+
+	
+	console.warn(
+		"New Gamepad #%d: %s (%d buttons, %d axes)" ,
+		this.domGamepad.index , this.domGamepad.id , this.domGamepad.buttons.length ,
+		this.domGamepad.axes.length , this
+	) ;
+}
+
+module.exports = BrowserGamepad ;
+
+BrowserGamepad.prototype = Object.create( Gamepad.prototype ) ;
+BrowserGamepad.prototype.constructor = BrowserGamepad ;
+
+
+
+BrowserGamepad.prototype.destroy = function() {
+	console.warn( "Gamepad #%d destroyed: %s" , this.domGamepad.index , this.domGamepad.id ) ;
+
+	if ( this.pollingTimer ) {
+		this.pollingTimer = null ;
+		cancelAnimationFrame( this.pollingTimer ) ;
+	}
+} ;
+
+
+
+BrowserGamepad.prototype.startPolling = function() {
+	this.doPolling() ;
+} ;
+
+
+
+BrowserGamepad.prototype.doPolling = function() {
+	//console.warn( "doPolling() for" , this.index ) ;
+	if ( this.pollingTimer ) {
+		this.pollingTimer = null ;
+		cancelAnimationFrame( this.pollingTimer ) ;
+	}
+	
+	// First check if there is something new, avoiding wasting computing for nothing
+	if ( this.lastDomGamepadTimestamp < this.domGamepad.timestamp ) {
+		// Swap state and lastState
+		var tmp = this.lastState ; this.lastState = this.state ; this.state = tmp ;
+
+		// Map the underlying browser gamepad to our gamepad state structure
+		this.map() ;
+		
+		// Update for the new value timestamp
+		this.lastDomGamepadTimestamp = this.domGamepad.timestamp ;
+
+		// Things to do after updating
+		this.postProcess() ;
+	}
+
+	this.pollingTimer = requestAnimationFrame( this.doPolling ) ;
+} ;
+
+
+
+BrowserGamepad.prototype.initMapping = function() {
+	if ( this.domGamepad.mapping ) {
+		console.warn( "The browser supports the Gamepad '%d' with this mapping: %s:" , this.domGamepad.id , this.domGamepad.mapping ) ;
+		return ;
+	}
+
+	if ( drivers[ this.domGamepad.id ] ) {
+		console.warn( "Found driver for Gamepad:" , this.domGamepad.id ) ;
+		this.map = drivers[ this.domGamepad.id ] ;
+	}
+	else {
+		console.warn( "Driver NOT FOUND for Gamepad ID:" , this.domGamepad.id ) ;
+	}
+} ;
+
+
+
+// This is the standard mapping
+BrowserGamepad.prototype.map = function() {
+	var state = this.state ;
+	
+	state.button.bottom = this.domGamepad.buttons[ 0 ]?.value || 0 ;
+	state.button.right = this.domGamepad.buttons[ 1 ]?.value || 0 ;
+	state.button.left = this.domGamepad.buttons[ 2 ]?.value || 0 ;
+	state.button.top = this.domGamepad.buttons[ 3 ]?.value || 0 ;
+
+	state.shoulderButton.left = this.domGamepad.buttons[ 4 ]?.value || 0 ;
+	state.shoulderButton.right = this.domGamepad.buttons[ 5 ]?.value || 0 ;
+	state.shoulderButton.leftTrigger = this.domGamepad.buttons[ 6 ]?.value || 0 ;
+	state.shoulderButton.rightTrigger = this.domGamepad.buttons[ 7 ]?.value || 0 ;
+
+	state.specialButton.left = this.domGamepad.buttons[ 8 ]?.value || 0 ;
+	state.specialButton.right = this.domGamepad.buttons[ 9 ]?.value || 0 ;
+	state.specialButton.leftStick = this.domGamepad.buttons[ 10 ]?.value || 0 ;
+	state.specialButton.rightStick = this.domGamepad.buttons[ 11 ]?.value || 0 ;
+
+	state.dPad.top = this.domGamepad.buttons[ 12 ]?.value || 0 ;
+	state.dPad.bottom = this.domGamepad.buttons[ 13 ]?.value || 0 ;
+	state.dPad.left = this.domGamepad.buttons[ 14 ]?.value || 0 ;
+	state.dPad.right = this.domGamepad.buttons[ 15 ]?.value || 0 ;
+
+	state.specialButton.center = this.domGamepad.buttons[ 16 ]?.value || 0 ;
+	
+	state.leftStick.x = this.domGamepad.axes[ 0 ] || 0 ;
+	state.leftStick.y = this.domGamepad.axes[ 1 ] || 0 ;
+	state.rightStick.x = this.domGamepad.axes[ 2 ] || 0 ;
+	state.rightStick.y = this.domGamepad.axes[ 3 ] || 0 ;
+} ;
+
+
+
+// Drivers, when no standard gamepad mapping was possible
+
+const drivers = {} ;
+
+drivers['046d-c21d-Logitech Gamepad F310'] = function() {
+	var state = this.state ;
+
+	state.button.bottom = this.domGamepad.buttons[ 0 ].value ;
+	state.button.right = this.domGamepad.buttons[ 1 ].value ;
+	state.button.left = this.domGamepad.buttons[ 2 ].value ;
+	state.button.top = this.domGamepad.buttons[ 3 ].value ;
+
+	state.shoulderButton.left = this.domGamepad.buttons[ 4 ].value ;
+	state.shoulderButton.right = this.domGamepad.buttons[ 5 ].value ;
+
+	state.specialButton.left = this.domGamepad.buttons[ 6 ].value ;
+	state.specialButton.right = this.domGamepad.buttons[ 7 ].value ;
+	state.specialButton.center = this.domGamepad.buttons[ 8 ].value ;
+	state.specialButton.leftStick = this.domGamepad.buttons[ 9 ].value ;
+	state.specialButton.rightStick = this.domGamepad.buttons[ 10 ].value ;
+
+	state.leftStick.x = this.domGamepad.axes[ 0 ] ;
+	state.leftStick.y = this.domGamepad.axes[ 1 ] ;
+	state.shoulderButton.leftTrigger = this.domGamepad.axes[ 2 ] * 0.5 + 0.5 ;
+
+	state.rightStick.x = this.domGamepad.axes[ 3 ] ;
+	state.rightStick.y = this.domGamepad.axes[ 4 ] ;
+	state.shoulderButton.rightTrigger = this.domGamepad.axes[ 5 ] * 0.5 + 0.5 ;
+	
+	state.dPad.left = + ( this.domGamepad.axes[ 6 ] < 0 ) ;
+	state.dPad.right = + ( this.domGamepad.axes[ 6 ] > 0 ) ;
+	state.dPad.up = + ( this.domGamepad.axes[ 7 ] < 0 ) ;
+	state.dPad.down = + ( this.domGamepad.axes[ 7 ] > 0 ) ;
+} ;
+
+
+},{"./Gamepad.js":13}],12:[function(require,module,exports){
+/*
+	Spellcast's Web Client Extension
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const GamepadHub = require( './GamepadHub.js' ) ;
+const BrowserGamepad = require( './BrowserGamepad.js' ) ;
+
+//const domKit = require( 'dom-kit' ) ;
+//const Promise = require( 'seventh' ) ;
+
+
+
+function BrowserGamepadHub( controller ) {
+	GamepadHub.call( this , controller ) ;
+	this.init() ;
+}
+
+module.exports = BrowserGamepadHub ;
+
+BrowserGamepadHub.prototype = Object.create( GamepadHub.prototype ) ;
+BrowserGamepadHub.prototype.constructor = BrowserGamepadHub ;
+
+
+
+BrowserGamepadHub.prototype.init = function() {
+	// First, get all gamepads already connected
+	navigator.getGamepads().forEach( ( domGamepad , index ) => {
+		if ( ! domGamepad ) { return ; }
+		console.warn( "Gamepad #%d pre-connected: %s" , domGamepad.index , domGamepad.id ) ;
+		this.addGamepad( new BrowserGamepad( this , domGamepad ) ) ;
+	} ) ;
+
+	// Now watch for new gamepad
+	window.addEventListener( 'gamepadconnected' , event => {
+		console.warn( "Gamepad #%d connected: %s" , event.gamepad.index , event.gamepad.id ) ;
+		this.addGamepad( new BrowserGamepad( this , event.gamepad ) ) ;
+	} ) ;
+
+	// Watch for disconnecting gamepad
+	window.addEventListener( 'gamepaddisconnected' , event => {
+		console.warn( "Gamepad #%d disconnected: %s" , event.gamepad.index , event.gamepad.id ) ;
+		this.removeGamepadByIndex( event.gamepad.index ) ;
+	} ) ;
+} ;
+
+
+},{"./BrowserGamepad.js":11,"./GamepadHub.js":14}],13:[function(require,module,exports){
+/*
+	Spellcast's Web Client Extension
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const GamepadState = require( './GamepadState.js' ) ;
+
+//const domKit = require( 'dom-kit' ) ;
+//const Promise = require( 'seventh' ) ;
+const LeanEvents = require( 'nextgen-events/lib/LeanEvents.js' ) ;
+
+
+
+function Gamepad( gamepadHub , index , id ) {
+	this.gamepadHub = gamepadHub ;
+	this.index = index ;
+	this.playerPrefix = 'P' + ( index + 1 ) + '_' ;
+	this.id = id ;
+	this.isPolling = false ;
+
+	/* SHOULD BE MOVED TO CONTROLLER
+	this.emitInputString = false ;
+	this.inputString = '' ;
+	this.inputStringEraseTime = 200 ;
+	this.lastInputStringTime = 0 ;
+	*/
+
+	this.state = new GamepadState() ;
+	this.lastState = new GamepadState() ;
+
+	this.dispatchEmit = this.dispatchEmit.bind( this ) ;
+}
+
+module.exports = Gamepad ;
+
+Gamepad.prototype = Object.create( LeanEvents.prototype ) ;
+Gamepad.prototype.constructor = Gamepad ;
+
+
+
+Gamepad.prototype.destroy = function() {
+} ;
+
+
+
+/* SHOULD BE MOVED TO CONTROLLER
+Gamepad.prototype.setInputStringMode = function( mode , eraseTime = 200 ) {
+	this.emitInputString = !! mode ;
+	this.inputStringEraseTime = eraseTime ;
+	this.inputString = '' ;
+	this.lastInputStringTime = 0 ;
+} ;
+*/
+
+
+
+Gamepad.prototype.poll = function( poll = true ) {
+	poll = !! poll ;
+	if ( this.isPolling === poll ) { return ; }
+
+	if ( poll ) { this.startPolling() ; }
+	else { this.stopPolling() ; }
+} ;
+
+
+
+// Called when the internal state was updated
+Gamepad.prototype.postProcess = function() {
+	// Stick calibration and other related things should be done HERE, before emitting events
+	
+	// Emit event based on the diff beween the previous state and the new state
+	this.state.emitFromDiff( this.lastState , this.gamepadHub.controller ) ;
+} ;
+
+
+
+Gamepad.prototype.dispatchEmit = function( eventName , type , v1 , v2 ) {
+	/* SHOULD BE MOVED TO CONTROLLER
+	// Process string-input first, it should emit before since it would branch on specific code for userland
+	if ( this.emitInputString && eventName === 'key' ) {
+		var now = Date.now() ;
+
+		if ( ! this.inputString || now > this.lastInputStringTime + this.inputStringEraseTime ) {
+			// Too much time have passed, reset the string
+			this.inputString = v1 ? type : '' ;
+			this.lastInputStringTime = now ;
+			// Don't emit before it's combo'ed with something else...
+		}
+		else {
+			this.inputString += '+' + type ;
+			this.lastInputStringTime = now ;
+			//this.emit( 'key' , type , v1 , v2 ) ;
+			this.gamepadHub.controller.emit( 'key' , this.playerPrefix + this.inputString , this , this.inputString ) ;
+		}
+	}
+	*/
+
+	//this.emit( eventName , type , v1 , v2 ) ;
+	this.gamepadHub.controller.emit( eventName , this.playerPrefix + type , this , type , v1 , v2 ) ;
+} ;
+
+
+},{"./GamepadState.js":15,"nextgen-events/lib/LeanEvents.js":32}],14:[function(require,module,exports){
+/*
+	Spellcast's Web Client Extension
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+//const domKit = require( 'dom-kit' ) ;
+//const Promise = require( 'seventh' ) ;
+const LeanEvents = require( 'nextgen-events/lib/LeanEvents.js' ) ;
+
+
+
+function GamepadHub( controller ) {
+	this.gamepads = [] ;
+	this.controller = controller ;
+}
+
+module.exports = GamepadHub ;
+
+GamepadHub.prototype = Object.create( LeanEvents.prototype ) ;
+GamepadHub.prototype.constructor = GamepadHub ;
+
+
+
+GamepadHub.prototype.addGamepad = function( gamepad ) {
+	if ( this.gamepads[ gamepad.index ] ) {
+		this.gamepads[ gamepad.index ].destroy() ;
+	}
+	
+	this.gamepads[ gamepad.index ] = gamepad ;
+	this.emit( 'newGamepad' , gamepad ) ;
+} ;
+
+
+
+GamepadHub.prototype.removeGamepad = function( gamepad ) { this.removeGamepadByIndex( gamepad.index ) ; } ;
+
+GamepadHub.prototype.removeGamepadByIndex = function( index ) {
+	if ( this.gamepads[ index ] ) {
+		let gamepad = this.gamepads[ index ] ;
+		gamepad.destroy() ;
+		delete this.gamepads[ index ] ;
+		this.emit( 'removedGamepad' , gamepad ) ;
+	}
+} ;
+
+
+},{"nextgen-events/lib/LeanEvents.js":32}],15:[function(require,module,exports){
+/*
+	Spellcast's Web Client Extension
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+function GamepadState() {
+	this.dPad = {
+		up: 0 ,
+		down: 0 ,
+		left: 0 ,
+		right: 0
+	} ;
+
+	this.leftStick = { x: 0 , y: 0 } ;
+	this.rightStick = { x: 0 , y: 0 } ;
+
+	this.button = {
+		top: 0 ,
+		bottom: 0 ,
+		left: 0 ,
+		right: 0
+	} ;
+
+	this.shoulderButton = {
+		left: 0 ,
+		right: 0 ,
+		leftTrigger: 0 ,
+		rightTrigger: 0
+	} ;
+
+	this.specialButton = {
+		left: 0 ,		// select/back/whatever
+		right: 0 ,		// start
+		center: 0 ,		// some gamepad have a button below "select" and "start"
+		leftStick: 0 ,	// click on the left thumbstick
+		rightStick: 0 ,	// click on the right thumbstick
+	} ;
+}
+
+module.exports = GamepadState ;
+
+
+
+GamepadState.prototype.emitFromDiff = function( base , controller ) {
+	if ( base.dPad.up !== this.dPad.up ) { this.emitBoth( controller , base.dPad.up , this.dPad.up , 'DPAD_UP' ) ; }
+	if ( base.dPad.down !== this.dPad.down ) { this.emitBoth( controller , base.dPad.down , this.dPad.down , 'DPAD_DOWN' ) ; }
+	if ( base.dPad.left !== this.dPad.left ) { this.emitBoth( controller , base.dPad.left , this.dPad.left , 'DPAD_LEFT' ) ; }
+	if ( base.dPad.right !== this.dPad.right ) { this.emitBoth( controller , base.dPad.right , this.dPad.right , 'DPAD_RIGHT' ) ; }
+
+	if ( base.leftStick.x !== this.leftStick.x || base.leftStick.y !== this.leftStick.y ) {
+		controller.addGauge2d( 'LEFT_STICK' , this.leftStick.x , this.leftStick.y ) ;
+	}
+
+	if ( base.rightStick.x !== this.rightStick.x || base.rightStick.y !== this.rightStick.y ) {
+		controller.addGauge2d( 'RIGHT_STICK' , this.rightStick.x , this.rightStick.y ) ;
+	}
+
+	if ( base.button.top !== this.button.top ) { this.emitBoth( controller , base.button.top , this.button.top , 'TOP_BUTTON' ) ; }
+	if ( base.button.bottom !== this.button.bottom ) { this.emitBoth( controller , base.button.bottom , this.button.bottom , 'BOTTOM_BUTTON' ) ; }
+	if ( base.button.left !== this.button.left ) { this.emitBoth( controller , base.button.left , this.button.left , 'LEFT_BUTTON' ) ; }
+	if ( base.button.right !== this.button.right ) { this.emitBoth( controller , base.button.right , this.button.right , 'RIGHT_BUTTON' ) ; }
+
+	if ( base.shoulderButton.left !== this.shoulderButton.left ) { this.emitBoth( controller , base.shoulderButton.left , this.shoulderButton.left , 'LEFT_SHOULDER' ) ; }
+	if ( base.shoulderButton.right !== this.shoulderButton.right ) { this.emitBoth( controller , base.shoulderButton.right , this.shoulderButton.right , 'RIGHT_SHOULDER' ) ; }
+	if ( base.shoulderButton.leftTrigger !== this.shoulderButton.leftTrigger ) { this.emitBoth( controller , base.shoulderButton.leftTrigger , this.shoulderButton.leftTrigger , 'LEFT_TRIGGER' ) ; }
+	if ( base.shoulderButton.rightTrigger !== this.shoulderButton.rightTrigger ) { this.emitBoth( controller , base.shoulderButton.rightTrigger , this.shoulderButton.rightTrigger , 'RIGHT_TRIGGER' ) ; }
+
+	if ( base.specialButton.left !== this.specialButton.left ) { this.emitBoth( controller , base.specialButton.left , this.specialButton.left , 'LEFT_SPECIAL_BUTTON' ) ; }
+	if ( base.specialButton.right !== this.specialButton.right ) { this.emitBoth( controller , base.specialButton.right , this.specialButton.right , 'RIGHT_SPECIAL_BUTTON' ) ; }
+	if ( base.specialButton.center !== this.specialButton.center ) { this.emitBoth( controller , base.specialButton.center , this.specialButton.center , 'CENTER_SPECIAL_BUTTON' ) ; }
+	if ( base.specialButton.leftStick !== this.specialButton.leftStick ) { this.emitBoth( controller , base.specialButton.leftStick , this.specialButton.leftStick , 'LEFT_STICK_BUTTON' ) ; }
+	if ( base.specialButton.rightStick !== this.specialButton.rightStick ) { this.emitBoth( controller , base.specialButton.rightStick , this.specialButton.rightStick , 'RIGHT_STICK_BUTTON' ) ; }
+	
+	controller.flush() ;
+} ;
+
+
+
+GamepadState.prototype.emitBoth = function( controller , baseValue , newValue , type ) {
+	if ( ! newValue ) { controller.addKeyReleased( 'key' , type + '_RELEASED' , 0 ) ; }
+	else if ( ! baseValue ) { controller.addKeyPressed( 'key' , type + '_PRESSED' , 1 ) ; }
+
+	controller.addGauge( type , newValue ) ;
+} ;
+
+
+},{}],16:[function(require,module,exports){
+/*
+	Spellcast's Web Client Extension
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+//const domKit = require( 'dom-kit' ) ;
+//const Promise = require( 'seventh' ) ;
+const Keyboard = require( './Keyboard.js' ) ;
+
+
+
+function BrowserKeyboard( controller ) {
+	Keyboard.call( this , controller ) ;
+	this.initEvents() ;
+}
+
+module.exports = BrowserKeyboard ;
+
+BrowserKeyboard.prototype = Object.create( Keyboard.prototype ) ;
+BrowserKeyboard.prototype.constructor = BrowserKeyboard ;
+
+
+
+BrowserKeyboard.prototype.initEvents = function() {
+	// Prevent nasty browser shorthand
+	document.addEventListener( 'keydown' , event => {
+		switch ( event.key ) {
+			// Prevent Firefox from opening the Quick Find, since 3D clients don't use HTML input/textarea for their 3D inputs
+			case "'":
+			case "/":
+				event.preventDefault() ;
+				break ;
+		}
+		
+		this.controller.emit( 'key' , event.key ) ;
+	} ) ;
+
+	//document.addEventListener( 'keyup' , event => {} ) ;
+} ;
+
+
+},{"./Keyboard.js":17}],17:[function(require,module,exports){
+/*
+	Spellcast's Web Client Extension
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+//const domKit = require( 'dom-kit' ) ;
+//const Promise = require( 'seventh' ) ;
+const LeanEvents = require( 'nextgen-events/lib/LeanEvents.js' ) ;
+
+
+
+function Keyboard( controller ) {
+	this.controller = controller ;
+}
+
+module.exports = Keyboard ;
+
+Keyboard.prototype = Object.create( LeanEvents.prototype ) ;
+Keyboard.prototype.constructor = Keyboard ;
+
+
+},{"nextgen-events/lib/LeanEvents.js":32}],18:[function(require,module,exports){
+/*
+	Spellcast's Web Client Extension
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
 exports.lib = {} ;
 
 exports.get = name => exports.lib[ name ] ;
@@ -4232,7 +4992,7 @@ exports.add = ( name , engine ) => {
 } ;
 
 
-},{}],11:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4294,655 +5054,7 @@ module.exports = BrowserExm.registerNs( {
 } ) ;
 
 
-},{"./Camera.js":1,"./Dom.js":2,"./EventDispatcher.js":3,"./GEntity.js":4,"./GScene.js":5,"./GTransition.js":6,"./TexturePack.js":7,"./engineLib.js":10,"./toolkit.js":20,"exm/lib/BrowserExm.js":23,"kung-fig-expression/lib/fnOperators.js":27,"spellcast-shared/lib/operators.js":50}],12:[function(require,module,exports){
-/*
-	Spellcast's Web Client Extension
-
-	Copyright (c) 2014 - 2021 Cédric Ronvel
-
-	The MIT License (MIT)
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-*/
-
-"use strict" ;
-
-
-
-const Gamepad = require( './Gamepad.js' ) ;
-
-//const domKit = require( 'dom-kit' ) ;
-//const Promise = require( 'seventh' ) ;
-
-
-
-function BrowserGamepad( gameports , domGamepad ) {
-	Gamepad.call( this , gameports , domGamepad.index , domGamepad.id ) ;
-	
-	this.domGamepad = domGamepad ;
-	this.lastDomGamepadTimestamp = 0 ;	// store the last domGamepad.timestamp
-
-	this.pollingTimer = null ;
-	this.doPolling = this.doPolling.bind( this ) ;
-	
-	this.initMapping() ;
-
-	
-	console.warn(
-		"New Gamepad #%d: %s (%d buttons, %d axes)" ,
-		this.domGamepad.index , this.domGamepad.id , this.domGamepad.buttons.length ,
-		this.domGamepad.axes.length , this
-	) ;
-}
-
-module.exports = BrowserGamepad ;
-
-BrowserGamepad.prototype = Object.create( Gamepad.prototype ) ;
-BrowserGamepad.prototype.constructor = BrowserGamepad ;
-
-
-
-BrowserGamepad.prototype.destroy = function() {
-	console.warn( "Gamepad #%d destroyed: %s" , this.domGamepad.index , this.domGamepad.id ) ;
-
-	if ( this.pollingTimer ) {
-		this.pollingTimer = null ;
-		cancelAnimationFrame( this.pollingTimer ) ;
-	}
-} ;
-
-
-
-BrowserGamepad.prototype.startPolling = function() {
-	this.doPolling() ;
-} ;
-
-
-
-BrowserGamepad.prototype.doPolling = function() {
-	//console.warn( "doPolling() for" , this.index ) ;
-	if ( this.pollingTimer ) {
-		this.pollingTimer = null ;
-		cancelAnimationFrame( this.pollingTimer ) ;
-	}
-	
-	// First check if there is something new, avoiding wasting computing for nothing
-	if ( this.lastDomGamepadTimestamp < this.domGamepad.timestamp ) {
-		// Swap input and lastInput
-		var tmp = this.lastInput ; this.lastInput = this.input ; this.input = tmp ;
-
-		// Map the underlying browser gamepad to our gamepad input structure
-		this.map() ;
-		
-		// Update for the new value timestamp
-		this.lastDomGamepadTimestamp = this.domGamepad.timestamp ;
-
-		// Things to do after updating
-		this.postProcess() ;
-	}
-
-	this.pollingTimer = requestAnimationFrame( this.doPolling ) ;
-} ;
-
-
-
-BrowserGamepad.prototype.initMapping = function() {
-	if ( this.domGamepad.mapping ) {
-		console.warn( "The browser supports the Gamepad '%d' with this mapping: %s:" , this.domGamepad.id , this.domGamepad.mapping ) ;
-		return ;
-	}
-
-	if ( drivers[ this.domGamepad.id ] ) {
-		console.warn( "Found driver for Gamepad:" , this.domGamepad.id ) ;
-		this.map = drivers[ this.domGamepad.id ] ;
-	}
-	else {
-		console.warn( "Driver NOT FOUND for Gamepad ID:" , this.domGamepad.id ) ;
-	}
-} ;
-
-
-
-// This is the standard mapping
-BrowserGamepad.prototype.map = function() {
-	var input = this.input ;
-	
-	input.button.bottom = this.domGamepad.buttons[ 0 ]?.value || 0 ;
-	input.button.right = this.domGamepad.buttons[ 1 ]?.value || 0 ;
-	input.button.left = this.domGamepad.buttons[ 2 ]?.value || 0 ;
-	input.button.top = this.domGamepad.buttons[ 3 ]?.value || 0 ;
-
-	input.shoulderButton.left = this.domGamepad.buttons[ 4 ]?.value || 0 ;
-	input.shoulderButton.right = this.domGamepad.buttons[ 5 ]?.value || 0 ;
-	input.shoulderButton.leftTrigger = this.domGamepad.buttons[ 6 ]?.value || 0 ;
-	input.shoulderButton.rightTrigger = this.domGamepad.buttons[ 7 ]?.value || 0 ;
-
-	input.specialButton.left = this.domGamepad.buttons[ 8 ]?.value || 0 ;
-	input.specialButton.right = this.domGamepad.buttons[ 9 ]?.value || 0 ;
-	input.specialButton.leftStick = this.domGamepad.buttons[ 10 ]?.value || 0 ;
-	input.specialButton.rightStick = this.domGamepad.buttons[ 11 ]?.value || 0 ;
-
-	input.dPad.top = this.domGamepad.buttons[ 12 ]?.value || 0 ;
-	input.dPad.bottom = this.domGamepad.buttons[ 13 ]?.value || 0 ;
-	input.dPad.left = this.domGamepad.buttons[ 14 ]?.value || 0 ;
-	input.dPad.right = this.domGamepad.buttons[ 15 ]?.value || 0 ;
-
-	input.specialButton.center = this.domGamepad.buttons[ 16 ]?.value || 0 ;
-	
-	input.leftStick.x = this.domGamepad.axes[ 0 ] || 0 ;
-	input.leftStick.y = this.domGamepad.axes[ 1 ] || 0 ;
-	input.rightStick.x = this.domGamepad.axes[ 2 ] || 0 ;
-	input.rightStick.y = this.domGamepad.axes[ 3 ] || 0 ;
-} ;
-
-
-
-// Drivers, when no standard gamepad mapping was possible
-
-const drivers = {} ;
-
-drivers['046d-c21d-Logitech Gamepad F310'] = function() {
-	var input = this.input ;
-
-	input.button.bottom = this.domGamepad.buttons[ 0 ].value ;
-	input.button.right = this.domGamepad.buttons[ 1 ].value ;
-	input.button.left = this.domGamepad.buttons[ 2 ].value ;
-	input.button.top = this.domGamepad.buttons[ 3 ].value ;
-
-	input.shoulderButton.left = this.domGamepad.buttons[ 4 ].value ;
-	input.shoulderButton.right = this.domGamepad.buttons[ 5 ].value ;
-
-	input.specialButton.left = this.domGamepad.buttons[ 6 ].value ;
-	input.specialButton.right = this.domGamepad.buttons[ 7 ].value ;
-	input.specialButton.center = this.domGamepad.buttons[ 8 ].value ;
-	input.specialButton.leftStick = this.domGamepad.buttons[ 9 ].value ;
-	input.specialButton.rightStick = this.domGamepad.buttons[ 10 ].value ;
-
-	input.leftStick.x = this.domGamepad.axes[ 0 ] ;
-	input.leftStick.y = this.domGamepad.axes[ 1 ] ;
-	input.shoulderButton.leftTrigger = this.domGamepad.axes[ 2 ] * 0.5 + 0.5 ;
-
-	input.rightStick.x = this.domGamepad.axes[ 3 ] ;
-	input.rightStick.y = this.domGamepad.axes[ 4 ] ;
-	input.shoulderButton.rightTrigger = this.domGamepad.axes[ 5 ] * 0.5 + 0.5 ;
-	
-	input.dPad.left = + ( this.domGamepad.axes[ 6 ] < 0 ) ;
-	input.dPad.right = + ( this.domGamepad.axes[ 6 ] > 0 ) ;
-	input.dPad.up = + ( this.domGamepad.axes[ 7 ] < 0 ) ;
-	input.dPad.down = + ( this.domGamepad.axes[ 7 ] > 0 ) ;
-} ;
-
-
-},{"./Gamepad.js":14}],13:[function(require,module,exports){
-/*
-	Spellcast's Web Client Extension
-
-	Copyright (c) 2014 - 2021 Cédric Ronvel
-
-	The MIT License (MIT)
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-*/
-
-"use strict" ;
-
-
-
-const GamepadPorts = require( './GamepadPorts.js' ) ;
-const BrowserGamepad = require( './BrowserGamepad.js' ) ;
-
-//const domKit = require( 'dom-kit' ) ;
-//const Promise = require( 'seventh' ) ;
-
-
-
-function BrowserGamepadPorts( bus ) {
-	GamepadPorts.call( this , bus ) ;
-	this.init() ;
-}
-
-module.exports = BrowserGamepadPorts ;
-
-BrowserGamepadPorts.prototype = Object.create( GamepadPorts.prototype ) ;
-BrowserGamepadPorts.prototype.constructor = BrowserGamepadPorts ;
-
-
-
-BrowserGamepadPorts.prototype.init = function() {
-	// First, get all gamepads already connected
-	navigator.getGamepads().forEach( ( domGamepad , index ) => {
-		if ( ! domGamepad ) { return ; }
-		console.warn( "Gamepad #%d pre-connected: %s" , domGamepad.index , domGamepad.id ) ;
-		this.addGamepad( new BrowserGamepad( this , domGamepad ) ) ;
-	} ) ;
-
-	// Now watch for new gamepad
-	window.addEventListener( 'gamepadconnected' , event => {
-		console.warn( "Gamepad #%d connected: %s" , event.gamepad.index , event.gamepad.id ) ;
-		this.addGamepad( new BrowserGamepad( this , event.gamepad ) ) ;
-	} ) ;
-
-	// Watch for disconnecting gamepad
-	window.addEventListener( 'gamepaddisconnected' , event => {
-		console.warn( "Gamepad #%d disconnected: %s" , event.gamepad.index , event.gamepad.id ) ;
-		this.removeGamepadByIndex( event.gamepad.index ) ;
-	} ) ;
-	
-	//*
-	this.bus.on( 'key' , ( type , gp , oType ) => {
-		console.warn( "Key:" , type , oType ) ;
-	} ) ;
-	this.bus.on( 'change' , ( type , gp , oType , v1 , v2 ) => {
-		console.warn( "Change:" , type , oType , v1 , v2 ) ;
-	} ) ;
-	//*/
-} ;
-
-
-},{"./BrowserGamepad.js":12,"./GamepadPorts.js":16}],14:[function(require,module,exports){
-/*
-	Spellcast's Web Client Extension
-
-	Copyright (c) 2014 - 2021 Cédric Ronvel
-
-	The MIT License (MIT)
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-*/
-
-"use strict" ;
-
-
-
-const GamepadInput = require( './GamepadInput.js' ) ;
-
-//const domKit = require( 'dom-kit' ) ;
-//const Promise = require( 'seventh' ) ;
-const LeanEvents = require( 'nextgen-events/lib/LeanEvents.js' ) ;
-
-
-
-function Gamepad( gameports , index , id ) {
-	this.gameports = gameports ;
-	this.index = index ;
-	this.playerPrefix = 'P' + ( index + 1 ) + '_' ;
-	this.id = id ;
-	this.isPolling = false ;
-
-	this.emitInputString = false ;
-	this.inputString = '' ;
-	this.inputStringEraseTime = 200 ;
-	this.lastInputStringTime = 0 ;
-
-	this.input = new GamepadInput() ;
-	this.lastInput = new GamepadInput() ;
-
-	this.dispatchEmit = this.dispatchEmit.bind( this ) ;
-}
-
-module.exports = Gamepad ;
-
-Gamepad.prototype = Object.create( LeanEvents.prototype ) ;
-Gamepad.prototype.constructor = Gamepad ;
-
-
-
-Gamepad.prototype.destroy = function() {
-} ;
-
-
-
-Gamepad.prototype.setInputStringMode = function( mode , eraseTime = 200 ) {
-	this.emitInputString = !! mode ;
-	this.inputStringEraseTime = eraseTime ;
-	this.inputString = '' ;
-	this.lastInputStringTime = 0 ;
-} ;
-
-
-
-Gamepad.prototype.poll = function( poll = true ) {
-	poll = !! poll ;
-	if ( this.isPolling === poll ) { return ; }
-
-	if ( poll ) { this.startPolling() ; }
-	else { this.stopPolling() ; }
-} ;
-
-
-
-// Called when the internal state was updated
-Gamepad.prototype.postProcess = function() {
-	// Stick calibration and other related things should be done HERE, before emitting events
-	
-	// Emit event based on the diff beween the previous state and the new state
-	this.input.emitFromDiff( this.lastInput , this.dispatchEmit ) ;
-} ;
-
-
-
-Gamepad.prototype.dispatchEmit = function( eventName , type , v1 , v2 ) {
-	// Process string-input first, it should emit before since it would branch on specific code for userland
-	if ( this.emitInputString && eventName === 'key' ) {
-		var now = Date.now() ;
-
-		if ( ! this.inputString || now > this.lastInputStringTime + this.inputStringEraseTime ) {
-			// Too much time have passed, reset the string
-			this.inputString = v1 ? type : '' ;
-			this.lastInputStringTime = now ;
-			// Don't emit before it's combo'ed with something else...
-		}
-		else {
-			this.inputString += '+' + type ;
-			this.lastInputStringTime = now ;
-			this.emit( 'key' , type , v1 , v2 ) ;
-			this.gameports.bus.emit( 'key' , this.playerPrefix + this.inputString , this , this.inputString ) ;
-		}
-	}
-
-	this.emit( eventName , type , v1 , v2 ) ;
-	this.gameports.bus.emit( eventName , this.playerPrefix + type , this , type , v1 , v2 ) ;
-} ;
-
-
-},{"./GamepadInput.js":15,"nextgen-events/lib/LeanEvents.js":30}],15:[function(require,module,exports){
-/*
-	Spellcast's Web Client Extension
-
-	Copyright (c) 2014 - 2021 Cédric Ronvel
-
-	The MIT License (MIT)
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-*/
-
-"use strict" ;
-
-
-
-function GamepadInput() {
-	this.dPad = {
-		up: 0 ,
-		down: 0 ,
-		left: 0 ,
-		right: 0
-	} ;
-
-	this.leftStick = { x: 0 , y: 0 } ;
-	this.rightStick = { x: 0 , y: 0 } ;
-
-	this.button = {
-		top: 0 ,
-		bottom: 0 ,
-		left: 0 ,
-		right: 0
-	} ;
-
-	this.shoulderButton = {
-		left: 0 ,
-		right: 0 ,
-		leftTrigger: 0 ,
-		rightTrigger: 0
-	} ;
-
-	this.specialButton = {
-		left: 0 ,		// select/back/whatever
-		right: 0 ,		// start
-		center: 0 ,		// some gamepad have a button below "select" and "start"
-		leftStick: 0 ,	// click on the left thumbstick
-		rightStick: 0 ,	// click on the right thumbstick
-	} ;
-}
-
-module.exports = GamepadInput ;
-
-
-
-GamepadInput.prototype.emitFromDiff = function( base , emit ) {
-	if ( base.dPad.up !== this.dPad.up ) { this.emitBoth( emit , base.dPad.up , this.dPad.up , 'DPAD_UP' ) ; }
-	if ( base.dPad.down !== this.dPad.down ) { this.emitBoth( emit , base.dPad.down , this.dPad.down , 'DPAD_DOWN' ) ; }
-	if ( base.dPad.left !== this.dPad.left ) { this.emitBoth( emit , base.dPad.left , this.dPad.left , 'DPAD_LEFT' ) ; }
-	if ( base.dPad.right !== this.dPad.right ) { this.emitBoth( emit , base.dPad.right , this.dPad.right , 'DPAD_RIGHT' ) ; }
-
-	if ( base.leftStick.x !== this.leftStick.x || base.leftStick.y !== this.leftStick.y ) {
-		emit( 'change' , 'LEFT_STICK' , this.leftStick.x , this.leftStick.y ) ;
-	}
-
-	if ( base.rightStick.x !== this.rightStick.x || base.rightStick.y !== this.rightStick.y ) {
-		emit( 'change' , 'RIGHT_STICK' , this.rightStick.x , this.rightStick.y ) ;
-	}
-
-	if ( base.button.top !== this.button.top ) { this.emitBoth( emit , base.button.top , this.button.top , 'TOP_BUTTON' ) ; }
-	if ( base.button.bottom !== this.button.bottom ) { this.emitBoth( emit , base.button.bottom , this.button.bottom , 'BOTTOM_BUTTON' ) ; }
-	if ( base.button.left !== this.button.left ) { this.emitBoth( emit , base.button.left , this.button.left , 'LEFT_BUTTON' ) ; }
-	if ( base.button.right !== this.button.right ) { this.emitBoth( emit , base.button.right , this.button.right , 'RIGHT_BUTTON' ) ; }
-
-	if ( base.shoulderButton.left !== this.shoulderButton.left ) { this.emitBoth( emit , base.shoulderButton.left , this.shoulderButton.left , 'LEFT_SHOULDER' ) ; }
-	if ( base.shoulderButton.right !== this.shoulderButton.right ) { this.emitBoth( emit , base.shoulderButton.right , this.shoulderButton.right , 'RIGHT_SHOULDER' ) ; }
-	if ( base.shoulderButton.leftTrigger !== this.shoulderButton.leftTrigger ) { this.emitBoth( emit , base.shoulderButton.leftTrigger , this.shoulderButton.leftTrigger , 'LEFT_TRIGGER' ) ; }
-	if ( base.shoulderButton.rightTrigger !== this.shoulderButton.rightTrigger ) { this.emitBoth( emit , base.shoulderButton.rightTrigger , this.shoulderButton.rightTrigger , 'RIGHT_TRIGGER' ) ; }
-
-	if ( base.specialButton.left !== this.specialButton.left ) { this.emitBoth( emit , base.specialButton.left , this.specialButton.left , 'LEFT_SPECIAL_BUTTON' ) ; }
-	if ( base.specialButton.right !== this.specialButton.right ) { this.emitBoth( emit , base.specialButton.right , this.specialButton.right , 'RIGHT_SPECIAL_BUTTON' ) ; }
-	if ( base.specialButton.center !== this.specialButton.center ) { this.emitBoth( emit , base.specialButton.center , this.specialButton.center , 'CENTER_SPECIAL_BUTTON' ) ; }
-	if ( base.specialButton.leftStick !== this.specialButton.leftStick ) { this.emitBoth( emit , base.specialButton.leftStick , this.specialButton.leftStick , 'LEFT_STICK_BUTTON' ) ; }
-	if ( base.specialButton.rightStick !== this.specialButton.rightStick ) { this.emitBoth( emit , base.specialButton.rightStick , this.specialButton.rightStick , 'RIGHT_STICK_BUTTON' ) ; }
-} ;
-
-
-
-GamepadInput.prototype.emitBoth = function( emit , baseValue , newValue , type ) {
-	if ( ! newValue ) { emit( 'key' , type + '_RELEASED' , 0 ) ; }
-	else if ( ! baseValue ) { emit( 'key' , type + '_PRESSED' , 1 ) ; }
-
-	emit( 'change' , type , newValue ) ;
-} ;
-
-
-},{}],16:[function(require,module,exports){
-/*
-	Spellcast's Web Client Extension
-
-	Copyright (c) 2014 - 2021 Cédric Ronvel
-
-	The MIT License (MIT)
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-*/
-
-"use strict" ;
-
-
-
-//const domKit = require( 'dom-kit' ) ;
-//const Promise = require( 'seventh' ) ;
-const LeanEvents = require( 'nextgen-events/lib/LeanEvents.js' ) ;
-
-
-
-function GamepadPorts( bus ) {
-	this.gamepads = [] ;
-	this.bus = bus || this ;
-}
-
-module.exports = GamepadPorts ;
-
-GamepadPorts.prototype = Object.create( LeanEvents.prototype ) ;
-GamepadPorts.prototype.constructor = GamepadPorts ;
-
-
-
-GamepadPorts.prototype.addGamepad = function( gamepad ) {
-	if ( this.gamepads[ gamepad.index ] ) {
-		this.gamepads[ gamepad.index ].destroy() ;
-	}
-	
-	this.gamepads[ gamepad.index ] = gamepad ;
-	this.emit( 'newGamepad' , gamepad ) ;
-} ;
-
-
-
-GamepadPorts.prototype.removeGamepad = function( gamepad ) { this.removeGamepadByIndex( gamepad.index ) ; } ;
-
-GamepadPorts.prototype.removeGamepadByIndex = function( index ) {
-	if ( this.gamepads[ index ] ) {
-		let gamepad = this.gamepads[ index ] ;
-		gamepad.destroy() ;
-		delete this.gamepads[ index ] ;
-		this.emit( 'removedGamepad' , gamepad ) ;
-	}
-} ;
-
-
-},{"nextgen-events/lib/LeanEvents.js":30}],17:[function(require,module,exports){
-/*
-	Spellcast's Web Client Extension
-
-	Copyright (c) 2014 - 2021 Cédric Ronvel
-
-	The MIT License (MIT)
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-*/
-
-"use strict" ;
-
-
-
-//const domKit = require( 'dom-kit' ) ;
-//const Promise = require( 'seventh' ) ;
-const LeanEvents = require( 'nextgen-events/lib/LeanEvents.js' ) ;
-
-
-
-function Keyboard( bus ) {
-	this.bus = bus || this ;
-	this.initEvents() ;
-}
-
-module.exports = Keyboard ;
-
-Keyboard.prototype = Object.create( LeanEvents.prototype ) ;
-Keyboard.prototype.constructor = Keyboard ;
-
-
-
-Keyboard.prototype.initEvents = function() {
-	// Prevent nasty browser shorthand
-	document.addEventListener( 'keydown' , event => {
-		switch ( event.key ) {
-			// Prevent Firefox from opening the Quick Find, since 3D clients don't use HTML input/textarea for their 3D inputs
-			case "'":
-			case "/":
-				event.preventDefault() ;
-				break ;
-		}
-		
-		this.bus.emit( 'key' , event.key ) ;
-	} ) ;
-
-	//document.addEventListener( 'keyup' , event => {} ) ;
-} ;
-
-
-},{"nextgen-events/lib/LeanEvents.js":30}],18:[function(require,module,exports){
+},{"./Camera.js":1,"./Dom.js":2,"./EventDispatcher.js":3,"./GEntity.js":4,"./GScene.js":5,"./GTransition.js":6,"./TexturePack.js":7,"./engineLib.js":18,"./toolkit.js":22,"exm/lib/BrowserExm.js":25,"kung-fig-expression/lib/fnOperators.js":29,"spellcast-shared/lib/operators.js":52}],20:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -5061,7 +5173,7 @@ exports.areaInSpriteOut = ( transform , position , areaWidth , areaHeight , imag
 } ;
 
 
-},{}],19:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -5160,7 +5272,7 @@ exports.areaMin = ( transform , size , areaWidth , areaHeight , imageWidth , ima
 } ;
 
 
-},{}],20:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -5478,9 +5590,9 @@ toolkit.rgbaToHex = ( r , g , b , a = null ) => {
 } ;
 
 
-},{"string-kit/lib/escape.js":53,"string-kit/lib/format.js":54}],21:[function(require,module,exports){
+},{"string-kit/lib/escape.js":55,"string-kit/lib/format.js":56}],23:[function(require,module,exports){
 
-},{}],22:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 (function (process){(function (){
 /*
 	Dom Kit
@@ -6076,7 +6188,7 @@ domKit.html = ( $element , html ) => $element.innerHTML = html ;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"@cronvel/xmldom":21,"_process":35}],23:[function(require,module,exports){
+},{"@cronvel/xmldom":23,"_process":37}],25:[function(require,module,exports){
 (function (global){(function (){
 /*
 	EXM
@@ -6261,7 +6373,7 @@ if ( ! global.EXM ) {
 
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],24:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -6284,7 +6396,7 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],25:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -6346,7 +6458,7 @@ ObjectEntry.unserializer = function( ... args ) {
 } ;
 
 
-},{}],26:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -6396,7 +6508,7 @@ class Stack extends Array {
 module.exports = Stack ;
 
 
-},{}],27:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -7042,7 +7154,7 @@ for ( let key in exports ) {
 }
 
 
-},{"./ObjectEntry.js":25,"./Stack.js":26,"./mode.js":29}],28:[function(require,module,exports){
+},{"./ObjectEntry.js":27,"./Stack.js":28,"./mode.js":31}],30:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -7103,7 +7215,7 @@ module.exports = ( params , mapping , named = {} ) => {
 } ;
 
 
-},{"./ObjectEntry.js":25}],29:[function(require,module,exports){
+},{"./ObjectEntry.js":27}],31:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -7143,7 +7255,7 @@ exports.LIST = 5 ;
 exports.KV = 6 ;
 
 
-},{}],30:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 /*
 	Next-Gen Events
 
@@ -7369,7 +7481,7 @@ LeanEvents.prototype.getAllStates = function() {
 } ;
 
 
-},{"../package.json":34}],31:[function(require,module,exports){
+},{"../package.json":36}],33:[function(require,module,exports){
 (function (process,global,setImmediate){(function (){
 /*
 	Next-Gen Events
@@ -8789,7 +8901,7 @@ NextGenEvents.Proxy = require( './Proxy.js' ) ;
 
 
 }).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"../package.json":34,"./Proxy.js":32,"_process":35,"timers":72}],32:[function(require,module,exports){
+},{"../package.json":36,"./Proxy.js":34,"_process":37,"timers":74}],34:[function(require,module,exports){
 /*
 	Next-Gen Events
 
@@ -9336,7 +9448,7 @@ RemoteService.prototype.receiveAckEmit = function( message ) {
 } ;
 
 
-},{"./NextGenEvents.js":31}],33:[function(require,module,exports){
+},{"./NextGenEvents.js":33}],35:[function(require,module,exports){
 (function (process){(function (){
 /*
 	Next-Gen Events
@@ -9382,7 +9494,7 @@ module.exports.isBrowser = true ;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./NextGenEvents.js":31,"_process":35}],34:[function(require,module,exports){
+},{"./NextGenEvents.js":33,"_process":37}],36:[function(require,module,exports){
 module.exports={
   "name": "nextgen-events",
   "version": "1.5.2",
@@ -9442,7 +9554,7 @@ module.exports={
   }
 }
 
-},{}],35:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -9628,7 +9740,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],36:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 (function (global){(function (){
 /*! https://mths.be/punycode v1.4.1 by @mathias */
 ;(function(root) {
@@ -10165,7 +10277,7 @@ process.umask = function() { return 0; };
 }(this));
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],37:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -10251,7 +10363,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],38:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -10338,13 +10450,13 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],39:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":37,"./encode":38}],40:[function(require,module,exports){
+},{"./decode":39,"./encode":40}],42:[function(require,module,exports){
 (function (process,global){(function (){
 (function (global, undefined) {
     "use strict";
@@ -10534,7 +10646,7 @@ exports.encode = exports.stringify = require('./encode');
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
 }).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":35}],41:[function(require,module,exports){
+},{"_process":37}],43:[function(require,module,exports){
 /*
 	Seventh
 
@@ -10763,7 +10875,7 @@ Queue.prototype.getStats = function() {
 } ;
 
 
-},{"./seventh.js":48}],42:[function(require,module,exports){
+},{"./seventh.js":50}],44:[function(require,module,exports){
 /*
 	Seventh
 
@@ -10847,7 +10959,7 @@ Promise.promisifyAnyNodeApi = ( api , suffix , multiSuffix , filter ) => {
 
 
 
-},{"./seventh.js":48}],43:[function(require,module,exports){
+},{"./seventh.js":50}],45:[function(require,module,exports){
 /*
 	Seventh
 
@@ -11456,7 +11568,7 @@ Promise.race = ( iterable ) => {
 } ;
 
 
-},{"./seventh.js":48}],44:[function(require,module,exports){
+},{"./seventh.js":50}],46:[function(require,module,exports){
 (function (process,global,setImmediate){(function (){
 /*
 	Seventh
@@ -12215,7 +12327,7 @@ if ( process.browser ) {
 
 
 }).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"_process":35,"setimmediate":40,"timers":72}],45:[function(require,module,exports){
+},{"_process":37,"setimmediate":42,"timers":74}],47:[function(require,module,exports){
 /*
 	Seventh
 
@@ -12721,7 +12833,7 @@ Promise.variableRetry = ( asyncFn , thisBinding ) => {
 */
 
 
-},{"./seventh.js":48}],46:[function(require,module,exports){
+},{"./seventh.js":50}],48:[function(require,module,exports){
 (function (process){(function (){
 /*
 	Seventh
@@ -12821,7 +12933,7 @@ Promise.resolveSafeTimeout = function( timeout , value ) {
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./seventh.js":48,"_process":35}],47:[function(require,module,exports){
+},{"./seventh.js":50,"_process":37}],49:[function(require,module,exports){
 /*
 	Seventh
 
@@ -12873,7 +12985,7 @@ Promise.parasite = () => {
 } ;
 
 
-},{"./seventh.js":48}],48:[function(require,module,exports){
+},{"./seventh.js":50}],50:[function(require,module,exports){
 /*
 	Seventh
 
@@ -12917,7 +13029,7 @@ require( './parasite.js' ) ;
 require( './misc.js' ) ;
 
 
-},{"./Queue.js":41,"./api.js":42,"./batch.js":43,"./core.js":44,"./decorators.js":45,"./misc.js":46,"./parasite.js":47,"./wrapper.js":49}],49:[function(require,module,exports){
+},{"./Queue.js":43,"./api.js":44,"./batch.js":45,"./core.js":46,"./decorators.js":47,"./misc.js":48,"./parasite.js":49,"./wrapper.js":51}],51:[function(require,module,exports){
 /*
 	Seventh
 
@@ -13082,7 +13194,7 @@ Promise.onceEventAllOrError = ( emitter , eventName , excludeEvents ) => {
 } ;
 
 
-},{"./seventh.js":48}],50:[function(require,module,exports){
+},{"./seventh.js":50}],52:[function(require,module,exports){
 /*
 	Spellcast - shared utilities
 
@@ -13356,7 +13468,7 @@ for ( let key in exports ) {
 }
 
 
-},{"kung-fig-expression/lib/getNamedParameters.js":28}],51:[function(require,module,exports){
+},{"kung-fig-expression/lib/getNamedParameters.js":30}],53:[function(require,module,exports){
 /*
 	String Kit
 
@@ -13722,7 +13834,7 @@ function arrayConcatSlice( intoArray , sourceArray , start = 0 , end = sourceArr
 }
 
 
-},{}],52:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 /*
 	String Kit
 
@@ -13991,7 +14103,7 @@ ansi.parse = str => {
 } ;
 
 
-},{}],53:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 /*
 	String Kit
 
@@ -14096,7 +14208,7 @@ exports.unicodePercentEncode = str => str.replace( /[\x00-\x1f\u0100-\uffff\x7f%
 exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
 
 
-},{}],54:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 (function (Buffer){(function (){
 /*
 	String Kit
@@ -15238,7 +15350,7 @@ function round( v , step ) {
 
 
 }).call(this)}).call(this,require("buffer").Buffer)
-},{"./StringNumber.js":51,"./ansi.js":52,"./escape.js":53,"./inspect.js":55,"./naturalSort.js":56,"./unicode.js":57,"buffer":21}],55:[function(require,module,exports){
+},{"./StringNumber.js":53,"./ansi.js":54,"./escape.js":55,"./inspect.js":57,"./naturalSort.js":58,"./unicode.js":59,"buffer":23}],57:[function(require,module,exports){
 (function (Buffer,process){(function (){
 /*
 	String Kit
@@ -15958,7 +16070,7 @@ inspectStyle.html = Object.assign( {} , inspectStyle.none , {
 
 
 }).call(this)}).call(this,{"isBuffer":require("../../is-buffer/index.js")},require('_process'))
-},{"../../is-buffer/index.js":24,"./ansi.js":52,"./escape.js":53,"_process":35}],56:[function(require,module,exports){
+},{"../../is-buffer/index.js":26,"./ansi.js":54,"./escape.js":55,"_process":37}],58:[function(require,module,exports){
 /*
 	String Kit
 
@@ -16105,7 +16217,7 @@ function naturalSort( a , b ) {
 module.exports = naturalSort ;
 
 
-},{}],57:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 /*
 	String Kit
 
@@ -16399,7 +16511,7 @@ unicode.isEmojiModifier = char => unicode.isEmojiModifierCodePoint( char.codePoi
 unicode.isEmojiModifierCodePoint = code => 0x1f3fb <= code && code <= 0x1f3ff ;
 
 
-},{}],58:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -16519,7 +16631,7 @@ VG.prototype.addCssRule = function( rule ) {
 } ;
 
 
-},{"../package.json":71,"./VGContainer.js":59,"./svg-kit.js":67}],59:[function(require,module,exports){
+},{"../package.json":73,"./VGContainer.js":61,"./svg-kit.js":69}],61:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -16640,7 +16752,7 @@ VGContainer.prototype.morphDom = function( root = this ) {
 } ;
 
 
-},{"../package.json":71,"./VGEntity.js":61,"./svg-kit.js":67}],60:[function(require,module,exports){
+},{"../package.json":73,"./VGEntity.js":63,"./svg-kit.js":69}],62:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -16725,7 +16837,7 @@ VGEllipse.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":71,"./VGEntity.js":61}],61:[function(require,module,exports){
+},{"../package.json":73,"./VGEntity.js":63}],63:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -17110,7 +17222,7 @@ VGEntity.prototype.morphOneEntryDom = function( data , root = this ) {
 } ;
 
 
-},{"../package.json":71,"string-kit/lib/camel":69,"string-kit/lib/escape":70}],62:[function(require,module,exports){
+},{"../package.json":73,"string-kit/lib/camel":71,"string-kit/lib/escape":72}],64:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -17167,7 +17279,7 @@ VGGroup.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":71,"./VGContainer.js":59,"./svg-kit.js":67}],63:[function(require,module,exports){
+},{"../package.json":73,"./VGContainer.js":61,"./svg-kit.js":69}],65:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -17834,7 +17946,7 @@ VGPath.prototype.forwardNegativeTurn = function( data ) {
 } ;
 
 
-},{"../package.json":71,"./VGEntity.js":61}],64:[function(require,module,exports){
+},{"../package.json":73,"./VGEntity.js":63}],66:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -17925,7 +18037,7 @@ VGRect.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":71,"./VGEntity.js":61}],65:[function(require,module,exports){
+},{"../package.json":73,"./VGEntity.js":63}],67:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -18037,7 +18149,7 @@ VGText.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":71,"./VGEntity.js":61}],66:[function(require,module,exports){
+},{"../package.json":73,"./VGEntity.js":63}],68:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -18085,7 +18197,7 @@ path.dFromPoints = ( points , invertY ) => {
 } ;
 
 
-},{}],67:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 (function (process){(function (){
 /*
 	SVG Kit
@@ -18563,7 +18675,7 @@ svgKit.objectToVG = function( object ) {
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./VG.js":58,"./VGContainer.js":59,"./VGEllipse.js":60,"./VGEntity.js":61,"./VGGroup.js":62,"./VGPath.js":63,"./VGRect.js":64,"./VGText.js":65,"./path.js":66,"_process":35,"dom-kit":68,"fs":21,"seventh":48,"string-kit/lib/escape.js":70}],68:[function(require,module,exports){
+},{"./VG.js":60,"./VGContainer.js":61,"./VGEllipse.js":62,"./VGEntity.js":63,"./VGGroup.js":64,"./VGPath.js":65,"./VGRect.js":66,"./VGText.js":67,"./path.js":68,"_process":37,"dom-kit":70,"fs":23,"seventh":50,"string-kit/lib/escape.js":72}],70:[function(require,module,exports){
 (function (process){(function (){
 /*
 	Dom Kit
@@ -19151,7 +19263,7 @@ domKit.html = function( $element , html ) { $element.innerHTML = html ; } ;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"@cronvel/xmldom":21,"_process":35}],69:[function(require,module,exports){
+},{"@cronvel/xmldom":23,"_process":37}],71:[function(require,module,exports){
 /*
 	String Kit
 
@@ -19225,7 +19337,7 @@ camel.camelCaseToDash =
 camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' ) ;
 
 
-},{}],70:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 /*
 	String Kit
 
@@ -19330,7 +19442,7 @@ exports.unicodePercentEncode = str => str.replace( /[\x00-\x1f\u0100-\uffff\x7f%
 exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
 
 
-},{}],71:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 module.exports={
   "_from": "svg-kit@^0.3.0",
   "_id": "svg-kit@0.3.0",
@@ -19406,7 +19518,7 @@ module.exports={
   "version": "0.3.0"
 }
 
-},{}],72:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 (function (setImmediate,clearImmediate){(function (){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -19485,7 +19597,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this)}).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":35,"timers":72}],73:[function(require,module,exports){
+},{"process/browser.js":37,"timers":74}],75:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -20219,7 +20331,7 @@ Url.prototype.parseHost = function() {
   if (host) this.hostname = host;
 };
 
-},{"./util":74,"punycode":36,"querystring":39}],74:[function(require,module,exports){
+},{"./util":76,"punycode":38,"querystring":41}],76:[function(require,module,exports){
 'use strict';
 
 module.exports = {

@@ -4961,6 +4961,9 @@ const Keyboard = require( './Keyboard.js' ) ;
 
 function BrowserKeyboard( controller ) {
 	Keyboard.call( this , controller ) ;
+	
+	this.codeToKey = {} ;
+	
 	this.initEvents() ;
 }
 
@@ -4987,7 +4990,9 @@ BrowserKeyboard.prototype.initEvents = function() {
 		
 		console.warn( "keydown event" , event.key , event.code , event.location , event ) ;
 
-		var key = this.getKeyNameByCode( event ) ;
+		var key = this.codeToKey[ event.code ] ;
+
+		if ( ! key ) { key = this.getKey( event ) ; }
 
 		if ( this.state[ key ] ) { return ; }
 		this.state[ key ] = true ;
@@ -4997,7 +5002,9 @@ BrowserKeyboard.prototype.initEvents = function() {
 	} ) ;
 
 	document.addEventListener( 'keyup' , event => {
-		var key = this.getKeyNameByCode( event ) ;
+		var key = this.codeToKey[ event.code ] ;
+
+		if ( ! key ) { key = this.getKey( event ) ; }
 
 		if ( ! this.state[ key ] ) { return ; }
 		this.state[ key ] = false ;
@@ -5009,29 +5016,46 @@ BrowserKeyboard.prototype.initEvents = function() {
 
 
 
-const LOCATION_PREFIX = [ '' , 'LEFT_' , 'RIGHT_' , 'KP_' ] ;
-
-
-
-const TRANSLATE_KEY = {
-	' ': 'SPACE' ,
-	'ArrowUp': 'UP' ,
-	'ArrowDown': 'DOWN' ,
-	'ArrowLeft': 'LEFT' ,
-	'ArrowRight': 'RIGHT' ,
-	'PageUp': 'PAGE_UP' ,
-	'PageDown': 'PAGE_DOWN' ,
-	'Alt': 'ALT' ,	// Not really an alias, it just prevents it to become LEFT_ALT
-	'AltGraph': 'ALT_GR' ,
+const EVENT_KEY_TO_KEY = {
+	// This will allow French Keyboard to work properly:
+	',': 'COMMA' ,
+	';': 'SEMICOLON' ,
+	':': 'COLON' ,
+	'!': 'EXCLAMATION' ,
+	'Ù': 'PERCENT' ,
+	'*': 'MULTIPLY' ,
+	'^': 'CARET' ,	// Won't work, got 'Dead' instead of '^' since it's a Dead key (don't produce output, combine with next key)
+	'$': 'DOLLAR' ,
+	'<': 'LESSER_THAN' ,
+	')': 'LEFT_PARENTHESIS'
 } ;
 
-BrowserKeyboard.prototype.getKeyNameByKey = function( event ) {
-	var key = event.key ;
+// Add A-Z letters
+for ( let c = 65 ; c <= 90 ; c ++ ) {
+	let l = String.fromCharCode( c ) ;
+	EVENT_KEY_TO_KEY[ l ] = l ;
+}
 
-	if ( TRANSLATE_KEY[ key ] ) { return TRANSLATE_KEY[ key ] ; }
+BrowserKeyboard.prototype.getKey = function( event ) {
+	var key , eventKey , expectedKey ;
+	
+	// First, check with event.key, if there is no modifiers, else use event.code
+	if ( ! event.metaKey && ! event.shiftKey && ! event.ctrlKey && ! event.altKey ) {
+		eventKey = event.key.toUpperCase() ;
+		expectedKey = EVENT_KEY_TO_KEY[ eventKey ] ;
 
-	return LOCATION_PREFIX[ event.location ] + key.toUpperCase() ;
-	//return key.toUpperCase() + '_' + LOCATION_AFFIX[ event.location ] ;
+		if ( expectedKey ) {
+			key = this.codeToKey[ event.code ] = expectedKey ;
+		}
+		else {
+			key = this.codeToKey[ event.code ] = this.getKeyByCode( event.code ) ;
+		}
+	}
+	else {
+		key = this.getKeyByCode( event.code ) ;
+	}
+	
+	return key ;
 } ;
 
 
@@ -5051,42 +5075,18 @@ const TRANSLATE_CODE = {
 	'ControlRight': 'RIGHT_CONTROL' ,
 } ;
 
-BrowserKeyboard.prototype.getKeyNameByCode = function( event ) {
-	var translated ,
-		key = event.code ;
+// DEPRECATED? To be used with event.location
+const LOCATION_PREFIX = [ '' , 'LEFT_' , 'RIGHT_' , 'KP_' ] ;
 
-	if ( ( translated = layout[ this.layout ]?.[ key ] ) ) { return translated ; }
-	else if ( ( translated = TRANSLATE_CODE[ key ] ) ) { return translated ; }
-	else if ( key.startsWith( 'Key' ) ) { key = key.slice( 3 ) ; }
-	else if ( key.startsWith( 'Digit' ) ) { key = key.slice( 5 ) ; }
-	else { key = key.toUpperCase() ; }
+BrowserKeyboard.prototype.getKeyByCode = function( code ) {
+	var key ;
 
-	return LOCATION_PREFIX[ event.location ] + key.toUpperCase() ;
-	//return key.toUpperCase() + '_' + LOCATION_AFFIX[ event.location ] ;
-} ;
+	if ( ( key = TRANSLATE_CODE[ code ] ) ) { return key ; }
+	else if ( code.startsWith( 'Key' ) ) { key = code.slice( 3 ) ; }
+	else if ( code.startsWith( 'Digit' ) ) { key = code.slice( 5 ) ; }
+	else { key = code.toUpperCase() ; }
 
-
-
-// Layout
-
-const layout = {} ;
-
-layout.AZERTY = {
-	'KeyQ': 'A' ,
-	'KeyA': 'Q' ,
-	'KeyZ': 'W' ,
-	'KeyW': 'Z' ,
-	'KeyM': 'COMMA' ,	// ,?
-	'Semicolon': 'M' ,
-	'Comma': 'SEMICOLON' ,	// ;.
-	'Period': 'COLON' ,	// :/
-	'Slash': 'EXCLAMATION' ,	// !§
-	'Quote': 'PERCENT' ,	// ù%
-	'Backslash': 'MULTIPLY' ,	// *µ
-	'BracketLeft': 'CARET' ,	// ^¨
-	'BracketRight': 'DOLLAR' ,	// $£
-	'IntlBackslash': 'LESSER_THAN' ,	// <>
-	'Minus': 'RIGHT_PARENTHESIS' ,	// )°]
+	return key ;
 } ;
 
 
@@ -5130,19 +5130,13 @@ const LeanEvents = require( 'nextgen-events/lib/LeanEvents.js' ) ;
 function Keyboard( controller ) {
 	this.controller = controller ;
 	this.prefix = 'KB_' ;
-	this.layout = 'QWERTY' ;
 	this.state = {} ;
-	
-	// Tmp:
-	this.setLayout( 'AZERTY' ) ;
 }
 
 module.exports = Keyboard ;
 
 Keyboard.prototype = Object.create( LeanEvents.prototype ) ;
 Keyboard.prototype.constructor = Keyboard ;
-
-Keyboard.prototype.setLayout = function( layout ) { this.layout = layout ; } ;
 
 
 },{"nextgen-events/lib/LeanEvents.js":32}],18:[function(require,module,exports){

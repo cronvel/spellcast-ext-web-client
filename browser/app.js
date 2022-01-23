@@ -4239,10 +4239,23 @@ Controller.prototype.constructor = Controller ;
 
 Controller.prototype.init = function() {
 	//*
-	this.addKeyBinding( 'SPACE' , 'confirm' ) ;
-	this.addKeyBinding( 'RETURN' , 'confirm' ) ;
+	this.addKeyBinding( 'KB_SPACE' , 'confirm' ) ;
+	this.addKeyBinding( 'KB_RETURN' , 'confirm' ) ;
 	this.addKeyBinding( 'GP1_BOTTOM_BUTTON' , 'confirm' ) ;
 	this.addKeyBinding( 'GP1_RIGHT_SPECIAL_BUTTON' , 'confirm' ) ;
+
+	this.addKeyBinding( 'GP1_DPAD_UP' , 'up' ) ;
+	this.addKeyBinding( 'KB_UP' , 'up' ) ;
+	this.addKeyBinding( 'KB_Z' , 'up' ) ;
+	this.addKeyBinding( 'GP1_DPAD_DOWN' , 'down' ) ;
+	this.addKeyBinding( 'KB_DOWN' , 'down' ) ;
+	this.addKeyBinding( 'KB_S' , 'down' ) ;
+	this.addKeyBinding( 'GP1_DPAD_LEFT' , 'left' ) ;
+	this.addKeyBinding( 'KB_LEFT' , 'left' ) ;
+	this.addKeyBinding( 'KB_Q' , 'left' ) ;
+	this.addKeyBinding( 'GP1_DPAD_RIGHT' , 'right' ) ;
+	this.addKeyBinding( 'KB_RIGHT' , 'right' ) ;
+	this.addKeyBinding( 'KB_D' , 'right' ) ;
 	//*/
 	
 	//*
@@ -4965,19 +4978,16 @@ BrowserKeyboard.prototype.initEvents = function() {
 			// Prevent Firefox from opening the Quick Find, since 3D clients don't use HTML input/textarea for their 3D inputs
 			case "'":
 			case "/":
+			case "x":
 			case "Tab":
 			case "Alt":
 				event.preventDefault() ;
 				break ;
 		}
 		
-		/*
-		console.warn( "keydown event" , event.key , event.repeat ) ;
-		// If the key is repeating, we ignore it
-		if ( event.repeat ) { return ; }
-		*/
+		console.warn( "keydown event" , event.key , event.code , event.location , event ) ;
 
-		var key = this.getKeyName( event ) ;
+		var key = this.getKeyNameByCode( event ) ;
 
 		if ( this.state[ key ] ) { return ; }
 		this.state[ key ] = true ;
@@ -4987,7 +4997,7 @@ BrowserKeyboard.prototype.initEvents = function() {
 	} ) ;
 
 	document.addEventListener( 'keyup' , event => {
-		var key = this.getKeyName( event ) ;
+		var key = this.getKeyNameByCode( event ) ;
 
 		if ( ! this.state[ key ] ) { return ; }
 		this.state[ key ] = false ;
@@ -4999,23 +5009,84 @@ BrowserKeyboard.prototype.initEvents = function() {
 
 
 
+const LOCATION_PREFIX = [ '' , 'LEFT_' , 'RIGHT_' , 'KP_' ] ;
+
+
+
 const TRANSLATE_KEY = {
-	' ': 'SPACE'
+	' ': 'SPACE' ,
+	'ArrowUp': 'UP' ,
+	'ArrowDown': 'DOWN' ,
+	'ArrowLeft': 'LEFT' ,
+	'ArrowRight': 'RIGHT' ,
+	'PageUp': 'PAGE_UP' ,
+	'PageDown': 'PAGE_DOWN' ,
+	'Alt': 'ALT' ,	// Not really an alias, it just prevents it to become LEFT_ALT
+	'AltGraph': 'ALT_GR' ,
+} ;
+
+BrowserKeyboard.prototype.getKeyNameByKey = function( event ) {
+	var key = event.key ;
+
+	if ( TRANSLATE_KEY[ key ] ) { return TRANSLATE_KEY[ key ] ; }
+
+	return LOCATION_PREFIX[ event.location ] + key.toUpperCase() ;
+	//return key.toUpperCase() + '_' + LOCATION_AFFIX[ event.location ] ;
 } ;
 
 
 
-BrowserKeyboard.prototype.getKeyName = function( event ) {
-	var key = event.key ;
+const TRANSLATE_CODE = {
+	'ArrowUp': 'UP' ,
+	'ArrowDown': 'DOWN' ,
+	'ArrowLeft': 'LEFT' ,
+	'ArrowRight': 'RIGHT' ,
+	'PageUp': 'PAGE_UP' ,
+	'PageDown': 'PAGE_DOWN' ,
+	'AltLeft': 'ALT' ,	// Not really an alias, it just prevents it to become LEFT_ALT
+	'AltRight': 'ALT_GR' ,
+	'ShiftLeft': 'LEFT_SHIFT' ,
+	'ShiftRight': 'RIGHT_SHIFT' ,
+	'ControlLeft': 'LEFT_CONTROL' ,
+	'ControlRight': 'RIGHT_CONTROL' ,
+} ;
 
-	if ( TRANSLATE_KEY[ key ] ) {
-		key = TRANSLATE_KEY[ key ] ;
-	}
-	else {
-		key = key.toUpperCase() ;
-	}
-	
-	return key ;
+BrowserKeyboard.prototype.getKeyNameByCode = function( event ) {
+	var translated ,
+		key = event.code ;
+
+	if ( ( translated = layout[ this.layout ]?.[ key ] ) ) { return translated ; }
+	else if ( ( translated = TRANSLATE_CODE[ key ] ) ) { return translated ; }
+	else if ( key.startsWith( 'Key' ) ) { key = key.slice( 3 ) ; }
+	else if ( key.startsWith( 'Digit' ) ) { key = key.slice( 5 ) ; }
+	else { key = key.toUpperCase() ; }
+
+	return LOCATION_PREFIX[ event.location ] + key.toUpperCase() ;
+	//return key.toUpperCase() + '_' + LOCATION_AFFIX[ event.location ] ;
+} ;
+
+
+
+// Layout
+
+const layout = {} ;
+
+layout.AZERTY = {
+	'KeyQ': 'A' ,
+	'KeyA': 'Q' ,
+	'KeyZ': 'W' ,
+	'KeyW': 'Z' ,
+	'KeyM': 'COMMA' ,	// ,?
+	'Semicolon': 'M' ,
+	'Comma': 'SEMICOLON' ,	// ;.
+	'Period': 'COLON' ,	// :/
+	'Slash': 'EXCLAMATION' ,	// !§
+	'Quote': 'PERCENT' ,	// ù%
+	'Backslash': 'MULTIPLY' ,	// *µ
+	'BracketLeft': 'CARET' ,	// ^¨
+	'BracketRight': 'DOLLAR' ,	// $£
+	'IntlBackslash': 'LESSER_THAN' ,	// <>
+	'Minus': 'RIGHT_PARENTHESIS' ,	// )°]
 } ;
 
 
@@ -5058,13 +5129,20 @@ const LeanEvents = require( 'nextgen-events/lib/LeanEvents.js' ) ;
 
 function Keyboard( controller ) {
 	this.controller = controller ;
+	this.prefix = 'KB_' ;
+	this.layout = 'QWERTY' ;
 	this.state = {} ;
+	
+	// Tmp:
+	this.setLayout( 'AZERTY' ) ;
 }
 
 module.exports = Keyboard ;
 
 Keyboard.prototype = Object.create( LeanEvents.prototype ) ;
 Keyboard.prototype.constructor = Keyboard ;
+
+Keyboard.prototype.setLayout = function( layout ) { this.layout = layout ; } ;
 
 
 },{"nextgen-events/lib/LeanEvents.js":32}],18:[function(require,module,exports){

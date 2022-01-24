@@ -133,7 +133,7 @@ Camera.prototype.updateTransition = function( data , awaiting = false ) {
 } ;
 
 
-},{"./GTransition.js":6,"seventh":50}],2:[function(require,module,exports){
+},{"./GTransition.js":6,"seventh":51}],2:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -310,6 +310,20 @@ Dom.prototype.initEvents = function() {
 	
 	// Temp?
 	this.gamepadHub.on( 'newGamepad' , gamepad => gamepad.poll() ) ;
+} ;
+
+
+
+Dom.prototype.setControls = function( config ) {
+	this.controller.resetBindings() ;
+	
+	if ( config.keys ) {
+		for ( let key in config.keys ) {
+			for ( let value of config.keys[ key ] ) {
+				this.controller.addKeyBinding( key , value ) ;
+			}
+		}
+	}
 } ;
 
 
@@ -1827,7 +1841,7 @@ function soundFadeOut( $element , callback ) {
 }
 
 
-},{"./Camera.js":1,"./GEntity.js":4,"./GScene.js":5,"./TexturePack.js":7,"./commonUtils.js":9,"./controller/Controller.js":10,"./controller/gamepad/BrowserGamepadHub.js":12,"./controller/keyboard/BrowserKeyboard.js":16,"./engineLib.js":18,"./exm.js":19,"./toolkit.js":22,"dom-kit":24,"nextgen-events/lib/LeanEvents.js":32,"nextgen-events/lib/browser.js":35,"seventh":50,"svg-kit":69}],3:[function(require,module,exports){
+},{"./Camera.js":1,"./GEntity.js":4,"./GScene.js":5,"./TexturePack.js":7,"./commonUtils.js":9,"./controller/Controller.js":10,"./controller/gamepad/BrowserGamepadHub.js":12,"./controller/keyboard/BrowserKeyboard.js":17,"./engineLib.js":19,"./exm.js":20,"./toolkit.js":23,"dom-kit":25,"nextgen-events/lib/LeanEvents.js":33,"nextgen-events/lib/browser.js":36,"seventh":51,"svg-kit":70}],3:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -1915,6 +1929,7 @@ function arrayGetById( id ) { return this.find( ( e ) => { return e.id === id ; 
 // 'open' event on client
 EventDispatcher.prototype.initBus = function() {
 	this.bus.on( 'clientConfig' , EventDispatcher.clientConfig.bind( this ) , { async: true } ) ;
+	this.bus.on( 'controls' , EventDispatcher.controls.bind( this ) ) ;
 	this.bus.on( 'user' , EventDispatcher.user.bind( this ) ) ;
 	this.bus.on( 'userList' , EventDispatcher.userList.bind( this ) ) ;
 	this.bus.on( 'roleList' , EventDispatcher.roleList.bind( this ) ) ;
@@ -2034,6 +2049,12 @@ EventDispatcher.clientConfig = async function( config , callback ) {
 	}
 
 	callback() ;
+} ;
+
+
+
+EventDispatcher.controls = function( config ) {
+	this.dom.setControls( config ) ;
 } ;
 
 
@@ -2541,7 +2562,7 @@ EventDispatcher.exit = function( error , timeout , callback ) {
 } ;
 
 
-},{"./Dom.js":2,"./exm.js":19,"nextgen-events/lib/browser.js":35,"seventh":50}],4:[function(require,module,exports){
+},{"./Dom.js":2,"./exm.js":20,"nextgen-events/lib/browser.js":36,"seventh":51}],4:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3658,7 +3679,7 @@ GEntity.prototype.createCardMarkup = function( card ) {
 } ;
 
 
-},{"./GTransition.js":6,"./commonUtils.js":9,"./positionModes.js":20,"./sizeModes.js":21,"dom-kit":24,"nextgen-events/lib/browser.js":35,"seventh":50,"svg-kit":69}],5:[function(require,module,exports){
+},{"./GTransition.js":6,"./commonUtils.js":9,"./positionModes.js":21,"./sizeModes.js":22,"dom-kit":25,"nextgen-events/lib/browser.js":36,"seventh":51,"svg-kit":70}],5:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3793,7 +3814,7 @@ GScene.prototype.removeGEntity = function( gEntityId ) {
 } ;
 
 
-},{"./Camera.js":1,"nextgen-events/lib/browser.js":35,"seventh":50}],6:[function(require,module,exports){
+},{"./Camera.js":1,"nextgen-events/lib/browser.js":36,"seventh":51}],6:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4117,7 +4138,7 @@ domKit.ready( () => {
 } ) ;
 
 
-},{"./EventDispatcher.js":3,"dom-kit":24,"nextgen-events/lib/browser.js":35,"url":75}],9:[function(require,module,exports){
+},{"./EventDispatcher.js":3,"dom-kit":25,"nextgen-events/lib/browser.js":36,"url":76}],9:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4239,26 +4260,6 @@ Controller.prototype.constructor = Controller ;
 
 Controller.prototype.init = function() {
 	//*
-	this.addKeyBinding( 'KB_SPACE' , 'confirm' ) ;
-	this.addKeyBinding( 'KB_RETURN' , 'confirm' ) ;
-	this.addKeyBinding( 'GP1_BOTTOM_BUTTON' , 'confirm' ) ;
-	this.addKeyBinding( 'GP1_RIGHT_SPECIAL_BUTTON' , 'confirm' ) ;
-
-	this.addKeyBinding( 'GP1_DPAD_UP' , 'up' ) ;
-	this.addKeyBinding( 'KB_UP' , 'up' ) ;
-	this.addKeyBinding( 'KB_Z' , 'up' ) ;
-	this.addKeyBinding( 'GP1_DPAD_DOWN' , 'down' ) ;
-	this.addKeyBinding( 'KB_DOWN' , 'down' ) ;
-	this.addKeyBinding( 'KB_S' , 'down' ) ;
-	this.addKeyBinding( 'GP1_DPAD_LEFT' , 'left' ) ;
-	this.addKeyBinding( 'KB_LEFT' , 'left' ) ;
-	this.addKeyBinding( 'KB_Q' , 'left' ) ;
-	this.addKeyBinding( 'GP1_DPAD_RIGHT' , 'right' ) ;
-	this.addKeyBinding( 'KB_RIGHT' , 'right' ) ;
-	this.addKeyBinding( 'KB_D' , 'right' ) ;
-	//*/
-	
-	//*
 	this.on( 'key' , ( key ) => {
 		console.warn( "Key:" , key ) ;
 	} ) ;
@@ -4272,6 +4273,14 @@ Controller.prototype.init = function() {
 		console.warn( "Command:" , command ) ;
 	} ) ;
 	//*/
+} ;
+
+
+
+Controller.prototype.resetBindings = function() {
+	this.keyBindings = {} ;
+	this.gaugeBindings = {} ;
+	this.gauge2dBindings = {} ;
 } ;
 
 
@@ -4351,7 +4360,7 @@ Controller.prototype.flushEvents = function() {
 } ;
 
 
-},{"nextgen-events/lib/LeanEvents.js":32}],11:[function(require,module,exports){
+},{"nextgen-events/lib/LeanEvents.js":33}],11:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4383,6 +4392,7 @@ Controller.prototype.flushEvents = function() {
 
 
 const Gamepad = require( './Gamepad.js' ) ;
+const drivers = require( './drivers.js' ) ;
 
 //const domKit = require( 'dom-kit' ) ;
 //const Promise = require( 'seventh' ) ;
@@ -4394,6 +4404,9 @@ function BrowserGamepad( gamepadHub , domGamepad ) {
 	
 	this.domGamepad = domGamepad ;
 	this.lastDomGamepadTimestamp = 0 ;	// store the last domGamepad.timestamp
+
+	this.driver = null ;
+	this._buttons = [] ;	// Only used for drivers, it's a map of domGamepad.buttons -> domGamepad.buttons.value
 
 	this.pollingTimer = null ;
 	this.doPolling = this.doPolling.bind( this ) ;
@@ -4446,6 +4459,7 @@ BrowserGamepad.prototype.doPolling = function() {
 
 		// Map the underlying browser gamepad to our gamepad state structure
 		this.map() ;
+		this.map( this.state , this.domGamepad.buttons , this.domGamepad.axes ) ;
 		
 		// Update for the new value timestamp
 		this.lastDomGamepadTimestamp = this.domGamepad.timestamp ;
@@ -4461,16 +4475,17 @@ BrowserGamepad.prototype.doPolling = function() {
 
 BrowserGamepad.prototype.initMapping = function() {
 	if ( this.domGamepad.mapping ) {
-		console.warn( "The browser supports the Gamepad '%d' with this mapping: %s:" , this.domGamepad.id , this.domGamepad.mapping ) ;
+		console.warn( "Native browser support for Gamepad: %s (mapping: %s)" , this.domGamepad.id , this.domGamepad.mapping ) ;
 		return ;
 	}
 
 	if ( drivers[ this.domGamepad.id ] ) {
 		console.warn( "Found driver for Gamepad:" , this.domGamepad.id ) ;
-		this.map = drivers[ this.domGamepad.id ] ;
+		this.driver = drivers[ this.domGamepad.id ] ;
+		this.map = this.mapDriver ;
 	}
 	else {
-		console.warn( "Driver NOT FOUND for Gamepad ID:" , this.domGamepad.id ) ;
+		console.warn( "Driver NOT FOUND for Gamepad:" , this.domGamepad.id ) ;
 	}
 } ;
 
@@ -4510,43 +4525,13 @@ BrowserGamepad.prototype.map = function() {
 
 
 
-// Drivers, when no standard gamepad mapping was possible
-
-const drivers = {} ;
-
-drivers['046d-c21d-Logitech Gamepad F310'] = function() {
-	var state = this.state ;
-
-	state.button.bottom = this.domGamepad.buttons[ 0 ].value ;
-	state.button.right = this.domGamepad.buttons[ 1 ].value ;
-	state.button.left = this.domGamepad.buttons[ 2 ].value ;
-	state.button.top = this.domGamepad.buttons[ 3 ].value ;
-
-	state.shoulderButton.left = this.domGamepad.buttons[ 4 ].value ;
-	state.shoulderButton.right = this.domGamepad.buttons[ 5 ].value ;
-
-	state.specialButton.left = this.domGamepad.buttons[ 6 ].value ;
-	state.specialButton.right = this.domGamepad.buttons[ 7 ].value ;
-	state.specialButton.center = this.domGamepad.buttons[ 8 ].value ;
-	state.specialButton.leftStick = this.domGamepad.buttons[ 9 ].value ;
-	state.specialButton.rightStick = this.domGamepad.buttons[ 10 ].value ;
-
-	state.leftStick.x = this.domGamepad.axes[ 0 ] ;
-	state.leftStick.y = this.domGamepad.axes[ 1 ] ;
-	state.shoulderButton.leftTrigger = this.domGamepad.axes[ 2 ] * 0.5 + 0.5 ;
-
-	state.rightStick.x = this.domGamepad.axes[ 3 ] ;
-	state.rightStick.y = this.domGamepad.axes[ 4 ] ;
-	state.shoulderButton.rightTrigger = this.domGamepad.axes[ 5 ] * 0.5 + 0.5 ;
-	
-	state.dPad.left = + ( this.domGamepad.axes[ 6 ] < 0 ) ;
-	state.dPad.right = + ( this.domGamepad.axes[ 6 ] > 0 ) ;
-	state.dPad.up = + ( this.domGamepad.axes[ 7 ] < 0 ) ;
-	state.dPad.down = + ( this.domGamepad.axes[ 7 ] > 0 ) ;
+BrowserGamepad.prototype.mapDriver = function() {
+	for ( let i = 0 , iMax = this.domGamepad.buttons.length ; i < iMax ; i ++ ) { this._buttons[ i ] = this.domGamepad.buttons[ i ].value ; }
+	this.driver( this.state , this._buttons , this.domGamepad.axes ) ;
 } ;
 
 
-},{"./Gamepad.js":13}],12:[function(require,module,exports){
+},{"./Gamepad.js":13,"./drivers.js":16}],12:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4747,7 +4732,7 @@ Gamepad.prototype.dispatchEmit = function( eventName , type , v1 , v2 ) {
 } ;
 
 
-},{"./GamepadState.js":15,"nextgen-events/lib/LeanEvents.js":32}],14:[function(require,module,exports){
+},{"./GamepadState.js":15,"nextgen-events/lib/LeanEvents.js":33}],14:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4819,7 +4804,7 @@ GamepadHub.prototype.removeGamepadByIndex = function( index ) {
 } ;
 
 
-},{"nextgen-events/lib/LeanEvents.js":32}],15:[function(require,module,exports){
+},{"nextgen-events/lib/LeanEvents.js":33}],15:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4953,6 +4938,93 @@ GamepadState.prototype.emitFromDiff = function( controller , old , gamepad ) {
 
 
 
+exports['046d-c21d-Logitech Gamepad F310'] = ( state , buttons , axes ) => {
+	state.button.bottom = buttons[ 0 ] ;
+	state.button.right = buttons[ 1 ] ;
+	state.button.left = buttons[ 2 ] ;
+	state.button.top = buttons[ 3 ] ;
+
+	state.shoulderButton.left = buttons[ 4 ] ;
+	state.shoulderButton.right = buttons[ 5 ] ;
+
+	state.specialButton.left = buttons[ 6 ] ;
+	state.specialButton.right = buttons[ 7 ] ;
+	state.specialButton.center = buttons[ 8 ] ;
+	state.specialButton.leftStick = buttons[ 9 ] ;
+	state.specialButton.rightStick = buttons[ 10 ] ;
+
+	state.leftStick.x = axes[ 0 ] ;
+	state.leftStick.y = axes[ 1 ] ;
+	state.shoulderButton.leftTrigger = axes[ 2 ] * 0.5 + 0.5 ;
+
+	state.rightStick.x = axes[ 3 ] ;
+	state.rightStick.y = axes[ 4 ] ;
+	state.shoulderButton.rightTrigger = axes[ 5 ] * 0.5 + 0.5 ;
+	
+	state.dPad.left = + ( axes[ 6 ] < 0 ) ;
+	state.dPad.right = + ( axes[ 6 ] > 0 ) ;
+	state.dPad.up = + ( axes[ 7 ] < 0 ) ;
+	state.dPad.down = + ( axes[ 7 ] > 0 ) ;
+} ;
+
+exports['0810-0001-Twin USB Joystick'] = ( state , buttons , axes ) => {
+	console.warn( "Twin Joystick" , buttons , axes ) ;
+	state.button.top = buttons[ 0 ] ;
+	state.button.right = buttons[ 1 ] ;
+	state.button.bottom = buttons[ 2 ] ;
+	state.button.left = buttons[ 3 ] ;
+
+	state.shoulderButton.leftTrigger = buttons[ 4 ] ;
+	state.shoulderButton.rightTrigger = buttons[ 5 ] ;
+	state.shoulderButton.left = buttons[ 6 ] ;
+	state.shoulderButton.right = buttons[ 7 ] ;
+
+	state.specialButton.left = buttons[ 8 ] ;
+	state.specialButton.right = buttons[ 9 ] ;
+
+	state.leftStick.x = axes[ 0 ] ;
+	state.leftStick.y = axes[ 1 ] ;
+	state.rightStick.y = axes[ 2 ] ;
+	state.rightStick.x = axes[ 3 ] ;
+	
+	state.dPad.left = + ( axes[ 4 ] < 0 ) ;
+	state.dPad.right = + ( axes[ 4 ] > 0 ) ;
+	state.dPad.up = + ( axes[ 5 ] < 0 ) ;
+	state.dPad.down = + ( axes[ 5 ] > 0 ) ;
+} ;
+
+
+},{}],17:[function(require,module,exports){
+/*
+	Spellcast's Web Client Extension
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
 //const domKit = require( 'dom-kit' ) ;
 //const Promise = require( 'seventh' ) ;
 const Keyboard = require( './Keyboard.js' ) ;
@@ -4988,7 +5060,7 @@ BrowserKeyboard.prototype.initEvents = function() {
 				break ;
 		}
 		
-		console.warn( "keydown event" , event.key , event.code , event.location , event ) ;
+		//console.warn( "keydown event" , event.key , event.code , event.location , event ) ;
 
 		var key = this.codeToKey[ event.code ] ;
 
@@ -5099,7 +5171,7 @@ BrowserKeyboard.prototype.getKeyByCode = function( code ) {
 } ;
 
 
-},{"./Keyboard.js":17}],17:[function(require,module,exports){
+},{"./Keyboard.js":18}],18:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -5148,7 +5220,7 @@ Keyboard.prototype = Object.create( LeanEvents.prototype ) ;
 Keyboard.prototype.constructor = Keyboard ;
 
 
-},{"nextgen-events/lib/LeanEvents.js":32}],18:[function(require,module,exports){
+},{"nextgen-events/lib/LeanEvents.js":33}],19:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -5201,7 +5273,7 @@ exports.add = ( name , engine ) => {
 } ;
 
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -5263,7 +5335,7 @@ module.exports = BrowserExm.registerNs( {
 } ) ;
 
 
-},{"./Camera.js":1,"./Dom.js":2,"./EventDispatcher.js":3,"./GEntity.js":4,"./GScene.js":5,"./GTransition.js":6,"./TexturePack.js":7,"./engineLib.js":18,"./toolkit.js":22,"exm/lib/BrowserExm.js":25,"kung-fig-expression/lib/fnOperators.js":29,"spellcast-shared/lib/operators.js":52}],20:[function(require,module,exports){
+},{"./Camera.js":1,"./Dom.js":2,"./EventDispatcher.js":3,"./GEntity.js":4,"./GScene.js":5,"./GTransition.js":6,"./TexturePack.js":7,"./engineLib.js":19,"./toolkit.js":23,"exm/lib/BrowserExm.js":26,"kung-fig-expression/lib/fnOperators.js":30,"spellcast-shared/lib/operators.js":53}],21:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -5382,7 +5454,7 @@ exports.areaInSpriteOut = ( transform , position , areaWidth , areaHeight , imag
 } ;
 
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -5481,7 +5553,7 @@ exports.areaMin = ( transform , size , areaWidth , areaHeight , imageWidth , ima
 } ;
 
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -5799,9 +5871,9 @@ toolkit.rgbaToHex = ( r , g , b , a = null ) => {
 } ;
 
 
-},{"string-kit/lib/escape.js":55,"string-kit/lib/format.js":56}],23:[function(require,module,exports){
+},{"string-kit/lib/escape.js":56,"string-kit/lib/format.js":57}],24:[function(require,module,exports){
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 (function (process){(function (){
 /*
 	Dom Kit
@@ -6397,7 +6469,7 @@ domKit.html = ( $element , html ) => $element.innerHTML = html ;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"@cronvel/xmldom":23,"_process":37}],25:[function(require,module,exports){
+},{"@cronvel/xmldom":24,"_process":38}],26:[function(require,module,exports){
 (function (global){(function (){
 /*
 	EXM
@@ -6582,7 +6654,7 @@ if ( ! global.EXM ) {
 
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -6605,7 +6677,7 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -6667,7 +6739,7 @@ ObjectEntry.unserializer = function( ... args ) {
 } ;
 
 
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -6717,7 +6789,7 @@ class Stack extends Array {
 module.exports = Stack ;
 
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -7363,7 +7435,7 @@ for ( let key in exports ) {
 }
 
 
-},{"./ObjectEntry.js":27,"./Stack.js":28,"./mode.js":31}],30:[function(require,module,exports){
+},{"./ObjectEntry.js":28,"./Stack.js":29,"./mode.js":32}],31:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -7424,7 +7496,7 @@ module.exports = ( params , mapping , named = {} ) => {
 } ;
 
 
-},{"./ObjectEntry.js":27}],31:[function(require,module,exports){
+},{"./ObjectEntry.js":28}],32:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -7464,7 +7536,7 @@ exports.LIST = 5 ;
 exports.KV = 6 ;
 
 
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 /*
 	Next-Gen Events
 
@@ -7690,7 +7762,7 @@ LeanEvents.prototype.getAllStates = function() {
 } ;
 
 
-},{"../package.json":36}],33:[function(require,module,exports){
+},{"../package.json":37}],34:[function(require,module,exports){
 (function (process,global,setImmediate){(function (){
 /*
 	Next-Gen Events
@@ -9110,7 +9182,7 @@ NextGenEvents.Proxy = require( './Proxy.js' ) ;
 
 
 }).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"../package.json":36,"./Proxy.js":34,"_process":37,"timers":74}],34:[function(require,module,exports){
+},{"../package.json":37,"./Proxy.js":35,"_process":38,"timers":75}],35:[function(require,module,exports){
 /*
 	Next-Gen Events
 
@@ -9657,7 +9729,7 @@ RemoteService.prototype.receiveAckEmit = function( message ) {
 } ;
 
 
-},{"./NextGenEvents.js":33}],35:[function(require,module,exports){
+},{"./NextGenEvents.js":34}],36:[function(require,module,exports){
 (function (process){(function (){
 /*
 	Next-Gen Events
@@ -9703,7 +9775,7 @@ module.exports.isBrowser = true ;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./NextGenEvents.js":33,"_process":37}],36:[function(require,module,exports){
+},{"./NextGenEvents.js":34,"_process":38}],37:[function(require,module,exports){
 module.exports={
   "name": "nextgen-events",
   "version": "1.5.2",
@@ -9763,7 +9835,7 @@ module.exports={
   }
 }
 
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -9949,7 +10021,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 (function (global){(function (){
 /*! https://mths.be/punycode v1.4.1 by @mathias */
 ;(function(root) {
@@ -10486,7 +10558,7 @@ process.umask = function() { return 0; };
 }(this));
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],39:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -10572,7 +10644,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],40:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -10659,13 +10731,13 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],41:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":39,"./encode":40}],42:[function(require,module,exports){
+},{"./decode":40,"./encode":41}],43:[function(require,module,exports){
 (function (process,global){(function (){
 (function (global, undefined) {
     "use strict";
@@ -10855,7 +10927,7 @@ exports.encode = exports.stringify = require('./encode');
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
 }).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":37}],43:[function(require,module,exports){
+},{"_process":38}],44:[function(require,module,exports){
 /*
 	Seventh
 
@@ -11084,7 +11156,7 @@ Queue.prototype.getStats = function() {
 } ;
 
 
-},{"./seventh.js":50}],44:[function(require,module,exports){
+},{"./seventh.js":51}],45:[function(require,module,exports){
 /*
 	Seventh
 
@@ -11168,7 +11240,7 @@ Promise.promisifyAnyNodeApi = ( api , suffix , multiSuffix , filter ) => {
 
 
 
-},{"./seventh.js":50}],45:[function(require,module,exports){
+},{"./seventh.js":51}],46:[function(require,module,exports){
 /*
 	Seventh
 
@@ -11777,7 +11849,7 @@ Promise.race = ( iterable ) => {
 } ;
 
 
-},{"./seventh.js":50}],46:[function(require,module,exports){
+},{"./seventh.js":51}],47:[function(require,module,exports){
 (function (process,global,setImmediate){(function (){
 /*
 	Seventh
@@ -12536,7 +12608,7 @@ if ( process.browser ) {
 
 
 }).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"_process":37,"setimmediate":42,"timers":74}],47:[function(require,module,exports){
+},{"_process":38,"setimmediate":43,"timers":75}],48:[function(require,module,exports){
 /*
 	Seventh
 
@@ -13042,7 +13114,7 @@ Promise.variableRetry = ( asyncFn , thisBinding ) => {
 */
 
 
-},{"./seventh.js":50}],48:[function(require,module,exports){
+},{"./seventh.js":51}],49:[function(require,module,exports){
 (function (process){(function (){
 /*
 	Seventh
@@ -13142,7 +13214,7 @@ Promise.resolveSafeTimeout = function( timeout , value ) {
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./seventh.js":50,"_process":37}],49:[function(require,module,exports){
+},{"./seventh.js":51,"_process":38}],50:[function(require,module,exports){
 /*
 	Seventh
 
@@ -13194,7 +13266,7 @@ Promise.parasite = () => {
 } ;
 
 
-},{"./seventh.js":50}],50:[function(require,module,exports){
+},{"./seventh.js":51}],51:[function(require,module,exports){
 /*
 	Seventh
 
@@ -13238,7 +13310,7 @@ require( './parasite.js' ) ;
 require( './misc.js' ) ;
 
 
-},{"./Queue.js":43,"./api.js":44,"./batch.js":45,"./core.js":46,"./decorators.js":47,"./misc.js":48,"./parasite.js":49,"./wrapper.js":51}],51:[function(require,module,exports){
+},{"./Queue.js":44,"./api.js":45,"./batch.js":46,"./core.js":47,"./decorators.js":48,"./misc.js":49,"./parasite.js":50,"./wrapper.js":52}],52:[function(require,module,exports){
 /*
 	Seventh
 
@@ -13403,7 +13475,7 @@ Promise.onceEventAllOrError = ( emitter , eventName , excludeEvents ) => {
 } ;
 
 
-},{"./seventh.js":50}],52:[function(require,module,exports){
+},{"./seventh.js":51}],53:[function(require,module,exports){
 /*
 	Spellcast - shared utilities
 
@@ -13677,7 +13749,7 @@ for ( let key in exports ) {
 }
 
 
-},{"kung-fig-expression/lib/getNamedParameters.js":30}],53:[function(require,module,exports){
+},{"kung-fig-expression/lib/getNamedParameters.js":31}],54:[function(require,module,exports){
 /*
 	String Kit
 
@@ -14043,7 +14115,7 @@ function arrayConcatSlice( intoArray , sourceArray , start = 0 , end = sourceArr
 }
 
 
-},{}],54:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 /*
 	String Kit
 
@@ -14312,7 +14384,7 @@ ansi.parse = str => {
 } ;
 
 
-},{}],55:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 /*
 	String Kit
 
@@ -14417,7 +14489,7 @@ exports.unicodePercentEncode = str => str.replace( /[\x00-\x1f\u0100-\uffff\x7f%
 exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
 
 
-},{}],56:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 (function (Buffer){(function (){
 /*
 	String Kit
@@ -15559,7 +15631,7 @@ function round( v , step ) {
 
 
 }).call(this)}).call(this,require("buffer").Buffer)
-},{"./StringNumber.js":53,"./ansi.js":54,"./escape.js":55,"./inspect.js":57,"./naturalSort.js":58,"./unicode.js":59,"buffer":23}],57:[function(require,module,exports){
+},{"./StringNumber.js":54,"./ansi.js":55,"./escape.js":56,"./inspect.js":58,"./naturalSort.js":59,"./unicode.js":60,"buffer":24}],58:[function(require,module,exports){
 (function (Buffer,process){(function (){
 /*
 	String Kit
@@ -16279,7 +16351,7 @@ inspectStyle.html = Object.assign( {} , inspectStyle.none , {
 
 
 }).call(this)}).call(this,{"isBuffer":require("../../is-buffer/index.js")},require('_process'))
-},{"../../is-buffer/index.js":26,"./ansi.js":54,"./escape.js":55,"_process":37}],58:[function(require,module,exports){
+},{"../../is-buffer/index.js":27,"./ansi.js":55,"./escape.js":56,"_process":38}],59:[function(require,module,exports){
 /*
 	String Kit
 
@@ -16426,7 +16498,7 @@ function naturalSort( a , b ) {
 module.exports = naturalSort ;
 
 
-},{}],59:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 /*
 	String Kit
 
@@ -16690,7 +16762,7 @@ unicode.toFullWidth = str => {
 } ;
 
 
-},{}],60:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -16810,7 +16882,7 @@ VG.prototype.addCssRule = function( rule ) {
 } ;
 
 
-},{"../package.json":73,"./VGContainer.js":61,"./svg-kit.js":69}],61:[function(require,module,exports){
+},{"../package.json":74,"./VGContainer.js":62,"./svg-kit.js":70}],62:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -16931,7 +17003,7 @@ VGContainer.prototype.morphDom = function( root = this ) {
 } ;
 
 
-},{"../package.json":73,"./VGEntity.js":63,"./svg-kit.js":69}],62:[function(require,module,exports){
+},{"../package.json":74,"./VGEntity.js":64,"./svg-kit.js":70}],63:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -17016,7 +17088,7 @@ VGEllipse.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":73,"./VGEntity.js":63}],63:[function(require,module,exports){
+},{"../package.json":74,"./VGEntity.js":64}],64:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -17401,7 +17473,7 @@ VGEntity.prototype.morphOneEntryDom = function( data , root = this ) {
 } ;
 
 
-},{"../package.json":73,"string-kit/lib/camel":71,"string-kit/lib/escape":72}],64:[function(require,module,exports){
+},{"../package.json":74,"string-kit/lib/camel":72,"string-kit/lib/escape":73}],65:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -17458,7 +17530,7 @@ VGGroup.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":73,"./VGContainer.js":61,"./svg-kit.js":69}],65:[function(require,module,exports){
+},{"../package.json":74,"./VGContainer.js":62,"./svg-kit.js":70}],66:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -18125,7 +18197,7 @@ VGPath.prototype.forwardNegativeTurn = function( data ) {
 } ;
 
 
-},{"../package.json":73,"./VGEntity.js":63}],66:[function(require,module,exports){
+},{"../package.json":74,"./VGEntity.js":64}],67:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -18216,7 +18288,7 @@ VGRect.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":73,"./VGEntity.js":63}],67:[function(require,module,exports){
+},{"../package.json":74,"./VGEntity.js":64}],68:[function(require,module,exports){
 /*
 	Spellcast
 
@@ -18328,7 +18400,7 @@ VGText.prototype.set = function( data ) {
 } ;
 
 
-},{"../package.json":73,"./VGEntity.js":63}],68:[function(require,module,exports){
+},{"../package.json":74,"./VGEntity.js":64}],69:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -18376,7 +18448,7 @@ path.dFromPoints = ( points , invertY ) => {
 } ;
 
 
-},{}],69:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 (function (process){(function (){
 /*
 	SVG Kit
@@ -18854,7 +18926,7 @@ svgKit.objectToVG = function( object ) {
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./VG.js":60,"./VGContainer.js":61,"./VGEllipse.js":62,"./VGEntity.js":63,"./VGGroup.js":64,"./VGPath.js":65,"./VGRect.js":66,"./VGText.js":67,"./path.js":68,"_process":37,"dom-kit":70,"fs":23,"seventh":50,"string-kit/lib/escape.js":72}],70:[function(require,module,exports){
+},{"./VG.js":61,"./VGContainer.js":62,"./VGEllipse.js":63,"./VGEntity.js":64,"./VGGroup.js":65,"./VGPath.js":66,"./VGRect.js":67,"./VGText.js":68,"./path.js":69,"_process":38,"dom-kit":71,"fs":24,"seventh":51,"string-kit/lib/escape.js":73}],71:[function(require,module,exports){
 (function (process){(function (){
 /*
 	Dom Kit
@@ -19442,7 +19514,7 @@ domKit.html = function( $element , html ) { $element.innerHTML = html ; } ;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"@cronvel/xmldom":23,"_process":37}],71:[function(require,module,exports){
+},{"@cronvel/xmldom":24,"_process":38}],72:[function(require,module,exports){
 /*
 	String Kit
 
@@ -19516,7 +19588,7 @@ camel.camelCaseToDash =
 camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' ) ;
 
 
-},{}],72:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 /*
 	String Kit
 
@@ -19621,7 +19693,7 @@ exports.unicodePercentEncode = str => str.replace( /[\x00-\x1f\u0100-\uffff\x7f%
 exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
 
 
-},{}],73:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 module.exports={
   "_from": "svg-kit@0.3.0",
   "_id": "svg-kit@0.3.0",
@@ -19698,7 +19770,7 @@ module.exports={
   "version": "0.3.0"
 }
 
-},{}],74:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 (function (setImmediate,clearImmediate){(function (){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -19777,7 +19849,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this)}).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":37,"timers":74}],75:[function(require,module,exports){
+},{"process/browser.js":38,"timers":75}],76:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -20511,7 +20583,7 @@ Url.prototype.parseHost = function() {
   if (host) this.hostname = host;
 };
 
-},{"./util":76,"punycode":38,"querystring":41}],76:[function(require,module,exports){
+},{"./util":77,"punycode":39,"querystring":42}],77:[function(require,module,exports){
 'use strict';
 
 module.exports = {

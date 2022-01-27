@@ -959,15 +959,27 @@ Dom.prototype.addChoices = async function( choices , undecidedNames , onSelect ,
 		await this.waitFor( 'uiLoaded' ) ;
 	}
 
-	switch ( options.nextStyle ) {
+	if ( options.nextStyle.format === 'auto' ) {
+		if ( this.roles.length <= 1 && choices.length <= 3 && charCount < 20 ) {
+			options.nextStyle.format = 'inline' ;
+		}
+		else if ( choices.length > 8 ) {
+			options.nextStyle.format = 'smallList' ;
+		}
+		else {
+			options.nextStyle.format = 'list' ;
+		}
+	}
+
+	switch ( options.nextStyle.format ) {
 		case 'inline' :
 		case 'smallInline' :
 		case 'list' :
 		case 'smallList' :
-			this.$choices.setAttribute( 'data-choice-style' , options.nextStyle ) ;
+			this.$choices.setAttribute( 'data-choice-style' , options.nextStyle.format ) ;
 			break ;
 		case 'table' :
-			this.$choices.setAttribute( 'data-choice-style' , options.nextStyle ) ;
+			this.$choices.setAttribute( 'data-choice-style' , options.nextStyle.format ) ;
 			this.$choices.classList.add( 'columns-' + this.getChoiceColumnsCount( choices ) ) ;
 			break ;
 		default :
@@ -2276,18 +2288,6 @@ EventDispatcher.nextList = function( nexts , undecidedRoleIds , options , isUpda
 			selectedBy: roles
 		} ) ;
 	} ) ;
-
-	if ( ! options.nextStyle || options.nextStyle === 'auto' ) {
-		if ( this.roles.length <= 1 && choices.length <= 3 && charCount < 20 ) {
-			options.nextStyle = 'inline' ;
-		}
-		else if ( choices.length > 8 ) {
-			options.nextStyle = 'smallList' ;
-		}
-		else {
-			options.nextStyle = 'list' ;
-		}
-	}
 
 	if ( undecidedRoleIds.length && this.roles.length ) {
 		undecidedNames = undecidedRoleIds.map( ( e ) => { return this.roles.get( e ).name ; } ) ;
@@ -16568,7 +16568,7 @@ unicode.toArray = str => Array.from( str ) ;
 // Decode a string into an array of Cell (used by Terminal-kit).
 // Wide chars have an additionnal filler cell, so position is correct
 unicode.toCells = ( Cell , str , tabWidth = 4 , linePosition = 0 , ... extraCellArgs ) => {
-	var char , code , fillSize ,
+	var char , code , fillSize , width ,
 		output = [] ;
 
 	for ( char of str ) {
@@ -16580,18 +16580,20 @@ unicode.toCells = ( Cell , str , tabWidth = 4 , linePosition = 0 , ... extraCell
 		else if ( code === 0x09 ) {	// Tab
 			// Depends upon the next tab-stop
 			fillSize = tabWidth - ( linePosition % tabWidth ) - 1 ;
-			output.push( new Cell( '\t' , ... extraCellArgs ) ) ;
+			//output.push( new Cell( '\t' , ... extraCellArgs ) ) ;
+			output.push( new Cell( '\t' , 1 , ... extraCellArgs ) ) ;
 			linePosition += 1 + fillSize ;
-			while ( fillSize -- ) { output.push( new Cell( null , ... extraCellArgs ) ) ; }
+
+			// Add a filler cell
+			while ( fillSize -- ) { output.push( new Cell( ' ' , -2 , ... extraCellArgs ) ) ; }
 		}
 		else {
-			output.push(  new Cell( char , ... extraCellArgs )  ) ;
-			linePosition ++ ;
+			width = unicode.codePointWidth( code ) ,
+			output.push( new Cell( char , width , ... extraCellArgs ) ) ;
+			linePosition += width ;
 
-			if ( unicode.codePointWidth( code ) === 2 ) {
-				output.push( new Cell( null , ... extraCellArgs ) ) ;
-				linePosition ++ ;
-			}
+			// Add an anti-filler cell (a cell with 0 width, following a wide char)
+			while ( -- width > 0 ) { output.push( new Cell( ' ' , -1 , ... extraCellArgs ) ) ; }
 		}
 	}
 
@@ -16601,7 +16603,13 @@ unicode.toCells = ( Cell , str , tabWidth = 4 , linePosition = 0 , ... extraCell
 
 
 unicode.fromCells = ( cells ) => {
-	return cells.map( cell => cell.filler ? '' : cell.char ).join( '' ) ;
+	var cell , str = '' ;
+
+	for ( cell of cells ) {
+		if ( ! cell.filler ) { str += cell.char ; }
+	}
+
+	return str ;
 } ;
 
 
@@ -16697,7 +16705,7 @@ unicode.surrogatePair = char => {
 
 
 
-// Check if a character is a full-width char or not.
+// Check if a character is a full-width char or not
 unicode.isFullWidth = char => unicode.isFullWidthCodePoint( char.codePointAt( 0 ) ) ;
 
 // Return the width of a char, leaner than .width() for one char
@@ -16707,41 +16715,43 @@ unicode.charWidth = char => unicode.codePointWidth( char.codePointAt( 0 ) ) ;
 
 /*
 	Check if a codepoint represent a full-width char or not.
-
-	Borrowed from Node.js source, from readline.js.
 */
 unicode.codePointWidth = code => {
+	// Assuming all emoji are wide here
+	if ( unicode.isEmojiCodePoint( code ) ) { return 2 ; }
+
 	// Code points are derived from:
 	// http://www.unicode.org/Public/UNIDATA/EastAsianWidth.txt
 	if ( code >= 0x1100 && (
 		code <= 0x115f ||	// Hangul Jamo
-			0x2329 === code || // LEFT-POINTING ANGLE BRACKET
-			0x232a === code || // RIGHT-POINTING ANGLE BRACKET
-			// CJK Radicals Supplement .. Enclosed CJK Letters and Months
-			( 0x2e80 <= code && code <= 0x3247 && code !== 0x303f ) ||
-			// Enclosed CJK Letters and Months .. CJK Unified Ideographs Extension A
-			0x3250 <= code && code <= 0x4dbf ||
-			// CJK Unified Ideographs .. Yi Radicals
-			0x4e00 <= code && code <= 0xa4c6 ||
-			// Hangul Jamo Extended-A
-			0xa960 <= code && code <= 0xa97c ||
-			// Hangul Syllables
-			0xac00 <= code && code <= 0xd7a3 ||
-			// CJK Compatibility Ideographs
-			0xf900 <= code && code <= 0xfaff ||
-			// Vertical Forms
-			0xfe10 <= code && code <= 0xfe19 ||
-			// CJK Compatibility Forms .. Small Form Variants
-			0xfe30 <= code && code <= 0xfe6b ||
-			// Halfwidth and Fullwidth Forms
-			0xff01 <= code && code <= 0xff60 ||
-			0xffe0 <= code && code <= 0xffe6 ||
-			// Kana Supplement
-			0x1b000 <= code && code <= 0x1b001 ||
-			// Enclosed Ideographic Supplement
-			0x1f200 <= code && code <= 0x1f251 ||
-			// CJK Unified Ideographs Extension B .. Tertiary Ideographic Plane
-			0x20000 <= code && code <= 0x3fffd ) ) {
+		code === 0x2329 || // LEFT-POINTING ANGLE BRACKET
+		code === 0x232a || // RIGHT-POINTING ANGLE BRACKET
+		// CJK Radicals Supplement .. Enclosed CJK Letters and Months
+		( 0x2e80 <= code && code <= 0x3247 && code !== 0x303f ) ||
+		// Enclosed CJK Letters and Months .. CJK Unified Ideographs Extension A
+		( 0x3250 <= code && code <= 0x4dbf ) ||
+		// CJK Unified Ideographs .. Yi Radicals
+		( 0x4e00 <= code && code <= 0xa4c6 ) ||
+		// Hangul Jamo Extended-A
+		( 0xa960 <= code && code <= 0xa97c ) ||
+		// Hangul Syllables
+		( 0xac00 <= code && code <= 0xd7a3 ) ||
+		// CJK Compatibility Ideographs
+		( 0xf900 <= code && code <= 0xfaff ) ||
+		// Vertical Forms
+		( 0xfe10 <= code && code <= 0xfe19 ) ||
+		// CJK Compatibility Forms .. Small Form Variants
+		( 0xfe30 <= code && code <= 0xfe6b ) ||
+		// Halfwidth and Fullwidth Forms
+		( 0xff01 <= code && code <= 0xff60 ) ||
+		( 0xffe0 <= code && code <= 0xffe6 ) ||
+		// Kana Supplement
+		( 0x1b000 <= code && code <= 0x1b001 ) ||
+		// Enclosed Ideographic Supplement
+		( 0x1f200 <= code && code <= 0x1f251 ) ||
+		// CJK Unified Ideographs Extension B .. Tertiary Ideographic Plane
+		( 0x20000 <= code && code <= 0x3fffd )
+	) ) {
 		return 2 ;
 	}
 
@@ -16760,6 +16770,26 @@ unicode.toFullWidth = str => {
 		return code >= 33 && code <= 126  ?  0xff00 + code - 0x20  :  code ;
 	} ) ) ;
 } ;
+
+
+
+// Check if a character is an emoji or not
+unicode.isEmoji = char => unicode.isEmojiCodePoint( char.codePointAt( 0 ) ) ;
+
+// Some doc found here: https://stackoverflow.com/questions/30470079/emoji-value-range
+unicode.isEmojiCodePoint = code =>
+	// Miscellaneous symbols
+	( 0x2600 <= code && code <= 0x26ff ) ||
+	// Dingbats
+	( 0x2700 <= code && code <= 0x27bf ) ||
+	// Emoji
+	( 0x1f000 <= code && code <= 0x1f1ff ) ||
+	( 0x1f300 <= code && code <= 0x1f3fa ) ||
+	( 0x1f400 <= code && code <= 0x1faff ) ;
+
+// Emoji modifier (Fitzpatrick): https://en.wikipedia.org/wiki/Miscellaneous_Symbols_and_Pictographs#Emoji_modifiers
+unicode.isEmojiModifier = char => unicode.isEmojiModifierCodePoint( char.codePointAt( 0 ) ) ;
+unicode.isEmojiModifierCodePoint = code => 0x1f3fb <= code && code <= 0x1f3ff ;
 
 
 },{}],61:[function(require,module,exports){
@@ -19695,7 +19725,7 @@ exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
 
 },{}],74:[function(require,module,exports){
 module.exports={
-  "_from": "svg-kit@0.3.0",
+  "_from": "svg-kit@^0.3.0",
   "_id": "svg-kit@0.3.0",
   "_inBundle": false,
   "_integrity": "sha512-+lqQ8WQp8UD1BlNBeVOawBKpXCBCqdwnEfRiWxG7vI3NBmZ9CBPN/eMmMt2OpJRU8UcZUOrarAjiZV3dZsqWtA==",
@@ -19704,22 +19734,21 @@ module.exports={
     "@cronvel/xmldom": "0.1.31"
   },
   "_requested": {
-    "type": "version",
+    "type": "range",
     "registry": true,
-    "raw": "svg-kit@0.3.0",
+    "raw": "svg-kit@^0.3.0",
     "name": "svg-kit",
     "escapedName": "svg-kit",
-    "rawSpec": "0.3.0",
+    "rawSpec": "^0.3.0",
     "saveSpec": null,
-    "fetchSpec": "0.3.0"
+    "fetchSpec": "^0.3.0"
   },
   "_requiredBy": [
-    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/svg-kit/-/svg-kit-0.3.0.tgz",
   "_shasum": "a53aadb7152cf7374e2a791b9d45b7cc6d0fe25d",
-  "_spec": "svg-kit@0.3.0",
+  "_spec": "svg-kit@^0.3.0",
   "_where": "/home/cedric/inside/github/spellcast-ext-web-client",
   "author": {
     "name": "Cédric Ronvel"

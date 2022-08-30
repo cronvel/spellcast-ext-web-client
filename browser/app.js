@@ -207,7 +207,7 @@ function Dom() {
 	this.$sound1 = document.querySelector( '#sound1' ) ;
 	this.$sound2 = document.querySelector( '#sound2' ) ;
 	this.$sound3 = document.querySelector( '#sound3' ) ;
-	
+
 	this.controller = new Controller() ;
 	this.gamepadHub = new BrowserGamepadHub( this.controller ) ;
 	this.keyboard = new BrowserKeyboard( this.controller ) ;
@@ -241,7 +241,7 @@ function Dom() {
 
 	// The number of UI loading in progress
 	this.uiLoadingCount = 0 ;
-	
+
 	this.initEvents() ;
 }
 
@@ -307,7 +307,7 @@ Dom.prototype.initEvents = function() {
 	this.$lobby.addEventListener( 'click' , () => { this.$lobby.classList.toggle( 'toggled' ) ; } ) ;
 	this.$status.addEventListener( 'click' , () => { this.$status.classList.toggle( 'toggled' ) ; } ) ;
 	this.$panel.addEventListener( 'click' , () => { this.$panel.classList.toggle( 'toggled' ) ; } ) ;
-	
+
 	// Temp?
 	this.gamepadHub.on( 'newGamepad' , gamepad => gamepad.poll() ) ;
 } ;
@@ -316,7 +316,7 @@ Dom.prototype.initEvents = function() {
 
 Dom.prototype.setControls = function( config ) {
 	this.controller.resetBindings() ;
-	
+
 	if ( config.keys ) {
 		for ( let key in config.keys ) {
 			for ( let value of config.keys[ key ] ) {
@@ -960,7 +960,7 @@ Dom.prototype.addChoices = async function( choices , undecidedNames , onSelect ,
 	}
 
 	if ( options.nextStyle.format === 'auto' ) {
-		if ( this.roles.length <= 1 && choices.length <= 3 && charCount < 20 ) {
+		if ( this.roles.length <= 1 && choices.length <= 3 ) {
 			options.nextStyle.format = 'inline' ;
 		}
 		else if ( choices.length > 8 ) {
@@ -4243,7 +4243,7 @@ function Controller() {
 	this.keyReleasedList = [] ;
 	this.gaugeList = [] ;
 	this.gauge2dList = [] ;
-	
+
 	this.keyBindings = {} ;
 	this.gaugeBindings = {} ;
 	this.gauge2dBindings = {} ;
@@ -4352,7 +4352,7 @@ Controller.prototype.flushEvents = function() {
 			}
 		}
 	}
-	
+
 	for ( args of this.gaugeList ) { this.emit( 'gauge' , ... args ) ; }
 	for ( args of this.gauge2dList ) { this.emit( 'gauge2d' , ... args ) ; }
 
@@ -4401,7 +4401,7 @@ const drivers = require( './drivers.js' ) ;
 
 function BrowserGamepad( gamepadHub , domGamepad ) {
 	Gamepad.call( this , gamepadHub , domGamepad.index , domGamepad.id ) ;
-	
+
 	this.domGamepad = domGamepad ;
 	this.lastDomGamepadTimestamp = 0 ;	// store the last domGamepad.timestamp
 
@@ -4410,10 +4410,10 @@ function BrowserGamepad( gamepadHub , domGamepad ) {
 
 	this.pollingTimer = null ;
 	this.doPolling = this.doPolling.bind( this ) ;
-	
+
 	this.initMapping() ;
 
-	
+
 	console.warn(
 		"New Gamepad #%d: %s (%d buttons, %d axes)" ,
 		this.domGamepad.index , this.domGamepad.id , this.domGamepad.buttons.length ,
@@ -4451,7 +4451,7 @@ BrowserGamepad.prototype.doPolling = function() {
 		this.pollingTimer = null ;
 		cancelAnimationFrame( this.pollingTimer ) ;
 	}
-	
+
 	// First check if there is something new, avoiding wasting computing for nothing
 	if ( this.lastDomGamepadTimestamp < this.domGamepad.timestamp ) {
 		// Swap state and lastState
@@ -4460,7 +4460,7 @@ BrowserGamepad.prototype.doPolling = function() {
 		// Map the underlying browser gamepad to our gamepad state structure
 		this.map() ;
 		this.map( this.state , this.domGamepad.buttons , this.domGamepad.axes ) ;
-		
+
 		// Update for the new value timestamp
 		this.lastDomGamepadTimestamp = this.domGamepad.timestamp ;
 
@@ -4494,7 +4494,7 @@ BrowserGamepad.prototype.initMapping = function() {
 // This is the standard mapping
 BrowserGamepad.prototype.map = function() {
 	var state = this.state ;
-	
+
 	state.button.bottom = this.domGamepad.buttons[ 0 ]?.value || 0 ;
 	state.button.right = this.domGamepad.buttons[ 1 ]?.value || 0 ;
 	state.button.left = this.domGamepad.buttons[ 2 ]?.value || 0 ;
@@ -4516,7 +4516,7 @@ BrowserGamepad.prototype.map = function() {
 	state.dPad.right = this.domGamepad.buttons[ 15 ]?.value || 0 ;
 
 	state.specialButton.center = this.domGamepad.buttons[ 16 ]?.value || 0 ;
-	
+
 	state.leftStick.x = this.domGamepad.axes[ 0 ] || 0 ;
 	state.leftStick.y = this.domGamepad.axes[ 1 ] || 0 ;
 	state.rightStick.x = this.domGamepad.axes[ 2 ] || 0 ;
@@ -4699,7 +4699,7 @@ Gamepad.prototype.poll = function( poll = true ) {
 // Called when the internal state was updated
 Gamepad.prototype.postProcess = function() {
 	// Stick calibration and other related things should be done HERE, before emitting events
-	
+
 	// Emit event based on the diff beween the previous state and the new state
 	this.state.emitFromDiff( this.gamepadHub.controller , this.lastState , this ) ;
 } ;
@@ -4785,7 +4785,7 @@ GamepadHub.prototype.addGamepad = function( gamepad ) {
 	if ( this.gamepads[ gamepad.index ] ) {
 		this.gamepads[ gamepad.index ].destroy() ;
 	}
-	
+
 	this.gamepads[ gamepad.index ] = gamepad ;
 	this.emit( 'newGamepad' , gamepad ) ;
 } ;
@@ -4865,7 +4865,7 @@ function GamepadState() {
 		right: 0 ,		// start
 		center: 0 ,		// some gamepad have a button below "select" and "start"
 		leftStick: 0 ,	// click on the left thumbstick
-		rightStick: 0 ,	// click on the right thumbstick
+		rightStick: 0 	// click on the right thumbstick
 	} ;
 }
 
@@ -4902,7 +4902,7 @@ GamepadState.prototype.emitFromDiff = function( controller , old , gamepad ) {
 	if ( this.specialButton.center !== old.specialButton.center ) { controller.addKeyAndGauge( gamepad , 'CENTER_SPECIAL_BUTTON' , this.specialButton.center , old.specialButton.center ) ; }
 	if ( this.specialButton.leftStick !== old.specialButton.leftStick ) { controller.addKeyAndGauge( gamepad , 'LEFT_STICK_BUTTON' , this.specialButton.leftStick , old.specialButton.leftStick ) ; }
 	if ( this.specialButton.rightStick !== old.specialButton.rightStick ) { controller.addKeyAndGauge( gamepad , 'RIGHT_STICK_BUTTON' , this.specialButton.rightStick , old.specialButton.rightStick ) ; }
-	
+
 	controller.flushEvents() ;
 } ;
 
@@ -4960,7 +4960,7 @@ exports['046d-c21d-Logitech Gamepad F310'] = ( state , buttons , axes ) => {
 	state.rightStick.x = axes[ 3 ] ;
 	state.rightStick.y = axes[ 4 ] ;
 	state.shoulderButton.rightTrigger = axes[ 5 ] * 0.5 + 0.5 ;
-	
+
 	state.dPad.left = + ( axes[ 6 ] < 0 ) ;
 	state.dPad.right = + ( axes[ 6 ] > 0 ) ;
 	state.dPad.up = + ( axes[ 7 ] < 0 ) ;
@@ -4986,7 +4986,7 @@ exports['0810-0001-Twin USB Joystick'] = ( state , buttons , axes ) => {
 	state.leftStick.y = axes[ 1 ] ;
 	state.rightStick.y = axes[ 2 ] ;
 	state.rightStick.x = axes[ 3 ] ;
-	
+
 	state.dPad.left = + ( axes[ 4 ] < 0 ) ;
 	state.dPad.right = + ( axes[ 4 ] > 0 ) ;
 	state.dPad.up = + ( axes[ 5 ] < 0 ) ;
@@ -5033,9 +5033,9 @@ const Keyboard = require( './Keyboard.js' ) ;
 
 function BrowserKeyboard( controller ) {
 	Keyboard.call( this , controller ) ;
-	
+
 	this.codeToKey = {} ;
-	
+
 	this.initEvents() ;
 }
 
@@ -5051,15 +5051,15 @@ BrowserKeyboard.prototype.initEvents = function() {
 	document.addEventListener( 'keydown' , event => {
 		switch ( event.key ) {
 			// Prevent Firefox from opening the Quick Find, since 3D clients don't use HTML input/textarea for their 3D inputs
-			case "'":
-			case "/":
-			case "x":
-			case "Tab":
-			case "Alt":
+			case "'" :
+			case "/" :
+			case "x" :
+			case "Tab" :
+			case "Alt" :
 				event.preventDefault() ;
 				break ;
 		}
-		
+
 		//console.warn( "keydown event" , event.key , event.code , event.location , event ) ;
 
 		var key = this.codeToKey[ event.code ] ;
@@ -5108,7 +5108,7 @@ const EVENT_KEY_TO_KEY = {
 	'^': 'CARET' ,	// Won't work, got 'Dead' instead of '^' since it's a Dead key (don't produce output, combine with next key)
 	'$': 'DOLLAR' ,
 	'<': 'LESSER_THAN' ,
-	')': 'LEFT_PARENTHESIS' ,
+	')': 'LEFT_PARENTHESIS'
 } ;
 
 // Add A-Z letters
@@ -5119,7 +5119,7 @@ for ( let c = 65 ; c <= 90 ; c ++ ) {
 
 BrowserKeyboard.prototype.getKey = function( event ) {
 	var key , eventKey , expectedKey ;
-	
+
 	// First, check with event.key, if there is no modifiers, else use event.code
 	if ( ! event.metaKey && ! event.shiftKey && ! event.ctrlKey && ! event.altKey ) {
 		eventKey = event.key.toUpperCase() ;
@@ -5135,7 +5135,7 @@ BrowserKeyboard.prototype.getKey = function( event ) {
 	else {
 		key = this.getKeyByCode( event.code ) ;
 	}
-	
+
 	return key ;
 } ;
 
@@ -5155,7 +5155,7 @@ const TRANSLATE_CODE = {
 	'ShiftLeft': 'LEFT_SHIFT' ,
 	'ShiftRight': 'RIGHT_SHIFT' ,
 	'ControlLeft': 'LEFT_CONTROL' ,
-	'ControlRight': 'RIGHT_CONTROL' ,
+	'ControlRight': 'RIGHT_CONTROL'
 } ;
 
 BrowserKeyboard.prototype.getKeyByCode = function( code ) {
@@ -5855,7 +5855,7 @@ function to2HexDigits( n ) {
 	if ( ! n || n < 0 ) { return '00' ; }
 	if ( n < 16 ) { return '0' + n.toString( 16 ) ; }
 	return n.toString( 16 ) ;
-} ;
+}
 
 
 
@@ -16568,7 +16568,7 @@ unicode.toArray = str => Array.from( str ) ;
 // Decode a string into an array of Cell (used by Terminal-kit).
 // Wide chars have an additionnal filler cell, so position is correct
 unicode.toCells = ( Cell , str , tabWidth = 4 , linePosition = 0 , ... extraCellArgs ) => {
-	var char , code , fillSize , width ,
+	var char , code , fillSize ,
 		output = [] ;
 
 	for ( char of str ) {
@@ -16580,20 +16580,18 @@ unicode.toCells = ( Cell , str , tabWidth = 4 , linePosition = 0 , ... extraCell
 		else if ( code === 0x09 ) {	// Tab
 			// Depends upon the next tab-stop
 			fillSize = tabWidth - ( linePosition % tabWidth ) - 1 ;
-			//output.push( new Cell( '\t' , ... extraCellArgs ) ) ;
-			output.push( new Cell( '\t' , 1 , ... extraCellArgs ) ) ;
+			output.push( new Cell( '\t' , ... extraCellArgs ) ) ;
 			linePosition += 1 + fillSize ;
-
-			// Add a filler cell
-			while ( fillSize -- ) { output.push( new Cell( ' ' , -2 , ... extraCellArgs ) ) ; }
+			while ( fillSize -- ) { output.push( new Cell( null , ... extraCellArgs ) ) ; }
 		}
 		else {
-			width = unicode.codePointWidth( code ) ,
-			output.push( new Cell( char , width , ... extraCellArgs ) ) ;
-			linePosition += width ;
+			output.push(  new Cell( char , ... extraCellArgs )  ) ;
+			linePosition ++ ;
 
-			// Add an anti-filler cell (a cell with 0 width, following a wide char)
-			while ( -- width > 0 ) { output.push( new Cell( ' ' , -1 , ... extraCellArgs ) ) ; }
+			if ( unicode.codePointWidth( code ) === 2 ) {
+				output.push( new Cell( null , ... extraCellArgs ) ) ;
+				linePosition ++ ;
+			}
 		}
 	}
 
@@ -16603,13 +16601,7 @@ unicode.toCells = ( Cell , str , tabWidth = 4 , linePosition = 0 , ... extraCell
 
 
 unicode.fromCells = ( cells ) => {
-	var cell , str = '' ;
-
-	for ( cell of cells ) {
-		if ( ! cell.filler ) { str += cell.char ; }
-	}
-
-	return str ;
+	return cells.map( cell => cell.filler ? '' : cell.char ).join( '' ) ;
 } ;
 
 
@@ -16705,7 +16697,7 @@ unicode.surrogatePair = char => {
 
 
 
-// Check if a character is a full-width char or not
+// Check if a character is a full-width char or not.
 unicode.isFullWidth = char => unicode.isFullWidthCodePoint( char.codePointAt( 0 ) ) ;
 
 // Return the width of a char, leaner than .width() for one char
@@ -16715,43 +16707,41 @@ unicode.charWidth = char => unicode.codePointWidth( char.codePointAt( 0 ) ) ;
 
 /*
 	Check if a codepoint represent a full-width char or not.
+
+	Borrowed from Node.js source, from readline.js.
 */
 unicode.codePointWidth = code => {
-	// Assuming all emoji are wide here
-	if ( unicode.isEmojiCodePoint( code ) ) { return 2 ; }
-
 	// Code points are derived from:
 	// http://www.unicode.org/Public/UNIDATA/EastAsianWidth.txt
 	if ( code >= 0x1100 && (
 		code <= 0x115f ||	// Hangul Jamo
-		code === 0x2329 || // LEFT-POINTING ANGLE BRACKET
-		code === 0x232a || // RIGHT-POINTING ANGLE BRACKET
-		// CJK Radicals Supplement .. Enclosed CJK Letters and Months
-		( 0x2e80 <= code && code <= 0x3247 && code !== 0x303f ) ||
-		// Enclosed CJK Letters and Months .. CJK Unified Ideographs Extension A
-		( 0x3250 <= code && code <= 0x4dbf ) ||
-		// CJK Unified Ideographs .. Yi Radicals
-		( 0x4e00 <= code && code <= 0xa4c6 ) ||
-		// Hangul Jamo Extended-A
-		( 0xa960 <= code && code <= 0xa97c ) ||
-		// Hangul Syllables
-		( 0xac00 <= code && code <= 0xd7a3 ) ||
-		// CJK Compatibility Ideographs
-		( 0xf900 <= code && code <= 0xfaff ) ||
-		// Vertical Forms
-		( 0xfe10 <= code && code <= 0xfe19 ) ||
-		// CJK Compatibility Forms .. Small Form Variants
-		( 0xfe30 <= code && code <= 0xfe6b ) ||
-		// Halfwidth and Fullwidth Forms
-		( 0xff01 <= code && code <= 0xff60 ) ||
-		( 0xffe0 <= code && code <= 0xffe6 ) ||
-		// Kana Supplement
-		( 0x1b000 <= code && code <= 0x1b001 ) ||
-		// Enclosed Ideographic Supplement
-		( 0x1f200 <= code && code <= 0x1f251 ) ||
-		// CJK Unified Ideographs Extension B .. Tertiary Ideographic Plane
-		( 0x20000 <= code && code <= 0x3fffd )
-	) ) {
+			0x2329 === code || // LEFT-POINTING ANGLE BRACKET
+			0x232a === code || // RIGHT-POINTING ANGLE BRACKET
+			// CJK Radicals Supplement .. Enclosed CJK Letters and Months
+			( 0x2e80 <= code && code <= 0x3247 && code !== 0x303f ) ||
+			// Enclosed CJK Letters and Months .. CJK Unified Ideographs Extension A
+			0x3250 <= code && code <= 0x4dbf ||
+			// CJK Unified Ideographs .. Yi Radicals
+			0x4e00 <= code && code <= 0xa4c6 ||
+			// Hangul Jamo Extended-A
+			0xa960 <= code && code <= 0xa97c ||
+			// Hangul Syllables
+			0xac00 <= code && code <= 0xd7a3 ||
+			// CJK Compatibility Ideographs
+			0xf900 <= code && code <= 0xfaff ||
+			// Vertical Forms
+			0xfe10 <= code && code <= 0xfe19 ||
+			// CJK Compatibility Forms .. Small Form Variants
+			0xfe30 <= code && code <= 0xfe6b ||
+			// Halfwidth and Fullwidth Forms
+			0xff01 <= code && code <= 0xff60 ||
+			0xffe0 <= code && code <= 0xffe6 ||
+			// Kana Supplement
+			0x1b000 <= code && code <= 0x1b001 ||
+			// Enclosed Ideographic Supplement
+			0x1f200 <= code && code <= 0x1f251 ||
+			// CJK Unified Ideographs Extension B .. Tertiary Ideographic Plane
+			0x20000 <= code && code <= 0x3fffd ) ) {
 		return 2 ;
 	}
 
@@ -16770,26 +16760,6 @@ unicode.toFullWidth = str => {
 		return code >= 33 && code <= 126  ?  0xff00 + code - 0x20  :  code ;
 	} ) ) ;
 } ;
-
-
-
-// Check if a character is an emoji or not
-unicode.isEmoji = char => unicode.isEmojiCodePoint( char.codePointAt( 0 ) ) ;
-
-// Some doc found here: https://stackoverflow.com/questions/30470079/emoji-value-range
-unicode.isEmojiCodePoint = code =>
-	// Miscellaneous symbols
-	( 0x2600 <= code && code <= 0x26ff ) ||
-	// Dingbats
-	( 0x2700 <= code && code <= 0x27bf ) ||
-	// Emoji
-	( 0x1f000 <= code && code <= 0x1f1ff ) ||
-	( 0x1f300 <= code && code <= 0x1f3fa ) ||
-	( 0x1f400 <= code && code <= 0x1faff ) ;
-
-// Emoji modifier (Fitzpatrick): https://en.wikipedia.org/wiki/Miscellaneous_Symbols_and_Pictographs#Emoji_modifiers
-unicode.isEmojiModifier = char => unicode.isEmojiModifierCodePoint( char.codePointAt( 0 ) ) ;
-unicode.isEmojiModifierCodePoint = code => 0x1f3fb <= code && code <= 0x1f3ff ;
 
 
 },{}],61:[function(require,module,exports){
@@ -19725,7 +19695,7 @@ exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
 
 },{}],74:[function(require,module,exports){
 module.exports={
-  "_from": "svg-kit@^0.3.0",
+  "_from": "svg-kit@0.3.0",
   "_id": "svg-kit@0.3.0",
   "_inBundle": false,
   "_integrity": "sha512-+lqQ8WQp8UD1BlNBeVOawBKpXCBCqdwnEfRiWxG7vI3NBmZ9CBPN/eMmMt2OpJRU8UcZUOrarAjiZV3dZsqWtA==",
@@ -19734,21 +19704,22 @@ module.exports={
     "@cronvel/xmldom": "0.1.31"
   },
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "svg-kit@^0.3.0",
+    "raw": "svg-kit@0.3.0",
     "name": "svg-kit",
     "escapedName": "svg-kit",
-    "rawSpec": "^0.3.0",
+    "rawSpec": "0.3.0",
     "saveSpec": null,
-    "fetchSpec": "^0.3.0"
+    "fetchSpec": "0.3.0"
   },
   "_requiredBy": [
+    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/svg-kit/-/svg-kit-0.3.0.tgz",
   "_shasum": "a53aadb7152cf7374e2a791b9d45b7cc6d0fe25d",
-  "_spec": "svg-kit@^0.3.0",
+  "_spec": "svg-kit@0.3.0",
   "_where": "/home/cedric/inside/github/spellcast-ext-web-client",
   "author": {
     "name": "Cédric Ronvel"

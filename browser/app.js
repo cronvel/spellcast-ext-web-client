@@ -133,7 +133,7 @@ Camera.prototype.updateTransition = function( data , awaiting = false ) {
 } ;
 
 
-},{"./GTransition.js":6,"seventh":52}],2:[function(require,module,exports){
+},{"./GTransition.js":7,"seventh":53}],2:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -166,6 +166,7 @@ Camera.prototype.updateTransition = function( data , awaiting = false ) {
 
 const GScene = require( './GScene.js' ) ;
 const Camera = require( './Camera.js' ) ;
+const FontPack = require( './FontPack.js' ) ;
 const TexturePack = require( './TexturePack.js' ) ;
 const GEntity = require( './GEntity.js' ) ;
 const BrowserGamepadHub = require( './controller/gamepad/BrowserGamepadHub.js' ) ;
@@ -233,6 +234,8 @@ function Dom() {
 
 	// Move it to GScene?
 	this.animations = {} ;
+
+	this.fontPacks = {} ;
 
 	this.themeData = null ;
 	this.hintTimer = null ;
@@ -1526,6 +1529,15 @@ Dom.prototype.updateCamera = function( gSceneId , data , awaiting = false ) {
 
 
 
+Dom.prototype.loadFontPack = async function( fontId , data ) {
+	var fontPack = new FontPack( data ) ;
+	this.fontPacks[ fontId ] = fontPack ;
+	await fontPack.preloadFont() ;
+	console.warn( "All font packs so far:" , this.fontPacks ) ;
+} ;
+
+
+
 Dom.prototype.defineTexturePack = function( gSceneId , textureUid , data ) {
 	var gScene = this.gScenes[ gSceneId ] ;
 
@@ -1853,7 +1865,7 @@ function soundFadeOut( $element , callback ) {
 }
 
 
-},{"./Camera.js":1,"./GEntity.js":4,"./GScene.js":5,"./TexturePack.js":7,"./commonUtils.js":9,"./controller/Controller.js":10,"./controller/gamepad/BrowserGamepadHub.js":12,"./controller/keyboard/BrowserKeyboard.js":17,"./engineLib.js":19,"./exm.js":20,"./toolkit.js":23,"dom-kit":25,"nextgen-events/lib/LeanEvents.js":33,"nextgen-events/lib/browser.js":36,"seventh":52,"svg-kit":83}],3:[function(require,module,exports){
+},{"./Camera.js":1,"./FontPack.js":4,"./GEntity.js":5,"./GScene.js":6,"./TexturePack.js":8,"./commonUtils.js":10,"./controller/Controller.js":11,"./controller/gamepad/BrowserGamepadHub.js":13,"./controller/keyboard/BrowserKeyboard.js":18,"./engineLib.js":20,"./exm.js":21,"./toolkit.js":24,"dom-kit":26,"nextgen-events/lib/LeanEvents.js":34,"nextgen-events/lib/browser.js":37,"seventh":53,"svg-kit":84}],3:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -1967,6 +1979,7 @@ EventDispatcher.prototype.initBus = function() {
 
 	this.bus.on( 'camera' , EventDispatcher.camera.bind( this ) , { async: true } ) ;
 
+	this.bus.on( 'fontPack' , EventDispatcher.fontPack.bind( this ) , { async: true } ) ;
 	this.bus.on( 'texturePack' , EventDispatcher.texturePack.bind( this ) , { async: true } ) ;
 
 	this.bus.on( 'createGEntity' , EventDispatcher.createGEntity.bind( this ) , { async: true } ) ;
@@ -2438,6 +2451,14 @@ EventDispatcher.camera = function( gSceneId , data , awaiting , callback ) {
 
 
 
+EventDispatcher.fontPack = async function( fontId , data , callback ) {
+	console.warn( "fontPack" , fontId , data ) ;
+	await this.dom.loadFontPack( fontId , data ) ;
+	callback() ;
+} ;
+
+
+
 EventDispatcher.texturePack = function( gSceneId , textureUid , data , callback ) {
 	console.warn( "texturePack" , gSceneId , textureUid , data ) ;
 	this.dom.defineTexturePack( gSceneId , textureUid , data ) ;
@@ -2562,7 +2583,94 @@ EventDispatcher.exit = function( error , timeout , callback ) {
 } ;
 
 
-},{"./Dom.js":2,"./exm.js":20,"nextgen-events/lib/browser.js":36,"seventh":52}],4:[function(require,module,exports){
+},{"./Dom.js":2,"./exm.js":21,"nextgen-events/lib/browser.js":37,"seventh":53}],4:[function(require,module,exports){
+/*
+	Spellcast's Web Client Extension
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const svgKit = require( 'svg-kit' ) ;
+
+
+
+// !THIS SHOULD TRACK SERVER-SIDE FontPack! spellcast/lib/gfx/FontPack.js
+function FontPack( data ) {
+	this.id = data.id ;		// unique
+	
+	this.variants = {} ;
+	for ( let variantName in data.variants ) {
+		this.variants[ variantName ] = new Variant( data.variants[ variantName ] ) ;
+	}
+}
+
+module.exports = FontPack ;
+
+
+
+FontPack.prototype.preloadFont = async function() {
+	for ( let variantName in this.variants ) {
+		await this.variants[ variantName ].preloadFont(
+			variantName === 'regular' ? this.id :
+			this.id + '.' + variantName
+		) ;
+	}
+} ;
+
+
+
+function Variant( data = {} ) {
+	if ( typeof data === 'string' ) { data = { url: data } ; }
+
+	if ( ! data.url || typeof data.url !== 'string' ) {
+		throw new Error( "FontPack Variant: 'url' property is mandatory" ) ;
+	}
+
+	this.url = data.url ;
+	
+	// Not enumerable properties
+	Object.defineProperties( this , {
+		font: { value: null , writable: true }		// The actual font
+	} ) ;
+}
+
+FontPack.Variant = Variant ;
+
+
+
+Variant.prototype.preloadFont = async function( variantId ) {
+	if ( this.font ) { return ; }
+
+	svgKit.fontLib.setFontUrl( variantId , this.url ) ;
+	this.font = await svgKit.fontLib.getFontAsync( variantId ) ;
+} ;
+
+
+},{"svg-kit":84}],5:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3680,7 +3788,7 @@ GEntity.prototype.createCardMarkup = function( card ) {
 } ;
 
 
-},{"./GTransition.js":6,"./commonUtils.js":9,"./positionModes.js":21,"./sizeModes.js":22,"dom-kit":25,"nextgen-events/lib/browser.js":36,"seventh":52,"svg-kit":83}],5:[function(require,module,exports){
+},{"./GTransition.js":7,"./commonUtils.js":10,"./positionModes.js":22,"./sizeModes.js":23,"dom-kit":26,"nextgen-events/lib/browser.js":37,"seventh":53,"svg-kit":84}],6:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3815,7 +3923,7 @@ GScene.prototype.removeGEntity = function( gEntityId ) {
 } ;
 
 
-},{"./Camera.js":1,"nextgen-events/lib/browser.js":36,"seventh":52}],6:[function(require,module,exports){
+},{"./Camera.js":1,"nextgen-events/lib/browser.js":37,"seventh":53}],7:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3878,7 +3986,7 @@ GTransition.prototype.toString = function( property ) {
 } ;
 
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3964,7 +4072,7 @@ function Frame( data = {} ) {
 TexturePack.Frame = Frame ;
 
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4139,7 +4247,7 @@ domKit.ready( () => {
 } ) ;
 
 
-},{"./EventDispatcher.js":3,"dom-kit":25,"nextgen-events/lib/browser.js":36,"url":64}],9:[function(require,module,exports){
+},{"./EventDispatcher.js":3,"dom-kit":26,"nextgen-events/lib/browser.js":37,"url":65}],10:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4202,7 +4310,7 @@ exports.toClassObject = function toClassObject( data ) {
 } ;
 
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4361,7 +4469,7 @@ Controller.prototype.flushEvents = function() {
 } ;
 
 
-},{"nextgen-events/lib/LeanEvents.js":33}],11:[function(require,module,exports){
+},{"nextgen-events/lib/LeanEvents.js":34}],12:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4532,7 +4640,7 @@ BrowserGamepad.prototype.mapDriver = function() {
 } ;
 
 
-},{"./Gamepad.js":13,"./drivers.js":16}],12:[function(require,module,exports){
+},{"./Gamepad.js":14,"./drivers.js":17}],13:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4605,7 +4713,7 @@ BrowserGamepadHub.prototype.init = function() {
 } ;
 
 
-},{"./BrowserGamepad.js":11,"./GamepadHub.js":14}],13:[function(require,module,exports){
+},{"./BrowserGamepad.js":12,"./GamepadHub.js":15}],14:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4733,7 +4841,7 @@ Gamepad.prototype.dispatchEmit = function( eventName , type , v1 , v2 ) {
 } ;
 
 
-},{"./GamepadState.js":15,"nextgen-events/lib/LeanEvents.js":33}],14:[function(require,module,exports){
+},{"./GamepadState.js":16,"nextgen-events/lib/LeanEvents.js":34}],15:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4805,7 +4913,7 @@ GamepadHub.prototype.removeGamepadByIndex = function( index ) {
 } ;
 
 
-},{"nextgen-events/lib/LeanEvents.js":33}],15:[function(require,module,exports){
+},{"nextgen-events/lib/LeanEvents.js":34}],16:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4908,7 +5016,7 @@ GamepadState.prototype.emitFromDiff = function( controller , old , gamepad ) {
 } ;
 
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4995,7 +5103,7 @@ exports['0810-0001-Twin USB Joystick'] = ( state , buttons , axes ) => {
 } ;
 
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -5172,7 +5280,7 @@ BrowserKeyboard.prototype.getKeyByCode = function( code ) {
 } ;
 
 
-},{"./Keyboard.js":18}],18:[function(require,module,exports){
+},{"./Keyboard.js":19}],19:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -5221,7 +5329,7 @@ Keyboard.prototype = Object.create( LeanEvents.prototype ) ;
 Keyboard.prototype.constructor = Keyboard ;
 
 
-},{"nextgen-events/lib/LeanEvents.js":33}],19:[function(require,module,exports){
+},{"nextgen-events/lib/LeanEvents.js":34}],20:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -5274,7 +5382,7 @@ exports.add = ( name , engine ) => {
 } ;
 
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -5336,7 +5444,7 @@ module.exports = BrowserExm.registerNs( {
 } ) ;
 
 
-},{"./Camera.js":1,"./Dom.js":2,"./EventDispatcher.js":3,"./GEntity.js":4,"./GScene.js":5,"./GTransition.js":6,"./TexturePack.js":7,"./engineLib.js":19,"./toolkit.js":23,"exm/lib/BrowserExm.js":26,"kung-fig-expression/lib/fnOperators.js":30,"spellcast-shared/lib/operators.js":54}],21:[function(require,module,exports){
+},{"./Camera.js":1,"./Dom.js":2,"./EventDispatcher.js":3,"./GEntity.js":5,"./GScene.js":6,"./GTransition.js":7,"./TexturePack.js":8,"./engineLib.js":20,"./toolkit.js":24,"exm/lib/BrowserExm.js":27,"kung-fig-expression/lib/fnOperators.js":31,"spellcast-shared/lib/operators.js":55}],22:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -5455,7 +5563,7 @@ exports.areaInSpriteOut = ( transform , position , areaWidth , areaHeight , imag
 } ;
 
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -5554,7 +5662,7 @@ exports.areaMin = ( transform , size , areaWidth , areaHeight , imageWidth , ima
 } ;
 
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -5872,9 +5980,9 @@ toolkit.rgbaToHex = ( r , g , b , a = null ) => {
 } ;
 
 
-},{"string-kit/lib/escape.js":57,"string-kit/lib/format.js":58}],24:[function(require,module,exports){
+},{"string-kit/lib/escape.js":58,"string-kit/lib/format.js":59}],25:[function(require,module,exports){
 
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 (function (process){(function (){
 /*
 	Dom Kit
@@ -6470,7 +6578,7 @@ domKit.html = ( $element , html ) => $element.innerHTML = html ;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"@cronvel/xmldom":24,"_process":39}],26:[function(require,module,exports){
+},{"@cronvel/xmldom":25,"_process":40}],27:[function(require,module,exports){
 (function (global){(function (){
 /*
 	EXM
@@ -6655,7 +6763,7 @@ if ( ! global.EXM ) {
 
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -6678,7 +6786,7 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -6740,7 +6848,7 @@ ObjectEntry.unserializer = function( ... args ) {
 } ;
 
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -6790,7 +6898,7 @@ class Stack extends Array {
 module.exports = Stack ;
 
 
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -7475,7 +7583,7 @@ for ( let key in exports ) {
 }
 
 
-},{"./ObjectEntry.js":28,"./Stack.js":29,"./mode.js":32}],31:[function(require,module,exports){
+},{"./ObjectEntry.js":29,"./Stack.js":30,"./mode.js":33}],32:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -7536,7 +7644,7 @@ module.exports = ( params , mapping , named = {} ) => {
 } ;
 
 
-},{"./ObjectEntry.js":28}],32:[function(require,module,exports){
+},{"./ObjectEntry.js":29}],33:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -7576,7 +7684,7 @@ exports.LIST = 5 ;
 exports.KV = 6 ;
 
 
-},{}],33:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 /*
 	Next-Gen Events
 
@@ -7802,7 +7910,7 @@ LeanEvents.prototype.getAllStates = function() {
 } ;
 
 
-},{"../package.json":37}],34:[function(require,module,exports){
+},{"../package.json":38}],35:[function(require,module,exports){
 (function (process,global,setImmediate){(function (){
 /*
 	Next-Gen Events
@@ -9224,7 +9332,7 @@ NextGenEvents.Proxy = require( './Proxy.js' ) ;
 
 
 }).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"../package.json":37,"./Proxy.js":35,"_process":39,"timers":63}],35:[function(require,module,exports){
+},{"../package.json":38,"./Proxy.js":36,"_process":40,"timers":64}],36:[function(require,module,exports){
 /*
 	Next-Gen Events
 
@@ -9771,7 +9879,7 @@ RemoteService.prototype.receiveAckEmit = function( message ) {
 } ;
 
 
-},{"./NextGenEvents.js":34}],36:[function(require,module,exports){
+},{"./NextGenEvents.js":35}],37:[function(require,module,exports){
 (function (process){(function (){
 /*
 	Next-Gen Events
@@ -9817,7 +9925,7 @@ module.exports.isBrowser = true ;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./NextGenEvents.js":34,"_process":39}],37:[function(require,module,exports){
+},{"./NextGenEvents.js":35,"_process":40}],38:[function(require,module,exports){
 module.exports={
   "name": "nextgen-events",
   "version": "1.5.3",
@@ -9877,7 +9985,7 @@ module.exports={
   }
 }
 
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 (function (process){(function (){
 // 'path' module extracted from Node.js v8.11.1 (only the posix part)
 // transplited with Babel
@@ -10410,7 +10518,7 @@ posix.posix = posix;
 module.exports = posix;
 
 }).call(this)}).call(this,require('_process'))
-},{"_process":39}],39:[function(require,module,exports){
+},{"_process":40}],40:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -10596,7 +10704,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],40:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 (function (global){(function (){
 /*! https://mths.be/punycode v1.4.1 by @mathias */
 ;(function(root) {
@@ -11133,7 +11241,7 @@ process.umask = function() { return 0; };
 }(this));
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],41:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -11219,7 +11327,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -11306,13 +11414,13 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],43:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":41,"./encode":42}],44:[function(require,module,exports){
+},{"./decode":42,"./encode":43}],45:[function(require,module,exports){
 (function (process,global){(function (){
 (function (global, undefined) {
     "use strict";
@@ -11502,7 +11610,7 @@ exports.encode = exports.stringify = require('./encode');
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
 }).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":39}],45:[function(require,module,exports){
+},{"_process":40}],46:[function(require,module,exports){
 /*
 	Seventh
 
@@ -11731,7 +11839,7 @@ Queue.prototype.getStats = function() {
 } ;
 
 
-},{"./seventh.js":52}],46:[function(require,module,exports){
+},{"./seventh.js":53}],47:[function(require,module,exports){
 /*
 	Seventh
 
@@ -11815,7 +11923,7 @@ Promise.promisifyAnyNodeApi = ( api , suffix , multiSuffix , filter ) => {
 
 
 
-},{"./seventh.js":52}],47:[function(require,module,exports){
+},{"./seventh.js":53}],48:[function(require,module,exports){
 /*
 	Seventh
 
@@ -12440,7 +12548,7 @@ Promise.race = ( iterable ) => {
 } ;
 
 
-},{"./seventh.js":52}],48:[function(require,module,exports){
+},{"./seventh.js":53}],49:[function(require,module,exports){
 (function (process,global,setImmediate){(function (){
 /*
 	Seventh
@@ -13199,7 +13307,7 @@ if ( process.browser ) {
 
 
 }).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"_process":39,"setimmediate":44,"timers":63}],49:[function(require,module,exports){
+},{"_process":40,"setimmediate":45,"timers":64}],50:[function(require,module,exports){
 /*
 	Seventh
 
@@ -13703,7 +13811,7 @@ Promise.variableTimeout = ( asyncFn , thisBinding ) => {
 } ;
 
 
-},{"./seventh.js":52}],50:[function(require,module,exports){
+},{"./seventh.js":53}],51:[function(require,module,exports){
 (function (process){(function (){
 /*
 	Seventh
@@ -13803,7 +13911,7 @@ Promise.resolveSafeTimeout = function( timeout , value ) {
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./seventh.js":52,"_process":39}],51:[function(require,module,exports){
+},{"./seventh.js":53,"_process":40}],52:[function(require,module,exports){
 /*
 	Seventh
 
@@ -13855,7 +13963,7 @@ Promise.parasite = () => {
 } ;
 
 
-},{"./seventh.js":52}],52:[function(require,module,exports){
+},{"./seventh.js":53}],53:[function(require,module,exports){
 /*
 	Seventh
 
@@ -13899,7 +14007,7 @@ require( './parasite.js' ) ;
 require( './misc.js' ) ;
 
 
-},{"./Queue.js":45,"./api.js":46,"./batch.js":47,"./core.js":48,"./decorators.js":49,"./misc.js":50,"./parasite.js":51,"./wrapper.js":53}],53:[function(require,module,exports){
+},{"./Queue.js":46,"./api.js":47,"./batch.js":48,"./core.js":49,"./decorators.js":50,"./misc.js":51,"./parasite.js":52,"./wrapper.js":54}],54:[function(require,module,exports){
 /*
 	Seventh
 
@@ -14064,7 +14172,7 @@ Promise.onceEventAllOrError = ( emitter , eventName , excludeEvents ) => {
 } ;
 
 
-},{"./seventh.js":52}],54:[function(require,module,exports){
+},{"./seventh.js":53}],55:[function(require,module,exports){
 /*
 	Spellcast - shared utilities
 
@@ -14338,7 +14446,7 @@ for ( let key in exports ) {
 }
 
 
-},{"kung-fig-expression/lib/getNamedParameters.js":31}],55:[function(require,module,exports){
+},{"kung-fig-expression/lib/getNamedParameters.js":32}],56:[function(require,module,exports){
 /*
 	String Kit
 
@@ -14752,7 +14860,7 @@ function arrayConcatSlice( intoArray , sourceArray , start = 0 , end = sourceArr
 }
 
 
-},{}],56:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 /*
 	String Kit
 
@@ -15021,7 +15129,7 @@ ansi.parse = str => {
 } ;
 
 
-},{}],57:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 /*
 	String Kit
 
@@ -15126,7 +15234,7 @@ exports.unicodePercentEncode = str => str.replace( /[\x00-\x1f\u0100-\uffff\x7f%
 exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
 
 
-},{}],58:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 (function (Buffer){(function (){
 /*
 	String Kit
@@ -16367,7 +16475,7 @@ function round( v , step ) {
 
 
 }).call(this)}).call(this,require("buffer").Buffer)
-},{"./StringNumber.js":55,"./ansi.js":56,"./escape.js":57,"./inspect.js":59,"./naturalSort.js":60,"./unicode.js":62,"buffer":24}],59:[function(require,module,exports){
+},{"./StringNumber.js":56,"./ansi.js":57,"./escape.js":58,"./inspect.js":60,"./naturalSort.js":61,"./unicode.js":63,"buffer":25}],60:[function(require,module,exports){
 (function (Buffer,process){(function (){
 /*
 	String Kit
@@ -17131,7 +17239,7 @@ inspectStyle.html = Object.assign( {} , inspectStyle.none , {
 
 
 }).call(this)}).call(this,{"isBuffer":require("../../is-buffer/index.js")},require('_process'))
-},{"../../is-buffer/index.js":27,"./ansi.js":56,"./escape.js":57,"_process":39}],60:[function(require,module,exports){
+},{"../../is-buffer/index.js":28,"./ansi.js":57,"./escape.js":58,"_process":40}],61:[function(require,module,exports){
 /*
 	String Kit
 
@@ -17278,10 +17386,10 @@ function naturalSort( a , b ) {
 module.exports = naturalSort ;
 
 
-},{}],61:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 module.exports=[{"s":9728,"e":9747,"w":1},{"s":9748,"e":9749,"w":2},{"s":9750,"e":9799,"w":1},{"s":9800,"e":9811,"w":2},{"s":9812,"e":9854,"w":1},{"s":9855,"e":9855,"w":2},{"s":9856,"e":9874,"w":1},{"s":9875,"e":9875,"w":2},{"s":9876,"e":9888,"w":1},{"s":9889,"e":9889,"w":2},{"s":9890,"e":9897,"w":1},{"s":9898,"e":9899,"w":2},{"s":9900,"e":9916,"w":1},{"s":9917,"e":9918,"w":2},{"s":9919,"e":9923,"w":1},{"s":9924,"e":9925,"w":2},{"s":9926,"e":9933,"w":1},{"s":9934,"e":9934,"w":2},{"s":9935,"e":9939,"w":1},{"s":9940,"e":9940,"w":2},{"s":9941,"e":9961,"w":1},{"s":9962,"e":9962,"w":2},{"s":9963,"e":9969,"w":1},{"s":9970,"e":9971,"w":2},{"s":9972,"e":9972,"w":1},{"s":9973,"e":9973,"w":2},{"s":9974,"e":9977,"w":1},{"s":9978,"e":9978,"w":2},{"s":9979,"e":9980,"w":1},{"s":9981,"e":9981,"w":2},{"s":9982,"e":9983,"w":1},{"s":9984,"e":9988,"w":1},{"s":9989,"e":9989,"w":2},{"s":9990,"e":9993,"w":1},{"s":9994,"e":9995,"w":2},{"s":9996,"e":10023,"w":1},{"s":10024,"e":10024,"w":2},{"s":10025,"e":10059,"w":1},{"s":10060,"e":10060,"w":2},{"s":10061,"e":10061,"w":1},{"s":10062,"e":10062,"w":2},{"s":10063,"e":10066,"w":1},{"s":10067,"e":10069,"w":2},{"s":10070,"e":10070,"w":1},{"s":10071,"e":10071,"w":2},{"s":10072,"e":10132,"w":1},{"s":10133,"e":10135,"w":2},{"s":10136,"e":10159,"w":1},{"s":10160,"e":10160,"w":2},{"s":10161,"e":10174,"w":1},{"s":10175,"e":10175,"w":2},{"s":126976,"e":126979,"w":1},{"s":126980,"e":126980,"w":2},{"s":126981,"e":127182,"w":1},{"s":127183,"e":127183,"w":2},{"s":127184,"e":127373,"w":1},{"s":127374,"e":127374,"w":2},{"s":127375,"e":127376,"w":1},{"s":127377,"e":127386,"w":2},{"s":127387,"e":127487,"w":1},{"s":127744,"e":127776,"w":2},{"s":127777,"e":127788,"w":1},{"s":127789,"e":127797,"w":2},{"s":127798,"e":127798,"w":1},{"s":127799,"e":127868,"w":2},{"s":127869,"e":127869,"w":1},{"s":127870,"e":127891,"w":2},{"s":127892,"e":127903,"w":1},{"s":127904,"e":127946,"w":2},{"s":127947,"e":127950,"w":1},{"s":127951,"e":127955,"w":2},{"s":127956,"e":127967,"w":1},{"s":127968,"e":127984,"w":2},{"s":127985,"e":127987,"w":1},{"s":127988,"e":127988,"w":2},{"s":127989,"e":127991,"w":1},{"s":127992,"e":127994,"w":2},{"s":128000,"e":128062,"w":2},{"s":128063,"e":128063,"w":1},{"s":128064,"e":128064,"w":2},{"s":128065,"e":128065,"w":1},{"s":128066,"e":128252,"w":2},{"s":128253,"e":128254,"w":1},{"s":128255,"e":128317,"w":2},{"s":128318,"e":128330,"w":1},{"s":128331,"e":128334,"w":2},{"s":128335,"e":128335,"w":1},{"s":128336,"e":128359,"w":2},{"s":128360,"e":128377,"w":1},{"s":128378,"e":128378,"w":2},{"s":128379,"e":128404,"w":1},{"s":128405,"e":128406,"w":2},{"s":128407,"e":128419,"w":1},{"s":128420,"e":128420,"w":2},{"s":128421,"e":128506,"w":1},{"s":128507,"e":128591,"w":2},{"s":128592,"e":128639,"w":1},{"s":128640,"e":128709,"w":2},{"s":128710,"e":128715,"w":1},{"s":128716,"e":128716,"w":2},{"s":128717,"e":128719,"w":1},{"s":128720,"e":128722,"w":2},{"s":128723,"e":128724,"w":1},{"s":128725,"e":128727,"w":2},{"s":128728,"e":128746,"w":1},{"s":128747,"e":128748,"w":2},{"s":128749,"e":128755,"w":1},{"s":128756,"e":128764,"w":2},{"s":128765,"e":128991,"w":1},{"s":128992,"e":129003,"w":2},{"s":129004,"e":129291,"w":1},{"s":129292,"e":129338,"w":2},{"s":129339,"e":129339,"w":1},{"s":129340,"e":129349,"w":2},{"s":129350,"e":129350,"w":1},{"s":129351,"e":129400,"w":2},{"s":129401,"e":129401,"w":1},{"s":129402,"e":129483,"w":2},{"s":129484,"e":129484,"w":1},{"s":129485,"e":129535,"w":2},{"s":129536,"e":129647,"w":1},{"s":129648,"e":129652,"w":2},{"s":129653,"e":129655,"w":1},{"s":129656,"e":129658,"w":2},{"s":129659,"e":129663,"w":1},{"s":129664,"e":129670,"w":2},{"s":129671,"e":129679,"w":1},{"s":129680,"e":129704,"w":2},{"s":129705,"e":129711,"w":1},{"s":129712,"e":129718,"w":2},{"s":129719,"e":129727,"w":1},{"s":129728,"e":129730,"w":2},{"s":129731,"e":129743,"w":1},{"s":129744,"e":129750,"w":2},{"s":129751,"e":129791,"w":1}]
 
-},{}],62:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 /*
 	String Kit
 
@@ -17629,7 +17737,7 @@ unicode.isEmojiModifierCodePoint = code =>
 	code === 0xfe0f ;	// VARIATION SELECTOR-16 [VS16] {emoji variation selector}
 
 
-},{"./unicode-emoji-width-ranges.json":61}],63:[function(require,module,exports){
+},{"./unicode-emoji-width-ranges.json":62}],64:[function(require,module,exports){
 (function (setImmediate,clearImmediate){(function (){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -17708,7 +17816,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this)}).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":39,"timers":63}],64:[function(require,module,exports){
+},{"process/browser.js":40,"timers":64}],65:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -18442,7 +18550,7 @@ Url.prototype.parseHost = function() {
   if (host) this.hostname = host;
 };
 
-},{"./util":65,"punycode":40,"querystring":43}],65:[function(require,module,exports){
+},{"./util":66,"punycode":41,"querystring":44}],66:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -18460,7 +18568,7 @@ module.exports = {
   }
 };
 
-},{}],66:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -18560,7 +18668,7 @@ Metric.chainedGet = function( ... metrics ) {
 } ;
 
 
-},{}],67:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -18623,7 +18731,7 @@ VG.prototype = Object.create( VGContainer.prototype ) ;
 VG.prototype.constructor = VG ;
 VG.prototype.__prototypeUID__ = 'svg-kit/VG' ;
 VG.prototype.__prototypeVersion__ = require( '../package.json' ).version ;
-console.warn( "SVG-Kit beta version: " + require( '../package.json' ).version ) ;
+console.warn( "SVG-Kit version: " + require( '../package.json' ).version ) ;
 
 
 
@@ -18683,7 +18791,7 @@ VG.prototype.addCssRule = function( rule ) {
 } ;
 
 
-},{"../package.json":88,"./VGContainer.js":68,"./svg-kit.js":83}],68:[function(require,module,exports){
+},{"../package.json":89,"./VGContainer.js":69,"./svg-kit.js":84}],69:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -18812,7 +18920,7 @@ VGContainer.prototype.morphSvgDom = function( root = this ) {
 } ;
 
 
-},{"../package.json":88,"./VGEntity.js":70,"./svg-kit.js":83}],69:[function(require,module,exports){
+},{"../package.json":89,"./VGEntity.js":71,"./svg-kit.js":84}],70:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -18909,7 +19017,8 @@ VGEllipse.prototype.renderHookForCanvas = function( canvasCtx , options = {} , r
 } ;
 
 
-},{"../package.json":88,"./VGEntity.js":70}],70:[function(require,module,exports){
+},{"../package.json":89,"./VGEntity.js":71}],71:[function(require,module,exports){
+(function (process){(function (){
 /*
 	SVG Kit
 
@@ -19180,6 +19289,39 @@ VGEntity.prototype.renderSvgText = function( root = this ) {
 
 
 
+// Preload fonts, should be done before rendering anything needed OpenType.js on the browser-side, since .fetch() is asynchronous.
+// Preload should handle all the async stuff.
+VGEntity.prototype.preloadFonts = async function() {
+	if ( ! process?.browser ) {
+		console.error( 'VGEntity#preloadFonts() is a browser-only method' ) ;
+		return ;
+	}
+
+	var fontNames = [] ,
+		nodeFontNames = this.getUsedFontNames() ;
+
+	if ( nodeFontNames ) { fontNames.push( ... nodeFontNames ) ; }
+	
+	if ( this.isContainer && this.entities?.length ) {
+		for ( let entity of this.entities ) {
+			let childFontNames = entity.getUsedFontNames() ;
+			if ( childFontNames ) { fontNames.push( ... childFontNames ) ; }
+		}
+	}
+
+	console.warn( "fontNames:" , fontNames ) ;
+
+	await Promise.all( fontNames.map( fontName => fontLib.getFontAsync( fontName ) ) ) ;
+} ;
+
+
+
+// Should be derived
+// Return null or an array of font names used by this entity
+VGEntity.prototype.getUsedFontNames = function() { return null ; }
+
+
+
 // Render the Vector Graphic inside a browser, as DOM SVG
 VGEntity.prototype.renderSvgDom = function( options = {} , root = this ) {
 	var key , rule , cssStr ,
@@ -19254,7 +19396,7 @@ VGEntity.prototype.renderSvgDom = function( options = {} , root = this ) {
 		this.renderingContainerHookForSvgDom( root ).forEach( $subElement => this.$element.appendChild( $subElement ) ) ;
 	}
 
-	if ( this.isContainer && this.entities ) {
+	if ( this.isContainer && this.entities?.length ) {
 		for ( let entity of this.entities ) {
 			this.$element.appendChild( entity.renderSvgDom( undefined , root ) ) ;
 		}
@@ -19339,7 +19481,8 @@ VGEntity.prototype.morphOneSvgDomEntry = function( data , root = this ) {
 } ;
 
 
-},{"../package.json":88,"string-kit/lib/camel":86,"string-kit/lib/escape":87}],71:[function(require,module,exports){
+}).call(this)}).call(this,require('_process'))
+},{"../package.json":89,"_process":40,"string-kit/lib/camel":87,"string-kit/lib/escape":88}],72:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -19415,7 +19558,7 @@ StructuredTextLine.prototype.fuseEqualAttr = function() {
 } ;
 
 
-},{"./TextMetrics.js":74}],72:[function(require,module,exports){
+},{"./TextMetrics.js":75}],73:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -19487,7 +19630,7 @@ StructuredTextPart.prototype.computeSizeMetrics = function( inheritedAttr ) {
 } ;
 
 
-},{"./TextAttribute.js":73,"./TextMetrics.js":74}],73:[function(require,module,exports){
+},{"./TextAttribute.js":74,"./TextMetrics.js":75}],74:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -20020,7 +20163,7 @@ TextAttribute.prototype.getFrameSvgStyle = function( inherit = null , relTo = nu
 } ;
 
 
-},{"../Metric.js":66}],74:[function(require,module,exports){
+},{"../Metric.js":67}],75:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -20051,7 +20194,7 @@ TextAttribute.prototype.getFrameSvgStyle = function( inherit = null , relTo = nu
 
 
 
-const fontLib = require( './fontLib.js' ) ;
+const fontLib = require( '../fontLib.js' ) ;
 
 
 
@@ -20135,7 +20278,7 @@ TextMetrics.measureStructuredTextPart = function( part , inheritedAttr ) {
 } ;
 
 
-},{"./fontLib.js":76}],75:[function(require,module,exports){
+},{"../fontLib.js":82}],76:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -20173,7 +20316,7 @@ const StructuredTextLine = require( './StructuredTextLine.js' ) ;
 const TextAttribute = require( './TextAttribute.js' ) ;
 const TextMetrics = require( './TextMetrics.js' ) ;
 
-const fontLib = require( './fontLib.js' ) ;
+const fontLib = require( '../fontLib.js' ) ;
 const canvas = require( '../canvas.js' ) ;
 
 
@@ -20541,6 +20684,20 @@ VGFlowingText.prototype.svgAttributes = function( root = this ) {
 
 
 
+VGFlowingText.prototype.getUsedFontNames = function() {
+	var fontNames = [] ;
+
+	for ( let structuredTextLine of this.structuredTextLines ) {
+		for ( let part of structuredTextLine.parts ) {
+			fontNames.push( part.attr.getFontFamily( this.attr ) ) ;
+		}
+	}
+
+	return fontNames ;
+} ;
+
+
+
 // Render the Vector Graphic as a text SVG
 VGFlowingText.prototype.renderingContainerHookForSvgText = function( root = this ) {
 	if ( ! this.areLinesComputed ) { this.computeLines() ; }
@@ -20887,104 +21044,7 @@ VGFlowingText.prototype.computeXYOffset = function() {
 } ;
 
 
-},{"../../package.json":88,"../VGEntity.js":70,"../canvas.js":81,"./StructuredTextLine.js":71,"./StructuredTextPart.js":72,"./TextAttribute.js":73,"./TextMetrics.js":74,"./fontLib.js":76}],76:[function(require,module,exports){
-(function (process,__dirname){(function (){
-/*
-	SVG Kit
-
-	Copyright (c) 2017 - 2023 Cédric Ronvel
-
-	The MIT License (MIT)
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-*/
-
-"use strict" ;
-
-/*
-	This is a cache for the loaded fonts.
-*/
-
-const path = require( 'path' ) ;
-const opentype = require( 'opentype.js' ) ;
-
-
-
-const fontLib = {} ;
-module.exports = fontLib ;
-
-
-const fontUrl = {} ;
-const fontCache = {} ;
-
-fontLib.setFontUrl = ( fontName , url ) => fontUrl[ fontName ] = url ;
-fontLib.getFontUrl = fontName => fontUrl[ fontName ] ;
-
-
-if ( process?.browser ) {
-	fontLib.getFontAsync = async ( fontName ) => {
-		if ( fontCache[ fontName ] ) { return fontCache[ fontName ] ; }
-
-		var url = fontLib.getFontUrl( fontName ) ;
-		if ( ! url ) { return null ; }
-
-		var response = await fetch( url ) ;
-		
-		if ( ! response.ok ) {
-			throw new Error( "HTTP error! Status: " + response.status ) ;
-		}
-		
-		var blob = await response.blob() ;
-		var arrayBuffer = await blob.arrayBuffer() ;
-		var font = await opentype.parse( arrayBuffer ) ;
-		fontCache[ fontName ] = font ;
-		console.log( "Loaded font: " , fontName , font ) ;
-
-		return font ;
-	} ;
-
-	fontLib.getFont = fontName => {
-		var font = fontCache[ fontName ] ;
-		if ( font ) { return font ; }
-		throw new Error( "Can't load synchronously inside a web browser!" ) ;
-	} ;
-}
-else {
-	const builtinPath = path.join( __dirname , '..' , '..' , 'fonts' ) ;
-
-	fontUrl['serif'] = builtinPath + '/serif.ttf' ;
-
-	fontLib.getFont = fontName => {
-		if ( fontCache[ fontName ] ) { return fontCache[ fontName ] ; }
-
-		var url = fontLib.getFontUrl( fontName ) ;
-		if ( ! url ) { return null ; }
-
-		var font = opentype.loadSync( url ) ;
-		fontCache[ fontName ] = font ;
-
-		return font ;
-	} ;
-}
-
-}).call(this)}).call(this,require('_process'),"/../svg-kit/lib/VGFlowingText")
-},{"_process":39,"opentype.js":85,"path":38}],77:[function(require,module,exports){
+},{"../../package.json":89,"../VGEntity.js":71,"../canvas.js":81,"../fontLib.js":82,"./StructuredTextLine.js":72,"./StructuredTextPart.js":73,"./TextAttribute.js":74,"./TextMetrics.js":75}],77:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -21041,7 +21101,7 @@ VGGroup.prototype.set = function( params ) {
 } ;
 
 
-},{"../package.json":88,"./VGContainer.js":68,"./svg-kit.js":83}],78:[function(require,module,exports){
+},{"../package.json":89,"./VGContainer.js":69,"./svg-kit.js":84}],78:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -21719,7 +21779,7 @@ VGPath.prototype.forwardNegativeTurn = function( data ) {
 } ;
 
 
-},{"../package.json":88,"./VGEntity.js":70}],79:[function(require,module,exports){
+},{"../package.json":89,"./VGEntity.js":71}],79:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -21821,7 +21881,7 @@ VGRect.prototype.renderHookForCanvas = function( canvasCtx , options = {} , root
 } ;
 
 
-},{"../package.json":88,"./VGEntity.js":70,"./canvas.js":81}],80:[function(require,module,exports){
+},{"../package.json":89,"./VGEntity.js":71,"./canvas.js":81}],80:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -21979,7 +22039,7 @@ VGText.prototype.renderHookForCanvas = function( canvasCtx , options = {} , root
 } ;
 
 
-},{"../package.json":88,"./VGEntity.js":70}],81:[function(require,module,exports){
+},{"../package.json":89,"./VGEntity.js":71}],81:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -22059,6 +22119,107 @@ canvas.fillAndStrokeUsingSvgStyle = ( canvasCtx , style , path2d = null ) => {
 
 
 },{}],82:[function(require,module,exports){
+(function (process,__dirname){(function (){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2023 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+/*
+	This is a cache for the loaded fonts.
+*/
+
+const path = require( 'path' ) ;
+const opentype = require( 'opentype.js' ) ;
+
+
+
+const fontLib = {} ;
+module.exports = fontLib ;
+
+
+
+const fontUrl = {} ;
+const fontCache = {} ;
+
+fontLib.setFontUrl = ( fontName , url ) => fontUrl[ fontName ] = url ;
+fontLib.getFontUrl = fontName => fontUrl[ fontName ] ;
+
+
+
+if ( process?.browser ) {
+	fontLib.getFontAsync = async ( fontName ) => {
+		if ( fontCache[ fontName ] ) { return fontCache[ fontName ] ; }
+
+		var url = fontLib.getFontUrl( fontName ) ;
+		if ( ! url ) { return null ; }
+
+		var response = await fetch( url ) ;
+		
+		if ( ! response.ok ) {
+			throw new Error( "HTTP error! Status: " + response.status ) ;
+		}
+		
+		var blob = await response.blob() ;
+		var arrayBuffer = await blob.arrayBuffer() ;
+		var font = await opentype.parse( arrayBuffer ) ;
+		fontCache[ fontName ] = font ;
+		console.log( "Loaded font: " , fontName , font ) ;
+
+		return font ;
+	} ;
+
+	fontLib.getFont = fontName => {
+		var font = fontCache[ fontName ] ;
+		if ( font ) { return font ; }
+		console.error( "Font not found:" , fontName , fontCache ) ;
+		throw new Error( "Font '" + fontName + "' was not preloaded and we can't load synchronously inside a web browser..." ) ;
+	} ;
+}
+else {
+	const builtinPath = path.join( __dirname , '..' , '..' , 'fonts' ) ;
+
+	fontUrl['serif'] = builtinPath + '/serif.ttf' ;
+
+	fontLib.getFont = fontName => {
+		if ( fontCache[ fontName ] ) { return fontCache[ fontName ] ; }
+
+		var url = fontLib.getFontUrl( fontName ) ;
+		if ( ! url ) { return null ; }
+
+		var font = opentype.loadSync( url ) ;
+		fontCache[ fontName ] = font ;
+
+		return font ;
+	} ;
+}
+
+
+}).call(this)}).call(this,require('_process'),"/../svg-kit/lib")
+},{"_process":40,"opentype.js":86,"path":39}],83:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -22106,7 +22267,7 @@ path.dFromPoints = ( points , invertY ) => {
 } ;
 
 
-},{}],83:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 (function (process){(function (){
 /*
 	SVG Kit
@@ -22161,7 +22322,7 @@ svgKit.VGEllipse = require( './VGEllipse.js' ) ;
 svgKit.VGPath = require( './VGPath.js' ) ;
 svgKit.VGText = require( './VGText.js' ) ;
 
-svgKit.fontLib = require( './VGFlowingText/fontLib.js' ) ;
+svgKit.fontLib = require( './fontLib.js' ) ;
 svgKit.VGFlowingText = require( './VGFlowingText/VGFlowingText.js' ) ;
 svgKit.StructuredTextLine = require( './VGFlowingText/StructuredTextLine.js' ) ;
 svgKit.StructuredTextPart = require( './VGFlowingText/StructuredTextPart.js' ) ;
@@ -22602,9 +22763,9 @@ svgKit.objectToVG = function( object , clone = false ) {
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./VG.js":67,"./VGContainer.js":68,"./VGEllipse.js":69,"./VGEntity.js":70,"./VGFlowingText/StructuredTextLine.js":71,"./VGFlowingText/StructuredTextPart.js":72,"./VGFlowingText/TextAttribute.js":73,"./VGFlowingText/TextMetrics.js":74,"./VGFlowingText/VGFlowingText.js":75,"./VGFlowingText/fontLib.js":76,"./VGGroup.js":77,"./VGPath.js":78,"./VGRect.js":79,"./VGText.js":80,"./canvas.js":81,"./path.js":82,"_process":39,"dom-kit":84,"fs":24,"opentype.js":85,"string-kit/lib/escape.js":87}],84:[function(require,module,exports){
-arguments[4][25][0].apply(exports,arguments)
-},{"@cronvel/xmldom":24,"_process":39,"dup":25}],85:[function(require,module,exports){
+},{"./VG.js":68,"./VGContainer.js":69,"./VGEllipse.js":70,"./VGEntity.js":71,"./VGFlowingText/StructuredTextLine.js":72,"./VGFlowingText/StructuredTextPart.js":73,"./VGFlowingText/TextAttribute.js":74,"./VGFlowingText/TextMetrics.js":75,"./VGFlowingText/VGFlowingText.js":76,"./VGGroup.js":77,"./VGPath.js":78,"./VGRect.js":79,"./VGText.js":80,"./canvas.js":81,"./fontLib.js":82,"./path.js":83,"_process":40,"dom-kit":85,"fs":25,"opentype.js":86,"string-kit/lib/escape.js":88}],85:[function(require,module,exports){
+arguments[4][26][0].apply(exports,arguments)
+},{"@cronvel/xmldom":25,"_process":40,"dup":26}],86:[function(require,module,exports){
 (function (Buffer){(function (){
 /**
  * https://opentype.js.org v1.3.4 | (c) Frederik De Bleser and other contributors | MIT License | Uses tiny-inflate by Devon Govett and string.prototype.codepointat polyfill by Mathias Bynens
@@ -37085,7 +37246,7 @@ arguments[4][25][0].apply(exports,arguments)
 
 
 }).call(this)}).call(this,require("buffer").Buffer)
-},{"buffer":24,"fs":24}],86:[function(require,module,exports){
+},{"buffer":25,"fs":25}],87:[function(require,module,exports){
 /*
 	String Kit
 
@@ -37174,9 +37335,9 @@ camel.camelCaseToDash =
 camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' , false ) ;
 
 
-},{}],87:[function(require,module,exports){
-arguments[4][57][0].apply(exports,arguments)
-},{"dup":57}],88:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
+arguments[4][58][0].apply(exports,arguments)
+},{"dup":58}],89:[function(require,module,exports){
 module.exports={
   "name": "svg-kit",
   "version": "0.5.0-alpha.1",
@@ -37216,5 +37377,5 @@ module.exports={
   }
 }
 
-},{}]},{},[8])(8)
+},{}]},{},[9])(9)
 });

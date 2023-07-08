@@ -51,7 +51,7 @@
 	[summon]
 		- lib/**/*.js
 	[scroll]
-		- $> ${browserify} lib/app.js -s SpellcastClient -i @cronvel/xmldom -i xregexp -i fs -i buffer -o browser/app.js
+		- $> ${browserify} lib/app.js -s SpellcastClient -i @cronvel/xmldom -i fs -i buffer -o browser/app.js
 
 [summoning browser/app.min.js]
 	[summon]

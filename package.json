@@ -10,18 +10,14 @@
     "test": "test"
   },
   "dependencies": {
-    "dom-kit": "^0.4.1",
+    "dom-kit": "^0.5.1",
     "exm": "^0.5.12",
-    "kung-fig-expression": "^0.48.6",
-    "nextgen-events": "^1.5.2",
-    "seventh": "^0.7.40",
-    "spellcast-shared": "^0.50.10",
-    "string-kit": "^0.16.0",
-    "svg-kit": "^0.3.0"
-  },
-  "devDependencies": {
-    "browserify": "^17.0.0",
-    "uglify-js": "^3.14.5"
+    "kung-fig-expression": "^0.49.1",
+    "nextgen-events": "^1.5.3",
+    "seventh": "^0.8.2",
+    "spellcast-shared": "^0.50.11",
+    "string-kit": "^0.17.10",
+    "svg-kit": "^0.3.2"
   },
   "scripts": {
     "test": "tea-time -R dot -O"

@@ -2,8 +2,8 @@
 [[doctype spellcast/spellbook]]
 
 [formula]
-	browserify: ./node_modules/.bin/browserify
-	uglify: ./node_modules/.bin/uglifyjs
+	browserify: browserify
+	uglify: uglifyjs
 
 # Browser client
 

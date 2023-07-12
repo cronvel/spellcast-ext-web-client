@@ -1865,7 +1865,7 @@ function soundFadeOut( $element , callback ) {
 }
 
 
-},{"./Camera.js":1,"./FontPack.js":4,"./GEntity.js":5,"./GScene.js":6,"./TexturePack.js":8,"./commonUtils.js":10,"./controller/Controller.js":11,"./controller/gamepad/BrowserGamepadHub.js":13,"./controller/keyboard/BrowserKeyboard.js":18,"./engineLib.js":20,"./exm.js":21,"./toolkit.js":24,"dom-kit":25,"nextgen-events/lib/LeanEvents.js":32,"nextgen-events/lib/browser.js":35,"seventh":45,"svg-kit":73}],3:[function(require,module,exports){
+},{"./Camera.js":1,"./FontPack.js":4,"./GEntity.js":5,"./GScene.js":6,"./TexturePack.js":8,"./commonUtils.js":10,"./controller/Controller.js":11,"./controller/gamepad/BrowserGamepadHub.js":13,"./controller/keyboard/BrowserKeyboard.js":18,"./engineLib.js":20,"./exm.js":21,"./toolkit.js":24,"dom-kit":25,"nextgen-events/lib/LeanEvents.js":32,"nextgen-events/lib/browser.js":35,"seventh":45,"svg-kit":75}],3:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -2670,7 +2670,7 @@ Variant.prototype.preloadFont = async function( variantId ) {
 } ;
 
 
-},{"svg-kit":73}],5:[function(require,module,exports){
+},{"svg-kit":75}],5:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -2811,7 +2811,7 @@ GEntity.prototype.update = async function( data , awaiting = false , initial = f
 
 	if ( data.special ) {
 		if ( data.special.vgUrl ) { await this.updateVgImage( data.special.vgUrl ) ; }
-		else if ( data.special.vgObject ) { this.updateVgObject( data.special.vgObject ) ; }
+		else if ( data.special.vgObject ) { await this.updateVgObject( data.special.vgObject ) ; }
 		else if ( data.special.vgMorph ) { this.updateVgMorph( data.special.vgMorph ) ; }
 
 		if ( data.special.area ) {
@@ -3334,7 +3334,7 @@ GEntity.prototype.moveToLocation = function( locationName ) {
 
 // Vector Graphics
 
-GEntity.prototype.updateVgObject = function( vgObject ) {
+GEntity.prototype.updateVgObject = async function( vgObject ) {
 	if ( ! ( vgObject instanceof svgKit.VG ) ) {
 		vgObject = svgKit.objectToVG( vgObject ) ;
 		if ( ! ( vgObject instanceof svgKit.VG ) ) {
@@ -3352,12 +3352,12 @@ GEntity.prototype.updateVgObject = function( vgObject ) {
 	if ( this.usage === 'marker' ) {
 		// If it's a marker, load it inside a <g> tag, that will be part of the main VG's <svg>
 		// <svg> inside <svg> are great, but Chrome sucks at it (it does not support CSS transform, etc)
-		this.$image = vgObject.renderSvgDom( { overrideTag: 'g' } ) ;
+		this.$image = await vgObject.renderSvgDom( { overrideTag: 'g' } ) ;
 	}
 	else {
 		// Add a removeSvgStyle:true options?
 		console.warn( "vgObject:" , vgObject ) ;
-		this.$image = vgObject.renderSvgDom() ;
+		this.$image = await vgObject.renderSvgDom() ;
 		this.$image.classList.add( 'svg' ) ;
 		this.$image.classList.add( 'vg-object' ) ;
 	}
@@ -3787,7 +3787,7 @@ GEntity.prototype.createCardMarkup = function( card ) {
 } ;
 
 
-},{"./GTransition.js":7,"./commonUtils.js":10,"./positionModes.js":22,"./sizeModes.js":23,"dom-kit":25,"nextgen-events/lib/browser.js":35,"seventh":45,"svg-kit":73}],6:[function(require,module,exports){
+},{"./GTransition.js":7,"./commonUtils.js":10,"./positionModes.js":22,"./sizeModes.js":23,"dom-kit":25,"nextgen-events/lib/browser.js":35,"seventh":45,"svg-kit":75}],6:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4246,7 +4246,7 @@ domKit.ready( () => {
 } ) ;
 
 
-},{"./EventDispatcher.js":3,"dom-kit":25,"nextgen-events/lib/browser.js":35,"url":88}],10:[function(require,module,exports){
+},{"./EventDispatcher.js":3,"dom-kit":25,"nextgen-events/lib/browser.js":35,"url":114}],10:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -6575,7 +6575,7 @@ domKit.html = ( $element , html ) => $element.innerHTML = html ;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"@cronvel/xmldom":79,"_process":82}],26:[function(require,module,exports){
+},{"@cronvel/xmldom":104,"_process":108}],26:[function(require,module,exports){
 (function (global){(function (){
 /*
 	EXM
@@ -9306,7 +9306,7 @@ NextGenEvents.Proxy = require( './Proxy.js' ) ;
 
 
 }).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"../package.json":36,"./Proxy.js":34,"_process":82,"timers":87}],34:[function(require,module,exports){
+},{"../package.json":36,"./Proxy.js":34,"_process":108,"timers":113}],34:[function(require,module,exports){
 /*
 	Next-Gen Events
 
@@ -9899,7 +9899,7 @@ module.exports.isBrowser = true ;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./NextGenEvents.js":33,"_process":82}],36:[function(require,module,exports){
+},{"./NextGenEvents.js":33,"_process":108}],36:[function(require,module,exports){
 module.exports={
   "name": "nextgen-events",
   "version": "1.5.3",
@@ -10149,7 +10149,7 @@ module.exports={
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
 }).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":82}],38:[function(require,module,exports){
+},{"_process":108}],38:[function(require,module,exports){
 /*
 	Seventh
 
@@ -11846,7 +11846,7 @@ if ( process.browser ) {
 
 
 }).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"_process":82,"setimmediate":37,"timers":87}],42:[function(require,module,exports){
+},{"_process":108,"setimmediate":37,"timers":113}],42:[function(require,module,exports){
 /*
 	Seventh
 
@@ -12450,7 +12450,7 @@ Promise.resolveSafeTimeout = function( timeout , value ) {
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./seventh.js":45,"_process":82}],44:[function(require,module,exports){
+},{"./seventh.js":45,"_process":108}],44:[function(require,module,exports){
 /*
 	Seventh
 
@@ -15014,7 +15014,7 @@ function round( v , step ) {
 
 
 }).call(this)}).call(this,require("buffer").Buffer)
-},{"./StringNumber.js":48,"./ansi.js":49,"./escape.js":50,"./inspect.js":52,"./naturalSort.js":53,"./unicode.js":55,"buffer":79}],52:[function(require,module,exports){
+},{"./StringNumber.js":48,"./ansi.js":49,"./escape.js":50,"./inspect.js":52,"./naturalSort.js":53,"./unicode.js":55,"buffer":104}],52:[function(require,module,exports){
 (function (Buffer,process){(function (){
 /*
 	String Kit
@@ -15777,8 +15777,8 @@ inspectStyle.html = Object.assign( {} , inspectStyle.none , {
 } ) ;
 
 
-}).call(this)}).call(this,{"isBuffer":require("../../../../../../../../opt/node-v14.15.4/lib/node_modules/browserify/node_modules/is-buffer/index.js")},require('_process'))
-},{"../../../../../../../../opt/node-v14.15.4/lib/node_modules/browserify/node_modules/is-buffer/index.js":80,"./ansi.js":49,"./escape.js":50,"_process":82}],53:[function(require,module,exports){
+}).call(this)}).call(this,{"isBuffer":require("../../../../../../../../opt/node-v16.16.0/lib/node_modules/browserify/node_modules/is-buffer/index.js")},require('_process'))
+},{"../../../../../../../../opt/node-v16.16.0/lib/node_modules/browserify/node_modules/is-buffer/index.js":106,"./ansi.js":49,"./escape.js":50,"_process":108}],53:[function(require,module,exports){
 /*
 	String Kit
 
@@ -16470,6 +16470,8 @@ VG.prototype.svgTag = 'svg' ;
 VG.prototype.svgAttributes = function( root = this ) {
 	var attr = {
 		xmlns: "http://www.w3.org/2000/svg" ,
+		// xlink is required for image, since href works only on the browser, everywhere else we need xlink:href instead
+		'xmlns:xlink': "http://www.w3.org/1999/xlink" ,
 		viewBox: this.viewBox.x + ' ' + ( root.invertY ? - this.viewBox.y - this.viewBox.height : this.viewBox.y ) + ' ' + this.viewBox.width + ' ' + this.viewBox.height
 	} ;
 
@@ -16531,7 +16533,7 @@ VG.prototype.addCssRule = function( rule ) {
 } ;
 
 
-},{"../package.json":78,"./VGContainer.js":58}],58:[function(require,module,exports){
+},{"../package.json":103,"./VGContainer.js":58}],58:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -16672,7 +16674,7 @@ VGContainer.prototype.morphSvgDom = function( root = this ) {
 } ;
 
 
-},{"../package.json":78,"./VGEntity.js":60,"./svg-kit.js":73}],59:[function(require,module,exports){
+},{"../package.json":103,"./VGEntity.js":60,"./svg-kit.js":75}],59:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -16775,15 +16777,17 @@ VGEllipse.prototype.svgAttributes = function( root = this ) {
 
 
 VGEllipse.prototype.renderHookForCanvas = function( canvasCtx , options = {} , root = this ) {
+	var yOffset = root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y : 0 ;
+
 	canvasCtx.save() ;
 	canvasCtx.beginPath() ;
-	canvasCtx.ellipse( this.x , root.invertY ? - this.y : this.y , this.rx , this.ry ) ;
+	canvasCtx.ellipse( this.x , this.y + yOffset , this.rx , this.ry ) ;
 	canvas.fillAndStrokeUsingSvgStyle( canvasCtx , this.style ) ;
 	canvasCtx.restore() ;
 } ;
 
 
-},{"../package.json":78,"./VGEntity.js":60,"./canvas.js":70}],60:[function(require,module,exports){
+},{"../package.json":103,"./VGEntity.js":60,"./canvas.js":71}],60:[function(require,module,exports){
 (function (process){(function (){
 /*
 	SVG Kit
@@ -16817,6 +16821,7 @@ VGEllipse.prototype.renderHookForCanvas = function( canvasCtx , options = {} , r
 
 const fontLib = require( './fontLib.js' ) ;
 
+const dom = require( 'dom-kit' ) ;
 const camel = require( 'string-kit/lib/camel' ) ;
 const escape = require( 'string-kit/lib/escape' ) ;
 
@@ -16966,7 +16971,7 @@ VGEntity.prototype.escape = function( value ) {
 
 
 // Render the Vector Graphic as a text SVG
-VGEntity.prototype.renderSvgText = function( root = this ) {
+VGEntity.prototype.renderSvgText = async function( root = this ) {
 	var key , rule , attr , str = '' , textNodeStr = '' , styleStr = '' ;
 
 	attr = this.svgAttributes( root ) ;
@@ -17039,12 +17044,12 @@ VGEntity.prototype.renderSvgText = function( root = this ) {
 	// Inner content
 
 	if ( this.isRenderingContainer && this.renderingContainerHookForSvgText ) {
-		str += this.renderingContainerHookForSvgText( root ) ;
+		str += await this.renderingContainerHookForSvgText( root ) ;
 	}
 
 	if ( this.isContainer && this.entities ) {
 		for ( let entity of this.entities ) {
-			str += entity.renderSvgText( root ) ;
+			str += await entity.renderSvgText( root ) ;
 		}
 	}
 
@@ -17056,41 +17061,8 @@ VGEntity.prototype.renderSvgText = function( root = this ) {
 
 
 
-// Preload fonts, should be done before rendering anything needed OpenType.js on the browser-side, since .fetch() is asynchronous.
-// Preload should handle all the async stuff.
-VGEntity.prototype.preloadFonts = async function() {
-	if ( ! process?.browser ) {
-		console.error( 'VGEntity#preloadFonts() is a browser-only method' ) ;
-		return ;
-	}
-
-	var fontNames = [] ,
-		nodeFontNames = this.getUsedFontNames() ;
-
-	if ( nodeFontNames ) { fontNames.push( ... nodeFontNames ) ; }
-
-	if ( this.isContainer && this.entities?.length ) {
-		for ( let entity of this.entities ) {
-			let childFontNames = entity.getUsedFontNames() ;
-			if ( childFontNames ) { fontNames.push( ... childFontNames ) ; }
-		}
-	}
-
-	console.warn( "fontNames:" , fontNames ) ;
-
-	await Promise.all( fontNames.map( fontName => fontLib.getFontAsync( fontName ) ) ) ;
-} ;
-
-
-
-// Should be derived
-// Return null or an array of font names used by this entity
-VGEntity.prototype.getUsedFontNames = function() { return null ; } ;
-
-
-
 // Render the Vector Graphic inside a browser, as DOM SVG
-VGEntity.prototype.renderSvgDom = function( options = {} , root = this ) {
+VGEntity.prototype.renderSvgDom = async function( options = {} , root = this ) {
 	var key , rule , cssStr ,
 		attr = this.svgAttributes( root ) ;
 
@@ -17105,24 +17077,14 @@ VGEntity.prototype.renderSvgDom = function( options = {} , root = this ) {
 		this.class.forEach( className => this.$element.classList.add( className ) ) ;
 	}
 
-	for ( key in attr ) {
-		this.$element.setAttribute( key , attr[ key ] ) ;
-	}
-
-	if ( this.data ) {
-		for ( key in this.data ) {
-			this.$element.setAttribute( 'data-' + key , this.data[ key ] ) ;
-		}
-	}
+	dom.attr( this.$element , attr ) ;
+	if ( this.data ) { dom.attr( this.$element , this.data , 'data-' ) ; }
 
 	for ( key in this.style ) {
 		// Key is already in camelCase
 		let v = this.style[ key ] === null ? '' : this.style[ key ] ;
 		if ( key === 'fontSize' && typeof v === 'number' ) { v = '' + v + 'px' ; }
 		this.$element.style[ key ] = v ;
-
-		// Key is already in camelCase
-		//this.$element.style[ key ] = this.style[ key ] ;
 	}
 
 	if ( this.svgTextNode ) {
@@ -17160,12 +17122,13 @@ VGEntity.prototype.renderSvgDom = function( options = {} , root = this ) {
 	// Inner content
 
 	if ( this.isRenderingContainer && this.renderingContainerHookForSvgDom ) {
-		this.renderingContainerHookForSvgDom( root ).forEach( $subElement => this.$element.appendChild( $subElement ) ) ;
+		let subElements = await this.renderingContainerHookForSvgDom( root ) ;
+		subElements.forEach( $subElement => this.$element.appendChild( $subElement ) ) ;
 	}
 
 	if ( this.isContainer && this.entities?.length ) {
 		for ( let entity of this.entities ) {
-			this.$element.appendChild( entity.renderSvgDom( undefined , root ) ) ;
+			this.$element.appendChild( await entity.renderSvgDom( undefined , root ) ) ;
 		}
 	}
 
@@ -17175,18 +17138,18 @@ VGEntity.prototype.renderSvgDom = function( options = {} , root = this ) {
 
 
 // Render the Vector Graphic inside a browser's canvas
-VGEntity.prototype.renderCanvas = function( canvasCtx , options = {} , root = this ) {
+VGEntity.prototype.renderCanvas = async function( canvasCtx , options = {} , root = this ) {
 	options.pixelsPerUnit = + options.pixelsPerUnit || 1 ;
 
 	if ( this.renderHookForCanvas ) {
-		this.renderHookForCanvas( canvasCtx , options , root ) ;
+		await this.renderHookForCanvas( canvasCtx , options , root ) ;
 	}
 
 	if ( ! this.isContainer ) { return ; }
 
 	if ( this.isContainer && this.entities ) {
 		for ( let entity of this.entities ) {
-			entity.renderCanvas( canvasCtx , options , root ) ;
+			await entity.renderCanvas( canvasCtx , options , root ) ;
 		}
 	}
 } ;
@@ -17248,8 +17211,41 @@ VGEntity.prototype.morphOneSvgDomEntry = function( data , root = this ) {
 } ;
 
 
+
+// Preload fonts, should be done before rendering anything needed OpenType.js on the browser-side, since .fetch() is asynchronous.
+// Preload should handle all the async stuff.
+VGEntity.prototype.preloadFonts = async function() {
+	if ( ! process?.browser ) {
+		console.error( 'VGEntity#preloadFonts() is a browser-only method' ) ;
+		return ;
+	}
+
+	var fontNames = [] ,
+		nodeFontNames = this.getUsedFontNames() ;
+
+	if ( nodeFontNames ) { fontNames.push( ... nodeFontNames ) ; }
+
+	if ( this.isContainer && this.entities?.length ) {
+		for ( let entity of this.entities ) {
+			let childFontNames = entity.getUsedFontNames() ;
+			if ( childFontNames ) { fontNames.push( ... childFontNames ) ; }
+		}
+	}
+
+	console.warn( "fontNames:" , fontNames ) ;
+
+	await Promise.all( fontNames.map( fontName => fontLib.getFontAsync( fontName ) ) ) ;
+} ;
+
+
+
+// Should be derived
+// Return null or an array of font names used by this entity
+VGEntity.prototype.getUsedFontNames = function() { return null ; } ;
+
+
 }).call(this)}).call(this,require('_process'))
-},{"../package.json":78,"./fontLib.js":71,"_process":82,"string-kit/lib/camel":76,"string-kit/lib/escape":77}],61:[function(require,module,exports){
+},{"../package.json":103,"./fontLib.js":72,"_process":108,"dom-kit":76,"string-kit/lib/camel":101,"string-kit/lib/escape":102}],61:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -18072,7 +18068,7 @@ TextMetrics.measureStructuredTextPart = function( part , inheritedAttr ) {
 } ;
 
 
-},{"../fontLib.js":71}],65:[function(require,module,exports){
+},{"../fontLib.js":72}],65:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -18115,20 +18111,20 @@ const canvas = require( '../canvas.js' ) ;
 
 
 
-function VGFlowingText( params = {} ) {
+function VGFlowingText( params ) {
 	VGEntity.call( this , params ) ;
 
-	this.x = + params.x || 0 ;
-	this.y = + params.y || 0 ;
-	this.width = + params.width || 0 ;
-	this.height = + params.height || 0 ;
-	this.clip = !! ( params.clip ?? true ) ;
+	this.x = 0 ;
+	this.y = 0 ;
+	this.width = 0 ;
+	this.height = 0 ;
+	this.clip = true ;
 	this.structuredText = [] ;	// Array of StructuredTextPart, the source
-	this.attr = new TextAttribute( params.attr ) ;
-	this.lineSpacing = + params.lineSpacing || 0 ;
-	this.textWrapping = params.textWrapping || null ;	// null/ellipsis/wordWrap
-	this.textHorizontalAlignment = params.textHorizontalAlignment || null ;	// null/left/right/center
-	//this.textVerticalAlignment = this.textVerticalAlignment || null ;	// null/top/bottom/center
+	this.attr = params?.attr ? null : new TextAttribute() ;	// if it's defined, it will be created by this.set()
+	this.lineSpacing = 0 ;
+	this.textWrapping = null ;	// null/ellipsis/wordWrap
+	this.textHorizontalAlignment = null ;	// null/left/right/center
+	//this.textVerticalAlignment = null ;	// null/top/bottom/center
 
 	this.debugContainer = !! params.debugContainer ;
 
@@ -18139,7 +18135,7 @@ function VGFlowingText( params = {} ) {
 	this._contentHeight = 0 ;
 	this._characterCount = 0 ;
 
-	if ( params.structuredText ) { this.setStructuredText( params.structuredText ) ; }
+	if ( params ) { this.set( params ) ; }
 }
 
 module.exports = VGFlowingText ;
@@ -18174,6 +18170,15 @@ Object.defineProperties( VGFlowingText.prototype , {
 
 
 
+const TEXT_WRAPPING = {
+	wordWrap: 'wordWrap' ,
+	wordwrap: 'wordWrap' ,
+	'word-wrap': 'wordWrap' ,
+	ellipsis: 'ellipsis'
+} ;
+
+
+
 VGFlowingText.prototype.set = function( params ) {
 	VGEntity.prototype.set.call( this , params ) ;
 
@@ -18187,8 +18192,12 @@ VGFlowingText.prototype.set = function( params ) {
 	if ( params.structuredText ) { this.setStructuredText( params.structuredText ) ; }
 	if ( params.attr ) { this.attr = new TextAttribute( params.attr ) ; this.areLinesComputed = false ; }
 	if ( params.lineSpacing !== undefined ) { this.lineSpacing = + params.lineSpacing || 0 ; this.areLinesComputed = false ; }
-	if ( params.textWrapping !== undefined ) { this.textWrapping = params.textWrapping ; this.areLinesComputed = false ; }
 	if ( params.textHorizontalAlignment !== undefined ) { this.textHorizontalAlignment = params.textHorizontalAlignment ; this.areLinesComputed = false ; }
+
+	if ( params.textWrapping !== undefined ) {
+		this.textWrapping = TEXT_WRAPPING[ params.textWrapping ] || null ;
+		this.areLinesComputed = false ;
+	}
 
 	if ( params.debugContainer !== undefined ) { this.debugContainer = !! params.debugContainer ; }
 } ;
@@ -18514,17 +18523,18 @@ VGFlowingText.prototype.getUsedFontNames = function() {
 
 
 // Render the Vector Graphic as a text SVG
-VGFlowingText.prototype.renderingContainerHookForSvgText = function( root = this ) {
+VGFlowingText.prototype.renderingContainerHookForSvgText = async function( root = this ) {
 	if ( ! this.areLinesComputed ) { this.computeLines() ; }
 
-	var str = '' ;
+	var yOffset = root.invertY ? - 2 * this.y - this.height : 0 ,
+		str = '' ;
 
 	if ( this.clip ) {
 		// Nothing inside the <clipPath> is displayed
 		str += '<clipPath id="' + this._id + '_clipPath">' ;
 		str += '<rect' ;
 		str += ' x="' + this.x + '"' ;
-		str += ' y="' + ( root.invertY ? - this.y : this.y ) + '"' ;
+		str += ' y="' + ( this.y + yOffset ) + '"' ;
 		str += ' width="' + this.width + '"' ;
 		str += ' height="' + this.height + '"' ;
 		str += ' />' ;
@@ -18541,12 +18551,11 @@ VGFlowingText.prototype.renderingContainerHookForSvgText = function( root = this
 				lineThrough = part.attr.getLineThrough( this.attr ) ,
 				frame = part.attr.getFrame( this.attr ) ;
 
-			console.error( "???" , fontFamily , fontSize , textStyleStr ) ;
-			let font = fontLib.getFont( fontFamily ) ;
+			let font = await fontLib.getFontAsync( fontFamily ) ;
 			if ( ! font ) { throw new Error( "Font not found: " + fontFamily ) ; }
 
 			if ( frame ) {
-				let frameY = part.metrics.baselineY - part.metrics.ascender ,
+				let frameY = part.metrics.baselineY - part.metrics.ascender + yOffset ,
 					frameHeight = part.metrics.ascender - part.metrics.descender ,
 					frameStyleStr = part.attr.getFrameSvgStyleString( this.attr , fontSize ) ,
 					cornerRadius = part.attr.getFrameCornerRadius( this.attr , fontSize ) ;
@@ -18568,7 +18577,7 @@ VGFlowingText.prototype.renderingContainerHookForSvgText = function( root = this
 			}
 
 			if ( underline ) {
-				let underlineY = part.metrics.baselineY - part.metrics.descender * 0.6 - lineThickness ;
+				let underlineY = part.metrics.baselineY - part.metrics.descender * 0.6 - lineThickness + yOffset ;
 
 				str += '<rect' ;
 				str += ' x="' + part.metrics.x + '"' ;
@@ -18579,7 +18588,7 @@ VGFlowingText.prototype.renderingContainerHookForSvgText = function( root = this
 				str += ' />' ;
 			}
 
-			let path = font.getPath( part.text , part.metrics.x , part.metrics.baselineY , fontSize ) ;
+			let path = font.getPath( part.text , part.metrics.x , part.metrics.baselineY + yOffset , fontSize ) ;
 			let pathData = path.toPathData() ;
 
 			str += '<path' ;
@@ -18588,7 +18597,7 @@ VGFlowingText.prototype.renderingContainerHookForSvgText = function( root = this
 			str += ' />' ;
 
 			if ( lineThrough ) {
-				let lineThroughY = part.metrics.baselineY - part.metrics.ascender * 0.25 - lineThickness ;
+				let lineThroughY = part.metrics.baselineY - part.metrics.ascender * 0.25 - lineThickness + yOffset ;
 
 				str += '<rect' ;
 				str += ' x="' + part.metrics.x + '"' ;
@@ -18604,7 +18613,7 @@ VGFlowingText.prototype.renderingContainerHookForSvgText = function( root = this
 	if ( this.debugContainer ) {
 		str += '<rect' ;
 		str += ' x="' + this.x + '"' ;
-		str += ' y="' + ( root.invertY ? - this.y : this.y ) + '"' ;
+		str += ' y="' + ( this.y + yOffset ) + '"' ;
 		str += ' width="' + this.width + '"' ;
 		str += ' height="' + this.height + '"' ;
 		str += ' style="fill:none;stroke:#f33"' ;
@@ -18616,10 +18625,11 @@ VGFlowingText.prototype.renderingContainerHookForSvgText = function( root = this
 
 
 
-VGFlowingText.prototype.renderingContainerHookForSvgDom = function( root = this ) {
+VGFlowingText.prototype.renderingContainerHookForSvgDom = async function( root = this ) {
 	if ( ! this.areLinesComputed ) { this.computeLines() ; }
 
-	var elementList = [] ;
+	var yOffset = root.invertY ? - 2 * this.y - this.height : 0 ,
+		elementList = [] ;
 
 	if ( this.clip ) {
 		// Nothing inside the <clipPath> is displayed
@@ -18629,7 +18639,7 @@ VGFlowingText.prototype.renderingContainerHookForSvgDom = function( root = this 
 
 		let $rect = document.createElementNS( 'http://www.w3.org/2000/svg' , 'rect' ) ;
 		$rect.setAttribute( 'x' , this.x ) ;
-		$rect.setAttribute( 'y' , root.invertY ? - this.y : this.y ) ;
+		$rect.setAttribute( 'y' , this.y + yOffset ) ;
 		$rect.setAttribute( 'width' , this.width ) ;
 		$rect.setAttribute( 'height' , this.height ) ;
 		$clipPath.appendChild( $rect ) ;
@@ -18645,12 +18655,12 @@ VGFlowingText.prototype.renderingContainerHookForSvgDom = function( root = this 
 				lineThrough = part.attr.getLineThrough( this.attr ) ,
 				frame = part.attr.getFrame( this.attr ) ;
 
-			console.error( "???" , fontFamily , fontSize , textStyleStr ) ;
-			let font = fontLib.getFont( fontFamily ) ;
+			//console.error( "???" , fontFamily , fontSize , textStyleStr ) ;
+			let font = await fontLib.getFontAsync( fontFamily ) ;
 			if ( ! font ) { throw new Error( "Font not found: " + fontFamily ) ; }
 
 			if ( frame ) {
-				let frameY = part.metrics.baselineY - part.metrics.ascender ,
+				let frameY = part.metrics.baselineY - part.metrics.ascender + yOffset ,
 					frameHeight = part.metrics.ascender - part.metrics.descender ,
 					frameStyleStr = part.attr.getFrameSvgStyleString( this.attr , fontSize ) ,
 					cornerRadius = part.attr.getFrameCornerRadius( this.attr , fontSize ) ;
@@ -18672,7 +18682,7 @@ VGFlowingText.prototype.renderingContainerHookForSvgDom = function( root = this 
 			}
 
 			if ( underline ) {
-				let underlineY = part.metrics.baselineY - part.metrics.descender * 0.6 - lineThickness ;
+				let underlineY = part.metrics.baselineY - part.metrics.descender * 0.6 - lineThickness + yOffset ;
 
 				let $line = document.createElementNS( 'http://www.w3.org/2000/svg' , 'rect' ) ;
 				$line.setAttribute( 'x' , part.metrics.x ) ;
@@ -18683,7 +18693,7 @@ VGFlowingText.prototype.renderingContainerHookForSvgDom = function( root = this 
 				elementList.push( $line ) ;
 			}
 
-			let path = font.getPath( part.text , part.metrics.x , part.metrics.baselineY , fontSize ) ;
+			let path = font.getPath( part.text , part.metrics.x , part.metrics.baselineY + yOffset , fontSize ) ;
 			let pathData = path.toPathData() ;
 
 			let $textPath = document.createElementNS( 'http://www.w3.org/2000/svg' , 'path' ) ;
@@ -18692,7 +18702,7 @@ VGFlowingText.prototype.renderingContainerHookForSvgDom = function( root = this 
 			elementList.push( $textPath ) ;
 
 			if ( lineThrough ) {
-				let lineThroughY = part.metrics.baselineY - part.metrics.ascender * 0.25 - lineThickness ;
+				let lineThroughY = part.metrics.baselineY - part.metrics.ascender * 0.25 - lineThickness + yOffset ;
 
 				let $line = document.createElementNS( 'http://www.w3.org/2000/svg' , 'rect' ) ;
 				$line.setAttribute( 'x' , part.metrics.x ) ;
@@ -18708,7 +18718,7 @@ VGFlowingText.prototype.renderingContainerHookForSvgDom = function( root = this 
 	if ( this.debugContainer ) {
 		let $debugRect = document.createElementNS( 'http://www.w3.org/2000/svg' , 'rect' ) ;
 		$debugRect.setAttribute( 'x' , this.x ) ;
-		$debugRect.setAttribute( 'y' , root.invertY ? - this.y : this.y ) ;
+		$debugRect.setAttribute( 'y' , this.y + yOffset ) ;
 		$debugRect.setAttribute( 'width' , this.width ) ;
 		$debugRect.setAttribute( 'height' , this.height ) ;
 		$debugRect.setAttribute( 'style' , "fill:none;stroke:#f33;" ) ;
@@ -18721,15 +18731,18 @@ VGFlowingText.prototype.renderingContainerHookForSvgDom = function( root = this 
 
 
 
-VGFlowingText.prototype.renderHookForCanvas = function( canvasCtx , options = {} , root = this ) {
+VGFlowingText.prototype.renderHookForCanvas = async function( canvasCtx , options = {} , root = this ) {
 	if ( ! this.areLinesComputed ) { this.computeLines() ; }
+
+	var yOffset = root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y - ( this.height - 1 ) : 0 ;
 
 	// We have to save context because canvasCtx.clip() is not reversible
 	canvasCtx.save() ;
 
 	if ( this.clip ) {
 		canvasCtx.beginPath() ;
-		canvasCtx.rect( this.x , root.invertY ? - this.y : this.y , this.width , this.height ) ;
+		// For some reason, it seems that the first row and column is clipped away, so we have to grow the size by one pixel
+		canvasCtx.rect( this.x - 1 , this.y - 1 + yOffset , this.width + 1 , this.height + 1 ) ;
 		canvasCtx.clip() ;
 	}
 
@@ -18743,12 +18756,12 @@ VGFlowingText.prototype.renderHookForCanvas = function( canvasCtx , options = {}
 				lineThrough = part.attr.getLineThrough( this.attr ) ,
 				frame = part.attr.getFrame( this.attr ) ;
 
-			console.error( "???" , fontFamily , fontSize , textStyle ) ;
-			let font = fontLib.getFont( fontFamily ) ;
+			//console.error( "???" , fontFamily , fontSize , textStyle ) ;
+			let font = await fontLib.getFontAsync( fontFamily ) ;
 			if ( ! font ) { throw new Error( "Font not found: " + fontFamily ) ; }
 
 			if ( frame ) {
-				let frameY = part.metrics.baselineY - part.metrics.ascender ,
+				let frameY = part.metrics.baselineY - part.metrics.ascender + yOffset ,
 					frameHeight = part.metrics.ascender - part.metrics.descender ,
 					frameStyle = part.attr.getFrameSvgStyle( this.attr , fontSize ) ,
 					cornerRadius = part.attr.getFrameCornerRadius( this.attr , fontSize ) ;
@@ -18771,19 +18784,19 @@ VGFlowingText.prototype.renderHookForCanvas = function( canvasCtx , options = {}
 			}
 
 			if ( underline ) {
-				let underlineY = part.metrics.baselineY - part.metrics.descender * 0.6 - lineThickness ;
+				let underlineY = part.metrics.baselineY - part.metrics.descender * 0.6 - lineThickness + yOffset ;
 				canvasCtx.beginPath() ;
 				canvasCtx.rect( part.metrics.x , underlineY , part.metrics.width , lineThickness ) ;
 				canvas.fillAndStrokeUsingSvgStyle( canvasCtx , lineStyle ) ;
 			}
 
-			let path = font.getPath( part.text , part.metrics.x , part.metrics.baselineY , fontSize ) ;
+			let path = font.getPath( part.text , part.metrics.x , part.metrics.baselineY + yOffset , fontSize ) ;
 			let pathData = path.toPathData() ;
 			let path2d = new Path2D( pathData ) ;
 			canvas.fillAndStrokeUsingSvgStyle( canvasCtx , textStyle , path2d ) ;
 
 			if ( lineThrough ) {
-				let lineThroughY = part.metrics.baselineY - part.metrics.ascender * 0.25 - lineThickness ;
+				let lineThroughY = part.metrics.baselineY - part.metrics.ascender * 0.25 - lineThickness + yOffset ;
 				canvasCtx.beginPath() ;
 				canvasCtx.rect( part.metrics.x , lineThroughY , part.metrics.width , lineThickness ) ;
 				canvas.fillAndStrokeUsingSvgStyle( canvasCtx , lineStyle ) ;
@@ -18793,7 +18806,7 @@ VGFlowingText.prototype.renderHookForCanvas = function( canvasCtx , options = {}
 
 	if ( this.debugContainer ) {
 		canvasCtx.beginPath() ;
-		canvasCtx.rect( this.x , root.invertY ? - this.y : this.y , this.width , this.height ) ;
+		canvasCtx.rect( this.x , this.y + yOffset , this.width , this.height ) ;
 		canvas.fillAndStrokeUsingSvgStyle( canvasCtx , { fill: 'none' , stroke: '#f33' } ) ;
 	}
 
@@ -18862,7 +18875,7 @@ VGFlowingText.prototype.computeXYOffset = function() {
 } ;
 
 
-},{"../../package.json":78,"../VGEntity.js":60,"../canvas.js":70,"../fontLib.js":71,"./StructuredTextLine.js":61,"./StructuredTextPart.js":62,"./TextAttribute.js":63,"./TextMetrics.js":64}],66:[function(require,module,exports){
+},{"../../package.json":103,"../VGEntity.js":60,"../canvas.js":71,"../fontLib.js":72,"./StructuredTextLine.js":61,"./StructuredTextPart.js":62,"./TextAttribute.js":63,"./TextMetrics.js":64}],66:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -18919,7 +18932,562 @@ VGGroup.prototype.set = function( params ) {
 } ;
 
 
-},{"../package.json":78,"./VGContainer.js":58,"./svg-kit.js":73}],67:[function(require,module,exports){
+},{"../package.json":103,"./VGContainer.js":58,"./svg-kit.js":75}],67:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2023 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const VGEntity = require( './VGEntity.js' ) ;
+const canvas = require( './canvas.js' ) ;
+const getImageSize = require( './getImageSize.js' ) ;
+
+const dom = require( 'dom-kit' ) ;
+
+
+
+function VGImage( params ) {
+	VGEntity.call( this , params ) ;
+
+	// Basic image
+	this.x = 0 ;
+	this.y = 0 ;
+	this.width = 0 ;
+	this.height = 0 ;
+	this.url = null ;
+
+	// Only for non-clip/non-9-patch
+	this.aspect = 'stretch' ;
+
+	// Clip
+	this.sourceX = null ;
+	this.sourceY = null ;
+	this.sourceWidth = null ;
+	this.sourceHeight = null ;
+	this.clip = false ;
+
+	// Nine-patch
+	this.sourceLeftWidth = null ;
+	this.sourceRightWidth = null ;
+	this.sourceTopHeight = null ;
+	this.sourceBottomHeight = null ;
+	this.ninePatch = false ;
+
+	if ( params ) { this.set( params ) ; }
+}
+
+module.exports = VGImage ;
+
+VGImage.prototype = Object.create( VGEntity.prototype ) ;
+VGImage.prototype.constructor = VGImage ;
+VGImage.prototype.__prototypeUID__ = 'svg-kit/VGImage' ;
+VGImage.prototype.__prototypeVersion__ = require( '../package.json' ).version ;
+
+
+
+const ASPECT = {
+	stretch: 'stretch' ,
+	preserve: 'contain' ,
+	contain: 'contain' ,
+	meet: 'contain' ,	// SVG uses "meet" while CSS uses "contain"
+	// Doesn't seem to works for images
+	cover: 'cover' ,
+	slice: 'cover'		// SVG uses "slice" while CSS uses "cover"
+} ;
+
+const SVG_PRESERVE_ASPECT_RATIO = {
+	stretch: 'none' ,
+	contain: 'xMidYmid meet' ,
+	// Doesn't seem to works for images
+	cover: 'xMidYmid slice'
+} ;
+
+
+
+VGImage.prototype.set = function( params ) {
+	VGEntity.prototype.set.call( this , params ) ;
+
+	if ( params.x !== undefined ) { this.x = params.x ; }
+	if ( params.y !== undefined ) { this.y = params.y ; }
+	if ( params.width !== undefined ) { this.width = params.width ; }
+	if ( params.height !== undefined ) { this.height = params.height ; }
+	if ( params.url && typeof params.url === 'string' ) { this.url = params.url ; }
+
+	if ( params.aspect !== undefined ) { this.aspect = ASPECT[ params.aspect ] || 'stretch' ; }
+
+	let clipParams = false ;
+	if ( params.sourceX !== undefined ) { this.sourceX = params.sourceX ; clipParams = true ; }
+	if ( params.sourceY !== undefined ) { this.sourceY = params.sourceY ; clipParams = true ; }
+	if ( params.sourceWidth !== undefined ) { this.sourceWidth = params.sourceWidth ; clipParams = true ; }
+	if ( params.sourceHeight !== undefined ) { this.sourceHeight = params.sourceHeight ; clipParams = true ; }
+	if ( clipParams ) {
+		this.clip =
+			this.sourceX !== null && this.sourceY !== null
+			&& this.sourceWidth !== null && this.sourceHeight !== null ;
+	}
+
+	let ninePatchParams = false ;
+	if ( params.sourceLeftWidth !== undefined ) { this.sourceLeftWidth = params.sourceLeftWidth ; ninePatchParams = true ; }
+	if ( params.sourceRightWidth !== undefined ) { this.sourceRightWidth = params.sourceRightWidth ; ninePatchParams = true ; }
+	if ( params.sourceTopHeight !== undefined ) { this.sourceTopHeight = params.sourceTopHeight ; ninePatchParams = true ; }
+	if ( params.sourceBottomHeight !== undefined ) { this.sourceBottomHeight = params.sourceBottomHeight ; ninePatchParams = true ; }
+	if ( ninePatchParams ) {
+		this.ninePatch =
+			this.sourceLeftWidth !== null && this.sourceRightWidth !== null
+			&& this.sourceTopHeight !== null && this.sourceBottomHeight !== null ;
+	}
+} ;
+
+
+
+VGImage.prototype.export = function( data = {} ) {
+	VGEntity.prototype.export.call( this , data ) ;
+
+	data.x = this.x ;
+	data.y = this.y ;
+	data.width = this.width ;
+	data.height = this.height ;
+	data.url = this.url ;
+
+	return data ;
+} ;
+
+
+
+Object.defineProperties( VGImage.prototype , {
+	svgTag: { get: function() { return this.clip || this.ninePatch ? 'g' : 'image' ; } } ,
+	isRenderingContainer: { get: function() { return this.clip || this.ninePatch ; } }
+} ) ;
+
+
+
+VGImage.prototype.svgAttributes = function( root = this ) {
+	if ( this.clip || this.ninePatch ) { return {} ; }
+
+	var attr = {
+		x: this.x ,
+		y: root.invertY ? - this.y - this.height : this.y ,
+		width: this.width ,
+		height: this.height ,
+		preserveAspectRatio: SVG_PRESERVE_ASPECT_RATIO[ this.aspect ] ,
+		href: this.url
+	} ;
+
+	return attr ;
+} ;
+
+
+
+VGImage.prototype.renderingContainerHookForSvgText = async function( root = this ) {
+	var imageSize = await getImageSize( this.url ) ;
+
+	if ( this.ninePatch ) {
+		// Also support clip
+		return this.renderSvgTextNinePatchImage( imageSize , root ) ;
+	}
+	else if ( this.clip ) {
+		return this.renderSvgTextClipImage( imageSize , {
+				sx: this.sourceX ,
+				sy: this.sourceY ,
+				sw: this.sourceWidth ,
+				sh: this.sourceHeight ,
+				dx: this.x ,
+				dy: this.y ,
+				dw: this.width ,
+				dh: this.height
+			} ,
+			root
+		) ;
+	}
+	else {
+		// Regular image (not clipped, not 9-patch) never reach this place right now
+		let str = '' ;
+		str += '<image' ;
+		str += ' x="' + this.x + '"' ;
+		str += ' y="' + ( root.invertY ? - this.y - this.height : this.y ) + '"' ;
+		str += ' width="' + this.width + '"' ;
+		str += ' height="' + this.height + '"' ;
+		str += ' preserveAspectRatio="' + SVG_PRESERVE_ASPECT_RATIO[ this.aspect ] + '"' ;
+		str += ' href="' + this.url + '"' ;
+		str += ' />' ;
+
+		return str ;
+	}
+
+	return elementList ;
+} ;
+
+
+
+const CLIP_EXTRA_SIZE = 0.5 ;
+
+VGImage.prototype.renderSvgTextClipImage = function( imageSize , coord , root , n = 0 ) {
+	var str = '' ,
+		yOffset = root.invertY ? - 2 * this.y - this.height : 0 ,
+		scaleX = coord.dw / coord.sw ,
+		scaleY = coord.dh / coord.sh ;
+
+	// Nothing inside the <clipPath> is displayed
+	var clipPathId = this._id + '_clipPath_' + n ;
+	str += '<clipPath id="' + clipPathId + '">' ;
+
+	str += '<rect' ;
+	str += ' x="' + coord.dx + '"' ;
+	str += ' y="' + ( coord.dy + yOffset ) + '"' ;
+	// Clip have some issues when multiple clip are supposed to touch themselve,
+	// so we add an extra width/height to avoid white lines in-between
+	str += ' width="' + ( coord.dw + CLIP_EXTRA_SIZE ) + '"' ;
+	str += ' height="' + ( coord.dh + CLIP_EXTRA_SIZE ) + '"' ;
+	str += ' />' ;
+
+	str += '</clipPath>' ;
+
+	str += '<image' ;
+	str += ' x="' + ( coord.dx - coord.sx * scaleX ) + '"' ;
+	str += ' y="' + ( coord.dy - coord.sy * scaleY + yOffset ) + '"' ;
+	str += ' width="' + ( imageSize.width * scaleX ) + '"' ;
+	str += ' height="' + ( imageSize.height * scaleY ) + '"' ;
+	str += ' preserveAspectRatio="none"' ;
+	str += ' clip-path="url(#' + clipPathId + ')"' ;
+	str += ' xlink:href="' + this.url + '"' ;
+	str += ' />' ;
+
+	return str ;
+} ;
+
+
+
+VGImage.prototype.renderSvgTextNinePatchImage = function( imageSize , root ) {
+	var str = '' ,
+		n = 0 ,
+		coords = this.getNinePatchCoords( imageSize ) ;
+
+	for ( let coord of coords ) {
+		str += this.renderSvgTextClipImage( imageSize , coord , root , n ++ ) ;
+	}
+
+	return str ;
+} ;
+
+
+
+VGImage.prototype.renderingContainerHookForSvgDom = async function( root = this ) {
+	var elementList = [] ;
+
+	var imageSize = await getImageSize( this.url ) ;
+
+	if ( this.ninePatch ) {
+		// Also support clip
+		this.renderSvgDomNinePatchImage( imageSize , elementList , root ) ;
+	}
+	else if ( this.clip ) {
+		this.renderSvgDomClipImage( imageSize , {
+				sx: this.sourceX ,
+				sy: this.sourceY ,
+				sw: this.sourceWidth ,
+				sh: this.sourceHeight ,
+				dx: this.x ,
+				dy: this.y ,
+				dw: this.width ,
+				dh: this.height
+			} ,
+			elementList , root
+		) ;
+	}
+	else {
+		// Regular image (not clipped, not 9-patch) never reach this place right now
+		let $image = document.createElementNS( 'http://www.w3.org/2000/svg' , 'image' ) ;
+		dom.attr( $image , {
+			x: this.x ,
+			y: root.invertY ? - this.y - this.height : this.y ,
+			width: this.width ,
+			height: this.height ,
+			preserveAspectRatio: 'none' ,
+			href: this.url
+		} ) ;
+		elementList.push( $image ) ;
+	}
+
+	return elementList ;
+} ;
+
+
+
+VGImage.prototype.renderSvgDomClipImage = function( imageSize , coord , elementList , root , n = 0 ) {
+	var yOffset = root.invertY ? - 2 * this.y - this.height : 0 ,
+		scaleX = coord.dw / coord.sw ,
+		scaleY = coord.dh / coord.sh ;
+
+	// Nothing inside the <clipPath> is displayed
+	var $clipPath = document.createElementNS( 'http://www.w3.org/2000/svg' , 'clipPath' ) ;
+	var clipPathId = this._id + '_clipPath_' + n ;
+	dom.attr( $clipPath , { id: clipPathId } ) ;
+	elementList.push( $clipPath ) ;
+
+	var $rect = document.createElementNS( 'http://www.w3.org/2000/svg' , 'rect' ) ;
+	dom.attr( $rect , {
+		x: coord.dx ,
+		y: coord.dy + yOffset ,
+		// Clip have some issues when multiple clip are supposed to touch themselves,
+		// so we add an extra width/height to avoid white lines in-between
+		width: coord.dw + CLIP_EXTRA_SIZE ,
+		height: coord.dh + CLIP_EXTRA_SIZE
+	} ) ;
+	$clipPath.appendChild( $rect ) ;
+
+	var $image = document.createElementNS( 'http://www.w3.org/2000/svg' , 'image' ) ;
+	dom.attr( $image , {
+		x: coord.dx - coord.sx * scaleX ,
+		y: coord.dy - coord.sy * scaleY + yOffset ,
+		width: imageSize.width * scaleX ,
+		height: imageSize.height * scaleY ,
+		preserveAspectRatio: SVG_PRESERVE_ASPECT_RATIO[ this.aspect ] ,
+		'clip-path': 'url(#' + clipPathId + ')' ,
+		href: this.url
+	} ) ;
+	elementList.push( $image ) ;
+} ;
+
+
+
+VGImage.prototype.renderSvgDomNinePatchImage = function( imageSize , elementList , root ) {
+	var n = 0 ,
+		coords = this.getNinePatchCoords( imageSize ) ;
+
+	for ( let coord of coords ) {
+		this.renderSvgDomClipImage( imageSize , coord , elementList , root , n ++ ) ;
+	}
+} ;
+
+
+
+VGImage.prototype.renderHookForCanvas = async function( canvasCtx , options = {} , root = this ) {
+	canvasCtx.save() ;
+
+	var image = new Image() ;
+	image.src = this.url ;
+
+	await new Promise( resolve => {
+		image.onload = () => {
+			if ( this.ninePatch ) {
+				// Also support clip
+				this.renderCanvasNinePatchImage( canvasCtx , image , root ) ;
+			}
+			else if ( this.clip ) {
+				this.renderCanvasClipImage( canvasCtx , image , root ) ;
+			}
+			else {
+				let yOffset = root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y - ( this.height - 1 ) : 0 ;
+				canvasCtx.drawImage( image , this.x , this.y + yOffset , this.width , this.height ) ;
+			}
+
+			resolve() ;
+		} ;
+	} ) ;
+
+	canvasCtx.restore() ;
+} ;
+
+
+
+VGImage.prototype.renderCanvasClipImage = function( canvasCtx , image , root ) {
+	var yOffset = root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y - ( this.height - 1 ) : 0 ;
+
+	canvasCtx.drawImage(
+		image ,
+		this.sourceX , this.sourceY , this.sourceWidth , this.sourceHeight ,
+		this.x , this.y + yOffset , this.width , this.height
+	) ;
+} ;
+
+
+
+VGImage.prototype.renderCanvasNinePatchImage = function( canvasCtx , image , root ) {
+	var yOffset = root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y - ( this.height - 1 ) : 0 ,
+		coords = this.getNinePatchCoords( { width: image.naturalWidth , height: image.naturalHeight } ) ;
+
+	for ( let coord of coords ) {
+		canvasCtx.drawImage(
+			image ,
+			coord.sx , coord.sy , coord.sw , coord.sh ,
+			coord.dx , coord.dy + yOffset , coord.dw , coord.dh
+		) ;
+	}
+} ;
+
+
+
+VGImage.prototype.getNinePatchCoords = function( imageSize ) {
+	var sourceX , sourceY , sourceWidth , sourceHeight ,
+		coords = [] ;
+
+	if ( this.clip ) {
+		sourceX = this.sourceX ;
+		sourceY = this.sourceY ;
+		sourceWidth = this.sourceWidth ;
+		sourceHeight = this.sourceHeight ;
+	}
+	else {
+		sourceX = 0 ;
+		sourceY = 0 ;
+		sourceWidth = imageSize.width ;
+		sourceHeight = imageSize.height ;
+	}
+
+	var leftWidth = this.sourceLeftWidth ,
+		rightWidth = this.sourceRightWidth ,
+		topHeight = this.sourceTopHeight ,
+		bottomHeight = this.sourceBottomHeight ,
+		centerWidth = sourceWidth - leftWidth - rightWidth ,
+		centerHeight = sourceHeight - topHeight - bottomHeight ,
+		destCenterWidth = this.width - leftWidth - rightWidth ,
+		destCenterHeight = this.height - topHeight - bottomHeight ;
+
+
+	// The 4 corners
+
+	coords.push( {
+		// top-left
+		sx: sourceX ,
+		sy: sourceY ,
+		sw: leftWidth ,
+		sh: topHeight ,
+		dx: this.x ,
+		dy: this.y ,
+		dw: leftWidth ,
+		dh: topHeight
+	} ) ;
+
+	coords.push( {
+		// top-right
+		sx: sourceX + leftWidth + centerWidth ,
+		sy: sourceY ,
+		sw: rightWidth ,
+		sh: topHeight ,
+		dx: this.x + leftWidth + destCenterWidth ,
+		dy: this.y ,
+		dw: rightWidth ,
+		dh: topHeight
+	} ) ;
+
+	coords.push( {
+		// bottom-left
+		sx: sourceX ,
+		sy: sourceY + topHeight + centerHeight ,
+		sw: leftWidth ,
+		sh: bottomHeight ,
+		dx: this.x ,
+		dy: this.y + topHeight + destCenterHeight ,
+		dw: leftWidth ,
+		dh: bottomHeight
+	} ) ;
+
+	coords.push( {
+		// bottom-right
+		sx: sourceX + leftWidth + centerWidth ,
+		sy: sourceY + topHeight + centerHeight ,
+		sw: rightWidth ,
+		sh: bottomHeight ,
+		dx: this.x + leftWidth + destCenterWidth ,
+		dy: this.y + topHeight + destCenterHeight ,
+		dw: rightWidth ,
+		dh: bottomHeight
+	} ) ;
+
+
+	// The 4 sides
+
+	coords.push( {
+		// left
+		sx: sourceX ,
+		sy: sourceY + topHeight ,
+		sw: leftWidth ,
+		sh: centerHeight ,
+		dx: this.x ,
+		dy: this.y + topHeight ,
+		dw: leftWidth ,
+		dh: destCenterHeight
+	} ) ;
+
+	coords.push( {
+		// right
+		sx: sourceX + leftWidth + centerWidth ,
+		sy: sourceY + topHeight ,
+		sw: rightWidth ,
+		sh: centerHeight ,
+		dx: this.x + leftWidth + destCenterWidth ,
+		dy: this.y + topHeight ,
+		dw: rightWidth ,
+		dh: destCenterHeight
+	} ) ;
+
+	coords.push( {
+		// top
+		sx: sourceX + leftWidth ,
+		sy: sourceY ,
+		sw: centerWidth ,
+		sh: topHeight ,
+		dx: this.x + leftWidth ,
+		dy: this.y ,
+		dw: destCenterWidth ,
+		dh: topHeight
+	} ) ;
+
+	coords.push( {
+		// bottom
+		sx: sourceX + leftWidth ,
+		sy: sourceY + topHeight + centerHeight ,
+		sw: centerWidth ,
+		sh: bottomHeight ,
+		dx: this.x + leftWidth ,
+		dy: this.y + topHeight + destCenterHeight ,
+		dw: destCenterWidth ,
+		dh: bottomHeight
+	} ) ;
+
+	coords.push( {
+		// center
+		sx: sourceX + leftWidth ,
+		sy: sourceY + topHeight ,
+		sw: centerWidth ,
+		sh: centerHeight ,
+		dx: this.x + leftWidth ,
+		dy: this.y + topHeight ,
+		dw: destCenterWidth ,
+		dh: destCenterHeight
+	} ) ;
+
+	console.warn( "coords:" , coords ) ;
+	return coords ;
+} ;
+
+
+},{"../package.json":103,"./VGEntity.js":60,"./canvas.js":71,"./getImageSize.js":73,"dom-kit":76}],68:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -19606,7 +20174,7 @@ VGPath.prototype.forwardNegativeTurn = function( data ) {
 } ;
 
 
-},{"../package.json":78,"./VGEntity.js":60,"./canvas.js":70}],68:[function(require,module,exports){
+},{"../package.json":103,"./VGEntity.js":60,"./canvas.js":71}],69:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -19700,10 +20268,12 @@ VGRect.prototype.export = function( data = {} ) {
 
 VGRect.prototype.svgTag = 'rect' ;
 
+
+
 VGRect.prototype.svgAttributes = function( root = this ) {
 	var attr = {
 		x: this.x ,
-		y: root.invertY ? - this.y : this.y ,
+		y: root.invertY ? - this.y - this.height : this.y ,
 		width: this.width ,
 		height: this.height ,
 		rx: this.rx ,
@@ -19716,15 +20286,17 @@ VGRect.prototype.svgAttributes = function( root = this ) {
 
 
 VGRect.prototype.renderHookForCanvas = function( canvasCtx , options = {} , root = this ) {
+	var yOffset = root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y - ( this.height - 1 ) : 0 ;
+
 	canvasCtx.save() ;
 	canvasCtx.beginPath() ;
-	canvasCtx.rect( this.x , root.invertY ? - this.y : this.y , this.width , this.height ) ;
+	canvasCtx.rect( this.x , this.y + yOffset , this.width , this.height ) ;
 	canvas.fillAndStrokeUsingSvgStyle( canvasCtx , this.style ) ;
 	canvasCtx.restore() ;
 } ;
 
 
-},{"../package.json":78,"./VGEntity.js":60,"./canvas.js":70}],69:[function(require,module,exports){
+},{"../package.json":103,"./VGEntity.js":60,"./canvas.js":71}],70:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -19856,7 +20428,8 @@ VGText.prototype.svgAttributes = function( root = this ) {
 
 
 VGText.prototype.renderHookForCanvas = function( canvasCtx , options = {} , root = this ) {
-	var style = this.style ,
+	var yOffset = root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y : 0 ,
+		style = this.style ,
 		fill = false ,
 		stroke = false ,
 		fillStyle = style.fill && style.fill !== 'none' ? style.fill : null ,
@@ -19886,19 +20459,19 @@ VGText.prototype.renderHookForCanvas = function( canvasCtx , options = {} , root
 	}
 
 	if ( ! style.paintOrder || style.paintOrder.startsWith( 'fill' ) ) {
-		if ( fill ) { canvasCtx.fillText( this.text , this.x , this.y ) ; }
-		if ( stroke ) { canvasCtx.strokeText( this.text , this.x , this.y ) ; }
+		if ( fill ) { canvasCtx.fillText( this.text , this.x , this.y + yOffset ) ; }
+		if ( stroke ) { canvasCtx.strokeText( this.text , this.x , this.y + yOffset ) ; }
 	}
 	else {
-		if ( stroke ) { canvasCtx.strokeText( this.text , this.x , this.y ) ; }
-		if ( fill ) { canvasCtx.fillText( this.text , this.x , this.y ) ; }
+		if ( stroke ) { canvasCtx.strokeText( this.text , this.x , this.y + yOffset ) ; }
+		if ( fill ) { canvasCtx.fillText( this.text , this.x , this.y + yOffset ) ; }
 	}
 
 	canvasCtx.restore() ;
 } ;
 
 
-},{"../package.json":78,"./VGEntity.js":60}],70:[function(require,module,exports){
+},{"../package.json":103,"./VGEntity.js":60}],71:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -19977,7 +20550,7 @@ canvas.fillAndStrokeUsingSvgStyle = ( canvasCtx , style , path2d = null ) => {
 } ;
 
 
-},{}],71:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 (function (process,__dirname){(function (){
 /*
 	SVG Kit
@@ -20059,9 +20632,23 @@ if ( process?.browser ) {
 	} ;
 }
 else {
-	const builtinPath = path.join( __dirname , '..' , '..' , 'fonts' ) ;
+	const builtinPath = path.join( __dirname , '..' , 'fonts' ) ;
 
 	fontUrl['serif'] = builtinPath + '/serif.ttf' ;
+
+	fontLib.getFontAsync = async ( fontName ) => {
+		if ( fontCache[ fontName ] ) { return fontCache[ fontName ] ; }
+
+		var url = fontLib.getFontUrl( fontName ) ;
+		if ( ! url ) { return null ; }
+
+		var buffer = await fs.promises.readFile( url ) ;
+		var font = await opentype.parse( buffer ) ;
+		fontCache[ fontName ] = font ;
+		console.log( "Loaded font: " , fontName , font ) ;
+
+		return font ;
+	} ;
 
 	fontLib.getFont = fontName => {
 		if ( fontCache[ fontName ] ) { return fontCache[ fontName ] ; }
@@ -20078,7 +20665,65 @@ else {
 
 
 }).call(this)}).call(this,require('_process'),"/../svg-kit/lib")
-},{"_process":82,"opentype.js":75,"path":81}],72:[function(require,module,exports){
+},{"_process":108,"opentype.js":99,"path":107}],73:[function(require,module,exports){
+(function (process){(function (){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2023 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+if ( process.browser ) {
+	module.exports = url => new Promise( resolve => {
+		var image = new Image() ;
+		image.src = url ;
+		image.onload = () => {
+			resolve( { width: image.naturalWidth , height: image.naturalHeight } ) ;
+		} ;
+	} ) ;
+}
+else {
+	const imageSize = require( 'image-size' ) ;
+
+	module.exports = url => new Promise( ( resolve , reject ) => {
+		imageSize( url , ( error , size ) => {
+			if ( error ) {
+				reject( error ) ;
+				return ;
+			}
+
+			resolve( size ) ;
+		} ) ;
+	} ) ;
+}
+
+
+}).call(this)}).call(this,require('_process'))
+},{"_process":108,"image-size":78}],74:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -20126,7 +20771,7 @@ path.dFromPoints = ( points , invertY ) => {
 } ;
 
 
-},{}],73:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 (function (process){(function (){
 /*
 	SVG Kit
@@ -20178,6 +20823,7 @@ svgKit.VGRect = require( './VGRect.js' ) ;
 svgKit.VGEllipse = require( './VGEllipse.js' ) ;
 svgKit.VGPath = require( './VGPath.js' ) ;
 svgKit.VGText = require( './VGText.js' ) ;
+svgKit.VGImage = require( './VGImage.js' ) ;
 
 svgKit.fontLib = require( './fontLib.js' ) ;
 svgKit.VGFlowingText = require( './VGFlowingText/VGFlowingText.js' ) ;
@@ -20620,9 +21266,1691 @@ svgKit.objectToVG = function( object , clone = false ) {
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./VG.js":57,"./VGContainer.js":58,"./VGEllipse.js":59,"./VGEntity.js":60,"./VGFlowingText/StructuredTextLine.js":61,"./VGFlowingText/StructuredTextPart.js":62,"./VGFlowingText/TextAttribute.js":63,"./VGFlowingText/TextMetrics.js":64,"./VGFlowingText/VGFlowingText.js":65,"./VGGroup.js":66,"./VGPath.js":67,"./VGRect.js":68,"./VGText.js":69,"./canvas.js":70,"./fontLib.js":71,"./path.js":72,"_process":82,"dom-kit":74,"fs":79,"opentype.js":75,"string-kit/lib/escape.js":77}],74:[function(require,module,exports){
-arguments[4][25][0].apply(exports,arguments)
-},{"@cronvel/xmldom":79,"_process":82,"dup":25}],75:[function(require,module,exports){
+},{"./VG.js":57,"./VGContainer.js":58,"./VGEllipse.js":59,"./VGEntity.js":60,"./VGFlowingText/StructuredTextLine.js":61,"./VGFlowingText/StructuredTextPart.js":62,"./VGFlowingText/TextAttribute.js":63,"./VGFlowingText/TextMetrics.js":64,"./VGFlowingText/VGFlowingText.js":65,"./VGGroup.js":66,"./VGImage.js":67,"./VGPath.js":68,"./VGRect.js":69,"./VGText.js":70,"./canvas.js":71,"./fontLib.js":72,"./path.js":74,"_process":108,"dom-kit":76,"fs":104,"opentype.js":99,"string-kit/lib/escape.js":102}],76:[function(require,module,exports){
+(function (process){(function (){
+/*
+	Dom Kit
+
+	Copyright (c) 2015 - 2018 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+var domParser , xmlSerializer ;
+
+if ( process.browser ) {
+	domParser = new DOMParser() ;
+	xmlSerializer = new XMLSerializer() ;
+}
+else {
+	var xmldom = require( '@cronvel/xmldom' ) ;
+	domParser = new xmldom.DOMParser() ;
+	xmlSerializer = new xmldom.XMLSerializer() ;
+}
+
+
+
+const domKit = {} ;
+module.exports = domKit ;
+
+
+
+// Like jQuery's $(document).ready()
+domKit.ready = callback => {
+	document.addEventListener( 'DOMContentLoaded' , function internalCallback() {
+		document.removeEventListener( 'DOMContentLoaded' , internalCallback , false ) ;
+		callback() ;
+	} , false ) ;
+} ;
+
+
+
+domKit.fromXml = xml => domParser.parseFromString( xml , 'application/xml' ) ;
+domKit.toXml = $doc => xmlSerializer.serializeToString( $doc ) ;
+
+
+
+// Return a fragment from html code
+domKit.fromHtml = html => {
+	// Fragment allow us to return a collection that... well... is not a collection,
+	// and that's fine because the html code may contains multiple top-level element
+	var $fragment = document.createDocumentFragment() ,
+		$doc = document.createElement( 'div' ) ;	// whatever type...
+
+	// either .innerHTML or .insertAdjacentHTML()
+	//$doc.innerHTML = html ;
+	$doc.insertAdjacentHTML( 'beforeend' , html ) ;
+
+	for ( let i = 0 ; i < $doc.children.length ; i ++ ) {
+		$fragment.appendChild( $doc.children[ i ] ) ;
+	}
+
+	return $fragment ;
+} ;
+
+
+
+// Add a JS script, return a promise when done
+domKit.addJsScript = ( url , $element = document.body ) => {
+	return new Promise( ( resolve , reject ) => {
+		var $script = document.createElement( 'script' ) ;
+		$script.src = url ;
+		$script.async = true ;
+		$script.onload = resolve ;
+		$script.onerror = reject ;
+		$element.appendChild( $script ) ;
+	} ) ;
+} ;
+
+
+
+// Batch processing, like array, HTMLCollection, and so on...
+domKit.batch = ( method , elements , ... args ) => {
+	if ( elements instanceof Element ) {
+		method( elements , ... args ) ;
+	}
+	else if ( Array.isArray( elements ) ) {
+		for ( let i = 0 ; i < elements.length ; i ++ ) {
+			method( elements[ i ] , ... args ) ;
+		}
+	}
+	else if ( elements instanceof NodeList || elements instanceof NamedNodeMap ) {
+		for ( let i = 0 ; i < elements.length ; i ++ ) {
+			method( elements[ i ] , ... args ) ;
+		}
+	}
+} ;
+
+
+
+// Set a bunch of css properties given as an object
+domKit.css = ( $element , object ) => {
+	for ( let key in object ) {
+		$element.style[ key ] = object[ key ] ;
+	}
+} ;
+
+
+
+// Set a bunch of attributes given as an object
+domKit.attr = ( $element , object , prefix = '' ) => {
+	for ( let key in object ) {
+		if ( object[ key ] === null ) { $element.removeAttribute( prefix + key ) ; }
+		else { $element.setAttribute( prefix + key , object[ key ] ) ; }
+	}
+} ;
+
+
+
+// Set/unset a bunch of classes given as an object
+domKit.class = ( $element , object , prefix = '' ) => {
+	for ( let key in object ) {
+		if ( object[ key ] ) { $element.classList.add( prefix + key ) ; }
+		else { $element.classList.remove( prefix + key ) ; }
+	}
+} ;
+
+
+
+// Remove an element. A little shortcut that ease life...
+domKit.remove = $element => $element.parentNode.removeChild( $element ) ;
+
+
+
+// Remove all children of an element
+domKit.empty = $element => {
+	// $element.innerHTML = '' ;	// <-- According to jsPerf, this is 96% slower
+	while ( $element.firstChild ) { $element.removeChild( $element.firstChild ) ; }
+} ;
+
+
+
+// Clone a source DOM tree and replace children of the destination
+domKit.cloneInto = ( $source , $destination ) => {
+	domKit.empty( $destination ) ;
+	$destination.appendChild( $source.cloneNode( true ) ) ;
+} ;
+
+
+
+// Same than cloneInto() without cloning anything
+domKit.insertInto = ( $source , $destination ) => {
+	domKit.empty( $destination ) ;
+	$destination.appendChild( $source ) ;
+} ;
+
+
+
+// Move all children of a node into another, after removing existing target's children
+domKit.moveChildrenInto = ( $source , $destination ) => {
+	domKit.empty( $destination ) ;
+	while ( $source.firstChild ) { $destination.appendChild( $source.firstChild ) ; }
+} ;
+
+
+
+// Move all attributes of an element into the destination
+domKit.moveAttributes = ( $source , $destination ) => {
+	Array.from( $source.attributes ).forEach( ( attr ) => {
+		let name = attr.name ,
+			value = attr.value ;
+
+		$source.removeAttribute( name ) ;
+
+		// Do not copy namespaced attributes for instance,
+		// should probably protect this behind a third argument
+		if ( name !== 'xmlns' && name.indexOf( ':' ) === - 1 && value ) {
+			//console.warn( 'moving: ' , name, value , $destination.getAttribute( name ) ) ;
+			$destination.setAttribute( name , value ) ;
+		}
+	} ) ;
+} ;
+
+
+
+domKit.styleToAttribute = ( $element , property , blacklistedValues ) => {
+	if ( $element.style[ property ] && ( ! blacklistedValues || blacklistedValues.indexOf( $element.style[ property ] ) === - 1 ) ) {
+		$element.setAttribute( property , $element.style[ property ] ) ;
+		$element.style[ property ] = null ;
+	}
+} ;
+
+
+
+// Children of this element get all their ID prefixed, any url(#id) references are patched accordingly
+domKit.prefixIds = ( $element , prefix ) => {
+	var replacement = {} ,
+		elements = $element.querySelectorAll( '*' ) ;
+
+	domKit.batch( domKit.prefixIds.idAttributePass , elements , prefix , replacement ) ;
+	domKit.batch( domKit.prefixIds.otherAttributesPass , elements , replacement ) ;
+} ;
+
+
+
+// Callbacks for domKit.prefixIds(), cleanly hidden behind its prefix
+
+domKit.prefixIds.idAttributePass = ( $element , prefix , replacement ) => {
+	replacement[ $element.id ] = prefix + '.' + $element.id ;
+	$element.id = replacement[ $element.id ] ;
+} ;
+
+
+
+domKit.prefixIds.otherAttributesPass = ( $element , replacement ) => {
+	domKit.batch( domKit.prefixIds.oneAttributeSubPass , $element.attributes , replacement ) ;
+} ;
+
+
+
+domKit.prefixIds.oneAttributeSubPass = ( attr , replacement ) => {
+	// We have to search all url(#id) like substring in the current attribute's value
+	attr.value = attr.value.replace( /url\(#([^)]+)\)/g , ( match , id ) => {
+
+		// No replacement? return the matched string
+		if ( ! replacement[ id ] ) { return match ; }
+
+		// Or return the replacement ID
+		return 'url(#' + replacement[ id ] + ')' ;
+	} ) ;
+} ;
+
+
+
+domKit.removeAllTags = ( $container , tagName , onlyIfEmpty ) => {
+	Array.from( $container.getElementsByTagName( tagName ) ).forEach( ( $element ) => {
+		if ( ! onlyIfEmpty || ! $element.firstChild ) { $element.parentNode.removeChild( $element ) ; }
+	} ) ;
+} ;
+
+
+
+domKit.removeAllAttributes = ( $container , attrName ) => {
+	// Don't forget to remove the ID of the container itself
+	$container.removeAttribute( attrName ) ;
+
+	Array.from( $container.querySelectorAll( '[' + attrName + ']' ) ).forEach( ( $element ) => {
+		$element.removeAttribute( attrName ) ;
+	} ) ;
+} ;
+
+
+
+domKit.preload = urls => {
+	if ( ! Array.isArray( urls ) ) { urls = [ urls ] ; }
+
+	urls.forEach( ( url ) => {
+		if ( domKit.preload.preloaded[ url ] ) { return ; }
+		domKit.preload.preloaded[ url ] = new Image() ;
+		domKit.preload.preloaded[ url ].src = url ;
+	} ) ;
+} ;
+
+domKit.preload.preloaded = {} ;
+
+
+
+/*
+	Filter namespaces:
+
+	* options `object` where:
+		* blacklist `array` of `string` namespace of elements/attributes to remove
+		* whitelist `array` of `string` namespace to elements/attributes to keep
+		* primary `string` keep those elements but remove the namespace
+*/
+domKit.filterByNamespace = ( $container , options ) => {
+	// Nothing to do? return now...
+	if ( ! options || typeof options !== 'object' ) { return ; }
+
+	domKit.filterAttributesByNamespace( $container , options ) ;
+
+	for ( let i = $container.childNodes.length - 1 ; i >= 0 ; i -- ) {
+		let $child = $container.childNodes[ i ] ;
+
+		if ( $child.nodeType === 1 ) {
+			if ( $child.tagName.indexOf( ':' ) !== - 1 ) {
+				let split = $child.tagName.split( ':' ) ,
+					namespace = split[ 0 ] ,
+					tagName = split[ 1 ] ;
+
+				if ( namespace === options.primary ) {
+					$child.tagName = tagName ;
+					domKit.filterByNamespace( $child , options ) ;
+				}
+				else if ( options.whitelist ) {
+					if ( options.whitelist.indexOf( namespace ) !== - 1 ) {
+						domKit.filterByNamespace( $child , options ) ;
+					}
+					else {
+						$container.removeChild( $child ) ;
+					}
+				}
+				else if ( options.blacklist ) {
+					if ( options.blacklist.indexOf( namespace ) !== - 1 ) {
+						$container.removeChild( $child ) ;
+					}
+					else {
+						domKit.filterByNamespace( $child , options ) ;
+					}
+				}
+				else {
+					domKit.filterByNamespace( $child , options ) ;
+				}
+			}
+			else {
+				domKit.filterByNamespace( $child , options ) ;
+			}
+		}
+	}
+} ;
+
+
+
+// Filter attributes by namespace
+domKit.filterAttributesByNamespace = ( $container , options ) => {
+	// Nothing to do? return now...
+	if ( ! options || typeof options !== 'object' ) { return ; }
+
+	for ( let i = $container.attributes.length - 1 ; i >= 0 ; i -- ) {
+		let attr = $container.attributes[ i ] ;
+
+		if ( attr.name.indexOf( ':' ) !== - 1 ) {
+			let split = attr.name.split( ':' ) ,
+				namespace = split[ 0 ] ,
+				attrName = split[ 1 ] ,
+				value = attr.value ;
+
+			if ( namespace === options.primary ) {
+				$container.removeAttributeNode( attr ) ;
+				$container.setAttribute( attrName , value ) ;
+			}
+			else if ( options.whitelist ) {
+				if ( options.whitelist.indexOf( namespace ) === - 1 ) {
+					$container.removeAttributeNode( attr ) ;
+				}
+			}
+			else if ( options.blacklist ) {
+				if ( options.blacklist.indexOf( namespace ) !== - 1 ) {
+					$container.removeAttributeNode( attr ) ;
+				}
+			}
+		}
+	}
+} ;
+
+
+
+// Remove comments
+domKit.removeComments = $container => {
+	for ( let i = $container.childNodes.length - 1 ; i >= 0 ; i -- ) {
+		let $child = $container.childNodes[ i ] ;
+
+		if ( $child.nodeType === 8 ) {
+			$container.removeChild( $child ) ;
+		}
+		else if ( $child.nodeType === 1 ) {
+			domKit.removeComments( $child ) ;
+		}
+	}
+} ;
+
+
+
+// Remove white-space-only text-node
+domKit.removeWhiteSpaces = ( $container , onlyWhiteLines ) => {
+	var $lastTextNode = null ;
+
+	for ( let i = $container.childNodes.length - 1 ; i >= 0 ; i -- ) {
+		let $child = $container.childNodes[ i ] ;
+		//console.log( '$child.nodeType' , $child.nodeType ) ;
+
+		if ( $child.nodeType === 3 ) {
+			if ( onlyWhiteLines ) {
+				if ( $lastTextNode ) {
+					// When multiple text-node in a row
+					$lastTextNode.nodeValue = ( $child.nodeValue + $lastTextNode.nodeValue ).replace( /^\s*(\n[\t ]*)$/ , '$1' ) ;
+					$container.removeChild( $child ) ;
+				}
+				else {
+					//console.log( "deb1: '" + $child.nodeValue + "'" ) ;
+					$child.nodeValue = $child.nodeValue.replace( /^\s*(\n[\t ]*)$/ , '$1' ) ;
+					$lastTextNode = $child ;
+					//console.log( "deb2: '" + $child.nodeValue + "'" ) ;
+				}
+			}
+			else if ( ! /\S/.test( $child.nodeValue ) ) {
+				$container.removeChild( $child ) ;
+			}
+		}
+		else if ( $child.nodeType === 1 ) {
+			$lastTextNode = null ;
+			domKit.removeWhiteSpaces( $child , onlyWhiteLines ) ;
+		}
+		else {
+			$lastTextNode = null ;
+		}
+	}
+} ;
+
+
+
+// Transform-related method
+
+domKit.parseMatrix = str => {
+	var matches = str.match( /(matrix|matrix3d)\(([0-9., -]+)\)/ ) ;
+
+	if ( ! matches ) { return null ; }
+
+	return matches[ 2 ].trim().split( / ?, ?/ ).map( ( e ) => {
+		return parseFloat( e ) ;
+	} ) ;
+} ;
+
+
+
+domKit.decomposeMatrix = matrix => {
+	if ( matrix.length === 6 ) { return domKit.decomposeMatrix2d( matrix ) ; }
+	if ( matrix.length === 16 ) { return domKit.decomposeMatrix3d( matrix ) ; }
+	return null ;
+} ;
+
+
+
+// From: https://stackoverflow.com/questions/16359246/how-to-extract-position-rotation-and-scale-from-matrix-svg
+domKit.decomposeMatrix2d = matrix => {
+	var angle = Math.atan2( matrix[1] , matrix[0] ) ,
+		denom = matrix[0] * matrix[0] + matrix[1] * matrix[1] ,
+		scaleX = Math.sqrt( denom ) ,
+		scaleY = ( matrix[0] * matrix[3] - matrix[2] * matrix[1] ) / scaleX ,
+		skewX = Math.atan2( matrix[0] * matrix[2] + matrix[1] * matrix[3] , denom ) ;
+
+	return {
+		rotate: 180 * angle / Math.PI ,  // in degrees
+		scaleX: scaleX ,
+		scaleY: scaleY ,
+		skewX: 180 * skewX / Math.PI ,  // in degree
+		skewY: 0 ,  // always 0 in this decomposition
+		translateX: matrix[4] ,
+		translateY: matrix[5]
+	} ;
+} ;
+
+
+
+// https://stackoverflow.com/questions/15024828/transforming-3d-matrix-into-readable-format
+// supports only scale*rotate*translate matrix
+domKit.decomposeMatrix3d = matrix => {
+	var radians = Math.PI / 180 ;
+
+	var sX = Math.sqrt( matrix[0] * matrix[0] + matrix[1] * matrix[1] + matrix[2] * matrix[2] ) ,
+		sY = Math.sqrt( matrix[4] * matrix[4] + matrix[5] * matrix[5] + matrix[6] * matrix[6] ) ,
+		sZ = Math.sqrt( matrix[8] * matrix[8] + matrix[9] * matrix[9] + matrix[10] * matrix[10] ) ;
+
+	var rX = Math.atan2( - matrix[9] / sZ , matrix[10] / sZ ) / radians ,
+		rY = Math.asin( matrix[8] / sZ ) / radians ,
+		rZ = Math.atan2( - matrix[4] / sY , matrix[0] / sX ) / radians ;
+
+	if ( matrix[4] === 1 || matrix[4] === - 1 ) {
+		rX = 0 ;
+		rY = matrix[4] * - Math.PI / 2 ;
+		rZ = matrix[4] * Math.atan2( matrix[6] / sY , matrix[5] / sY ) / radians ;
+	}
+
+	var tX = matrix[12] / sX ,
+		tY = matrix[13] / sX ,
+		tZ = matrix[14] / sX ;
+
+	return {
+		translateX: tX ,
+		translateY: tY ,
+		translateZ: tZ ,
+		rotateX: rX ,
+		rotateY: rY ,
+		rotateZ: rZ ,
+		scaleX: sX ,
+		scaleY: sY ,
+		scaleZ: sZ
+	} ;
+} ;
+
+
+
+const AXIS_TO_ROT = {
+	x: 'rotateX' ,
+	X: 'rotateX' ,
+	y: 'rotateY' ,
+	Y: 'rotateY' ,
+	z: 'rotateZ' ,
+	Z: 'rotateZ'
+} ;
+
+
+
+domKit.stringifyTransform = object => {
+	var str = [] , eulerOrder , i , rot ;
+
+	if ( object.translateX ) { str.push( 'translateX(' + object.translateX + 'px)' ) ; }
+	if ( object.translateY ) { str.push( 'translateY(' + object.translateY + 'px)' ) ; }
+	if ( object.translateZ ) { str.push( 'translateZ(' + object.translateZ + 'px)' ) ; }
+
+	if ( object.rotate ) {
+		str.push( 'rotate(' + object.rotate + 'deg)' ) ;
+	}
+	else {
+		eulerOrder = object.eulerOrder || 'zyx' ;
+		for ( i = 0 ; i < 3 ; i ++ ) {
+			rot = AXIS_TO_ROT[ eulerOrder[ i ] ] ;
+			if ( object[ rot ] ) { str.push( rot + '(' + object[ rot ] + 'deg)' ) ; }
+		}
+	}
+
+	if ( object.scale ) {
+		str.push( 'scale(' + object.scale + ')' ) ;
+	}
+	else {
+		if ( object.scaleX ) { str.push( 'scaleX(' + object.scaleX + ')' ) ; }
+		if ( object.scaleY ) { str.push( 'scaleY(' + object.scaleY + ')' ) ; }
+		if ( object.scaleZ ) { str.push( 'scaleZ(' + object.scaleZ + ')' ) ; }
+	}
+
+	if ( object.skewX ) { str.push( 'skewX(' + object.skewX + 'deg)' ) ; }
+	if ( object.skewY ) { str.push( 'skewY(' + object.skewY + 'deg)' ) ; }
+
+	return str.join( ' ' ) ;
+} ;
+
+domKit.transform = ( $element , transformObject ) => $element.style.transform = domKit.stringifyTransform( transformObject ) ;
+
+
+
+
+
+/* Function useful for .batch() as callback */
+/* ... to avoid defining again and again the same callback function */
+
+// Change id
+domKit.id = ( $element , id ) => $element.id = id ;
+
+// Like jQuery .text().
+domKit.text = ( $element , text ) => $element.textContent = text ;
+
+// Like jQuery .html().
+domKit.html = ( $element , html ) => $element.innerHTML = html ;
+
+
+}).call(this)}).call(this,require('_process'))
+},{"@cronvel/xmldom":104,"_process":108}],77:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.detector = void 0;
+const types_1 = require("./types");
+const keys = Object.keys(types_1.typeHandlers);
+// This map helps avoid validating for every single image type
+const firstBytes = {
+    0x38: 'psd',
+    0x42: 'bmp',
+    0x44: 'dds',
+    0x47: 'gif',
+    0x49: 'tiff',
+    0x4d: 'tiff',
+    0x52: 'webp',
+    0x69: 'icns',
+    0x89: 'png',
+    0xff: 'jpg'
+};
+function detector(buffer) {
+    const byte = buffer[0];
+    if (byte in firstBytes) {
+        const type = firstBytes[byte];
+        if (type && types_1.typeHandlers[type].validate(buffer)) {
+            return type;
+        }
+    }
+    const finder = (key) => types_1.typeHandlers[key].validate(buffer);
+    return keys.find(finder);
+}
+exports.detector = detector;
+
+},{"./types":80}],78:[function(require,module,exports){
+(function (process,Buffer){(function (){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.types = exports.setConcurrency = exports.disableTypes = exports.disableFS = exports.imageSize = void 0;
+const fs = require("fs");
+const path = require("path");
+const queue_1 = require("queue");
+const types_1 = require("./types");
+const detector_1 = require("./detector");
+// Maximum buffer size, with a default of 512 kilobytes.
+// TO-DO: make this adaptive based on the initial signature of the image
+const MaxBufferSize = 512 * 1024;
+// This queue is for async `fs` operations, to avoid reaching file-descriptor limits
+const queue = new queue_1.default({ concurrency: 100, autostart: true });
+const globalOptions = {
+    disabledFS: false,
+    disabledTypes: []
+};
+/**
+ * Return size information based on a buffer
+ *
+ * @param {Buffer} buffer
+ * @param {String} filepath
+ * @returns {Object}
+ */
+function lookup(buffer, filepath) {
+    // detect the file type.. don't rely on the extension
+    const type = (0, detector_1.detector)(buffer);
+    if (typeof type !== 'undefined') {
+        if (globalOptions.disabledTypes.indexOf(type) > -1) {
+            throw new TypeError('disabled file type: ' + type);
+        }
+        // find an appropriate handler for this file type
+        if (type in types_1.typeHandlers) {
+            const size = types_1.typeHandlers[type].calculate(buffer, filepath);
+            if (size !== undefined) {
+                size.type = type;
+                return size;
+            }
+        }
+    }
+    // throw up, if we don't understand the file
+    throw new TypeError('unsupported file type: ' + type + ' (file: ' + filepath + ')');
+}
+/**
+ * Reads a file into a buffer.
+ * @param {String} filepath
+ * @returns {Promise<Buffer>}
+ */
+async function asyncFileToBuffer(filepath) {
+    const handle = await fs.promises.open(filepath, 'r');
+    try {
+        const { size } = await handle.stat();
+        if (size <= 0) {
+            throw new Error('Empty file');
+        }
+        const bufferSize = Math.min(size, MaxBufferSize);
+        const buffer = Buffer.alloc(bufferSize);
+        await handle.read(buffer, 0, bufferSize, 0);
+        return buffer;
+    }
+    finally {
+        await handle.close();
+    }
+}
+/**
+ * Synchronously reads a file into a buffer, blocking the nodejs process.
+ *
+ * @param {String} filepath
+ * @returns {Buffer}
+ */
+function syncFileToBuffer(filepath) {
+    // read from the file, synchronously
+    const descriptor = fs.openSync(filepath, 'r');
+    try {
+        const { size } = fs.fstatSync(descriptor);
+        if (size <= 0) {
+            throw new Error('Empty file');
+        }
+        const bufferSize = Math.min(size, MaxBufferSize);
+        const buffer = Buffer.alloc(bufferSize);
+        fs.readSync(descriptor, buffer, 0, bufferSize, 0);
+        return buffer;
+    }
+    finally {
+        fs.closeSync(descriptor);
+    }
+}
+// eslint-disable-next-line @typescript-eslint/no-use-before-define
+module.exports = exports = imageSize; // backwards compatibility
+exports.default = imageSize;
+/**
+ * @param {Buffer|string} input - buffer or relative/absolute path of the image file
+ * @param {Function=} [callback] - optional function for async detection
+ */
+function imageSize(input, callback) {
+    // Handle buffer input
+    if (Buffer.isBuffer(input)) {
+        return lookup(input);
+    }
+    // input should be a string at this point
+    if (typeof input !== 'string' || globalOptions.disabledFS) {
+        throw new TypeError('invalid invocation. input should be a Buffer');
+    }
+    // resolve the file path
+    const filepath = path.resolve(input);
+    if (typeof callback === 'function') {
+        queue.push(() => asyncFileToBuffer(filepath)
+            .then((buffer) => process.nextTick(callback, null, lookup(buffer, filepath)))
+            .catch(callback));
+    }
+    else {
+        const buffer = syncFileToBuffer(filepath);
+        return lookup(buffer, filepath);
+    }
+}
+exports.imageSize = imageSize;
+const disableFS = (v) => { globalOptions.disabledFS = v; };
+exports.disableFS = disableFS;
+const disableTypes = (types) => { globalOptions.disabledTypes = types; };
+exports.disableTypes = disableTypes;
+const setConcurrency = (c) => { queue.concurrency = c; };
+exports.setConcurrency = setConcurrency;
+exports.types = Object.keys(types_1.typeHandlers);
+
+}).call(this)}).call(this,require('_process'),require("buffer").Buffer)
+},{"./detector":77,"./types":80,"_process":108,"buffer":104,"fs":104,"path":107,"queue":100}],79:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.readUInt = void 0;
+// Abstract reading multi-byte unsigned integers
+function readUInt(buffer, bits, offset, isBigEndian) {
+    offset = offset || 0;
+    const endian = isBigEndian ? 'BE' : 'LE';
+    const methodName = ('readUInt' + bits + endian);
+    return buffer[methodName].call(buffer, offset);
+}
+exports.readUInt = readUInt;
+
+},{}],80:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.typeHandlers = void 0;
+// load all available handlers explicitely for browserify support
+const bmp_1 = require("./types/bmp");
+const cur_1 = require("./types/cur");
+const dds_1 = require("./types/dds");
+const gif_1 = require("./types/gif");
+const icns_1 = require("./types/icns");
+const ico_1 = require("./types/ico");
+const j2c_1 = require("./types/j2c");
+const jp2_1 = require("./types/jp2");
+const jpg_1 = require("./types/jpg");
+const ktx_1 = require("./types/ktx");
+const png_1 = require("./types/png");
+const pnm_1 = require("./types/pnm");
+const psd_1 = require("./types/psd");
+const svg_1 = require("./types/svg");
+const tga_1 = require("./types/tga");
+const tiff_1 = require("./types/tiff");
+const webp_1 = require("./types/webp");
+exports.typeHandlers = {
+    bmp: bmp_1.BMP,
+    cur: cur_1.CUR,
+    dds: dds_1.DDS,
+    gif: gif_1.GIF,
+    icns: icns_1.ICNS,
+    ico: ico_1.ICO,
+    j2c: j2c_1.J2C,
+    jp2: jp2_1.JP2,
+    jpg: jpg_1.JPG,
+    ktx: ktx_1.KTX,
+    png: png_1.PNG,
+    pnm: pnm_1.PNM,
+    psd: psd_1.PSD,
+    svg: svg_1.SVG,
+    tga: tga_1.TGA,
+    tiff: tiff_1.TIFF,
+    webp: webp_1.WEBP,
+};
+
+},{"./types/bmp":81,"./types/cur":82,"./types/dds":83,"./types/gif":84,"./types/icns":85,"./types/ico":86,"./types/j2c":87,"./types/jp2":88,"./types/jpg":89,"./types/ktx":90,"./types/png":91,"./types/pnm":92,"./types/psd":93,"./types/svg":94,"./types/tga":95,"./types/tiff":96,"./types/webp":97}],81:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.BMP = void 0;
+exports.BMP = {
+    validate(buffer) {
+        return ('BM' === buffer.toString('ascii', 0, 2));
+    },
+    calculate(buffer) {
+        return {
+            height: Math.abs(buffer.readInt32LE(22)),
+            width: buffer.readUInt32LE(18)
+        };
+    }
+};
+
+},{}],82:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CUR = void 0;
+const ico_1 = require("./ico");
+const TYPE_CURSOR = 2;
+exports.CUR = {
+    validate(buffer) {
+        const reserved = buffer.readUInt16LE(0);
+        const imageCount = buffer.readUInt16LE(4);
+        if (reserved !== 0 || imageCount === 0) {
+            return false;
+        }
+        const imageType = buffer.readUInt16LE(2);
+        return imageType === TYPE_CURSOR;
+    },
+    calculate(buffer) {
+        return ico_1.ICO.calculate(buffer);
+    }
+};
+
+},{"./ico":86}],83:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DDS = void 0;
+exports.DDS = {
+    validate(buffer) {
+        return buffer.readUInt32LE(0) === 0x20534444;
+    },
+    calculate(buffer) {
+        return {
+            height: buffer.readUInt32LE(12),
+            width: buffer.readUInt32LE(16)
+        };
+    }
+};
+
+},{}],84:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.GIF = void 0;
+const gifRegexp = /^GIF8[79]a/;
+exports.GIF = {
+    validate(buffer) {
+        const signature = buffer.toString('ascii', 0, 6);
+        return (gifRegexp.test(signature));
+    },
+    calculate(buffer) {
+        return {
+            height: buffer.readUInt16LE(8),
+            width: buffer.readUInt16LE(6)
+        };
+    }
+};
+
+},{}],85:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ICNS = void 0;
+/**
+ * ICNS Header
+ *
+ * | Offset | Size | Purpose                                                |
+ * | 0	    | 4    | Magic literal, must be "icns" (0x69, 0x63, 0x6e, 0x73) |
+ * | 4      | 4    | Length of file, in bytes, msb first.                   |
+ *
+ */
+const SIZE_HEADER = 4 + 4; // 8
+const FILE_LENGTH_OFFSET = 4; // MSB => BIG ENDIAN
+/**
+ * Image Entry
+ *
+ * | Offset | Size | Purpose                                                          |
+ * | 0	    | 4    | Icon type, see OSType below.                                     |
+ * | 4      | 4    | Length of data, in bytes (including type and length), msb first. |
+ * | 8      | n    | Icon data                                                        |
+ */
+const ENTRY_LENGTH_OFFSET = 4; // MSB => BIG ENDIAN
+const ICON_TYPE_SIZE = {
+    ICON: 32,
+    'ICN#': 32,
+    // m => 16 x 16
+    'icm#': 16,
+    icm4: 16,
+    icm8: 16,
+    // s => 16 x 16
+    'ics#': 16,
+    ics4: 16,
+    ics8: 16,
+    is32: 16,
+    s8mk: 16,
+    icp4: 16,
+    // l => 32 x 32
+    icl4: 32,
+    icl8: 32,
+    il32: 32,
+    l8mk: 32,
+    icp5: 32,
+    ic11: 32,
+    // h => 48 x 48
+    ich4: 48,
+    ich8: 48,
+    ih32: 48,
+    h8mk: 48,
+    // . => 64 x 64
+    icp6: 64,
+    ic12: 32,
+    // t => 128 x 128
+    it32: 128,
+    t8mk: 128,
+    ic07: 128,
+    // . => 256 x 256
+    ic08: 256,
+    ic13: 256,
+    // . => 512 x 512
+    ic09: 512,
+    ic14: 512,
+    // . => 1024 x 1024
+    ic10: 1024,
+};
+function readImageHeader(buffer, imageOffset) {
+    const imageLengthOffset = imageOffset + ENTRY_LENGTH_OFFSET;
+    return [
+        buffer.toString('ascii', imageOffset, imageLengthOffset),
+        buffer.readUInt32BE(imageLengthOffset)
+    ];
+}
+function getImageSize(type) {
+    const size = ICON_TYPE_SIZE[type];
+    return { width: size, height: size, type };
+}
+exports.ICNS = {
+    validate(buffer) {
+        return ('icns' === buffer.toString('ascii', 0, 4));
+    },
+    calculate(buffer) {
+        const bufferLength = buffer.length;
+        const fileLength = buffer.readUInt32BE(FILE_LENGTH_OFFSET);
+        let imageOffset = SIZE_HEADER;
+        let imageHeader = readImageHeader(buffer, imageOffset);
+        let imageSize = getImageSize(imageHeader[0]);
+        imageOffset += imageHeader[1];
+        if (imageOffset === fileLength) {
+            return imageSize;
+        }
+        const result = {
+            height: imageSize.height,
+            images: [imageSize],
+            width: imageSize.width
+        };
+        while (imageOffset < fileLength && imageOffset < bufferLength) {
+            imageHeader = readImageHeader(buffer, imageOffset);
+            imageSize = getImageSize(imageHeader[0]);
+            imageOffset += imageHeader[1];
+            result.images.push(imageSize);
+        }
+        return result;
+    }
+};
+
+},{}],86:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ICO = void 0;
+const TYPE_ICON = 1;
+/**
+ * ICON Header
+ *
+ * | Offset | Size | Purpose |
+ * | 0	    | 2    | Reserved. Must always be 0.  |
+ * | 2      | 2    | Image type: 1 for icon (.ICO) image, 2 for cursor (.CUR) image. Other values are invalid. |
+ * | 4      | 2    | Number of images in the file. |
+ *
+ */
+const SIZE_HEADER = 2 + 2 + 2; // 6
+/**
+ * Image Entry
+ *
+ * | Offset | Size | Purpose |
+ * | 0	    | 1    | Image width in pixels. Can be any number between 0 and 255. Value 0 means width is 256 pixels. |
+ * | 1      | 1    | Image height in pixels. Can be any number between 0 and 255. Value 0 means height is 256 pixels. |
+ * | 2      | 1    | Number of colors in the color palette. Should be 0 if the image does not use a color palette. |
+ * | 3      | 1    | Reserved. Should be 0. |
+ * | 4      | 2    | ICO format: Color planes. Should be 0 or 1. |
+ * |        |      | CUR format: The horizontal coordinates of the hotspot in number of pixels from the left. |
+ * | 6      | 2    | ICO format: Bits per pixel. |
+ * |        |      | CUR format: The vertical coordinates of the hotspot in number of pixels from the top. |
+ * | 8      | 4    | The size of the image's data in bytes |
+ * | 12     | 4    | The offset of BMP or PNG data from the beginning of the ICO/CUR file |
+ *
+ */
+const SIZE_IMAGE_ENTRY = 1 + 1 + 1 + 1 + 2 + 2 + 4 + 4; // 16
+function getSizeFromOffset(buffer, offset) {
+    const value = buffer.readUInt8(offset);
+    return value === 0 ? 256 : value;
+}
+function getImageSize(buffer, imageIndex) {
+    const offset = SIZE_HEADER + (imageIndex * SIZE_IMAGE_ENTRY);
+    return {
+        height: getSizeFromOffset(buffer, offset + 1),
+        width: getSizeFromOffset(buffer, offset)
+    };
+}
+exports.ICO = {
+    validate(buffer) {
+        const reserved = buffer.readUInt16LE(0);
+        const imageCount = buffer.readUInt16LE(4);
+        if (reserved !== 0 || imageCount === 0) {
+            return false;
+        }
+        const imageType = buffer.readUInt16LE(2);
+        return imageType === TYPE_ICON;
+    },
+    calculate(buffer) {
+        const nbImages = buffer.readUInt16LE(4);
+        const imageSize = getImageSize(buffer, 0);
+        if (nbImages === 1) {
+            return imageSize;
+        }
+        const imgs = [imageSize];
+        for (let imageIndex = 1; imageIndex < nbImages; imageIndex += 1) {
+            imgs.push(getImageSize(buffer, imageIndex));
+        }
+        const result = {
+            height: imageSize.height,
+            images: imgs,
+            width: imageSize.width
+        };
+        return result;
+    }
+};
+
+},{}],87:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.J2C = void 0;
+exports.J2C = {
+    validate(buffer) {
+        // TODO: this doesn't seem right. SIZ marker doesn't have to be right after the SOC
+        return buffer.toString('hex', 0, 4) === 'ff4fff51';
+    },
+    calculate(buffer) {
+        return {
+            height: buffer.readUInt32BE(12),
+            width: buffer.readUInt32BE(8),
+        };
+    }
+};
+
+},{}],88:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.JP2 = void 0;
+const BoxTypes = {
+    ftyp: '66747970',
+    ihdr: '69686472',
+    jp2h: '6a703268',
+    jp__: '6a502020',
+    rreq: '72726571',
+    xml_: '786d6c20'
+};
+const calculateRREQLength = (box) => {
+    const unit = box.readUInt8(0);
+    let offset = 1 + (2 * unit);
+    const numStdFlags = box.readUInt16BE(offset);
+    const flagsLength = numStdFlags * (2 + unit);
+    offset = offset + 2 + flagsLength;
+    const numVendorFeatures = box.readUInt16BE(offset);
+    const featuresLength = numVendorFeatures * (16 + unit);
+    return offset + 2 + featuresLength;
+};
+const parseIHDR = (box) => {
+    return {
+        height: box.readUInt32BE(4),
+        width: box.readUInt32BE(8),
+    };
+};
+exports.JP2 = {
+    validate(buffer) {
+        const signature = buffer.toString('hex', 4, 8);
+        const signatureLength = buffer.readUInt32BE(0);
+        if (signature !== BoxTypes.jp__ || signatureLength < 1) {
+            return false;
+        }
+        const ftypeBoxStart = signatureLength + 4;
+        const ftypBoxLength = buffer.readUInt32BE(signatureLength);
+        const ftypBox = buffer.slice(ftypeBoxStart, ftypeBoxStart + ftypBoxLength);
+        return ftypBox.toString('hex', 0, 4) === BoxTypes.ftyp;
+    },
+    calculate(buffer) {
+        const signatureLength = buffer.readUInt32BE(0);
+        const ftypBoxLength = buffer.readUInt16BE(signatureLength + 2);
+        let offset = signatureLength + 4 + ftypBoxLength;
+        const nextBoxType = buffer.toString('hex', offset, offset + 4);
+        switch (nextBoxType) {
+            case BoxTypes.rreq:
+                // WHAT ARE THESE 4 BYTES?????
+                // eslint-disable-next-line no-case-declarations
+                const MAGIC = 4;
+                offset = offset + 4 + MAGIC + calculateRREQLength(buffer.slice(offset + 4));
+                return parseIHDR(buffer.slice(offset + 8, offset + 24));
+            case BoxTypes.jp2h:
+                return parseIHDR(buffer.slice(offset + 8, offset + 24));
+            default:
+                throw new TypeError('Unsupported header found: ' + buffer.toString('ascii', offset, offset + 4));
+        }
+    }
+};
+
+},{}],89:[function(require,module,exports){
+"use strict";
+// NOTE: we only support baseline and progressive JPGs here
+// due to the structure of the loader class, we only get a buffer
+// with a maximum size of 4096 bytes. so if the SOF marker is outside
+// if this range we can't detect the file size correctly.
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.JPG = void 0;
+const readUInt_1 = require("../readUInt");
+const EXIF_MARKER = '45786966';
+const APP1_DATA_SIZE_BYTES = 2;
+const EXIF_HEADER_BYTES = 6;
+const TIFF_BYTE_ALIGN_BYTES = 2;
+const BIG_ENDIAN_BYTE_ALIGN = '4d4d';
+const LITTLE_ENDIAN_BYTE_ALIGN = '4949';
+// Each entry is exactly 12 bytes
+const IDF_ENTRY_BYTES = 12;
+const NUM_DIRECTORY_ENTRIES_BYTES = 2;
+function isEXIF(buffer) {
+    return (buffer.toString('hex', 2, 6) === EXIF_MARKER);
+}
+function extractSize(buffer, index) {
+    return {
+        height: buffer.readUInt16BE(index),
+        width: buffer.readUInt16BE(index + 2)
+    };
+}
+function extractOrientation(exifBlock, isBigEndian) {
+    // TODO: assert that this contains 0x002A
+    // let STATIC_MOTOROLA_TIFF_HEADER_BYTES = 2
+    // let TIFF_IMAGE_FILE_DIRECTORY_BYTES = 4
+    // TODO: derive from TIFF_IMAGE_FILE_DIRECTORY_BYTES
+    const idfOffset = 8;
+    // IDF osset works from right after the header bytes
+    // (so the offset includes the tiff byte align)
+    const offset = EXIF_HEADER_BYTES + idfOffset;
+    const idfDirectoryEntries = (0, readUInt_1.readUInt)(exifBlock, 16, offset, isBigEndian);
+    for (let directoryEntryNumber = 0; directoryEntryNumber < idfDirectoryEntries; directoryEntryNumber++) {
+        const start = offset + NUM_DIRECTORY_ENTRIES_BYTES + (directoryEntryNumber * IDF_ENTRY_BYTES);
+        const end = start + IDF_ENTRY_BYTES;
+        // Skip on corrupt EXIF blocks
+        if (start > exifBlock.length) {
+            return;
+        }
+        const block = exifBlock.slice(start, end);
+        const tagNumber = (0, readUInt_1.readUInt)(block, 16, 0, isBigEndian);
+        // 0x0112 (decimal: 274) is the `orientation` tag ID
+        if (tagNumber === 274) {
+            const dataFormat = (0, readUInt_1.readUInt)(block, 16, 2, isBigEndian);
+            if (dataFormat !== 3) {
+                return;
+            }
+            // unsinged int has 2 bytes per component
+            // if there would more than 4 bytes in total it's a pointer
+            const numberOfComponents = (0, readUInt_1.readUInt)(block, 32, 4, isBigEndian);
+            if (numberOfComponents !== 1) {
+                return;
+            }
+            return (0, readUInt_1.readUInt)(block, 16, 8, isBigEndian);
+        }
+    }
+}
+function validateExifBlock(buffer, index) {
+    // Skip APP1 Data Size
+    const exifBlock = buffer.slice(APP1_DATA_SIZE_BYTES, index);
+    // Consider byte alignment
+    const byteAlign = exifBlock.toString('hex', EXIF_HEADER_BYTES, EXIF_HEADER_BYTES + TIFF_BYTE_ALIGN_BYTES);
+    // Ignore Empty EXIF. Validate byte alignment
+    const isBigEndian = byteAlign === BIG_ENDIAN_BYTE_ALIGN;
+    const isLittleEndian = byteAlign === LITTLE_ENDIAN_BYTE_ALIGN;
+    if (isBigEndian || isLittleEndian) {
+        return extractOrientation(exifBlock, isBigEndian);
+    }
+}
+function validateBuffer(buffer, index) {
+    // index should be within buffer limits
+    if (index > buffer.length) {
+        throw new TypeError('Corrupt JPG, exceeded buffer limits');
+    }
+    // Every JPEG block must begin with a 0xFF
+    if (buffer[index] !== 0xFF) {
+        throw new TypeError('Invalid JPG, marker table corrupted');
+    }
+}
+exports.JPG = {
+    validate(buffer) {
+        const SOIMarker = buffer.toString('hex', 0, 2);
+        return ('ffd8' === SOIMarker);
+    },
+    calculate(buffer) {
+        // Skip 4 chars, they are for signature
+        buffer = buffer.slice(4);
+        let orientation;
+        let next;
+        while (buffer.length) {
+            // read length of the next block
+            const i = buffer.readUInt16BE(0);
+            if (isEXIF(buffer)) {
+                orientation = validateExifBlock(buffer, i);
+            }
+            // ensure correct format
+            validateBuffer(buffer, i);
+            // 0xFFC0 is baseline standard(SOF)
+            // 0xFFC1 is baseline optimized(SOF)
+            // 0xFFC2 is progressive(SOF2)
+            next = buffer[i + 1];
+            if (next === 0xC0 || next === 0xC1 || next === 0xC2) {
+                const size = extractSize(buffer, i + 5);
+                // TODO: is orientation=0 a valid answer here?
+                if (!orientation) {
+                    return size;
+                }
+                return {
+                    height: size.height,
+                    orientation,
+                    width: size.width
+                };
+            }
+            // move to the next block
+            buffer = buffer.slice(i + 2);
+        }
+        throw new TypeError('Invalid JPG, no size found');
+    }
+};
+
+},{"../readUInt":79}],90:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.KTX = void 0;
+const SIGNATURE = 'KTX 11';
+exports.KTX = {
+    validate(buffer) {
+        return SIGNATURE === buffer.toString('ascii', 1, 7);
+    },
+    calculate(buffer) {
+        return {
+            height: buffer.readUInt32LE(40),
+            width: buffer.readUInt32LE(36),
+        };
+    }
+};
+
+},{}],91:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.PNG = void 0;
+const pngSignature = 'PNG\r\n\x1a\n';
+const pngImageHeaderChunkName = 'IHDR';
+// Used to detect "fried" png's: http://www.jongware.com/pngdefry.html
+const pngFriedChunkName = 'CgBI';
+exports.PNG = {
+    validate(buffer) {
+        if (pngSignature === buffer.toString('ascii', 1, 8)) {
+            let chunkName = buffer.toString('ascii', 12, 16);
+            if (chunkName === pngFriedChunkName) {
+                chunkName = buffer.toString('ascii', 28, 32);
+            }
+            if (chunkName !== pngImageHeaderChunkName) {
+                throw new TypeError('Invalid PNG');
+            }
+            return true;
+        }
+        return false;
+    },
+    calculate(buffer) {
+        if (buffer.toString('ascii', 12, 16) === pngFriedChunkName) {
+            return {
+                height: buffer.readUInt32BE(36),
+                width: buffer.readUInt32BE(32)
+            };
+        }
+        return {
+            height: buffer.readUInt32BE(20),
+            width: buffer.readUInt32BE(16)
+        };
+    }
+};
+
+},{}],92:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.PNM = void 0;
+const PNMTypes = {
+    P1: 'pbm/ascii',
+    P2: 'pgm/ascii',
+    P3: 'ppm/ascii',
+    P4: 'pbm',
+    P5: 'pgm',
+    P6: 'ppm',
+    P7: 'pam',
+    PF: 'pfm'
+};
+const Signatures = Object.keys(PNMTypes);
+const handlers = {
+    default: (lines) => {
+        let dimensions = [];
+        while (lines.length > 0) {
+            const line = lines.shift();
+            if (line[0] === '#') {
+                continue;
+            }
+            dimensions = line.split(' ');
+            break;
+        }
+        if (dimensions.length === 2) {
+            return {
+                height: parseInt(dimensions[1], 10),
+                width: parseInt(dimensions[0], 10),
+            };
+        }
+        else {
+            throw new TypeError('Invalid PNM');
+        }
+    },
+    pam: (lines) => {
+        const size = {};
+        while (lines.length > 0) {
+            const line = lines.shift();
+            if (line.length > 16 || line.charCodeAt(0) > 128) {
+                continue;
+            }
+            const [key, value] = line.split(' ');
+            if (key && value) {
+                size[key.toLowerCase()] = parseInt(value, 10);
+            }
+            if (size.height && size.width) {
+                break;
+            }
+        }
+        if (size.height && size.width) {
+            return {
+                height: size.height,
+                width: size.width
+            };
+        }
+        else {
+            throw new TypeError('Invalid PAM');
+        }
+    }
+};
+exports.PNM = {
+    validate(buffer) {
+        const signature = buffer.toString('ascii', 0, 2);
+        return Signatures.includes(signature);
+    },
+    calculate(buffer) {
+        const signature = buffer.toString('ascii', 0, 2);
+        const type = PNMTypes[signature];
+        // TODO: this probably generates garbage. move to a stream based parser
+        const lines = buffer.toString('ascii', 3).split(/[\r\n]+/);
+        const handler = handlers[type] || handlers.default;
+        return handler(lines);
+    }
+};
+
+},{}],93:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.PSD = void 0;
+exports.PSD = {
+    validate(buffer) {
+        return ('8BPS' === buffer.toString('ascii', 0, 4));
+    },
+    calculate(buffer) {
+        return {
+            height: buffer.readUInt32BE(14),
+            width: buffer.readUInt32BE(18)
+        };
+    }
+};
+
+},{}],94:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SVG = void 0;
+const svgReg = /<svg\s([^>"']|"[^"]*"|'[^']*')*>/;
+const extractorRegExps = {
+    height: /\sheight=(['"])([^%]+?)\1/,
+    root: svgReg,
+    viewbox: /\sviewBox=(['"])(.+?)\1/i,
+    width: /\swidth=(['"])([^%]+?)\1/,
+};
+const INCH_CM = 2.54;
+const units = {
+    in: 96,
+    cm: 96 / INCH_CM,
+    em: 16,
+    ex: 8,
+    m: 96 / INCH_CM * 100,
+    mm: 96 / INCH_CM / 10,
+    pc: 96 / 72 / 12,
+    pt: 96 / 72,
+    px: 1
+};
+const unitsReg = new RegExp(`^([0-9.]+(?:e\\d+)?)(${Object.keys(units).join('|')})?$`);
+function parseLength(len) {
+    const m = unitsReg.exec(len);
+    if (!m) {
+        return undefined;
+    }
+    return Math.round(Number(m[1]) * (units[m[2]] || 1));
+}
+function parseViewbox(viewbox) {
+    const bounds = viewbox.split(' ');
+    return {
+        height: parseLength(bounds[3]),
+        width: parseLength(bounds[2])
+    };
+}
+function parseAttributes(root) {
+    const width = root.match(extractorRegExps.width);
+    const height = root.match(extractorRegExps.height);
+    const viewbox = root.match(extractorRegExps.viewbox);
+    return {
+        height: height && parseLength(height[2]),
+        viewbox: viewbox && parseViewbox(viewbox[2]),
+        width: width && parseLength(width[2]),
+    };
+}
+function calculateByDimensions(attrs) {
+    return {
+        height: attrs.height,
+        width: attrs.width,
+    };
+}
+function calculateByViewbox(attrs, viewbox) {
+    const ratio = viewbox.width / viewbox.height;
+    if (attrs.width) {
+        return {
+            height: Math.floor(attrs.width / ratio),
+            width: attrs.width,
+        };
+    }
+    if (attrs.height) {
+        return {
+            height: attrs.height,
+            width: Math.floor(attrs.height * ratio),
+        };
+    }
+    return {
+        height: viewbox.height,
+        width: viewbox.width,
+    };
+}
+exports.SVG = {
+    validate(buffer) {
+        const str = String(buffer);
+        return svgReg.test(str);
+    },
+    calculate(buffer) {
+        const root = buffer.toString('utf8').match(extractorRegExps.root);
+        if (root) {
+            const attrs = parseAttributes(root[0]);
+            if (attrs.width && attrs.height) {
+                return calculateByDimensions(attrs);
+            }
+            if (attrs.viewbox) {
+                return calculateByViewbox(attrs, attrs.viewbox);
+            }
+        }
+        throw new TypeError('Invalid SVG');
+    }
+};
+
+},{}],95:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.TGA = void 0;
+exports.TGA = {
+    validate(buffer) {
+        return buffer.readUInt16LE(0) === 0 && buffer.readUInt16LE(4) === 0;
+    },
+    calculate(buffer) {
+        return {
+            height: buffer.readUInt16LE(14),
+            width: buffer.readUInt16LE(12),
+        };
+    }
+};
+
+},{}],96:[function(require,module,exports){
+(function (Buffer){(function (){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.TIFF = void 0;
+// based on http://www.compix.com/fileformattif.htm
+// TO-DO: support big-endian as well
+const fs = require("fs");
+const readUInt_1 = require("../readUInt");
+// Read IFD (image-file-directory) into a buffer
+function readIFD(buffer, filepath, isBigEndian) {
+    const ifdOffset = (0, readUInt_1.readUInt)(buffer, 32, 4, isBigEndian);
+    // read only till the end of the file
+    let bufferSize = 1024;
+    const fileSize = fs.statSync(filepath).size;
+    if (ifdOffset + bufferSize > fileSize) {
+        bufferSize = fileSize - ifdOffset - 10;
+    }
+    // populate the buffer
+    const endBuffer = Buffer.alloc(bufferSize);
+    const descriptor = fs.openSync(filepath, 'r');
+    fs.readSync(descriptor, endBuffer, 0, bufferSize, ifdOffset);
+    fs.closeSync(descriptor);
+    return endBuffer.slice(2);
+}
+// TIFF values seem to be messed up on Big-Endian, this helps
+function readValue(buffer, isBigEndian) {
+    const low = (0, readUInt_1.readUInt)(buffer, 16, 8, isBigEndian);
+    const high = (0, readUInt_1.readUInt)(buffer, 16, 10, isBigEndian);
+    return (high << 16) + low;
+}
+// move to the next tag
+function nextTag(buffer) {
+    if (buffer.length > 24) {
+        return buffer.slice(12);
+    }
+}
+// Extract IFD tags from TIFF metadata
+function extractTags(buffer, isBigEndian) {
+    const tags = {};
+    let temp = buffer;
+    while (temp && temp.length) {
+        const code = (0, readUInt_1.readUInt)(temp, 16, 0, isBigEndian);
+        const type = (0, readUInt_1.readUInt)(temp, 16, 2, isBigEndian);
+        const length = (0, readUInt_1.readUInt)(temp, 32, 4, isBigEndian);
+        // 0 means end of IFD
+        if (code === 0) {
+            break;
+        }
+        else {
+            // 256 is width, 257 is height
+            // if (code === 256 || code === 257) {
+            if (length === 1 && (type === 3 || type === 4)) {
+                tags[code] = readValue(temp, isBigEndian);
+            }
+            // move to the next tag
+            temp = nextTag(temp);
+        }
+    }
+    return tags;
+}
+// Test if the TIFF is Big Endian or Little Endian
+function determineEndianness(buffer) {
+    const signature = buffer.toString('ascii', 0, 2);
+    if ('II' === signature) {
+        return 'LE';
+    }
+    else if ('MM' === signature) {
+        return 'BE';
+    }
+}
+const signatures = [
+    // '492049', // currently not supported
+    '49492a00',
+    '4d4d002a', // Big Endian
+    // '4d4d002a', // BigTIFF > 4GB. currently not supported
+];
+exports.TIFF = {
+    validate(buffer) {
+        return signatures.includes(buffer.toString('hex', 0, 4));
+    },
+    calculate(buffer, filepath) {
+        if (!filepath) {
+            throw new TypeError('Tiff doesn\'t support buffer');
+        }
+        // Determine BE/LE
+        const isBigEndian = determineEndianness(buffer) === 'BE';
+        // read the IFD
+        const ifdBuffer = readIFD(buffer, filepath, isBigEndian);
+        // extract the tags from the IFD
+        const tags = extractTags(ifdBuffer, isBigEndian);
+        const width = tags[256];
+        const height = tags[257];
+        if (!width || !height) {
+            throw new TypeError('Invalid Tiff. Missing tags');
+        }
+        return { height, width };
+    }
+};
+
+}).call(this)}).call(this,require("buffer").Buffer)
+},{"../readUInt":79,"buffer":104,"fs":104}],97:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.WEBP = void 0;
+function calculateExtended(buffer) {
+    return {
+        height: 1 + buffer.readUIntLE(7, 3),
+        width: 1 + buffer.readUIntLE(4, 3)
+    };
+}
+function calculateLossless(buffer) {
+    return {
+        height: 1 + (((buffer[4] & 0xF) << 10) | (buffer[3] << 2) | ((buffer[2] & 0xC0) >> 6)),
+        width: 1 + (((buffer[2] & 0x3F) << 8) | buffer[1])
+    };
+}
+function calculateLossy(buffer) {
+    // `& 0x3fff` returns the last 14 bits
+    // TO-DO: include webp scaling in the calculations
+    return {
+        height: buffer.readInt16LE(8) & 0x3fff,
+        width: buffer.readInt16LE(6) & 0x3fff
+    };
+}
+exports.WEBP = {
+    validate(buffer) {
+        const riffHeader = 'RIFF' === buffer.toString('ascii', 0, 4);
+        const webpHeader = 'WEBP' === buffer.toString('ascii', 8, 12);
+        const vp8Header = 'VP8' === buffer.toString('ascii', 12, 15);
+        return (riffHeader && webpHeader && vp8Header);
+    },
+    calculate(buffer) {
+        const chunkHeader = buffer.toString('ascii', 12, 16);
+        buffer = buffer.slice(20, 30);
+        // Extended webp stream signature
+        if (chunkHeader === 'VP8X') {
+            const extendedHeader = buffer[0];
+            const validStart = (extendedHeader & 0xc0) === 0;
+            const validEnd = (extendedHeader & 0x01) === 0;
+            if (validStart && validEnd) {
+                return calculateExtended(buffer);
+            }
+            else {
+                // TODO: breaking change
+                throw new TypeError('Invalid WebP');
+            }
+        }
+        // Lossless webp stream signature
+        if (chunkHeader === 'VP8 ' && buffer[0] !== 0x2f) {
+            return calculateLossy(buffer);
+        }
+        // Lossy webp stream signature
+        const signature = buffer.toString('hex', 3, 6);
+        if (chunkHeader === 'VP8L' && signature !== '9d012a') {
+            return calculateLossless(buffer);
+        }
+        throw new TypeError('Invalid WebP');
+    }
+};
+
+},{}],98:[function(require,module,exports){
+if (typeof Object.create === 'function') {
+  // implementation from standard node.js 'util' module
+  module.exports = function inherits(ctor, superCtor) {
+    if (superCtor) {
+      ctor.super_ = superCtor
+      ctor.prototype = Object.create(superCtor.prototype, {
+        constructor: {
+          value: ctor,
+          enumerable: false,
+          writable: true,
+          configurable: true
+        }
+      })
+    }
+  };
+} else {
+  // old school shim for old browsers
+  module.exports = function inherits(ctor, superCtor) {
+    if (superCtor) {
+      ctor.super_ = superCtor
+      var TempCtor = function () {}
+      TempCtor.prototype = superCtor.prototype
+      ctor.prototype = new TempCtor()
+      ctor.prototype.constructor = ctor
+    }
+  }
+}
+
+},{}],99:[function(require,module,exports){
 (function (Buffer){(function (){
 /**
  * https://opentype.js.org v1.3.4 | (c) Frederik De Bleser and other contributors | MIT License | Uses tiny-inflate by Devon Govett and string.prototype.codepointat polyfill by Mathias Bynens
@@ -35103,7 +37431,204 @@ arguments[4][25][0].apply(exports,arguments)
 
 
 }).call(this)}).call(this,require("buffer").Buffer)
-},{"buffer":79,"fs":79}],76:[function(require,module,exports){
+},{"buffer":104,"fs":104}],100:[function(require,module,exports){
+var inherits = require('inherits')
+var EventEmitter = require('events').EventEmitter
+
+module.exports = Queue
+module.exports.default = Queue
+
+function Queue (options) {
+  if (!(this instanceof Queue)) {
+    return new Queue(options)
+  }
+
+  EventEmitter.call(this)
+  options = options || {}
+  this.concurrency = options.concurrency || Infinity
+  this.timeout = options.timeout || 0
+  this.autostart = options.autostart || false
+  this.results = options.results || null
+  this.pending = 0
+  this.session = 0
+  this.running = false
+  this.jobs = []
+  this.timers = {}
+}
+inherits(Queue, EventEmitter)
+
+var arrayMethods = [
+  'pop',
+  'shift',
+  'indexOf',
+  'lastIndexOf'
+]
+
+arrayMethods.forEach(function (method) {
+  Queue.prototype[method] = function () {
+    return Array.prototype[method].apply(this.jobs, arguments)
+  }
+})
+
+Queue.prototype.slice = function (begin, end) {
+  this.jobs = this.jobs.slice(begin, end)
+  return this
+}
+
+Queue.prototype.reverse = function () {
+  this.jobs.reverse()
+  return this
+}
+
+var arrayAddMethods = [
+  'push',
+  'unshift',
+  'splice'
+]
+
+arrayAddMethods.forEach(function (method) {
+  Queue.prototype[method] = function () {
+    var methodResult = Array.prototype[method].apply(this.jobs, arguments)
+    if (this.autostart) {
+      this.start()
+    }
+    return methodResult
+  }
+})
+
+Object.defineProperty(Queue.prototype, 'length', {
+  get: function () {
+    return this.pending + this.jobs.length
+  }
+})
+
+Queue.prototype.start = function (cb) {
+  if (cb) {
+    callOnErrorOrEnd.call(this, cb)
+  }
+
+  this.running = true
+
+  if (this.pending >= this.concurrency) {
+    return
+  }
+
+  if (this.jobs.length === 0) {
+    if (this.pending === 0) {
+      done.call(this)
+    }
+    return
+  }
+
+  var self = this
+  var job = this.jobs.shift()
+  var once = true
+  var session = this.session
+  var timeoutId = null
+  var didTimeout = false
+  var resultIndex = null
+  var timeout = job.hasOwnProperty('timeout') ? job.timeout : this.timeout
+
+  function next (err, result) {
+    if (once && self.session === session) {
+      once = false
+      self.pending--
+      if (timeoutId !== null) {
+        delete self.timers[timeoutId]
+        clearTimeout(timeoutId)
+      }
+
+      if (err) {
+        self.emit('error', err, job)
+      } else if (didTimeout === false) {
+        if (resultIndex !== null) {
+          self.results[resultIndex] = Array.prototype.slice.call(arguments, 1)
+        }
+        self.emit('success', result, job)
+      }
+
+      if (self.session === session) {
+        if (self.pending === 0 && self.jobs.length === 0) {
+          done.call(self)
+        } else if (self.running) {
+          self.start()
+        }
+      }
+    }
+  }
+
+  if (timeout) {
+    timeoutId = setTimeout(function () {
+      didTimeout = true
+      if (self.listeners('timeout').length > 0) {
+        self.emit('timeout', next, job)
+      } else {
+        next()
+      }
+    }, timeout)
+    this.timers[timeoutId] = timeoutId
+  }
+
+  if (this.results) {
+    resultIndex = this.results.length
+    this.results[resultIndex] = null
+  }
+
+  this.pending++
+  self.emit('start', job)
+  var promise = job(next)
+  if (promise && promise.then && typeof promise.then === 'function') {
+    promise.then(function (result) {
+      return next(null, result)
+    }).catch(function (err) {
+      return next(err || true)
+    })
+  }
+
+  if (this.running && this.jobs.length > 0) {
+    this.start()
+  }
+}
+
+Queue.prototype.stop = function () {
+  this.running = false
+}
+
+Queue.prototype.end = function (err) {
+  clearTimers.call(this)
+  this.jobs.length = 0
+  this.pending = 0
+  done.call(this, err)
+}
+
+function clearTimers () {
+  for (var key in this.timers) {
+    var timeoutId = this.timers[key]
+    delete this.timers[key]
+    clearTimeout(timeoutId)
+  }
+}
+
+function callOnErrorOrEnd (cb) {
+  var self = this
+  this.on('error', onerror)
+  this.on('end', onend)
+
+  function onerror (err) { self.end(err) }
+  function onend (err) {
+    self.removeListener('error', onerror)
+    self.removeListener('end', onend)
+    cb(err, this.results)
+  }
+}
+
+function done (err) {
+  this.session++
+  this.running = false
+  this.emit('end', err)
+}
+
+},{"events":105,"inherits":98}],101:[function(require,module,exports){
 /*
 	String Kit
 
@@ -35192,12 +37717,12 @@ camel.camelCaseToDash =
 camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' , false ) ;
 
 
-},{}],77:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 arguments[4][50][0].apply(exports,arguments)
-},{"dup":50}],78:[function(require,module,exports){
+},{"dup":50}],103:[function(require,module,exports){
 module.exports={
   "name": "svg-kit",
-  "version": "0.5.0-alpha.1",
+  "version": "0.5.0-alpha.2",
   "description": "A small SVG toolkit.",
   "main": "lib/svg-kit.js",
   "directories": {
@@ -35205,7 +37730,8 @@ module.exports={
   },
   "dependencies": {
     "@cronvel/xmldom": "^0.1.32",
-    "dom-kit": "^0.5.1",
+    "dom-kit": "^0.5.2",
+    "image-size": "^1.0.2",
     "opentype.js": "^1.3.4",
     "string-kit": "^0.17.10"
   },
@@ -35234,9 +37760,508 @@ module.exports={
   }
 }
 
-},{}],79:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 
-},{}],80:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+'use strict';
+
+var R = typeof Reflect === 'object' ? Reflect : null
+var ReflectApply = R && typeof R.apply === 'function'
+  ? R.apply
+  : function ReflectApply(target, receiver, args) {
+    return Function.prototype.apply.call(target, receiver, args);
+  }
+
+var ReflectOwnKeys
+if (R && typeof R.ownKeys === 'function') {
+  ReflectOwnKeys = R.ownKeys
+} else if (Object.getOwnPropertySymbols) {
+  ReflectOwnKeys = function ReflectOwnKeys(target) {
+    return Object.getOwnPropertyNames(target)
+      .concat(Object.getOwnPropertySymbols(target));
+  };
+} else {
+  ReflectOwnKeys = function ReflectOwnKeys(target) {
+    return Object.getOwnPropertyNames(target);
+  };
+}
+
+function ProcessEmitWarning(warning) {
+  if (console && console.warn) console.warn(warning);
+}
+
+var NumberIsNaN = Number.isNaN || function NumberIsNaN(value) {
+  return value !== value;
+}
+
+function EventEmitter() {
+  EventEmitter.init.call(this);
+}
+module.exports = EventEmitter;
+module.exports.once = once;
+
+// Backwards-compat with node 0.10.x
+EventEmitter.EventEmitter = EventEmitter;
+
+EventEmitter.prototype._events = undefined;
+EventEmitter.prototype._eventsCount = 0;
+EventEmitter.prototype._maxListeners = undefined;
+
+// By default EventEmitters will print a warning if more than 10 listeners are
+// added to it. This is a useful default which helps finding memory leaks.
+var defaultMaxListeners = 10;
+
+function checkListener(listener) {
+  if (typeof listener !== 'function') {
+    throw new TypeError('The "listener" argument must be of type Function. Received type ' + typeof listener);
+  }
+}
+
+Object.defineProperty(EventEmitter, 'defaultMaxListeners', {
+  enumerable: true,
+  get: function() {
+    return defaultMaxListeners;
+  },
+  set: function(arg) {
+    if (typeof arg !== 'number' || arg < 0 || NumberIsNaN(arg)) {
+      throw new RangeError('The value of "defaultMaxListeners" is out of range. It must be a non-negative number. Received ' + arg + '.');
+    }
+    defaultMaxListeners = arg;
+  }
+});
+
+EventEmitter.init = function() {
+
+  if (this._events === undefined ||
+      this._events === Object.getPrototypeOf(this)._events) {
+    this._events = Object.create(null);
+    this._eventsCount = 0;
+  }
+
+  this._maxListeners = this._maxListeners || undefined;
+};
+
+// Obviously not all Emitters should be limited to 10. This function allows
+// that to be increased. Set to zero for unlimited.
+EventEmitter.prototype.setMaxListeners = function setMaxListeners(n) {
+  if (typeof n !== 'number' || n < 0 || NumberIsNaN(n)) {
+    throw new RangeError('The value of "n" is out of range. It must be a non-negative number. Received ' + n + '.');
+  }
+  this._maxListeners = n;
+  return this;
+};
+
+function _getMaxListeners(that) {
+  if (that._maxListeners === undefined)
+    return EventEmitter.defaultMaxListeners;
+  return that._maxListeners;
+}
+
+EventEmitter.prototype.getMaxListeners = function getMaxListeners() {
+  return _getMaxListeners(this);
+};
+
+EventEmitter.prototype.emit = function emit(type) {
+  var args = [];
+  for (var i = 1; i < arguments.length; i++) args.push(arguments[i]);
+  var doError = (type === 'error');
+
+  var events = this._events;
+  if (events !== undefined)
+    doError = (doError && events.error === undefined);
+  else if (!doError)
+    return false;
+
+  // If there is no 'error' event listener then throw.
+  if (doError) {
+    var er;
+    if (args.length > 0)
+      er = args[0];
+    if (er instanceof Error) {
+      // Note: The comments on the `throw` lines are intentional, they show
+      // up in Node's output if this results in an unhandled exception.
+      throw er; // Unhandled 'error' event
+    }
+    // At least give some kind of context to the user
+    var err = new Error('Unhandled error.' + (er ? ' (' + er.message + ')' : ''));
+    err.context = er;
+    throw err; // Unhandled 'error' event
+  }
+
+  var handler = events[type];
+
+  if (handler === undefined)
+    return false;
+
+  if (typeof handler === 'function') {
+    ReflectApply(handler, this, args);
+  } else {
+    var len = handler.length;
+    var listeners = arrayClone(handler, len);
+    for (var i = 0; i < len; ++i)
+      ReflectApply(listeners[i], this, args);
+  }
+
+  return true;
+};
+
+function _addListener(target, type, listener, prepend) {
+  var m;
+  var events;
+  var existing;
+
+  checkListener(listener);
+
+  events = target._events;
+  if (events === undefined) {
+    events = target._events = Object.create(null);
+    target._eventsCount = 0;
+  } else {
+    // To avoid recursion in the case that type === "newListener"! Before
+    // adding it to the listeners, first emit "newListener".
+    if (events.newListener !== undefined) {
+      target.emit('newListener', type,
+                  listener.listener ? listener.listener : listener);
+
+      // Re-assign `events` because a newListener handler could have caused the
+      // this._events to be assigned to a new object
+      events = target._events;
+    }
+    existing = events[type];
+  }
+
+  if (existing === undefined) {
+    // Optimize the case of one listener. Don't need the extra array object.
+    existing = events[type] = listener;
+    ++target._eventsCount;
+  } else {
+    if (typeof existing === 'function') {
+      // Adding the second element, need to change to array.
+      existing = events[type] =
+        prepend ? [listener, existing] : [existing, listener];
+      // If we've already got an array, just append.
+    } else if (prepend) {
+      existing.unshift(listener);
+    } else {
+      existing.push(listener);
+    }
+
+    // Check for listener leak
+    m = _getMaxListeners(target);
+    if (m > 0 && existing.length > m && !existing.warned) {
+      existing.warned = true;
+      // No error code for this since it is a Warning
+      // eslint-disable-next-line no-restricted-syntax
+      var w = new Error('Possible EventEmitter memory leak detected. ' +
+                          existing.length + ' ' + String(type) + ' listeners ' +
+                          'added. Use emitter.setMaxListeners() to ' +
+                          'increase limit');
+      w.name = 'MaxListenersExceededWarning';
+      w.emitter = target;
+      w.type = type;
+      w.count = existing.length;
+      ProcessEmitWarning(w);
+    }
+  }
+
+  return target;
+}
+
+EventEmitter.prototype.addListener = function addListener(type, listener) {
+  return _addListener(this, type, listener, false);
+};
+
+EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+
+EventEmitter.prototype.prependListener =
+    function prependListener(type, listener) {
+      return _addListener(this, type, listener, true);
+    };
+
+function onceWrapper() {
+  if (!this.fired) {
+    this.target.removeListener(this.type, this.wrapFn);
+    this.fired = true;
+    if (arguments.length === 0)
+      return this.listener.call(this.target);
+    return this.listener.apply(this.target, arguments);
+  }
+}
+
+function _onceWrap(target, type, listener) {
+  var state = { fired: false, wrapFn: undefined, target: target, type: type, listener: listener };
+  var wrapped = onceWrapper.bind(state);
+  wrapped.listener = listener;
+  state.wrapFn = wrapped;
+  return wrapped;
+}
+
+EventEmitter.prototype.once = function once(type, listener) {
+  checkListener(listener);
+  this.on(type, _onceWrap(this, type, listener));
+  return this;
+};
+
+EventEmitter.prototype.prependOnceListener =
+    function prependOnceListener(type, listener) {
+      checkListener(listener);
+      this.prependListener(type, _onceWrap(this, type, listener));
+      return this;
+    };
+
+// Emits a 'removeListener' event if and only if the listener was removed.
+EventEmitter.prototype.removeListener =
+    function removeListener(type, listener) {
+      var list, events, position, i, originalListener;
+
+      checkListener(listener);
+
+      events = this._events;
+      if (events === undefined)
+        return this;
+
+      list = events[type];
+      if (list === undefined)
+        return this;
+
+      if (list === listener || list.listener === listener) {
+        if (--this._eventsCount === 0)
+          this._events = Object.create(null);
+        else {
+          delete events[type];
+          if (events.removeListener)
+            this.emit('removeListener', type, list.listener || listener);
+        }
+      } else if (typeof list !== 'function') {
+        position = -1;
+
+        for (i = list.length - 1; i >= 0; i--) {
+          if (list[i] === listener || list[i].listener === listener) {
+            originalListener = list[i].listener;
+            position = i;
+            break;
+          }
+        }
+
+        if (position < 0)
+          return this;
+
+        if (position === 0)
+          list.shift();
+        else {
+          spliceOne(list, position);
+        }
+
+        if (list.length === 1)
+          events[type] = list[0];
+
+        if (events.removeListener !== undefined)
+          this.emit('removeListener', type, originalListener || listener);
+      }
+
+      return this;
+    };
+
+EventEmitter.prototype.off = EventEmitter.prototype.removeListener;
+
+EventEmitter.prototype.removeAllListeners =
+    function removeAllListeners(type) {
+      var listeners, events, i;
+
+      events = this._events;
+      if (events === undefined)
+        return this;
+
+      // not listening for removeListener, no need to emit
+      if (events.removeListener === undefined) {
+        if (arguments.length === 0) {
+          this._events = Object.create(null);
+          this._eventsCount = 0;
+        } else if (events[type] !== undefined) {
+          if (--this._eventsCount === 0)
+            this._events = Object.create(null);
+          else
+            delete events[type];
+        }
+        return this;
+      }
+
+      // emit removeListener for all listeners on all events
+      if (arguments.length === 0) {
+        var keys = Object.keys(events);
+        var key;
+        for (i = 0; i < keys.length; ++i) {
+          key = keys[i];
+          if (key === 'removeListener') continue;
+          this.removeAllListeners(key);
+        }
+        this.removeAllListeners('removeListener');
+        this._events = Object.create(null);
+        this._eventsCount = 0;
+        return this;
+      }
+
+      listeners = events[type];
+
+      if (typeof listeners === 'function') {
+        this.removeListener(type, listeners);
+      } else if (listeners !== undefined) {
+        // LIFO order
+        for (i = listeners.length - 1; i >= 0; i--) {
+          this.removeListener(type, listeners[i]);
+        }
+      }
+
+      return this;
+    };
+
+function _listeners(target, type, unwrap) {
+  var events = target._events;
+
+  if (events === undefined)
+    return [];
+
+  var evlistener = events[type];
+  if (evlistener === undefined)
+    return [];
+
+  if (typeof evlistener === 'function')
+    return unwrap ? [evlistener.listener || evlistener] : [evlistener];
+
+  return unwrap ?
+    unwrapListeners(evlistener) : arrayClone(evlistener, evlistener.length);
+}
+
+EventEmitter.prototype.listeners = function listeners(type) {
+  return _listeners(this, type, true);
+};
+
+EventEmitter.prototype.rawListeners = function rawListeners(type) {
+  return _listeners(this, type, false);
+};
+
+EventEmitter.listenerCount = function(emitter, type) {
+  if (typeof emitter.listenerCount === 'function') {
+    return emitter.listenerCount(type);
+  } else {
+    return listenerCount.call(emitter, type);
+  }
+};
+
+EventEmitter.prototype.listenerCount = listenerCount;
+function listenerCount(type) {
+  var events = this._events;
+
+  if (events !== undefined) {
+    var evlistener = events[type];
+
+    if (typeof evlistener === 'function') {
+      return 1;
+    } else if (evlistener !== undefined) {
+      return evlistener.length;
+    }
+  }
+
+  return 0;
+}
+
+EventEmitter.prototype.eventNames = function eventNames() {
+  return this._eventsCount > 0 ? ReflectOwnKeys(this._events) : [];
+};
+
+function arrayClone(arr, n) {
+  var copy = new Array(n);
+  for (var i = 0; i < n; ++i)
+    copy[i] = arr[i];
+  return copy;
+}
+
+function spliceOne(list, index) {
+  for (; index + 1 < list.length; index++)
+    list[index] = list[index + 1];
+  list.pop();
+}
+
+function unwrapListeners(arr) {
+  var ret = new Array(arr.length);
+  for (var i = 0; i < ret.length; ++i) {
+    ret[i] = arr[i].listener || arr[i];
+  }
+  return ret;
+}
+
+function once(emitter, name) {
+  return new Promise(function (resolve, reject) {
+    function errorListener(err) {
+      emitter.removeListener(name, resolver);
+      reject(err);
+    }
+
+    function resolver() {
+      if (typeof emitter.removeListener === 'function') {
+        emitter.removeListener('error', errorListener);
+      }
+      resolve([].slice.call(arguments));
+    };
+
+    eventTargetAgnosticAddListener(emitter, name, resolver, { once: true });
+    if (name !== 'error') {
+      addErrorHandlerIfEventEmitter(emitter, errorListener, { once: true });
+    }
+  });
+}
+
+function addErrorHandlerIfEventEmitter(emitter, handler, flags) {
+  if (typeof emitter.on === 'function') {
+    eventTargetAgnosticAddListener(emitter, 'error', handler, flags);
+  }
+}
+
+function eventTargetAgnosticAddListener(emitter, name, listener, flags) {
+  if (typeof emitter.on === 'function') {
+    if (flags.once) {
+      emitter.once(name, listener);
+    } else {
+      emitter.on(name, listener);
+    }
+  } else if (typeof emitter.addEventListener === 'function') {
+    // EventTarget does not have `error` event semantics like Node
+    // EventEmitters, we do not listen for `error` events here.
+    emitter.addEventListener(name, function wrapListener(arg) {
+      // IE does not have builtin `{ once: true }` support so we
+      // have to do it manually.
+      if (flags.once) {
+        emitter.removeEventListener(name, wrapListener);
+      }
+      listener(arg);
+    });
+  } else {
+    throw new TypeError('The "emitter" argument must be of type EventEmitter. Received type ' + typeof emitter);
+  }
+}
+
+},{}],106:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -35259,7 +38284,7 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],81:[function(require,module,exports){
+},{}],107:[function(require,module,exports){
 (function (process){(function (){
 // 'path' module extracted from Node.js v8.11.1 (only the posix part)
 // transplited with Babel
@@ -35792,7 +38817,7 @@ posix.posix = posix;
 module.exports = posix;
 
 }).call(this)}).call(this,require('_process'))
-},{"_process":82}],82:[function(require,module,exports){
+},{"_process":108}],108:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -35978,7 +39003,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],83:[function(require,module,exports){
+},{}],109:[function(require,module,exports){
 (function (global){(function (){
 /*! https://mths.be/punycode v1.4.1 by @mathias */
 ;(function(root) {
@@ -36515,7 +39540,7 @@ process.umask = function() { return 0; };
 }(this));
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],84:[function(require,module,exports){
+},{}],110:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -36601,7 +39626,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],85:[function(require,module,exports){
+},{}],111:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -36688,13 +39713,13 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],86:[function(require,module,exports){
+},{}],112:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":84,"./encode":85}],87:[function(require,module,exports){
+},{"./decode":110,"./encode":111}],113:[function(require,module,exports){
 (function (setImmediate,clearImmediate){(function (){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -36773,7 +39798,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this)}).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":82,"timers":87}],88:[function(require,module,exports){
+},{"process/browser.js":108,"timers":113}],114:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -37507,7 +40532,7 @@ Url.prototype.parseHost = function() {
   if (host) this.hostname = host;
 };
 
-},{"./util":89,"punycode":83,"querystring":86}],89:[function(require,module,exports){
+},{"./util":115,"punycode":109,"querystring":112}],115:[function(require,module,exports){
 'use strict';
 
 module.exports = {

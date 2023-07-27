@@ -1865,7 +1865,7 @@ function soundFadeOut( $element , callback ) {
 }
 
 
-},{"./Camera.js":1,"./FontPack.js":4,"./GEntity.js":5,"./GScene.js":6,"./TexturePack.js":8,"./commonUtils.js":10,"./controller/Controller.js":11,"./controller/gamepad/BrowserGamepadHub.js":13,"./controller/keyboard/BrowserKeyboard.js":18,"./engineLib.js":20,"./exm.js":21,"./toolkit.js":24,"dom-kit":25,"nextgen-events/lib/LeanEvents.js":32,"nextgen-events/lib/browser.js":35,"seventh":45,"svg-kit":75}],3:[function(require,module,exports){
+},{"./Camera.js":1,"./FontPack.js":4,"./GEntity.js":5,"./GScene.js":6,"./TexturePack.js":8,"./commonUtils.js":10,"./controller/Controller.js":11,"./controller/gamepad/BrowserGamepadHub.js":13,"./controller/keyboard/BrowserKeyboard.js":18,"./engineLib.js":20,"./exm.js":21,"./toolkit.js":24,"dom-kit":25,"nextgen-events/lib/LeanEvents.js":32,"nextgen-events/lib/browser.js":35,"seventh":45,"svg-kit":87}],3:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -2670,7 +2670,7 @@ Variant.prototype.preloadFont = async function( variantId ) {
 } ;
 
 
-},{"svg-kit":75}],5:[function(require,module,exports){
+},{"svg-kit":87}],5:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3787,7 +3787,7 @@ GEntity.prototype.createCardMarkup = function( card ) {
 } ;
 
 
-},{"./GTransition.js":7,"./commonUtils.js":10,"./positionModes.js":22,"./sizeModes.js":23,"dom-kit":25,"nextgen-events/lib/browser.js":35,"seventh":45,"svg-kit":75}],6:[function(require,module,exports){
+},{"./GTransition.js":7,"./commonUtils.js":10,"./positionModes.js":22,"./sizeModes.js":23,"dom-kit":25,"nextgen-events/lib/browser.js":35,"seventh":45,"svg-kit":87}],6:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4246,7 +4246,7 @@ domKit.ready( () => {
 } ) ;
 
 
-},{"./EventDispatcher.js":3,"dom-kit":25,"nextgen-events/lib/browser.js":35,"url":114}],10:[function(require,module,exports){
+},{"./EventDispatcher.js":3,"dom-kit":25,"nextgen-events/lib/browser.js":35,"url":139}],10:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -5431,9 +5431,12 @@ module.exports = BrowserExm.registerNs( {
 		GScene: require( './GScene.js' ) ,
 		GTransition: require( './GTransition.js' ) ,
 		TexturePack: require( './TexturePack.js' ) ,
+
+		// Utilities...
 		op: require( 'kung-fig-expression/lib/fnOperators.js' ) ,
-		xop: require( 'spellcast-shared/lib/operators.js' )
-		//, string: require( 'string-kit' )
+		xop: require( 'spellcast-shared/lib/operators.js' ) ,
+		svg: require( 'svg-kit' ) ,
+		string: require( 'string-kit' )
 	} ,
 	api: {
 		getEngine: engineLib.get ,
@@ -5443,7 +5446,7 @@ module.exports = BrowserExm.registerNs( {
 } ) ;
 
 
-},{"./Camera.js":1,"./Dom.js":2,"./EventDispatcher.js":3,"./GEntity.js":5,"./GScene.js":6,"./GTransition.js":7,"./TexturePack.js":8,"./engineLib.js":20,"./toolkit.js":24,"exm/lib/BrowserExm.js":26,"kung-fig-expression/lib/fnOperators.js":29,"spellcast-shared/lib/operators.js":47}],22:[function(require,module,exports){
+},{"./Camera.js":1,"./Dom.js":2,"./EventDispatcher.js":3,"./GEntity.js":5,"./GScene.js":6,"./GTransition.js":7,"./TexturePack.js":8,"./engineLib.js":20,"./toolkit.js":24,"exm/lib/BrowserExm.js":26,"kung-fig-expression/lib/fnOperators.js":29,"spellcast-shared/lib/operators.js":47,"string-kit":60,"svg-kit":87}],22:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -5979,7 +5982,7 @@ toolkit.rgbaToHex = ( r , g , b , a = null ) => {
 } ;
 
 
-},{"string-kit/lib/escape.js":50,"string-kit/lib/format.js":51}],25:[function(require,module,exports){
+},{"string-kit/lib/escape.js":51,"string-kit/lib/format.js":52}],25:[function(require,module,exports){
 (function (process){(function (){
 /*
 	Dom Kit
@@ -6047,19 +6050,16 @@ domKit.toXml = $doc => xmlSerializer.serializeToString( $doc ) ;
 
 // Return a fragment from html code
 domKit.fromHtml = html => {
-	var i , $doc , $fragment ;
-
 	// Fragment allow us to return a collection that... well... is not a collection,
 	// and that's fine because the html code may contains multiple top-level element
-	$fragment = document.createDocumentFragment() ;
-
-	$doc = document.createElement( 'div' ) ;	// whatever type...
+	var $fragment = document.createDocumentFragment() ,
+		$doc = document.createElement( 'div' ) ;	// whatever type...
 
 	// either .innerHTML or .insertAdjacentHTML()
 	//$doc.innerHTML = html ;
 	$doc.insertAdjacentHTML( 'beforeend' , html ) ;
 
-	for ( i = 0 ; i < $doc.children.length ; i ++ ) {
+	for ( let i = 0 ; i < $doc.children.length ; i ++ ) {
 		$fragment.appendChild( $doc.children[ i ] ) ;
 	}
 
@@ -6081,20 +6081,19 @@ domKit.addJsScript = ( url , $element = document.body ) => {
 } ;
 
 
+
 // Batch processing, like array, HTMLCollection, and so on...
 domKit.batch = ( method , elements , ... args ) => {
-	var i ;
-
 	if ( elements instanceof Element ) {
 		method( elements , ... args ) ;
 	}
 	else if ( Array.isArray( elements ) ) {
-		for ( i = 0 ; i < elements.length ; i ++ ) {
+		for ( let i = 0 ; i < elements.length ; i ++ ) {
 			method( elements[ i ] , ... args ) ;
 		}
 	}
 	else if ( elements instanceof NodeList || elements instanceof NamedNodeMap ) {
-		for ( i = 0 ; i < elements.length ; i ++ ) {
+		for ( let i = 0 ; i < elements.length ; i ++ ) {
 			method( elements[ i ] , ... args ) ;
 		}
 	}
@@ -6104,9 +6103,7 @@ domKit.batch = ( method , elements , ... args ) => {
 
 // Set a bunch of css properties given as an object
 domKit.css = ( $element , object ) => {
-	var key ;
-
-	for ( key in object ) {
+	for ( let key in object ) {
 		$element.style[ key ] = object[ key ] ;
 	}
 } ;
@@ -6114,12 +6111,8 @@ domKit.css = ( $element , object ) => {
 
 
 // Set a bunch of attributes given as an object
-domKit.attr = ( $element , object , prefix ) => {
-	var key ;
-
-	prefix = prefix || '' ;
-
-	for ( key in object ) {
+domKit.attr = ( $element , object , prefix = '' ) => {
+	for ( let key in object ) {
 		if ( object[ key ] === null ) { $element.removeAttribute( prefix + key ) ; }
 		else { $element.setAttribute( prefix + key , object[ key ] ) ; }
 	}
@@ -6128,12 +6121,8 @@ domKit.attr = ( $element , object , prefix ) => {
 
 
 // Set/unset a bunch of classes given as an object
-domKit.class = ( $element , object , prefix ) => {
-	var key ;
-
-	prefix = prefix || '' ;
-
-	for ( key in object ) {
+domKit.class = ( $element , object , prefix = '' ) => {
+	for ( let key in object ) {
 		if ( object[ key ] ) { $element.classList.add( prefix + key ) ; }
 		else { $element.classList.remove( prefix + key ) ; }
 	}
@@ -6181,14 +6170,14 @@ domKit.moveChildrenInto = ( $source , $destination ) => {
 // Move all attributes of an element into the destination
 domKit.moveAttributes = ( $source , $destination ) => {
 	Array.from( $source.attributes ).forEach( ( attr ) => {
-		var name = attr.name ;
-		var value = attr.value ;
+		let name = attr.name ,
+			value = attr.value ;
 
 		$source.removeAttribute( name ) ;
 
 		// Do not copy namespaced attributes for instance,
 		// should probably protect this behind a third argument
-		if ( name !== 'xmlns' && name.indexOf( ':' ) === -1 && value ) {
+		if ( name !== 'xmlns' && name.indexOf( ':' ) === - 1 && value ) {
 			//console.warn( 'moving: ' , name, value , $destination.getAttribute( name ) ) ;
 			$destination.setAttribute( name , value ) ;
 		}
@@ -6198,7 +6187,7 @@ domKit.moveAttributes = ( $source , $destination ) => {
 
 
 domKit.styleToAttribute = ( $element , property , blacklistedValues ) => {
-	if ( $element.style[ property ] && ( ! blacklistedValues || blacklistedValues.indexOf( $element.style[ property ] ) === -1 ) ) {
+	if ( $element.style[ property ] && ( ! blacklistedValues || blacklistedValues.indexOf( $element.style[ property ] ) === - 1 ) ) {
 		$element.setAttribute( property , $element.style[ property ] ) ;
 		$element.style[ property ] = null ;
 	}
@@ -6208,9 +6197,8 @@ domKit.styleToAttribute = ( $element , property , blacklistedValues ) => {
 
 // Children of this element get all their ID prefixed, any url(#id) references are patched accordingly
 domKit.prefixIds = ( $element , prefix ) => {
-	var elements , replacement = {} ;
-
-	elements = $element.querySelectorAll( '*' ) ;
+	var replacement = {} ,
+		elements = $element.querySelectorAll( '*' ) ;
 
 	domKit.batch( domKit.prefixIds.idAttributePass , elements , prefix , replacement ) ;
 	domKit.batch( domKit.prefixIds.otherAttributesPass , elements , replacement ) ;
@@ -6289,28 +6277,26 @@ domKit.preload.preloaded = {} ;
 		* primary `string` keep those elements but remove the namespace
 */
 domKit.filterByNamespace = ( $container , options ) => {
-	var i , $child , namespace , tagName , split ;
-
 	// Nothing to do? return now...
 	if ( ! options || typeof options !== 'object' ) { return ; }
 
 	domKit.filterAttributesByNamespace( $container , options ) ;
 
-	for ( i = $container.childNodes.length - 1 ; i >= 0 ; i -- ) {
-		$child = $container.childNodes[ i ] ;
+	for ( let i = $container.childNodes.length - 1 ; i >= 0 ; i -- ) {
+		let $child = $container.childNodes[ i ] ;
 
 		if ( $child.nodeType === 1 ) {
-			if ( $child.tagName.indexOf( ':' ) !== -1 ) {
-				split = $child.tagName.split( ':' ) ;
-				namespace = split[ 0 ] ;
-				tagName = split[ 1 ] ;
+			if ( $child.tagName.indexOf( ':' ) !== - 1 ) {
+				let split = $child.tagName.split( ':' ) ,
+					namespace = split[ 0 ] ,
+					tagName = split[ 1 ] ;
 
 				if ( namespace === options.primary ) {
 					$child.tagName = tagName ;
 					domKit.filterByNamespace( $child , options ) ;
 				}
 				else if ( options.whitelist ) {
-					if ( options.whitelist.indexOf( namespace ) !== -1 ) {
+					if ( options.whitelist.indexOf( namespace ) !== - 1 ) {
 						domKit.filterByNamespace( $child , options ) ;
 					}
 					else {
@@ -6318,7 +6304,7 @@ domKit.filterByNamespace = ( $container , options ) => {
 					}
 				}
 				else if ( options.blacklist ) {
-					if ( options.blacklist.indexOf( namespace ) !== -1 ) {
+					if ( options.blacklist.indexOf( namespace ) !== - 1 ) {
 						$container.removeChild( $child ) ;
 					}
 					else {
@@ -6340,31 +6326,29 @@ domKit.filterByNamespace = ( $container , options ) => {
 
 // Filter attributes by namespace
 domKit.filterAttributesByNamespace = ( $container , options ) => {
-	var i , attr , namespace , attrName , value , split ;
-
 	// Nothing to do? return now...
 	if ( ! options || typeof options !== 'object' ) { return ; }
 
-	for ( i = $container.attributes.length - 1 ; i >= 0 ; i -- ) {
-		attr = $container.attributes[ i ] ;
+	for ( let i = $container.attributes.length - 1 ; i >= 0 ; i -- ) {
+		let attr = $container.attributes[ i ] ;
 
-		if ( attr.name.indexOf( ':' ) !== -1 ) {
-			split = attr.name.split( ':' ) ;
-			namespace = split[ 0 ] ;
-			attrName = split[ 1 ] ;
-			value = attr.value ;
+		if ( attr.name.indexOf( ':' ) !== - 1 ) {
+			let split = attr.name.split( ':' ) ,
+				namespace = split[ 0 ] ,
+				attrName = split[ 1 ] ,
+				value = attr.value ;
 
 			if ( namespace === options.primary ) {
 				$container.removeAttributeNode( attr ) ;
 				$container.setAttribute( attrName , value ) ;
 			}
 			else if ( options.whitelist ) {
-				if ( options.whitelist.indexOf( namespace ) === -1 ) {
+				if ( options.whitelist.indexOf( namespace ) === - 1 ) {
 					$container.removeAttributeNode( attr ) ;
 				}
 			}
 			else if ( options.blacklist ) {
-				if ( options.blacklist.indexOf( namespace ) !== -1 ) {
+				if ( options.blacklist.indexOf( namespace ) !== - 1 ) {
 					$container.removeAttributeNode( attr ) ;
 				}
 			}
@@ -6376,10 +6360,8 @@ domKit.filterAttributesByNamespace = ( $container , options ) => {
 
 // Remove comments
 domKit.removeComments = $container => {
-	var i , $child ;
-
-	for ( i = $container.childNodes.length - 1 ; i >= 0 ; i -- ) {
-		$child = $container.childNodes[ i ] ;
+	for ( let i = $container.childNodes.length - 1 ; i >= 0 ; i -- ) {
+		let $child = $container.childNodes[ i ] ;
 
 		if ( $child.nodeType === 8 ) {
 			$container.removeChild( $child ) ;
@@ -6394,10 +6376,10 @@ domKit.removeComments = $container => {
 
 // Remove white-space-only text-node
 domKit.removeWhiteSpaces = ( $container , onlyWhiteLines ) => {
-	var i , $child , $lastTextNode = null ;
+	var $lastTextNode = null ;
 
-	for ( i = $container.childNodes.length - 1 ; i >= 0 ; i -- ) {
-		$child = $container.childNodes[ i ] ;
+	for ( let i = $container.childNodes.length - 1 ; i >= 0 ; i -- ) {
+		let $child = $container.childNodes[ i ] ;
 		//console.log( '$child.nodeType' , $child.nodeType ) ;
 
 		if ( $child.nodeType === 3 ) {
@@ -6482,13 +6464,13 @@ domKit.decomposeMatrix3d = matrix => {
 		sY = Math.sqrt( matrix[4] * matrix[4] + matrix[5] * matrix[5] + matrix[6] * matrix[6] ) ,
 		sZ = Math.sqrt( matrix[8] * matrix[8] + matrix[9] * matrix[9] + matrix[10] * matrix[10] ) ;
 
-	var rX = Math.atan2( -matrix[9] / sZ , matrix[10] / sZ ) / radians ,
+	var rX = Math.atan2( - matrix[9] / sZ , matrix[10] / sZ ) / radians ,
 		rY = Math.asin( matrix[8] / sZ ) / radians ,
-		rZ = Math.atan2( -matrix[4] / sY , matrix[0] / sX ) / radians ;
+		rZ = Math.atan2( - matrix[4] / sY , matrix[0] / sX ) / radians ;
 
-	if ( matrix[4] === 1 || matrix[4] === -1 ) {
+	if ( matrix[4] === 1 || matrix[4] === - 1 ) {
 		rX = 0 ;
-		rY = matrix[4] * -Math.PI / 2 ;
+		rY = matrix[4] * - Math.PI / 2 ;
 		rZ = matrix[4] * Math.atan2( matrix[6] / sY , matrix[5] / sY ) / radians ;
 	}
 
@@ -6575,7 +6557,7 @@ domKit.html = ( $element , html ) => $element.innerHTML = html ;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"@cronvel/xmldom":104,"_process":108}],26:[function(require,module,exports){
+},{"@cronvel/xmldom":129,"_process":133}],26:[function(require,module,exports){
 (function (global){(function (){
 /*
 	EXM
@@ -9306,7 +9288,7 @@ NextGenEvents.Proxy = require( './Proxy.js' ) ;
 
 
 }).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"../package.json":36,"./Proxy.js":34,"_process":108,"timers":113}],34:[function(require,module,exports){
+},{"../package.json":36,"./Proxy.js":34,"_process":133,"timers":138}],34:[function(require,module,exports){
 /*
 	Next-Gen Events
 
@@ -9899,7 +9881,7 @@ module.exports.isBrowser = true ;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./NextGenEvents.js":33,"_process":108}],36:[function(require,module,exports){
+},{"./NextGenEvents.js":33,"_process":133}],36:[function(require,module,exports){
 module.exports={
   "name": "nextgen-events",
   "version": "1.5.3",
@@ -10149,7 +10131,7 @@ module.exports={
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
 }).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":108}],38:[function(require,module,exports){
+},{"_process":133}],38:[function(require,module,exports){
 /*
 	Seventh
 
@@ -11846,7 +11828,7 @@ if ( process.browser ) {
 
 
 }).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"_process":108,"setimmediate":37,"timers":113}],42:[function(require,module,exports){
+},{"_process":133,"setimmediate":37,"timers":138}],42:[function(require,module,exports){
 /*
 	Seventh
 
@@ -12450,7 +12432,7 @@ Promise.resolveSafeTimeout = function( timeout , value ) {
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./seventh.js":45,"_process":108}],44:[function(require,module,exports){
+},{"./seventh.js":45,"_process":133}],44:[function(require,module,exports){
 /*
 	Seventh
 
@@ -13695,6 +13677,95 @@ ansi.parse = str => {
 	SOFTWARE.
 */
 
+"use strict" ;
+
+
+
+var camel = {} ;
+module.exports = camel ;
+
+
+
+// Transform alphanum separated by underscore or minus to camel case
+camel.toCamelCase = function( str , preserveUpperCase = false , initialUpperCase = false ) {
+	if ( ! str || typeof str !== 'string' ) { return '' ; }
+
+	return str.replace(
+		/(?:^[\s_-]*|([\s_-]+))(([^\s_-]?)([^\s_-]*))/g ,
+		( match , isNotFirstWord , word , firstLetter , endOfWord ) => {
+			if ( preserveUpperCase ) {
+				if ( ! isNotFirstWord && ! initialUpperCase ) { return word ; }
+				if ( ! firstLetter ) { return '' ; }
+				return firstLetter.toUpperCase() + endOfWord ;
+			}
+
+			if ( ! isNotFirstWord && ! initialUpperCase ) { return word.toLowerCase() ; }
+			if ( ! firstLetter ) { return '' ; }
+			return firstLetter.toUpperCase() + endOfWord.toLowerCase() ;
+		}
+	) ;
+} ;
+
+
+
+camel.camelCaseToSeparated = function( str , separator = ' ' , acronym = true ) {
+	if ( ! str || typeof str !== 'string' ) { return '' ; }
+
+	if ( ! acronym ) {
+		return str.replace( /^([A-Z])|([A-Z])/g , ( match , firstLetter , letter ) => {
+			if ( firstLetter ) { return firstLetter.toLowerCase() ; }
+			return separator + letter.toLowerCase() ;
+		} ) ;
+	}
+
+	// (^)? and (^)? does not work, so we have to use (?:(^)|)) and (?:($)|)) to capture end or not
+	return str.replace( /(?:(^)|)([A-Z]+)(?:($)|(?=[a-z]))/g , ( match , isStart , letters , isEnd ) => {
+		isStart = isStart === '' ;
+		isEnd = isEnd === '' ;
+
+		var prefix = isStart ? '' : separator ;
+
+		return letters.length === 1 ? prefix + letters.toLowerCase() :
+			isEnd ? prefix + letters :
+			letters.length === 2 ? prefix + letters[ 0 ].toLowerCase() + separator + letters[ 1 ].toLowerCase() :
+			prefix + letters.slice( 0 , -1 ) + separator + letters.slice( -1 ).toLowerCase() ;
+	} ) ;
+} ;
+
+
+
+// Transform camel case to alphanum separated by minus
+camel.camelCaseToDash =
+camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' , false ) ;
+
+
+},{}],51:[function(require,module,exports){
+/*
+	String Kit
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
 /*
 	Escape collection.
 */
@@ -13773,7 +13844,7 @@ exports.unicodePercentEncode = str => str.replace( /[\x00-\x1f\u0100-\uffff\x7f%
 exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
 
 
-},{}],51:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 (function (Buffer){(function (){
 /*
 	String Kit
@@ -15014,7 +15085,323 @@ function round( v , step ) {
 
 
 }).call(this)}).call(this,require("buffer").Buffer)
-},{"./StringNumber.js":48,"./ansi.js":49,"./escape.js":50,"./inspect.js":52,"./naturalSort.js":53,"./unicode.js":55,"buffer":104}],52:[function(require,module,exports){
+},{"./StringNumber.js":48,"./ansi.js":49,"./escape.js":51,"./inspect.js":54,"./naturalSort.js":58,"./unicode.js":63,"buffer":129}],53:[function(require,module,exports){
+/*
+	String Kit
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+const fuzzy = {} ;
+module.exports = fuzzy ;
+
+
+
+fuzzy.score = ( input , pattern ) => {
+	if ( input === pattern ) { return 1 ; }
+	if ( input.length === 0 || pattern.length === 0 ) { return 0 ; }
+	//return 1 - fuzzy.levenshtein( input , pattern ) / ( pattern.length >= input.length ? pattern.length : input.length ) ;
+	return Math.max( 0 , 1 - fuzzy.levenshtein( input , pattern ) / pattern.length ) ;
+} ;
+
+
+
+const DEFAULT_SCORE_LIMIT = 0 ;
+const DEFAULT_TOKEN_DISPARITY_PENALTY = 0.88 ;
+// deltaRate should be just above tokenDisparityPenalty
+const DEFAULT_DELTA_RATE = 0.9 ;
+
+
+
+fuzzy.bestMatch = ( input , patterns , options = {} ) => {
+	var bestScore = options.scoreLimit || DEFAULT_SCORE_LIMIT ,
+		i , iMax , currentScore , currentPattern ,
+		bestIndex = -1 ,
+		bestPattern = null ;
+
+	for ( i = 0 , iMax = patterns.length ; i < iMax ; i ++ ) {
+		currentPattern = patterns[ i ] ;
+		currentScore = fuzzy.score( input , currentPattern ) ;
+		if ( currentScore === 1 ) { return options.indexOf ? i : currentPattern ; }
+		if ( currentScore > bestScore ) {
+			bestScore = currentScore ;
+			bestPattern = currentPattern ;
+			bestIndex = i ;
+		}
+	}
+
+	return options.indexOf ? bestIndex : bestPattern ;
+} ;
+
+
+
+fuzzy.topMatch = ( input , patterns , options = {} ) => {
+	var scoreLimit = options.scoreLimit || DEFAULT_SCORE_LIMIT ,
+		deltaRate = options.deltaRate || DEFAULT_DELTA_RATE ,
+		i , iMax , patternScores ;
+
+	patternScores = patterns.map( ( pattern , index ) => ( { pattern , index , score: fuzzy.score( input , pattern ) } ) ) ;
+	patternScores.sort( ( a , b ) => b.score - a.score ) ;
+
+	//console.log( patternScores ) ;
+
+	if ( patternScores[ 0 ].score <= scoreLimit ) { return [] ; }
+	scoreLimit = Math.max( scoreLimit , patternScores[ 0 ].score * deltaRate ) ;
+
+	for ( i = 1 , iMax = patternScores.length ; i < iMax ; i ++ ) {
+		if ( patternScores[ i ].score < scoreLimit ) {
+			patternScores.length = i ;
+			break ;
+		}
+	}
+
+	return options.indexOf ?
+		patternScores.map( e => e.index ) :
+		patternScores.map( e => e.pattern ) ;
+} ;
+
+
+
+const englishBlackList = new Set( [
+	'a' , 'an' , 'the' , 'this' , 'that' , 'those' , 'some' ,
+	'of' , 'in' , 'on' , 'at' ,
+	'my' , 'your' , 'her' , 'his' , 'its' , 'our' , 'their'
+] ) ;
+
+function tokenize( str , blackList = englishBlackList ) {
+	return str.split( /[ '"/|,:_-]+/g ).filter( s => s && ! blackList.has( s ) ) ;
+}
+
+
+
+// This is almost the same code than .topTokenMatch(): both must be in sync
+fuzzy.bestTokenMatch = ( input , patterns , options = {} ) => {
+	var scoreLimit = options.scoreLimit || DEFAULT_SCORE_LIMIT ,
+		tokenDisparityPenalty = options.tokenDisparityPenalty || DEFAULT_TOKEN_DISPARITY_PENALTY ,
+		i , iMax , j , jMax , z , zMax ,
+		currentPattern , currentPatternTokens , currentPatternToken , currentPatternScore ,
+		bestPatternScore = scoreLimit ,
+		//currentPatternScores = [] ,
+		currentInputToken , currentScore ,
+		inputTokens = tokenize( input ) ,
+		bestScore ,
+		bestIndex = -1 ,
+		bestPattern = null ;
+
+	//console.log( inputTokens ) ;
+	if ( ! inputTokens.length || ! patterns.length ) { return options.indexOf ? bestIndex : bestPattern ; }
+
+	for ( i = 0 , iMax = patterns.length ; i < iMax ; i ++ ) {
+		currentPattern = patterns[ i ] ;
+		currentPatternTokens = tokenize( currentPattern ) ;
+		//currentPatternScores.length = 0 ;
+		currentPatternScore = 0 ;
+
+		for ( j = 0 , jMax = inputTokens.length ; j < jMax ; j ++ ) {
+			currentInputToken = inputTokens[ j ] ;
+			bestScore = 0 ;
+
+			for ( z = 0 , zMax = currentPatternTokens.length ; z < zMax ; z ++ ) {
+				currentPatternToken = currentPatternTokens[ z ] ;
+				currentScore = fuzzy.score( currentInputToken , currentPatternToken ) ;
+
+				if ( currentScore > bestScore ) {
+					bestScore = currentScore ;
+					if ( currentScore === 1 ) { break ; }
+				}
+			}
+
+			//currentPatternScores[ j ] = bestScore ;
+			currentPatternScore += bestScore ;
+		}
+
+		//currentPatternScore = Math.hypot( ... currentPatternScores ) ;
+		currentPatternScore /= inputTokens.length ;
+
+		// Apply a small penalty if there isn't enough tokens
+		if ( inputTokens.length !== currentPatternTokens.length ) {
+			currentPatternScore *= tokenDisparityPenalty ** Math.abs( currentPatternTokens.length - inputTokens.length ) ;
+		}
+
+		//console.log( currentPattern + ': ' + currentPatternScore ) ;
+		if ( currentPatternScore > bestPatternScore ) {
+			bestPatternScore = currentPatternScore ;
+			bestPattern = currentPattern ;
+			bestIndex = i ;
+		}
+	}
+
+	return options.indexOf ? bestIndex : bestPattern ;
+} ;
+
+
+
+// This is almost the same code than .bestTokenMatch(): both must be in sync
+// deltaRate should be just above tokenDisparityPenalty
+fuzzy.topTokenMatch = ( input , patterns , options = {} ) => {
+	var scoreLimit = options.scoreLimit || DEFAULT_SCORE_LIMIT ,
+		tokenDisparityPenalty = options.tokenDisparityPenalty || DEFAULT_TOKEN_DISPARITY_PENALTY ,
+		deltaRate = options.deltaRate || DEFAULT_DELTA_RATE ,
+		i , iMax , j , jMax , z , zMax ,
+		currentPattern , currentPatternTokens , currentPatternToken , currentPatternScore ,
+		currentInputToken , currentScore ,
+		inputTokens = tokenize( input ) ,
+		bestScore ,
+		patternScores = [] ;
+
+	//console.log( inputTokens ) ;
+	if ( ! inputTokens.length || ! patterns.length ) { return [] ; }
+
+	for ( i = 0 , iMax = patterns.length ; i < iMax ; i ++ ) {
+		currentPattern = patterns[ i ] ;
+		currentPatternTokens = tokenize( currentPattern ) ;
+		//currentPatternScores.length = 0 ;
+		currentPatternScore = 0 ;
+
+		for ( j = 0 , jMax = inputTokens.length ; j < jMax ; j ++ ) {
+			currentInputToken = inputTokens[ j ] ;
+			bestScore = 0 ;
+
+			for ( z = 0 , zMax = currentPatternTokens.length ; z < zMax ; z ++ ) {
+				currentPatternToken = currentPatternTokens[ z ] ;
+				currentScore = fuzzy.score( currentInputToken , currentPatternToken ) ;
+
+				if ( currentScore > bestScore ) {
+					bestScore = currentScore ;
+					if ( currentScore === 1 ) { break ; }
+				}
+			}
+
+			//currentPatternScores[ j ] = bestScore ;
+			currentPatternScore += bestScore ;
+		}
+
+		//currentPatternScore = Math.hypot( ... currentPatternScores ) ;
+		currentPatternScore /= inputTokens.length ;
+
+		// Apply a small penalty if there isn't enough tokens
+		if ( inputTokens.length !== currentPatternTokens.length ) {
+			currentPatternScore *= tokenDisparityPenalty ** Math.abs( currentPatternTokens.length - inputTokens.length ) ;
+		}
+
+		patternScores.push( { pattern: currentPattern , index: i , score: currentPatternScore } ) ;
+	}
+
+	patternScores.sort( ( a , b ) => b.score - a.score ) ;
+	//console.log( "Before truncating:" , patternScores ) ;
+
+	if ( patternScores[ 0 ].score <= scoreLimit ) { return [] ; }
+	scoreLimit = Math.max( scoreLimit , patternScores[ 0 ].score * deltaRate ) ;
+
+	for ( i = 1 , iMax = patternScores.length ; i < iMax ; i ++ ) {
+		if ( patternScores[ i ].score < scoreLimit ) {
+			patternScores.length = i ;
+			break ;
+		}
+	}
+
+	//console.log( "After truncating:" , patternScores ) ;
+
+	return options.indexOf ?
+		patternScores.map( e => e.index ) :
+		patternScores.map( e => e.pattern ) ;
+} ;
+
+
+
+// The .levenshtein() function is derivated from https://github.com/sindresorhus/leven by Sindre Sorhus (MIT License)
+const _tracker = [] ;
+const _leftCharCodeCache = [] ;
+
+fuzzy.levenshtein = ( left , right ) => {
+	if ( left === right ) { return 0 ; }
+
+	// Swapping the strings if `a` is longer than `b` so we know which one is the
+	// shortest & which one is the longest
+	if ( left.length > right.length ) {
+		let swap = left ;
+		left = right ;
+		right = swap ;
+	}
+
+	let leftLength = left.length ;
+	let rightLength = right.length ;
+
+	// Performing suffix trimming:
+	// We can linearly drop suffix common to both strings since they
+	// don't increase distance at all
+	while ( leftLength > 0 && ( left.charCodeAt( leftLength - 1 ) === right.charCodeAt( rightLength - 1 ) ) ) {
+		leftLength -- ;
+		rightLength -- ;
+	}
+
+	// Performing prefix trimming
+	// We can linearly drop prefix common to both strings since they
+	// don't increase distance at all
+	let start = 0 ;
+
+	while ( start < leftLength && ( left.charCodeAt( start ) === right.charCodeAt( start ) ) ) {
+		start ++ ;
+	}
+
+	leftLength -= start ;
+	rightLength -= start ;
+
+	if ( leftLength === 0 ) { return rightLength ; }
+
+	let rightCharCode ;
+	let result ;
+	let temp ;
+	let temp2 ;
+	let i = 0 ;
+	let j = 0 ;
+
+	while ( i < leftLength ) {
+		_leftCharCodeCache[ i ] = left.charCodeAt( start + i ) ;
+		_tracker[ i ] = ++ i ;
+	}
+
+	while ( j < rightLength ) {
+		rightCharCode = right.charCodeAt( start + j ) ;
+		temp = j ++ ;
+		result = j ;
+
+		for ( i = 0 ; i < leftLength ; i ++ ) {
+			temp2 = rightCharCode === _leftCharCodeCache[ i ] ? temp : temp + 1 ;
+			temp = _tracker[ i ] ;
+			// eslint-disable-next-line no-nested-ternary
+			result = _tracker[ i ] = temp > result   ?   temp2 > result ? result + 1 : temp2   :   temp2 > temp ? temp + 1 : temp2 ;
+		}
+	}
+
+	return result ;
+} ;
+
+
+},{}],54:[function(require,module,exports){
 (function (Buffer,process){(function (){
 /*
 	String Kit
@@ -15778,7 +16165,108 @@ inspectStyle.html = Object.assign( {} , inspectStyle.none , {
 
 
 }).call(this)}).call(this,{"isBuffer":require("../../../../../../../../opt/node-v16.16.0/lib/node_modules/browserify/node_modules/is-buffer/index.js")},require('_process'))
-},{"../../../../../../../../opt/node-v16.16.0/lib/node_modules/browserify/node_modules/is-buffer/index.js":106,"./ansi.js":49,"./escape.js":50,"_process":108}],53:[function(require,module,exports){
+},{"../../../../../../../../opt/node-v16.16.0/lib/node_modules/browserify/node_modules/is-buffer/index.js":131,"./ansi.js":49,"./escape.js":51,"_process":133}],55:[function(require,module,exports){
+module.exports={"߀":"0","́":""," ":" ","Ⓐ":"A","Ａ":"A","À":"A","Á":"A","Â":"A","Ầ":"A","Ấ":"A","Ẫ":"A","Ẩ":"A","Ã":"A","Ā":"A","Ă":"A","Ằ":"A","Ắ":"A","Ẵ":"A","Ẳ":"A","Ȧ":"A","Ǡ":"A","Ä":"A","Ǟ":"A","Ả":"A","Å":"A","Ǻ":"A","Ǎ":"A","Ȁ":"A","Ȃ":"A","Ạ":"A","Ậ":"A","Ặ":"A","Ḁ":"A","Ą":"A","Ⱥ":"A","Ɐ":"A","Ꜳ":"AA","Æ":"AE","Ǽ":"AE","Ǣ":"AE","Ꜵ":"AO","Ꜷ":"AU","Ꜹ":"AV","Ꜻ":"AV","Ꜽ":"AY","Ⓑ":"B","Ｂ":"B","Ḃ":"B","Ḅ":"B","Ḇ":"B","Ƀ":"B","Ɓ":"B","ｃ":"C","Ⓒ":"C","Ｃ":"C","Ꜿ":"C","Ḉ":"C","Ç":"C","Ⓓ":"D","Ｄ":"D","Ḋ":"D","Ď":"D","Ḍ":"D","Ḑ":"D","Ḓ":"D","Ḏ":"D","Đ":"D","Ɗ":"D","Ɖ":"D","ᴅ":"D","Ꝺ":"D","Ð":"Dh","Ǳ":"DZ","Ǆ":"DZ","ǲ":"Dz","ǅ":"Dz","ɛ":"E","Ⓔ":"E","Ｅ":"E","È":"E","É":"E","Ê":"E","Ề":"E","Ế":"E","Ễ":"E","Ể":"E","Ẽ":"E","Ē":"E","Ḕ":"E","Ḗ":"E","Ĕ":"E","Ė":"E","Ë":"E","Ẻ":"E","Ě":"E","Ȅ":"E","Ȇ":"E","Ẹ":"E","Ệ":"E","Ȩ":"E","Ḝ":"E","Ę":"E","Ḙ":"E","Ḛ":"E","Ɛ":"E","Ǝ":"E","ᴇ":"E","ꝼ":"F","Ⓕ":"F","Ｆ":"F","Ḟ":"F","Ƒ":"F","Ꝼ":"F","Ⓖ":"G","Ｇ":"G","Ǵ":"G","Ĝ":"G","Ḡ":"G","Ğ":"G","Ġ":"G","Ǧ":"G","Ģ":"G","Ǥ":"G","Ɠ":"G","Ꞡ":"G","Ᵹ":"G","Ꝿ":"G","ɢ":"G","Ⓗ":"H","Ｈ":"H","Ĥ":"H","Ḣ":"H","Ḧ":"H","Ȟ":"H","Ḥ":"H","Ḩ":"H","Ḫ":"H","Ħ":"H","Ⱨ":"H","Ⱶ":"H","Ɥ":"H","Ⓘ":"I","Ｉ":"I","Ì":"I","Í":"I","Î":"I","Ĩ":"I","Ī":"I","Ĭ":"I","İ":"I","Ï":"I","Ḯ":"I","Ỉ":"I","Ǐ":"I","Ȉ":"I","Ȋ":"I","Ị":"I","Į":"I","Ḭ":"I","Ɨ":"I","Ⓙ":"J","Ｊ":"J","Ĵ":"J","Ɉ":"J","ȷ":"J","Ⓚ":"K","Ｋ":"K","Ḱ":"K","Ǩ":"K","Ḳ":"K","Ķ":"K","Ḵ":"K","Ƙ":"K","Ⱪ":"K","Ꝁ":"K","Ꝃ":"K","Ꝅ":"K","Ꞣ":"K","Ⓛ":"L","Ｌ":"L","Ŀ":"L","Ĺ":"L","Ľ":"L","Ḷ":"L","Ḹ":"L","Ļ":"L","Ḽ":"L","Ḻ":"L","Ł":"L","Ƚ":"L","Ɫ":"L","Ⱡ":"L","Ꝉ":"L","Ꝇ":"L","Ꞁ":"L","Ǉ":"LJ","ǈ":"Lj","Ⓜ":"M","Ｍ":"M","Ḿ":"M","Ṁ":"M","Ṃ":"M","Ɱ":"M","Ɯ":"M","ϻ":"M","Ꞥ":"N","Ƞ":"N","Ⓝ":"N","Ｎ":"N","Ǹ":"N","Ń":"N","Ñ":"N","Ṅ":"N","Ň":"N","Ṇ":"N","Ņ":"N","Ṋ":"N","Ṉ":"N","Ɲ":"N","Ꞑ":"N","ᴎ":"N","Ǌ":"NJ","ǋ":"Nj","Ⓞ":"O","Ｏ":"O","Ò":"O","Ó":"O","Ô":"O","Ồ":"O","Ố":"O","Ỗ":"O","Ổ":"O","Õ":"O","Ṍ":"O","Ȭ":"O","Ṏ":"O","Ō":"O","Ṑ":"O","Ṓ":"O","Ŏ":"O","Ȯ":"O","Ȱ":"O","Ö":"O","Ȫ":"O","Ỏ":"O","Ő":"O","Ǒ":"O","Ȍ":"O","Ȏ":"O","Ơ":"O","Ờ":"O","Ớ":"O","Ỡ":"O","Ở":"O","Ợ":"O","Ọ":"O","Ộ":"O","Ǫ":"O","Ǭ":"O","Ø":"O","Ǿ":"O","Ɔ":"O","Ɵ":"O","Ꝋ":"O","Ꝍ":"O","Œ":"OE","Ƣ":"OI","Ꝏ":"OO","Ȣ":"OU","Ⓟ":"P","Ｐ":"P","Ṕ":"P","Ṗ":"P","Ƥ":"P","Ᵽ":"P","Ꝑ":"P","Ꝓ":"P","Ꝕ":"P","Ⓠ":"Q","Ｑ":"Q","Ꝗ":"Q","Ꝙ":"Q","Ɋ":"Q","Ⓡ":"R","Ｒ":"R","Ŕ":"R","Ṙ":"R","Ř":"R","Ȑ":"R","Ȓ":"R","Ṛ":"R","Ṝ":"R","Ŗ":"R","Ṟ":"R","Ɍ":"R","Ɽ":"R","Ꝛ":"R","Ꞧ":"R","Ꞃ":"R","Ⓢ":"S","Ｓ":"S","ẞ":"S","Ś":"S","Ṥ":"S","Ŝ":"S","Ṡ":"S","Š":"S","Ṧ":"S","Ṣ":"S","Ṩ":"S","Ș":"S","Ş":"S","Ȿ":"S","Ꞩ":"S","Ꞅ":"S","Ⓣ":"T","Ｔ":"T","Ṫ":"T","Ť":"T","Ṭ":"T","Ț":"T","Ţ":"T","Ṱ":"T","Ṯ":"T","Ŧ":"T","Ƭ":"T","Ʈ":"T","Ⱦ":"T","Ꞇ":"T","Þ":"Th","Ꜩ":"TZ","Ⓤ":"U","Ｕ":"U","Ù":"U","Ú":"U","Û":"U","Ũ":"U","Ṹ":"U","Ū":"U","Ṻ":"U","Ŭ":"U","Ü":"U","Ǜ":"U","Ǘ":"U","Ǖ":"U","Ǚ":"U","Ủ":"U","Ů":"U","Ű":"U","Ǔ":"U","Ȕ":"U","Ȗ":"U","Ư":"U","Ừ":"U","Ứ":"U","Ữ":"U","Ử":"U","Ự":"U","Ụ":"U","Ṳ":"U","Ų":"U","Ṷ":"U","Ṵ":"U","Ʉ":"U","Ⓥ":"V","Ｖ":"V","Ṽ":"V","Ṿ":"V","Ʋ":"V","Ꝟ":"V","Ʌ":"V","Ꝡ":"VY","Ⓦ":"W","Ｗ":"W","Ẁ":"W","Ẃ":"W","Ŵ":"W","Ẇ":"W","Ẅ":"W","Ẉ":"W","Ⱳ":"W","Ⓧ":"X","Ｘ":"X","Ẋ":"X","Ẍ":"X","Ⓨ":"Y","Ｙ":"Y","Ỳ":"Y","Ý":"Y","Ŷ":"Y","Ỹ":"Y","Ȳ":"Y","Ẏ":"Y","Ÿ":"Y","Ỷ":"Y","Ỵ":"Y","Ƴ":"Y","Ɏ":"Y","Ỿ":"Y","Ⓩ":"Z","Ｚ":"Z","Ź":"Z","Ẑ":"Z","Ż":"Z","Ž":"Z","Ẓ":"Z","Ẕ":"Z","Ƶ":"Z","Ȥ":"Z","Ɀ":"Z","Ⱬ":"Z","Ꝣ":"Z","ⓐ":"a","ａ":"a","ẚ":"a","à":"a","á":"a","â":"a","ầ":"a","ấ":"a","ẫ":"a","ẩ":"a","ã":"a","ā":"a","ă":"a","ằ":"a","ắ":"a","ẵ":"a","ẳ":"a","ȧ":"a","ǡ":"a","ä":"a","ǟ":"a","ả":"a","å":"a","ǻ":"a","ǎ":"a","ȁ":"a","ȃ":"a","ạ":"a","ậ":"a","ặ":"a","ḁ":"a","ą":"a","ⱥ":"a","ɐ":"a","ɑ":"a","ꜳ":"aa","æ":"ae","ǽ":"ae","ǣ":"ae","ꜵ":"ao","ꜷ":"au","ꜹ":"av","ꜻ":"av","ꜽ":"ay","ⓑ":"b","ｂ":"b","ḃ":"b","ḅ":"b","ḇ":"b","ƀ":"b","ƃ":"b","ɓ":"b","Ƃ":"b","ⓒ":"c","ć":"c","ĉ":"c","ċ":"c","č":"c","ç":"c","ḉ":"c","ƈ":"c","ȼ":"c","ꜿ":"c","ↄ":"c","C":"c","Ć":"c","Ĉ":"c","Ċ":"c","Č":"c","Ƈ":"c","Ȼ":"c","ⓓ":"d","ｄ":"d","ḋ":"d","ď":"d","ḍ":"d","ḑ":"d","ḓ":"d","ḏ":"d","đ":"d","ƌ":"d","ɖ":"d","ɗ":"d","Ƌ":"d","Ꮷ":"d","ԁ":"d","Ɦ":"d","ð":"dh","ǳ":"dz","ǆ":"dz","ⓔ":"e","ｅ":"e","è":"e","é":"e","ê":"e","ề":"e","ế":"e","ễ":"e","ể":"e","ẽ":"e","ē":"e","ḕ":"e","ḗ":"e","ĕ":"e","ė":"e","ë":"e","ẻ":"e","ě":"e","ȅ":"e","ȇ":"e","ẹ":"e","ệ":"e","ȩ":"e","ḝ":"e","ę":"e","ḙ":"e","ḛ":"e","ɇ":"e","ǝ":"e","ⓕ":"f","ｆ":"f","ḟ":"f","ƒ":"f","ﬀ":"ff","ﬁ":"fi","ﬂ":"fl","ﬃ":"ffi","ﬄ":"ffl","ⓖ":"g","ｇ":"g","ǵ":"g","ĝ":"g","ḡ":"g","ğ":"g","ġ":"g","ǧ":"g","ģ":"g","ǥ":"g","ɠ":"g","ꞡ":"g","ꝿ":"g","ᵹ":"g","ⓗ":"h","ｈ":"h","ĥ":"h","ḣ":"h","ḧ":"h","ȟ":"h","ḥ":"h","ḩ":"h","ḫ":"h","ẖ":"h","ħ":"h","ⱨ":"h","ⱶ":"h","ɥ":"h","ƕ":"hv","ⓘ":"i","ｉ":"i","ì":"i","í":"i","î":"i","ĩ":"i","ī":"i","ĭ":"i","ï":"i","ḯ":"i","ỉ":"i","ǐ":"i","ȉ":"i","ȋ":"i","ị":"i","į":"i","ḭ":"i","ɨ":"i","ı":"i","ⓙ":"j","ｊ":"j","ĵ":"j","ǰ":"j","ɉ":"j","ⓚ":"k","ｋ":"k","ḱ":"k","ǩ":"k","ḳ":"k","ķ":"k","ḵ":"k","ƙ":"k","ⱪ":"k","ꝁ":"k","ꝃ":"k","ꝅ":"k","ꞣ":"k","ⓛ":"l","ｌ":"l","ŀ":"l","ĺ":"l","ľ":"l","ḷ":"l","ḹ":"l","ļ":"l","ḽ":"l","ḻ":"l","ſ":"l","ł":"l","ƚ":"l","ɫ":"l","ⱡ":"l","ꝉ":"l","ꞁ":"l","ꝇ":"l","ɭ":"l","ǉ":"lj","ⓜ":"m","ｍ":"m","ḿ":"m","ṁ":"m","ṃ":"m","ɱ":"m","ɯ":"m","ⓝ":"n","ｎ":"n","ǹ":"n","ń":"n","ñ":"n","ṅ":"n","ň":"n","ṇ":"n","ņ":"n","ṋ":"n","ṉ":"n","ƞ":"n","ɲ":"n","ŉ":"n","ꞑ":"n","ꞥ":"n","ԉ":"n","ǌ":"nj","ⓞ":"o","ｏ":"o","ò":"o","ó":"o","ô":"o","ồ":"o","ố":"o","ỗ":"o","ổ":"o","õ":"o","ṍ":"o","ȭ":"o","ṏ":"o","ō":"o","ṑ":"o","ṓ":"o","ŏ":"o","ȯ":"o","ȱ":"o","ö":"o","ȫ":"o","ỏ":"o","ő":"o","ǒ":"o","ȍ":"o","ȏ":"o","ơ":"o","ờ":"o","ớ":"o","ỡ":"o","ở":"o","ợ":"o","ọ":"o","ộ":"o","ǫ":"o","ǭ":"o","ø":"o","ǿ":"o","ꝋ":"o","ꝍ":"o","ɵ":"o","ɔ":"o","ᴑ":"o","œ":"oe","ƣ":"oi","ꝏ":"oo","ȣ":"ou","ⓟ":"p","ｐ":"p","ṕ":"p","ṗ":"p","ƥ":"p","ᵽ":"p","ꝑ":"p","ꝓ":"p","ꝕ":"p","ρ":"p","ⓠ":"q","ｑ":"q","ɋ":"q","ꝗ":"q","ꝙ":"q","ⓡ":"r","ｒ":"r","ŕ":"r","ṙ":"r","ř":"r","ȑ":"r","ȓ":"r","ṛ":"r","ṝ":"r","ŗ":"r","ṟ":"r","ɍ":"r","ɽ":"r","ꝛ":"r","ꞧ":"r","ꞃ":"r","ⓢ":"s","ｓ":"s","ś":"s","ṥ":"s","ŝ":"s","ṡ":"s","š":"s","ṧ":"s","ṣ":"s","ṩ":"s","ș":"s","ş":"s","ȿ":"s","ꞩ":"s","ꞅ":"s","ẛ":"s","ʂ":"s","ß":"ss","ⓣ":"t","ｔ":"t","ṫ":"t","ẗ":"t","ť":"t","ṭ":"t","ț":"t","ţ":"t","ṱ":"t","ṯ":"t","ŧ":"t","ƭ":"t","ʈ":"t","ⱦ":"t","ꞇ":"t","þ":"th","ꜩ":"tz","ⓤ":"u","ｕ":"u","ù":"u","ú":"u","û":"u","ũ":"u","ṹ":"u","ū":"u","ṻ":"u","ŭ":"u","ü":"u","ǜ":"u","ǘ":"u","ǖ":"u","ǚ":"u","ủ":"u","ů":"u","ű":"u","ǔ":"u","ȕ":"u","ȗ":"u","ư":"u","ừ":"u","ứ":"u","ữ":"u","ử":"u","ự":"u","ụ":"u","ṳ":"u","ų":"u","ṷ":"u","ṵ":"u","ʉ":"u","ⓥ":"v","ｖ":"v","ṽ":"v","ṿ":"v","ʋ":"v","ꝟ":"v","ʌ":"v","ꝡ":"vy","ⓦ":"w","ｗ":"w","ẁ":"w","ẃ":"w","ŵ":"w","ẇ":"w","ẅ":"w","ẘ":"w","ẉ":"w","ⱳ":"w","ⓧ":"x","ｘ":"x","ẋ":"x","ẍ":"x","ⓨ":"y","ｙ":"y","ỳ":"y","ý":"y","ŷ":"y","ỹ":"y","ȳ":"y","ẏ":"y","ÿ":"y","ỷ":"y","ẙ":"y","ỵ":"y","ƴ":"y","ɏ":"y","ỿ":"y","ⓩ":"z","ｚ":"z","ź":"z","ẑ":"z","ż":"z","ž":"z","ẓ":"z","ẕ":"z","ƶ":"z","ȥ":"z","ɀ":"z","ⱬ":"z","ꝣ":"z"}
+},{}],56:[function(require,module,exports){
+/*
+	String Kit
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+var map = require( './latinize-map.json' ) ;
+
+module.exports = function( str ) {
+	return str.replace( /[^\u0000-\u007e]/g , ( c ) => { return map[ c ] || c ; } ) ;
+} ;
+
+
+
+},{"./latinize-map.json":55}],57:[function(require,module,exports){
+/*
+	String Kit
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+exports.resize = function( str , length ) {
+	if ( str.length === length ) {
+		return str ;
+	}
+	else if ( str.length > length ) {
+		return str.slice( 0 , length ) ;
+	}
+
+	return str + ' '.repeat( length - str.length ) ;
+
+} ;
+
+
+
+exports.occurrenceCount = function( str , subStr , overlap = false ) {
+	if ( ! str || ! subStr ) { return 0 ; }
+
+	var count = 0 , index = 0 ,
+		inc = overlap ? 1 : subStr.length ;
+
+	while ( ( index = str.indexOf( subStr , index ) ) !== -1 ) {
+		count ++ ;
+		index += inc ;
+	}
+
+	return count ;
+} ;
+
+
+},{}],58:[function(require,module,exports){
 /*
 	String Kit
 
@@ -15925,10 +16413,249 @@ function naturalSort( a , b ) {
 module.exports = naturalSort ;
 
 
-},{}],54:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
+/*
+	String Kit
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+var escape = require( './escape.js' ) ;
+
+
+
+exports.regexp = {} ;
+
+
+
+exports.regexp.array2alternatives = function array2alternatives( array ) {
+	var i , sorted = array.slice() ;
+
+	// Sort descending by string length
+	sorted.sort( ( a , b ) => {
+		return b.length - a.length ;
+	} ) ;
+
+	// Then escape what should be
+	for ( i = 0 ; i < sorted.length ; i ++ ) {
+		sorted[ i ] = escape.regExpPattern( sorted[ i ] ) ;
+	}
+
+	return sorted.join( '|' ) ;
+} ;
+
+
+
+},{"./escape.js":51}],60:[function(require,module,exports){
+/*
+	String Kit
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const stringKit = {} ;
+module.exports = stringKit ;
+
+
+
+/*
+// Tier 0: add polyfills to stringKit
+const polyfill = require( './polyfill.js' ) ;
+
+for ( let fn_ in polyfill ) {
+	stringKit[ fn ] = function( str , ... args ) {
+		return polyfill[ fn ].call( str , ... args ) ;
+	} ;
+}
+//*/
+
+
+
+Object.assign( stringKit ,
+
+	// Tier 1
+	{ escape: require( './escape.js' ) } ,
+	{ ansi: require( './ansi.js' ) } ,
+	{ unicode: require( './unicode.js' ) }
+) ;
+
+
+
+Object.assign( stringKit ,
+
+	// Tier 2
+	require( './format.js' ) ,
+
+	// Tier 3
+	require( './misc.js' ) ,
+	require( './inspect.js' ) ,
+	require( './regexp.js' ) ,
+	require( './camel.js' ) ,
+	{
+		latinize: require( './latinize.js' ) ,
+		toTitleCase: require( './toTitleCase.js' ) ,
+		wordwrap: require( './wordwrap.js' ) ,
+		naturalSort: require( './naturalSort.js' ) ,
+		fuzzy: require( './fuzzy.js' ) ,
+		StringNumber: require( './StringNumber.js' )
+	}
+) ;
+
+
+
+/*
+// Install all polyfill into String.prototype
+stringKit.installPolyfills = function installPolyfills() {
+	for ( let fn in polyfill ) {
+		if ( ! String.prototype[ fn ] ) {
+			String.prototype[ fn ] = polyfill[ fn ] ;
+		}
+	}
+} ;
+//*/
+
+
+},{"./StringNumber.js":48,"./ansi.js":49,"./camel.js":50,"./escape.js":51,"./format.js":52,"./fuzzy.js":53,"./inspect.js":54,"./latinize.js":56,"./misc.js":57,"./naturalSort.js":58,"./regexp.js":59,"./toTitleCase.js":61,"./unicode.js":63,"./wordwrap.js":64}],61:[function(require,module,exports){
+/*
+	String Kit
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const DEFAULT_OPTIONS = {
+	underscoreToSpace: true ,
+	lowerCaseWords: new Set( [
+		// Articles
+		'a' , 'an' , 'the' ,
+		// Conjunctions (only coordinating conjunctions, maybe we will have to add subordinating and correlative conjunctions)
+		'for' , 'and' , 'nor' , 'but' , 'or' , 'yet' , 'so' ,
+		// Prepositions (there are more, but usually only preposition with 2 or 3 letters are lower-cased)
+		'of' , 'on' , 'off' , 'in' , 'into' , 'by' , 'with' , 'to' , 'at' , 'up' , 'down' , 'as'
+	] )
+} ;
+
+
+
+module.exports = ( str , options = DEFAULT_OPTIONS ) => {
+	if ( ! str || typeof str !== 'string' ) { return '' ; }
+
+	// Manage options
+	var dashToSpace = options.dashToSpace ?? DEFAULT_OPTIONS.dashToSpace ,
+		underscoreToSpace = options.underscoreToSpace ?? DEFAULT_OPTIONS.underscoreToSpace ,
+		zealous = options.zealous ?? DEFAULT_OPTIONS.zealous ,
+		preserveAllCaps = options.preserveAllCaps ?? DEFAULT_OPTIONS.preserveAllCaps ,
+		lowerCaseWords = options.lowerCaseWords ?? DEFAULT_OPTIONS.lowerCaseWords ;
+
+	lowerCaseWords =
+		lowerCaseWords instanceof Set ? lowerCaseWords :
+		Array.isArray( lowerCaseWords ) ? new Set( lowerCaseWords ) :
+		null ;
+
+
+	if ( dashToSpace ) { str = str.replace( /-+/g , ' ' ) ; }
+	if ( underscoreToSpace ) { str = str.replace( /_+/g , ' ' ) ; }
+
+	// Squash multiple spaces into only one, and trim
+	str = str.replace( / +/g , ' ' ).trim() ;
+
+
+	return str.replace( /[^\s_-]+/g , ( part , position ) => {
+		// Check word that must be lower-cased (excluding the first and the last word)
+		if ( lowerCaseWords && position && position + part.length < str.length ) {
+			let lowerCased = part.toLowerCase() ;
+			if ( lowerCaseWords.has( lowerCased ) ) { return lowerCased ; }
+		}
+
+		if ( zealous ) {
+			if ( preserveAllCaps && part === part.toUpperCase() ) {
+				// This is a ALLCAPS word
+				return part ;
+			}
+
+			return part[ 0 ].toUpperCase() + part.slice( 1 ).toLowerCase() ;
+		}
+
+		return part[ 0 ].toUpperCase() + part.slice( 1 ) ;
+	} ) ;
+} ;
+
+
+},{}],62:[function(require,module,exports){
 module.exports=[{"s":9728,"e":9747,"w":1},{"s":9748,"e":9749,"w":2},{"s":9750,"e":9799,"w":1},{"s":9800,"e":9811,"w":2},{"s":9812,"e":9854,"w":1},{"s":9855,"e":9855,"w":2},{"s":9856,"e":9874,"w":1},{"s":9875,"e":9875,"w":2},{"s":9876,"e":9888,"w":1},{"s":9889,"e":9889,"w":2},{"s":9890,"e":9897,"w":1},{"s":9898,"e":9899,"w":2},{"s":9900,"e":9916,"w":1},{"s":9917,"e":9918,"w":2},{"s":9919,"e":9923,"w":1},{"s":9924,"e":9925,"w":2},{"s":9926,"e":9933,"w":1},{"s":9934,"e":9934,"w":2},{"s":9935,"e":9939,"w":1},{"s":9940,"e":9940,"w":2},{"s":9941,"e":9961,"w":1},{"s":9962,"e":9962,"w":2},{"s":9963,"e":9969,"w":1},{"s":9970,"e":9971,"w":2},{"s":9972,"e":9972,"w":1},{"s":9973,"e":9973,"w":2},{"s":9974,"e":9977,"w":1},{"s":9978,"e":9978,"w":2},{"s":9979,"e":9980,"w":1},{"s":9981,"e":9981,"w":2},{"s":9982,"e":9983,"w":1},{"s":9984,"e":9988,"w":1},{"s":9989,"e":9989,"w":2},{"s":9990,"e":9993,"w":1},{"s":9994,"e":9995,"w":2},{"s":9996,"e":10023,"w":1},{"s":10024,"e":10024,"w":2},{"s":10025,"e":10059,"w":1},{"s":10060,"e":10060,"w":2},{"s":10061,"e":10061,"w":1},{"s":10062,"e":10062,"w":2},{"s":10063,"e":10066,"w":1},{"s":10067,"e":10069,"w":2},{"s":10070,"e":10070,"w":1},{"s":10071,"e":10071,"w":2},{"s":10072,"e":10132,"w":1},{"s":10133,"e":10135,"w":2},{"s":10136,"e":10159,"w":1},{"s":10160,"e":10160,"w":2},{"s":10161,"e":10174,"w":1},{"s":10175,"e":10175,"w":2},{"s":126976,"e":126979,"w":1},{"s":126980,"e":126980,"w":2},{"s":126981,"e":127182,"w":1},{"s":127183,"e":127183,"w":2},{"s":127184,"e":127373,"w":1},{"s":127374,"e":127374,"w":2},{"s":127375,"e":127376,"w":1},{"s":127377,"e":127386,"w":2},{"s":127387,"e":127487,"w":1},{"s":127744,"e":127776,"w":2},{"s":127777,"e":127788,"w":1},{"s":127789,"e":127797,"w":2},{"s":127798,"e":127798,"w":1},{"s":127799,"e":127868,"w":2},{"s":127869,"e":127869,"w":1},{"s":127870,"e":127891,"w":2},{"s":127892,"e":127903,"w":1},{"s":127904,"e":127946,"w":2},{"s":127947,"e":127950,"w":1},{"s":127951,"e":127955,"w":2},{"s":127956,"e":127967,"w":1},{"s":127968,"e":127984,"w":2},{"s":127985,"e":127987,"w":1},{"s":127988,"e":127988,"w":2},{"s":127989,"e":127991,"w":1},{"s":127992,"e":127994,"w":2},{"s":128000,"e":128062,"w":2},{"s":128063,"e":128063,"w":1},{"s":128064,"e":128064,"w":2},{"s":128065,"e":128065,"w":1},{"s":128066,"e":128252,"w":2},{"s":128253,"e":128254,"w":1},{"s":128255,"e":128317,"w":2},{"s":128318,"e":128330,"w":1},{"s":128331,"e":128334,"w":2},{"s":128335,"e":128335,"w":1},{"s":128336,"e":128359,"w":2},{"s":128360,"e":128377,"w":1},{"s":128378,"e":128378,"w":2},{"s":128379,"e":128404,"w":1},{"s":128405,"e":128406,"w":2},{"s":128407,"e":128419,"w":1},{"s":128420,"e":128420,"w":2},{"s":128421,"e":128506,"w":1},{"s":128507,"e":128591,"w":2},{"s":128592,"e":128639,"w":1},{"s":128640,"e":128709,"w":2},{"s":128710,"e":128715,"w":1},{"s":128716,"e":128716,"w":2},{"s":128717,"e":128719,"w":1},{"s":128720,"e":128722,"w":2},{"s":128723,"e":128724,"w":1},{"s":128725,"e":128727,"w":2},{"s":128728,"e":128746,"w":1},{"s":128747,"e":128748,"w":2},{"s":128749,"e":128755,"w":1},{"s":128756,"e":128764,"w":2},{"s":128765,"e":128991,"w":1},{"s":128992,"e":129003,"w":2},{"s":129004,"e":129291,"w":1},{"s":129292,"e":129338,"w":2},{"s":129339,"e":129339,"w":1},{"s":129340,"e":129349,"w":2},{"s":129350,"e":129350,"w":1},{"s":129351,"e":129400,"w":2},{"s":129401,"e":129401,"w":1},{"s":129402,"e":129483,"w":2},{"s":129484,"e":129484,"w":1},{"s":129485,"e":129535,"w":2},{"s":129536,"e":129647,"w":1},{"s":129648,"e":129652,"w":2},{"s":129653,"e":129655,"w":1},{"s":129656,"e":129658,"w":2},{"s":129659,"e":129663,"w":1},{"s":129664,"e":129670,"w":2},{"s":129671,"e":129679,"w":1},{"s":129680,"e":129704,"w":2},{"s":129705,"e":129711,"w":1},{"s":129712,"e":129718,"w":2},{"s":129719,"e":129727,"w":1},{"s":129728,"e":129730,"w":2},{"s":129731,"e":129743,"w":1},{"s":129744,"e":129750,"w":2},{"s":129751,"e":129791,"w":1}]
 
-},{}],55:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 /*
 	String Kit
 
@@ -16276,7 +17003,211 @@ unicode.isEmojiModifierCodePoint = code =>
 	code === 0xfe0f ;	// VARIATION SELECTOR-16 [VS16] {emoji variation selector}
 
 
-},{"./unicode-emoji-width-ranges.json":54}],56:[function(require,module,exports){
+},{"./unicode-emoji-width-ranges.json":62}],64:[function(require,module,exports){
+/*
+	String Kit
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const unicode = require( './unicode.js' ) ;
+
+
+
+// French typography rules with '!', '?', ':' and ';'
+const FRENCH_DOUBLE_GRAPH_TYPO = {
+	'!': true ,
+	'?': true ,
+	':': true ,
+	';': true
+} ;
+
+
+
+/*
+	.wordwrap( str , width )
+	.wordwrap( str , options )
+
+	str: the string to process
+	width: the max width (default to 80)
+	options: object, where:
+		width: the max width (default to 80)
+		glue: (optional) the char used to join lines, by default: lines are joined with '\n',
+		noJoin: (optional) if set: don't join, instead return an array of lines
+		offset: (optional) offset of the first-line
+		updateOffset: (optional) if set, options.offset is updated with the last line width
+		noTrim: (optional) if set, don't right-trim lines, if not set, right-trim all lines except the last
+		fill: (optional) if set, fill the remaining width with space (it forces noTrim)
+		skipFn: (optional) a function used to skip a whole sequence, useful for special sequences
+			like ANSI escape sequence, and so on...
+		charWidthFn: (optional) a function used to compute the width of one char/group of chars
+		regroupFn: (optional) a function used to regroup chars together
+*/
+module.exports = function wordwrap( str , options ) {
+	var start = 0 , end , skipEnd , lineWidth , currentLine , currentWidth , length ,
+		lastEnd , lastWidth , lastWasSpace , charWidthFn ,
+		explicitNewLine = true ,
+		strArray = unicode.toArray( str ) ,
+		trimNewLine = false ,
+		line , lines = [] ;
+
+	if ( typeof options !== 'object' ) {
+		options = { width: options } ;
+	}
+
+	// Catch NaN, zero or negative and non-number
+	if ( ! options.width || typeof options.width !== 'number' || options.width <= 0 ) { options.width = 80 ; }
+
+	lineWidth = options.offset ? options.width - options.offset : options.width ;
+
+	if ( typeof options.glue !== 'string' ) { options.glue = '\n' ; }
+
+	if ( options.regroupFn ) {
+		strArray = options.regroupFn( strArray ) ;
+		// If char are grouped, use unicode.width() as a default
+		charWidthFn = options.charWidthFn || unicode.width ;
+	}
+	else {
+		// If char are not grouped, use unicode.charWidth() as a default
+		charWidthFn = options.charWidthFn || unicode.charWidth ;
+	}
+
+	length = strArray.length ;
+
+	var getNextLine = () => {
+		//originStart = start ;
+
+		if ( ! explicitNewLine || trimNewLine ) {
+			// Find the first non-space char
+			while ( strArray[ start ] === ' ' ) { start ++ ; }
+
+			if ( trimNewLine && strArray[ start ] === '\n' ) {
+				explicitNewLine = true ;
+				start ++ ;
+				/*
+				originStart = start ;
+				while ( strArray[ start ] === ' ' ) { start ++ ; }
+				*/
+			}
+		}
+
+		if ( start >= length ) { return null ; }
+
+		explicitNewLine = false ;
+		trimNewLine = false ;
+		lastWasSpace = false ;
+		end = lastEnd = start ;
+		currentWidth = lastWidth = 0 ;
+
+		for ( ;; ) {
+			if ( end >= length ) {
+				return strArray.slice( start , end ).join( '' ) ;
+			}
+
+			if ( strArray[ end ] === '\n' ) {
+				explicitNewLine = true ;
+				currentLine = strArray.slice( start , end ++ ).join( '' ) ;
+
+				if ( options.fill ) {
+					currentLine += ' '.repeat( lineWidth - currentWidth ) ;
+				}
+
+				return currentLine ;
+			}
+
+			if ( options.skipFn ) {
+				skipEnd = options.skipFn( strArray , end ) ;
+				if ( skipEnd !== end ) {
+					end = skipEnd ;
+					continue ;
+				}
+			}
+
+			if ( strArray[ end ] === ' ' && ! lastWasSpace && ! FRENCH_DOUBLE_GRAPH_TYPO[ strArray[ end + 1 ] ] ) {
+				// This is the first space of a group of space
+				lastEnd = end ;
+				lastWidth = currentWidth ;
+			}
+			else {
+				lastWasSpace = false ;
+			}
+
+			currentWidth += charWidthFn( strArray[ end ] ) ;
+
+			if ( currentWidth > lineWidth ) {
+				// If lastEnd === start, this is a word that takes the whole line: cut it
+				// If not, use the lastEnd
+				trimNewLine = true ;
+
+				if ( lastEnd !== start ) {
+					end = lastEnd ;
+				}
+				else if ( lineWidth < options.width ) {
+					// This is the first line with an offset, so just start over in line two
+					end = start ;
+					return '' ;
+				}
+
+				currentLine = strArray.slice( start , end ).join( '' ) ;
+
+				if ( options.fill ) {
+					currentLine += ' '.repeat( lineWidth - lastWidth ) ;
+				}
+
+				return currentLine ;
+			}
+
+			// Do not move that inside the for(;;), some part are using a continue statement and manage the end value by themself
+			end ++ ;
+		}
+	} ;
+
+	while ( start < length && ( line = getNextLine() ) !== null ) {
+		lines.push( line ) ;
+		start = end ;
+		lineWidth = options.width ;
+	}
+
+	// If it ends with an explicit newline, we have to reproduce it now!
+	if ( explicitNewLine ) { lines.push( '' ) ; }
+
+	if ( ! options.noTrim && ! options.fill ) {
+		lines = lines.map( ( line_ , index ) => index === lines.length - 1 ? line_ : line_.trimRight() ) ;
+	}
+
+	if ( ! options.noJoin ) { lines = lines.join( options.glue ) ; }
+
+	if ( options.updateOffset ) { options.offset = currentWidth ; }
+
+	return lines ;
+} ;
+
+
+},{"./unicode.js":63}],65:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -16393,7 +17324,7 @@ Metric.isEqual = function( a , b ) {
 } ;
 
 
-},{}],57:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -16440,6 +17371,8 @@ var autoId = 0 ;
 function VG( options ) {
 	VGContainer.call( this , options ) ;
 
+	this.root = this ;	// This is the root element
+
 	this.id = ( options && options.id ) || 'vg_' + ( autoId ++ ) ;
 	this.viewBox = {
 		x: 0 , y: 0 , width: 100 , height: 100
@@ -16467,12 +17400,12 @@ VG.prototype.svgTag = 'svg' ;
 
 
 
-VG.prototype.svgAttributes = function( root = this ) {
+VG.prototype.svgAttributes = function() {
 	var attr = {
-		xmlns: "http://www.w3.org/2000/svg" ,
+		xmlns: this.NS ,
 		// xlink is required for image, since href works only on the browser, everywhere else we need xlink:href instead
 		'xmlns:xlink': "http://www.w3.org/1999/xlink" ,
-		viewBox: this.viewBox.x + ' ' + ( root.invertY ? - this.viewBox.y - this.viewBox.height : this.viewBox.y ) + ' ' + this.viewBox.width + ' ' + this.viewBox.height
+		viewBox: this.viewBox.x + ' ' + ( this.root.invertY ? - this.viewBox.y - this.viewBox.height : this.viewBox.y ) + ' ' + this.viewBox.width + ' ' + this.viewBox.height
 	} ;
 
 	return attr ;
@@ -16533,7 +17466,116 @@ VG.prototype.addCssRule = function( rule ) {
 } ;
 
 
-},{"../package.json":103,"./VGContainer.js":58}],58:[function(require,module,exports){
+},{"../package.json":128,"./VGContainer.js":68}],67:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2023 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const svgKit = require( './svg-kit.js' ) ;
+const VGContainer = require( './VGContainer.js' ) ;
+const VGEntity = require( './VGEntity.js' ) ;
+
+const arrayKit = require( 'array-kit' ) ;
+
+
+
+function VGClip( params ) {
+	VGContainer.call( this , params ) ;
+	this.clippingEntities = [] ;
+	if ( params ) { this.set( params ) ; }
+}
+
+module.exports = VGClip ;
+
+VGClip.prototype = Object.create( VGContainer.prototype ) ;
+VGClip.prototype.constructor = VGClip ;
+VGClip.prototype.__prototypeUID__ = 'svg-kit/VGClip' ;
+VGClip.prototype.__prototypeVersion__ = require( '../package.json' ).version ;
+
+
+
+VGClip.prototype.svgTag = 'g' ;
+VGClip.prototype.svgClippingGroupTag = 'clipPath' ;
+VGClip.prototype.svgContentGroupTag = 'g' ;
+VGClip.prototype.supportClippingEntities = true ;
+
+
+
+VGClip.prototype.set = function( params ) {
+	// .clippingEntity is already detected by VGContainer.prototype#set() and call VGClip#addClippingEntity()
+	VGContainer.prototype.set.call( this , params ) ;
+} ;
+
+
+
+VGClip.prototype.addClippingEntity = function( clippingEntity , clone = false ) {
+	clippingEntity = svgKit.objectToVG( clippingEntity , clone ) ;
+
+	if ( clippingEntity ) {
+		if ( clippingEntity.parent ) { clippingEntity.parent.removeEntity( clippingEntity ) ; }
+		clippingEntity.parent = this ;
+		clippingEntity.root = this.root ;
+		this.clippingEntities.push( clippingEntity ) ;
+	}
+} ;
+
+
+
+VGClip.prototype.removeClippingEntity = function( clippingEntity ) {
+	if ( clippingEntity instanceof VGEntity ) {
+		arrayKit.deleteValue( this.clippingEntities , clippingEntity ) ;
+		clippingEntity.root = clippingEntity.parent = null ;
+	}
+} ;
+
+
+
+VGClip.prototype.svgClippingGroupAttributes = function() {
+	var attr = {
+		id: this._id + '_clipPath'
+	} ;
+
+	return attr ;
+} ;
+
+
+
+VGClip.prototype.svgContentGroupAttributes = function() {
+	var attr = {
+		'clip-path': 'url(#' + ( this._id + '_clipPath' ) + ')'
+	} ;
+
+	return attr ;
+} ;
+
+
+},{"../package.json":128,"./VGContainer.js":68,"./VGEntity.js":70,"./svg-kit.js":87,"array-kit":88}],68:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -16567,6 +17609,8 @@ VG.prototype.addCssRule = function( rule ) {
 const svgKit = require( './svg-kit.js' ) ;
 const VGEntity = require( './VGEntity.js' ) ;
 
+const arrayKit = require( 'array-kit' ) ;
+
 
 
 function VGContainer( options ) {
@@ -16596,6 +17640,13 @@ VGContainer.prototype.set = function( params ) {
 			this.addEntity( entity ) ;
 		}
 	}
+
+	if ( this.supportClippingEntities && params.clippingEntities && Array.isArray( params.clippingEntities ) ) {
+		this.clippingEntities.length = 0 ;
+		for ( let clippingEntity of params.clippingEntities ) {
+			this.addClippingEntity( clippingEntity ) ;
+		}
+	}
 } ;
 
 
@@ -16607,6 +17658,10 @@ VGContainer.prototype.export = function( data = {} ) {
 		data.entities = this.entities.map( e => e.export() ) ;
 	}
 
+	if ( this.supportClippingEntities && this.clippingEntities.length ) {
+		data.clippingEntities = this.clippingEntities.map( e => e.export() ) ;
+	}
+
 	return data ;
 } ;
 
@@ -16614,7 +17669,22 @@ VGContainer.prototype.export = function( data = {} ) {
 
 VGContainer.prototype.addEntity = function( entity , clone = false ) {
 	entity = svgKit.objectToVG( entity , clone ) ;
-	if ( entity ) { this.entities.push( entity ) ; }
+
+	if ( entity ) {
+		if ( entity.parent ) { entity.parent.removeEntity( entity ) ; }
+		entity.parent = this ;
+		entity.root = this.root ;
+		this.entities.push( entity ) ;
+	}
+} ;
+
+
+
+VGContainer.prototype.removeEntity = function( entity ) {
+	if ( entity instanceof VGEntity ) {
+		arrayKit.deleteValue( this.entities , entity ) ;
+		entity.root = entity.parent = null ;
+	}
 } ;
 
 
@@ -16636,6 +17706,20 @@ VGContainer.prototype.exportMorphLog = function() {
 	if ( this.morphLog.length ) { output.l = [ ... this.morphLog ] ; }
 	if ( hasInner ) { output.i = inner ; }
 
+	if ( this.supportClippingEntities ) {
+		let hasInnerClipping , innerClipping = {} ;
+
+		this.clippingEntities.forEach( ( clippingEntity , index ) => {
+			var log = clippingEntity.exportMorphLog() ;
+			if ( log ) {
+				innerClipping[ index ] = log ;
+				hasInnerClipping = true ;
+			}
+		} ) ;
+
+		if ( hasInnerClipping ) { output.ic = innerClipping ; }
+	}
+
 	this.morphLog.length = 0 ;
 	return output ;
 } ;
@@ -16643,8 +17727,6 @@ VGContainer.prototype.exportMorphLog = function() {
 
 
 VGContainer.prototype.importMorphLog = function( log ) {
-	var key , index ;
-
 	if ( ! log ) {
 		this.morphLog.length = 0 ;
 		return ;
@@ -16654,10 +17736,19 @@ VGContainer.prototype.importMorphLog = function( log ) {
 	else { this.morphLog = log.l ; }
 
 	if ( log.i ) {
-		for ( key in log.i ) {
-			index = + key ;
+		for ( let key in log.i ) {
+			let index = + key ;
 			if ( this.entities[ index ] ) {
 				this.entities[ index ].importMorphLog( log.i[ key ] ) ;
+			}
+		}
+	}
+
+	if ( this.supportClippingEntities && log.ic ) {
+		for ( let key in log.ic ) {
+			let index = + key ;
+			if ( this.clippingEntities[ index ] ) {
+				this.clippingEntities[ index ].importMorphLog( log.ic[ key ] ) ;
 			}
 		}
 	}
@@ -16666,15 +17757,20 @@ VGContainer.prototype.importMorphLog = function( log ) {
 
 
 // Update the DOM, based upon the morphLog
-VGContainer.prototype.morphSvgDom = function( root = this ) {
-	this.entities.forEach( entity => entity.morphSvgDom( root ) ) ;
-	this.morphLog.forEach( entry => this.morphOneSvgDomEntry( entry , root ) ) ;
+VGContainer.prototype.morphSvgDom = function() {
+	this.entities.forEach( entity => entity.morphSvgDom() ) ;
+
+	if ( this.supportClippingEntities ) {
+		this.clippingEntities.forEach( clippingEntity => clippingEntity.morphSvgDom() ) ;
+	}
+
+	this.morphLog.forEach( entry => this.morphOneSvgDomEntry( entry ) ) ;
 	this.morphLog.length = 0 ;
 	return this.$element ;
 } ;
 
 
-},{"../package.json":103,"./VGEntity.js":60,"./svg-kit.js":75}],59:[function(require,module,exports){
+},{"../package.json":128,"./VGEntity.js":70,"./svg-kit.js":87,"array-kit":88}],69:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -16763,10 +17859,10 @@ VGEllipse.prototype.export = function( data = {} ) {
 
 
 
-VGEllipse.prototype.svgAttributes = function( root = this ) {
+VGEllipse.prototype.svgAttributes = function() {
 	var attr = {
 		cx: this.x ,
-		cy: root.invertY ? - this.y : this.y ,
+		cy: this.root.invertY ? - this.y : this.y ,
 		rx: this.rx ,
 		ry: this.ry
 	} ;
@@ -16776,18 +17872,25 @@ VGEllipse.prototype.svgAttributes = function( root = this ) {
 
 
 
-VGEllipse.prototype.renderHookForCanvas = function( canvasCtx , options = {} , root = this ) {
-	var yOffset = root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y : 0 ;
+VGEllipse.prototype.renderHookForCanvas = function( canvasCtx , options = {} ) {
+	var yOffset = this.root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y : 0 ;
 
 	canvasCtx.save() ;
 	canvasCtx.beginPath() ;
-	canvasCtx.ellipse( this.x , this.y + yOffset , this.rx , this.ry ) ;
+	canvasCtx.ellipse( this.x , this.y + yOffset , this.rx , this.ry , 0 , 0 , 2 * Math.PI ) ;
 	canvas.fillAndStrokeUsingSvgStyle( canvasCtx , this.style ) ;
 	canvasCtx.restore() ;
 } ;
 
 
-},{"../package.json":103,"./VGEntity.js":60,"./canvas.js":71}],60:[function(require,module,exports){
+
+VGEllipse.prototype.renderHookForPath2D = function( path2D , canvasCtx , options = {} ) {
+	var yOffset = this.root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y : 0 ;
+	path2D.ellipse( this.x , this.y + yOffset , this.rx , this.ry , 0 , 0 , 2 * Math.PI ) ;
+} ;
+
+
+},{"../package.json":128,"./VGEntity.js":70,"./canvas.js":81}],70:[function(require,module,exports){
 (function (process){(function (){
 /*
 	SVG Kit
@@ -16846,6 +17949,12 @@ function VGEntity( params ) {
 	this.morphLog = [] ;
 	this.$element = null ;
 	this.$style = null ;
+
+	// Non-enumerable properties (better for displaying the data)
+	Object.defineProperties( this , {
+		parent: { value: null , writable: true } ,
+		root: { value: null , writable: true }
+	} ) ;
 }
 
 module.exports = VGEntity ;
@@ -16855,6 +17964,7 @@ VGEntity.prototype.__prototypeVersion__ = require( '../package.json' ).version ;
 
 
 
+VGEntity.prototype.NS = VGEntity.NS = 'http://www.w3.org/2000/svg' ;
 VGEntity.prototype.isContainer = false ;
 VGEntity.prototype.isRenderingContainer = false ;	// If set, it's not a high-level container but it's rendered as a container
 VGEntity.prototype.svgTag = 'none' ;
@@ -16962,6 +18072,8 @@ VGEntity.prototype.importMorphLog = function( log ) {
 // Use the preserveUpperCase option, cause the value can be in camelCased already
 VGEntity.prototype.toCamelCase = value => camel.toCamelCase( value , true ) ;
 
+
+
 VGEntity.prototype.escape = function( value ) {
 	if ( typeof value === 'object' ) { return null ; }
 	if ( typeof value !== 'string' ) { return value ; }
@@ -16970,11 +18082,66 @@ VGEntity.prototype.escape = function( value ) {
 
 
 
-// Render the Vector Graphic as a text SVG
-VGEntity.prototype.renderSvgText = async function( root = this ) {
-	var key , rule , attr , str = '' , textNodeStr = '' , styleStr = '' ;
+VGEntity.prototype.attrToString = function( attr , prefix = '' , addInitialSpace = false ) {
+	var str = '' ;
 
-	attr = this.svgAttributes( root ) ;
+	for ( let key in attr ) {
+		if ( addInitialSpace || str ) { str += ' ' ; }
+		str += prefix + this.escape( key ) + '="' + this.escape( attr[ key ] ) + '"' ;
+	}
+
+	return str ;
+} ;
+
+
+
+const STYLE_PROPERTY_UNIT = {
+	fontSize: 'px'
+} ;
+
+
+
+VGEntity.prototype.styleToString = function( style , addInitialSpace = false ) {
+	var str = '' ;
+
+	for ( let key in style ) {
+		// Key is in camelCase, but should use dash
+		let v = style[ key ] === null ? '' : style[ key ] ;
+		if ( typeof v === 'number' && STYLE_PROPERTY_UNIT[ key ] ) { v = '' + v + STYLE_PROPERTY_UNIT[ key ] ; }
+		str += this.escape( camel.camelCaseToDash( key ) ) + ':' + this.escape( v ) + ';' ;
+	}
+
+	if ( str ) {
+		str = ( addInitialSpace ? ' ' : '' ) + 'style="' + str + '"' ;
+	}
+
+	return str ;
+} ;
+
+
+
+VGEntity.prototype.domStyle = function( $element , style ) {
+	for ( let key in this.style ) {
+		// Key is already in camelCase
+		let v = style[ key ] === null ? '' : style[ key ] ;
+		if ( typeof v === 'number' && STYLE_PROPERTY_UNIT[ key ] ) { v = '' + v + STYLE_PROPERTY_UNIT[ key ] ; }
+		$element.style[ key ] = v ;
+	}
+} ;
+
+
+
+// Render the Vector Graphic as a text SVG
+VGEntity.prototype.renderSvgText = async function( options = {} ) {
+	var str = '' ;
+
+	if ( options.insideClipPath && this.isRenderingContainer && this.renderingContainerHookForSvgText ) {
+		str += await this.renderingContainerHookForSvgText() ;
+		return str ;
+	}
+
+	var textNodeStr = '' ,
+		attr = this.svgAttributes() ;
 
 	str += '<' + this.svgTag ;
 
@@ -16994,24 +18161,9 @@ VGEntity.prototype.renderSvgText = async function( root = this ) {
 		str += '"' ;
 	}
 
-	for ( key in attr ) {
-		str += ' ' + key + '="' + this.escape( attr[ key ] ) + '"' ;
-	}
-
-	if ( this.data ) {
-		for ( key in this.data ) {
-			str += ' data-' + this.escape( key ) + '="' + this.escape( this.data[ key ] ) + '"' ;
-		}
-	}
-
-	for ( key in this.style ) {
-		// Key is in camelCase, but should use dash
-		let v = this.style[ key ] === null ? '' : this.style[ key ] ;
-		if ( key === 'fontSize' && typeof v === 'number' ) { v = '' + v + 'px' ; }
-		styleStr += this.escape( camel.camelCaseToDash( key ) ) + ':' + this.escape( v ) + ';' ;
-	}
-
-	if ( styleStr ) { str += ' style="' + styleStr + '"' ; }
+	str += this.attrToString( attr , undefined , true ) ;
+	if ( this.data ) { str += this.attrToString( this.data , 'data-' , true ) ; }
+	str += this.styleToString( this.style , true ) ;
 
 	if ( this.svgTextNode ) { textNodeStr = this.svgTextNode() ; }
 
@@ -17028,9 +18180,9 @@ VGEntity.prototype.renderSvgText = async function( root = this ) {
 	if ( this.css && this.css.length ) {
 		str += '<style>\n' ;
 
-		for ( rule of this.css ) {
+		for ( let rule of this.css ) {
 			str += rule.select + ' {\n' ;
-			for ( key in rule.style ) {
+			for ( let key in rule.style ) {
 				let v = rule.style[ key ] === null ? '' : rule.style[ key ] ;
 				if ( key === 'fontSize' && typeof v === 'number' ) { v = '' + v + 'px' ; }
 				str += '    ' + this.escape( camel.camelCaseToDash( key ) ) + ': ' + this.escape( v ) + ';\n' ;
@@ -17044,12 +18196,37 @@ VGEntity.prototype.renderSvgText = async function( root = this ) {
 	// Inner content
 
 	if ( this.isRenderingContainer && this.renderingContainerHookForSvgText ) {
-		str += await this.renderingContainerHookForSvgText( root ) ;
+		str += await this.renderingContainerHookForSvgText() ;
 	}
 
-	if ( this.isContainer && this.entities ) {
+	if ( this.supportClippingEntities ) {
+		str += '<' + this.svgClippingGroupTag ;
+		str += this.attrToString( this.svgClippingGroupAttributes() , undefined , true ) ;
+		str += '>' ;
+
+		if ( this.clippingEntities?.length ) {
+			for ( let clippingEntity of this.clippingEntities ) {
+				str += await clippingEntity.renderSvgText( { insideClipPath: true } ) ;
+			}
+		}
+
+		str += '</' + this.svgClippingGroupTag + '>' ;
+
+		str += '<' + this.svgContentGroupTag ;
+		str += this.attrToString( this.svgContentGroupAttributes() , undefined , true ) ;
+		str += '>' ;
+
+		if ( this.isContainer && this.entities?.length ) {
+			for ( let entity of this.entities ) {
+				str += await entity.renderSvgText( options ) ;
+			}
+		}
+
+		str += '</' + this.svgContentGroupTag + '>' ;
+	}
+	else if ( this.isContainer && this.entities ) {
 		for ( let entity of this.entities ) {
-			str += await entity.renderSvgText( root ) ;
+			str += await entity.renderSvgText( options ) ;
 		}
 	}
 
@@ -17062,11 +18239,10 @@ VGEntity.prototype.renderSvgText = async function( root = this ) {
 
 
 // Render the Vector Graphic inside a browser, as DOM SVG
-VGEntity.prototype.renderSvgDom = async function( options = {} , root = this ) {
-	var key , rule , cssStr ,
-		attr = this.svgAttributes( root ) ;
+VGEntity.prototype.renderSvgDom = async function( options = {} ) {
+	let attr = this.svgAttributes() ;
 
-	this.$element = document.createElementNS( 'http://www.w3.org/2000/svg' , options.overrideTag || this.svgTag ) ;
+	this.$element = document.createElementNS( this.NS , options.overrideTag || this.svgTag ) ;
 
 	if ( this.id ) { this.$element.setAttribute( 'id' , this.id ) ; }
 	if ( this.button ) { this.$element.setAttribute( 'button' , this.button ) ; }
@@ -17079,13 +18255,7 @@ VGEntity.prototype.renderSvgDom = async function( options = {} , root = this ) {
 
 	dom.attr( this.$element , attr ) ;
 	if ( this.data ) { dom.attr( this.$element , this.data , 'data-' ) ; }
-
-	for ( key in this.style ) {
-		// Key is already in camelCase
-		let v = this.style[ key ] === null ? '' : this.style[ key ] ;
-		if ( key === 'fontSize' && typeof v === 'number' ) { v = '' + v + 'px' ; }
-		this.$element.style[ key ] = v ;
-	}
+	this.domStyle( this.$element , this.style ) ;
 
 	if ( this.svgTextNode ) {
 		this.$element.appendChild( document.createTextNode( this.svgTextNode() ) ) ;
@@ -17095,15 +18265,15 @@ VGEntity.prototype.renderSvgDom = async function( options = {} , root = this ) {
 
 	// StyleSheet inside a <style> tag
 	if ( this.css && this.css.length ) {
-		this.$style = document.createElementNS( 'http://www.w3.org/2000/svg' , 'style' ) ;
+		this.$style = document.createElementNS( this.NS , 'style' ) ;
 		//this.$style = document.createElement( 'style' ) ;
 
-		cssStr = '' ;
+		let cssStr = '' ;
 
-		for ( rule of this.css ) {
+		for ( let rule of this.css ) {
 			cssStr += rule.select + ' {\n' ;
 
-			for ( key in rule.style ) {
+			for ( let key in rule.style ) {
 				// Key is in camelCase, but should use dash
 				cssStr += this.escape( camel.camelCaseToDash( key ) ) + ': ' + this.escape( rule.style[ key ] ) + ';\n' ;
 			}
@@ -17122,13 +18292,46 @@ VGEntity.prototype.renderSvgDom = async function( options = {} , root = this ) {
 	// Inner content
 
 	if ( this.isRenderingContainer && this.renderingContainerHookForSvgDom ) {
-		let subElements = await this.renderingContainerHookForSvgDom( root ) ;
+		let subElements = await this.renderingContainerHookForSvgDom() ;
 		subElements.forEach( $subElement => this.$element.appendChild( $subElement ) ) ;
 	}
 
-	if ( this.isContainer && this.entities?.length ) {
+	if ( this.supportClippingEntities ) {
+		let $clippingGroup = document.createElementNS( this.NS , this.svgClippingGroupTag ) ,
+			clippingGroupAttr = this.svgClippingGroupAttributes() ;
+
+		let $contentGroup = document.createElementNS( this.NS , this.svgContentGroupTag ) ,
+			contentGroupAttr = this.svgContentGroupAttributes() ;
+
+		dom.attr( $clippingGroup , clippingGroupAttr ) ;
+		dom.attr( $contentGroup , contentGroupAttr ) ;
+
+		if ( this.clippingEntities?.length ) {
+			for ( let clippingEntity of this.clippingEntities ) {
+				let $child = await clippingEntity.renderSvgDom( options ) ;
+				// There is a bug in browser, they do not accept <g> inside <clipPath> (but Inkscape supports it),
+				// so we will append children of that group directly
+				if ( $child.tagName === 'g' ) {
+					while ( $child.firstChild ) { $clippingGroup.appendChild( $child.firstChild ) ; }
+				}
+				else {
+					$clippingGroup.appendChild( $child ) ;
+				}
+			}
+		}
+
+		if ( this.isContainer && this.entities?.length ) {
+			for ( let entity of this.entities ) {
+				$contentGroup.appendChild( await entity.renderSvgDom( options ) ) ;
+			}
+		}
+
+		this.$element.appendChild( $clippingGroup ) ;
+		this.$element.appendChild( $contentGroup ) ;
+	}
+	else if ( this.isContainer && this.entities?.length ) {
 		for ( let entity of this.entities ) {
-			this.$element.appendChild( await entity.renderSvgDom( undefined , root ) ) ;
+			this.$element.appendChild( await entity.renderSvgDom( options ) ) ;
 		}
 	}
 
@@ -17138,18 +18341,49 @@ VGEntity.prototype.renderSvgDom = async function( options = {} , root = this ) {
 
 
 // Render the Vector Graphic inside a browser's canvas
-VGEntity.prototype.renderCanvas = async function( canvasCtx , options = {} , root = this ) {
+VGEntity.prototype.renderCanvas = async function( canvasCtx , options = {} ) {
 	options.pixelsPerUnit = + options.pixelsPerUnit || 1 ;
 
 	if ( this.renderHookForCanvas ) {
-		await this.renderHookForCanvas( canvasCtx , options , root ) ;
+		await this.renderHookForCanvas( canvasCtx , options ) ;
 	}
 
-	if ( ! this.isContainer ) { return ; }
+	if ( this.isContainer && this.entities?.length ) {
+		if ( this.supportClippingEntities && this.clippingEntities?.length ) {
+			// We have to save context because canvasCtx.clip() is not reversible
+			canvasCtx.save() ;
+			let clipPath2D = new Path2D() ;
 
-	if ( this.isContainer && this.entities ) {
+			for ( let clippingEntity of this.clippingEntities ) {
+				await clippingEntity.renderPath2D( clipPath2D , canvasCtx , options ) ;
+			}
+
+			canvasCtx.clip( clipPath2D ) ;
+
+			for ( let entity of this.entities ) {
+				await entity.renderCanvas( canvasCtx , options ) ;
+			}
+
+			canvasCtx.restore() ;
+		}
+		else {
+			for ( let entity of this.entities ) {
+				await entity.renderCanvas( canvasCtx , options ) ;
+			}
+		}
+	}
+} ;
+
+
+
+VGEntity.prototype.renderPath2D = async function( path2D , canvasCtx , options = {} ) {
+	if ( this.renderHookForPath2D ) {
+		await this.renderHookForPath2D( path2D , canvasCtx , options ) ;
+	}
+
+	if ( this.isContainer && this.entities?.length ) {
 		for ( let entity of this.entities ) {
-			await entity.renderCanvas( canvasCtx , options , root ) ;
+			await entity.renderPath2D( path2D , canvasCtx , options ) ;
 		}
 	}
 } ;
@@ -17157,15 +18391,15 @@ VGEntity.prototype.renderCanvas = async function( canvasCtx , options = {} , roo
 
 
 // Update the DOM, based upon the morphLog
-VGEntity.prototype.morphSvgDom = function( root = this ) {
-	this.morphLog.forEach( entry => this.morphOneSvgDomEntry( entry , root ) ) ;
+VGEntity.prototype.morphSvgDom = function() {
+	this.morphLog.forEach( entry => this.morphOneSvgDomEntry( entry ) ) ;
 	this.morphLog.length = 0 ;
 	return this.$element ;
 } ;
 
 
 
-VGEntity.prototype.morphOneSvgDomEntry = function( data , root = this ) {
+VGEntity.prototype.morphOneSvgDomEntry = function( data ) {
 	var key ;
 
 	// Disallow id changes?
@@ -17245,7 +18479,7 @@ VGEntity.prototype.getUsedFontNames = function() { return null ; } ;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"../package.json":103,"./fontLib.js":72,"_process":108,"dom-kit":76,"string-kit/lib/camel":101,"string-kit/lib/escape":102}],61:[function(require,module,exports){
+},{"../package.json":128,"./fontLib.js":82,"_process":133,"dom-kit":94,"string-kit/lib/camel":121,"string-kit/lib/escape":122}],71:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -17321,7 +18555,7 @@ StructuredTextLine.prototype.fuseEqualAttr = function() {
 } ;
 
 
-},{"./TextMetrics.js":64}],62:[function(require,module,exports){
+},{"./TextMetrics.js":74}],72:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -17355,10 +18589,17 @@ StructuredTextLine.prototype.fuseEqualAttr = function() {
 const TextAttribute = require( './TextAttribute.js' ) ;
 const TextMetrics = require( './TextMetrics.js' ) ;
 
+const escape = require( 'string-kit/lib/escape.js' ) ;
+
 
 
 function StructuredTextPart( params = {} ) {
 	this.text = params.text || '' ;
+
+	// Word-wrapping data
+	this.canLineSplitBefore = true ;
+	this.forceNoLineSplitBefore = false ;
+	this.canLineSplitAfter = true ;
 
 	this.attr = ! params.attr ? new TextAttribute( params ) :
 		params.attr instanceof TextAttribute ? params.attr :
@@ -17399,12 +18640,88 @@ StructuredTextPart.prototype.export = function( data = {} ) {
 
 
 
-StructuredTextPart.prototype.computeSizeMetrics = function( inheritedAttr ) {
-	this.metrics = TextMetrics.measureStructuredTextPart( this , inheritedAttr ) ;
+StructuredTextPart.prototype.computeSizeMetrics = async function( inheritedAttr ) {
+	this.metrics = await TextMetrics.measureStructuredTextPart( this , inheritedAttr ) ;
 } ;
 
 
-},{"./TextAttribute.js":63,"./TextMetrics.js":64}],63:[function(require,module,exports){
+
+const CAN_SPLIT_BEFORE = new Set( [ ' ' ] ) ;
+const CAN_SPLIT_AFTER = new Set( [ ' ' , '-' ] ) ;
+const FORCE_NO_SPLIT_BEFORE = new Set( [ '!' , '?' , ':' , ';' ] ) ;
+
+// Create the word-splitting regex, with 2 captures: the first move the splitter
+// to the right (split-before), the second to the left (split-after).
+const WORD_SPLIT_REGEXP = new RegExp(
+	'(' + [ ... CAN_SPLIT_BEFORE ].map( e => escape.regExpPattern( e ) + '+' ).join( '|' ) + ')'
+	+ '|(' + [ ... CAN_SPLIT_AFTER ].filter( e => ! CAN_SPLIT_BEFORE.has( e ) ).map( e => escape.regExpPattern( e ) + '+' ).join( '|' ) + ')' ,
+	'g'
+) ;
+//console.warn( "WORD_SPLIT_REGEXP:" , WORD_SPLIT_REGEXP ) ;
+
+
+
+// Split the into words, suitable to compute word-wrapping
+// Note: This splitting function does not exclude the splitter,
+// it keeps it on the left of the right-side of the split
+StructuredTextPart.prototype.splitIntoWords = function( intoList = [] ) {
+	let match ;
+	let lastIndex = 0 ;
+	WORD_SPLIT_REGEXP.lastIndex = 0 ;
+
+	while ( ( match = WORD_SPLIT_REGEXP.exec( this.text ) ) ) {
+		if ( lastIndex < match.index ) {
+			let newPart = new StructuredTextPart( this ) ;
+
+			if ( match[ 1 ] ) {
+				// It's a split-before
+				newPart.text = this.text.slice( lastIndex , match.index ) ;
+				lastIndex = match.index ;
+			}
+			else {
+				// It's a split-after
+				newPart.text = this.text.slice( lastIndex , match.index + match[ 0 ].length ) ;
+				lastIndex = match.index + match[ 0 ].length ;
+			}
+
+			newPart.metrics = null ;
+			newPart.checkLineSplit() ;
+			intoList.push( newPart ) ;
+		}
+		else {
+			lastIndex = match.index ;
+		}
+	}
+
+	if ( lastIndex < this.text.length ) {
+		let newPart = new StructuredTextPart( this ) ;
+		newPart.text = this.text.slice( lastIndex ) ;
+		newPart.metrics = null ;
+		newPart.checkLineSplit() ;
+		intoList.push( newPart ) ;
+	}
+
+	//console.warn( "Word split:" , intoList.map( e => e.text ) ) ;
+	return intoList ;
+} ;
+
+
+
+StructuredTextPart.prototype.checkLineSplit = function() {
+	if ( CAN_SPLIT_BEFORE.has( this.text[ 0 ] ) ) {
+		this.canLineSplitBefore = ! FORCE_NO_SPLIT_BEFORE.has( this.text[ 1 ] ) ;
+		this.forceNoLineSplitBefore = false ;
+	}
+	else {
+		this.canLineSplitBefore = false ;
+		this.forceNoLineSplitBefore = FORCE_NO_SPLIT_BEFORE.has( this.text[ 0 ] ) ;
+	}
+
+	this.canLineSplitAfter = CAN_SPLIT_AFTER.has( this.text[ this.text.length - 1 ] ) ;
+} ;
+
+
+},{"./TextAttribute.js":73,"./TextMetrics.js":74,"string-kit/lib/escape.js":122}],73:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -17441,6 +18758,8 @@ const Metric = require( '../Metric.js' ) ;
 
 const DEFAULT_ATTR = {
 	fontFamily: 'serif' ,
+	fontStyle: 'regular' ,
+	fontWeight: 'regular' ,
 	fontSize: new Metric( 16 ) ,
 	color: '#000' ,
 	outline: false ,
@@ -17466,9 +18785,9 @@ const DEFAULT_ATTR = {
 function TextAttribute( params ) {
 	// Font
 	this.fontFamily = null ;
+	this.fontStyle = null ;
+	this.fontWeight = null ;
 	this.fontSize = null ;
-	//fontStyle?: string;
-	//fontWeight?: string;
 
 	// Styles
 	this.color = null ;
@@ -17519,6 +18838,8 @@ TextAttribute.prototype.set = function( params ) {
 	if ( ! params || typeof params !== 'object' ) { return ; }
 
 	if ( params.fontFamily ) { this.setFontFamily( params.fontFamily ) ; }
+	if ( params.fontStyle ) { this.setFontStyle( params.fontStyle ) ; }
+	if ( params.fontWeight ) { this.setFontWeight( params.fontWeight ) ; }
 	if ( params.fontSize ) { this.setFontSize( params.fontSize ) ; }
 
 	if ( params.color ) { this.setColor( params.color ) ; }
@@ -17561,9 +18882,9 @@ TextAttribute.prototype.export = function( data = {} , nullIfDefault = false ) {
 TextAttribute.prototype.isEqual = function( to ) {
 	return (
 		this.fontFamily === to.fontFamily
+		&& this.fontStyle === to.fontStyle
+		&& this.fontWeight === to.fontWeight
 		&& Metric.isEqual( this.fontSize , to.fontSize )
-		//&& this.fontStyle === to.fontStyle
-		//&& this.fontWeight === to.fontWeight
 
 		&& this.color === to.color
 		&& this.outline === to.outline
@@ -17602,6 +18923,26 @@ TextAttribute.prototype.setFontFamily = function( v ) {
 
 TextAttribute.prototype.getFontFamily = function( inherit = null ) {
 	return this.fontFamily ?? inherit?.fontFamily ?? DEFAULT_ATTR.fontFamily ;
+} ;
+
+
+
+TextAttribute.prototype.setFontStyle = function( v ) {
+	this.fontStyle = v && typeof v === 'string' ? v : null ;
+} ;
+
+TextAttribute.prototype.getFontStyle = function( inherit = null ) {
+	return this.fontStyle ?? inherit?.fontStyle ?? DEFAULT_ATTR.fontStyle ;
+} ;
+
+
+
+TextAttribute.prototype.setFontWeight = function( v ) {
+	this.fontWeight = v && typeof v === 'string' ? v : null ;
+} ;
+
+TextAttribute.prototype.getFontWeight = function( inherit = null ) {
+	return this.fontWeight ?? inherit?.fontWeight ?? DEFAULT_ATTR.fontWeight ;
 } ;
 
 
@@ -17953,7 +19294,7 @@ TextAttribute.prototype.getFrameSvgStyle = function( inherit = null , relTo = nu
 } ;
 
 
-},{"../Metric.js":56}],64:[function(require,module,exports){
+},{"../Metric.js":65}],74:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -18055,12 +19396,14 @@ TextMetrics.measureFontText = function( font , fontSize , text ) {
 
 
 
-TextMetrics.measureStructuredTextPart = function( part , inheritedAttr ) {
+TextMetrics.measureStructuredTextPart = async function( part , inheritedAttr ) {
 	var fontOptions = null ,
 		fontFamily = part.attr.getFontFamily( inheritedAttr ) ,
+		fontStyle = part.attr.getFontStyle( inheritedAttr ) ,
+		fontWeight = part.attr.getFontWeight( inheritedAttr ) ,
 		fontSize = part.attr.getFontSize( inheritedAttr ) ;
 
-	var font = fontLib.getFont( fontFamily ) ;
+	var font = await fontLib.getFallbackFontAsync( fontFamily , fontStyle , fontWeight ) ;
 
 	var metrics = TextMetrics.measureFontText( font , fontSize , part.text ) ;
 
@@ -18068,7 +19411,7 @@ TextMetrics.measureStructuredTextPart = function( part , inheritedAttr ) {
 } ;
 
 
-},{"../fontLib.js":72}],65:[function(require,module,exports){
+},{"../fontLib.js":82}],75:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -18108,6 +19451,7 @@ const TextMetrics = require( './TextMetrics.js' ) ;
 
 const fontLib = require( '../fontLib.js' ) ;
 const canvas = require( '../canvas.js' ) ;
+const structuredText = require( '../structuredText.js' ) ;
 
 
 
@@ -18123,8 +19467,8 @@ function VGFlowingText( params ) {
 	this.attr = params?.attr ? null : new TextAttribute() ;	// if it's defined, it will be created by this.set()
 	this.lineSpacing = 0 ;
 	this.textWrapping = null ;	// null/ellipsis/wordWrap
+	this.textVerticalAlignment = null ;	// null/top/bottom/center
 	this.textHorizontalAlignment = null ;	// null/left/right/center
-	//this.textVerticalAlignment = null ;	// null/top/bottom/center
 
 	this.debugContainer = !! params.debugContainer ;
 
@@ -18152,24 +19496,6 @@ VGFlowingText.prototype.svgTag = 'g' ;
 
 
 
-// Those properties requires computed lines...
-Object.defineProperties( VGFlowingText.prototype , {
-	contentWidth: { get: function() {
-		if ( ! this.areLinesComputed ) { this.computeLines() ; }
-		return this._contentWidth ;
-	} } ,
-	contentHeight: { get: function() {
-		if ( ! this.areLinesComputed ) { this.computeLines() ; }
-		return this._contentHeight ;
-	} } ,
-	characterCount: { get: function() {
-		if ( ! this.areLinesComputed ) { this.computeLines() ; }
-		return this._characterCount ;
-	} }
-} ) ;
-
-
-
 const TEXT_WRAPPING = {
 	wordWrap: 'wordWrap' ,
 	wordwrap: 'wordWrap' ,
@@ -18190,8 +19516,12 @@ VGFlowingText.prototype.set = function( params ) {
 	if ( params.clip !== undefined ) { this.clip = !! params.clip ; }
 
 	if ( params.structuredText ) { this.setStructuredText( params.structuredText ) ; }
+	else if ( params.markupText ) { this.setMarkupText( params.markupText ) ; }
+	else if ( params.text ) { this.setText( params.text ) ; }
+
 	if ( params.attr ) { this.attr = new TextAttribute( params.attr ) ; this.areLinesComputed = false ; }
 	if ( params.lineSpacing !== undefined ) { this.lineSpacing = + params.lineSpacing || 0 ; this.areLinesComputed = false ; }
+	if ( params.textVerticalAlignment !== undefined ) { this.textVerticalAlignment = params.textVerticalAlignment ; this.areLinesComputed = false ; }
 	if ( params.textHorizontalAlignment !== undefined ) { this.textHorizontalAlignment = params.textHorizontalAlignment ; this.areLinesComputed = false ; }
 
 	if ( params.textWrapping !== undefined ) {
@@ -18220,20 +19550,20 @@ VGFlowingText.prototype.export = function( data = {} ) {
 
 	if ( this.lineSpacing ) { data.lineSpacing = this.lineSpacing ; }
 	if ( this.textWrapping ) { data.textWrapping = this.textWrapping ; }
+	if ( this.textVerticalAlignment ) { data.textVerticalAlignment = this.textVerticalAlignment ; }
 	if ( this.textHorizontalAlignment ) { data.textHorizontalAlignment = this.textHorizontalAlignment ; }
-	//if ( this.textVerticalAlignment ) { data.textVerticalAlignment = this.textVerticalAlignment ; }
 
 	return data ;
 } ;
 
 
 
-VGFlowingText.prototype.setStructuredText = function( structuredText ) {
-	if ( ! Array.isArray( structuredText ) ) { return ; }
+VGFlowingText.prototype.setStructuredText = function( structuredText_ ) {
+	if ( ! Array.isArray( structuredText_ ) ) { return ; }
 
 	this.structuredText.length = 0 ;
 
-	for ( let structuredTextPart of structuredText ) {
+	for ( let structuredTextPart of structuredText_ ) {
 		if ( structuredTextPart instanceof StructuredTextPart ) { this.structuredText.push( structuredTextPart ) ; }
 		else { this.structuredText.push( new StructuredTextPart( structuredTextPart ) ) ; }
 	}
@@ -18243,8 +19573,42 @@ VGFlowingText.prototype.setStructuredText = function( structuredText ) {
 
 
 
-VGFlowingText.prototype.computeLines = function() {
-	this.structuredTextLines = this.breakLines( this.width ) ;
+VGFlowingText.prototype.setMarkupText = function( markupText ) {
+	var parsed = structuredText.parseMarkup( markupText ) ;
+	return this.setStructuredText( parsed ) ;
+} ;
+
+
+
+VGFlowingText.prototype.setText = function( text ) {
+	return this.setStructuredText( [ { text } ] ) ;
+} ;
+
+
+
+VGFlowingText.prototype.getContentWidth = async function() {
+	if ( ! this.areLinesComputed ) { await this.computeLines() ; }
+	return this._contentWidth ;
+} ;
+
+
+
+VGFlowingText.prototype.getContentHeight = async function() {
+	if ( ! this.areLinesComputed ) { await this.computeLines() ; }
+	return this._contentHeight ;
+} ;
+
+
+
+VGFlowingText.prototype.getCharacterCount = async function() {
+	if ( ! this.areLinesComputed ) { await this.computeLines() ; }
+	return this._characterCount ;
+} ;
+
+
+
+VGFlowingText.prototype.computeLines = async function() {
+	this.structuredTextLines = await this.breakLines( this.width ) ;
 	this.computePartsPosition() ;
 	this.structuredTextLines.forEach( line => line.fuseEqualAttr() ) ;
 	this.areLinesComputed = true ;
@@ -18252,24 +19616,24 @@ VGFlowingText.prototype.computeLines = function() {
 
 
 
-VGFlowingText.prototype.breakLines = function( width = this.width ) {
+VGFlowingText.prototype.breakLines = async function() {
 	var outputLines = [] , // Array of StructuredTextLine
 		lines = VGFlowingText.parseNewLine( this.structuredText ) ;
 
 	// Finally split/apply text-wrapping
 	if ( this.textWrapping === 'ellipsis' ) {
 		for ( let line of lines ) {
-			outputLines.push( this.parseStructuredTextLineEllipsis( line ) ) ;
+			outputLines.push( await this.parseStructuredTextLineEllipsis( line ) ) ;
 		}
 	}
 	else if ( this.textWrapping === 'wordWrap' ) {
 		for ( let line of lines ) {
-			outputLines.push( ... this.parseStructuredTextLineWordWrap( line ) ) ;
+			outputLines.push( ... await this.parseStructuredTextLineWordWrap( line ) ) ;
 		}
 	}
 	else {
 		for ( let line of lines ) {
-			outputLines.push( this.parseStructuredTextLine( line ) ) ;
+			outputLines.push( await this.parseStructuredTextLine( line ) ) ;
 		}
 	}
 
@@ -18278,15 +19642,15 @@ VGFlowingText.prototype.breakLines = function( width = this.width ) {
 
 
 
-VGFlowingText.prototype.parseStructuredTextLine = function( line ) {
-	var metrics = this.computePartsSizeMetrics( line ) ;
+VGFlowingText.prototype.parseStructuredTextLine = async function( line ) {
+	var metrics = await this.computePartsSizeMetrics( line ) ;
 	return new StructuredTextLine( line , metrics ) ;
 } ;
 
 
 
-VGFlowingText.prototype.parseStructuredTextLineEllipsis = function( line ) {
-	var metrics = this.computePartsSizeMetrics( line ) ;
+VGFlowingText.prototype.parseStructuredTextLineEllipsis = async function( line ) {
+	var metrics = await this.computePartsSizeMetrics( line ) ;
 
 	while ( line.length && metrics.width > this.width ) {
 		const part = line[ line.length - 1 ] ;
@@ -18296,7 +19660,7 @@ VGFlowingText.prototype.parseStructuredTextLineEllipsis = function( line ) {
 			characters.pop() ;
 			part.text = characters.join( '' ) + "…" ;
 			delete part.metrics ;    // delete .metrics, so .computePartsSizeMetrics() will re-compute it instead of using the existing one
-			metrics = this.computePartsSizeMetrics( line ) ;
+			metrics = await this.computePartsSizeMetrics( line ) ;
 		}
 
 		if ( metrics.width > this.width ) {
@@ -18309,50 +19673,85 @@ VGFlowingText.prototype.parseStructuredTextLineEllipsis = function( line ) {
 
 
 
-VGFlowingText.prototype.parseStructuredTextLineWordWrap = function( line ) {
+VGFlowingText.prototype.parseStructuredTextLineWordWrap = async function( line ) {
+	//console.log( "Start with:" , line ) ;
 	const outputLines = [] ; // Array of Array of StructuredTextPart
 	const outputParts = [] ; // Array of StructuredTextPart
 
 	// Split each part of the line
 	for ( let part of line ) {
-		for ( let newTextPart of this.splitLine( part.text ) ) {
-			let newPart = new StructuredTextPart( part ) ;
-			newPart.text = newTextPart ;
-			newPart.metrics = null ;
-			outputParts.push( newPart ) ;
-		}
+		part.splitIntoWords( outputParts ) ;
 	}
 
 	let lastTestLineMetrics = new TextMetrics() ;
 	let testLineMetrics = new TextMetrics() ;
 	let testLine = [] ; // Array of StructuredTextPart
+	let lastIndex = - 1 ;
+	let blockAdded = 0 ;
 
-	for ( let part of outputParts ) {
+	for ( let index = 0 ; index < outputParts.length ; index ++ ) {
+		//console.log( "index" , index , lastIndex ) ;
+		let part = outputParts[ index ] ;
 		testLine.push( part ) ;
 
-		if ( ! part.metrics ) { part.computeSizeMetrics( this.attr ) ; }
+		if ( ! part.metrics ) { await part.computeSizeMetrics( this.attr ) ; }
 		testLineMetrics.fuseWithRightPart( part.metrics ) ;
 
-		if ( testLineMetrics.width > this.width && testLine.length > 1 ) {
-			testLine.pop() ;
+		if (
+			index < outputParts.length - 1
+			&& (
+				outputParts[ index + 1 ].forceNoLineSplitBefore
+				|| ( ! part.canLineSplitAfter && ! outputParts[ index + 1 ].canLineSplitBefore )
+			)
+		) {
+			// It is not splittable after, so we test immediately with more content.
+			//console.log( "not splittable after: '" , part.text + "'" ) ;
+			continue ;
+		}
+
+		if ( testLineMetrics.width > this.width && blockAdded >= 1 ) {
+			let removed = index - lastIndex ;
+			//console.log( "width overflow for '" + part.text + "': " , testLineMetrics.width , ">" , this.width , "removed:" , removed ) ;
+			testLine.length -= removed ;
 			outputLines.push( new StructuredTextLine( testLine , lastTestLineMetrics ) ) ;
 			lastTestLineMetrics = new TextMetrics() ;
 
 			// Create a new line with the current part as the first part.
-			// We have to left-trim it because it mays contain a space.
-			let trimmedText = part.text.trimStart() ;
+			// We have to left-trim it because it mays contain spaces.
+			let indexOfNextLine = index - removed + 1 ;
+			for ( ; indexOfNextLine <= index ; indexOfNextLine ++ ) {
+				let nextLinePart = outputParts[ indexOfNextLine ] ;
+				//console.log( "nextLinePart: '" + nextLinePart.text + "'" ) ;
+				let trimmedText = nextLinePart.text.trimStart() ;
 
-			if ( trimmedText !== part.text ) {
-				part.text = trimmedText ;
-				part.computeSizeMetrics( this.attr ) ;
+				if ( trimmedText ) {
+					if ( trimmedText !== nextLinePart.text ) {
+						//console.log( "Left-trim: '" + nextLinePart.text + "'" ) ;
+						nextLinePart.text = trimmedText ;
+						await nextLinePart.computeSizeMetrics( this.attr ) ;
+					}
+
+					break ;
+				}
 			}
 
-			testLine = [ part ] ;
+			testLine = [] ;
 			testLineMetrics.clear() ;
-			testLineMetrics.fuseWithRightPart( part.metrics ) ;
+			blockAdded = 0 ;
+			lastIndex = index = indexOfNextLine - 1 ;
+			continue ;
 		}
 
-		lastTestLineMetrics.fuseWithRightPart( part.metrics ) ;
+		blockAdded ++ ;
+		let dbg = '' ;
+		for ( let indexOfPartToAdd = lastIndex + 1 ; indexOfPartToAdd <= index ; indexOfPartToAdd ++ ) {
+			//console.log( "indexOfPartToAdd" , indexOfPartToAdd ) ;
+			lastTestLineMetrics.fuseWithRightPart( outputParts[ indexOfPartToAdd ].metrics ) ;
+			dbg += outputParts[ indexOfPartToAdd ].text ;
+		}
+		//console.log( "added:" , lastIndex + 1 , index , "'" + dbg + "'" ) ;
+
+		lastIndex = index ;
 	}
 
 	outputLines.push( new StructuredTextLine( testLine , lastTestLineMetrics ) ) ;
@@ -18363,11 +19762,11 @@ VGFlowingText.prototype.parseStructuredTextLineWordWrap = function( line ) {
 
 
 // Set the size of each parts and return the total size
-VGFlowingText.prototype.computePartsSizeMetrics = function( structuredTextParts ) {
+VGFlowingText.prototype.computePartsSizeMetrics = async function( structuredTextParts ) {
 	var groupMetrics = new TextMetrics() ;
 
 	for ( let part of structuredTextParts ) {
-		if ( ! part.metrics ) { part.computeSizeMetrics( this.attr ) ; }
+		if ( ! part.metrics ) { await part.computeSizeMetrics( this.attr ) ; }
 		groupMetrics.fuseWithRightPart( part.metrics ) ;
 	}
 
@@ -18376,32 +19775,58 @@ VGFlowingText.prototype.computePartsSizeMetrics = function( structuredTextParts 
 
 
 
-// Set the position of each part and each line
-VGFlowingText.prototype.computePartsPosition = function() {
+VGFlowingText.prototype.computeContentSize = function() {
 	this._contentWidth = 0 ;
 	this._contentHeight = 0 ;
+
+	var lastStructuredTextLine = null ;
+
+	for ( let structuredTextLine of this.structuredTextLines ) {
+		if ( lastStructuredTextLine ) { this._contentHeight += this.lineSpacing ; }
+		this._contentHeight += structuredTextLine.metrics.ascender - structuredTextLine.metrics.descender + structuredTextLine.metrics.lineGap ;
+		if ( structuredTextLine.metrics.width > this._contentWidth ) { this._contentWidth = structuredTextLine.metrics.width ; }
+	}
+} ;
+
+
+
+// Set the position of each part and each line
+VGFlowingText.prototype.computePartsPosition = function() {
+	this.computeContentSize() ;
+
 	this._characterCount = 0 ;
 
-	var x , y = this.y ,
+	var x , y ,
 		lastStructuredTextLine = null ;
+
+	switch ( this.textVerticalAlignment ) {
+		case 'bottom' :
+			y = this.y + this.height - this._contentHeight ;
+			break ;
+		case 'center' :
+		case 'middle' :
+			y = this.y + ( this.height - this._contentHeight ) / 2 ;
+			break ;
+		case 'top' :
+		default :
+			y = this.y ;
+			break ;
+	}
 
 	for ( let structuredTextLine of this.structuredTextLines ) {
 		if ( lastStructuredTextLine ) {
 			// It is a new line, offset it depending on the previous one
 			y += - lastStructuredTextLine.metrics.descender + lastStructuredTextLine.metrics.lineGap + this.lineSpacing ;
-			this._contentHeight += lastStructuredTextLine.metrics.lineGap + this.lineSpacing ;
 		}
 
 		y += structuredTextLine.metrics.ascender ;
-		this._contentHeight += structuredTextLine.metrics.ascender - structuredTextLine.metrics.descender ;
-
-		if ( structuredTextLine.metrics.width > this._contentWidth ) { this._contentWidth = structuredTextLine.metrics.width ; }
 
 		switch ( this.textHorizontalAlignment ) {
 			case 'right' :
 				x = this.x + this.width - structuredTextLine.metrics.width ;
 				break ;
 			case 'center' :
+			case 'middle' :
 				x = this.x + ( this.width - structuredTextLine.metrics.width ) / 2 ;
 				break ;
 			case 'left' :
@@ -18430,12 +19855,12 @@ VGFlowingText.prototype.computePartsPosition = function() {
 
 
 
-VGFlowingText.parseNewLine = function( structuredText ) {
+VGFlowingText.parseNewLine = function( structuredText_ ) {
 	var currentLine = [] , // Array of StructuredText
 		lines = [ currentLine ] ; // Array of Array of StructuredText
 
 	// First split lines on \n
-	for ( let part of structuredText ) {
+	for ( let part of structuredText_ ) {
 		if ( part.text.includes( '\n' ) || part.text.includes( '\r' ) ) {
 			let splitParts = part.text.split( /\r\n|\r|\n/ ) ;
 
@@ -18467,36 +19892,11 @@ VGFlowingText.parseNewLine = function( structuredText ) {
 
 
 
-// Split the line into words, suitable to compute word-wrapping
-// Note: This splitting function does not exlude the splitter, it keeps it on the right-side of the split.
-VGFlowingText.prototype.splitLine = function( str ) {
-	let match ;
-	let lastIndex = 0 ;
-	const splitted = [] ;
-	const regexp = / +/g ;
-
-	while ( ( match = regexp.exec( str ) ) ) {
-		if ( lastIndex < match.index ) {
-			splitted.push( str.slice( lastIndex , match.index ) ) ;
-		}
-
-		lastIndex = match.index ;
-	}
-
-	if ( lastIndex < str.length ) {
-		splitted.push( str.slice( lastIndex ) ) ;
-	}
-
-	return splitted ;
-} ;
-
-
-
 // Renderers
 
 
 
-VGFlowingText.prototype.svgAttributes = function( root = this ) {
+VGFlowingText.prototype.svgAttributes = function() {
 	var attr = {} ;
 
 	if ( this.clip ) {
@@ -18523,10 +19923,10 @@ VGFlowingText.prototype.getUsedFontNames = function() {
 
 
 // Render the Vector Graphic as a text SVG
-VGFlowingText.prototype.renderingContainerHookForSvgText = async function( root = this ) {
-	if ( ! this.areLinesComputed ) { this.computeLines() ; }
+VGFlowingText.prototype.renderingContainerHookForSvgText = async function() {
+	if ( ! this.areLinesComputed ) { await this.computeLines() ; }
 
-	var yOffset = root.invertY ? - 2 * this.y - this.height : 0 ,
+	var yOffset = this.root.invertY ? - 2 * this.y - this.height : 0 ,
 		str = '' ;
 
 	if ( this.clip ) {
@@ -18544,6 +19944,8 @@ VGFlowingText.prototype.renderingContainerHookForSvgText = async function( root 
 	for ( let structuredTextLine of this.structuredTextLines ) {
 		for ( let part of structuredTextLine.parts ) {
 			let fontFamily = part.attr.getFontFamily( this.attr ) ,
+				fontStyle = part.attr.getFontStyle( this.attr ) ,
+				fontWeight = part.attr.getFontWeight( this.attr ) ,
 				fontSize = part.attr.getFontSize( this.attr ) ,
 				textStyleStr = part.attr.getTextSvgStyleString( this.attr , fontSize ) ,
 				lineStyleStr , lineThickness ,
@@ -18551,8 +19953,8 @@ VGFlowingText.prototype.renderingContainerHookForSvgText = async function( root 
 				lineThrough = part.attr.getLineThrough( this.attr ) ,
 				frame = part.attr.getFrame( this.attr ) ;
 
-			let font = await fontLib.getFontAsync( fontFamily ) ;
-			if ( ! font ) { throw new Error( "Font not found: " + fontFamily ) ; }
+			let font = await fontLib.getFallbackFontAsync( fontFamily , fontStyle , fontWeight ) ;
+			if ( ! font ) { throw new Error( "Font not found: " + fontFamily + ' ' + fontStyle + ' ' + fontWeight ) ; }
 
 			if ( frame ) {
 				let frameY = part.metrics.baselineY - part.metrics.ascender + yOffset ,
@@ -18560,7 +19962,7 @@ VGFlowingText.prototype.renderingContainerHookForSvgText = async function( root 
 					frameStyleStr = part.attr.getFrameSvgStyleString( this.attr , fontSize ) ,
 					cornerRadius = part.attr.getFrameCornerRadius( this.attr , fontSize ) ;
 
-				console.error( "frameStyleStr:" , frameStyleStr , part.attr ) ;
+				//console.error( "frameStyleStr:" , frameStyleStr , part.attr ) ;
 				str += '<rect' ;
 				str += ' x="' + part.metrics.x + '"' ;
 				str += ' y="' + frameY + '"' ;
@@ -18625,19 +20027,19 @@ VGFlowingText.prototype.renderingContainerHookForSvgText = async function( root 
 
 
 
-VGFlowingText.prototype.renderingContainerHookForSvgDom = async function( root = this ) {
-	if ( ! this.areLinesComputed ) { this.computeLines() ; }
+VGFlowingText.prototype.renderingContainerHookForSvgDom = async function() {
+	if ( ! this.areLinesComputed ) { await this.computeLines() ; }
 
-	var yOffset = root.invertY ? - 2 * this.y - this.height : 0 ,
+	var yOffset = this.root.invertY ? - 2 * this.y - this.height : 0 ,
 		elementList = [] ;
 
 	if ( this.clip ) {
 		// Nothing inside the <clipPath> is displayed
-		let $clipPath = document.createElementNS( 'http://www.w3.org/2000/svg' , 'clipPath' ) ;
+		let $clipPath = document.createElementNS( this.NS , 'clipPath' ) ;
 		$clipPath.setAttribute( 'id' , this._id + '_clipPath' ) ;
 		elementList.push( $clipPath ) ;
 
-		let $rect = document.createElementNS( 'http://www.w3.org/2000/svg' , 'rect' ) ;
+		let $rect = document.createElementNS( this.NS , 'rect' ) ;
 		$rect.setAttribute( 'x' , this.x ) ;
 		$rect.setAttribute( 'y' , this.y + yOffset ) ;
 		$rect.setAttribute( 'width' , this.width ) ;
@@ -18648,6 +20050,8 @@ VGFlowingText.prototype.renderingContainerHookForSvgDom = async function( root =
 	for ( let structuredTextLine of this.structuredTextLines ) {
 		for ( let part of structuredTextLine.parts ) {
 			let fontFamily = part.attr.getFontFamily( this.attr ) ,
+				fontStyle = part.attr.getFontStyle( this.attr ) ,
+				fontWeight = part.attr.getFontWeight( this.attr ) ,
 				fontSize = part.attr.getFontSize( this.attr ) ,
 				textStyleStr = part.attr.getTextSvgStyleString( this.attr , fontSize ) ,
 				lineStyleStr , lineThickness ,
@@ -18656,8 +20060,8 @@ VGFlowingText.prototype.renderingContainerHookForSvgDom = async function( root =
 				frame = part.attr.getFrame( this.attr ) ;
 
 			//console.error( "???" , fontFamily , fontSize , textStyleStr ) ;
-			let font = await fontLib.getFontAsync( fontFamily ) ;
-			if ( ! font ) { throw new Error( "Font not found: " + fontFamily ) ; }
+			let font = await fontLib.getFallbackFontAsync( fontFamily , fontStyle , fontWeight ) ;
+			if ( ! font ) { throw new Error( "Font not found: " + fontFamily + ' ' + fontStyle + ' ' + fontWeight ) ; }
 
 			if ( frame ) {
 				let frameY = part.metrics.baselineY - part.metrics.ascender + yOffset ,
@@ -18665,8 +20069,8 @@ VGFlowingText.prototype.renderingContainerHookForSvgDom = async function( root =
 					frameStyleStr = part.attr.getFrameSvgStyleString( this.attr , fontSize ) ,
 					cornerRadius = part.attr.getFrameCornerRadius( this.attr , fontSize ) ;
 
-				console.error( "frameStyleStr:" , frameStyleStr , part.attr ) ;
-				let $frame = document.createElementNS( 'http://www.w3.org/2000/svg' , 'rect' ) ;
+				//console.error( "frameStyleStr:" , frameStyleStr , part.attr ) ;
+				let $frame = document.createElementNS( this.NS , 'rect' ) ;
 				$frame.setAttribute( 'x' , part.metrics.x ) ;
 				$frame.setAttribute( 'y' , frameY ) ;
 				$frame.setAttribute( 'width' , part.metrics.width ) ;
@@ -18684,7 +20088,7 @@ VGFlowingText.prototype.renderingContainerHookForSvgDom = async function( root =
 			if ( underline ) {
 				let underlineY = part.metrics.baselineY - part.metrics.descender * 0.6 - lineThickness + yOffset ;
 
-				let $line = document.createElementNS( 'http://www.w3.org/2000/svg' , 'rect' ) ;
+				let $line = document.createElementNS( this.NS , 'rect' ) ;
 				$line.setAttribute( 'x' , part.metrics.x ) ;
 				$line.setAttribute( 'y' , underlineY ) ;
 				$line.setAttribute( 'width' , part.metrics.width ) ;
@@ -18696,7 +20100,7 @@ VGFlowingText.prototype.renderingContainerHookForSvgDom = async function( root =
 			let path = font.getPath( part.text , part.metrics.x , part.metrics.baselineY + yOffset , fontSize ) ;
 			let pathData = path.toPathData() ;
 
-			let $textPath = document.createElementNS( 'http://www.w3.org/2000/svg' , 'path' ) ;
+			let $textPath = document.createElementNS( this.NS , 'path' ) ;
 			if ( textStyleStr ) { $textPath.setAttribute( 'style' , textStyleStr ) ; }
 			$textPath.setAttribute( 'd' , pathData ) ;
 			elementList.push( $textPath ) ;
@@ -18704,7 +20108,7 @@ VGFlowingText.prototype.renderingContainerHookForSvgDom = async function( root =
 			if ( lineThrough ) {
 				let lineThroughY = part.metrics.baselineY - part.metrics.ascender * 0.25 - lineThickness + yOffset ;
 
-				let $line = document.createElementNS( 'http://www.w3.org/2000/svg' , 'rect' ) ;
+				let $line = document.createElementNS( this.NS , 'rect' ) ;
 				$line.setAttribute( 'x' , part.metrics.x ) ;
 				$line.setAttribute( 'y' , lineThroughY ) ;
 				$line.setAttribute( 'width' , part.metrics.width ) ;
@@ -18716,7 +20120,7 @@ VGFlowingText.prototype.renderingContainerHookForSvgDom = async function( root =
 	}
 
 	if ( this.debugContainer ) {
-		let $debugRect = document.createElementNS( 'http://www.w3.org/2000/svg' , 'rect' ) ;
+		let $debugRect = document.createElementNS( this.NS , 'rect' ) ;
 		$debugRect.setAttribute( 'x' , this.x ) ;
 		$debugRect.setAttribute( 'y' , this.y + yOffset ) ;
 		$debugRect.setAttribute( 'width' , this.width ) ;
@@ -18731,10 +20135,10 @@ VGFlowingText.prototype.renderingContainerHookForSvgDom = async function( root =
 
 
 
-VGFlowingText.prototype.renderHookForCanvas = async function( canvasCtx , options = {} , root = this ) {
-	if ( ! this.areLinesComputed ) { this.computeLines() ; }
+VGFlowingText.prototype.renderHookForCanvas = async function( canvasCtx , options = {} ) {
+	if ( ! this.areLinesComputed ) { await this.computeLines() ; }
 
-	var yOffset = root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y - ( this.height - 1 ) : 0 ;
+	var yOffset = this.root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y - ( this.height - 1 ) : 0 ;
 
 	// We have to save context because canvasCtx.clip() is not reversible
 	canvasCtx.save() ;
@@ -18749,6 +20153,8 @@ VGFlowingText.prototype.renderHookForCanvas = async function( canvasCtx , option
 	for ( let structuredTextLine of this.structuredTextLines ) {
 		for ( let part of structuredTextLine.parts ) {
 			let fontFamily = part.attr.getFontFamily( this.attr ) ,
+				fontStyle = part.attr.getFontStyle( this.attr ) ,
+				fontWeight = part.attr.getFontWeight( this.attr ) ,
 				fontSize = part.attr.getFontSize( this.attr ) ,
 				textStyle = part.attr.getTextSvgStyle( this.attr , fontSize ) ,
 				lineStyle , lineThickness ,
@@ -18757,8 +20163,8 @@ VGFlowingText.prototype.renderHookForCanvas = async function( canvasCtx , option
 				frame = part.attr.getFrame( this.attr ) ;
 
 			//console.error( "???" , fontFamily , fontSize , textStyle ) ;
-			let font = await fontLib.getFontAsync( fontFamily ) ;
-			if ( ! font ) { throw new Error( "Font not found: " + fontFamily ) ; }
+			let font = await fontLib.getFallbackFontAsync( fontFamily , fontStyle , fontWeight ) ;
+			if ( ! font ) { throw new Error( "Font not found: " + fontFamily + ' ' + fontStyle + ' ' + fontWeight ) ; }
 
 			if ( frame ) {
 				let frameY = part.metrics.baselineY - part.metrics.ascender + yOffset ,
@@ -18792,8 +20198,8 @@ VGFlowingText.prototype.renderHookForCanvas = async function( canvasCtx , option
 
 			let path = font.getPath( part.text , part.metrics.x , part.metrics.baselineY + yOffset , fontSize ) ;
 			let pathData = path.toPathData() ;
-			let path2d = new Path2D( pathData ) ;
-			canvas.fillAndStrokeUsingSvgStyle( canvasCtx , textStyle , path2d ) ;
+			let path2D = new Path2D( pathData ) ;
+			canvas.fillAndStrokeUsingSvgStyle( canvasCtx , textStyle , path2D ) ;
 
 			if ( lineThrough ) {
 				let lineThroughY = part.metrics.baselineY - part.metrics.ascender * 0.25 - lineThickness + yOffset ;
@@ -18811,6 +20217,51 @@ VGFlowingText.prototype.renderHookForCanvas = async function( canvasCtx , option
 	}
 
 	canvasCtx.restore() ;
+} ;
+
+
+
+/*
+	This renderer does not support clipping the text, debugContainer, and frame.
+*/
+VGFlowingText.prototype.renderHookForPath2D = async function( path2D , canvasCtx , options = {} ) {
+	if ( ! this.areLinesComputed ) { await this.computeLines() ; }
+
+	var yOffset = this.root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y - ( this.height - 1 ) : 0 ;
+
+	for ( let structuredTextLine of this.structuredTextLines ) {
+		for ( let part of structuredTextLine.parts ) {
+			let fontFamily = part.attr.getFontFamily( this.attr ) ,
+				fontStyle = part.attr.getFontStyle( this.attr ) ,
+				fontWeight = part.attr.getFontWeight( this.attr ) ,
+				fontSize = part.attr.getFontSize( this.attr ) ,
+				lineThickness ,
+				underline = part.attr.getUnderline( this.attr ) ,
+				lineThrough = part.attr.getLineThrough( this.attr ) ;
+
+			//console.error( "???" , fontFamily , fontSize , textStyle ) ;
+			let font = await fontLib.getFallbackFontAsync( fontFamily , fontStyle , fontWeight ) ;
+			if ( ! font ) { throw new Error( "Font not found: " + fontFamily + ' ' + fontStyle + ' ' + fontWeight ) ; }
+
+			if ( underline || lineThrough ) {
+				lineThickness = part.attr.getLineThickness( this.attr , fontSize ) ;
+			}
+
+			if ( underline ) {
+				let underlineY = part.metrics.baselineY - part.metrics.descender * 0.6 - lineThickness + yOffset ;
+				path2D.rect( part.metrics.x , underlineY , part.metrics.width , lineThickness ) ;
+			}
+
+			let path = font.getPath( part.text , part.metrics.x , part.metrics.baselineY + yOffset , fontSize ) ;
+			let pathData = path.toPathData() ;
+			path2D.addPath( new Path2D( pathData ) ) ;
+
+			if ( lineThrough ) {
+				let lineThroughY = part.metrics.baselineY - part.metrics.ascender * 0.25 - lineThickness + yOffset ;
+				path2D.rect( part.metrics.x , lineThroughY , part.metrics.width , lineThickness ) ;
+			}
+		}
+	}
 } ;
 
 
@@ -18875,7 +20326,7 @@ VGFlowingText.prototype.computeXYOffset = function() {
 } ;
 
 
-},{"../../package.json":103,"../VGEntity.js":60,"../canvas.js":71,"../fontLib.js":72,"./StructuredTextLine.js":61,"./StructuredTextPart.js":62,"./TextAttribute.js":63,"./TextMetrics.js":64}],66:[function(require,module,exports){
+},{"../../package.json":128,"../VGEntity.js":70,"../canvas.js":81,"../fontLib.js":82,"../structuredText.js":86,"./StructuredTextLine.js":71,"./StructuredTextPart.js":72,"./TextAttribute.js":73,"./TextMetrics.js":74}],76:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -18932,7 +20383,7 @@ VGGroup.prototype.set = function( params ) {
 } ;
 
 
-},{"../package.json":103,"./VGContainer.js":58,"./svg-kit.js":75}],67:[function(require,module,exports){
+},{"../package.json":128,"./VGContainer.js":68,"./svg-kit.js":87}],77:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -19015,16 +20466,8 @@ const ASPECT = {
 	preserve: 'contain' ,
 	contain: 'contain' ,
 	meet: 'contain' ,	// SVG uses "meet" while CSS uses "contain"
-	// Doesn't seem to works for images
 	cover: 'cover' ,
 	slice: 'cover'		// SVG uses "slice" while CSS uses "cover"
-} ;
-
-const SVG_PRESERVE_ASPECT_RATIO = {
-	stretch: 'none' ,
-	contain: 'xMidYmid meet' ,
-	// Doesn't seem to works for images
-	cover: 'xMidYmid slice'
 } ;
 
 
@@ -19073,45 +20516,29 @@ VGImage.prototype.export = function( data = {} ) {
 	data.width = this.width ;
 	data.height = this.height ;
 	data.url = this.url ;
+	if ( this.aspect !== 'stretch' ) { data.aspect = this.aspect ; }
 
 	return data ;
 } ;
 
 
 
-Object.defineProperties( VGImage.prototype , {
-	svgTag: { get: function() { return this.clip || this.ninePatch ? 'g' : 'image' ; } } ,
-	isRenderingContainer: { get: function() { return this.clip || this.ninePatch ; } }
-} ) ;
+VGImage.prototype.svgTag = 'g' ;
+VGImage.prototype.isRenderingContainer = true ;
 
 
 
-VGImage.prototype.svgAttributes = function( root = this ) {
-	if ( this.clip || this.ninePatch ) { return {} ; }
-
-	var attr = {
-		x: this.x ,
-		y: root.invertY ? - this.y - this.height : this.y ,
-		width: this.width ,
-		height: this.height ,
-		preserveAspectRatio: SVG_PRESERVE_ASPECT_RATIO[ this.aspect ] ,
-		href: this.url
-	} ;
-
-	return attr ;
-} ;
-
-
-
-VGImage.prototype.renderingContainerHookForSvgText = async function( root = this ) {
+VGImage.prototype.renderingContainerHookForSvgText = async function() {
 	var imageSize = await getImageSize( this.url ) ;
 
 	if ( this.ninePatch ) {
 		// Also support clip
-		return this.renderSvgTextNinePatchImage( imageSize , root ) ;
+		return this.renderSvgTextNinePatchImage( imageSize ) ;
 	}
-	else if ( this.clip ) {
-		return this.renderSvgTextClipImage( imageSize , {
+
+	if ( this.clip ) {
+		return this.renderSvgTextClipImage(
+			imageSize , {
 				sx: this.sourceX ,
 				sy: this.sourceY ,
 				sw: this.sourceWidth ,
@@ -19120,60 +20547,49 @@ VGImage.prototype.renderingContainerHookForSvgText = async function( root = this
 				dy: this.y ,
 				dw: this.width ,
 				dh: this.height
-			} ,
-			root
+			}
 		) ;
 	}
-	else {
-		// Regular image (not clipped, not 9-patch) never reach this place right now
-		let str = '' ;
-		str += '<image' ;
-		str += ' x="' + this.x + '"' ;
-		str += ' y="' + ( root.invertY ? - this.y - this.height : this.y ) + '"' ;
-		str += ' width="' + this.width + '"' ;
-		str += ' height="' + this.height + '"' ;
-		str += ' preserveAspectRatio="' + SVG_PRESERVE_ASPECT_RATIO[ this.aspect ] + '"' ;
-		str += ' href="' + this.url + '"' ;
-		str += ' />' ;
 
-		return str ;
-	}
-
-	return elementList ;
+	// Regular image (not clipped, not 9-patch) never reach this place right now
+	let coords = this.getAspectCoords( imageSize ) ;
+	return this.renderSvgTextClipImage( imageSize , coords ) ;
 } ;
 
 
 
 const CLIP_EXTRA_SIZE = 0.5 ;
 
-VGImage.prototype.renderSvgTextClipImage = function( imageSize , coord , root , n = 0 ) {
+VGImage.prototype.renderSvgTextClipImage = function( imageSize , coords , n = 0 ) {
 	var str = '' ,
-		yOffset = root.invertY ? - 2 * this.y - this.height : 0 ,
-		scaleX = coord.dw / coord.sw ,
-		scaleY = coord.dh / coord.sh ;
+		yOffset = this.root.invertY ? - 2 * this.y - this.height : 0 ,
+		scaleX = coords.dw / coords.sw ,
+		scaleY = coords.dh / coords.sh ;
 
-	// Nothing inside the <clipPath> is displayed
-	var clipPathId = this._id + '_clipPath_' + n ;
-	str += '<clipPath id="' + clipPathId + '">' ;
+	if ( ! coords.noClip ) {
+		// Nothing inside the <clipPath> is displayed
+		var clipPathId = this._id + '_clipPath_' + n ;
+		str += '<clipPath id="' + clipPathId + '">' ;
 
-	str += '<rect' ;
-	str += ' x="' + coord.dx + '"' ;
-	str += ' y="' + ( coord.dy + yOffset ) + '"' ;
-	// Clip have some issues when multiple clip are supposed to touch themselve,
-	// so we add an extra width/height to avoid white lines in-between
-	str += ' width="' + ( coord.dw + CLIP_EXTRA_SIZE ) + '"' ;
-	str += ' height="' + ( coord.dh + CLIP_EXTRA_SIZE ) + '"' ;
-	str += ' />' ;
+		str += '<rect' ;
+		str += ' x="' + coords.dx + '"' ;
+		str += ' y="' + ( coords.dy + yOffset ) + '"' ;
+		// Clip have some issues when multiple clip are supposed to touch themselve,
+		// so we add an extra width/height to avoid white lines in-between
+		str += ' width="' + ( coords.dw + CLIP_EXTRA_SIZE ) + '"' ;
+		str += ' height="' + ( coords.dh + CLIP_EXTRA_SIZE ) + '"' ;
+		str += ' />' ;
 
-	str += '</clipPath>' ;
+		str += '</clipPath>' ;
+	}
 
 	str += '<image' ;
-	str += ' x="' + ( coord.dx - coord.sx * scaleX ) + '"' ;
-	str += ' y="' + ( coord.dy - coord.sy * scaleY + yOffset ) + '"' ;
+	str += ' x="' + ( coords.dx - coords.sx * scaleX ) + '"' ;
+	str += ' y="' + ( coords.dy - coords.sy * scaleY + yOffset ) + '"' ;
 	str += ' width="' + ( imageSize.width * scaleX ) + '"' ;
 	str += ' height="' + ( imageSize.height * scaleY ) + '"' ;
 	str += ' preserveAspectRatio="none"' ;
-	str += ' clip-path="url(#' + clipPathId + ')"' ;
+	if ( ! coords.noClip ) { str += ' clip-path="url(#' + clipPathId + ')"' ; }
 	str += ' xlink:href="' + this.url + '"' ;
 	str += ' />' ;
 
@@ -19182,13 +20598,13 @@ VGImage.prototype.renderSvgTextClipImage = function( imageSize , coord , root , 
 
 
 
-VGImage.prototype.renderSvgTextNinePatchImage = function( imageSize , root ) {
+VGImage.prototype.renderSvgTextNinePatchImage = function( imageSize ) {
 	var str = '' ,
 		n = 0 ,
-		coords = this.getNinePatchCoords( imageSize ) ;
+		coordsList = this.getNinePatchCoordsList( imageSize ) ;
 
-	for ( let coord of coords ) {
-		str += this.renderSvgTextClipImage( imageSize , coord , root , n ++ ) ;
+	for ( let coords of coordsList ) {
+		str += this.renderSvgTextClipImage( imageSize , coords , n ++ ) ;
 	}
 
 	return str ;
@@ -19196,17 +20612,18 @@ VGImage.prototype.renderSvgTextNinePatchImage = function( imageSize , root ) {
 
 
 
-VGImage.prototype.renderingContainerHookForSvgDom = async function( root = this ) {
+VGImage.prototype.renderingContainerHookForSvgDom = async function() {
 	var elementList = [] ;
 
 	var imageSize = await getImageSize( this.url ) ;
 
 	if ( this.ninePatch ) {
 		// Also support clip
-		this.renderSvgDomNinePatchImage( imageSize , elementList , root ) ;
+		this.renderSvgDomNinePatchImage( imageSize , elementList ) ;
 	}
 	else if ( this.clip ) {
-		this.renderSvgDomClipImage( imageSize , {
+		this.renderSvgDomClipImage(
+			imageSize , {
 				sx: this.sourceX ,
 				sy: this.sourceY ,
 				sw: this.sourceWidth ,
@@ -19216,21 +20633,12 @@ VGImage.prototype.renderingContainerHookForSvgDom = async function( root = this 
 				dw: this.width ,
 				dh: this.height
 			} ,
-			elementList , root
+			elementList
 		) ;
 	}
 	else {
-		// Regular image (not clipped, not 9-patch) never reach this place right now
-		let $image = document.createElementNS( 'http://www.w3.org/2000/svg' , 'image' ) ;
-		dom.attr( $image , {
-			x: this.x ,
-			y: root.invertY ? - this.y - this.height : this.y ,
-			width: this.width ,
-			height: this.height ,
-			preserveAspectRatio: 'none' ,
-			href: this.url
-		} ) ;
-		elementList.push( $image ) ;
+		let coords = this.getAspectCoords( imageSize ) ;
+		this.renderSvgDomClipImage( imageSize , coords , elementList ) ;
 	}
 
 	return elementList ;
@@ -19238,55 +20646,62 @@ VGImage.prototype.renderingContainerHookForSvgDom = async function( root = this 
 
 
 
-VGImage.prototype.renderSvgDomClipImage = function( imageSize , coord , elementList , root , n = 0 ) {
-	var yOffset = root.invertY ? - 2 * this.y - this.height : 0 ,
-		scaleX = coord.dw / coord.sw ,
-		scaleY = coord.dh / coord.sh ;
+VGImage.prototype.renderSvgDomClipImage = function( imageSize , coords , elementList , n = 0 ) {
+	var yOffset = this.root.invertY ? - 2 * this.y - this.height : 0 ,
+		scaleX = coords.dw / coords.sw ,
+		scaleY = coords.dh / coords.sh ;
 
-	// Nothing inside the <clipPath> is displayed
-	var $clipPath = document.createElementNS( 'http://www.w3.org/2000/svg' , 'clipPath' ) ;
-	var clipPathId = this._id + '_clipPath_' + n ;
-	dom.attr( $clipPath , { id: clipPathId } ) ;
-	elementList.push( $clipPath ) ;
+	if ( ! coords.noClip ) {
+		// Nothing inside the <clipPath> is displayed
+		var $clipPath = document.createElementNS( this.NS , 'clipPath' ) ;
+		var clipPathId = this._id + '_clipPath_' + n ;
+		dom.attr( $clipPath , { id: clipPathId } ) ;
+		elementList.push( $clipPath ) ;
 
-	var $rect = document.createElementNS( 'http://www.w3.org/2000/svg' , 'rect' ) ;
-	dom.attr( $rect , {
-		x: coord.dx ,
-		y: coord.dy + yOffset ,
-		// Clip have some issues when multiple clip are supposed to touch themselves,
-		// so we add an extra width/height to avoid white lines in-between
-		width: coord.dw + CLIP_EXTRA_SIZE ,
-		height: coord.dh + CLIP_EXTRA_SIZE
-	} ) ;
-	$clipPath.appendChild( $rect ) ;
+		var $rect = document.createElementNS( this.NS , 'rect' ) ;
+		dom.attr( $rect , {
+			x: coords.dx ,
+			y: coords.dy + yOffset ,
+			// Clip have some issues when multiple clip are supposed to touch themselves,
+			// so we add an extra width/height to avoid white lines in-between
+			width: coords.dw + CLIP_EXTRA_SIZE ,
+			height: coords.dh + CLIP_EXTRA_SIZE
+		} ) ;
+		$clipPath.appendChild( $rect ) ;
+	}
 
-	var $image = document.createElementNS( 'http://www.w3.org/2000/svg' , 'image' ) ;
+	var $image = document.createElementNS( this.NS , 'image' ) ;
 	dom.attr( $image , {
-		x: coord.dx - coord.sx * scaleX ,
-		y: coord.dy - coord.sy * scaleY + yOffset ,
+		x: coords.dx - coords.sx * scaleX ,
+		y: coords.dy - coords.sy * scaleY + yOffset ,
 		width: imageSize.width * scaleX ,
 		height: imageSize.height * scaleY ,
-		preserveAspectRatio: SVG_PRESERVE_ASPECT_RATIO[ this.aspect ] ,
-		'clip-path': 'url(#' + clipPathId + ')' ,
+		preserveAspectRatio: 'none' ,
+		//'clip-path': 'url(#' + clipPathId + ')' ,
 		href: this.url
 	} ) ;
+
+	if ( ! coords.noClip ) {
+		dom.attr( $image , { 'clip-path': 'url(#' + clipPathId + ')' } ) ;
+	}
+
 	elementList.push( $image ) ;
 } ;
 
 
 
-VGImage.prototype.renderSvgDomNinePatchImage = function( imageSize , elementList , root ) {
+VGImage.prototype.renderSvgDomNinePatchImage = function( imageSize , elementList ) {
 	var n = 0 ,
-		coords = this.getNinePatchCoords( imageSize ) ;
+		coordsList = this.getNinePatchCoordsList( imageSize ) ;
 
-	for ( let coord of coords ) {
-		this.renderSvgDomClipImage( imageSize , coord , elementList , root , n ++ ) ;
+	for ( let coords of coordsList ) {
+		this.renderSvgDomClipImage( imageSize , coords , elementList , n ++ ) ;
 	}
 } ;
 
 
 
-VGImage.prototype.renderHookForCanvas = async function( canvasCtx , options = {} , root = this ) {
+VGImage.prototype.renderHookForCanvas = async function( canvasCtx , options = {} ) {
 	canvasCtx.save() ;
 
 	var image = new Image() ;
@@ -19296,14 +20711,13 @@ VGImage.prototype.renderHookForCanvas = async function( canvasCtx , options = {}
 		image.onload = () => {
 			if ( this.ninePatch ) {
 				// Also support clip
-				this.renderCanvasNinePatchImage( canvasCtx , image , root ) ;
+				this.renderCanvasNinePatchImage( canvasCtx , image ) ;
 			}
 			else if ( this.clip ) {
-				this.renderCanvasClipImage( canvasCtx , image , root ) ;
+				this.renderCanvasClipImage( canvasCtx , image ) ;
 			}
 			else {
-				let yOffset = root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y - ( this.height - 1 ) : 0 ;
-				canvasCtx.drawImage( image , this.x , this.y + yOffset , this.width , this.height ) ;
+				this.renderCanvasAspectImage( canvasCtx , image ) ;
 			}
 
 			resolve() ;
@@ -19315,8 +20729,21 @@ VGImage.prototype.renderHookForCanvas = async function( canvasCtx , options = {}
 
 
 
-VGImage.prototype.renderCanvasClipImage = function( canvasCtx , image , root ) {
-	var yOffset = root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y - ( this.height - 1 ) : 0 ;
+VGImage.prototype.renderCanvasAspectImage = function( canvasCtx , image ) {
+	var yOffset = this.root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y - ( this.height - 1 ) : 0 ,
+		coords = this.getAspectCoords( { width: image.naturalWidth , height: image.naturalHeight } ) ;
+
+	canvasCtx.drawImage(
+		image ,
+		coords.sx , coords.sy , coords.sw , coords.sh ,
+		coords.dx , coords.dy + yOffset , coords.dw , coords.dh
+	) ;
+} ;
+
+
+
+VGImage.prototype.renderCanvasClipImage = function( canvasCtx , image ) {
+	var yOffset = this.root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y - ( this.height - 1 ) : 0 ;
 
 	canvasCtx.drawImage(
 		image ,
@@ -19327,24 +20754,74 @@ VGImage.prototype.renderCanvasClipImage = function( canvasCtx , image , root ) {
 
 
 
-VGImage.prototype.renderCanvasNinePatchImage = function( canvasCtx , image , root ) {
-	var yOffset = root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y - ( this.height - 1 ) : 0 ,
-		coords = this.getNinePatchCoords( { width: image.naturalWidth , height: image.naturalHeight } ) ;
+VGImage.prototype.renderCanvasNinePatchImage = function( canvasCtx , image ) {
+	var yOffset = this.root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y - ( this.height - 1 ) : 0 ,
+		coordsList = this.getNinePatchCoordsList( { width: image.naturalWidth , height: image.naturalHeight } ) ;
 
-	for ( let coord of coords ) {
+	for ( let coords of coordsList ) {
 		canvasCtx.drawImage(
 			image ,
-			coord.sx , coord.sy , coord.sw , coord.sh ,
-			coord.dx , coord.dy + yOffset , coord.dw , coord.dh
+			coords.sx , coords.sy , coords.sw , coords.sh ,
+			coords.dx , coords.dy + yOffset , coords.dw , coords.dh
 		) ;
 	}
 } ;
 
 
 
-VGImage.prototype.getNinePatchCoords = function( imageSize ) {
+VGImage.prototype.getAspectCoords = function( imageSize ) {
+	var sx = 0 ,
+		sy = 0 ,
+		sw = imageSize.width ,
+		sh = imageSize.height ,
+		dx = this.x ,
+		dy = this.y ,
+		dw = this.width ,
+		dh = this.height ,
+		noClip = true ,
+		ratio = this.width / this.height ,
+		sourceRatio = sw / sh ;
+
+	if ( ratio !== sourceRatio ) {
+		if ( this.aspect === 'contain' ) {
+			if ( ratio > sourceRatio ) {
+				// The wanted viewport is wider than the source
+				let newDw = dh * sourceRatio ;
+				dx += Math.round( ( dw - newDw ) / 2 ) ;
+				dw = newDw ;
+			}
+			else {
+				// The wanted viewport is taller than the source
+				let newDh = dw / sourceRatio ;
+				dy += Math.round( ( dh - newDh ) / 2 ) ;
+				dh = newDh ;
+			}
+		}
+		else if ( this.aspect === 'cover' ) {
+			noClip = false ;
+			if ( ratio > sourceRatio ) {
+				// The wanted viewport is wider than the source
+				let newSh = sw / ratio ;
+				sy += Math.round( ( sh - newSh ) / 2 ) ;
+				sh = newSh ;
+			}
+			else {
+				// The wanted viewport is taller than the source
+				let newSw = sh * ratio ;
+				sx += Math.round( ( sw - newSw ) / 2 ) ;
+				sw = newSw ;
+			}
+		}
+	}
+
+	return { sx , sy , sw , sh , dx , dy , dw , dh , noClip } ;	// eslint-disable-line object-curly-newline
+} ;
+
+
+
+VGImage.prototype.getNinePatchCoordsList = function( imageSize ) {
 	var sourceX , sourceY , sourceWidth , sourceHeight ,
-		coords = [] ;
+		coordsList = [] ;
 
 	if ( this.clip ) {
 		sourceX = this.sourceX ;
@@ -19371,7 +20848,7 @@ VGImage.prototype.getNinePatchCoords = function( imageSize ) {
 
 	// The 4 corners
 
-	coords.push( {
+	coordsList.push( {
 		// top-left
 		sx: sourceX ,
 		sy: sourceY ,
@@ -19383,7 +20860,7 @@ VGImage.prototype.getNinePatchCoords = function( imageSize ) {
 		dh: topHeight
 	} ) ;
 
-	coords.push( {
+	coordsList.push( {
 		// top-right
 		sx: sourceX + leftWidth + centerWidth ,
 		sy: sourceY ,
@@ -19395,7 +20872,7 @@ VGImage.prototype.getNinePatchCoords = function( imageSize ) {
 		dh: topHeight
 	} ) ;
 
-	coords.push( {
+	coordsList.push( {
 		// bottom-left
 		sx: sourceX ,
 		sy: sourceY + topHeight + centerHeight ,
@@ -19407,7 +20884,7 @@ VGImage.prototype.getNinePatchCoords = function( imageSize ) {
 		dh: bottomHeight
 	} ) ;
 
-	coords.push( {
+	coordsList.push( {
 		// bottom-right
 		sx: sourceX + leftWidth + centerWidth ,
 		sy: sourceY + topHeight + centerHeight ,
@@ -19422,7 +20899,7 @@ VGImage.prototype.getNinePatchCoords = function( imageSize ) {
 
 	// The 4 sides
 
-	coords.push( {
+	coordsList.push( {
 		// left
 		sx: sourceX ,
 		sy: sourceY + topHeight ,
@@ -19434,7 +20911,7 @@ VGImage.prototype.getNinePatchCoords = function( imageSize ) {
 		dh: destCenterHeight
 	} ) ;
 
-	coords.push( {
+	coordsList.push( {
 		// right
 		sx: sourceX + leftWidth + centerWidth ,
 		sy: sourceY + topHeight ,
@@ -19446,7 +20923,7 @@ VGImage.prototype.getNinePatchCoords = function( imageSize ) {
 		dh: destCenterHeight
 	} ) ;
 
-	coords.push( {
+	coordsList.push( {
 		// top
 		sx: sourceX + leftWidth ,
 		sy: sourceY ,
@@ -19458,7 +20935,7 @@ VGImage.prototype.getNinePatchCoords = function( imageSize ) {
 		dh: topHeight
 	} ) ;
 
-	coords.push( {
+	coordsList.push( {
 		// bottom
 		sx: sourceX + leftWidth ,
 		sy: sourceY + topHeight + centerHeight ,
@@ -19470,7 +20947,7 @@ VGImage.prototype.getNinePatchCoords = function( imageSize ) {
 		dh: bottomHeight
 	} ) ;
 
-	coords.push( {
+	coordsList.push( {
 		// center
 		sx: sourceX + leftWidth ,
 		sy: sourceY + topHeight ,
@@ -19482,12 +20959,12 @@ VGImage.prototype.getNinePatchCoords = function( imageSize ) {
 		dh: destCenterHeight
 	} ) ;
 
-	console.warn( "coords:" , coords ) ;
-	return coords ;
+	//console.warn( "coordsList:" , coordsList ) ;
+	return coordsList ;
 } ;
 
 
-},{"../package.json":103,"./VGEntity.js":60,"./canvas.js":71,"./getImageSize.js":73,"dom-kit":76}],68:[function(require,module,exports){
+},{"../package.json":128,"./VGEntity.js":70,"./canvas.js":81,"./getImageSize.js":83,"dom-kit":94}],78:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -19559,10 +21036,10 @@ VGPath.prototype.export = function( data = {} ) {
 
 
 
-VGPath.prototype.svgAttributes = function( root = this ) {
+VGPath.prototype.svgAttributes = function() {
 	var attr = {
 		// That enigmatic SVG attribute 'd' probably means 'data' or 'draw'
-		d: this.toD( root )
+		d: this.toD()
 	} ;
 
 	return attr ;
@@ -19571,14 +21048,14 @@ VGPath.prototype.svgAttributes = function( root = this ) {
 
 
 // Build the SVG 'd' attribute
-VGPath.prototype.toD = function( root = this ) {
+VGPath.prototype.toD = function() {
 	var build = {
-		root: root ,
+		root: this.root ,
 		d: '' ,
 		pu: false ,	// Pen Up, when true, turtle-like commands move without tracing anything
 		cx: 0 ,		// cursor position x
 		cy: 0 ,		// cursor position y
-		ca: root.invertY ? - Math.PI / 2 : Math.PI / 2		// cursor angle, default to positive Y-axis
+		ca: this.root.invertY ? - Math.PI / 2 : Math.PI / 2		// cursor angle, default to positive Y-axis
 	} ;
 
 	this.commands.forEach( ( command , index ) => {
@@ -19591,11 +21068,17 @@ VGPath.prototype.toD = function( root = this ) {
 
 
 
-VGPath.prototype.renderHookForCanvas = function( canvasCtx , options = {} , root = this ) {
+VGPath.prototype.renderHookForCanvas = function( canvasCtx , options = {} ) {
 	canvasCtx.save() ;
 	canvasCtx.beginPath() ;
 	canvas.fillAndStrokeUsingSvgStyle( canvasCtx , this.style , new Path2D( this.toD() ) ) ;
 	canvasCtx.restore() ;
+} ;
+
+
+
+VGPath.prototype.renderHookForPath2D = function( path2D , canvasCtx , options = {} ) {
+	path2D.addPath( new Path2D( this.toD() ) ) ;
 } ;
 
 
@@ -20174,7 +21657,7 @@ VGPath.prototype.forwardNegativeTurn = function( data ) {
 } ;
 
 
-},{"../package.json":103,"./VGEntity.js":60,"./canvas.js":71}],69:[function(require,module,exports){
+},{"../package.json":128,"./VGEntity.js":70,"./canvas.js":81}],79:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -20270,10 +21753,10 @@ VGRect.prototype.svgTag = 'rect' ;
 
 
 
-VGRect.prototype.svgAttributes = function( root = this ) {
+VGRect.prototype.svgAttributes = function() {
 	var attr = {
 		x: this.x ,
-		y: root.invertY ? - this.y - this.height : this.y ,
+		y: this.root.invertY ? - this.y - this.height : this.y ,
 		width: this.width ,
 		height: this.height ,
 		rx: this.rx ,
@@ -20285,8 +21768,8 @@ VGRect.prototype.svgAttributes = function( root = this ) {
 
 
 
-VGRect.prototype.renderHookForCanvas = function( canvasCtx , options = {} , root = this ) {
-	var yOffset = root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y - ( this.height - 1 ) : 0 ;
+VGRect.prototype.renderHookForCanvas = function( canvasCtx , options = {} ) {
+	var yOffset = this.root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y - ( this.height - 1 ) : 0 ;
 
 	canvasCtx.save() ;
 	canvasCtx.beginPath() ;
@@ -20296,7 +21779,14 @@ VGRect.prototype.renderHookForCanvas = function( canvasCtx , options = {} , root
 } ;
 
 
-},{"../package.json":103,"./VGEntity.js":60,"./canvas.js":71}],70:[function(require,module,exports){
+
+VGRect.prototype.renderHookForPath2D = function( path2D , canvasCtx , options = {} ) {
+	var yOffset = this.root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y - ( this.height - 1 ) : 0 ;
+	path2D.rect( this.x , this.y + yOffset , this.width , this.height ) ;
+} ;
+
+
+},{"../package.json":128,"./VGEntity.js":70,"./canvas.js":81}],80:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -20412,10 +21902,10 @@ VGText.prototype.svgTextNode = function() {
 
 
 
-VGText.prototype.svgAttributes = function( root = this ) {
+VGText.prototype.svgAttributes = function() {
 	var attr = {
 		x: this.x ,
-		y: root.invertY ? - this.y : this.y ,
+		y: this.root.invertY ? - this.y : this.y ,
 		'text-anchor': this.anchor || 'middle'
 	} ;
 
@@ -20427,8 +21917,8 @@ VGText.prototype.svgAttributes = function( root = this ) {
 
 
 
-VGText.prototype.renderHookForCanvas = function( canvasCtx , options = {} , root = this ) {
-	var yOffset = root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y : 0 ,
+VGText.prototype.renderHookForCanvas = function( canvasCtx , options = {} ) {
+	var yOffset = this.root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y : 0 ,
 		style = this.style ,
 		fill = false ,
 		stroke = false ,
@@ -20471,7 +21961,7 @@ VGText.prototype.renderHookForCanvas = function( canvasCtx , options = {} , root
 } ;
 
 
-},{"../package.json":103,"./VGEntity.js":60}],71:[function(require,module,exports){
+},{"../package.json":128,"./VGEntity.js":70}],81:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -20550,7 +22040,7 @@ canvas.fillAndStrokeUsingSvgStyle = ( canvasCtx , style , path2d = null ) => {
 } ;
 
 
-},{}],72:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 (function (process,__dirname){(function (){
 /*
 	SVG Kit
@@ -20585,6 +22075,7 @@ canvas.fillAndStrokeUsingSvgStyle = ( canvasCtx , style , path2d = null ) => {
 */
 
 const path = require( 'path' ) ;
+const fs = require( 'fs' ) ;
 const opentype = require( 'opentype.js' ) ;
 
 
@@ -20594,20 +22085,275 @@ module.exports = fontLib ;
 
 
 
-const fontUrl = {} ;
+function FontUrl( family , ... variantsUrl ) {
+	this.family = family ;
+	this.variantsUrl = {} ;
+	if ( variantsUrl ) { this.setUrls( ... variantsUrl ) ; }
+}
+
+fontLib.FontUrl = FontUrl ;
+
+
+
+FontUrl.getCode = function( style = 'regular' , weight = 'regular' , stretch = 'regular' ) {
+	var styleCode = STYLE_MAP[ style ] ,
+		weightCode = WEIGHT_MAP[ weight ] ,
+		stretchCode = STRETCH_MAP[ stretch ] ;
+
+	if ( styleCode === undefined || weightCode === undefined || stretchCode === undefined ) {
+		throw new Error( "FontUrl: bad font variant (" + style + ',' + weight + ',' + stretch + ')' ) ;
+	}
+
+	return styleCode * 81 + weightCode * 9 + stretchCode ;
+} ;
+
+
+
+FontUrl.prototype.setUrls = function( ... variantsUrl ) {
+	if ( ! Array.isArray( variantsUrl[ 0 ] ) ) {
+		this.setUrl( ... variantsUrl ) ;
+	}
+	else {
+		for ( let variantUrl of variantsUrl ) {
+			this.setUrl( ... variantUrl ) ;
+		}
+	}
+} ;
+
+
+
+FontUrl.prototype.setUrl = function( ... variantUrl ) {
+	var style , weight , stretch ,
+		url = variantUrl[ variantUrl.length - 1 ] ;
+
+	style = weight = stretch = 'regular' ;
+
+	for ( let index = 0 ; index < variantUrl.length - 1 ; index ++ ) {
+		let property = variantUrl[ index ] ;
+		if ( ! NEUTRAL_MAP[ property ] ) {
+			if ( STYLE_MAP[ property ] !== undefined ) { style = property ; }
+			else if ( WEIGHT_MAP[ property ] !== undefined ) { weight = property ; }
+			else if ( STRETCH_MAP[ property ] !== undefined ) { stretch = property ; }
+		}
+	}
+
+	var code = FontUrl.getCode( style , weight , stretch ) ;
+
+	this.variantsUrl[ code ] = url ;
+} ;
+
+
+
+FontUrl.getCodeByUnorderedList = function( ... variant ) {
+	var style , weight , stretch ;
+
+	style = weight = stretch = 'regular' ;
+
+	for ( let property of variant ) {
+		if ( ! NEUTRAL_MAP[ property ] ) {
+			if ( STYLE_MAP[ property ] !== undefined ) { style = property ; }
+			else if ( WEIGHT_MAP[ property ] !== undefined ) { weight = property ; }
+			else if ( STRETCH_MAP[ property ] !== undefined ) { stretch = property ; }
+		}
+	}
+
+	return FontUrl.getCode( style , weight , stretch ) ;
+} ;
+
+
+
+FontUrl.prototype.getUrl = function( ... variant ) {
+	var code = FontUrl.getCodeByUnorderedList( ... variant ) ;
+	return this.variantsUrl[ code ] ;
+} ;
+
+
+
+FontUrl.prototype.getFallbackUrl = function( ... variant ) {
+	var code = FontUrl.getCodeByUnorderedList( ... variant ) ;
+	if ( this.variantsUrl[ code ] ) { return this.variantsUrl[ code ] ; }
+
+	var closestDistance = Infinity ,
+		bestUrl = null ,
+		reference = REVERSE_MAP[ code ] ;
+
+	for ( let testCode in this.variantsUrl ) {
+		let testReference = REVERSE_MAP[ testCode ] ;
+		let distance =
+			Math.abs( reference.stylePosition - testReference.stylePosition )
+			+ Math.abs( reference.weightPosition - testReference.weightPosition )
+			+ Math.abs( reference.stretchPosition - testReference.stretchPosition ) ;
+
+		if ( distance < closestDistance ) {
+			closestDistance = distance ;
+			bestUrl = this.variantsUrl[ testCode ] ;
+		}
+	}
+
+	console.log( "Fallback url:" , bestUrl ) ;
+
+	return bestUrl ;
+} ;
+
+
+
+const fontUrlByFamily = {} ;
+fontLib.fontUrlByFamily = fontUrlByFamily ;
 const fontCache = {} ;
 
-fontLib.setFontUrl = ( fontName , url ) => fontUrl[ fontName ] = url ;
-fontLib.getFontUrl = fontName => fontUrl[ fontName ] ;
+fontLib.setFontUrl = ( fontFamily , ... variantsUrl ) => {
+	var fontUrl = fontUrlByFamily[ fontFamily ] ;
+
+	if ( fontUrl ) {
+		fontUrl.setUrls( ... variantsUrl ) ;
+	}
+	else {
+		fontUrlByFamily[ fontFamily ] = new FontUrl( fontFamily , ... variantsUrl ) ;
+	}
+} ;
+
+fontLib.getFontUrl = ( fontFamily , ... variant ) => {
+	var fontUrl = fontUrlByFamily[ fontFamily ] ;
+	if ( ! fontUrl ) { return ; }
+	return fontUrl.getUrl( ... variant ) ;
+} ;
+
+fontLib.getFallbackFontUrl = ( fontFamily , ... variant ) => {
+	var fontUrl = fontUrlByFamily[ fontFamily ] ;
+	if ( ! fontUrl ) { return ; }
+	return fontUrl.getFallbackUrl( ... variant ) ;
+} ;
+
+
+
+// Neutral and common property names
+const NEUTRAL_MAP = {
+	normal: true ,
+	regular: true
+} ;
+
+// Font style
+const STYLE_MAP = {
+	normal: 0 ,
+	regular: 0 ,
+	oblique: 1 ,
+	italic: 2
+} ;
+
+const STYLE_SCORE = [ 0 , 10 , 12 ] ;
+
+// Font weight
+const WEIGHT_MAP = {
+	thin: 0 ,		// 100
+	hairline: 0 ,
+	extraLight: 1 ,	// 200
+	'extra-light': 1 ,
+	ultraLight: 1 ,
+	'ultra-light': 1 ,
+	light: 2 ,		// 300
+	normal: 3 ,		// 400
+	regular: 3 ,
+	medium: 4 ,		// 500
+	semiBold: 5 ,	// 600
+	'semi-bold': 5 ,
+	demiBold: 5 ,
+	'demi-bold': 5 ,
+	bold: 6 ,		// 700
+	extraBold: 7 ,	// 800
+	'extra-bold': 7 ,
+	ultraBold: 7 ,
+	'ultra-bold': 7 ,
+	heavy: 8 ,		// 900
+	black: 8
+} ;
+
+const WEIGHT_SCORE = [
+	- 12 , - 10 , - 8 ,
+	0 ,
+	6 , 8 , 10 , 12 , 14
+] ;
+
+// Font stretch/font width
+const STRETCH_MAP = {
+	ultraCondensed: 0 ,		// 50%
+	'ultra-condensed': 0 ,
+	extraCondensed: 1 ,		// 62.5%
+	'extra-condensed': 1 ,
+	condensed: 2 ,			// 75%
+	semiCondensed: 3 , 		// 87.5%
+	'semi-condensed': 3 ,
+	medium: 4 ,				// 100%
+	normal: 4 ,
+	regular: 4 ,
+	semiExpanded: 5 ,		// 112.5%
+	'semi-expanded': 5 ,
+	expanded: 6 ,			// 125%
+	extraExpanded: 7 ,		// 150%
+	'extra-expanded': 7 ,
+	ultraExpanded: 8 ,		// 200%
+	'ultra-expanded': 8
+} ;
+
+const STRETCH_SCORE = [
+	- 14 , - 11 , - 8 , - 6 ,
+	0 ,
+	6 , 8 , 11 , 14
+] ;
+
+const REVERSE_MAP = [] ;
+
+for ( let styleCode = 0 ; styleCode <= 2 ; styleCode ++ ) {
+	for ( let weightCode = 0 ; weightCode <= 8 ; weightCode ++ ) {
+		for ( let stretchCode = 0 ; stretchCode <= 8 ; stretchCode ++ ) {
+			let code = styleCode * 81 + weightCode * 9 + stretchCode ;
+			REVERSE_MAP[ code ] = {
+				stylePosition: STYLE_SCORE[ styleCode ] ,
+				weightPosition: WEIGHT_SCORE[ weightCode ] ,
+				stretchPosition: STRETCH_SCORE[ stretchCode ]
+			} ;
+		}
+	}
+}
+
+
+
+fontLib.preloadFontFamily = async ( fontFamily ) => {
+	var fontUrl = fontUrlByFamily[ fontFamily ] ;
+	if ( ! fontUrl ) { throw new Error( "Font family not found: " + fontFamily ) ; }
+	return Promise.all( Object.values( fontUrl.variantsUrl ).map( url => fontLib.getFontByUrlAsync( url ) ) ) ;
+} ;
+
+
+
+fontLib.getFallbackFontAsync = ( fontFamily , ... variant ) => {
+	var url = fontLib.getFallbackFontUrl( fontFamily , ... variant ) ;
+	if ( ! url ) { return null ; }
+	return fontLib.getFontByUrlAsync( url ) ;
+} ;
+
+fontLib.getFontAsync = ( fontFamily , ... variant ) => {
+	var url = fontLib.getFontUrl( fontFamily , ... variant ) ;
+	if ( ! url ) { return null ; }
+	return fontLib.getFontByUrlAsync( url ) ;
+} ;
+
+fontLib.getFallbackFont = ( fontFamily , ... variant ) => {
+	var url = fontLib.getFallbackFontUrl( fontFamily , ... variant ) ;
+	if ( ! url ) { return null ; }
+	return fontLib.getFontByUrl( url ) ;
+} ;
+
+fontLib.getFont = ( fontFamily , ... variant ) => {
+	var url = fontLib.getFontUrl( fontFamily , ... variant ) ;
+	if ( ! url ) { return null ; }
+	return fontLib.getFontByUrl( url ) ;
+} ;
 
 
 
 if ( process?.browser ) {
-	fontLib.getFontAsync = async ( fontName ) => {
-		if ( fontCache[ fontName ] ) { return fontCache[ fontName ] ; }
-
-		var url = fontLib.getFontUrl( fontName ) ;
-		if ( ! url ) { return null ; }
+	fontLib.getFontByUrlAsync = async ( url ) => {
+		if ( fontCache[ url ] ) { return fontCache[ url ] ; }
 
 		var response = await fetch( url ) ;
 
@@ -20618,46 +22364,43 @@ if ( process?.browser ) {
 		var blob = await response.blob() ;
 		var arrayBuffer = await blob.arrayBuffer() ;
 		var font = await opentype.parse( arrayBuffer ) ;
-		fontCache[ fontName ] = font ;
-		console.log( "Loaded font: " , fontName , font ) ;
+		fontCache[ url ] = font ;
+		console.log( "Loaded font: " , url , font ) ;
 
 		return font ;
 	} ;
 
-	fontLib.getFont = fontName => {
-		var font = fontCache[ fontName ] ;
-		if ( font ) { return font ; }
+	fontLib.getFontByUrl = ( url ) => {
+		if ( fontCache[ url ] ) { return fontCache[ url ] ; }
 		//console.error( "Font not found:" , fontName , fontCache ) ;
-		throw new Error( "Font '" + fontName + "' was not preloaded and we can't load synchronously inside a web browser..." ) ;
+		throw new Error( "Font " + url + " was not preloaded and we can't load synchronously inside a web browser..." ) ;
 	} ;
 }
 else {
 	const builtinPath = path.join( __dirname , '..' , 'fonts' ) ;
 
-	fontUrl['serif'] = builtinPath + '/serif.ttf' ;
+	fontLib.setFontUrl( 'serif' , builtinPath + '/serif.ttf' ) ;
+	fontLib.setFontUrl( 'serif' , 'italic' , builtinPath + '/serif-italic.ttf' ) ;
+	fontLib.setFontUrl( 'serif' , 'bold' , builtinPath + '/serif-bold.ttf' ) ;
+	fontLib.setFontUrl( 'serif' , 'bold' , 'italic' , builtinPath + '/serif-bold+italic.ttf' ) ;
 
-	fontLib.getFontAsync = async ( fontName ) => {
-		if ( fontCache[ fontName ] ) { return fontCache[ fontName ] ; }
-
-		var url = fontLib.getFontUrl( fontName ) ;
-		if ( ! url ) { return null ; }
+	fontLib.getFontByUrlAsync = async ( url ) => {
+		if ( fontCache[ url ] ) { return fontCache[ url ] ; }
 
 		var buffer = await fs.promises.readFile( url ) ;
-		var font = await opentype.parse( buffer ) ;
-		fontCache[ fontName ] = font ;
-		console.log( "Loaded font: " , fontName , font ) ;
+		var font = await opentype.parse( buffer.buffer ) ;
+		fontCache[ url ] = font ;
+		console.log( "Loaded (async) font: " , url , font ) ;
 
 		return font ;
 	} ;
 
-	fontLib.getFont = fontName => {
-		if ( fontCache[ fontName ] ) { return fontCache[ fontName ] ; }
-
-		var url = fontLib.getFontUrl( fontName ) ;
-		if ( ! url ) { return null ; }
+	fontLib.getFontByUrl = ( url ) => {
+		if ( fontCache[ url ] ) { return fontCache[ url ] ; }
 
 		var font = opentype.loadSync( url ) ;
-		fontCache[ fontName ] = font ;
+		fontCache[ url ] = font ;
+		console.log( "Loaded (sync) font: " , url ) ;
 
 		return font ;
 	} ;
@@ -20665,7 +22408,7 @@ else {
 
 
 }).call(this)}).call(this,require('_process'),"/../svg-kit/lib")
-},{"_process":108,"opentype.js":99,"path":107}],73:[function(require,module,exports){
+},{"_process":133,"fs":129,"opentype.js":117,"path":132}],83:[function(require,module,exports){
 (function (process){(function (){
 /*
 	SVG Kit
@@ -20723,7 +22466,121 @@ else {
 
 
 }).call(this)}).call(this,require('_process'))
-},{"_process":108,"image-size":78}],74:[function(require,module,exports){
+},{"_process":133,"image-size":96}],84:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2023 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const misc = {} ;
+module.exports = misc ;
+
+
+
+// From Terminal-kit's misc.hexToRgba()
+misc.hexToRgba = hex => {
+	// Strip the # if necessary
+	if ( hex[ 0 ] === '#' ) { hex = hex.slice( 1 ) ; }
+
+	if ( hex.length === 3 ) {
+		hex = hex[ 0 ] + hex[ 0 ] + hex[ 1 ] + hex[ 1 ] + hex[ 2 ] + hex[ 2 ] ;
+	}
+
+	return {
+		r: parseInt( hex.slice( 0 , 2 ) , 16 ) || 0 ,
+		g: parseInt( hex.slice( 2 , 4 ) , 16 ) || 0 ,
+		b: parseInt( hex.slice( 4 , 6 ) , 16 ) || 0 ,
+		a: hex.length > 6 ? parseInt( hex.slice( 6 , 8 ) , 16 ) || 0 : 255
+	} ;
+} ;
+
+
+
+misc.hexToRgb = hex => {
+	// Strip the # if necessary
+	if ( hex[ 0 ] === '#' ) { hex = hex.slice( 1 ) ; }
+
+	if ( hex.length === 3 ) {
+		hex = hex[ 0 ] + hex[ 0 ] + hex[ 1 ] + hex[ 1 ] + hex[ 2 ] + hex[ 2 ] ;
+	}
+
+	return {
+		r: parseInt( hex.slice( 0 , 2 ) , 16 ) || 0 ,
+		g: parseInt( hex.slice( 2 , 4 ) , 16 ) || 0 ,
+		b: parseInt( hex.slice( 4 , 6 ) , 16 ) || 0
+	} ;
+} ;
+
+
+
+function to2HexDigits( n ) {
+	if ( ! n || n < 0 ) { return '00' ; }
+	if ( n < 16 ) { return '0' + n.toString( 16 ) ; }
+	if ( n > 255 ) { return 'ff' ; }
+	return n.toString( 16 ) ;
+}
+
+
+
+misc.rgbToHex =
+misc.rgbaToHex = ( r , g , b , a = null ) => {
+	if ( r && typeof r === 'object' ) {
+		return typeof r.a !== 'number' ? '#' + to2HexDigits( r.r ) + to2HexDigits( r.g ) + to2HexDigits( r.b ) :
+			'#' + to2HexDigits( r.r ) + to2HexDigits( r.g ) + to2HexDigits( r.b ) + to2HexDigits( r.a ) ;
+	}
+
+	return a === null ? '#' + to2HexDigits( r ) + to2HexDigits( g ) + to2HexDigits( b ) :
+		'#' + to2HexDigits( r ) + to2HexDigits( g ) + to2HexDigits( b ) + to2HexDigits( a ) ;
+} ;
+
+
+
+misc.getContrastColorCode = ( colorStr , rate = 0.5 ) => {
+	var color = misc.hexToRgb( colorStr ) ;
+
+	if ( color.r + color.g + color.b >= 192 ) {
+		// This is a light color, we will contrast it with a darker color
+		color.r = Math.round( color.r * rate ) ;
+		color.g = Math.round( color.g * rate ) ;
+		color.b = Math.round( color.b * rate ) ;
+	}
+	else {
+		// This is a dark color, we will contrast it with a lighter color
+		color.r = Math.round( 255 - ( ( 255 - color.r ) * rate ) ) ;
+		color.g = Math.round( 255 - ( ( 255 - color.g ) * rate ) ) ;
+		color.b = Math.round( 255 - ( ( 255 - color.b ) * rate ) ) ;
+	}
+
+	return misc.rgbToHex( color ) ;
+} ;
+
+
+},{}],85:[function(require,module,exports){
 /*
 	SVG Kit
 
@@ -20771,7 +22628,266 @@ path.dFromPoints = ( points , invertY ) => {
 } ;
 
 
-},{}],75:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2023 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const misc = require( './misc.js' ) ;
+const format = require( 'string-kit/lib/format.js' ) ;
+
+
+
+const structuredText = {} ;
+module.exports = structuredText ;
+
+
+
+const MARKUP_COLOR_CODE = {
+	black: '#000000' ,
+	brightBlack: '#555753' ,
+	red: '#cc0000' ,
+	brightRed: '#ef2929' ,
+	green: '#4e9a06' ,
+	brightGreen: '#8ae234' ,
+	yellow: '#c4a000' ,
+	brightYellow: '#fce94f' ,
+	blue: '#3465a4' ,
+	brightBlue: '#729fcf' ,
+	magenta: '#75507b' ,
+	brightMagenta: '#ad7fa8' ,
+	cyan: '#06989a' ,
+	brightCyan: '#34e2e2' ,
+	white: '#d3d7cf' ,
+	brightWhite: '#eeeeec'
+} ;
+
+MARKUP_COLOR_CODE.grey = MARKUP_COLOR_CODE.gray = MARKUP_COLOR_CODE.brightBlack ;
+
+
+
+structuredText.parseMarkup = function( text ) {
+	return structuredText.parseStringKitMarkup( text ).map( input => {
+		var part = { text: input.text } ;
+
+		if ( input.color ) {
+			part.color = input.color[ 0 ] === '#' ? input.color : MARKUP_COLOR_CODE[ input.color ] ;
+		}
+
+		if ( input.italic ) { part.fontStyle = 'italic' ; }
+		if ( input.bold ) { part.fontWeight = 'bold' ; }
+		if ( input.underline ) { part.underline = true ; }
+		if ( input.strike ) { part.lineThrough = true ; }
+		if ( input.big ) { part.fontSize = '1.4em' ; }
+		if ( input.small ) { part.fontSize = '0.7em' ; }
+
+		if ( input.bgColor ) {
+			part.frame = true ;
+			part.frameColor = input.bgColor[ 0 ] === '#' ? input.bgColor : MARKUP_COLOR_CODE[ input.bgColor ] ;
+			part.frameOutlineColor = misc.getContrastColorCode( part.frameColor , 0.7 ) ;
+		}
+
+		return part ;
+	} ) ;
+} ;
+
+
+
+// Catch-all keywords to key:value
+const CATCH_ALL_KEYWORDS = {
+	// Foreground colors
+	defaultColor: [ 'color' , 'default' ] ,
+	black: [ 'color' , 'black' ] ,
+	red: [ 'color' , 'red' ] ,
+	green: [ 'color' , 'green' ] ,
+	yellow: [ 'color' , 'yellow' ] ,
+	blue: [ 'color' , 'blue' ] ,
+	magenta: [ 'color' , 'magenta' ] ,
+	cyan: [ 'color' , 'cyan' ] ,
+	white: [ 'color' , 'white' ] ,
+	grey: [ 'color' , 'grey' ] ,
+	gray: [ 'color' , 'gray' ] ,
+	brightBlack: [ 'color' , 'brightBlack' ] ,
+	brightRed: [ 'color' , 'brightRed' ] ,
+	brightGreen: [ 'color' , 'brightGreen' ] ,
+	brightYellow: [ 'color' , 'brightYellow' ] ,
+	brightBlue: [ 'color' , 'brightBlue' ] ,
+	brightMagenta: [ 'color' , 'brightMagenta' ] ,
+	brightCyan: [ 'color' , 'brightCyan' ] ,
+	brightWhite: [ 'color' , 'brightWhite' ] ,
+
+	// Background colors
+	defaultBgColor: [ 'bgColor' , 'default' ] ,
+	bgBlack: [ 'bgColor' , 'black' ] ,
+	bgRed: [ 'bgColor' , 'red' ] ,
+	bgGreen: [ 'bgColor' , 'green' ] ,
+	bgYellow: [ 'bgColor' , 'yellow' ] ,
+	bgBlue: [ 'bgColor' , 'blue' ] ,
+	bgMagenta: [ 'bgColor' , 'magenta' ] ,
+	bgCyan: [ 'bgColor' , 'cyan' ] ,
+	bgWhite: [ 'bgColor' , 'white' ] ,
+	bgGrey: [ 'bgColor' , 'grey' ] ,
+	bgGray: [ 'bgColor' , 'gray' ] ,
+	bgBrightBlack: [ 'bgColor' , 'brightBlack' ] ,
+	bgBrightRed: [ 'bgColor' , 'brightRed' ] ,
+	bgBrightGreen: [ 'bgColor' , 'brightGreen' ] ,
+	bgBrightYellow: [ 'bgColor' , 'brightYellow' ] ,
+	bgBrightBlue: [ 'bgColor' , 'brightBlue' ] ,
+	bgBrightMagenta: [ 'bgColor' , 'brightMagenta' ] ,
+	bgBrightCyan: [ 'bgColor' , 'brightCyan' ] ,
+	bgBrightWhite: [ 'bgColor' , 'brightWhite' ] ,
+
+	// Other styles
+	dim: [ 'dim' , true ] ,
+	bold: [ 'bold' , true ] ,
+	underline: [ 'underline' , true ] ,
+	italic: [ 'italic' , true ] ,
+	inverse: [ 'inverse' , true ] ,
+	strike: [ 'strike' , true ]
+} ;
+
+
+
+const parseStringKitMarkupConfig = {
+	parse: true ,
+	markupReset: markupStack => {
+		markupStack.length = 0 ;
+	} ,
+	//shiftMarkup: { '#': 'background' } ,
+	markup: {
+		":": null ,
+		" ": markupStack => {
+			markupStack.length = 0 ;
+			return [ null , ' ' ] ;
+		} ,
+
+		"-": { dim: true } ,
+		"+": { bold: true } ,
+		"_": { underline: true } ,
+		"/": { italic: true } ,
+		"!": { inverse: true } ,
+		"~": { strike: true } ,
+		"=": { big: true } ,
+		".": { small: true } ,
+
+		"b": { color: "blue" } ,
+		"B": { color: "brightBlue" } ,
+		"c": { color: "cyan" } ,
+		"C": { color: "brightCyan" } ,
+		"g": { color: "green" } ,
+		"G": { color: "brightGreen" } ,
+		"k": { color: "black" } ,
+		"K": { color: "grey" } ,
+		"m": { color: "magenta" } ,
+		"M": { color: "brightMagenta" } ,
+		"r": { color: "red" } ,
+		"R": { color: "brightRed" } ,
+		"w": { color: "white" } ,
+		"W": { color: "brightWhite" } ,
+		"y": { color: "yellow" } ,
+		"Y": { color: "brightYellow" }
+	} ,
+	shiftedMarkup: {
+		background: {
+			/*
+			':': [ null , { defaultColor: true , bgDefaultColor: true } ] ,
+			' ': markupStack => {
+				markupStack.length = 0 ;
+				return [ null , { defaultColor: true , bgDefaultColor: true } , ' ' ] ;
+			} ,
+			*/
+			":": null ,
+			" ": markupStack => {
+				markupStack.length = 0 ;
+				return [ null , ' ' ] ;
+			} ,
+
+			"b": { bgColor: "blue" } ,
+			"B": { bgColor: "brightBlue" } ,
+			"c": { bgColor: "cyan" } ,
+			"C": { bgColor: "brightCyan" } ,
+			"g": { bgColor: "green" } ,
+			"G": { bgColor: "brightGreen" } ,
+			"k": { bgColor: "black" } ,
+			"K": { bgColor: "grey" } ,
+			"m": { bgColor: "magenta" } ,
+			"M": { bgColor: "brightMagenta" } ,
+			"r": { bgColor: "red" } ,
+			"R": { bgColor: "brightRed" } ,
+			"w": { bgColor: "white" } ,
+			"W": { bgColor: "brightWhite" } ,
+			"y": { bgColor: "yellow" } ,
+			"Y": { bgColor: "brightYellow" }
+		}
+	} ,
+	dataMarkup: {
+		color: 'color' ,
+		fgColor: 'color' ,
+		fg: 'color' ,
+		c: 'color' ,
+		bgColor: 'bgColor' ,
+		bg: 'bgColor' ,
+		fx: 'fx'
+	} ,
+	markupCatchAll: ( markupStack , key , value ) => {
+		var attr = {} ;
+
+		if ( value === undefined ) {
+			if ( key[ 0 ] === '#' ) {
+				attr.color = key ;
+			}
+			else if ( CATCH_ALL_KEYWORDS[ key ] ) {
+				attr[ CATCH_ALL_KEYWORDS[ key ][ 0 ] ] = CATCH_ALL_KEYWORDS[ key ][ 1 ] ;
+			}
+			else {
+				// Fallback: it's a foreground color
+				attr.color = key ;
+			}
+		}
+
+		markupStack.push( attr ) ;
+		return attr || {} ;
+	}
+} ;
+
+
+
+structuredText.parseStringKitMarkup = ( ... args ) => {
+	return format.markupMethod.apply( parseStringKitMarkupConfig , args ) ;
+} ;
+
+
+
+structuredText.stripMarkup = format.stripMarkup ;
+
+
+},{"./misc.js":84,"string-kit/lib/format.js":123}],87:[function(require,module,exports){
 (function (process){(function (){
 /*
 	SVG Kit
@@ -20812,13 +22928,16 @@ const escape = require( 'string-kit/lib/escape.js' ) ;
 const svgKit = {} ;
 module.exports = svgKit ;
 
+Object.assign( svgKit , require( './misc.js' ) ) ;
 svgKit.path = require( './path.js' ) ;
 svgKit.canvas = require( './canvas.js' ) ;
+svgKit.structuredText = require( './structuredText.js' ) ;
 
 svgKit.VG = require( './VG.js' ) ;
 svgKit.VGEntity = require( './VGEntity.js' ) ;
 svgKit.VGContainer = require( './VGContainer.js' ) ;
 svgKit.VGGroup = require( './VGGroup.js' ) ;
+svgKit.VGClip = require( './VGClip.js' ) ;
 svgKit.VGRect = require( './VGRect.js' ) ;
 svgKit.VGEllipse = require( './VGEllipse.js' ) ;
 svgKit.VGPath = require( './VGPath.js' ) ;
@@ -21266,12 +23385,11 @@ svgKit.objectToVG = function( object , clone = false ) {
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./VG.js":57,"./VGContainer.js":58,"./VGEllipse.js":59,"./VGEntity.js":60,"./VGFlowingText/StructuredTextLine.js":61,"./VGFlowingText/StructuredTextPart.js":62,"./VGFlowingText/TextAttribute.js":63,"./VGFlowingText/TextMetrics.js":64,"./VGFlowingText/VGFlowingText.js":65,"./VGGroup.js":66,"./VGImage.js":67,"./VGPath.js":68,"./VGRect.js":69,"./VGText.js":70,"./canvas.js":71,"./fontLib.js":72,"./path.js":74,"_process":108,"dom-kit":76,"fs":104,"opentype.js":99,"string-kit/lib/escape.js":102}],76:[function(require,module,exports){
-(function (process){(function (){
+},{"./VG.js":66,"./VGClip.js":67,"./VGContainer.js":68,"./VGEllipse.js":69,"./VGEntity.js":70,"./VGFlowingText/StructuredTextLine.js":71,"./VGFlowingText/StructuredTextPart.js":72,"./VGFlowingText/TextAttribute.js":73,"./VGFlowingText/TextMetrics.js":74,"./VGFlowingText/VGFlowingText.js":75,"./VGGroup.js":76,"./VGImage.js":77,"./VGPath.js":78,"./VGRect.js":79,"./VGText.js":80,"./canvas.js":81,"./fontLib.js":82,"./misc.js":84,"./path.js":85,"./structuredText.js":86,"_process":133,"dom-kit":94,"fs":129,"opentype.js":117,"string-kit/lib/escape.js":122}],88:[function(require,module,exports){
 /*
-	Dom Kit
+	Array Kit
 
-	Copyright (c) 2015 - 2018 Cédric Ronvel
+	Copyright (c) 2014 - 2020 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -21298,550 +23416,327 @@ svgKit.objectToVG = function( object , clone = false ) {
 
 
 
-var domParser , xmlSerializer ;
-
-if ( process.browser ) {
-	domParser = new DOMParser() ;
-	xmlSerializer = new XMLSerializer() ;
-}
-else {
-	var xmldom = require( '@cronvel/xmldom' ) ;
-	domParser = new xmldom.DOMParser() ;
-	xmlSerializer = new xmldom.XMLSerializer() ;
-}
-
-
-
-const domKit = {} ;
-module.exports = domKit ;
-
-
-
-// Like jQuery's $(document).ready()
-domKit.ready = callback => {
-	document.addEventListener( 'DOMContentLoaded' , function internalCallback() {
-		document.removeEventListener( 'DOMContentLoaded' , internalCallback , false ) ;
-		callback() ;
-	} , false ) ;
+const arrayKit = {
+	range: require( './range.js' ) ,
+	sample: require( './sample.js' ) ,
+	inPlaceFilter: require( './inPlaceFilter.js' ) ,
+	delete: require( './delete.js' ) ,
+	deleteValue: require( './deleteValue.js' )
 } ;
 
+module.exports = arrayKit ;
 
+arrayKit.shuffle = array => arrayKit.sample( array , array.length , true ) ;
 
-domKit.fromXml = xml => domParser.parseFromString( xml , 'application/xml' ) ;
-domKit.toXml = $doc => xmlSerializer.serializeToString( $doc ) ;
 
+},{"./delete.js":89,"./deleteValue.js":90,"./inPlaceFilter.js":91,"./range.js":92,"./sample.js":93}],89:[function(require,module,exports){
+/*
+	Array Kit
 
+	Copyright (c) 2014 - 2020 Cédric Ronvel
 
-// Return a fragment from html code
-domKit.fromHtml = html => {
-	// Fragment allow us to return a collection that... well... is not a collection,
-	// and that's fine because the html code may contains multiple top-level element
-	var $fragment = document.createDocumentFragment() ,
-		$doc = document.createElement( 'div' ) ;	// whatever type...
+	The MIT License (MIT)
 
-	// either .innerHTML or .insertAdjacentHTML()
-	//$doc.innerHTML = html ;
-	$doc.insertAdjacentHTML( 'beforeend' , html ) ;
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
 
-	for ( let i = 0 ; i < $doc.children.length ; i ++ ) {
-		$fragment.appendChild( $doc.children[ i ] ) ;
-	}
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
 
-	return $fragment ;
-} ;
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
 
-
-
-// Add a JS script, return a promise when done
-domKit.addJsScript = ( url , $element = document.body ) => {
-	return new Promise( ( resolve , reject ) => {
-		var $script = document.createElement( 'script' ) ;
-		$script.src = url ;
-		$script.async = true ;
-		$script.onload = resolve ;
-		$script.onerror = reject ;
-		$element.appendChild( $script ) ;
-	} ) ;
-} ;
-
-
-
-// Batch processing, like array, HTMLCollection, and so on...
-domKit.batch = ( method , elements , ... args ) => {
-	if ( elements instanceof Element ) {
-		method( elements , ... args ) ;
-	}
-	else if ( Array.isArray( elements ) ) {
-		for ( let i = 0 ; i < elements.length ; i ++ ) {
-			method( elements[ i ] , ... args ) ;
-		}
-	}
-	else if ( elements instanceof NodeList || elements instanceof NamedNodeMap ) {
-		for ( let i = 0 ; i < elements.length ; i ++ ) {
-			method( elements[ i ] , ... args ) ;
-		}
-	}
-} ;
-
-
-
-// Set a bunch of css properties given as an object
-domKit.css = ( $element , object ) => {
-	for ( let key in object ) {
-		$element.style[ key ] = object[ key ] ;
-	}
-} ;
-
-
-
-// Set a bunch of attributes given as an object
-domKit.attr = ( $element , object , prefix = '' ) => {
-	for ( let key in object ) {
-		if ( object[ key ] === null ) { $element.removeAttribute( prefix + key ) ; }
-		else { $element.setAttribute( prefix + key , object[ key ] ) ; }
-	}
-} ;
-
-
-
-// Set/unset a bunch of classes given as an object
-domKit.class = ( $element , object , prefix = '' ) => {
-	for ( let key in object ) {
-		if ( object[ key ] ) { $element.classList.add( prefix + key ) ; }
-		else { $element.classList.remove( prefix + key ) ; }
-	}
-} ;
-
-
-
-// Remove an element. A little shortcut that ease life...
-domKit.remove = $element => $element.parentNode.removeChild( $element ) ;
-
-
-
-// Remove all children of an element
-domKit.empty = $element => {
-	// $element.innerHTML = '' ;	// <-- According to jsPerf, this is 96% slower
-	while ( $element.firstChild ) { $element.removeChild( $element.firstChild ) ; }
-} ;
-
-
-
-// Clone a source DOM tree and replace children of the destination
-domKit.cloneInto = ( $source , $destination ) => {
-	domKit.empty( $destination ) ;
-	$destination.appendChild( $source.cloneNode( true ) ) ;
-} ;
-
-
-
-// Same than cloneInto() without cloning anything
-domKit.insertInto = ( $source , $destination ) => {
-	domKit.empty( $destination ) ;
-	$destination.appendChild( $source ) ;
-} ;
-
-
-
-// Move all children of a node into another, after removing existing target's children
-domKit.moveChildrenInto = ( $source , $destination ) => {
-	domKit.empty( $destination ) ;
-	while ( $source.firstChild ) { $destination.appendChild( $source.firstChild ) ; }
-} ;
-
-
-
-// Move all attributes of an element into the destination
-domKit.moveAttributes = ( $source , $destination ) => {
-	Array.from( $source.attributes ).forEach( ( attr ) => {
-		let name = attr.name ,
-			value = attr.value ;
-
-		$source.removeAttribute( name ) ;
-
-		// Do not copy namespaced attributes for instance,
-		// should probably protect this behind a third argument
-		if ( name !== 'xmlns' && name.indexOf( ':' ) === - 1 && value ) {
-			//console.warn( 'moving: ' , name, value , $destination.getAttribute( name ) ) ;
-			$destination.setAttribute( name , value ) ;
-		}
-	} ) ;
-} ;
-
-
-
-domKit.styleToAttribute = ( $element , property , blacklistedValues ) => {
-	if ( $element.style[ property ] && ( ! blacklistedValues || blacklistedValues.indexOf( $element.style[ property ] ) === - 1 ) ) {
-		$element.setAttribute( property , $element.style[ property ] ) ;
-		$element.style[ property ] = null ;
-	}
-} ;
-
-
-
-// Children of this element get all their ID prefixed, any url(#id) references are patched accordingly
-domKit.prefixIds = ( $element , prefix ) => {
-	var replacement = {} ,
-		elements = $element.querySelectorAll( '*' ) ;
-
-	domKit.batch( domKit.prefixIds.idAttributePass , elements , prefix , replacement ) ;
-	domKit.batch( domKit.prefixIds.otherAttributesPass , elements , replacement ) ;
-} ;
-
-
-
-// Callbacks for domKit.prefixIds(), cleanly hidden behind its prefix
-
-domKit.prefixIds.idAttributePass = ( $element , prefix , replacement ) => {
-	replacement[ $element.id ] = prefix + '.' + $element.id ;
-	$element.id = replacement[ $element.id ] ;
-} ;
-
-
-
-domKit.prefixIds.otherAttributesPass = ( $element , replacement ) => {
-	domKit.batch( domKit.prefixIds.oneAttributeSubPass , $element.attributes , replacement ) ;
-} ;
-
-
-
-domKit.prefixIds.oneAttributeSubPass = ( attr , replacement ) => {
-	// We have to search all url(#id) like substring in the current attribute's value
-	attr.value = attr.value.replace( /url\(#([^)]+)\)/g , ( match , id ) => {
-
-		// No replacement? return the matched string
-		if ( ! replacement[ id ] ) { return match ; }
-
-		// Or return the replacement ID
-		return 'url(#' + replacement[ id ] + ')' ;
-	} ) ;
-} ;
-
-
-
-domKit.removeAllTags = ( $container , tagName , onlyIfEmpty ) => {
-	Array.from( $container.getElementsByTagName( tagName ) ).forEach( ( $element ) => {
-		if ( ! onlyIfEmpty || ! $element.firstChild ) { $element.parentNode.removeChild( $element ) ; }
-	} ) ;
-} ;
-
-
-
-domKit.removeAllAttributes = ( $container , attrName ) => {
-	// Don't forget to remove the ID of the container itself
-	$container.removeAttribute( attrName ) ;
-
-	Array.from( $container.querySelectorAll( '[' + attrName + ']' ) ).forEach( ( $element ) => {
-		$element.removeAttribute( attrName ) ;
-	} ) ;
-} ;
-
-
-
-domKit.preload = urls => {
-	if ( ! Array.isArray( urls ) ) { urls = [ urls ] ; }
-
-	urls.forEach( ( url ) => {
-		if ( domKit.preload.preloaded[ url ] ) { return ; }
-		domKit.preload.preloaded[ url ] = new Image() ;
-		domKit.preload.preloaded[ url ].src = url ;
-	} ) ;
-} ;
-
-domKit.preload.preloaded = {} ;
+"use strict" ;
 
 
 
 /*
-	Filter namespaces:
+	Delete an element of the array in-place, and move remaining elements one index to the left.
+	Faster than splice, since it does not return an array.
 
-	* options `object` where:
-		* blacklist `array` of `string` namespace of elements/attributes to remove
-		* whitelist `array` of `string` namespace to elements/attributes to keep
-		* primary `string` keep those elements but remove the namespace
+	* src `Array` the source array
+	* index the index to delete
 */
-domKit.filterByNamespace = ( $container , options ) => {
-	// Nothing to do? return now...
-	if ( ! options || typeof options !== 'object' ) { return ; }
+module.exports = ( src , index ) => {
+	if ( index >= src.length ) { return ; }
 
-	domKit.filterAttributesByNamespace( $container , options ) ;
+	var iMax = src.length - 2 ;
 
-	for ( let i = $container.childNodes.length - 1 ; i >= 0 ; i -- ) {
-		let $child = $container.childNodes[ i ] ;
-
-		if ( $child.nodeType === 1 ) {
-			if ( $child.tagName.indexOf( ':' ) !== - 1 ) {
-				let split = $child.tagName.split( ':' ) ,
-					namespace = split[ 0 ] ,
-					tagName = split[ 1 ] ;
-
-				if ( namespace === options.primary ) {
-					$child.tagName = tagName ;
-					domKit.filterByNamespace( $child , options ) ;
-				}
-				else if ( options.whitelist ) {
-					if ( options.whitelist.indexOf( namespace ) !== - 1 ) {
-						domKit.filterByNamespace( $child , options ) ;
-					}
-					else {
-						$container.removeChild( $child ) ;
-					}
-				}
-				else if ( options.blacklist ) {
-					if ( options.blacklist.indexOf( namespace ) !== - 1 ) {
-						$container.removeChild( $child ) ;
-					}
-					else {
-						domKit.filterByNamespace( $child , options ) ;
-					}
-				}
-				else {
-					domKit.filterByNamespace( $child , options ) ;
-				}
-			}
-			else {
-				domKit.filterByNamespace( $child , options ) ;
-			}
-		}
-	}
-} ;
-
-
-
-// Filter attributes by namespace
-domKit.filterAttributesByNamespace = ( $container , options ) => {
-	// Nothing to do? return now...
-	if ( ! options || typeof options !== 'object' ) { return ; }
-
-	for ( let i = $container.attributes.length - 1 ; i >= 0 ; i -- ) {
-		let attr = $container.attributes[ i ] ;
-
-		if ( attr.name.indexOf( ':' ) !== - 1 ) {
-			let split = attr.name.split( ':' ) ,
-				namespace = split[ 0 ] ,
-				attrName = split[ 1 ] ,
-				value = attr.value ;
-
-			if ( namespace === options.primary ) {
-				$container.removeAttributeNode( attr ) ;
-				$container.setAttribute( attrName , value ) ;
-			}
-			else if ( options.whitelist ) {
-				if ( options.whitelist.indexOf( namespace ) === - 1 ) {
-					$container.removeAttributeNode( attr ) ;
-				}
-			}
-			else if ( options.blacklist ) {
-				if ( options.blacklist.indexOf( namespace ) !== - 1 ) {
-					$container.removeAttributeNode( attr ) ;
-				}
-			}
-		}
-	}
-} ;
-
-
-
-// Remove comments
-domKit.removeComments = $container => {
-	for ( let i = $container.childNodes.length - 1 ; i >= 0 ; i -- ) {
-		let $child = $container.childNodes[ i ] ;
-
-		if ( $child.nodeType === 8 ) {
-			$container.removeChild( $child ) ;
-		}
-		else if ( $child.nodeType === 1 ) {
-			domKit.removeComments( $child ) ;
-		}
-	}
-} ;
-
-
-
-// Remove white-space-only text-node
-domKit.removeWhiteSpaces = ( $container , onlyWhiteLines ) => {
-	var $lastTextNode = null ;
-
-	for ( let i = $container.childNodes.length - 1 ; i >= 0 ; i -- ) {
-		let $child = $container.childNodes[ i ] ;
-		//console.log( '$child.nodeType' , $child.nodeType ) ;
-
-		if ( $child.nodeType === 3 ) {
-			if ( onlyWhiteLines ) {
-				if ( $lastTextNode ) {
-					// When multiple text-node in a row
-					$lastTextNode.nodeValue = ( $child.nodeValue + $lastTextNode.nodeValue ).replace( /^\s*(\n[\t ]*)$/ , '$1' ) ;
-					$container.removeChild( $child ) ;
-				}
-				else {
-					//console.log( "deb1: '" + $child.nodeValue + "'" ) ;
-					$child.nodeValue = $child.nodeValue.replace( /^\s*(\n[\t ]*)$/ , '$1' ) ;
-					$lastTextNode = $child ;
-					//console.log( "deb2: '" + $child.nodeValue + "'" ) ;
-				}
-			}
-			else if ( ! /\S/.test( $child.nodeValue ) ) {
-				$container.removeChild( $child ) ;
-			}
-		}
-		else if ( $child.nodeType === 1 ) {
-			$lastTextNode = null ;
-			domKit.removeWhiteSpaces( $child , onlyWhiteLines ) ;
-		}
-		else {
-			$lastTextNode = null ;
-		}
-	}
-} ;
-
-
-
-// Transform-related method
-
-domKit.parseMatrix = str => {
-	var matches = str.match( /(matrix|matrix3d)\(([0-9., -]+)\)/ ) ;
-
-	if ( ! matches ) { return null ; }
-
-	return matches[ 2 ].trim().split( / ?, ?/ ).map( ( e ) => {
-		return parseFloat( e ) ;
-	} ) ;
-} ;
-
-
-
-domKit.decomposeMatrix = matrix => {
-	if ( matrix.length === 6 ) { return domKit.decomposeMatrix2d( matrix ) ; }
-	if ( matrix.length === 16 ) { return domKit.decomposeMatrix3d( matrix ) ; }
-	return null ;
-} ;
-
-
-
-// From: https://stackoverflow.com/questions/16359246/how-to-extract-position-rotation-and-scale-from-matrix-svg
-domKit.decomposeMatrix2d = matrix => {
-	var angle = Math.atan2( matrix[1] , matrix[0] ) ,
-		denom = matrix[0] * matrix[0] + matrix[1] * matrix[1] ,
-		scaleX = Math.sqrt( denom ) ,
-		scaleY = ( matrix[0] * matrix[3] - matrix[2] * matrix[1] ) / scaleX ,
-		skewX = Math.atan2( matrix[0] * matrix[2] + matrix[1] * matrix[3] , denom ) ;
-
-	return {
-		rotate: 180 * angle / Math.PI ,  // in degrees
-		scaleX: scaleX ,
-		scaleY: scaleY ,
-		skewX: 180 * skewX / Math.PI ,  // in degree
-		skewY: 0 ,  // always 0 in this decomposition
-		translateX: matrix[4] ,
-		translateY: matrix[5]
-	} ;
-} ;
-
-
-
-// https://stackoverflow.com/questions/15024828/transforming-3d-matrix-into-readable-format
-// supports only scale*rotate*translate matrix
-domKit.decomposeMatrix3d = matrix => {
-	var radians = Math.PI / 180 ;
-
-	var sX = Math.sqrt( matrix[0] * matrix[0] + matrix[1] * matrix[1] + matrix[2] * matrix[2] ) ,
-		sY = Math.sqrt( matrix[4] * matrix[4] + matrix[5] * matrix[5] + matrix[6] * matrix[6] ) ,
-		sZ = Math.sqrt( matrix[8] * matrix[8] + matrix[9] * matrix[9] + matrix[10] * matrix[10] ) ;
-
-	var rX = Math.atan2( - matrix[9] / sZ , matrix[10] / sZ ) / radians ,
-		rY = Math.asin( matrix[8] / sZ ) / radians ,
-		rZ = Math.atan2( - matrix[4] / sY , matrix[0] / sX ) / radians ;
-
-	if ( matrix[4] === 1 || matrix[4] === - 1 ) {
-		rX = 0 ;
-		rY = matrix[4] * - Math.PI / 2 ;
-		rZ = matrix[4] * Math.atan2( matrix[6] / sY , matrix[5] / sY ) / radians ;
+	while ( index <= iMax ) {
+		src[ index ] = src[ index + 1 ] ;
+		index ++ ;
 	}
 
-	var tX = matrix[12] / sX ,
-		tY = matrix[13] / sX ,
-		tZ = matrix[14] / sX ;
-
-	return {
-		translateX: tX ,
-		translateY: tY ,
-		translateZ: tZ ,
-		rotateX: rX ,
-		rotateY: rY ,
-		rotateZ: rZ ,
-		scaleX: sX ,
-		scaleY: sY ,
-		scaleZ: sZ
-	} ;
+	src.length -- ;
 } ;
 
 
+},{}],90:[function(require,module,exports){
+/*
+	Array Kit
 
-const AXIS_TO_ROT = {
-	x: 'rotateX' ,
-	X: 'rotateX' ,
-	y: 'rotateY' ,
-	Y: 'rotateY' ,
-	z: 'rotateZ' ,
-	Z: 'rotateZ'
+	Copyright (c) 2014 - 2020 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+// This is a copy of .inPlaceFilter() with a hard-coded function.
+
+/*
+	Delete all occurencies of a value, in-place.
+
+	* src `Array` the source array
+	* value: the value to delete
+*/
+module.exports = ( src , value ) => {
+	var currentValue , deletedCount ,
+		i = 0 ,
+		j = 0 ;
+
+	while ( i < src.length ) {
+		currentValue = src[ i ] ;
+
+		// The left-part is for checking NaN (because NaN !== NaN),
+		// checking value is fast and avoid unecessary call to Number.isNaN() which is a function call.
+		if ( value !== currentValue && ( value || ! Number.isNaN( value ) || ! Number.isNaN( currentValue ) ) ) {
+			src[ j ] = currentValue ;
+			j ++ ;
+		}
+
+		i ++ ;
+	}
+
+	deletedCount = src.length - j ;
+	src.length = j ;
+
+	return deletedCount ;
 } ;
 
 
+},{}],91:[function(require,module,exports){
+/*
+	Array Kit
 
-domKit.stringifyTransform = object => {
-	var str = [] , eulerOrder , i , rot ;
+	Copyright (c) 2014 - 2020 Cédric Ronvel
 
-	if ( object.translateX ) { str.push( 'translateX(' + object.translateX + 'px)' ) ; }
-	if ( object.translateY ) { str.push( 'translateY(' + object.translateY + 'px)' ) ; }
-	if ( object.translateZ ) { str.push( 'translateZ(' + object.translateZ + 'px)' ) ; }
+	The MIT License (MIT)
 
-	if ( object.rotate ) {
-		str.push( 'rotate(' + object.rotate + 'deg)' ) ;
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+/*
+	Like array#filter(), but modify the array in-place.
+
+	* src `Array` the source array
+	* fn `Function( element , [index] , [array] )`, the condition function used on all element of the array, where:
+		* element the current element
+		* index the index of the current element
+		* the array
+	* thisArg: what is used as `this` inside the callback function
+	* forceKey: for that key instead of the index of the current element (useful for other libs)
+*/
+module.exports = ( src , fn , thisArg , forceKey ) => {
+	var hasForcedKey = arguments.length >= 4 ,
+		value ,
+		i = 0 ,
+		j = 0 ;
+
+	while ( i < src.length ) {
+		value = src[ i ] ;
+
+		if ( fn.call( thisArg , value , hasForcedKey ? forceKey : i , src ) ) {
+			src[ j ] = value ;
+			j ++ ;
+		}
+
+		i ++ ;
+	}
+
+	src.length = j ;
+
+	return src ;
+} ;
+
+
+},{}],92:[function(require,module,exports){
+/*
+	Array Kit
+
+	Copyright (c) 2014 - 2020 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+/*
+	Create an array.
+
+	.range( [start] , end , [step] ), where:
+
+	* start `number` (default: 0) the value of the first item
+	* end `number` the values end at this number (excluded)
+	* step `number` (default: 1) the value of the increment
+*/
+module.exports = function( start , end , step ) {
+	if ( ! arguments.length ) { return [] ; }
+
+	if ( arguments.length === 1 ) {
+		end = start ;
+		start = 0 ;
+	}
+
+	if ( ! step ) { step = start <= end ? 1 : -1 ; }
+
+	if ( ( step > 0 && start >= end ) || ( step < 0 && start <= end ) ) {
+		return [] ;
+	}
+
+	var i = 0 , v = start , output = [] ;
+
+	if ( step > 0 ) {
+		for ( ; v < end ; i ++ , v += step ) { output[ i ] = v ; }
 	}
 	else {
-		eulerOrder = object.eulerOrder || 'zyx' ;
-		for ( i = 0 ; i < 3 ; i ++ ) {
-			rot = AXIS_TO_ROT[ eulerOrder[ i ] ] ;
-			if ( object[ rot ] ) { str.push( rot + '(' + object[ rot ] + 'deg)' ) ; }
-		}
+		for ( ; v > end ; i ++ , v += step ) { output[ i ] = v ; }
 	}
 
-	if ( object.scale ) {
-		str.push( 'scale(' + object.scale + ')' ) ;
-	}
-	else {
-		if ( object.scaleX ) { str.push( 'scaleX(' + object.scaleX + ')' ) ; }
-		if ( object.scaleY ) { str.push( 'scaleY(' + object.scaleY + ')' ) ; }
-		if ( object.scaleZ ) { str.push( 'scaleZ(' + object.scaleZ + ')' ) ; }
-	}
-
-	if ( object.skewX ) { str.push( 'skewX(' + object.skewX + 'deg)' ) ; }
-	if ( object.skewY ) { str.push( 'skewY(' + object.skewY + 'deg)' ) ; }
-
-	return str.join( ' ' ) ;
+	return output ;
 } ;
 
-domKit.transform = ( $element , transformObject ) => $element.style.transform = domKit.stringifyTransform( transformObject ) ;
+
+},{}],93:[function(require,module,exports){
+/*
+	Array Kit
+
+	Copyright (c) 2014 - 2020 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
 
 
 
+/*
+	.sample( array , count , inPlace ): Return a new array with random element from the first one.
+
+	* array: the source array
+	* count: the number of element to keep
+	* inPlace: boolean, true if the array should be shuffled in-place
+*/
+module.exports = ( array , count = Infinity , inPlace = false ) => {
+	var currentIndex , randomIndex , temp ,
+		sample = inPlace ? array : [ ... array ] ;
+
+	count = Math.max( Math.min( count , array.length ) , 0 ) ;
+
+	for ( currentIndex = 0 ; currentIndex < count ; currentIndex ++ ) {
+		randomIndex = currentIndex + Math.floor( ( sample.length - currentIndex ) * Math.random() ) ;
+		temp = sample[ currentIndex ] ;
+		sample[ currentIndex ] = sample[ randomIndex ] ;
+		sample[ randomIndex ] = temp ;
+	}
+
+	sample.length = count ;
+
+	return sample ;
+} ;
 
 
-/* Function useful for .batch() as callback */
-/* ... to avoid defining again and again the same callback function */
-
-// Change id
-domKit.id = ( $element , id ) => $element.id = id ;
-
-// Like jQuery .text().
-domKit.text = ( $element , text ) => $element.textContent = text ;
-
-// Like jQuery .html().
-domKit.html = ( $element , html ) => $element.innerHTML = html ;
-
-
-}).call(this)}).call(this,require('_process'))
-},{"@cronvel/xmldom":104,"_process":108}],77:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
+arguments[4][25][0].apply(exports,arguments)
+},{"@cronvel/xmldom":129,"_process":133,"dup":25}],95:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.detector = void 0;
@@ -21873,7 +23768,7 @@ function detector(buffer) {
 }
 exports.detector = detector;
 
-},{"./types":80}],78:[function(require,module,exports){
+},{"./types":98}],96:[function(require,module,exports){
 (function (process,Buffer){(function (){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -22000,7 +23895,7 @@ exports.setConcurrency = setConcurrency;
 exports.types = Object.keys(types_1.typeHandlers);
 
 }).call(this)}).call(this,require('_process'),require("buffer").Buffer)
-},{"./detector":77,"./types":80,"_process":108,"buffer":104,"fs":104,"path":107,"queue":100}],79:[function(require,module,exports){
+},{"./detector":95,"./types":98,"_process":133,"buffer":129,"fs":129,"path":132,"queue":118}],97:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.readUInt = void 0;
@@ -22013,7 +23908,7 @@ function readUInt(buffer, bits, offset, isBigEndian) {
 }
 exports.readUInt = readUInt;
 
-},{}],80:[function(require,module,exports){
+},{}],98:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.typeHandlers = void 0;
@@ -22055,7 +23950,7 @@ exports.typeHandlers = {
     webp: webp_1.WEBP,
 };
 
-},{"./types/bmp":81,"./types/cur":82,"./types/dds":83,"./types/gif":84,"./types/icns":85,"./types/ico":86,"./types/j2c":87,"./types/jp2":88,"./types/jpg":89,"./types/ktx":90,"./types/png":91,"./types/pnm":92,"./types/psd":93,"./types/svg":94,"./types/tga":95,"./types/tiff":96,"./types/webp":97}],81:[function(require,module,exports){
+},{"./types/bmp":99,"./types/cur":100,"./types/dds":101,"./types/gif":102,"./types/icns":103,"./types/ico":104,"./types/j2c":105,"./types/jp2":106,"./types/jpg":107,"./types/ktx":108,"./types/png":109,"./types/pnm":110,"./types/psd":111,"./types/svg":112,"./types/tga":113,"./types/tiff":114,"./types/webp":115}],99:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BMP = void 0;
@@ -22071,7 +23966,7 @@ exports.BMP = {
     }
 };
 
-},{}],82:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CUR = void 0;
@@ -22092,7 +23987,7 @@ exports.CUR = {
     }
 };
 
-},{"./ico":86}],83:[function(require,module,exports){
+},{"./ico":104}],101:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DDS = void 0;
@@ -22108,7 +24003,7 @@ exports.DDS = {
     }
 };
 
-},{}],84:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GIF = void 0;
@@ -22126,7 +24021,7 @@ exports.GIF = {
     }
 };
 
-},{}],85:[function(require,module,exports){
+},{}],103:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ICNS = void 0;
@@ -22231,7 +24126,7 @@ exports.ICNS = {
     }
 };
 
-},{}],86:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ICO = void 0;
@@ -22303,7 +24198,7 @@ exports.ICO = {
     }
 };
 
-},{}],87:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.J2C = void 0;
@@ -22320,7 +24215,7 @@ exports.J2C = {
     }
 };
 
-},{}],88:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.JP2 = void 0;
@@ -22380,7 +24275,7 @@ exports.JP2 = {
     }
 };
 
-},{}],89:[function(require,module,exports){
+},{}],107:[function(require,module,exports){
 "use strict";
 // NOTE: we only support baseline and progressive JPGs here
 // due to the structure of the loader class, we only get a buffer
@@ -22505,7 +24400,7 @@ exports.JPG = {
     }
 };
 
-},{"../readUInt":79}],90:[function(require,module,exports){
+},{"../readUInt":97}],108:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.KTX = void 0;
@@ -22522,7 +24417,7 @@ exports.KTX = {
     }
 };
 
-},{}],91:[function(require,module,exports){
+},{}],109:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PNG = void 0;
@@ -22558,7 +24453,7 @@ exports.PNG = {
     }
 };
 
-},{}],92:[function(require,module,exports){
+},{}],110:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PNM = void 0;
@@ -22635,7 +24530,7 @@ exports.PNM = {
     }
 };
 
-},{}],93:[function(require,module,exports){
+},{}],111:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PSD = void 0;
@@ -22651,7 +24546,7 @@ exports.PSD = {
     }
 };
 
-},{}],94:[function(require,module,exports){
+},{}],112:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SVG = void 0;
@@ -22744,7 +24639,7 @@ exports.SVG = {
     }
 };
 
-},{}],95:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TGA = void 0;
@@ -22760,7 +24655,7 @@ exports.TGA = {
     }
 };
 
-},{}],96:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 (function (Buffer){(function (){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -22861,7 +24756,7 @@ exports.TIFF = {
 };
 
 }).call(this)}).call(this,require("buffer").Buffer)
-},{"../readUInt":79,"buffer":104,"fs":104}],97:[function(require,module,exports){
+},{"../readUInt":97,"buffer":129,"fs":129}],115:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.WEBP = void 0;
@@ -22921,7 +24816,7 @@ exports.WEBP = {
     }
 };
 
-},{}],98:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -22950,7 +24845,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],99:[function(require,module,exports){
+},{}],117:[function(require,module,exports){
 (function (Buffer){(function (){
 /**
  * https://opentype.js.org v1.3.4 | (c) Frederik De Bleser and other contributors | MIT License | Uses tiny-inflate by Devon Govett and string.prototype.codepointat polyfill by Mathias Bynens
@@ -37431,7 +39326,7 @@ if (typeof Object.create === 'function') {
 
 
 }).call(this)}).call(this,require("buffer").Buffer)
-},{"buffer":104,"fs":104}],100:[function(require,module,exports){
+},{"buffer":129,"fs":129}],118:[function(require,module,exports){
 var inherits = require('inherits')
 var EventEmitter = require('events').EventEmitter
 
@@ -37628,101 +39523,28 @@ function done (err) {
   this.emit('end', err)
 }
 
-},{"events":105,"inherits":98}],101:[function(require,module,exports){
-/*
-	String Kit
-
-	Copyright (c) 2014 - 2021 Cédric Ronvel
-
-	The MIT License (MIT)
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-*/
-
-"use strict" ;
-
-
-
-var camel = {} ;
-module.exports = camel ;
-
-
-
-// Transform alphanum separated by underscore or minus to camel case
-camel.toCamelCase = function( str , preserveUpperCase = false , initialUpperCase = false ) {
-	if ( ! str || typeof str !== 'string' ) { return '' ; }
-
-	return str.replace(
-		/(?:^[\s_-]*|([\s_-]+))(([^\s_-]?)([^\s_-]*))/g ,
-		( match , isNotFirstWord , word , firstLetter , endOfWord ) => {
-			if ( preserveUpperCase ) {
-				if ( ! isNotFirstWord && ! initialUpperCase ) { return word ; }
-				if ( ! firstLetter ) { return '' ; }
-				return firstLetter.toUpperCase() + endOfWord ;
-			}
-
-			if ( ! isNotFirstWord && ! initialUpperCase ) { return word.toLowerCase() ; }
-			if ( ! firstLetter ) { return '' ; }
-			return firstLetter.toUpperCase() + endOfWord.toLowerCase() ;
-		}
-	) ;
-} ;
-
-
-
-camel.camelCaseToSeparated = function( str , separator = ' ' , acronym = true ) {
-	if ( ! str || typeof str !== 'string' ) { return '' ; }
-
-	if ( ! acronym ) {
-		return str.replace( /^([A-Z])|([A-Z])/g , ( match , firstLetter , letter ) => {
-			if ( firstLetter ) { return firstLetter.toLowerCase() ; }
-			return separator + letter.toLowerCase() ;
-		} ) ;
-	}
-
-	// (^)? and (^)? does not work, so we have to use (?:(^)|)) and (?:($)|)) to capture end or not
-	return str.replace( /(?:(^)|)([A-Z]+)(?:($)|(?=[a-z]))/g , ( match , isStart , letters , isEnd ) => {
-		isStart = isStart === '' ;
-		isEnd = isEnd === '' ;
-
-		var prefix = isStart ? '' : separator ;
-
-		return letters.length === 1 ? prefix + letters.toLowerCase() :
-			isEnd ? prefix + letters :
-			letters.length === 2 ? prefix + letters[ 0 ].toLowerCase() + separator + letters[ 1 ].toLowerCase() :
-			prefix + letters.slice( 0 , -1 ) + separator + letters.slice( -1 ).toLowerCase() ;
-	} ) ;
-} ;
-
-
-
-// Transform camel case to alphanum separated by minus
-camel.camelCaseToDash =
-camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' , false ) ;
-
-
-},{}],102:[function(require,module,exports){
+},{"events":130,"inherits":116}],119:[function(require,module,exports){
+arguments[4][48][0].apply(exports,arguments)
+},{"dup":48}],120:[function(require,module,exports){
+arguments[4][49][0].apply(exports,arguments)
+},{"dup":49}],121:[function(require,module,exports){
 arguments[4][50][0].apply(exports,arguments)
-},{"dup":50}],103:[function(require,module,exports){
+},{"dup":50}],122:[function(require,module,exports){
+arguments[4][51][0].apply(exports,arguments)
+},{"dup":51}],123:[function(require,module,exports){
+arguments[4][52][0].apply(exports,arguments)
+},{"./StringNumber.js":119,"./ansi.js":120,"./escape.js":122,"./inspect.js":124,"./naturalSort.js":125,"./unicode.js":127,"buffer":129,"dup":52}],124:[function(require,module,exports){
+arguments[4][54][0].apply(exports,arguments)
+},{"../../../../../../../../opt/node-v16.16.0/lib/node_modules/browserify/node_modules/is-buffer/index.js":131,"./ansi.js":120,"./escape.js":122,"_process":133,"dup":54}],125:[function(require,module,exports){
+arguments[4][58][0].apply(exports,arguments)
+},{"dup":58}],126:[function(require,module,exports){
+arguments[4][62][0].apply(exports,arguments)
+},{"dup":62}],127:[function(require,module,exports){
+arguments[4][63][0].apply(exports,arguments)
+},{"./unicode-emoji-width-ranges.json":126,"dup":63}],128:[function(require,module,exports){
 module.exports={
   "name": "svg-kit",
-  "version": "0.5.0-alpha.2",
+  "version": "0.5.0",
   "description": "A small SVG toolkit.",
   "main": "lib/svg-kit.js",
   "directories": {
@@ -37730,6 +39552,7 @@ module.exports={
   },
   "dependencies": {
     "@cronvel/xmldom": "^0.1.32",
+    "array-kit": "^0.2.4",
     "dom-kit": "^0.5.2",
     "image-size": "^1.0.2",
     "opentype.js": "^1.3.4",
@@ -37760,9 +39583,9 @@ module.exports={
   }
 }
 
-},{}],104:[function(require,module,exports){
+},{}],129:[function(require,module,exports){
 
-},{}],105:[function(require,module,exports){
+},{}],130:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -38261,7 +40084,7 @@ function eventTargetAgnosticAddListener(emitter, name, listener, flags) {
   }
 }
 
-},{}],106:[function(require,module,exports){
+},{}],131:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -38284,7 +40107,7 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],107:[function(require,module,exports){
+},{}],132:[function(require,module,exports){
 (function (process){(function (){
 // 'path' module extracted from Node.js v8.11.1 (only the posix part)
 // transplited with Babel
@@ -38817,7 +40640,7 @@ posix.posix = posix;
 module.exports = posix;
 
 }).call(this)}).call(this,require('_process'))
-},{"_process":108}],108:[function(require,module,exports){
+},{"_process":133}],133:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -39003,7 +40826,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],109:[function(require,module,exports){
+},{}],134:[function(require,module,exports){
 (function (global){(function (){
 /*! https://mths.be/punycode v1.4.1 by @mathias */
 ;(function(root) {
@@ -39540,7 +41363,7 @@ process.umask = function() { return 0; };
 }(this));
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],110:[function(require,module,exports){
+},{}],135:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -39626,7 +41449,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],111:[function(require,module,exports){
+},{}],136:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -39713,13 +41536,13 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],112:[function(require,module,exports){
+},{}],137:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":110,"./encode":111}],113:[function(require,module,exports){
+},{"./decode":135,"./encode":136}],138:[function(require,module,exports){
 (function (setImmediate,clearImmediate){(function (){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -39798,7 +41621,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this)}).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":108,"timers":113}],114:[function(require,module,exports){
+},{"process/browser.js":133,"timers":138}],139:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -40532,7 +42355,7 @@ Url.prototype.parseHost = function() {
   if (host) this.hostname = host;
 };
 
-},{"./util":115,"punycode":109,"querystring":112}],115:[function(require,module,exports){
+},{"./util":140,"punycode":134,"querystring":137}],140:[function(require,module,exports){
 'use strict';
 
 module.exports = {

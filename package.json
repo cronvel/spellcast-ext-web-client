@@ -4,7 +4,7 @@
   "description": "Spellcast's Web Client extension.",
   "main": "lib/extension.js",
   "engines": {
-    "node": ">=14.15.0"
+    "node": ">=16.13.0"
   },
   "directories": {
     "test": "test"

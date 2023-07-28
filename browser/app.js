@@ -21773,7 +21773,14 @@ VGRect.prototype.renderHookForCanvas = function( canvasCtx , options = {} ) {
 
 	canvasCtx.save() ;
 	canvasCtx.beginPath() ;
-	canvasCtx.rect( this.x , this.y + yOffset , this.width , this.height ) ;
+
+	if ( this.rx || this.ry ) {
+		canvasCtx.roundRect( this.x , this.y + yOffset , this.width , this.height , Math.max( this.rx || 0 , this.ry || 0 ) ) ;
+	}
+	else {
+		canvasCtx.rect( this.x , this.y + yOffset , this.width , this.height ) ;
+	}
+
 	canvas.fillAndStrokeUsingSvgStyle( canvasCtx , this.style ) ;
 	canvasCtx.restore() ;
 } ;
@@ -21782,7 +21789,13 @@ VGRect.prototype.renderHookForCanvas = function( canvasCtx , options = {} ) {
 
 VGRect.prototype.renderHookForPath2D = function( path2D , canvasCtx , options = {} ) {
 	var yOffset = this.root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y - ( this.height - 1 ) : 0 ;
-	path2D.rect( this.x , this.y + yOffset , this.width , this.height ) ;
+
+	if ( this.rx || this.ry ) {
+		path2D.roundRect( this.x , this.y + yOffset , this.width , this.height , Math.max( this.rx || 0 , this.ry || 0 ) ) ;
+	}
+	else {
+		path2D.rect( this.x , this.y + yOffset , this.width , this.height ) ;
+	}
 } ;
 
 

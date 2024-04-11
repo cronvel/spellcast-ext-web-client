@@ -578,9 +578,14 @@ Dom.prototype.addMessage = function( text , options , callback ) {
 	var structuredDocument = bookSource.parse( text ) ,
 		html = structuredDocument.render( this.bookSourceHtmlRenderer ) ,
 		$fragment = document.createDocumentFragment() ,
-		deltaCssObject = this.bookSourceHtmlRenderer.generateCssObject( this.bookSourceCssObject ) ;
+		cssRules = this.bookSourceHtmlRenderer.generateIncrementalCss() ;
 
-	console.warn( "deltaCssObject:" , deltaCssObject , this.$bookSourceStyle ) ;
+	console.warn( "Delta CSS:" , cssRules , this.$bookSourceStyle ) ;
+	if ( cssRules.length ) {
+		for ( let cssRule of cssRules ) {
+			this.$bookSourceStyle.sheet.insertRule( cssRule ) ;
+		}
+	}
 
 	$fragment.append( ... new DOMParser().parseFromString( html , "text/html" ).body.childNodes ) ;
 
@@ -6225,6 +6230,7 @@ function HtmlRenderer( theme , params = {} ) {
 	this.extraCodeCss = params.extraCodeCss ? params.extraCodeCss.trim() + '\n' : '' ;
 
 	this.colors = {} ;
+	this.variableCache = {} ;	// Use for incremental modes
 }
 
 module.exports = HtmlRenderer ;
@@ -6690,9 +6696,15 @@ HtmlRenderer.prototype.generateColorCss = function( scope ) {
 		color = this.colors[ cname ] ;
 		colorCode = this.theme.palette.getHex( color ) ;
 		varName = '--color-' + cname ;
-		defStr += '\t' + varName + ': ' + colorCode + ';\n' ;
+
 		rulesStr += ruleScopePrefix + '.text-' + cname + ' { color: var(' + varName + '); }\n' ;
 		rulesStr += ruleScopePrefix + '.bg-' + cname + ' { background-color: var(' + varName + '); }\n' ;
+
+		defStr += '\t' + varName + ': ' + colorCode + ';\n' ;
+
+		if ( this.variableCache[ varName ] !== colorCode ) {
+			this.variableCache[ varName ] = colorCode ;
+		}
 	}
 
 	defStr += '}\n\n' ;
@@ -6700,30 +6712,42 @@ HtmlRenderer.prototype.generateColorCss = function( scope ) {
 	return defStr + rulesStr + '\n' ;
 } ;
 
-HtmlRenderer.prototype.generateColorCssObject = function( deltaCssObject , existingCssObject ) {
-	var cname , color , colorCode , varName ;
+
+
+HtmlRenderer.prototype.generateIncrementalColorCss = function( scope , rules = [] ) {
+	var defStr , rulesStr , cname , color , colorCode , varName ,
+		ruleScopePrefix = scope === 'body' ? '' : '.book-source ' ;
 
 	for ( cname in this.colors ) {
 		color = this.colors[ cname ] ;
 		colorCode = this.theme.palette.getHex( color ) ;
 		varName = '--color-' + cname ;
 
-		if ( existingCssObject?.[ varName ] !== colorCode ) {
-			deltaCssObject.__changed = true ;
-			deltaCssObject[ varName ] = colorCode ;
+		if ( ! this.variableCache[ varName ] ) {
+			rules.push( ruleScopePrefix + '.text-' + cname + ' { color: var(' + varName + ') }' ) ;
+			rules.push( ruleScopePrefix + '.bg-' + cname + ' { background-color: var(' + varName + ') }' ) ;
+		}
+
+		if ( this.variableCache[ varName ] !== colorCode ) {
+			rules.push( scope + ' { ' + varName + ': ' + colorCode + ' }' ) ;
+			this.variableCache[ varName ] = colorCode ;
 		}
 	}
+
+	return rules ;
 } ;
 
-HtmlRenderer.prototype.generateCssObject = function( existingCssObject ) {
-	var deltaCssObject = { __changed: false } ;
+HtmlRenderer.prototype.resetIncrementalCssCache = function() {
+	this.variableCache = {} ;
+} ;
 
-	this.generateColorCssObject( deltaCssObject , existingCssObject ) ;
+HtmlRenderer.prototype.generateIncrementalCss = function() {
+	var rules = [] ,
+		scope = '.book-source' ;
 
-	if ( ! deltaCssObject.__changed ) { return null ; }
+	this.generateIncrementalColorCss( scope , rules ) ;
 
-	delete deltaCssObject.__changed ;
-	return deltaCssObject ;
+	return rules ;
 } ;
 
 

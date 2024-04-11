@@ -549,19 +549,17 @@ Dom.prototype.addMessage = function( text , options , callback ) {
 		return ;
 	}
 
-	var triggered = false ;
-	callback = callback || noop ;
+	var $lastChild = null ,
+		triggered = false ;
 
-	// Transform markup to HTML markup
-	text = toolkit.markup( text ) ;
-	console.warn( "########## text:" , text ) ;
+	callback = callback || noop ;
 
 	var triggerCallback = () => {
 		if ( triggered ) { return ; }
 		triggered = true ;
 
 		if ( options.next ) {
-			$text.scrollIntoView( false ) ;
+			if ( $lastChild ) { $lastChild.scrollIntoView( false ) ; }
 			this.messageNext( options.next , callback ) ;
 			return ;
 		}
@@ -569,31 +567,40 @@ Dom.prototype.addMessage = function( text , options , callback ) {
 		callback() ;
 	} ;
 
+	// Transform markup into HTML DOM Fragment
+	var $fragment = toolkit.markupToDomFragment( text ) ;
 
-	var $text = document.createElement( 'p' ) ;
-	$text.classList.add( 'text' ) ;
+	for ( let $child of $fragment.children ) {
+		$child.classList.add( 'text' ) ;
 
-	if ( options.next ) { $text.classList.add( 'continue' ) ; }
+		if ( options.next ) { $child.classList.add( 'continue' ) ; }
 
-	if ( options.class ) {
-		domKit.class( $text , commonUtils.toClassObject( options.class ) , 's-' ) ;
+		if ( options.class ) {
+			domKit.class( $child , commonUtils.toClassObject( options.class ) , 's-' ) ;
+		}
+
+		if ( options.style ) {
+			domKit.css( $child , options.style ) ;
+		}
+
+		$lastChild = $child ;
 	}
-
-	if ( options.style ) {
-		domKit.css( $text , options.style ) ;
+	
+	if ( ! $lastChild ) {
+		triggerCallback() ;
+		return ;
 	}
-
-	// Because the text contains <span> tags
-	//$text.textContent = text ;
-	$text.innerHTML = text ;
 
 	if ( this.newSegmentNeeded ) { this.newSegment( this.newSegmentNeeded ) ; }
 
-	this.$activeSegment.appendChild( $text ) ;
-
 	if ( options.important && this.$importantMessages ) {
-		// The message should be added to the main buffer too
-		this.$importantMessages.appendChild( $text.cloneNode( true ) ) ;
+		// The message should be added to the main buffer too.
+		// Since fragment are cleared once inserted, we have to clone it on the first .appendChild()
+		this.$activeSegment.appendChild( $fragment.cloneNode( true ) ) ;
+		this.$importantMessages.appendChild( $fragment ) ;
+	}
+	else {
+		this.$activeSegment.appendChild( $fragment ) ;
 	}
 
 	// Slow-typing is not supported ATM
@@ -2176,7 +2183,6 @@ EventDispatcher.roleList = function( roles , unassignedUsers , assigned ) {
 // Script [message], execution can be suspended if the listener is async, waiting for completion.
 // E.g.: possible use: wait for a user input before continuing processing.
 EventDispatcher.message = function( text , options , callback ) {
-	console.warn( "Message received!!!!" , text , options ) ;
 	this.hasNewContent = true ;
 
 	if ( ! options ) { options = {} ; }
@@ -5706,7 +5712,7 @@ const escapeHtml = require( 'string-kit/lib/escape.js' ).html ;
 
 const bookSource = require( 'book-source' ) ;
 const HtmlRenderer = require( 'book-source-html-renderer' ) ;
-const htmlRenderer = new HtmlRenderer( new bookSource.Theme() , { standalone: false } ) ;
+const htmlRenderer = new HtmlRenderer( new bookSource.Theme() , { standalone: false , noContainer: true } ) ;
 
 //const format = require( 'string-kit/lib/format.js' ) ;
 //const FORMAT_CONFIG = { argumentSanitizer: str =>  } ;
@@ -5715,11 +5721,21 @@ const htmlRenderer = new HtmlRenderer( new bookSource.Theme() , { standalone: fa
 
 toolkit.markup = ( str ) => {
 	var structuredDocument = bookSource.parse( str ) ;
-	console.warn( ">>>>> lolwut" ) ;
 	return structuredDocument.render( htmlRenderer ) ;
 } ;
 
 //toolkit.parseMarkup = ( ... args ) => {} ;
+
+toolkit.markupToDomFragment = ( str ) => {
+	var $fragment = document.createDocumentFragment() ;
+	$fragment.append( ... new DOMParser().parseFromString( toolkit.markup( str ) , "text/html" ).body.childNodes ) ;
+
+	for ( let $child of $fragment.children ) {
+		$child.classList.add( 'book-source' ) ;
+	}
+
+	return $fragment ;
+} ;
 
 
 
@@ -6181,6 +6197,7 @@ function HtmlRenderer( theme , params = {} ) {
 	this.theme = theme ;
 
 	this.standalone = !! params.standalone ;
+	this.noContainer = ! this.standalone && !! params.noContainer ;
 
 	this.coreCss = params.coreCss ? params.coreCss.trim() + '\n' : '' ;
 	this.extraCoreCss = params.extraCoreCss ? params.extraCoreCss.trim() + '\n' : '' ;
@@ -6267,9 +6284,15 @@ HtmlRenderer.prototype.document = function( meta , renderedChildren ) {
 		str += '<body>\n' ;
 	}
 
-	str += '<div class="book-source">\n' ;
+	if ( ! this.noContainer ) {
+		str += '<div class="book-source">\n' ;
+	}
+
 	str += renderedChildren ;
-	str += '\n</div>\n' ;
+
+	if ( ! this.noContainer ) {
+		str += '\n</div>\n' ;
+	}
 
 	if ( this.standalone ) {
 		str += '</body>\n' ;

@@ -12,6 +12,7 @@
 		- browser/app.html
 		- browser/app.js
 		- browser/common.css
+		- browser/book-source.css
 #		- browser/themes/default/main.css
 #		- browser/themes/visual-novel/main.css
 
@@ -20,6 +21,7 @@
 		- browser/app.html
 		- browser/app.min.js
 		- browser/common.css
+		- browser/book-source.css
 #		- browser/themes/default/main.css
 #		- browser/themes/visual-novel/main.css
 
@@ -34,6 +36,12 @@
 		- lib/common.css
 	[scroll]
 		- > cp lib/common.css browser/common.css
+
+[summoning browser/book-source.css]
+	[summon]
+		- node_modules/book-source-html-renderer/css/core.css
+	[scroll]
+		- > cp node_modules/book-source-html-renderer/css/core.css browser/book-source.css
 
 #[summoning browser/themes/default/main.css]
 #	[summon]

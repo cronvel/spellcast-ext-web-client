@@ -175,6 +175,8 @@ const Controller = require( './controller/Controller.js' ) ;
 const commonUtils = require( './commonUtils.js' ) ;
 const toolkit = require( './toolkit.js' ) ;
 
+const bookSource = require( 'book-source' ) ;
+const HtmlRenderer = require( 'book-source-html-renderer' ) ;
 const Ngev = require( 'nextgen-events/lib/browser.js' ) ;
 const LeanEvents = require( 'nextgen-events/lib/LeanEvents.js' ) ;
 const Promise = require( 'seventh' ) ;
@@ -208,10 +210,15 @@ function Dom() {
 	this.$sound1 = document.querySelector( '#sound1' ) ;
 	this.$sound2 = document.querySelector( '#sound2' ) ;
 	this.$sound3 = document.querySelector( '#sound3' ) ;
+	this.$bookSourceStyle = document.querySelector( '#book-source-style' ) ;
 
 	this.controller = new Controller() ;
 	this.gamepadHub = new BrowserGamepadHub( this.controller ) ;
 	this.keyboard = new BrowserKeyboard( this.controller ) ;
+
+	this.bookSourceTheme = new bookSource.Theme() ;
+	this.bookSourceHtmlRenderer = new HtmlRenderer( this.bookSourceTheme , { standalone: false , noContainer: true } ) ;
+	this.bookSourceCssObject = {} ;
 
 	this.choices = [] ;
 
@@ -568,10 +575,17 @@ Dom.prototype.addMessage = function( text , options , callback ) {
 	} ;
 
 	// Transform markup into HTML DOM Fragment
-	var $fragment = toolkit.markupToDomFragment( text ) ;
+	var structuredDocument = bookSource.parse( text ) ,
+		html = structuredDocument.render( this.bookSourceHtmlRenderer ) ,
+		$fragment = document.createDocumentFragment() ,
+		deltaCssObject = this.bookSourceHtmlRenderer.generateCssObject( this.bookSourceCssObject ) ;
+
+	console.warn( "deltaCssObject:" , deltaCssObject , this.$bookSourceStyle ) ;
+
+	$fragment.append( ... new DOMParser().parseFromString( html , "text/html" ).body.childNodes ) ;
 
 	for ( let $child of $fragment.children ) {
-		$child.classList.add( 'text' ) ;
+		$child.classList.add( 'book-source' , 'text' ) ;
 
 		if ( options.next ) { $child.classList.add( 'continue' ) ; }
 
@@ -585,7 +599,7 @@ Dom.prototype.addMessage = function( text , options , callback ) {
 
 		$lastChild = $child ;
 	}
-	
+
 	if ( ! $lastChild ) {
 		triggerCallback() ;
 		return ;
@@ -1873,7 +1887,7 @@ function soundFadeOut( $element , callback ) {
 }
 
 
-},{"./Camera.js":1,"./FontPack.js":4,"./GEntity.js":5,"./GScene.js":6,"./TexturePack.js":8,"./commonUtils.js":10,"./controller/Controller.js":11,"./controller/gamepad/BrowserGamepadHub.js":13,"./controller/keyboard/BrowserKeyboard.js":18,"./engineLib.js":20,"./exm.js":21,"./toolkit.js":24,"dom-kit":37,"nextgen-events/lib/LeanEvents.js":67,"nextgen-events/lib/browser.js":70,"seventh":86,"svg-kit":132}],3:[function(require,module,exports){
+},{"./Camera.js":1,"./FontPack.js":4,"./GEntity.js":5,"./GScene.js":6,"./TexturePack.js":8,"./commonUtils.js":10,"./controller/Controller.js":11,"./controller/gamepad/BrowserGamepadHub.js":13,"./controller/keyboard/BrowserKeyboard.js":18,"./engineLib.js":20,"./exm.js":21,"./toolkit.js":24,"book-source":35,"book-source-html-renderer":31,"dom-kit":37,"nextgen-events/lib/LeanEvents.js":67,"nextgen-events/lib/browser.js":70,"seventh":86,"svg-kit":132}],3:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -6684,6 +6698,32 @@ HtmlRenderer.prototype.generateColorCss = function( scope ) {
 	defStr += '}\n\n' ;
 
 	return defStr + rulesStr + '\n' ;
+} ;
+
+HtmlRenderer.prototype.generateColorCssObject = function( deltaCssObject , existingCssObject ) {
+	var cname , color , colorCode , varName ;
+
+	for ( cname in this.colors ) {
+		color = this.colors[ cname ] ;
+		colorCode = this.theme.palette.getHex( color ) ;
+		varName = '--color-' + cname ;
+
+		if ( existingCssObject?.[ varName ] !== colorCode ) {
+			deltaCssObject.__changed = true ;
+			deltaCssObject[ varName ] = colorCode ;
+		}
+	}
+} ;
+
+HtmlRenderer.prototype.generateCssObject = function( existingCssObject ) {
+	var deltaCssObject = { __changed: false } ;
+
+	this.generateColorCssObject( deltaCssObject , existingCssObject ) ;
+
+	if ( ! deltaCssObject.__changed ) { return null ; }
+
+	delete deltaCssObject.__changed ;
+	return deltaCssObject ;
 } ;
 
 

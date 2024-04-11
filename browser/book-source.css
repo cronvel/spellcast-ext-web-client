@@ -1,0 +1,317 @@
+
+/* General */
+
+.book-source {
+	font-family: var(--main-font);
+	font-size: var(--text-size);
+	color: var(--text-color);
+	background-color: var(--background-color);
+	word-wrap: break-word;
+}
+
+
+
+/* Text */
+
+.book-source em { font-style: italic; }
+.book-source strong { font-weight: bold; }
+.book-source .bold { font-weight: bold; }
+.book-source .italic { font-style: italic; }
+.book-source .underline { text-decoration: underline; }
+.book-source .title-tooltip { cursor: help; }
+
+.book-source .align-left { text-align: left; }
+.book-source .align-right { text-align: right; }
+.book-source .align-center { text-align: center; }
+.book-source .align-justify { text-align: justify; }
+
+
+.book-source p {
+	line-height: var(--line-height-size);
+	margin: 1em 0;
+	text-align: justify;
+}
+
+.book-source a {
+	color: var(--link-text-color);
+	text-decoration: none;
+}
+
+.book-source a:visited {
+	color: var(--visited-link-text-color);
+}
+
+.book-source a:hover {
+	color: var(--hover-link-text-color);
+	text-decoration: underline;
+}
+
+.book-source a:active ,
+.book-source a:hover {
+	outline: 0 none;
+}
+
+.book-source h1 { font-size: 2.6em ; }
+.book-source h2 { font-size: 2em ; }
+.book-source h3 { font-size: 1.6em ; }
+.book-source h4 { font-size: 1.25em ; }
+.book-source h5 { font-size: 1em ; }
+.book-source h6 { font-size: 0.8em ; }
+
+.book-source h1 {
+	margin: 2em 0 3em 0;
+	text-align: center;
+}
+
+.book-source h2 ,
+.book-source h3 {
+	margin: 2em 0 1em 0;
+	border-bottom: 1px solid var(--header-rule-color);
+}
+
+.book-source h4 ,
+.book-source h5 ,
+.book-source h6 {
+	margin: 0.5em 0 0 0;
+	text-decoration: underline;
+}
+
+
+
+/* Lists */
+
+.book-source ul ,
+.book-source ol ,
+.book-source dl {
+	margin: 1em 0;
+	padding: 0 40px;
+}
+
+.book-source li ul ,
+.book-source li ol ,
+.book-source li dl {
+	margin: 0.5em 0;
+}
+
+.book-source ul li ,
+.book-source ol li ,
+.book-source dl li {
+	line-height: var(--line-height-size);
+	text-align: justify;
+}
+
+
+
+/* Quote */
+
+.book-source blockquote {
+	font-size: 1.1em;
+	margin: 1em 0;
+	padding: 0.25em 2em;
+	border-radius: 0.5em;
+	background-color: var(--quote-background-color);
+}
+
+.book-source blockquote blockquote {
+	background-color: var(--quote2-background-color);
+}
+
+.book-source blockquote blockquote blockquote {
+	background-color: var(--quote3-background-color);
+}
+
+.book-source blockquote cite {
+	display: block;
+	text-align: right;
+	margin-right: 10%;
+}
+
+.book-source blockquote cite::before {
+	content: "-- ";
+}
+
+
+
+/* Code */
+
+.book-source code {
+	background-color: var(--code-background-color);
+	border: 1px solid var(--code-border-color);
+	border-radius: 3px;
+	margin: 0 2px;
+	padding: 2px 4px;
+	line-height: var(--line-height-size);
+}
+
+.book-source pre {
+	background-color: var(--code-background-color);
+	border: 1px solid var(--code-border-color);
+	border-radius: 3px;
+	margin: 15px 0;
+	padding: 6px 10px;
+	line-height: var(--code-line-height-size);
+}
+
+.book-source pre code {
+	border: none;
+	margin: 0;
+	padding: 0;
+}
+
+
+
+/* Block media */
+
+.book-source figure {
+	display: table;
+	margin: 10px auto;
+	width: 1px;
+	border-collapse: collapse;
+}
+
+.book-source figure.float {
+	margin: 2px 2px 10px 2px;
+	clear: both;
+}
+
+.book-source figure.float-left { margin-right: 20px; }
+.book-source figure.float-right { margin-left: 20px; }
+
+.book-source figure img {
+	display: table-row;
+	vertical-align: bottom;
+}
+
+.book-source figure figcaption {
+	display: table-row;
+	text-align: center;
+	font-style: italic;
+	background-color: var(--figure-caption-background-color);
+}
+
+.book-source .float-left { float: left; }
+.book-source .float-right { float: right; }
+.book-source .clear-float { clear: both; }
+
+
+
+/* Tables */
+
+.book-source table {
+	display: table;
+	margin: 1.5em auto;
+	max-width: 90%;
+	width: auto;
+	overflow: auto;
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+.book-source table caption {
+	caption-side: top;
+	text-align: center;
+	background-color: var(--table-caption-background-color);
+	color: var(--table-caption-text-color);
+	font-size: 1.1em;
+	font-weight: bold;
+	border: 1px solid var(--table-border-color);
+	padding: 6px 13px;
+}
+
+.book-source table th:not([scope]) {
+	background-color: var(--table-both-head-color);
+	border-top: 1px solid var(--table-border-color);
+	border-bottom: 2px solid var(--table-border-color);
+	border-right: 2px solid var(--table-border-color);
+}
+
+.book-source table th[scope="column"] {
+	background-color: var(--table-column-head-color);
+	border-top: 1px solid var(--table-border-color);
+	border-bottom: 2px solid var(--table-border-color);
+}
+
+.book-source table th[scope="row"] {
+	background-color: var(--table-row-head-color);
+	border-right: 2px solid var(--table-border-color);
+}
+
+.book-source table tbody tr {
+	background-color: var(--table-row-background-color);
+	border-top: 1px solid var(--table-border-color);
+}
+
+.book-source table th.row-separator, .book-source table tr.row-separator {
+	border-bottom: 6px solid var(--table-border-color);
+}
+
+.book-source table tbody tr:nth-child(2n):not(.bg-styled) {
+	background-color: var(--table-even-row-background-color);
+}
+
+.book-source table th, .book-source table td {
+	padding: 6px 13px;
+	border: 1px solid var(--table-border-color);
+}
+
+.book-source table th.column-separator, .book-source table td.column-separator {
+	border-right: 6px solid var(--table-border-color);
+}
+
+.book-source table td img {
+	max-width: 100%;
+}
+
+
+
+/* Print / PDF */
+
+@media print {
+	.book-source {
+		font-size: var(--text-size);
+	}
+
+	.book-source h1 {
+		break-before: page;
+		break-after: avoid-page;
+		break-inside: avoid-page;
+	}
+
+	.book-source h2, .book-source h3, .book-source h4, .book-source h5, .book-source h6 {
+		break-after: avoid-page;
+		break-inside: avoid-page;
+	}
+
+	.book-source p {
+		line-height: var(--line-height-printsize);
+		break-inside: auto;
+		widows: 3;
+		orphans: 3;
+	}
+
+	.book-source blockquote { break-inside: avoid-page; }
+	.book-source cite { break-inside: avoid-page; }
+	.book-source blockquote cite { break-inside: avoid-page; }
+	.book-source table { break-inside: avoid-page; }
+
+	.book-source ul ,
+	.book-source ol ,
+	.book-source dl {
+		break-before: avoid-page;
+		break-inside: avoid-page;
+	}
+
+	.book-source ul li {
+		line-height: var(--line-height-printsize);
+		break-inside: avoid-page;
+	}
+
+	.book-source code {
+		line-height: var(--line-height-printsize);
+	}
+
+	.book-source pre {
+		line-height: var(--code-line-height-printsize);
+	}
+}
+

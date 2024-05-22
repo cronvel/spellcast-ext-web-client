@@ -10,8 +10,8 @@
     "test": "test"
   },
   "dependencies": {
-    "book-source": "^0.3.3",
-    "book-source-html-renderer": "^0.3.2",
+    "book-source": "^0.3.5",
+    "book-source-html-renderer": "^0.3.4",
     "dom-kit": "^0.5.1",
     "exm": "^0.5.12",
     "kung-fig-expression": "^0.49.1",

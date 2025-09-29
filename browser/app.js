@@ -133,7 +133,7 @@ Camera.prototype.updateTransition = function( data , awaiting = false ) {
 } ;
 
 
-},{"./GTransition.js":7,"seventh":86}],2:[function(require,module,exports){
+},{"./GTransition.js":7,"seventh":95}],2:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -1892,7 +1892,7 @@ function soundFadeOut( $element , callback ) {
 }
 
 
-},{"./Camera.js":1,"./FontPack.js":4,"./GEntity.js":5,"./GScene.js":6,"./TexturePack.js":8,"./commonUtils.js":10,"./controller/Controller.js":11,"./controller/gamepad/BrowserGamepadHub.js":13,"./controller/keyboard/BrowserKeyboard.js":18,"./engineLib.js":20,"./exm.js":21,"./toolkit.js":24,"book-source":35,"book-source-html-renderer":31,"dom-kit":37,"nextgen-events/lib/LeanEvents.js":67,"nextgen-events/lib/browser.js":70,"seventh":86,"svg-kit":132}],3:[function(require,module,exports){
+},{"./Camera.js":1,"./FontPack.js":4,"./GEntity.js":5,"./GScene.js":6,"./TexturePack.js":8,"./commonUtils.js":10,"./controller/Controller.js":11,"./controller/gamepad/BrowserGamepadHub.js":13,"./controller/keyboard/BrowserKeyboard.js":18,"./engineLib.js":20,"./exm.js":21,"./toolkit.js":24,"book-source":37,"book-source-html-renderer":31,"dom-kit":46,"nextgen-events/lib/LeanEvents.js":76,"nextgen-events/lib/browser.js":79,"seventh":95,"svg-kit":165}],3:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -2610,7 +2610,7 @@ EventDispatcher.exit = function( error , timeout , callback ) {
 } ;
 
 
-},{"./Dom.js":2,"./exm.js":21,"nextgen-events/lib/browser.js":70,"seventh":86}],4:[function(require,module,exports){
+},{"./Dom.js":2,"./exm.js":21,"nextgen-events/lib/browser.js":79,"seventh":95}],4:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -2697,7 +2697,7 @@ Variant.prototype.preloadFont = async function( variantId ) {
 } ;
 
 
-},{"svg-kit":132}],5:[function(require,module,exports){
+},{"svg-kit":165}],5:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3814,7 +3814,7 @@ GEntity.prototype.createCardMarkup = function( card ) {
 } ;
 
 
-},{"./GTransition.js":7,"./commonUtils.js":10,"./positionModes.js":22,"./sizeModes.js":23,"dom-kit":37,"nextgen-events/lib/browser.js":70,"seventh":86,"svg-kit":132}],6:[function(require,module,exports){
+},{"./GTransition.js":7,"./commonUtils.js":10,"./positionModes.js":22,"./sizeModes.js":23,"dom-kit":46,"nextgen-events/lib/browser.js":79,"seventh":95,"svg-kit":165}],6:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -3949,7 +3949,7 @@ GScene.prototype.removeGEntity = function( gEntityId ) {
 } ;
 
 
-},{"./Camera.js":1,"nextgen-events/lib/browser.js":70,"seventh":86}],7:[function(require,module,exports){
+},{"./Camera.js":1,"nextgen-events/lib/browser.js":79,"seventh":95}],7:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4273,7 +4273,7 @@ domKit.ready( () => {
 } ) ;
 
 
-},{"./EventDispatcher.js":3,"dom-kit":37,"nextgen-events/lib/browser.js":70,"url":171}],10:[function(require,module,exports){
+},{"./EventDispatcher.js":3,"dom-kit":46,"nextgen-events/lib/browser.js":79,"url":224}],10:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4495,7 +4495,7 @@ Controller.prototype.flushEvents = function() {
 } ;
 
 
-},{"nextgen-events/lib/LeanEvents.js":67}],12:[function(require,module,exports){
+},{"nextgen-events/lib/LeanEvents.js":76}],12:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4867,7 +4867,7 @@ Gamepad.prototype.dispatchEmit = function( eventName , type , v1 , v2 ) {
 } ;
 
 
-},{"./GamepadState.js":16,"nextgen-events/lib/LeanEvents.js":67}],15:[function(require,module,exports){
+},{"./GamepadState.js":16,"nextgen-events/lib/LeanEvents.js":76}],15:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -4939,7 +4939,7 @@ GamepadHub.prototype.removeGamepadByIndex = function( index ) {
 } ;
 
 
-},{"nextgen-events/lib/LeanEvents.js":67}],16:[function(require,module,exports){
+},{"nextgen-events/lib/LeanEvents.js":76}],16:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -5355,7 +5355,7 @@ Keyboard.prototype = Object.create( LeanEvents.prototype ) ;
 Keyboard.prototype.constructor = Keyboard ;
 
 
-},{"nextgen-events/lib/LeanEvents.js":67}],20:[function(require,module,exports){
+},{"nextgen-events/lib/LeanEvents.js":76}],20:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -5473,7 +5473,7 @@ module.exports = BrowserExm.registerNs( {
 } ) ;
 
 
-},{"./Camera.js":1,"./Dom.js":2,"./EventDispatcher.js":3,"./GEntity.js":5,"./GScene.js":6,"./GTransition.js":7,"./TexturePack.js":8,"./engineLib.js":20,"./toolkit.js":24,"exm/lib/BrowserExm.js":38,"kung-fig-expression/lib/fnOperators.js":64,"spellcast-shared/lib/operators.js":88,"string-kit":106,"svg-kit":132}],22:[function(require,module,exports){
+},{"./Camera.js":1,"./Dom.js":2,"./EventDispatcher.js":3,"./GEntity.js":5,"./GScene.js":6,"./GTransition.js":7,"./TexturePack.js":8,"./engineLib.js":20,"./toolkit.js":24,"exm/lib/BrowserExm.js":47,"kung-fig-expression/lib/fnOperators.js":73,"spellcast-shared/lib/operators.js":97,"string-kit":115,"svg-kit":165}],22:[function(require,module,exports){
 /*
 	Spellcast's Web Client Extension
 
@@ -5821,7 +5821,7 @@ toolkit.rgbaToHex = ( r , g , b , a = null ) => {
 } ;
 
 
-},{"book-source":35,"book-source-html-renderer":31,"string-kit/lib/escape.js":94}],25:[function(require,module,exports){
+},{"book-source":37,"book-source-html-renderer":31,"string-kit/lib/escape.js":103}],25:[function(require,module,exports){
 /*
 	Array Kit
 
@@ -6273,8 +6273,7 @@ const group = HtmlRenderer.prototype.group = {} ;
 
 // Render the full document, called last with all content rendered
 HtmlRenderer.prototype.document = function( meta , renderedChildren ) {
-	var scope = this.standalone ? 'body' : '.book-source' ,
-		str = '' ;
+	var str = '' ;
 
 	if ( this.standalone ) {
 		let css = '' ;
@@ -6293,10 +6292,7 @@ HtmlRenderer.prototype.document = function( meta , renderedChildren ) {
 		str += '\t<meta charset="UTF-8" />\n' ;
 
 		str += '\t<style>\n' ;
-		str += this.generateThemeColorCss( scope ) ;
-		str += this.generateThemeSizeCss( scope ) ;
-		str += this.generateThemeOtherCss( scope ) ;
-		str += this.generateColorCss( scope ) ;
+		str += this.generateCss() ;
 		if ( css ) { str += css ; }
 		str += '\t</style>\n' ;
 
@@ -6384,7 +6380,7 @@ HtmlRenderer.prototype.imageBlock = function( data ) {
 
 	str += '<img src="' + this.toAttrNode( data.href ) + '"' ;
 	if ( data.altText ) { str += ' alt="' + this.toAttrNode( data.altText ) + '"' ; }
-	if ( data.title ) { str += ' title="' + this.toAttrNode( data.title ) + '"' ; }
+	if ( data.hint ) { str += ' title="' + this.toAttrNode( data.hint ) + '"' ; }
 	str += ' />\n' ;
 
 	if ( data.caption ) { str += '<figcaption>' + this.toTextNode( data.caption ) + '</figcaption>\n' ; }
@@ -6433,7 +6429,10 @@ HtmlRenderer.prototype.codeBlock = function( data ) {
 group.table = {} ;
 
 HtmlRenderer.prototype.table = function( data , renderedChildren ) {
-	return '<table>\n' + renderedChildren + '</table>\n' ;
+	var str = '<table' ;
+	if ( data.hasRowSpan ) { str += ' class="has-row-span"' ; }
+	str += '>\n' + renderedChildren + '</table>\n' ;
+	return str ;
 } ;
 
 
@@ -6505,7 +6504,7 @@ HtmlRenderer.prototype.tableHeadRow = function( data , renderedChildren ) {
 
 
 HtmlRenderer.prototype.tableCell = function( data , renderedChildren , stack ) {
-	var tableData = stack[ stack.length - 3 ] ,
+	var tableData = stack[ stack.length - 2 ] ,
 		columnData = tableData.columns[ data.column ] ;
 
 	var str = '<td' ;
@@ -6549,7 +6548,7 @@ HtmlRenderer.prototype.tableCell = function( data , renderedChildren , stack ) {
 
 
 HtmlRenderer.prototype.tableHeadCell = function( data , renderedChildren , stack ) {
-	var tableData = stack[ stack.length - 3 ] ,
+	var tableData = stack[ stack.length - 2 ] ,
 		columnData = tableData.columns[ data.column ] ;
 
 	var str = '<th' ;
@@ -6614,7 +6613,7 @@ HtmlRenderer.prototype.code = function( data ) {
 
 HtmlRenderer.prototype.link = function( data , renderedChildren ) {
 	var str = '<a href="' + this.toAttrNode( data.href ) + '"' ;
-	if ( data.title ) { str += ' title="' + this.toAttrNode( data.title ) + '"' ; }
+	if ( data.hint ) { str += ' title="' + this.toAttrNode( data.hint ) + '"' ; }
 	str += '>' + renderedChildren + '</a>' ;
 	return str ;
 } ;
@@ -6625,11 +6624,27 @@ HtmlRenderer.prototype.styledText = function( data , renderedChildren ) {
 	var str = '<span' ;
 
 	var classes = new Set() ;
-	if ( data.title ) { classes.add( "title-tooltip" ) ; }
+	if ( data.hint ) { classes.add( "hint" ) ; }
 	if ( data.style ) { this.styleToClasses( data.style , classes ) ; }
 	if ( classes.size ) { str += ' class="' + this.setToClassAttr( classes ) + '"' ; }
 
-	if ( data.title ) { str += ' title="' + this.toAttrNode( data.title ) + '"' ; }
+	if ( data.hint ) { str += ' title="' + this.toAttrNode( data.hint ) + '"' ; }
+	str += '>' + renderedChildren + '</span>' ;
+	return str ;
+} ;
+
+
+
+// TMP, a proper tooltip lib should be included later
+HtmlRenderer.prototype.infotipedText = function( data , renderedChildren ) {
+	var str = '<span' ;
+
+	var classes = new Set() ;
+	classes.add( "infotip" ) ;
+	if ( data.style ) { this.styleToClasses( data.style , classes ) ; }
+	if ( classes.size ) { str += ' class="' + this.setToClassAttr( classes ) + '"' ; }
+
+	if ( data.hint ) { str += ' title="' + this.toAttrNode( data.hint ) + '"' ; }
 	str += '>' + renderedChildren + '</span>' ;
 	return str ;
 } ;
@@ -6639,7 +6654,7 @@ HtmlRenderer.prototype.styledText = function( data , renderedChildren ) {
 HtmlRenderer.prototype.image = function( data ) {
 	var str = '<img src="' + this.toAttrNode( data.href ) + '"' ;
 	if ( data.altText ) { str += ' alt="' + this.toAttrNode( data.altText ) + '"' ; }
-	if ( data.title ) { str += ' title="' + this.toAttrNode( data.title ) + '"' ; }
+	if ( data.hint ) { str += ' title="' + this.toAttrNode( data.hint ) + '"' ; }
 	str += ' />' ;
 	return str ;
 } ;
@@ -6651,7 +6666,7 @@ HtmlRenderer.prototype.pictogram = function( data ) {
 
 	if ( data.emoji ) {
 		str += '<span class="pictogram-emoji"' ;
-		if ( data.title ) { str += ' title="' + this.toAttrNode( data.title ) + '"' ; }
+		if ( data.hint ) { str += ' title="' + this.toAttrNode( data.hint ) + '"' ; }
 		if ( data.altText ) { str += ' title="' + this.toAttrNode( data.altText ) + '"' ; }
 		str += '>' + this.toTextNode( data.emoji ) + '</span>' ;
 		return str ;
@@ -6662,7 +6677,7 @@ HtmlRenderer.prototype.pictogram = function( data ) {
 	/*
 	var str = '<img src="' + this.toAttrNode( data.href ) + '"' ;
 	if ( data.altText ) { str += ' alt="' + this.toAttrNode( data.altText ) + '"' ; }
-	if ( data.title ) { str += ' title="' + this.toAttrNode( data.title ) + '"' ; }
+	if ( data.hint ) { str += ' title="' + this.toAttrNode( data.hint ) + '"' ; }
 	str += ' />' ;
 	return str ;
 	*/
@@ -6681,6 +6696,40 @@ HtmlRenderer.prototype.anchor = function( data ) {
 
 
 // CSS renderer
+
+
+
+HtmlRenderer.prototype.generateCss = function() {
+	var str = '' ,
+		scope = this.standalone ? 'body' : '.book-source' ;
+
+	str += this.generateThemeColorCss( scope ) ;
+	str += this.generateThemeSizeCss( scope ) ;
+	str += this.generateThemeOtherCss( scope ) ;
+
+	// BE CAREFUL! Generating Theme Colors adds more colors to be generated.
+	// So .generateColorCss() MUST BE CALLED AFTER .generateThemeColorCss()
+	str += this.generateColorCss( scope ) ;
+
+	return str ;
+} ;
+
+
+
+HtmlRenderer.prototype.generateIncrementalCss = function() {
+	var rules = [] ,
+		scope = '.book-source' ;
+
+	this.generateIncrementalColorCss( scope , rules ) ;
+
+	return rules ;
+} ;
+
+
+
+HtmlRenderer.prototype.resetIncrementalCssCache = function() {
+	this.variableCache = {} ;
+} ;
 
 
 
@@ -6715,7 +6764,7 @@ HtmlRenderer.prototype.generateColorCss = function( scope ) {
 
 
 HtmlRenderer.prototype.generateIncrementalColorCss = function( scope , rules = [] ) {
-	var defStr , rulesStr , cname , color , colorCode , varName ,
+	var cname , color , colorCode , varName ,
 		ruleScopePrefix = scope === 'body' ? '' : '.book-source ' ;
 
 	for ( cname in this.colors ) {
@@ -6737,18 +6786,6 @@ HtmlRenderer.prototype.generateIncrementalColorCss = function( scope , rules = [
 	return rules ;
 } ;
 
-HtmlRenderer.prototype.resetIncrementalCssCache = function() {
-	this.variableCache = {} ;
-} ;
-
-HtmlRenderer.prototype.generateIncrementalCss = function() {
-	var rules = [] ,
-		scope = '.book-source' ;
-
-	this.generateIncrementalColorCss( scope , rules ) ;
-
-	return rules ;
-} ;
 
 
 
@@ -6845,6 +6882,11 @@ HtmlRenderer.prototype.styleToClasses = function( style , classes = new Set() ) 
 		if ( ! this.colors[ cname ] ) { this.colors[ cname ] = style.backgroundColor ; }
 	}
 
+	if ( style.fx ) {
+		//classes.add( 'fx-styled' ) ;
+		classes.add( 'fx-' + style.fx ) ;
+	}
+
 	return classes ;
 } ;
 
@@ -6876,7 +6918,201 @@ HtmlRenderer.prototype.toAttrNode = function( text ) {
 
 
 }).call(this)}).call(this,"/node_modules/book-source-html-renderer/lib")
-},{"fs":143,"path":160,"string-kit/lib/camel.js":91,"string-kit/lib/escape.js":94}],32:[function(require,module,exports){
+},{"fs":171,"path":211,"string-kit/lib/camel.js":32,"string-kit/lib/escape.js":33}],32:[function(require,module,exports){
+/*
+	String Kit
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+var camel = {} ;
+module.exports = camel ;
+
+
+
+// Transform alphanum separated by underscore or minus to camel case
+camel.toCamelCase = function( str , preserveUpperCase = false , initialUpperCase = false ) {
+	if ( ! str || typeof str !== 'string' ) { return '' ; }
+
+	return str.replace(
+		/(?:^[\s_-]*|([\s_-]+))(([^\s_-]?)([^\s_-]*))/g ,
+		( match , isNotFirstWord , word , firstLetter , endOfWord ) => {
+			if ( preserveUpperCase ) {
+				if ( ! isNotFirstWord && ! initialUpperCase ) { return word ; }
+				if ( ! firstLetter ) { return '' ; }
+				return firstLetter.toUpperCase() + endOfWord ;
+			}
+
+			if ( ! isNotFirstWord && ! initialUpperCase ) { return word.toLowerCase() ; }
+			if ( ! firstLetter ) { return '' ; }
+			return firstLetter.toUpperCase() + endOfWord.toLowerCase() ;
+		}
+	) ;
+} ;
+
+
+
+camel.camelCaseToSeparated = function( str , separator = ' ' , acronym = true ) {
+	if ( ! str || typeof str !== 'string' ) { return '' ; }
+
+	if ( ! acronym ) {
+		return str.replace( /^([A-Z])|([A-Z])/g , ( match , firstLetter , letter ) => {
+			if ( firstLetter ) { return firstLetter.toLowerCase() ; }
+			return separator + letter.toLowerCase() ;
+		} ) ;
+	}
+
+	// (^)? and (^)? does not work, so we have to use (?:(^)|)) and (?:($)|)) to capture end or not
+	return str.replace( /(?:(^)|)([A-Z]+)(?:($)|(?=[a-z]))/g , ( match , isStart , letters , isEnd ) => {
+		isStart = isStart === '' ;
+		isEnd = isEnd === '' ;
+
+		var prefix = isStart ? '' : separator ;
+
+		return letters.length === 1 ? prefix + letters.toLowerCase() :
+			isEnd ? prefix + letters :
+			letters.length === 2 ? prefix + letters[ 0 ].toLowerCase() + separator + letters[ 1 ].toLowerCase() :
+			prefix + letters.slice( 0 , -1 ) + separator + letters.slice( -1 ).toLowerCase() ;
+	} ) ;
+} ;
+
+
+
+// Transform camel case to alphanum separated by minus
+camel.camelCaseToDash =
+camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' , false ) ;
+
+
+},{}],33:[function(require,module,exports){
+/*
+	String Kit
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+/*
+	Escape collection.
+*/
+
+
+
+"use strict" ;
+
+
+
+// From Mozilla Developper Network
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
+exports.regExp = exports.regExpPattern = str => str.replace( /([.*+?^${}()|[\]/\\])/g , '\\$1' ) ;
+
+// This replace any single $ by a double $$
+exports.regExpReplacement = str => str.replace( /\$/g , '$$$$' ) ;
+
+// Escape for string.format()
+// This replace any single % by a double %%
+exports.format = str => str.replace( /%/g , '%%' ) ;
+
+exports.jsSingleQuote = str => exports.control( str ).replace( /'/g , "\\'" ) ;
+exports.jsDoubleQuote = str => exports.control( str ).replace( /"/g , '\\"' ) ;
+
+exports.shellArg = str => '\'' + str.replace( /'/g , "'\\''" ) + '\'' ;
+
+
+
+var escapeControlMap = {
+	'\r': '\\r' ,
+	'\n': '\\n' ,
+	'\t': '\\t' ,
+	'\x7f': '\\x7f'
+} ;
+
+// Escape \r \n \t so they become readable again, escape all ASCII control character as well, using \x syntaxe
+exports.control = ( str , keepNewLineAndTab = false ) => str.replace( /[\x00-\x1f\x7f]/g , match => {
+	if ( keepNewLineAndTab && ( match === '\n' || match === '\t' ) ) { return match ; }
+	if ( escapeControlMap[ match ] !== undefined ) { return escapeControlMap[ match ] ; }
+	var hex = match.charCodeAt( 0 ).toString( 16 ) ;
+	if ( hex.length % 2 ) { hex = '0' + hex ; }
+	return '\\x' + hex ;
+} ) ;
+
+
+
+var escapeHtmlMap = {
+	'&': '&amp;' ,
+	'<': '&lt;' ,
+	'>': '&gt;' ,
+	'"': '&quot;' ,
+	"'": '&#039;'
+} ;
+
+// Only escape & < > so this is suited for content outside tags
+exports.html = str => str.replace( /[&<>]/g , match => escapeHtmlMap[ match ] ) ;
+
+// Escape & < > " so this is suited for content inside a double-quoted attribute
+exports.htmlAttr = str => str.replace( /[&<>"]/g , match => escapeHtmlMap[ match ] ) ;
+
+// Escape all html special characters & < > " '
+exports.htmlSpecialChars = str => str.replace( /[&<>"']/g , match => escapeHtmlMap[ match ] ) ;
+
+// Percent-encode all control chars and codepoint greater than 255 using percent encoding
+exports.unicodePercentEncode = str => str.replace( /[\x00-\x1f\u0100-\uffff\x7f%]/g , match => {
+	try {
+		return encodeURI( match ) ;
+	}
+	catch ( error ) {
+		// encodeURI can throw on bad surrogate pairs, but we just strip those characters
+		return '' ;
+	}
+} ) ;
+
+// Encode HTTP header value
+exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
+
+
+},{}],34:[function(require,module,exports){
 /*
 	Book Source
 
@@ -6910,6 +7146,7 @@ HtmlRenderer.prototype.toAttrNode = function( text ) {
 const documentParts = require( './documentParts.js' ) ;
 const Style = require( './Style.js' ) ;
 const Theme = require( './Theme.js' ) ;
+const textPostFilters = require( './textPostFilters.js' ) ;
 
 const inPlaceFilter = require( 'array-kit/lib/inPlaceFilter.js' ) ;
 
@@ -7077,21 +7314,54 @@ StructuredDocument.prototype.autoTitle = function() {
 
 	if ( ! header ) { return ; }
 
-	str = this.getText( header.parts ) ;
+	str = StructuredDocument.getText( header.parts ) ;
 	if ( str ) { this.title = str ; }
 } ;
 
 
 
-StructuredDocument.prototype.getText = function( parts = this.parts ) {
+StructuredDocument.getText = function( parts ) {
 	var str = '' ;
 
 	for ( let part of parts ) {
 		if ( part.text ) { str += part.text ; }
-		else if ( part.parts?.length ) { str += this.getText( part.parts ) ; }
+		else if ( part.parts?.length ) { str += StructuredDocument.getText( part.parts ) ; }
 	}
 
 	return str ;
+} ;
+
+// Backqard compatibility/API
+StructuredDocument.prototype.getText = function( parts = this.parts ) { return StructuredDocument.getText( parts ) ; } ;
+
+
+
+StructuredDocument.prototype.textPostFilter = function( postFilterList , parts = this.parts ) {
+	for ( let postFilter of postFilterList ) {
+		if ( typeof postFilter === 'string' ) {
+			postFilter = textPostFilters[ postFilter ] ;
+		}
+
+		if ( typeof postFilter === 'function' ) {
+			this.oneTextPostFilter( postFilter , parts ) ;
+		}
+	}
+} ;
+
+
+
+StructuredDocument.prototype.oneTextPostFilter = function( postFilter , parts , runtime = { lastPart: null } ) {
+	for ( let part of parts ) {
+		if ( ( part instanceof documentParts.Text ) && part.text ) {
+			postFilter( part , runtime.lastPart ) ;
+
+			// Can be modified by the callback
+			if ( part.text ) { runtime.lastPart = part ; }
+		}
+		else if ( part.parts?.length ) {
+			this.oneTextPostFilter( postFilter , part.parts , runtime ) ;
+		}
+	}
 } ;
 
 
@@ -7595,41 +7865,26 @@ function parseMedia( str , ctx , float = null ) {
 
 	ctx.i = end ;
 	ctx.iStartOfInlineChunk = ctx.i + 1 ;
+
 	var data = parseDataMark( str , ctx , MEDIA_DATA_MARK ) ;
 	if ( ! data ) { return ; }
 
 	if ( ! data.href?.[ 0 ] ) { return ; }
 
-	var type = 'imageBlock' ;
-
-	if ( data.href[ 1 ] ) {
-		switch ( data.href[ 1 ] ) {
-			case 'image' :
-				type = 'imageBlock' ;
-				break ;
-			case 'audio' :
-				type = 'audioBlock' ;
-				break ;
-			case 'video' :
-				type = 'videoBlock' ;
-				break ;
-			default :
-				return ;
-		}
+	switch ( data.href[ 1 ] || 'image' ) {
+		case 'image' :
+			ctx.parts.push( new documentParts.ImageBlock( data.href[ 0 ] , text , float , data.text?.[ 0 ] , data.text?.[ 1 ] ) ) ;
+			break ;
+		case 'audio' :
+			ctx.parts.push( new documentParts.AudioBlock( data.href[ 0 ] , text , float , data.text?.[ 0 ] , data.text?.[ 1 ] ) ) ;
+			break ;
+		case 'video' :
+			ctx.parts.push( new documentParts.VideoBlock( data.href[ 0 ] , text , float , data.text?.[ 0 ] , data.text?.[ 1 ] ) ) ;
+			break ;
+		default :
+			break ;
 	}
 
-	var params = { type , altText: text , href: data.href[ 0 ] } ;
-
-	if ( float ) { params.float = float ; }
-
-	if ( data.text?.length ) {
-		params.caption = data.text[ 0 ] ;
-		if ( data.text[ 1 ] ) { params.title = data.text[ 1 ] ; }
-	}
-
-	//if ( data.extra?.length ) { params.title = data.extra[ 0 ] ; }
-
-	ctx.parts.push( params ) ;
 	ctx.i ++ ;
 }
 
@@ -7979,6 +8234,7 @@ function parseTableRowSeparator( str , ctx , thick = false ) {
 
 		if ( str[ currentBar + 1 ] === '-' && str[ currentBar + 2 ] === ' ' && str[ nextBar - 1 ] === '-' && str[ nextBar - 2 ] === ' ' ) {
 			// This is a rowSpan
+			table.hasRowSpan = true ;
 			ctx.rowSpanTables.add( table ) ;
 			if ( ! tableRow.continueRowSpan ) { tableRow.continueRowSpan = [] ; }
 
@@ -8244,7 +8500,7 @@ function parseInline( str , ctx , blockEnd , trim = false ) {
 
 function parseNestedInline( str , ctx , scanEnd , topLevel = false ) {
 	var isSpace ,
-		lastWasSpace = WHITE_SPACES.has( str[ ctx.i - 1 ] ) ;
+		lastWasSpaceOrBegining = ! ctx.i || WHITE_SPACES.has( str[ ctx.i - 1 ] ) ;
 
 	//console.log( "parseInline() -- remaining:" , ctx.i , str.slice( ctx.i ) ) ;
 
@@ -8255,7 +8511,7 @@ function parseNestedInline( str , ctx , scanEnd , topLevel = false ) {
 	for ( ; ctx.i < scanEnd ; ctx.i ++ ) {
 		let char = str[ ctx.i ] ;
 
-		//if ( lastWasSpace ) {}
+		//if ( lastWasSpaceOrBegining ) {}
 		//console.error( "Checking: " , string.inspect( char ) ) ;
 
 		isSpace = WHITE_SPACES.has( char ) ;
@@ -8284,12 +8540,16 @@ function parseNestedInline( str , ctx , scanEnd , topLevel = false ) {
 			addInlineTextChunk( str , ctx ) ;
 			parseStyledText( str , ctx , scanEnd ) ;
 		}
-		else if ( char === '!' && str[ ctx.i + 1 ] === '[' && lastWasSpace ) {
+		else if ( char === '?' && str[ ctx.i + 1 ] === '[' && lastWasSpaceOrBegining ) {
+			addInlineTextChunk( str , ctx ) ;
+			parseInfotipedText( str , ctx , scanEnd ) ;
+		}
+		else if ( char === '!' && str[ ctx.i + 1 ] === '[' && lastWasSpaceOrBegining ) {
 			addInlineTextChunk( str , ctx ) ;
 			parseImage( str , ctx , scanEnd ) ;
 		}
 
-		lastWasSpace = isSpace ;
+		lastWasSpaceOrBegining = isSpace ;
 	}
 
 	addInlineTextChunk( str , ctx ) ;
@@ -8443,8 +8703,6 @@ function parseStyledText( str , ctx , scanEnd ) {
 	var end = searchCloser( str , ctx.i + 1 , '[' , ']' , false , scanEnd ) ;
 	if ( end < 0 ) { return ; }
 
-	//var text = str.slice( ctx.i + 1 , end ) ;
-
 	var start = ctx.i + 1 ;
 	ctx.i = end ;
 	var data = parseDataMark( str , ctx , STYLE_DATA_MARK , scanEnd ) ;
@@ -8454,13 +8712,13 @@ function parseStyledText( str , ctx , scanEnd ) {
 
 	var href = data.href?.[ 0 ] ,
 		style = data.style?.[ 0 ] ,
-		title = data.text?.[ 0 ] ;
+		hint = data.text?.[ 0 ] ;
 
 	if ( href ) {
-		ctx.parts.push( new documentParts.Link( href , style , title ) ) ;
+		ctx.parts.push( new documentParts.Link( href , style , hint ) ) ;
 	}
-	else if ( style || title ) {
-		ctx.parts.push( new documentParts.StyledText( style , title ) ) ;
+	else if ( style || hint ) {
+		ctx.parts.push( new documentParts.StyledText( style , hint ) ) ;
 	}
 	else {
 		return ;
@@ -8471,6 +8729,41 @@ function parseStyledText( str , ctx , scanEnd ) {
 
 	ctx.i = fullMarkupEnd ;
 	ctx.iStartOfInlineChunk = ctx.i + 1 ;
+}
+
+
+
+const INFOTIP_DATA_MARK = {
+	text: true , href: true , style: true , extra: false
+} ;
+
+function parseInfotipedText( str , ctx , scanEnd ) {
+	//console.error( "parseStyledText()" ) ;
+	var end = searchCloser( str , ctx.i + 2 , '[' , ']' , false , scanEnd ) ;
+	if ( end < 0 ) { return ; }
+
+	var start = ctx.i + 2 ;
+	ctx.i = end ;
+	var data = parseDataMark( str , ctx , INFOTIP_DATA_MARK , scanEnd ) ;
+
+	var fullMarkupEnd = ctx.i ;
+
+	var href = data?.href?.[ 0 ] ,
+		style = data?.style?.[ 0 ] ,
+		hint = data?.text?.[ 0 ] ;
+
+	var infotipedText = new documentParts.InfotipedText( hint , href , style ) ;
+	ctx.parts.push( infotipedText ) ;
+
+	ctx.i = start ;
+	parseNestedInline( str , ctx , end ) ;
+
+	ctx.i = fullMarkupEnd ;
+	ctx.iStartOfInlineChunk = ctx.i + 1 ;
+
+	if ( ! href && ! hint ) {
+		infotipedText.href = StructuredDocument.getText( infotipedText.parts ) ;
+	}
 }
 
 
@@ -8598,9 +8891,24 @@ function mergeInlineParts( parts , extraParts ) {
 	}
 
 	var lastPart = parts[ parts.length - 1 ] ,
-		firstExtraPart = extraParts[ 0 ] ;
+		lastTextPart = lastPart ,
+		firstExtraPart = extraParts[ 0 ] ,
+		firstExtraTextPart = firstExtraPart ;
 
-	var needExtraSpace = ! WHITE_SPACES.has( lastPart.text[ lastPart.text.length - 1 ] ) && ! WHITE_SPACES.has( firstExtraPart.text[ 0 ] ) ;
+	while ( lastTextPart && lastTextPart.parts && lastTextPart.parts.length ) {
+		lastTextPart = lastTextPart.parts[ lastTextPart.parts.length - 1 ] ;
+	}
+
+	while ( firstExtraTextPart && firstExtraTextPart.parts && firstExtraTextPart.parts.length ) {
+		firstExtraTextPart = firstExtraTextPart.parts[ 0 ] ;
+	}
+
+	if ( ! lastTextPart?.text || ! firstExtraTextPart?.text ) {
+		parts.push( ... extraParts ) ;
+		return ;
+	}
+
+	var needExtraSpace = ! WHITE_SPACES.has( lastTextPart.text[ lastTextPart.text.length - 1 ] ) && ! WHITE_SPACES.has( firstExtraTextPart.text[ 0 ] ) ;
 
 	if ( lastPart.type === 'text' && firstExtraPart.type === 'text' ) {
 		// Combine the last existing with the first additional part
@@ -8928,7 +9236,7 @@ function unstackToIndent( ctx , toIndent = 0 ) {
 }
 
 
-},{"./Style.js":33,"./Theme.js":34,"./documentParts.js":36,"array-kit/lib/inPlaceFilter.js":28}],33:[function(require,module,exports){
+},{"./Style.js":35,"./Theme.js":36,"./documentParts.js":38,"./textPostFilters.js":39,"array-kit/lib/inPlaceFilter.js":28}],35:[function(require,module,exports){
 /*
 	Book Source
 
@@ -8969,6 +9277,7 @@ function Style() {
 	this.bold = null ;
 	this.italic = null ;
 	this.underline = null ;
+	this.fx = null ;
 }
 
 module.exports = Style ;
@@ -9000,6 +9309,7 @@ Style.merge = function( ... styles ) {
 const BOOLEAN_PROPERTIES = new Set( [ 'bold' , 'italic' , 'underline' ] ) ;
 const TEXT_COLOR_PROPERTIES = new Set( [ 'text' , 'tx' , 'foreground' , 'fg' ] ) ;
 const BACKGROUND_COLOR_PROPERTIES = new Set( [ 'background' , 'bg' ] ) ;
+const FX_PROPERTIES = new Set( [ 'fx' ] ) ;
 
 
 
@@ -9010,9 +9320,12 @@ Style.parse = function( str , forTextElement = true ) {
 		let [ property , value ] = part.split( ':' ) ;
 
 		if ( value ) {
-			property = TEXT_COLOR_PROPERTIES.has( property ) ? 'text' :
+			property =
+				TEXT_COLOR_PROPERTIES.has( property ) ? 'text' :
 				BACKGROUND_COLOR_PROPERTIES.has( property ) ? 'background' :
-				forTextElement ? 'text' : 'background' ;
+				FX_PROPERTIES.has( property ) ? 'fx' :
+				forTextElement ? 'text' :
+				'background' ;
 		}
 		else {
 			if ( BOOLEAN_PROPERTIES.has( property ) ) {
@@ -9031,6 +9344,9 @@ Style.parse = function( str , forTextElement = true ) {
 			case 'background' :
 				style.backgroundColor = Color.parse( value ) ;
 				break ;
+			case 'fx' :
+				style.fx = value ;
+				break ;
 		}
 	}
 
@@ -9038,7 +9354,7 @@ Style.parse = function( str , forTextElement = true ) {
 } ;
 
 
-},{"palette-shade":76}],34:[function(require,module,exports){
+},{"palette-shade":85}],36:[function(require,module,exports){
 /*
 	Book Source
 
@@ -9117,7 +9433,7 @@ function Theme( params = {} ) {
 	} ;
 
 	this.printSizes = {
-		text: '9pt' ,
+		text: '12pt' ,
 		lineHeight: '1.5' ,
 		codeLineHeight: '1.4'
 	} ;
@@ -9168,7 +9484,7 @@ Theme.prototype.substituteWithPalette = function() {
 } ;
 
 
-},{"palette-shade":76}],35:[function(require,module,exports){
+},{"palette-shade":85}],37:[function(require,module,exports){
 /*
 	Book Source
 
@@ -9205,10 +9521,11 @@ module.exports = bookSource ;
 bookSource.StructuredDocument = require( './StructuredDocument.js' ) ;
 bookSource.Style = require( './Style.js' ) ;
 bookSource.Theme = require( './Theme.js' ) ;
+bookSource.textPostFilters = require( './textPostFilters.js' ) ;
 
 Object.assign( bookSource , require( './documentParts.js' ) ) ;
 
-// Exposed external lib
+// Exposed external libs
 const paletteShade = require( 'palette-shade' ) ;
 bookSource.Color = paletteShade.Color ;
 bookSource.Palette = paletteShade.Palette ;
@@ -9216,7 +9533,7 @@ bookSource.Palette = paletteShade.Palette ;
 bookSource.parse = bookSource.StructuredDocument.parse ;
 
 
-},{"./StructuredDocument.js":32,"./Style.js":33,"./Theme.js":34,"./documentParts.js":36,"palette-shade":76}],36:[function(require,module,exports){
+},{"./StructuredDocument.js":34,"./Style.js":35,"./Theme.js":36,"./documentParts.js":38,"./textPostFilters.js":39,"palette-shade":85}],38:[function(require,module,exports){
 /*
 	Book Source
 
@@ -9286,13 +9603,21 @@ documentParts.InlineTextPart = InlineTextPart ;
 
 
 
-function BlockPart() {
-	this.parts = [] ;
-}
+function BlockPart() {}
 
 BlockPart.prototype = Object.create( Part.prototype ) ;
 BlockPart.prototype.constructor = BlockPart ;
 documentParts.BlockPart = BlockPart ;
+
+
+
+function BlockContainerPart() {
+	this.parts = [] ;
+}
+
+BlockContainerPart.prototype = Object.create( Part.prototype ) ;
+BlockContainerPart.prototype.constructor = BlockContainerPart ;
+documentParts.BlockContainerPart = BlockContainerPart ;
 
 
 
@@ -9345,12 +9670,12 @@ documentParts.Code = Code ;
 
 
 
-function Link( href , style , title ) {
+function Link( href , style , hint ) {
 	this.type = 'link' ;
 	this.href = href ;
 	this.style = style || undefined ;
 	InlineContainerPart.call( this ) ;
-	this.title = title || undefined ;
+	this.hint = hint || undefined ;
 }
 
 Link.prototype = Object.create( InlineContainerPart.prototype ) ;
@@ -9359,11 +9684,26 @@ documentParts.Link = Link ;
 
 
 
-function StyledText( style , title ) {
+// Tooltip/Infotip/Hint displayed when hovering
+function InfotipedText( hint , href , style ) {
+	this.type = 'infotipedText' ;
+	this.hint = hint || undefined ;
+	this.href = href || undefined ;
+	this.style = style || undefined ;
+	InlineContainerPart.call( this ) ;
+}
+
+InfotipedText.prototype = Object.create( InlineContainerPart.prototype ) ;
+InfotipedText.prototype.constructor = InfotipedText ;
+documentParts.InfotipedText = InfotipedText ;
+
+
+
+function StyledText( style , hint ) {
 	this.type = 'styledText' ;
 	this.style = style || undefined ;
 	InlineContainerPart.call( this ) ;
-	this.title = title || undefined ;
+	this.hint = hint || undefined ;
 }
 
 StyledText.prototype = Object.create( InlineContainerPart.prototype ) ;
@@ -9372,11 +9712,11 @@ documentParts.StyledText = StyledText ;
 
 
 
-function Image( href , altText , title ) {
+function Image( href , altText , hint ) {
 	this.type = 'image' ;
 	this.href = href ;
 	this.altText = altText ;
-	this.title = title || undefined ;
+	this.hint = hint || undefined ;
 	InlinePart.call( this ) ;
 }
 
@@ -9388,7 +9728,7 @@ documentParts.Image = Image ;
 
 const emoji = require( 'string-kit/lib/emoji.js' ) ;
 
-function Pictogram( code , altText , title ) {
+function Pictogram( code , altText , hint ) {
 	this.type = 'pictogram' ;
 	this.code = code ;
 
@@ -9400,7 +9740,7 @@ function Pictogram( code , altText , title ) {
 		emojiChar ? emoji.getCanonicalName( emojiChar ) :
 		undefined ;
 
-	this.title = title || undefined ;
+	this.hint = hint || undefined ;
 
 	InlinePart.call( this ) ;
 }
@@ -9415,10 +9755,10 @@ documentParts.Pictogram = Pictogram ;
 
 function Paragraph() {
 	this.type = 'paragraph' ;
-	BlockPart.call( this ) ;
+	BlockContainerPart.call( this ) ;
 }
 
-Paragraph.prototype = Object.create( BlockPart.prototype ) ;
+Paragraph.prototype = Object.create( BlockContainerPart.prototype ) ;
 Paragraph.prototype.constructor = Paragraph ;
 documentParts.Paragraph = Paragraph ;
 
@@ -9427,10 +9767,10 @@ documentParts.Paragraph = Paragraph ;
 function Header( level ) {
 	this.type = 'header' ;
 	this.level = level ;
-	BlockPart.call( this ) ;
+	BlockContainerPart.call( this ) ;
 }
 
-Header.prototype = Object.create( BlockPart.prototype ) ;
+Header.prototype = Object.create( BlockContainerPart.prototype ) ;
 Header.prototype.constructor = Header ;
 documentParts.Header = Header ;
 
@@ -9438,10 +9778,10 @@ documentParts.Header = Header ;
 
 function Cite() {
 	this.type = 'cite' ;
-	BlockPart.call( this ) ;
+	BlockContainerPart.call( this ) ;
 }
 
-Cite.prototype = Object.create( BlockPart.prototype ) ;
+Cite.prototype = Object.create( BlockContainerPart.prototype ) ;
 Cite.prototype.constructor = Cite ;
 documentParts.Cite = Cite ;
 
@@ -9450,10 +9790,10 @@ documentParts.Cite = Cite ;
 function List( indent ) {
 	this.type = 'list' ;
 	this.indent = indent ;
-	BlockPart.call( this ) ;
+	BlockContainerPart.call( this ) ;
 }
 
-List.prototype = Object.create( BlockPart.prototype ) ;
+List.prototype = Object.create( BlockContainerPart.prototype ) ;
 List.prototype.constructor = List ;
 documentParts.List = List ;
 
@@ -9462,10 +9802,10 @@ documentParts.List = List ;
 function ListItem( indent ) {
 	this.type = 'listItem' ;
 	this.indent = indent ;
-	BlockPart.call( this ) ;
+	BlockContainerPart.call( this ) ;
 }
 
-ListItem.prototype = Object.create( BlockPart.prototype ) ;
+ListItem.prototype = Object.create( BlockContainerPart.prototype ) ;
 ListItem.prototype.constructor = ListItem ;
 documentParts.ListItem = ListItem ;
 
@@ -9475,10 +9815,10 @@ function OrderedList( indent ) {
 	this.type = 'orderedList' ;
 	this.indent = indent ;
 	this.autoIndex = 1 ;
-	BlockPart.call( this ) ;
+	BlockContainerPart.call( this ) ;
 }
 
-OrderedList.prototype = Object.create( BlockPart.prototype ) ;
+OrderedList.prototype = Object.create( BlockContainerPart.prototype ) ;
 OrderedList.prototype.constructor = OrderedList ;
 documentParts.OrderedList = OrderedList ;
 
@@ -9489,10 +9829,10 @@ function OrderedListItem( indent , order , index ) {
 	this.indent = indent ;
 	this.order = order ;	// User order value
 	this.index = index ;	// Real index, starting at 1, and auto-incrementing
-	BlockPart.call( this ) ;
+	BlockContainerPart.call( this ) ;
 }
 
-OrderedListItem.prototype = Object.create( BlockPart.prototype ) ;
+OrderedListItem.prototype = Object.create( BlockContainerPart.prototype ) ;
 OrderedListItem.prototype.constructor = OrderedListItem ;
 documentParts.OrderedListItem = OrderedListItem ;
 
@@ -9501,10 +9841,10 @@ documentParts.OrderedListItem = OrderedListItem ;
 function Quote( indent ) {
 	this.type = 'quote' ;
 	this.indent = indent ;
-	BlockPart.call( this ) ;
+	BlockContainerPart.call( this ) ;
 }
 
-Quote.prototype = Object.create( BlockPart.prototype ) ;
+Quote.prototype = Object.create( BlockContainerPart.prototype ) ;
 Quote.prototype.constructor = Quote ;
 documentParts.Quote = Quote ;
 
@@ -9513,10 +9853,10 @@ documentParts.Quote = Quote ;
 function HorizontalRule( clearFloat ) {
 	this.type = 'horizontalRule' ;
 	this.clearFloat = clearFloat ;
-	BlockPart.call( this ) ;
+	BlockContainerPart.call( this ) ;
 }
 
-HorizontalRule.prototype = Object.create( BlockPart.prototype ) ;
+HorizontalRule.prototype = Object.create( BlockContainerPart.prototype ) ;
 HorizontalRule.prototype.constructor = HorizontalRule ;
 documentParts.HorizontalRule = HorizontalRule ;
 
@@ -9524,10 +9864,10 @@ documentParts.HorizontalRule = HorizontalRule ;
 
 function ClearFloat() {
 	this.type = 'clearFloat' ;
-	BlockPart.call( this ) ;
+	BlockContainerPart.call( this ) ;
 }
 
-ClearFloat.prototype = Object.create( BlockPart.prototype ) ;
+ClearFloat.prototype = Object.create( BlockContainerPart.prototype ) ;
 ClearFloat.prototype.constructor = ClearFloat ;
 documentParts.ClearFloat = ClearFloat ;
 
@@ -9537,10 +9877,10 @@ function CodeBlock( text , lang ) {
 	this.type = 'codeBlock' ;
 	this.lang = lang || undefined ;
 	this.text = text ;
-	BlockPart.call( this ) ;
+	BlockContainerPart.call( this ) ;
 }
 
-CodeBlock.prototype = Object.create( BlockPart.prototype ) ;
+CodeBlock.prototype = Object.create( BlockContainerPart.prototype ) ;
 CodeBlock.prototype.constructor = CodeBlock ;
 documentParts.CodeBlock = CodeBlock ;
 
@@ -9549,12 +9889,60 @@ documentParts.CodeBlock = CodeBlock ;
 function Anchor( href ) {
 	this.type = 'anchor' ;
 	this.href = href ;
+	BlockContainerPart.call( this ) ;
+}
+
+Anchor.prototype = Object.create( BlockContainerPart.prototype ) ;
+Anchor.prototype.constructor = Anchor ;
+documentParts.Anchor = Anchor ;
+
+
+
+function ImageBlock( href , altText , float , caption , hint ) {
+	this.type = 'imageBlock' ;
+	this.href = href ;
+	this.altText = altText ;
+	this.float = float || undefined ;
+	this.caption = caption || undefined ;
+	this.hint = hint || undefined ;
 	BlockPart.call( this ) ;
 }
 
-Anchor.prototype = Object.create( BlockPart.prototype ) ;
-Anchor.prototype.constructor = Anchor ;
-documentParts.Anchor = Anchor ;
+ImageBlock.prototype = Object.create( BlockPart.prototype ) ;
+ImageBlock.prototype.constructor = ImageBlock ;
+documentParts.ImageBlock = ImageBlock ;
+
+
+
+function AudioBlock( href , altText , float , caption , hint ) {
+	this.type = 'audioBlock' ;
+	this.href = href ;
+	this.altText = altText ;
+	this.float = float || undefined ;
+	this.caption = caption || undefined ;
+	this.hint = hint || undefined ;
+	BlockPart.call( this ) ;
+}
+
+AudioBlock.prototype = Object.create( BlockPart.prototype ) ;
+AudioBlock.prototype.constructor = AudioBlock ;
+documentParts.AudioBlock = AudioBlock ;
+
+
+
+function VideoBlock( href , altText , float , caption , hint ) {
+	this.type = 'videoBlock' ;
+	this.href = href ;
+	this.altText = altText ;
+	this.float = float || undefined ;
+	this.caption = caption || undefined ;
+	this.hint = hint || undefined ;
+	BlockPart.call( this ) ;
+}
+
+VideoBlock.prototype = Object.create( BlockPart.prototype ) ;
+VideoBlock.prototype.constructor = VideoBlock ;
+documentParts.VideoBlock = VideoBlock ;
 
 
 
@@ -9564,10 +9952,11 @@ function Table() {
 	this.multilineRowMode = false ;
 	this.hasHeadSeparator = false ;
 	this.hasRowSeparator = false ;
-	BlockPart.call( this ) ;
+	this.hasRowSpan = false ;	// Useful to disable background colors based on odd/even rows
+	BlockContainerPart.call( this ) ;
 }
 
-Table.prototype = Object.create( BlockPart.prototype ) ;
+Table.prototype = Object.create( BlockContainerPart.prototype ) ;
 Table.prototype.constructor = Table ;
 documentParts.Table = Table ;
 
@@ -9576,10 +9965,10 @@ documentParts.Table = Table ;
 function TableCaption( style ) {
 	this.type = 'tableCaption' ;
 	this.style = style || undefined ;
-	BlockPart.call( this ) ;
+	BlockContainerPart.call( this ) ;
 }
 
-TableCaption.prototype = Object.create( BlockPart.prototype ) ;
+TableCaption.prototype = Object.create( BlockContainerPart.prototype ) ;
 TableCaption.prototype.constructor = TableCaption ;
 documentParts.TableCaption = TableCaption ;
 
@@ -9590,10 +9979,10 @@ function TableRow( style ) {
 	this.style = style || undefined ;
 	this.rowSeparator = false ;
 	this.continueRowSpan = undefined ;
-	BlockPart.call( this ) ;
+	BlockContainerPart.call( this ) ;
 }
 
-TableRow.prototype = Object.create( BlockPart.prototype ) ;
+TableRow.prototype = Object.create( BlockContainerPart.prototype ) ;
 TableRow.prototype.constructor = TableRow ;
 documentParts.TableRow = TableRow ;
 
@@ -9612,10 +10001,10 @@ function TableHeadRow( style ) {
 	this.style = style || undefined ;
 	this.rowSeparator = false ;
 	this.continueRowSpan = undefined ;
-	BlockPart.call( this ) ;
+	BlockContainerPart.call( this ) ;
 }
 
-TableHeadRow.prototype = Object.create( BlockPart.prototype ) ;
+TableHeadRow.prototype = Object.create( BlockContainerPart.prototype ) ;
 TableHeadRow.prototype.constructor = TableHeadRow ;
 documentParts.TableHeadRow = TableHeadRow ;
 
@@ -9631,10 +10020,10 @@ function TableCell( style ) {
 	this.sx = - 1 ;
 	this.ex = - 1 ;
 	this.masterCell = undefined ;
-	BlockPart.call( this ) ;
+	BlockContainerPart.call( this ) ;
 }
 
-TableCell.prototype = Object.create( BlockPart.prototype ) ;
+TableCell.prototype = Object.create( BlockContainerPart.prototype ) ;
 TableCell.prototype.constructor = TableCell ;
 documentParts.TableCell = TableCell ;
 
@@ -9665,15 +10054,391 @@ function TableHeadCell( style ) {
 	this.masterCell = undefined ;
 	this.isColumnHead = false ;
 	this.isRowHead = false ;
-	BlockPart.call( this ) ;
+	BlockContainerPart.call( this ) ;
 }
 
-TableHeadCell.prototype = Object.create( BlockPart.prototype ) ;
+TableHeadCell.prototype = Object.create( BlockContainerPart.prototype ) ;
 TableHeadCell.prototype.constructor = TableHeadCell ;
 documentParts.TableHeadCell = TableHeadCell ;
 
 
-},{"string-kit/lib/emoji.js":92}],37:[function(require,module,exports){
+},{"string-kit/lib/emoji.js":40}],39:[function(require,module,exports){
+/*
+	Book Source
+
+	Copyright (c) 2023 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+// Non-breaking space
+const NBSP = String.fromCharCode( 0xa0 ) ;
+//const NBSP = '#' ;
+
+
+
+const DOUBLE_GRAPH_PUNCTUATIONS = [ ':' , ';' , '!' , '?' ] ;
+const SPACES = [ ' ' , NBSP ] ;
+const DOUBLE_GRAPH_PUNCTUATIONS_AND_SPACES = DOUBLE_GRAPH_PUNCTUATIONS.concat( SPACES ) ;
+const FRENCH_TYPO_PUNCTUATION_REGEX =
+	"([^" + DOUBLE_GRAPH_PUNCTUATIONS_AND_SPACES.join( '' ) + "])"
+	+ "[" + SPACES.join( '' ) + "]?"
+	+ "([" + DOUBLE_GRAPH_PUNCTUATIONS.join( '' ) + "]+)" ;
+const FRENCH_TYPO_PUNCTUATION_REGEX_WITHOUT_PREVIOUS =
+	"[" + SPACES.join( '' ) + "]?"
+	+ "([" + DOUBLE_GRAPH_PUNCTUATIONS.join( '' ) + "]+)" ;
+const FRENCH_TYPO_PUNCTUATION_REGEX_ALT_START =
+	"(?:"
+	+ "^" + FRENCH_TYPO_PUNCTUATION_REGEX_WITHOUT_PREVIOUS
+	+ "|(?<!^)" + FRENCH_TYPO_PUNCTUATION_REGEX
+	+ ")" ;
+
+
+
+exports['french-typo'] = ( part , lastPart ) => {
+	var useRegexAltStart = false ;
+
+	if ( lastPart ) {
+		let firstChar = part.text[ 0 ] ;
+		let lastChar = lastPart.text[ lastPart.text.length - 1 ] ;
+
+		if (
+			DOUBLE_GRAPH_PUNCTUATIONS.includes( firstChar )
+			&& ! DOUBLE_GRAPH_PUNCTUATIONS.includes( lastChar )
+			&& lastChar !== NBSP
+		) {
+			if ( lastChar === ' ' ) {
+				lastPart.text = lastPart.text.slice( 0 , - 1 ) + NBSP ;
+			}
+			else {
+				part.text = NBSP + part.text ;
+			}
+		}
+		else if ( ! DOUBLE_GRAPH_PUNCTUATIONS_AND_SPACES.includes( lastChar ) ) {
+			useRegexAltStart = true ;
+		}
+	}
+
+	if ( useRegexAltStart ) {
+		part.text = part.text.replace(
+			new RegExp( FRENCH_TYPO_PUNCTUATION_REGEX_ALT_START , 'g' ) ,
+			( match , punctuations1 , previous , punctuations2 ) =>
+				punctuations1 ? NBSP + punctuations1 :
+				previous + NBSP + punctuations2
+		) ;
+	}
+	else {
+		part.text = part.text.replace(
+			new RegExp( FRENCH_TYPO_PUNCTUATION_REGEX , 'g' ) ,
+			( match , previous , punctuations ) => previous + NBSP + punctuations
+		) ;
+	}
+} ;
+
+
+
+exports.apostrophe = ( part ) => {
+	part.text = part.text.replace( /'/g , '’' ) ;
+} ;
+
+
+},{}],40:[function(require,module,exports){
+/*
+	Book Source
+
+	Copyright (c) 2023 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const latinize = require( './latinize.js' ) ;
+const english = require( './english.js' ) ;
+
+const KEYWORD_TO_CHARLIST = require( './json-data/emoji-keyword-to-charlist.json' ) ;
+const CHAR_TO_CANONICAL_NAME = require( './json-data/emoji-char-to-canonical-name.json' ) ;
+
+
+
+const emoji = {} ;
+module.exports = emoji ;
+
+
+
+emoji.getCanonicalName = emojiChar => CHAR_TO_CANONICAL_NAME[ emojiChar ] ;
+
+
+
+const emojiToKeywordsCache = {} ;
+
+// Return a cached and frozen array
+emoji.getKeywords = emojiChar => {
+	if ( ! CHAR_TO_CANONICAL_NAME[ emojiChar ] ) { return ; }
+
+	if ( ! emojiToKeywordsCache[ emojiChar ] ) {
+		emojiToKeywordsCache[ emojiChar ] = emoji.splitIntoKeywords( CHAR_TO_CANONICAL_NAME[ emojiChar ] ) ;
+		Object.freeze( emojiToKeywordsCache[ emojiChar ] ) ;
+	}
+
+	return emojiToKeywordsCache[ emojiChar ] ;
+} ;
+
+
+
+emoji.search = ( name , bestOnly = false ) => {
+	var keywords = emoji.splitIntoKeywords( name ) ,
+		matches = {} ,
+		score ,
+		bestScore = 0 ;
+
+	for ( let keyword of keywords ) {
+		if ( ! KEYWORD_TO_CHARLIST[ keyword ] ) { continue ; }
+
+		for ( let emojiChar of KEYWORD_TO_CHARLIST[ keyword ] ) {
+			if ( ! matches[ emojiChar ] ) {
+				score = 1 ;
+				matches[ emojiChar ] = {
+					emoji: emojiChar ,
+					score ,
+					canonical: CHAR_TO_CANONICAL_NAME[ emojiChar ] ,
+					keywords: emoji.getKeywords( emojiChar )
+				} ;
+			}
+			else {
+				score = matches[ emojiChar ].score + 1 ;
+				matches[ emojiChar ].score = score ;
+			}
+
+			if ( score > bestScore ) { bestScore = score ; }
+		}
+	}
+
+	var results = [ ... Object.values( matches ) ] ;
+	if ( bestOnly ) { results = results.filter( e => e.score === bestScore ) ; }
+	results.sort( ( a , b ) => ( b.score - a.score ) || ( a.keywords.length - b.keywords.length ) ) ;
+	return results ;
+} ;
+
+emoji.searchBest = name => emoji.search( name , true ) ;
+emoji.get = name => emoji.search( name , true )[ 0 ]?.emoji ;
+
+
+
+
+
+// Internal API, exposed because it is used by the builder
+
+
+
+emoji.simplifyName = name => {
+	name = name.toLowerCase().replace( /[“”().!]/g , '' ).replace( /[ ’',]/g , '-' ).replace( /-+/g , '-' ) ;
+	name = latinize( name ) ;
+	return name ;
+} ;
+
+
+
+emoji.simplifyKeyword = inputKeyword => {
+	var kw = inputKeyword ;
+	kw = english.undoPresentParticiple( kw ) ;
+
+	//if ( kw !== inputKeyword ) { console.log( "Changing KW:" , inputKeyword , "-->" , kw ) ; }
+	return kw ;
+} ;
+
+
+
+const KEYWORD_EXCLUSION = new Set( [ 'with' , 'of' ] ) ;
+
+emoji.splitIntoKeywords = ( name , noSimplify = false ) => {
+	if ( ! noSimplify ) { name = emoji.simplifyName( name ) ; }
+	var keywords = name.split( /-/g ).filter( keyword => keyword.length >= 2 && ! KEYWORD_EXCLUSION.has( keyword ) ) ;
+	keywords = keywords.map( emoji.simplifyKeyword ) ;
+	keywords = [ ... new Set( keywords ) ] ;	// Make them unique
+	return keywords ;
+} ;
+
+
+},{"./english.js":41,"./json-data/emoji-char-to-canonical-name.json":42,"./json-data/emoji-keyword-to-charlist.json":43,"./latinize.js":45}],41:[function(require,module,exports){
+/*
+	Book Source
+
+	Copyright (c) 2023 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const english = {} ;
+module.exports = english ;
+
+
+
+const VOWELS = new Set( [ 'a' , 'e' , 'i' , 'o' , 'u' , 'y' ] ) ;
+const VOWELS_ADDING_E = new Set( [ 'a' , 'i' , 'o' , 'u' ] ) ;
+const CONSONANTS_AFTER_VOWEL_ADDING_E = new Set( [ 's' ] ) ;
+const CONSONANTS_ADDING_E = new Set( [ 'v' ] ) ;
+const CONSONANTS_NOT_ADDING_E = new Set( [ 'w' , 'x' ] ) ;
+const DOUBLE_CONSONANTS_ADDING_E = new Set( [ 'cl' , 'dl' , 'gl' , 'kl' , 'nc' , 'pl' , 'tl' ] ) ;
+const REDUCING_DOUBLE_CONSONANTS = new Set( [ 'd' , 'g' , 'm' , 'n' , 'p' ] ) ;
+const CONSONANTS_AFTER_VOWELS_COMBO_NOT_ADDING_E = new Set( [ 'or' ] ) ;	// Last chance fix
+
+// Remove -ing and transform to a proper verb or noun
+english.undoPresentParticiple = word => {
+	if ( word.endsWith( 'ing' ) && word.length >= 6 && ! word.endsWith( 'ghtning' ) ) {
+		let ingSuffix = 'ing' ;
+		//if ( word.endsWith( 'ling' ) ) { ingSuffix = 'ling' ; }
+
+		let ingLen = ingSuffix.length ;
+
+		let before = word[ word.length - ingLen - 1 ] ,
+			before2 = word[ word.length - ingLen - 2 ] ,
+			before3 = word[ word.length - ingLen - 3 ] ;
+
+		if ( VOWELS.has( before ) ) {
+			word = word.slice( 0 , -ingLen ) ;
+		}
+		else if ( VOWELS.has( before2 ) ) {
+			if ( VOWELS.has( before3 ) ) {
+				if ( CONSONANTS_AFTER_VOWEL_ADDING_E.has( before ) && ! CONSONANTS_AFTER_VOWELS_COMBO_NOT_ADDING_E.has( before2 + before ) ) {
+					word = word.slice( 0 , -ingLen ) + 'e' ;
+				}
+				else {
+					word = word.slice( 0 , -ingLen ) ;
+				}
+			}
+			else if ( VOWELS_ADDING_E.has( before2 ) && ! CONSONANTS_NOT_ADDING_E.has( before ) ) {
+				word = word.slice( 0 , -ingLen ) + 'e' ;
+			}
+			else {
+				word = word.slice( 0 , -ingLen ) ;
+			}
+		}
+		else if ( before === before2 && REDUCING_DOUBLE_CONSONANTS.has( before ) ) {
+			word = word.slice( 0 , -ingLen - 1 ) ;
+		}
+		else if ( CONSONANTS_ADDING_E.has( before ) || DOUBLE_CONSONANTS_ADDING_E.has( before2 + before ) ) {
+			word = word.slice( 0 , -ingLen ) + 'e' ;
+		}
+		else {
+			word = word.slice( 0 , -ingLen ) ;
+		}
+	}
+
+	return word ;
+} ;
+
+
+},{}],42:[function(require,module,exports){
+module.exports={"😀":"grinning-face","😃":"grinning-face-with-big-eyes","😄":"grinning-face-with-smiling-eyes","😁":"beaming-face-with-smiling-eyes","😆":"grinning-squinting-face","😅":"grinning-face-with-sweat","🤣":"rolling-on-the-floor-laughing","😂":"face-with-tears-of-joy","🙂":"slightly-smiling-face","🙃":"upside-down-face","🫠":"melting-face","😉":"winking-face","😊":"smiling-face-with-smiling-eyes","😇":"smiling-face-with-halo","🥰":"smiling-face-with-hearts","😍":"smiling-face-with-heart-eyes","🤩":"star-struck","😘":"face-blowing-a-kiss","😗":"kissing-face","☺️":"smiling-face","😚":"kissing-face-with-closed-eyes","😙":"kissing-face-with-smiling-eyes","🥲":"smiling-face-with-tear","😋":"face-savoring-food","😛":"face-with-tongue","😜":"winking-face-with-tongue","🤪":"zany-face","😝":"squinting-face-with-tongue","🤑":"money-mouth-face","🤗":"smiling-face-with-open-hands","🤭":"face-with-hand-over-mouth","🫢":"face-with-open-eyes-and-hand-over-mouth","🫣":"face-with-peeking-eye","🤫":"shushing-face","🤔":"thinking-face","🫡":"saluting-face","🤐":"zipper-mouth-face","🤨":"face-with-raised-eyebrow","😐":"neutral-face","😑":"expressionless-face","😶":"face-without-mouth","🫥":"dotted-line-face","😶‍🌫️":"face-in-clouds","😏":"smirking-face","😒":"unamused-face","🙄":"face-with-rolling-eyes","😬":"grimacing-face","😮‍💨":"face-exhaling","🤥":"lying-face","🫨":"shaking-face","😌":"relieved-face","😔":"pensive-face","😪":"sleepy-face","🤤":"drooling-face","😴":"sleeping-face","😷":"face-with-medical-mask","🤒":"face-with-thermometer","🤕":"face-with-head-bandage","🤢":"nauseated-face","🤮":"face-vomiting","🤧":"sneezing-face","🥵":"hot-face","🥶":"cold-face","🥴":"woozy-face","😵":"face-with-crossed-out-eyes","😵‍💫":"face-with-spiral-eyes","🤯":"exploding-head","🤠":"cowboy-hat-face","🥳":"partying-face","🥸":"disguised-face","😎":"smiling-face-with-sunglasses","🤓":"nerd-face","🧐":"face-with-monocle","😕":"confused-face","🫤":"face-with-diagonal-mouth","😟":"worried-face","🙁":"slightly-frowning-face","☹️":"frowning-face","😮":"face-with-open-mouth","😯":"hushed-face","😲":"astonished-face","😳":"flushed-face","🥺":"pleading-face","🥹":"face-holding-back-tears","😦":"frowning-face-with-open-mouth","😧":"anguished-face","😨":"fearful-face","😰":"anxious-face-with-sweat","😥":"sad-but-relieved-face","😢":"crying-face","😭":"loudly-crying-face","😱":"face-screaming-in-fear","😖":"confounded-face","😣":"persevering-face","😞":"disappointed-face","😓":"downcast-face-with-sweat","😩":"weary-face","😫":"tired-face","🥱":"yawning-face","😤":"face-with-steam-from-nose","😡":"enraged-face","😠":"angry-face","🤬":"face-with-symbols-on-mouth","😈":"smiling-face-with-horns","👿":"angry-face-with-horns","💀":"skull","☠️":"skull-and-crossbones","💩":"pile-of-poo","🤡":"clown-face","👹":"ogre","👺":"goblin","👻":"ghost","👽":"alien","👾":"alien-monster","🤖":"robot","😺":"grinning-cat","😸":"grinning-cat-with-smiling-eyes","😹":"cat-with-tears-of-joy","😻":"smiling-cat-with-heart-eyes","😼":"cat-with-wry-smile","😽":"kissing-cat","🙀":"weary-cat","😿":"crying-cat","😾":"pouting-cat","🙈":"see-no-evil-monkey","🙉":"hear-no-evil-monkey","🙊":"speak-no-evil-monkey","💌":"love-letter","💘":"heart-with-arrow","💝":"heart-with-ribbon","💖":"sparkling-heart","💗":"growing-heart","💓":"beating-heart","💞":"revolving-hearts","💕":"two-hearts","💟":"heart-decoration","❣️":"heart-exclamation","💔":"broken-heart","❤️‍🔥":"heart-on-fire","❤️‍🩹":"mending-heart","❤️":"red-heart","🩷":"pink-heart","🧡":"orange-heart","💛":"yellow-heart","💚":"green-heart","💙":"blue-heart","🩵":"light-blue-heart","💜":"purple-heart","🤎":"brown-heart","🖤":"black-heart","🩶":"grey-heart","🤍":"white-heart","💋":"kiss-mark","💯":"hundred-points","💢":"anger-symbol","💥":"collision","💫":"dizzy","💦":"sweat-droplets","💨":"dashing-away","🕳️":"hole","💬":"speech-balloon","👁️‍🗨️":"eye-in-speech-bubble","🗨️":"left-speech-bubble","🗯️":"right-anger-bubble","💭":"thought-balloon","💤":"zzz","👋":"waving-hand","🤚":"raised-back-of-hand","🖐️":"hand-with-fingers-splayed","✋":"raised-hand","🖖":"vulcan-salute","🫱":"rightwards-hand","🫲":"leftwards-hand","🫳":"palm-down-hand","🫴":"palm-up-hand","🫷":"leftwards-pushing-hand","🫸":"rightwards-pushing-hand","👌":"ok-hand","🤌":"pinched-fingers","🤏":"pinching-hand","✌️":"victory-hand","🤞":"crossed-fingers","🫰":"hand-with-index-finger-and-thumb-crossed","🤟":"love-you-gesture","🤘":"sign-of-the-horns","🤙":"call-me-hand","👈":"backhand-index-pointing-left","👉":"backhand-index-pointing-right","👆":"backhand-index-pointing-up","🖕":"middle-finger","👇":"backhand-index-pointing-down","☝️":"index-pointing-up","🫵":"index-pointing-at-the-viewer","👍":"thumbs-up","👎":"thumbs-down","✊":"raised-fist","👊":"oncoming-fist","🤛":"left-facing-fist","🤜":"right-facing-fist","👏":"clapping-hands","🙌":"raising-hands","🫶":"heart-hands","👐":"open-hands","🤲":"palms-up-together","🤝":"handshake","🙏":"folded-hands","✍️":"writing-hand","💅":"nail-polish","🤳":"selfie","💪":"flexed-biceps","🦾":"mechanical-arm","🦿":"mechanical-leg","🦵":"leg","🦶":"foot","👂":"ear","🦻":"ear-with-hearing-aid","👃":"nose","🧠":"brain","🫀":"anatomical-heart","🫁":"lungs","🦷":"tooth","🦴":"bone","👀":"eyes","👁️":"eye","👅":"tongue","👄":"mouth","🫦":"biting-lip","👶":"baby","🧒":"child","👦":"boy","👧":"girl","🧑":"person","👱":"person-blond-hair","👨":"man","🧔":"person-beard","🧔‍♂️":"man-beard","🧔‍♀️":"woman-beard","👨‍🦰":"man-red-hair","👨‍🦱":"man-curly-hair","👨‍🦳":"man-white-hair","👨‍🦲":"man-bald","👩":"woman","👩‍🦰":"woman-red-hair","🧑‍🦰":"person-red-hair","👩‍🦱":"woman-curly-hair","🧑‍🦱":"person-curly-hair","👩‍🦳":"woman-white-hair","🧑‍🦳":"person-white-hair","👩‍🦲":"woman-bald","🧑‍🦲":"person-bald","👱‍♀️":"woman-blond-hair","👱‍♂️":"man-blond-hair","🧓":"older-person","👴":"old-man","👵":"old-woman","🙍":"person-frowning","🙍‍♂️":"man-frowning","🙍‍♀️":"woman-frowning","🙎":"person-pouting","🙎‍♂️":"man-pouting","🙎‍♀️":"woman-pouting","🙅":"person-gesturing-no","🙅‍♂️":"man-gesturing-no","🙅‍♀️":"woman-gesturing-no","🙆":"person-gesturing-ok","🙆‍♂️":"man-gesturing-ok","🙆‍♀️":"woman-gesturing-ok","💁":"person-tipping-hand","💁‍♂️":"man-tipping-hand","💁‍♀️":"woman-tipping-hand","🙋":"person-raising-hand","🙋‍♂️":"man-raising-hand","🙋‍♀️":"woman-raising-hand","🧏":"deaf-person","🧏‍♂️":"deaf-man","🧏‍♀️":"deaf-woman","🙇":"person-bowing","🙇‍♂️":"man-bowing","🙇‍♀️":"woman-bowing","🤦":"person-facepalming","🤦‍♂️":"man-facepalming","🤦‍♀️":"woman-facepalming","🤷":"person-shrugging","🤷‍♂️":"man-shrugging","🤷‍♀️":"woman-shrugging","🧑‍⚕️":"health-worker","👨‍⚕️":"man-health-worker","👩‍⚕️":"woman-health-worker","🧑‍🎓":"student","👨‍🎓":"man-student","👩‍🎓":"woman-student","🧑‍🏫":"teacher","👨‍🏫":"man-teacher","👩‍🏫":"woman-teacher","🧑‍⚖️":"judge","👨‍⚖️":"man-judge","👩‍⚖️":"woman-judge","🧑‍🌾":"farmer","👨‍🌾":"man-farmer","👩‍🌾":"woman-farmer","🧑‍🍳":"cook","👨‍🍳":"man-cook","👩‍🍳":"woman-cook","🧑‍🔧":"mechanic","👨‍🔧":"man-mechanic","👩‍🔧":"woman-mechanic","🧑‍🏭":"factory-worker","👨‍🏭":"man-factory-worker","👩‍🏭":"woman-factory-worker","🧑‍💼":"office-worker","👨‍💼":"man-office-worker","👩‍💼":"woman-office-worker","🧑‍🔬":"scientist","👨‍🔬":"man-scientist","👩‍🔬":"woman-scientist","🧑‍💻":"technologist","👨‍💻":"man-technologist","👩‍💻":"woman-technologist","🧑‍🎤":"singer","👨‍🎤":"man-singer","👩‍🎤":"woman-singer","🧑‍🎨":"artist","👨‍🎨":"man-artist","👩‍🎨":"woman-artist","🧑‍✈️":"pilot","👨‍✈️":"man-pilot","👩‍✈️":"woman-pilot","🧑‍🚀":"astronaut","👨‍🚀":"man-astronaut","👩‍🚀":"woman-astronaut","🧑‍🚒":"firefighter","👨‍🚒":"man-firefighter","👩‍🚒":"woman-firefighter","👮":"police-officer","👮‍♂️":"man-police-officer","👮‍♀️":"woman-police-officer","🕵️":"detective","🕵️‍♂️":"man-detective","🕵️‍♀️":"woman-detective","💂":"guard","💂‍♂️":"man-guard","💂‍♀️":"woman-guard","🥷":"ninja","👷":"construction-worker","👷‍♂️":"man-construction-worker","👷‍♀️":"woman-construction-worker","🫅":"person-with-crown","🤴":"prince","👸":"princess","👳":"person-wearing-turban","👳‍♂️":"man-wearing-turban","👳‍♀️":"woman-wearing-turban","👲":"person-with-skullcap","🧕":"woman-with-headscarf","🤵":"person-in-tuxedo","🤵‍♂️":"man-in-tuxedo","🤵‍♀️":"woman-in-tuxedo","👰":"person-with-veil","👰‍♂️":"man-with-veil","👰‍♀️":"woman-with-veil","🤰":"pregnant-woman","🫃":"pregnant-man","🫄":"pregnant-person","🤱":"breast-feeding","👩‍🍼":"woman-feeding-baby","👨‍🍼":"man-feeding-baby","🧑‍🍼":"person-feeding-baby","👼":"baby-angel","🎅":"santa-claus","🤶":"mrs-claus","🧑‍🎄":"mx-claus","🦸":"superhero","🦸‍♂️":"man-superhero","🦸‍♀️":"woman-superhero","🦹":"supervillain","🦹‍♂️":"man-supervillain","🦹‍♀️":"woman-supervillain","🧙":"mage","🧙‍♂️":"man-mage","🧙‍♀️":"woman-mage","🧚":"fairy","🧚‍♂️":"man-fairy","🧚‍♀️":"woman-fairy","🧛":"vampire","🧛‍♂️":"man-vampire","🧛‍♀️":"woman-vampire","🧜":"merperson","🧜‍♂️":"merman","🧜‍♀️":"mermaid","🧝":"elf","🧝‍♂️":"man-elf","🧝‍♀️":"woman-elf","🧞":"genie","🧞‍♂️":"man-genie","🧞‍♀️":"woman-genie","🧟":"zombie","🧟‍♂️":"man-zombie","🧟‍♀️":"woman-zombie","🧌":"troll","💆":"person-getting-massage","💆‍♂️":"man-getting-massage","💆‍♀️":"woman-getting-massage","💇":"person-getting-haircut","💇‍♂️":"man-getting-haircut","💇‍♀️":"woman-getting-haircut","🚶":"person-walking","🚶‍♂️":"man-walking","🚶‍♀️":"woman-walking","🧍":"person-standing","🧍‍♂️":"man-standing","🧍‍♀️":"woman-standing","🧎":"person-kneeling","🧎‍♂️":"man-kneeling","🧎‍♀️":"woman-kneeling","🧑‍🦯":"person-with-white-cane","👨‍🦯":"man-with-white-cane","👩‍🦯":"woman-with-white-cane","🧑‍🦼":"person-in-motorized-wheelchair","👨‍🦼":"man-in-motorized-wheelchair","👩‍🦼":"woman-in-motorized-wheelchair","🧑‍🦽":"person-in-manual-wheelchair","👨‍🦽":"man-in-manual-wheelchair","👩‍🦽":"woman-in-manual-wheelchair","🏃":"person-running","🏃‍♂️":"man-running","🏃‍♀️":"woman-running","💃":"woman-dancing","🕺":"man-dancing","🕴️":"person-in-suit-levitating","👯":"people-with-bunny-ears","👯‍♂️":"men-with-bunny-ears","👯‍♀️":"women-with-bunny-ears","🧖":"person-in-steamy-room","🧖‍♂️":"man-in-steamy-room","🧖‍♀️":"woman-in-steamy-room","🧗":"person-climbing","🧗‍♂️":"man-climbing","🧗‍♀️":"woman-climbing","🤺":"person-fencing","🏇":"horse-racing","⛷️":"skier","🏂":"snowboarder","🏌️":"person-golfing","🏌️‍♂️":"man-golfing","🏌️‍♀️":"woman-golfing","🏄":"person-surfing","🏄‍♂️":"man-surfing","🏄‍♀️":"woman-surfing","🚣":"person-rowing-boat","🚣‍♂️":"man-rowing-boat","🚣‍♀️":"woman-rowing-boat","🏊":"person-swimming","🏊‍♂️":"man-swimming","🏊‍♀️":"woman-swimming","⛹️":"person-bouncing-ball","⛹️‍♂️":"man-bouncing-ball","⛹️‍♀️":"woman-bouncing-ball","🏋️":"person-lifting-weights","🏋️‍♂️":"man-lifting-weights","🏋️‍♀️":"woman-lifting-weights","🚴":"person-biking","🚴‍♂️":"man-biking","🚴‍♀️":"woman-biking","🚵":"person-mountain-biking","🚵‍♂️":"man-mountain-biking","🚵‍♀️":"woman-mountain-biking","🤸":"person-cartwheeling","🤸‍♂️":"man-cartwheeling","🤸‍♀️":"woman-cartwheeling","🤼":"people-wrestling","🤼‍♂️":"men-wrestling","🤼‍♀️":"women-wrestling","🤽":"person-playing-water-polo","🤽‍♂️":"man-playing-water-polo","🤽‍♀️":"woman-playing-water-polo","🤾":"person-playing-handball","🤾‍♂️":"man-playing-handball","🤾‍♀️":"woman-playing-handball","🤹":"person-juggling","🤹‍♂️":"man-juggling","🤹‍♀️":"woman-juggling","🧘":"person-in-lotus-position","🧘‍♂️":"man-in-lotus-position","🧘‍♀️":"woman-in-lotus-position","🛀":"person-taking-bath","🛌":"person-in-bed","🧑‍🤝‍🧑":"people-holding-hands","👭":"women-holding-hands","👫":"woman-and-man-holding-hands","👬":"men-holding-hands","💏":"kiss","👩‍❤️‍💋‍👨":"kiss-woman-man","👨‍❤️‍💋‍👨":"kiss-man-man","👩‍❤️‍💋‍👩":"kiss-woman-woman","💑":"couple-with-heart","👩‍❤️‍👨":"couple-with-heart-woman-man","👨‍❤️‍👨":"couple-with-heart-man-man","👩‍❤️‍👩":"couple-with-heart-woman-woman","👪":"family","👨‍👩‍👦":"family-man-woman-boy","👨‍👩‍👧":"family-man-woman-girl","👨‍👩‍👧‍👦":"family-man-woman-girl-boy","👨‍👩‍👦‍👦":"family-man-woman-boy-boy","👨‍👩‍👧‍👧":"family-man-woman-girl-girl","👨‍👨‍👦":"family-man-man-boy","👨‍👨‍👧":"family-man-man-girl","👨‍👨‍👧‍👦":"family-man-man-girl-boy","👨‍👨‍👦‍👦":"family-man-man-boy-boy","👨‍👨‍👧‍👧":"family-man-man-girl-girl","👩‍👩‍👦":"family-woman-woman-boy","👩‍👩‍👧":"family-woman-woman-girl","👩‍👩‍👧‍👦":"family-woman-woman-girl-boy","👩‍👩‍👦‍👦":"family-woman-woman-boy-boy","👩‍👩‍👧‍👧":"family-woman-woman-girl-girl","👨‍👦":"family-man-boy","👨‍👦‍👦":"family-man-boy-boy","👨‍👧":"family-man-girl","👨‍👧‍👦":"family-man-girl-boy","👨‍👧‍👧":"family-man-girl-girl","👩‍👦":"family-woman-boy","👩‍👦‍👦":"family-woman-boy-boy","👩‍👧":"family-woman-girl","👩‍👧‍👦":"family-woman-girl-boy","👩‍👧‍👧":"family-woman-girl-girl","🗣️":"speaking-head","👤":"bust-in-silhouette","👥":"busts-in-silhouette","🫂":"people-hugging","👣":"footprints","🐵":"monkey-face","🐒":"monkey","🦍":"gorilla","🦧":"orangutan","🐶":"dog-face","🐕":"dog","🦮":"guide-dog","🐕‍🦺":"service-dog","🐩":"poodle","🐺":"wolf","🦊":"fox","🦝":"raccoon","🐱":"cat-face","🐈":"cat","🐈‍⬛":"black-cat","🦁":"lion","🐯":"tiger-face","🐅":"tiger","🐆":"leopard","🐴":"horse-face","🫎":"moose","🫏":"donkey","🐎":"horse","🦄":"unicorn","🦓":"zebra","🦌":"deer","🦬":"bison","🐮":"cow-face","🐂":"ox","🐃":"water-buffalo","🐄":"cow","🐷":"pig-face","🐖":"pig","🐗":"boar","🐽":"pig-nose","🐏":"ram","🐑":"ewe","🐐":"goat","🐪":"camel","🐫":"two-hump-camel","🦙":"llama","🦒":"giraffe","🐘":"elephant","🦣":"mammoth","🦏":"rhinoceros","🦛":"hippopotamus","🐭":"mouse-face","🐁":"mouse","🐀":"rat","🐹":"hamster","🐰":"rabbit-face","🐇":"rabbit","🐿️":"chipmunk","🦫":"beaver","🦔":"hedgehog","🦇":"bat","🐻":"bear","🐻‍❄️":"polar-bear","🐨":"koala","🐼":"panda","🦥":"sloth","🦦":"otter","🦨":"skunk","🦘":"kangaroo","🦡":"badger","🐾":"paw-prints","🦃":"turkey","🐔":"chicken","🐓":"rooster","🐣":"hatching-chick","🐤":"baby-chick","🐥":"front-facing-baby-chick","🐦":"bird","🐧":"penguin","🕊️":"dove","🦅":"eagle","🦆":"duck","🦢":"swan","🦉":"owl","🦤":"dodo","🪶":"feather","🦩":"flamingo","🦚":"peacock","🦜":"parrot","🪽":"wing","🐦‍⬛":"black-bird","🪿":"goose","🐸":"frog","🐊":"crocodile","🐢":"turtle","🦎":"lizard","🐍":"snake","🐲":"dragon-face","🐉":"dragon","🦕":"sauropod","🦖":"t-rex","🐳":"spouting-whale","🐋":"whale","🐬":"dolphin","🦭":"seal","🐟":"fish","🐠":"tropical-fish","🐡":"blowfish","🦈":"shark","🐙":"octopus","🐚":"spiral-shell","🪸":"coral","🪼":"jellyfish","🐌":"snail","🦋":"butterfly","🐛":"bug","🐜":"ant","🐝":"honeybee","🪲":"beetle","🐞":"lady-beetle","🦗":"cricket","🪳":"cockroach","🕷️":"spider","🕸️":"spider-web","🦂":"scorpion","🦟":"mosquito","🪰":"fly","🪱":"worm","🦠":"microbe","💐":"bouquet","🌸":"cherry-blossom","💮":"white-flower","🪷":"lotus","🏵️":"rosette","🌹":"rose","🥀":"wilted-flower","🌺":"hibiscus","🌻":"sunflower","🌼":"blossom","🌷":"tulip","🪻":"hyacinth","🌱":"seedling","🪴":"potted-plant","🌲":"evergreen-tree","🌳":"deciduous-tree","🌴":"palm-tree","🌵":"cactus","🌾":"sheaf-of-rice","🌿":"herb","☘️":"shamrock","🍀":"four-leaf-clover","🍁":"maple-leaf","🍂":"fallen-leaf","🍃":"leaf-fluttering-in-wind","🪹":"empty-nest","🪺":"nest-with-eggs","🍄":"mushroom","🍇":"grapes","🍈":"melon","🍉":"watermelon","🍊":"tangerine","🍋":"lemon","🍌":"banana","🍍":"pineapple","🥭":"mango","🍎":"red-apple","🍏":"green-apple","🍐":"pear","🍑":"peach","🍒":"cherries","🍓":"strawberry","🫐":"blueberries","🥝":"kiwi-fruit","🍅":"tomato","🫒":"olive","🥥":"coconut","🥑":"avocado","🍆":"eggplant","🥔":"potato","🥕":"carrot","🌽":"ear-of-corn","🌶️":"hot-pepper","🫑":"bell-pepper","🥒":"cucumber","🥬":"leafy-green","🥦":"broccoli","🧄":"garlic","🧅":"onion","🥜":"peanuts","🫘":"beans","🌰":"chestnut","🫚":"ginger-root","🫛":"pea-pod","🍞":"bread","🥐":"croissant","🥖":"baguette-bread","🫓":"flatbread","🥨":"pretzel","🥯":"bagel","🥞":"pancakes","🧇":"waffle","🧀":"cheese-wedge","🍖":"meat-on-bone","🍗":"poultry-leg","🥩":"cut-of-meat","🥓":"bacon","🍔":"hamburger","🍟":"french-fries","🍕":"pizza","🌭":"hot-dog","🥪":"sandwich","🌮":"taco","🌯":"burrito","🫔":"tamale","🥙":"stuffed-flatbread","🧆":"falafel","🥚":"egg","🍳":"cooking","🥘":"shallow-pan-of-food","🍲":"pot-of-food","🫕":"fondue","🥣":"bowl-with-spoon","🥗":"green-salad","🍿":"popcorn","🧈":"butter","🧂":"salt","🥫":"canned-food","🍱":"bento-box","🍘":"rice-cracker","🍙":"rice-ball","🍚":"cooked-rice","🍛":"curry-rice","🍜":"steaming-bowl","🍝":"spaghetti","🍠":"roasted-sweet-potato","🍢":"oden","🍣":"sushi","🍤":"fried-shrimp","🍥":"fish-cake-with-swirl","🥮":"moon-cake","🍡":"dango","🥟":"dumpling","🥠":"fortune-cookie","🥡":"takeout-box","🦀":"crab","🦞":"lobster","🦐":"shrimp","🦑":"squid","🦪":"oyster","🍦":"soft-ice-cream","🍧":"shaved-ice","🍨":"ice-cream","🍩":"doughnut","🍪":"cookie","🎂":"birthday-cake","🍰":"shortcake","🧁":"cupcake","🥧":"pie","🍫":"chocolate-bar","🍬":"candy","🍭":"lollipop","🍮":"custard","🍯":"honey-pot","🍼":"baby-bottle","🥛":"glass-of-milk","☕":"hot-beverage","🫖":"teapot","🍵":"teacup-without-handle","🍶":"sake","🍾":"bottle-with-popping-cork","🍷":"wine-glass","🍸":"cocktail-glass","🍹":"tropical-drink","🍺":"beer-mug","🍻":"clinking-beer-mugs","🥂":"clinking-glasses","🥃":"tumbler-glass","🫗":"pouring-liquid","🥤":"cup-with-straw","🧋":"bubble-tea","🧃":"beverage-box","🧉":"mate","🧊":"ice","🥢":"chopsticks","🍽️":"fork-and-knife-with-plate","🍴":"fork-and-knife","🥄":"spoon","🔪":"kitchen-knife","🫙":"jar","🏺":"amphora","🌍":"globe-showing-europe-africa","🌎":"globe-showing-americas","🌏":"globe-showing-asia-australia","🌐":"globe-with-meridians","🗺️":"world-map","🗾":"map-of-japan","🧭":"compass","🏔️":"snow-capped-mountain","⛰️":"mountain","🌋":"volcano","🗻":"mount-fuji","🏕️":"camping","🏖️":"beach-with-umbrella","🏜️":"desert","🏝️":"desert-island","🏞️":"national-park","🏟️":"stadium","🏛️":"classical-building","🏗️":"building-construction","🧱":"brick","🪨":"rock","🪵":"wood","🛖":"hut","🏘️":"houses","🏚️":"derelict-house","🏠":"house","🏡":"house-with-garden","🏢":"office-building","🏣":"japanese-post-office","🏤":"post-office","🏥":"hospital","🏦":"bank","🏨":"hotel","🏩":"love-hotel","🏪":"convenience-store","🏫":"school","🏬":"department-store","🏭":"factory","🏯":"japanese-castle","🏰":"castle","💒":"wedding","🗼":"tokyo-tower","🗽":"statue-of-liberty","⛪":"church","🕌":"mosque","🛕":"hindu-temple","🕍":"synagogue","⛩️":"shinto-shrine","🕋":"kaaba","⛲":"fountain","⛺":"tent","🌁":"foggy","🌃":"night-with-stars","🏙️":"cityscape","🌄":"sunrise-over-mountains","🌅":"sunrise","🌆":"cityscape-at-dusk","🌇":"sunset","🌉":"bridge-at-night","♨️":"hot-springs","🎠":"carousel-horse","🛝":"playground-slide","🎡":"ferris-wheel","🎢":"roller-coaster","💈":"barber-pole","🎪":"circus-tent","🚂":"locomotive","🚃":"railway-car","🚄":"high-speed-train","🚅":"bullet-train","🚆":"train","🚇":"metro","🚈":"light-rail","🚉":"station","🚊":"tram","🚝":"monorail","🚞":"mountain-railway","🚋":"tram-car","🚌":"bus","🚍":"oncoming-bus","🚎":"trolleybus","🚐":"minibus","🚑":"ambulance","🚒":"fire-engine","🚓":"police-car","🚔":"oncoming-police-car","🚕":"taxi","🚖":"oncoming-taxi","🚗":"automobile","🚘":"oncoming-automobile","🚙":"sport-utility-vehicle","🛻":"pickup-truck","🚚":"delivery-truck","🚛":"articulated-lorry","🚜":"tractor","🏎️":"racing-car","🏍️":"motorcycle","🛵":"motor-scooter","🦽":"manual-wheelchair","🦼":"motorized-wheelchair","🛺":"auto-rickshaw","🚲":"bicycle","🛴":"kick-scooter","🛹":"skateboard","🛼":"roller-skate","🚏":"bus-stop","🛣️":"motorway","🛤️":"railway-track","🛢️":"oil-drum","⛽":"fuel-pump","🛞":"wheel","🚨":"police-car-light","🚥":"horizontal-traffic-light","🚦":"vertical-traffic-light","🛑":"stop-sign","🚧":"construction","⚓":"anchor","🛟":"ring-buoy","⛵":"sailboat","🛶":"canoe","🚤":"speedboat","🛳️":"passenger-ship","⛴️":"ferry","🛥️":"motor-boat","🚢":"ship","✈️":"airplane","🛩️":"small-airplane","🛫":"airplane-departure","🛬":"airplane-arrival","🪂":"parachute","💺":"seat","🚁":"helicopter","🚟":"suspension-railway","🚠":"mountain-cableway","🚡":"aerial-tramway","🛰️":"satellite","🚀":"rocket","🛸":"flying-saucer","🛎️":"bellhop-bell","🧳":"luggage","⌛":"hourglass-done","⏳":"hourglass-not-done","⌚":"watch","⏰":"alarm-clock","⏱️":"stopwatch","⏲️":"timer-clock","🕰️":"mantelpiece-clock","🕛":"twelve-o-clock","🕧":"twelve-thirty","🕐":"one-o-clock","🕜":"one-thirty","🕑":"two-o-clock","🕝":"two-thirty","🕒":"three-o-clock","🕞":"three-thirty","🕓":"four-o-clock","🕟":"four-thirty","🕔":"five-o-clock","🕠":"five-thirty","🕕":"six-o-clock","🕡":"six-thirty","🕖":"seven-o-clock","🕢":"seven-thirty","🕗":"eight-o-clock","🕣":"eight-thirty","🕘":"nine-o-clock","🕤":"nine-thirty","🕙":"ten-o-clock","🕥":"ten-thirty","🕚":"eleven-o-clock","🕦":"eleven-thirty","🌑":"new-moon","🌒":"waxing-crescent-moon","🌓":"first-quarter-moon","🌔":"waxing-gibbous-moon","🌕":"full-moon","🌖":"waning-gibbous-moon","🌗":"last-quarter-moon","🌘":"waning-crescent-moon","🌙":"crescent-moon","🌚":"new-moon-face","🌛":"first-quarter-moon-face","🌜":"last-quarter-moon-face","🌡️":"thermometer","☀️":"sun","🌝":"full-moon-face","🌞":"sun-with-face","🪐":"ringed-planet","⭐":"star","🌟":"glowing-star","🌠":"shooting-star","🌌":"milky-way","☁️":"cloud","⛅":"sun-behind-cloud","⛈️":"cloud-with-lightning-and-rain","🌤️":"sun-behind-small-cloud","🌥️":"sun-behind-large-cloud","🌦️":"sun-behind-rain-cloud","🌧️":"cloud-with-rain","🌨️":"cloud-with-snow","🌩️":"cloud-with-lightning","🌪️":"tornado","🌫️":"fog","🌬️":"wind-face","🌀":"cyclone","🌈":"rainbow","🌂":"closed-umbrella","☂️":"umbrella","☔":"umbrella-with-rain-drops","⛱️":"umbrella-on-ground","⚡":"high-voltage","❄️":"snowflake","☃️":"snowman","⛄":"snowman-without-snow","☄️":"comet","🔥":"fire","💧":"droplet","🌊":"water-wave","🎃":"jack-o-lantern","🎄":"christmas-tree","🎆":"fireworks","🎇":"sparkler","🧨":"firecracker","✨":"sparkles","🎈":"balloon","🎉":"party-popper","🎊":"confetti-ball","🎋":"tanabata-tree","🎍":"pine-decoration","🎎":"japanese-dolls","🎏":"carp-streamer","🎐":"wind-chime","🎑":"moon-viewing-ceremony","🧧":"red-envelope","🎀":"ribbon","🎁":"wrapped-gift","🎗️":"reminder-ribbon","🎟️":"admission-tickets","🎫":"ticket","🎖️":"military-medal","🏆":"trophy","🏅":"sports-medal","🥇":"1st-place-medal","🥈":"2nd-place-medal","🥉":"3rd-place-medal","⚽":"soccer-ball","⚾":"baseball","🥎":"softball","🏀":"basketball","🏐":"volleyball","🏈":"american-football","🏉":"rugby-football","🎾":"tennis","🥏":"flying-disc","🎳":"bowling","🏏":"cricket-game","🏑":"field-hockey","🏒":"ice-hockey","🥍":"lacrosse","🏓":"ping-pong","🏸":"badminton","🥊":"boxing-glove","🥋":"martial-arts-uniform","🥅":"goal-net","⛳":"flag-in-hole","⛸️":"ice-skate","🎣":"fishing-pole","🤿":"diving-mask","🎽":"running-shirt","🎿":"skis","🛷":"sled","🥌":"curling-stone","🎯":"bullseye","🪀":"yo-yo","🪁":"kite","🔫":"water-pistol","🎱":"pool-8-ball","🔮":"crystal-ball","🪄":"magic-wand","🎮":"video-game","🕹️":"joystick","🎰":"slot-machine","🎲":"game-die","🧩":"puzzle-piece","🧸":"teddy-bear","🪅":"pinata","🪩":"mirror-ball","🪆":"nesting-dolls","♠️":"spade-suit","♥️":"heart-suit","♦️":"diamond-suit","♣️":"club-suit","♟️":"chess-pawn","🃏":"joker","🀄":"mahjong-red-dragon","🎴":"flower-playing-cards","🎭":"performing-arts","🖼️":"framed-picture","🎨":"artist-palette","🧵":"thread","🪡":"sewing-needle","🧶":"yarn","🪢":"knot","👓":"glasses","🕶️":"sunglasses","🥽":"goggles","🥼":"lab-coat","🦺":"safety-vest","👔":"necktie","👕":"t-shirt","👖":"jeans","🧣":"scarf","🧤":"gloves","🧥":"coat","🧦":"socks","👗":"dress","👘":"kimono","🥻":"sari","🩱":"one-piece-swimsuit","🩲":"briefs","🩳":"shorts","👙":"bikini","👚":"woman-s-clothes","🪭":"folding-hand-fan","👛":"purse","👜":"handbag","👝":"clutch-bag","🛍️":"shopping-bags","🎒":"backpack","🩴":"thong-sandal","👞":"man-s-shoe","👟":"running-shoe","🥾":"hiking-boot","🥿":"flat-shoe","👠":"high-heeled-shoe","👡":"woman-s-sandal","🩰":"ballet-shoes","👢":"woman-s-boot","🪮":"hair-pick","👑":"crown","👒":"woman-s-hat","🎩":"top-hat","🎓":"graduation-cap","🧢":"billed-cap","🪖":"military-helmet","⛑️":"rescue-worker-s-helmet","📿":"prayer-beads","💄":"lipstick","💍":"ring","💎":"gem-stone","🔇":"muted-speaker","🔈":"speaker-low-volume","🔉":"speaker-medium-volume","🔊":"speaker-high-volume","📢":"loudspeaker","📣":"megaphone","📯":"postal-horn","🔔":"bell","🔕":"bell-with-slash","🎼":"musical-score","🎵":"musical-note","🎶":"musical-notes","🎙️":"studio-microphone","🎚️":"level-slider","🎛️":"control-knobs","🎤":"microphone","🎧":"headphone","📻":"radio","🎷":"saxophone","🪗":"accordion","🎸":"guitar","🎹":"musical-keyboard","🎺":"trumpet","🎻":"violin","🪕":"banjo","🥁":"drum","🪘":"long-drum","🪇":"maracas","🪈":"flute","📱":"mobile-phone","📲":"mobile-phone-with-arrow","☎️":"telephone","📞":"telephone-receiver","📟":"pager","📠":"fax-machine","🔋":"battery","🪫":"low-battery","🔌":"electric-plug","💻":"laptop","🖥️":"desktop-computer","🖨️":"printer","⌨️":"keyboard","🖱️":"computer-mouse","🖲️":"trackball","💽":"computer-disk","💾":"floppy-disk","💿":"optical-disk","📀":"dvd","🧮":"abacus","🎥":"movie-camera","🎞️":"film-frames","📽️":"film-projector","🎬":"clapper-board","📺":"television","📷":"camera","📸":"camera-with-flash","📹":"video-camera","📼":"videocassette","🔍":"magnifying-glass-tilted-left","🔎":"magnifying-glass-tilted-right","🕯️":"candle","💡":"light-bulb","🔦":"flashlight","🏮":"red-paper-lantern","🪔":"diya-lamp","📔":"notebook-with-decorative-cover","📕":"closed-book","📖":"open-book","📗":"green-book","📘":"blue-book","📙":"orange-book","📚":"books","📓":"notebook","📒":"ledger","📃":"page-with-curl","📜":"scroll","📄":"page-facing-up","📰":"newspaper","🗞️":"rolled-up-newspaper","📑":"bookmark-tabs","🔖":"bookmark","🏷️":"label","💰":"money-bag","🪙":"coin","💴":"yen-banknote","💵":"dollar-banknote","💶":"euro-banknote","💷":"pound-banknote","💸":"money-with-wings","💳":"credit-card","🧾":"receipt","💹":"chart-increasing-with-yen","✉️":"envelope","📧":"e-mail","📨":"incoming-envelope","📩":"envelope-with-arrow","📤":"outbox-tray","📥":"inbox-tray","📦":"package","📫":"closed-mailbox-with-raised-flag","📪":"closed-mailbox-with-lowered-flag","📬":"open-mailbox-with-raised-flag","📭":"open-mailbox-with-lowered-flag","📮":"postbox","🗳️":"ballot-box-with-ballot","✏️":"pencil","✒️":"black-nib","🖋️":"fountain-pen","🖊️":"pen","🖌️":"paintbrush","🖍️":"crayon","📝":"memo","💼":"briefcase","📁":"file-folder","📂":"open-file-folder","🗂️":"card-index-dividers","📅":"calendar","📆":"tear-off-calendar","🗒️":"spiral-notepad","🗓️":"spiral-calendar","📇":"card-index","📈":"chart-increasing","📉":"chart-decreasing","📊":"bar-chart","📋":"clipboard","📌":"pushpin","📍":"round-pushpin","📎":"paperclip","🖇️":"linked-paperclips","📏":"straight-ruler","📐":"triangular-ruler","✂️":"scissors","🗃️":"card-file-box","🗄️":"file-cabinet","🗑️":"wastebasket","🔒":"locked","🔓":"unlocked","🔏":"locked-with-pen","🔐":"locked-with-key","🔑":"key","🗝️":"old-key","🔨":"hammer","🪓":"axe","⛏️":"pick","⚒️":"hammer-and-pick","🛠️":"hammer-and-wrench","🗡️":"dagger","⚔️":"crossed-swords","💣":"bomb","🪃":"boomerang","🏹":"bow-and-arrow","🛡️":"shield","🪚":"carpentry-saw","🔧":"wrench","🪛":"screwdriver","🔩":"nut-and-bolt","⚙️":"gear","🗜️":"clamp","⚖️":"balance-scale","🦯":"white-cane","🔗":"link","⛓️":"chains","🪝":"hook","🧰":"toolbox","🧲":"magnet","🪜":"ladder","⚗️":"alembic","🧪":"test-tube","🧫":"petri-dish","🧬":"dna","🔬":"microscope","🔭":"telescope","📡":"satellite-antenna","💉":"syringe","🩸":"drop-of-blood","💊":"pill","🩹":"adhesive-bandage","🩼":"crutch","🩺":"stethoscope","🩻":"x-ray","🚪":"door","🛗":"elevator","🪞":"mirror","🪟":"window","🛏️":"bed","🛋️":"couch-and-lamp","🪑":"chair","🚽":"toilet","🪠":"plunger","🚿":"shower","🛁":"bathtub","🪤":"mouse-trap","🪒":"razor","🧴":"lotion-bottle","🧷":"safety-pin","🧹":"broom","🧺":"basket","🧻":"roll-of-paper","🪣":"bucket","🧼":"soap","🫧":"bubbles","🪥":"toothbrush","🧽":"sponge","🧯":"fire-extinguisher","🛒":"shopping-cart","🚬":"cigarette","⚰️":"coffin","🪦":"headstone","⚱️":"funeral-urn","🧿":"nazar-amulet","🪬":"hamsa","🗿":"moai","🪧":"placard","🪪":"identification-card","🏧":"atm-sign","🚮":"litter-in-bin-sign","🚰":"potable-water","♿":"wheelchair-symbol","🚹":"men-s-room","🚺":"women-s-room","🚻":"restroom","🚼":"baby-symbol","🚾":"water-closet","🛂":"passport-control","🛃":"customs","🛄":"baggage-claim","🛅":"left-luggage","⚠️":"warning","🚸":"children-crossing","⛔":"no-entry","🚫":"prohibited","🚳":"no-bicycles","🚭":"no-smoking","🚯":"no-littering","🚱":"non-potable-water","🚷":"no-pedestrians","📵":"no-mobile-phones","🔞":"no-one-under-eighteen","☢️":"radioactive","☣️":"biohazard","⬆️":"up-arrow","↗️":"up-right-arrow","➡️":"right-arrow","↘️":"down-right-arrow","⬇️":"down-arrow","↙️":"down-left-arrow","⬅️":"left-arrow","↖️":"up-left-arrow","↕️":"up-down-arrow","↔️":"left-right-arrow","↩️":"right-arrow-curving-left","↪️":"left-arrow-curving-right","⤴️":"right-arrow-curving-up","⤵️":"right-arrow-curving-down","🔃":"clockwise-vertical-arrows","🔄":"counterclockwise-arrows-button","🔙":"back-arrow","🔚":"end-arrow","🔛":"on-arrow","🔜":"soon-arrow","🔝":"top-arrow","🛐":"place-of-worship","⚛️":"atom-symbol","🕉️":"om","✡️":"star-of-david","☸️":"wheel-of-dharma","☯️":"yin-yang","✝️":"latin-cross","☦️":"orthodox-cross","☪️":"star-and-crescent","☮️":"peace-symbol","🕎":"menorah","🔯":"dotted-six-pointed-star","🪯":"khanda","♈":"aries","♉":"taurus","♊":"gemini","♋":"cancer","♌":"leo","♍":"virgo","♎":"libra","♏":"scorpio","♐":"sagittarius","♑":"capricorn","♒":"aquarius","♓":"pisces","⛎":"ophiuchus","🔀":"shuffle-tracks-button","🔁":"repeat-button","🔂":"repeat-single-button","▶️":"play-button","⏩":"fast-forward-button","⏭️":"next-track-button","⏯️":"play-or-pause-button","◀️":"reverse-button","⏪":"fast-reverse-button","⏮️":"last-track-button","🔼":"upwards-button","⏫":"fast-up-button","🔽":"downwards-button","⏬":"fast-down-button","⏸️":"pause-button","⏹️":"stop-button","⏺️":"record-button","⏏️":"eject-button","🎦":"cinema","🔅":"dim-button","🔆":"bright-button","📶":"antenna-bars","🛜":"wireless","📳":"vibration-mode","📴":"mobile-phone-off","♀️":"female-sign","♂️":"male-sign","⚧️":"transgender-symbol","✖️":"multiply","➕":"plus","➖":"minus","➗":"divide","🟰":"heavy-equals-sign","♾️":"infinity","‼️":"double-exclamation-mark","⁉️":"exclamation-question-mark","❓":"red-question-mark","❔":"white-question-mark","❕":"white-exclamation-mark","❗":"red-exclamation-mark","〰️":"wavy-dash","💱":"currency-exchange","💲":"heavy-dollar-sign","⚕️":"medical-symbol","♻️":"recycling-symbol","⚜️":"fleur-de-lis","🔱":"trident-emblem","📛":"name-badge","🔰":"japanese-symbol-for-beginner","⭕":"hollow-red-circle","✅":"check-mark-button","☑️":"check-box-with-check","✔️":"check-mark","❌":"cross-mark","❎":"cross-mark-button","➰":"curly-loop","➿":"double-curly-loop","〽️":"part-alternation-mark","✳️":"eight-spoked-asterisk","✴️":"eight-pointed-star","❇️":"sparkle","©️":"copyright","®️":"registered","™️":"trade-mark","#️⃣":"keycap-#","*️⃣":"keycap-*","0️⃣":"keycap-0","1️⃣":"keycap-1","2️⃣":"keycap-2","3️⃣":"keycap-3","4️⃣":"keycap-4","5️⃣":"keycap-5","6️⃣":"keycap-6","7️⃣":"keycap-7","8️⃣":"keycap-8","9️⃣":"keycap-9","🔟":"keycap-10","🔠":"input-latin-uppercase","🔡":"input-latin-lowercase","🔢":"input-numbers","🔣":"input-symbols","🔤":"input-latin-letters","🅰️":"a-button-blood-type","🆎":"ab-button-blood-type","🅱️":"b-button-blood-type","🆑":"cl-button","🆒":"cool-button","🆓":"free-button","ℹ️":"information","🆔":"id-button","Ⓜ️":"circled-m","🆕":"new-button","🆖":"ng-button","🅾️":"o-button-blood-type","🆗":"ok-button","🅿️":"p-button","🆘":"sos-button","🆙":"up-button","🆚":"vs-button","🈁":"japanese-here-button","🈂️":"japanese-service-charge-button","🈷️":"japanese-monthly-amount-button","🈶":"japanese-not-free-of-charge-button","🈯":"japanese-reserved-button","🉐":"japanese-bargain-button","🈹":"japanese-discount-button","🈚":"japanese-free-of-charge-button","🈲":"japanese-prohibited-button","🉑":"japanese-acceptable-button","🈸":"japanese-application-button","🈴":"japanese-passing-grade-button","🈳":"japanese-vacancy-button","㊗️":"japanese-congratulations-button","㊙️":"japanese-secret-button","🈺":"japanese-open-for-business-button","🈵":"japanese-no-vacancy-button","🔴":"red-circle","🟠":"orange-circle","🟡":"yellow-circle","🟢":"green-circle","🔵":"blue-circle","🟣":"purple-circle","🟤":"brown-circle","⚫":"black-circle","⚪":"white-circle","🟥":"red-square","🟧":"orange-square","🟨":"yellow-square","🟩":"green-square","🟦":"blue-square","🟪":"purple-square","🟫":"brown-square","⬛":"black-large-square","⬜":"white-large-square","◼️":"black-medium-square","◻️":"white-medium-square","◾":"black-medium-small-square","◽":"white-medium-small-square","▪️":"black-small-square","▫️":"white-small-square","🔶":"large-orange-diamond","🔷":"large-blue-diamond","🔸":"small-orange-diamond","🔹":"small-blue-diamond","🔺":"red-triangle-pointed-up","🔻":"red-triangle-pointed-down","💠":"diamond-with-a-dot","🔘":"radio-button","🔳":"white-square-button","🔲":"black-square-button","🏁":"chequered-flag","🚩":"triangular-flag","🎌":"crossed-flags","🏴":"black-flag","🏳️":"white-flag","🏳️‍🌈":"rainbow-flag","🏳️‍⚧️":"transgender-flag","🏴‍☠️":"pirate-flag","🇦🇨":"flag-ascension-island","🇦🇩":"flag-andorra","🇦🇪":"flag-united-arab-emirates","🇦🇫":"flag-afghanistan","🇦🇬":"flag-antigua-&-barbuda","🇦🇮":"flag-anguilla","🇦🇱":"flag-albania","🇦🇲":"flag-armenia","🇦🇴":"flag-angola","🇦🇶":"flag-antarctica","🇦🇷":"flag-argentina","🇦🇸":"flag-american-samoa","🇦🇹":"flag-austria","🇦🇺":"flag-australia","🇦🇼":"flag-aruba","🇦🇽":"flag-aland-islands","🇦🇿":"flag-azerbaijan","🇧🇦":"flag-bosnia-&-herzegovina","🇧🇧":"flag-barbados","🇧🇩":"flag-bangladesh","🇧🇪":"flag-belgium","🇧🇫":"flag-burkina-faso","🇧🇬":"flag-bulgaria","🇧🇭":"flag-bahrain","🇧🇮":"flag-burundi","🇧🇯":"flag-benin","🇧🇱":"flag-st-barthelemy","🇧🇲":"flag-bermuda","🇧🇳":"flag-brunei","🇧🇴":"flag-bolivia","🇧🇶":"flag-caribbean-netherlands","🇧🇷":"flag-brazil","🇧🇸":"flag-bahamas","🇧🇹":"flag-bhutan","🇧🇻":"flag-bouvet-island","🇧🇼":"flag-botswana","🇧🇾":"flag-belarus","🇧🇿":"flag-belize","🇨🇦":"flag-canada","🇨🇨":"flag-cocos-keeling-islands","🇨🇩":"flag-congo-kinshasa","🇨🇫":"flag-central-african-republic","🇨🇬":"flag-congo-brazzaville","🇨🇭":"flag-switzerland","🇨🇮":"flag-cote-d-ivoire","🇨🇰":"flag-cook-islands","🇨🇱":"flag-chile","🇨🇲":"flag-cameroon","🇨🇳":"flag-china","🇨🇴":"flag-colombia","🇨🇵":"flag-clipperton-island","🇨🇷":"flag-costa-rica","🇨🇺":"flag-cuba","🇨🇻":"flag-cape-verde","🇨🇼":"flag-curacao","🇨🇽":"flag-christmas-island","🇨🇾":"flag-cyprus","🇨🇿":"flag-czechia","🇩🇪":"flag-germany","🇩🇬":"flag-diego-garcia","🇩🇯":"flag-djibouti","🇩🇰":"flag-denmark","🇩🇲":"flag-dominica","🇩🇴":"flag-dominican-republic","🇩🇿":"flag-algeria","🇪🇦":"flag-ceuta-&-melilla","🇪🇨":"flag-ecuador","🇪🇪":"flag-estonia","🇪🇬":"flag-egypt","🇪🇭":"flag-western-sahara","🇪🇷":"flag-eritrea","🇪🇸":"flag-spain","🇪🇹":"flag-ethiopia","🇪🇺":"flag-european-union","🇫🇮":"flag-finland","🇫🇯":"flag-fiji","🇫🇰":"flag-falkland-islands","🇫🇲":"flag-micronesia","🇫🇴":"flag-faroe-islands","🇫🇷":"flag-france","🇬🇦":"flag-gabon","🇬🇧":"flag-united-kingdom","🇬🇩":"flag-grenada","🇬🇪":"flag-georgia","🇬🇫":"flag-french-guiana","🇬🇬":"flag-guernsey","🇬🇭":"flag-ghana","🇬🇮":"flag-gibraltar","🇬🇱":"flag-greenland","🇬🇲":"flag-gambia","🇬🇳":"flag-guinea","🇬🇵":"flag-guadeloupe","🇬🇶":"flag-equatorial-guinea","🇬🇷":"flag-greece","🇬🇸":"flag-south-georgia-&-south-sandwich-islands","🇬🇹":"flag-guatemala","🇬🇺":"flag-guam","🇬🇼":"flag-guinea-bissau","🇬🇾":"flag-guyana","🇭🇰":"flag-hong-kong-sar-china","🇭🇲":"flag-heard-&-mcdonald-islands","🇭🇳":"flag-honduras","🇭🇷":"flag-croatia","🇭🇹":"flag-haiti","🇭🇺":"flag-hungary","🇮🇨":"flag-canary-islands","🇮🇩":"flag-indonesia","🇮🇪":"flag-ireland","🇮🇱":"flag-israel","🇮🇲":"flag-isle-of-man","🇮🇳":"flag-india","🇮🇴":"flag-british-indian-ocean-territory","🇮🇶":"flag-iraq","🇮🇷":"flag-iran","🇮🇸":"flag-iceland","🇮🇹":"flag-italy","🇯🇪":"flag-jersey","🇯🇲":"flag-jamaica","🇯🇴":"flag-jordan","🇯🇵":"flag-japan","🇰🇪":"flag-kenya","🇰🇬":"flag-kyrgyzstan","🇰🇭":"flag-cambodia","🇰🇮":"flag-kiribati","🇰🇲":"flag-comoros","🇰🇳":"flag-st-kitts-&-nevis","🇰🇵":"flag-north-korea","🇰🇷":"flag-south-korea","🇰🇼":"flag-kuwait","🇰🇾":"flag-cayman-islands","🇰🇿":"flag-kazakhstan","🇱🇦":"flag-laos","🇱🇧":"flag-lebanon","🇱🇨":"flag-st-lucia","🇱🇮":"flag-liechtenstein","🇱🇰":"flag-sri-lanka","🇱🇷":"flag-liberia","🇱🇸":"flag-lesotho","🇱🇹":"flag-lithuania","🇱🇺":"flag-luxembourg","🇱🇻":"flag-latvia","🇱🇾":"flag-libya","🇲🇦":"flag-morocco","🇲🇨":"flag-monaco","🇲🇩":"flag-moldova","🇲🇪":"flag-montenegro","🇲🇫":"flag-st-martin","🇲🇬":"flag-madagascar","🇲🇭":"flag-marshall-islands","🇲🇰":"flag-north-macedonia","🇲🇱":"flag-mali","🇲🇲":"flag-myanmar-burma","🇲🇳":"flag-mongolia","🇲🇴":"flag-macao-sar-china","🇲🇵":"flag-northern-mariana-islands","🇲🇶":"flag-martinique","🇲🇷":"flag-mauritania","🇲🇸":"flag-montserrat","🇲🇹":"flag-malta","🇲🇺":"flag-mauritius","🇲🇻":"flag-maldives","🇲🇼":"flag-malawi","🇲🇽":"flag-mexico","🇲🇾":"flag-malaysia","🇲🇿":"flag-mozambique","🇳🇦":"flag-namibia","🇳🇨":"flag-new-caledonia","🇳🇪":"flag-niger","🇳🇫":"flag-norfolk-island","🇳🇬":"flag-nigeria","🇳🇮":"flag-nicaragua","🇳🇱":"flag-netherlands","🇳🇴":"flag-norway","🇳🇵":"flag-nepal","🇳🇷":"flag-nauru","🇳🇺":"flag-niue","🇳🇿":"flag-new-zealand","🇴🇲":"flag-oman","🇵🇦":"flag-panama","🇵🇪":"flag-peru","🇵🇫":"flag-french-polynesia","🇵🇬":"flag-papua-new-guinea","🇵🇭":"flag-philippines","🇵🇰":"flag-pakistan","🇵🇱":"flag-poland","🇵🇲":"flag-st-pierre-&-miquelon","🇵🇳":"flag-pitcairn-islands","🇵🇷":"flag-puerto-rico","🇵🇸":"flag-palestinian-territories","🇵🇹":"flag-portugal","🇵🇼":"flag-palau","🇵🇾":"flag-paraguay","🇶🇦":"flag-qatar","🇷🇪":"flag-reunion","🇷🇴":"flag-romania","🇷🇸":"flag-serbia","🇷🇺":"flag-russia","🇷🇼":"flag-rwanda","🇸🇦":"flag-saudi-arabia","🇸🇧":"flag-solomon-islands","🇸🇨":"flag-seychelles","🇸🇩":"flag-sudan","🇸🇪":"flag-sweden","🇸🇬":"flag-singapore","🇸🇭":"flag-st-helena","🇸🇮":"flag-slovenia","🇸🇯":"flag-svalbard-&-jan-mayen","🇸🇰":"flag-slovakia","🇸🇱":"flag-sierra-leone","🇸🇲":"flag-san-marino","🇸🇳":"flag-senegal","🇸🇴":"flag-somalia","🇸🇷":"flag-suriname","🇸🇸":"flag-south-sudan","🇸🇹":"flag-sao-tome-&-principe","🇸🇻":"flag-el-salvador","🇸🇽":"flag-sint-maarten","🇸🇾":"flag-syria","🇸🇿":"flag-eswatini","🇹🇦":"flag-tristan-da-cunha","🇹🇨":"flag-turks-&-caicos-islands","🇹🇩":"flag-chad","🇹🇫":"flag-french-southern-territories","🇹🇬":"flag-togo","🇹🇭":"flag-thailand","🇹🇯":"flag-tajikistan","🇹🇰":"flag-tokelau","🇹🇱":"flag-timor-leste","🇹🇲":"flag-turkmenistan","🇹🇳":"flag-tunisia","🇹🇴":"flag-tonga","🇹🇷":"flag-turkey","🇹🇹":"flag-trinidad-&-tobago","🇹🇻":"flag-tuvalu","🇹🇼":"flag-taiwan","🇹🇿":"flag-tanzania","🇺🇦":"flag-ukraine","🇺🇬":"flag-uganda","🇺🇲":"flag-us-outlying-islands","🇺🇳":"flag-united-nations","🇺🇸":"flag-united-states","🇺🇾":"flag-uruguay","🇺🇿":"flag-uzbekistan","🇻🇦":"flag-vatican-city","🇻🇨":"flag-st-vincent-&-grenadines","🇻🇪":"flag-venezuela","🇻🇬":"flag-british-virgin-islands","🇻🇮":"flag-us-virgin-islands","🇻🇳":"flag-vietnam","🇻🇺":"flag-vanuatu","🇼🇫":"flag-wallis-&-futuna","🇼🇸":"flag-samoa","🇽🇰":"flag-kosovo","🇾🇪":"flag-yemen","🇾🇹":"flag-mayotte","🇿🇦":"flag-south-africa","🇿🇲":"flag-zambia","🇿🇼":"flag-zimbabwe","🏴󠁧󠁢󠁥󠁮󠁧󠁿":"flag-england","🏴󠁧󠁢󠁳󠁣󠁴󠁿":"flag-scotland","🏴󠁧󠁢󠁷󠁬󠁳󠁿":"flag-wales"}
+},{}],43:[function(require,module,exports){
+module.exports={"10":["🔟"],"grin":["😀","😃","😄","😆","😅","😺","😸"],"face":["😀","😃","😄","😁","😆","😅","😂","🙂","🙃","🫠","😉","😊","😇","🥰","😍","😘","😗","☺️","😚","😙","🥲","😋","😛","😜","🤪","😝","🤑","🤗","🤭","🫢","🫣","🤫","🤔","🫡","🤐","🤨","😐","😑","😶","🫥","😶‍🌫️","😏","😒","🙄","😬","😮‍💨","🤥","🫨","😌","😔","😪","🤤","😴","😷","🤒","🤕","🤢","🤮","🤧","🥵","🥶","🥴","😵","😵‍💫","🤠","🥳","🥸","😎","🤓","🧐","😕","🫤","😟","🙁","☹️","😮","😯","😲","😳","🥺","🥹","😦","😧","😨","😰","😥","😢","😭","😱","😖","😣","😞","😓","😩","😫","🥱","😤","😡","😠","🤬","😈","👿","🤡","🤛","🤜","🐵","🐶","🐱","🐯","🐴","🐮","🐷","🐭","🐰","🐥","🐲","🌚","🌛","🌜","🌝","🌞","🌬️","📄"],"big":["😃"],"eyes":["😃","😄","😁","😊","😍","😚","😙","🫢","🙄","😵","😵‍💫","😸","😻","👀"],"smile":["😄","😁","🙂","😊","😇","🥰","😍","☺️","😙","🥲","🤗","😎","😈","😸","😻","😼"],"beam":["😁"],"squint":["😆","😝"],"sweat":["😅","😰","😓","💦"],"roll":["🤣","🙄","🧻"],"on":["🤣","🤬","❤️‍🔥","🍖","⛱️","🔛"],"the":["🤣","🤘","🫵"],"floor":["🤣"],"laugh":["🤣"],"tears":["😂","🥹","😹"],"joy":["😂","😹"],"slightly":["🙂","🙁"],"upside":["🙃"],"down":["🙃","🫳","👇","👎","↘️","⬇️","↙️","↕️","⤵️","⏬","🔻"],"melt":["🫠"],"wink":["😉","😜"],"halo":["😇"],"hearts":["🥰","💞","💕"],"heart":["😍","😻","💘","💝","💖","💗","💓","💟","❣️","💔","❤️‍🔥","❤️‍🩹","❤️","🩷","🧡","💛","💚","💙","🩵","💜","🤎","🖤","🩶","🤍","🫶","🫀","💑","👩‍❤️‍👨","👨‍❤️‍👨","👩‍❤️‍👩","♥️"],"star":["🤩","⭐","🌟","🌠","✡️","☪️","🔯","✴️"],"struck":["🤩"],"blow":["😘"],"kiss":["😘","😗","😚","😙","😽","💋","💏","👩‍❤️‍💋‍👨","👨‍❤️‍💋‍👨","👩‍❤️‍💋‍👩"],"closed":["😚","🌂","📕","📫","📪"],"tear":["🥲","📆"],"savore":["😋"],"food":["😋","🥘","🍲","🥫"],"tongue":["😛","😜","😝","👅"],"zany":["🤪"],"money":["🤑","💰","💸"],"mouth":["🤑","🤭","🫢","🤐","😶","🫤","😮","😦","🤬","👄"],"open":["🤗","🫢","😮","😦","👐","📖","📬","📭","📂","🈺"],"hands":["🤗","👏","🙌","🫶","👐","🙏","🧑‍🤝‍🧑","👭","👫","👬"],"hand":["🤭","🫢","👋","🤚","🖐️","✋","🫱","🫲","🫳","🫴","🫷","🫸","👌","🤏","✌️","🫰","🤙","✍️","💁","💁‍♂️","💁‍♀️","🙋","🙋‍♂️","🙋‍♀️","🪭"],"over":["🤭","🫢","🌄"],"and":["🫢","☠️","🫰","👫","🍽️","🍴","⛈️","⚒️","🛠️","🏹","🔩","🛋️","☪️"],"peek":["🫣"],"eye":["🫣","👁️‍🗨️","👁️"],"shush":["🤫"],"think":["🤔"],"salute":["🫡","🖖"],"zipper":["🤐"],"raised":["🤨","🤚","✋","✊","📫","📬"],"eyebrow":["🤨"],"neutral":["😐"],"expressionless":["😑"],"without":["😶","🍵","⛄"],"dotted":["🫥","🔯"],"line":["🫥"],"in":["😶‍🌫️","😱","👁️‍🗨️","🤵","🤵‍♂️","🤵‍♀️","🧑‍🦼","👨‍🦼","👩‍🦼","🧑‍🦽","👨‍🦽","👩‍🦽","🕴️","🧖","🧖‍♂️","🧖‍♀️","🧘","🧘‍♂️","🧘‍♀️","🛌","👤","👥","🍃","⛳","🚮"],"clouds":["😶‍🌫️"],"smirk":["😏"],"unamused":["😒"],"grimace":["😬"],"exhale":["😮‍💨"],"lying":["🤥"],"shake":["🫨"],"relieved":["😌","😥"],"pensive":["😔"],"sleepy":["😪"],"drool":["🤤"],"sleep":["😴"],"medical":["😷","⚕️"],"mask":["😷","🤿"],"thermometer":["🤒","🌡️"],"head":["🤕","🤯","🗣️"],"bandage":["🤕","🩹"],"nauseated":["🤢"],"vomite":["🤮"],"sneez":["🤧"],"hot":["🥵","🌶️","🌭","☕","♨️"],"cold":["🥶"],"woozy":["🥴"],"crossed":["😵","🤞","🫰","⚔️","🎌"],"out":["😵"],"spiral":["😵‍💫","🐚","🗒️","🗓️"],"explode":["🤯"],"cowboy":["🤠"],"hat":["🤠","👒","🎩"],"party":["🥳","🎉"],"disguised":["🥸"],"sunglasses":["😎","🕶️"],"nerd":["🤓"],"monocle":["🧐"],"confused":["😕"],"diagonal":["🫤"],"worried":["😟"],"frown":["🙁","☹️","😦","🙍","🙍‍♂️","🙍‍♀️"],"hushed":["😯"],"astonished":["😲"],"flushed":["😳"],"plead":["🥺"],"hold":["🥹","🧑‍🤝‍🧑","👭","👫","👬"],"back":["🥹","🤚","🔙"],"anguished":["😧"],"fearful":["😨"],"anxious":["😰"],"sad":["😥"],"but":["😥"],"cry":["😢","😭","😿"],"loudly":["😭"],"scream":["😱"],"fear":["😱"],"confounded":["😖"],"persever":["😣"],"disappointed":["😞"],"downcast":["😓"],"weary":["😩","🙀"],"tired":["😫"],"yawn":["🥱"],"steam":["😤","🍜"],"from":["😤"],"nose":["😤","👃","🐽"],"enraged":["😡"],"angry":["😠","👿"],"symbols":["🤬","🔣"],"horns":["😈","👿","🤘"],"skull":["💀","☠️"],"crossbones":["☠️"],"pile":["💩"],"poo":["💩"],"clown":["🤡"],"ogre":["👹"],"goblin":["👺"],"ghost":["👻"],"alien":["👽","👾"],"monster":["👾"],"robot":["🤖"],"cat":["😺","😸","😹","😻","😼","😽","🙀","😿","😾","🐱","🐈","🐈‍⬛"],"wry":["😼"],"pout":["😾","🙎","🙎‍♂️","🙎‍♀️"],"see":["🙈"],"no":["🙈","🙉","🙊","🙅","🙅‍♂️","🙅‍♀️","⛔","🚳","🚭","🚯","🚷","📵","🔞","🈵"],"evil":["🙈","🙉","🙊"],"monkey":["🙈","🙉","🙊","🐵","🐒"],"hear":["🙉","🦻"],"speak":["🙊","🗣️"],"love":["💌","🤟","🏩"],"letter":["💌"],"arrow":["💘","📲","📩","🏹","⬆️","↗️","➡️","↘️","⬇️","↙️","⬅️","↖️","↕️","↔️","↩️","↪️","⤴️","⤵️","🔙","🔚","🔛","🔜","🔝"],"ribbon":["💝","🎀","🎗️"],"sparkle":["💖","❇️"],"grow":["💗"],"beat":["💓"],"revolve":["💞"],"two":["💕","🐫","🕑","🕝"],"decoration":["💟","🎍"],"exclamation":["❣️","‼️","⁉️","❕","❗"],"broken":["💔"],"fire":["❤️‍🔥","🚒","🔥","🧯"],"mend":["❤️‍🩹"],"red":["❤️","👨‍🦰","👩‍🦰","🧑‍🦰","🍎","🧧","🀄","🏮","❓","❗","⭕","🔴","🟥","🔺","🔻"],"pink":["🩷"],"orange":["🧡","📙","🟠","🟧","🔶","🔸"],"yellow":["💛","🟡","🟨"],"green":["💚","🍏","🥬","🥗","📗","🟢","🟩"],"blue":["💙","🩵","📘","🔵","🟦","🔷","🔹"],"light":["🩵","🚈","🚨","🚥","🚦","💡"],"purple":["💜","🟣","🟪"],"brown":["🤎","🟤","🟫"],"black":["🖤","🐈‍⬛","🐦‍⬛","✒️","⚫","⬛","◼️","◾","▪️","🔲","🏴"],"grey":["🩶"],"white":["🤍","👨‍🦳","👩‍🦳","🧑‍🦳","🧑‍🦯","👨‍🦯","👩‍🦯","💮","🦯","❔","❕","⚪","⬜","◻️","◽","▫️","🔳","🏳️"],"mark":["💋","‼️","⁉️","❓","❔","❕","❗","✅","✔️","❌","❎","〽️","™️"],"hundred":["💯"],"points":["💯"],"anger":["💢","🗯️"],"symbol":["💢","♿","🚼","⚛️","☮️","⚧️","⚕️","♻️","🔰"],"collision":["💥"],"dizzy":["💫"],"droplets":["💦"],"dash":["💨","〰️"],"away":["💨"],"hole":["🕳️","⛳"],"speech":["💬","👁️‍🗨️","🗨️"],"balloon":["💬","💭","🎈"],"bubble":["👁️‍🗨️","🗨️","🗯️","🧋"],"left":["🗨️","👈","🤛","🔍","🛅","↙️","⬅️","↖️","↔️","↩️","↪️"],"right":["🗯️","👉","🤜","🔎","↗️","➡️","↘️","↔️","↩️","↪️","⤴️","⤵️"],"thought":["💭"],"zzz":["💤"],"wave":["👋","🌊"],"fingers":["🖐️","🤌","🤞"],"splayed":["🖐️"],"vulcan":["🖖"],"rightwards":["🫱","🫸"],"leftwards":["🫲","🫷"],"palm":["🫳","🫴","🌴"],"up":["🫴","👆","☝️","👍","🤲","📄","🗞️","⬆️","↗️","↖️","↕️","⤴️","⏫","🆙","🔺"],"push":["🫷","🫸"],"ok":["👌","🙆","🙆‍♂️","🙆‍♀️","🆗"],"pinched":["🤌"],"pinch":["🤏"],"victory":["✌️"],"index":["🫰","👈","👉","👆","👇","☝️","🫵","🗂️","📇"],"finger":["🫰","🖕"],"thumb":["🫰"],"you":["🤟"],"gesture":["🤟","🙅","🙅‍♂️","🙅‍♀️","🙆","🙆‍♂️","🙆‍♀️"],"sign":["🤘","🛑","🏧","🚮","♀️","♂️","🟰","💲"],"call":["🤙"],"me":["🤙"],"backhand":["👈","👉","👆","👇"],"point":["👈","👉","👆","👇","☝️","🫵"],"middle":["🖕"],"at":["🫵","🌆","🌉"],"viewer":["🫵"],"thumbs":["👍","👎"],"fist":["✊","👊","🤛","🤜"],"oncome":["👊","🚍","🚔","🚖","🚘"],"clap":["👏"],"raise":["🙌","🙋","🙋‍♂️","🙋‍♀️"],"palms":["🤲"],"together":["🤲"],"handshake":["🤝"],"folded":["🙏"],"write":["✍️"],"nail":["💅"],"polish":["💅"],"selfie":["🤳"],"flexed":["💪"],"biceps":["💪"],"mechanical":["🦾","🦿"],"arm":["🦾"],"leg":["🦿","🦵","🍗"],"foot":["🦶"],"ear":["👂","🦻","🌽"],"aid":["🦻"],"brain":["🧠"],"anatomical":["🫀"],"lungs":["🫁"],"tooth":["🦷"],"bone":["🦴","🍖"],"bite":["🫦"],"lip":["🫦"],"baby":["👶","👩‍🍼","👨‍🍼","🧑‍🍼","👼","🐤","🐥","🍼","🚼"],"child":["🧒"],"boy":["👦","👨‍👩‍👦","👨‍👩‍👧‍👦","👨‍👩‍👦‍👦","👨‍👨‍👦","👨‍👨‍👧‍👦","👨‍👨‍👦‍👦","👩‍👩‍👦","👩‍👩‍👧‍👦","👩‍👩‍👦‍👦","👨‍👦","👨‍👦‍👦","👨‍👧‍👦","👩‍👦","👩‍👦‍👦","👩‍👧‍👦"],"girl":["👧","👨‍👩‍👧","👨‍👩‍👧‍👦","👨‍👩‍👧‍👧","👨‍👨‍👧","👨‍👨‍👧‍👦","👨‍👨‍👧‍👧","👩‍👩‍👧","👩‍👩‍👧‍👦","👩‍👩‍👧‍👧","👨‍👧","👨‍👧‍👦","👨‍👧‍👧","👩‍👧","👩‍👧‍👦","👩‍👧‍👧"],"person":["🧑","👱","🧔","🧑‍🦰","🧑‍🦱","🧑‍🦳","🧑‍🦲","🧓","🙍","🙎","🙅","🙆","💁","🙋","🧏","🙇","🤦","🤷","🫅","👳","👲","🤵","👰","🫄","🧑‍🍼","💆","💇","🚶","🧍","🧎","🧑‍🦯","🧑‍🦼","🧑‍🦽","🏃","🕴️","🧖","🧗","🤺","🏌️","🏄","🚣","🏊","⛹️","🏋️","🚴","🚵","🤸","🤽","🤾","🤹","🧘","🛀","🛌"],"blond":["👱","👱‍♀️","👱‍♂️"],"hair":["👱","👨‍🦰","👨‍🦱","👨‍🦳","👩‍🦰","🧑‍🦰","👩‍🦱","🧑‍🦱","👩‍🦳","🧑‍🦳","👱‍♀️","👱‍♂️","🪮"],"man":["👨","🧔‍♂️","👨‍🦰","👨‍🦱","👨‍🦳","👨‍🦲","👱‍♂️","👴","🙍‍♂️","🙎‍♂️","🙅‍♂️","🙆‍♂️","💁‍♂️","🙋‍♂️","🧏‍♂️","🙇‍♂️","🤦‍♂️","🤷‍♂️","👨‍⚕️","👨‍🎓","👨‍🏫","👨‍⚖️","👨‍🌾","👨‍🍳","👨‍🔧","👨‍🏭","👨‍💼","👨‍🔬","👨‍💻","👨‍🎤","👨‍🎨","👨‍✈️","👨‍🚀","👨‍🚒","👮‍♂️","🕵️‍♂️","💂‍♂️","👷‍♂️","👳‍♂️","🤵‍♂️","👰‍♂️","🫃","👨‍🍼","🦸‍♂️","🦹‍♂️","🧙‍♂️","🧚‍♂️","🧛‍♂️","🧝‍♂️","🧞‍♂️","🧟‍♂️","💆‍♂️","💇‍♂️","🚶‍♂️","🧍‍♂️","🧎‍♂️","👨‍🦯","👨‍🦼","👨‍🦽","🏃‍♂️","🕺","🧖‍♂️","🧗‍♂️","🏌️‍♂️","🏄‍♂️","🚣‍♂️","🏊‍♂️","⛹️‍♂️","🏋️‍♂️","🚴‍♂️","🚵‍♂️","🤸‍♂️","🤽‍♂️","🤾‍♂️","🤹‍♂️","🧘‍♂️","👫","👩‍❤️‍💋‍👨","👨‍❤️‍💋‍👨","👩‍❤️‍👨","👨‍❤️‍👨","👨‍👩‍👦","👨‍👩‍👧","👨‍👩‍👧‍👦","👨‍👩‍👦‍👦","👨‍👩‍👧‍👧","👨‍👨‍👦","👨‍👨‍👧","👨‍👨‍👧‍👦","👨‍👨‍👦‍👦","👨‍👨‍👧‍👧","👨‍👦","👨‍👦‍👦","👨‍👧","👨‍👧‍👦","👨‍👧‍👧","👞","🇮🇲"],"beard":["🧔","🧔‍♂️","🧔‍♀️"],"woman":["🧔‍♀️","👩","👩‍🦰","👩‍🦱","👩‍🦳","👩‍🦲","👱‍♀️","👵","🙍‍♀️","🙎‍♀️","🙅‍♀️","🙆‍♀️","💁‍♀️","🙋‍♀️","🧏‍♀️","🙇‍♀️","🤦‍♀️","🤷‍♀️","👩‍⚕️","👩‍🎓","👩‍🏫","👩‍⚖️","👩‍🌾","👩‍🍳","👩‍🔧","👩‍🏭","👩‍💼","👩‍🔬","👩‍💻","👩‍🎤","👩‍🎨","👩‍✈️","👩‍🚀","👩‍🚒","👮‍♀️","🕵️‍♀️","💂‍♀️","👷‍♀️","👳‍♀️","🧕","🤵‍♀️","👰‍♀️","🤰","👩‍🍼","🦸‍♀️","🦹‍♀️","🧙‍♀️","🧚‍♀️","🧛‍♀️","🧝‍♀️","🧞‍♀️","🧟‍♀️","💆‍♀️","💇‍♀️","🚶‍♀️","🧍‍♀️","🧎‍♀️","👩‍🦯","👩‍🦼","👩‍🦽","🏃‍♀️","💃","🧖‍♀️","🧗‍♀️","🏌️‍♀️","🏄‍♀️","🚣‍♀️","🏊‍♀️","⛹️‍♀️","🏋️‍♀️","🚴‍♀️","🚵‍♀️","🤸‍♀️","🤽‍♀️","🤾‍♀️","🤹‍♀️","🧘‍♀️","👫","👩‍❤️‍💋‍👨","👩‍❤️‍💋‍👩","👩‍❤️‍👨","👩‍❤️‍👩","👨‍👩‍👦","👨‍👩‍👧","👨‍👩‍👧‍👦","👨‍👩‍👦‍👦","👨‍👩‍👧‍👧","👩‍👩‍👦","👩‍👩‍👧","👩‍👩‍👧‍👦","👩‍👩‍👦‍👦","👩‍👩‍👧‍👧","👩‍👦","👩‍👦‍👦","👩‍👧","👩‍👧‍👦","👩‍👧‍👧","👚","👡","👢","👒"],"curly":["👨‍🦱","👩‍🦱","🧑‍🦱","➰","➿"],"bald":["👨‍🦲","👩‍🦲","🧑‍🦲"],"older":["🧓"],"old":["👴","👵","🗝️"],"tip":["💁","💁‍♂️","💁‍♀️"],"deaf":["🧏","🧏‍♂️","🧏‍♀️"],"bow":["🙇","🙇‍♂️","🙇‍♀️","🏹"],"facepalm":["🤦","🤦‍♂️","🤦‍♀️"],"shrug":["🤷","🤷‍♂️","🤷‍♀️"],"health":["🧑‍⚕️","👨‍⚕️","👩‍⚕️"],"worker":["🧑‍⚕️","👨‍⚕️","👩‍⚕️","🧑‍🏭","👨‍🏭","👩‍🏭","🧑‍💼","👨‍💼","👩‍💼","👷","👷‍♂️","👷‍♀️","⛑️"],"student":["🧑‍🎓","👨‍🎓","👩‍🎓"],"teacher":["🧑‍🏫","👨‍🏫","👩‍🏫"],"judge":["🧑‍⚖️","👨‍⚖️","👩‍⚖️"],"farmer":["🧑‍🌾","👨‍🌾","👩‍🌾"],"cook":["🧑‍🍳","👨‍🍳","👩‍🍳","🍳","🇨🇰"],"mechanic":["🧑‍🔧","👨‍🔧","👩‍🔧"],"factory":["🧑‍🏭","👨‍🏭","👩‍🏭","🏭"],"office":["🧑‍💼","👨‍💼","👩‍💼","🏢","🏣","🏤"],"scientist":["🧑‍🔬","👨‍🔬","👩‍🔬"],"technologist":["🧑‍💻","👨‍💻","👩‍💻"],"singer":["🧑‍🎤","👨‍🎤","👩‍🎤"],"artist":["🧑‍🎨","👨‍🎨","👩‍🎨","🎨"],"pilot":["🧑‍✈️","👨‍✈️","👩‍✈️"],"astronaut":["🧑‍🚀","👨‍🚀","👩‍🚀"],"firefighter":["🧑‍🚒","👨‍🚒","👩‍🚒"],"police":["👮","👮‍♂️","👮‍♀️","🚓","🚔","🚨"],"officer":["👮","👮‍♂️","👮‍♀️"],"detective":["🕵️","🕵️‍♂️","🕵️‍♀️"],"guard":["💂","💂‍♂️","💂‍♀️"],"ninja":["🥷"],"construction":["👷","👷‍♂️","👷‍♀️","🏗️","🚧"],"crown":["🫅","👑"],"prince":["🤴"],"princess":["👸"],"wear":["👳","👳‍♂️","👳‍♀️"],"turban":["👳","👳‍♂️","👳‍♀️"],"skullcap":["👲"],"headscarf":["🧕"],"tuxedo":["🤵","🤵‍♂️","🤵‍♀️"],"veil":["👰","👰‍♂️","👰‍♀️"],"pregnant":["🤰","🫃","🫄"],"breast":["🤱"],"feed":["🤱","👩‍🍼","👨‍🍼","🧑‍🍼"],"angel":["👼"],"santa":["🎅"],"claus":["🎅","🤶","🧑‍🎄"],"mrs":["🤶"],"mx":["🧑‍🎄"],"superhero":["🦸","🦸‍♂️","🦸‍♀️"],"supervillain":["🦹","🦹‍♂️","🦹‍♀️"],"mage":["🧙","🧙‍♂️","🧙‍♀️"],"fairy":["🧚","🧚‍♂️","🧚‍♀️"],"vampire":["🧛","🧛‍♂️","🧛‍♀️"],"merperson":["🧜"],"merman":["🧜‍♂️"],"mermaid":["🧜‍♀️"],"elf":["🧝","🧝‍♂️","🧝‍♀️"],"genie":["🧞","🧞‍♂️","🧞‍♀️"],"zombie":["🧟","🧟‍♂️","🧟‍♀️"],"troll":["🧌"],"gett":["💆","💆‍♂️","💆‍♀️","💇","💇‍♂️","💇‍♀️"],"massage":["💆","💆‍♂️","💆‍♀️"],"haircut":["💇","💇‍♂️","💇‍♀️"],"walk":["🚶","🚶‍♂️","🚶‍♀️"],"stand":["🧍","🧍‍♂️","🧍‍♀️"],"kneel":["🧎","🧎‍♂️","🧎‍♀️"],"cane":["🧑‍🦯","👨‍🦯","👩‍🦯","🦯"],"motorized":["🧑‍🦼","👨‍🦼","👩‍🦼","🦼"],"wheelchair":["🧑‍🦼","👨‍🦼","👩‍🦼","🧑‍🦽","👨‍🦽","👩‍🦽","🦽","🦼","♿"],"manual":["🧑‍🦽","👨‍🦽","👩‍🦽","🦽"],"run":["🏃","🏃‍♂️","🏃‍♀️","🎽","👟"],"dance":["💃","🕺"],"suit":["🕴️","♠️","♥️","♦️","♣️"],"levitate":["🕴️"],"people":["👯","🤼","🧑‍🤝‍🧑","🫂"],"bunny":["👯","👯‍♂️","👯‍♀️"],"ears":["👯","👯‍♂️","👯‍♀️"],"men":["👯‍♂️","🤼‍♂️","👬","🚹"],"women":["👯‍♀️","🤼‍♀️","👭","🚺"],"steamy":["🧖","🧖‍♂️","🧖‍♀️"],"room":["🧖","🧖‍♂️","🧖‍♀️","🚹","🚺"],"climb":["🧗","🧗‍♂️","🧗‍♀️"],"fence":["🤺"],"horse":["🏇","🐴","🐎","🎠"],"race":["🏇","🏎️"],"skier":["⛷️"],"snowboarder":["🏂"],"golf":["🏌️","🏌️‍♂️","🏌️‍♀️"],"surf":["🏄","🏄‍♂️","🏄‍♀️"],"row":["🚣","🚣‍♂️","🚣‍♀️"],"boat":["🚣","🚣‍♂️","🚣‍♀️","🛥️"],"swim":["🏊","🏊‍♂️","🏊‍♀️"],"bounce":["⛹️","⛹️‍♂️","⛹️‍♀️"],"ball":["⛹️","⛹️‍♂️","⛹️‍♀️","🍙","🎊","⚽","🎱","🔮","🪩"],"lift":["🏋️","🏋️‍♂️","🏋️‍♀️"],"weights":["🏋️","🏋️‍♂️","🏋️‍♀️"],"bike":["🚴","🚴‍♂️","🚴‍♀️","🚵","🚵‍♂️","🚵‍♀️"],"mountain":["🚵","🚵‍♂️","🚵‍♀️","🏔️","⛰️","🚞","🚠"],"cartwheel":["🤸","🤸‍♂️","🤸‍♀️"],"wrestle":["🤼","🤼‍♂️","🤼‍♀️"],"play":["🤽","🤽‍♂️","🤽‍♀️","🤾","🤾‍♂️","🤾‍♀️","🎴","▶️","⏯️"],"water":["🤽","🤽‍♂️","🤽‍♀️","🐃","🌊","🔫","🚰","🚾","🚱"],"polo":["🤽","🤽‍♂️","🤽‍♀️"],"handball":["🤾","🤾‍♂️","🤾‍♀️"],"juggle":["🤹","🤹‍♂️","🤹‍♀️"],"lotus":["🧘","🧘‍♂️","🧘‍♀️","🪷"],"position":["🧘","🧘‍♂️","🧘‍♀️"],"take":["🛀"],"bath":["🛀"],"bed":["🛌","🛏️"],"couple":["💑","👩‍❤️‍👨","👨‍❤️‍👨","👩‍❤️‍👩"],"family":["👪","👨‍👩‍👦","👨‍👩‍👧","👨‍👩‍👧‍👦","👨‍👩‍👦‍👦","👨‍👩‍👧‍👧","👨‍👨‍👦","👨‍👨‍👧","👨‍👨‍👧‍👦","👨‍👨‍👦‍👦","👨‍👨‍👧‍👧","👩‍👩‍👦","👩‍👩‍👧","👩‍👩‍👧‍👦","👩‍👩‍👦‍👦","👩‍👩‍👧‍👧","👨‍👦","👨‍👦‍👦","👨‍👧","👨‍👧‍👦","👨‍👧‍👧","👩‍👦","👩‍👦‍👦","👩‍👧","👩‍👧‍👦","👩‍👧‍👧"],"bust":["👤"],"silhouette":["👤","👥"],"busts":["👥"],"hug":["🫂"],"footprints":["👣"],"gorilla":["🦍"],"orangutan":["🦧"],"dog":["🐶","🐕","🦮","🐕‍🦺","🌭"],"guide":["🦮"],"service":["🐕‍🦺","🈂️"],"poodle":["🐩"],"wolf":["🐺"],"fox":["🦊"],"raccoon":["🦝"],"lion":["🦁"],"tiger":["🐯","🐅"],"leopard":["🐆"],"moose":["🫎"],"donkey":["🫏"],"unicorn":["🦄"],"zebra":["🦓"],"deer":["🦌"],"bison":["🦬"],"cow":["🐮","🐄"],"ox":["🐂"],"buffalo":["🐃"],"pig":["🐷","🐖","🐽"],"boar":["🐗"],"ram":["🐏"],"ewe":["🐑"],"goat":["🐐"],"camel":["🐪","🐫"],"hump":["🐫"],"llama":["🦙"],"giraffe":["🦒"],"elephant":["🐘"],"mammoth":["🦣"],"rhinoceros":["🦏"],"hippopotamus":["🦛"],"mouse":["🐭","🐁","🖱️","🪤"],"rat":["🐀"],"hamster":["🐹"],"rabbit":["🐰","🐇"],"chipmunk":["🐿️"],"beaver":["🦫"],"hedgehog":["🦔"],"bat":["🦇"],"bear":["🐻","🐻‍❄️","🧸"],"polar":["🐻‍❄️"],"koala":["🐨"],"panda":["🐼"],"sloth":["🦥"],"otter":["🦦"],"skunk":["🦨"],"kangaroo":["🦘"],"badger":["🦡"],"paw":["🐾"],"prints":["🐾"],"turkey":["🦃","🇹🇷"],"chicken":["🐔"],"rooster":["🐓"],"hatch":["🐣"],"chick":["🐣","🐤","🐥"],"front":["🐥"],"bird":["🐦","🐦‍⬛"],"penguin":["🐧"],"dove":["🕊️"],"eagle":["🦅"],"duck":["🦆"],"swan":["🦢"],"owl":["🦉"],"dodo":["🦤"],"feather":["🪶"],"flamingo":["🦩"],"peacock":["🦚"],"parrot":["🦜"],"wing":["🪽"],"goose":["🪿"],"frog":["🐸"],"crocodile":["🐊"],"turtle":["🐢"],"lizard":["🦎"],"snake":["🐍"],"dragon":["🐲","🐉","🀄"],"sauropod":["🦕"],"rex":["🦖"],"spout":["🐳"],"whale":["🐳","🐋"],"dolphin":["🐬"],"seal":["🦭"],"fish":["🐟","🐠","🍥","🎣"],"tropical":["🐠","🍹"],"blowfish":["🐡"],"shark":["🦈"],"octopus":["🐙"],"shell":["🐚"],"coral":["🪸"],"jellyfish":["🪼"],"snail":["🐌"],"butterfly":["🦋"],"bug":["🐛"],"ant":["🐜"],"honeybee":["🐝"],"beetle":["🪲","🐞"],"lady":["🐞"],"cricket":["🦗","🏏"],"cockroach":["🪳"],"spider":["🕷️","🕸️"],"web":["🕸️"],"scorpion":["🦂"],"mosquito":["🦟"],"fly":["🪰","🛸","🥏"],"worm":["🪱"],"microbe":["🦠"],"bouquet":["💐"],"cherry":["🌸"],"blossom":["🌸","🌼"],"flower":["💮","🥀","🎴"],"rosette":["🏵️"],"rose":["🌹"],"wilted":["🥀"],"hibiscus":["🌺"],"sunflower":["🌻"],"tulip":["🌷"],"hyacinth":["🪻"],"seedle":["🌱"],"potted":["🪴"],"plant":["🪴"],"evergreen":["🌲"],"tree":["🌲","🌳","🌴","🎄","🎋"],"deciduous":["🌳"],"cactus":["🌵"],"sheaf":["🌾"],"rice":["🌾","🍘","🍙","🍚","🍛"],"herb":["🌿"],"shamrock":["☘️"],"four":["🍀","🕓","🕟"],"leaf":["🍀","🍁","🍂","🍃"],"clover":["🍀"],"maple":["🍁"],"fallen":["🍂"],"flutter":["🍃"],"wind":["🍃","🌬️","🎐"],"empty":["🪹"],"nest":["🪹","🪺","🪆"],"eggs":["🪺"],"mushroom":["🍄"],"grapes":["🍇"],"melon":["🍈"],"watermelon":["🍉"],"tangerine":["🍊"],"lemon":["🍋"],"banana":["🍌"],"pineapple":["🍍"],"mango":["🥭"],"apple":["🍎","🍏"],"pear":["🍐"],"peach":["🍑"],"cherries":["🍒"],"strawberry":["🍓"],"blueberries":["🫐"],"kiwi":["🥝"],"fruit":["🥝"],"tomato":["🍅"],"olive":["🫒"],"coconut":["🥥"],"avocado":["🥑"],"eggplant":["🍆"],"potato":["🥔","🍠"],"carrot":["🥕"],"corn":["🌽"],"pepper":["🌶️","🫑"],"bell":["🫑","🛎️","🔔","🔕"],"cucumber":["🥒"],"leafy":["🥬"],"broccoli":["🥦"],"garlic":["🧄"],"onion":["🧅"],"peanuts":["🥜"],"beans":["🫘"],"chestnut":["🌰"],"ginger":["🫚"],"root":["🫚"],"pea":["🫛"],"pod":["🫛"],"bread":["🍞","🥖"],"croissant":["🥐"],"baguette":["🥖"],"flatbread":["🫓","🥙"],"pretzel":["🥨"],"bagel":["🥯"],"pancakes":["🥞"],"waffle":["🧇"],"cheese":["🧀"],"wedge":["🧀"],"meat":["🍖","🥩"],"poultry":["🍗"],"cut":["🥩"],"bacon":["🥓"],"hamburger":["🍔"],"french":["🍟","🇬🇫","🇵🇫","🇹🇫"],"fries":["🍟"],"pizza":["🍕"],"sandwich":["🥪","🇬🇸"],"taco":["🌮"],"burrito":["🌯"],"tamale":["🫔"],"stuffed":["🥙"],"falafel":["🧆"],"egg":["🥚"],"shallow":["🥘"],"pan":["🥘"],"pot":["🍲","🍯"],"fondue":["🫕"],"bowl":["🥣","🍜","🎳"],"spoon":["🥣","🥄"],"salad":["🥗"],"popcorn":["🍿"],"butter":["🧈"],"salt":["🧂"],"canned":["🥫"],"bento":["🍱"],"box":["🍱","🥡","🧃","🥊","🗳️","🗃️","☑️"],"cracker":["🍘"],"cooked":["🍚"],"curry":["🍛"],"spaghetti":["🍝"],"roasted":["🍠"],"sweet":["🍠"],"oden":["🍢"],"sushi":["🍣"],"fried":["🍤"],"shrimp":["🍤","🦐"],"cake":["🍥","🥮","🎂"],"swirl":["🍥"],"moon":["🥮","🌑","🌒","🌓","🌔","🌕","🌖","🌗","🌘","🌙","🌚","🌛","🌜","🌝","🎑"],"dango":["🍡"],"dumple":["🥟"],"fortune":["🥠"],"cookie":["🥠","🍪"],"takeout":["🥡"],"crab":["🦀"],"lobster":["🦞"],"squid":["🦑"],"oyster":["🦪"],"soft":["🍦"],"ice":["🍦","🍧","🍨","🧊","🏒","⛸️"],"cream":["🍦","🍨"],"shaved":["🍧"],"doughnut":["🍩"],"birthday":["🎂"],"shortcake":["🍰"],"cupcake":["🧁"],"pie":["🥧"],"chocolate":["🍫"],"bar":["🍫","📊"],"candy":["🍬"],"lollipop":["🍭"],"custard":["🍮"],"honey":["🍯"],"bottle":["🍼","🍾","🧴"],"glass":["🥛","🍷","🍸","🥃","🔍","🔎"],"milk":["🥛"],"beverage":["☕","🧃"],"teapot":["🫖"],"teacup":["🍵"],"handle":["🍵"],"sake":["🍶"],"pop":["🍾"],"cork":["🍾"],"wine":["🍷"],"cocktail":["🍸"],"drink":["🍹"],"beer":["🍺","🍻"],"mug":["🍺"],"clink":["🍻","🥂"],"mugs":["🍻"],"glasses":["🥂","👓"],"tumbler":["🥃"],"pour":["🫗"],"liquid":["🫗"],"cup":["🥤"],"straw":["🥤"],"tea":["🧋"],"mate":["🧉"],"chopsticks":["🥢"],"fork":["🍽️","🍴"],"knife":["🍽️","🍴","🔪"],"plate":["🍽️"],"kitchen":["🔪"],"jar":["🫙"],"amphora":["🏺"],"globe":["🌍","🌎","🌏","🌐"],"show":["🌍","🌎","🌏"],"europe":["🌍"],"africa":["🌍","🇿🇦"],"americas":["🌎"],"asia":["🌏"],"australia":["🌏","🇦🇺"],"meridians":["🌐"],"world":["🗺️"],"map":["🗺️","🗾"],"japan":["🗾","🇯🇵"],"compass":["🧭"],"snow":["🏔️","🌨️","⛄"],"capped":["🏔️"],"volcano":["🌋"],"mount":["🗻"],"fuji":["🗻"],"camp":["🏕️"],"beach":["🏖️"],"umbrella":["🏖️","🌂","☂️","☔","⛱️"],"desert":["🏜️","🏝️"],"island":["🏝️","🇦🇨","🇧🇻","🇨🇵","🇨🇽","🇳🇫"],"national":["🏞️"],"park":["🏞️"],"stadium":["🏟️"],"classical":["🏛️"],"build":["🏛️","🏗️","🏢"],"brick":["🧱"],"rock":["🪨"],"wood":["🪵"],"hut":["🛖"],"houses":["🏘️"],"derelict":["🏚️"],"house":["🏚️","🏠","🏡"],"garden":["🏡"],"japanese":["🏣","🏯","🎎","🔰","🈁","🈂️","🈷️","🈶","🈯","🉐","🈹","🈚","🈲","🉑","🈸","🈴","🈳","㊗️","㊙️","🈺","🈵"],"post":["🏣","🏤"],"hospital":["🏥"],"bank":["🏦"],"hotel":["🏨","🏩"],"convenience":["🏪"],"store":["🏪","🏬"],"school":["🏫"],"department":["🏬"],"castle":["🏯","🏰"],"wed":["💒"],"tokyo":["🗼"],"tower":["🗼"],"statue":["🗽"],"liberty":["🗽"],"church":["⛪"],"mosque":["🕌"],"hindu":["🛕"],"temple":["🛕"],"synagogue":["🕍"],"shinto":["⛩️"],"shrine":["⛩️"],"kaaba":["🕋"],"fountain":["⛲","🖋️"],"tent":["⛺","🎪"],"foggy":["🌁"],"night":["🌃","🌉"],"stars":["🌃"],"cityscape":["🏙️","🌆"],"sunrise":["🌄","🌅"],"mountains":["🌄"],"dusk":["🌆"],"sunset":["🌇"],"bridge":["🌉"],"springs":["♨️"],"carousel":["🎠"],"playground":["🛝"],"slide":["🛝"],"ferris":["🎡"],"wheel":["🎡","🛞","☸️"],"roller":["🎢","🛼"],"coaster":["🎢"],"barber":["💈"],"pole":["💈","🎣"],"circus":["🎪"],"locomotive":["🚂"],"railway":["🚃","🚞","🛤️","🚟"],"car":["🚃","🚋","🚓","🚔","🏎️","🚨"],"high":["🚄","⚡","👠","🔊"],"speed":["🚄"],"train":["🚄","🚅","🚆"],"bullet":["🚅"],"metro":["🚇"],"rail":["🚈"],"station":["🚉"],"tram":["🚊","🚋"],"monorail":["🚝"],"bus":["🚌","🚍","🚏"],"trolleybus":["🚎"],"minibus":["🚐"],"ambulance":["🚑"],"engine":["🚒"],"taxi":["🚕","🚖"],"automobile":["🚗","🚘"],"sport":["🚙"],"utility":["🚙"],"vehicle":["🚙"],"pickup":["🛻"],"truck":["🛻","🚚"],"delivery":["🚚"],"articulated":["🚛"],"lorry":["🚛"],"tractor":["🚜"],"motorcycle":["🏍️"],"motor":["🛵","🛥️"],"scooter":["🛵","🛴"],"auto":["🛺"],"rickshaw":["🛺"],"bicycle":["🚲"],"kick":["🛴"],"skateboard":["🛹"],"skate":["🛼","⛸️"],"stop":["🚏","🛑","⏹️"],"motorway":["🛣️"],"track":["🛤️","⏭️","⏮️"],"oil":["🛢️"],"drum":["🛢️","🥁","🪘"],"fuel":["⛽"],"pump":["⛽"],"horizontal":["🚥"],"traffic":["🚥","🚦"],"vertical":["🚦","🔃"],"anchor":["⚓"],"ring":["🛟","💍"],"buoy":["🛟"],"sailboat":["⛵"],"canoe":["🛶"],"speedboat":["🚤"],"passenger":["🛳️"],"ship":["🛳️","🚢"],"ferry":["⛴️"],"airplane":["✈️","🛩️","🛫","🛬"],"small":["🛩️","🌤️","◾","◽","▪️","▫️","🔸","🔹"],"departure":["🛫"],"arrival":["🛬"],"parachute":["🪂"],"seat":["💺"],"helicopter":["🚁"],"suspension":["🚟"],"cableway":["🚠"],"aerial":["🚡"],"tramway":["🚡"],"satellite":["🛰️","📡"],"rocket":["🚀"],"saucer":["🛸"],"bellhop":["🛎️"],"luggage":["🧳","🛅"],"hourglass":["⌛","⏳"],"done":["⌛","⏳"],"not":["⏳","🈶"],"watch":["⌚"],"alarm":["⏰"],"clock":["⏰","⏲️","🕰️","🕛","🕐","🕑","🕒","🕓","🕔","🕕","🕖","🕗","🕘","🕙","🕚"],"stopwatch":["⏱️"],"timer":["⏲️"],"mantelpiece":["🕰️"],"twelve":["🕛","🕧"],"thirty":["🕧","🕜","🕝","🕞","🕟","🕠","🕡","🕢","🕣","🕤","🕥","🕦"],"one":["🕐","🕜","🩱","🔞"],"three":["🕒","🕞"],"five":["🕔","🕠"],"six":["🕕","🕡","🔯"],"seven":["🕖","🕢"],"eight":["🕗","🕣","✳️","✴️"],"nine":["🕘","🕤"],"ten":["🕙","🕥"],"eleven":["🕚","🕦"],"new":["🌑","🌚","🆕","🇳🇨","🇳🇿","🇵🇬"],"wax":["🌒","🌔"],"crescent":["🌒","🌘","🌙","☪️"],"first":["🌓","🌛"],"quarter":["🌓","🌗","🌛","🌜"],"gibbous":["🌔","🌖"],"full":["🌕","🌝"],"wane":["🌖","🌘"],"last":["🌗","🌜","⏮️"],"sun":["☀️","🌞","⛅","🌤️","🌥️","🌦️"],"ringed":["🪐"],"planet":["🪐"],"glow":["🌟"],"shoot":["🌠"],"milky":["🌌"],"way":["🌌"],"cloud":["☁️","⛅","⛈️","🌤️","🌥️","🌦️","🌧️","🌨️","🌩️"],"behind":["⛅","🌤️","🌥️","🌦️"],"lightning":["⛈️","🌩️"],"rain":["⛈️","🌦️","🌧️","☔"],"large":["🌥️","⬛","⬜","🔶","🔷"],"tornado":["🌪️"],"fog":["🌫️"],"cyclone":["🌀"],"rainbow":["🌈","🏳️‍🌈"],"drops":["☔"],"ground":["⛱️"],"voltage":["⚡"],"snowflake":["❄️"],"snowman":["☃️","⛄"],"comet":["☄️"],"droplet":["💧"],"jack":["🎃"],"lantern":["🎃","🏮"],"christmas":["🎄","🇨🇽"],"fireworks":["🎆"],"sparkler":["🎇"],"firecracker":["🧨"],"sparkles":["✨"],"popper":["🎉"],"confetti":["🎊"],"tanabata":["🎋"],"pine":["🎍"],"dolls":["🎎","🪆"],"carp":["🎏"],"streamer":["🎏"],"chime":["🎐"],"view":["🎑"],"ceremony":["🎑"],"envelope":["🧧","✉️","📨","📩"],"wrapped":["🎁"],"gift":["🎁"],"reminder":["🎗️"],"admission":["🎟️"],"tickets":["🎟️"],"ticket":["🎫"],"military":["🎖️","🪖"],"medal":["🎖️","🏅","🥇","🥈","🥉"],"trophy":["🏆"],"sports":["🏅"],"1st":["🥇"],"place":["🥇","🥈","🥉","🛐"],"2nd":["🥈"],"3rd":["🥉"],"soccer":["⚽"],"baseball":["⚾"],"softball":["🥎"],"basketball":["🏀"],"volleyball":["🏐"],"american":["🏈","🇦🇸"],"football":["🏈","🏉"],"rugby":["🏉"],"tennis":["🎾"],"disc":["🥏"],"game":["🏏","🎮","🎲"],"field":["🏑"],"hockey":["🏑","🏒"],"lacrosse":["🥍"],"ping":["🏓"],"pong":["🏓"],"badminton":["🏸"],"glove":["🥊"],"martial":["🥋"],"arts":["🥋","🎭"],"uniform":["🥋"],"goal":["🥅"],"net":["🥅"],"flag":["⛳","📫","📪","📬","📭","🏁","🚩","🏴","🏳️","🏳️‍🌈","🏳️‍⚧️","🏴‍☠️","🇦🇨","🇦🇩","🇦🇪","🇦🇫","🇦🇬","🇦🇮","🇦🇱","🇦🇲","🇦🇴","🇦🇶","🇦🇷","🇦🇸","🇦🇹","🇦🇺","🇦🇼","🇦🇽","🇦🇿","🇧🇦","🇧🇧","🇧🇩","🇧🇪","🇧🇫","🇧🇬","🇧🇭","🇧🇮","🇧🇯","🇧🇱","🇧🇲","🇧🇳","🇧🇴","🇧🇶","🇧🇷","🇧🇸","🇧🇹","🇧🇻","🇧🇼","🇧🇾","🇧🇿","🇨🇦","🇨🇨","🇨🇩","🇨🇫","🇨🇬","🇨🇭","🇨🇮","🇨🇰","🇨🇱","🇨🇲","🇨🇳","🇨🇴","🇨🇵","🇨🇷","🇨🇺","🇨🇻","🇨🇼","🇨🇽","🇨🇾","🇨🇿","🇩🇪","🇩🇬","🇩🇯","🇩🇰","🇩🇲","🇩🇴","🇩🇿","🇪🇦","🇪🇨","🇪🇪","🇪🇬","🇪🇭","🇪🇷","🇪🇸","🇪🇹","🇪🇺","🇫🇮","🇫🇯","🇫🇰","🇫🇲","🇫🇴","🇫🇷","🇬🇦","🇬🇧","🇬🇩","🇬🇪","🇬🇫","🇬🇬","🇬🇭","🇬🇮","🇬🇱","🇬🇲","🇬🇳","🇬🇵","🇬🇶","🇬🇷","🇬🇸","🇬🇹","🇬🇺","🇬🇼","🇬🇾","🇭🇰","🇭🇲","🇭🇳","🇭🇷","🇭🇹","🇭🇺","🇮🇨","🇮🇩","🇮🇪","🇮🇱","🇮🇲","🇮🇳","🇮🇴","🇮🇶","🇮🇷","🇮🇸","🇮🇹","🇯🇪","🇯🇲","🇯🇴","🇯🇵","🇰🇪","🇰🇬","🇰🇭","🇰🇮","🇰🇲","🇰🇳","🇰🇵","🇰🇷","🇰🇼","🇰🇾","🇰🇿","🇱🇦","🇱🇧","🇱🇨","🇱🇮","🇱🇰","🇱🇷","🇱🇸","🇱🇹","🇱🇺","🇱🇻","🇱🇾","🇲🇦","🇲🇨","🇲🇩","🇲🇪","🇲🇫","🇲🇬","🇲🇭","🇲🇰","🇲🇱","🇲🇲","🇲🇳","🇲🇴","🇲🇵","🇲🇶","🇲🇷","🇲🇸","🇲🇹","🇲🇺","🇲🇻","🇲🇼","🇲🇽","🇲🇾","🇲🇿","🇳🇦","🇳🇨","🇳🇪","🇳🇫","🇳🇬","🇳🇮","🇳🇱","🇳🇴","🇳🇵","🇳🇷","🇳🇺","🇳🇿","🇴🇲","🇵🇦","🇵🇪","🇵🇫","🇵🇬","🇵🇭","🇵🇰","🇵🇱","🇵🇲","🇵🇳","🇵🇷","🇵🇸","🇵🇹","🇵🇼","🇵🇾","🇶🇦","🇷🇪","🇷🇴","🇷🇸","🇷🇺","🇷🇼","🇸🇦","🇸🇧","🇸🇨","🇸🇩","🇸🇪","🇸🇬","🇸🇭","🇸🇮","🇸🇯","🇸🇰","🇸🇱","🇸🇲","🇸🇳","🇸🇴","🇸🇷","🇸🇸","🇸🇹","🇸🇻","🇸🇽","🇸🇾","🇸🇿","🇹🇦","🇹🇨","🇹🇩","🇹🇫","🇹🇬","🇹🇭","🇹🇯","🇹🇰","🇹🇱","🇹🇲","🇹🇳","🇹🇴","🇹🇷","🇹🇹","🇹🇻","🇹🇼","🇹🇿","🇺🇦","🇺🇬","🇺🇲","🇺🇳","🇺🇸","🇺🇾","🇺🇿","🇻🇦","🇻🇨","🇻🇪","🇻🇬","🇻🇮","🇻🇳","🇻🇺","🇼🇫","🇼🇸","🇽🇰","🇾🇪","🇾🇹","🇿🇦","🇿🇲","🇿🇼","🏴󠁧󠁢󠁥󠁮󠁧󠁿","🏴󠁧󠁢󠁳󠁣󠁴󠁿","🏴󠁧󠁢󠁷󠁬󠁳󠁿"],"dive":["🤿"],"shirt":["🎽","👕"],"skis":["🎿"],"sled":["🛷"],"curl":["🥌","📃"],"stone":["🥌","💎"],"bullseye":["🎯"],"yo":["🪀"],"kite":["🪁"],"pistol":["🔫"],"pool":["🎱"],"crystal":["🔮"],"magic":["🪄"],"wand":["🪄"],"video":["🎮","📹"],"joystick":["🕹️"],"slot":["🎰"],"machine":["🎰","📠"],"die":["🎲"],"puzzle":["🧩"],"piece":["🧩","🩱"],"teddy":["🧸"],"pinata":["🪅"],"mirror":["🪩","🪞"],"spade":["♠️"],"diamond":["♦️","🔶","🔷","🔸","🔹","💠"],"club":["♣️"],"chess":["♟️"],"pawn":["♟️"],"joker":["🃏"],"mahjong":["🀄"],"cards":["🎴"],"perform":["🎭"],"framed":["🖼️"],"picture":["🖼️"],"palette":["🎨"],"thread":["🧵"],"sew":["🪡"],"needle":["🪡"],"yarn":["🧶"],"knot":["🪢"],"goggles":["🥽"],"lab":["🥼"],"coat":["🥼","🧥"],"safety":["🦺","🧷"],"vest":["🦺"],"necktie":["👔"],"jeans":["👖"],"scarf":["🧣"],"gloves":["🧤"],"socks":["🧦"],"dress":["👗"],"kimono":["👘"],"sari":["🥻"],"swimsuit":["🩱"],"briefs":["🩲"],"shorts":["🩳"],"bikini":["👙"],"clothes":["👚"],"fold":["🪭"],"fan":["🪭"],"purse":["👛"],"handbag":["👜"],"clutch":["👝"],"bag":["👝","💰"],"shop":["🛍️","🛒"],"bags":["🛍️"],"backpack":["🎒"],"thong":["🩴"],"sandal":["🩴","👡"],"shoe":["👞","👟","🥿","👠"],"hike":["🥾"],"boot":["🥾","👢"],"flat":["🥿"],"heeled":["👠"],"ballet":["🩰"],"shoes":["🩰"],"pick":["🪮","⛏️","⚒️"],"top":["🎩","🔝"],"graduation":["🎓"],"cap":["🎓","🧢"],"billed":["🧢"],"helmet":["🪖","⛑️"],"rescue":["⛑️"],"prayer":["📿"],"beads":["📿"],"lipstick":["💄"],"gem":["💎"],"muted":["🔇"],"speaker":["🔇","🔈","🔉","🔊"],"low":["🔈","🪫"],"volume":["🔈","🔉","🔊"],"medium":["🔉","◼️","◻️","◾","◽"],"loudspeaker":["📢"],"megaphone":["📣"],"postal":["📯"],"horn":["📯"],"slash":["🔕"],"musical":["🎼","🎵","🎶","🎹"],"score":["🎼"],"note":["🎵"],"notes":["🎶"],"studio":["🎙️"],"microphone":["🎙️","🎤"],"level":["🎚️"],"slider":["🎚️"],"control":["🎛️","🛂"],"knobs":["🎛️"],"headphone":["🎧"],"radio":["📻","🔘"],"saxophone":["🎷"],"accordion":["🪗"],"guitar":["🎸"],"keyboard":["🎹","⌨️"],"trumpet":["🎺"],"violin":["🎻"],"banjo":["🪕"],"long":["🪘"],"maracas":["🪇"],"flute":["🪈"],"mobile":["📱","📲","📵","📴"],"phone":["📱","📲","📴"],"telephone":["☎️","📞"],"receiver":["📞"],"pager":["📟"],"fax":["📠"],"battery":["🔋","🪫"],"electric":["🔌"],"plug":["🔌"],"laptop":["💻"],"desktop":["🖥️"],"computer":["🖥️","🖱️","💽"],"printer":["🖨️"],"trackball":["🖲️"],"disk":["💽","💾","💿"],"floppy":["💾"],"optical":["💿"],"dvd":["📀"],"abacus":["🧮"],"movie":["🎥"],"camera":["🎥","📷","📸","📹"],"film":["🎞️","📽️"],"frames":["🎞️"],"projector":["📽️"],"clapper":["🎬"],"board":["🎬"],"television":["📺"],"flash":["📸"],"videocassette":["📼"],"magnify":["🔍","🔎"],"tilted":["🔍","🔎"],"candle":["🕯️"],"bulb":["💡"],"flashlight":["🔦"],"paper":["🏮","🧻"],"diya":["🪔"],"lamp":["🪔","🛋️"],"notebook":["📔","📓"],"decorative":["📔"],"cover":["📔"],"book":["📕","📖","📗","📘","📙"],"books":["📚"],"ledger":["📒"],"page":["📃","📄"],"scroll":["📜"],"newspaper":["📰","🗞️"],"rolled":["🗞️"],"bookmark":["📑","🔖"],"tabs":["📑"],"label":["🏷️"],"coin":["🪙"],"yen":["💴","💹"],"banknote":["💴","💵","💶","💷"],"dollar":["💵","💲"],"euro":["💶"],"pound":["💷"],"wings":["💸"],"credit":["💳"],"card":["💳","🗂️","📇","🗃️","🪪"],"receipt":["🧾"],"chart":["💹","📈","📉","📊"],"increase":["💹","📈"],"mail":["📧"],"income":["📨"],"outbox":["📤"],"tray":["📤","📥"],"inbox":["📥"],"package":["📦"],"mailbox":["📫","📪","📬","📭"],"lowered":["📪","📭"],"postbox":["📮"],"ballot":["🗳️"],"pencil":["✏️"],"nib":["✒️"],"pen":["🖋️","🖊️","🔏"],"paintbrush":["🖌️"],"crayon":["🖍️"],"memo":["📝"],"briefcase":["💼"],"file":["📁","📂","🗃️","🗄️"],"folder":["📁","📂"],"dividers":["🗂️"],"calendar":["📅","📆","🗓️"],"off":["📆","📴"],"notepad":["🗒️"],"decrease":["📉"],"clipboard":["📋"],"pushpin":["📌","📍"],"round":["📍"],"paperclip":["📎"],"linked":["🖇️"],"paperclips":["🖇️"],"straight":["📏"],"ruler":["📏","📐"],"triangular":["📐","🚩"],"scissors":["✂️"],"cabinet":["🗄️"],"wastebasket":["🗑️"],"locked":["🔒","🔏","🔐"],"unlocked":["🔓"],"key":["🔐","🔑","🗝️"],"hammer":["🔨","⚒️","🛠️"],"axe":["🪓"],"wrench":["🛠️","🔧"],"dagger":["🗡️"],"swords":["⚔️"],"bomb":["💣"],"boomerang":["🪃"],"shield":["🛡️"],"carpentry":["🪚"],"saw":["🪚"],"screwdriver":["🪛"],"nut":["🔩"],"bolt":["🔩"],"gear":["⚙️"],"clamp":["🗜️"],"balance":["⚖️"],"scale":["⚖️"],"link":["🔗"],"chains":["⛓️"],"hook":["🪝"],"toolbox":["🧰"],"magnet":["🧲"],"ladder":["🪜"],"alembic":["⚗️"],"test":["🧪"],"tube":["🧪"],"petri":["🧫"],"dish":["🧫"],"dna":["🧬"],"microscope":["🔬"],"telescope":["🔭"],"antenna":["📡","📶"],"syringe":["💉"],"drop":["🩸"],"blood":["🩸","🅰️","🆎","🅱️","🅾️"],"pill":["💊"],"adhesive":["🩹"],"crutch":["🩼"],"stethoscope":["🩺"],"ray":["🩻"],"door":["🚪"],"elevator":["🛗"],"window":["🪟"],"couch":["🛋️"],"chair":["🪑"],"toilet":["🚽"],"plunger":["🪠"],"shower":["🚿"],"bathtub":["🛁"],"trap":["🪤"],"razor":["🪒"],"lotion":["🧴"],"pin":["🧷"],"broom":["🧹"],"basket":["🧺"],"bucket":["🪣"],"soap":["🧼"],"bubbles":["🫧"],"toothbrush":["🪥"],"sponge":["🧽"],"extinguisher":["🧯"],"cart":["🛒"],"cigarette":["🚬"],"coffin":["⚰️"],"headstone":["🪦"],"funeral":["⚱️"],"urn":["⚱️"],"nazar":["🧿"],"amulet":["🧿"],"hamsa":["🪬"],"moai":["🗿"],"placard":["🪧"],"identification":["🪪"],"atm":["🏧"],"litter":["🚮","🚯"],"bin":["🚮"],"potable":["🚰","🚱"],"restroom":["🚻"],"closet":["🚾"],"passport":["🛂"],"customs":["🛃"],"baggage":["🛄"],"claim":["🛄"],"warn":["⚠️"],"children":["🚸"],"cross":["🚸","✝️","☦️","❌","❎"],"entry":["⛔"],"prohibited":["🚫","🈲"],"bicycles":["🚳"],"smoke":["🚭"],"non":["🚱"],"pedestrians":["🚷"],"phones":["📵"],"under":["🔞"],"eighteen":["🔞"],"radioactive":["☢️"],"biohazard":["☣️"],"curve":["↩️","↪️","⤴️","⤵️"],"clockwise":["🔃"],"arrows":["🔃","🔄"],"counterclockwise":["🔄"],"button":["🔄","🔀","🔁","🔂","▶️","⏩","⏭️","⏯️","◀️","⏪","⏮️","🔼","⏫","🔽","⏬","⏸️","⏹️","⏺️","⏏️","🔅","🔆","✅","❎","🅰️","🆎","🅱️","🆑","🆒","🆓","🆔","🆕","🆖","🅾️","🆗","🅿️","🆘","🆙","🆚","🈁","🈂️","🈷️","🈶","🈯","🉐","🈹","🈚","🈲","🉑","🈸","🈴","🈳","㊗️","㊙️","🈺","🈵","🔘","🔳","🔲"],"end":["🔚"],"soon":["🔜"],"worship":["🛐"],"atom":["⚛️"],"om":["🕉️"],"david":["✡️"],"dharma":["☸️"],"yin":["☯️"],"yang":["☯️"],"latin":["✝️","🔠","🔡","🔤"],"orthodox":["☦️"],"peace":["☮️"],"menorah":["🕎"],"pointed":["🔯","✴️","🔺","🔻"],"khanda":["🪯"],"aries":["♈"],"taurus":["♉"],"gemini":["♊"],"cancer":["♋"],"leo":["♌"],"virgo":["♍"],"libra":["♎"],"scorpio":["♏"],"sagittarius":["♐"],"capricorn":["♑"],"aquarius":["♒"],"pisces":["♓"],"ophiuchus":["⛎"],"shuffle":["🔀"],"tracks":["🔀"],"repeat":["🔁","🔂"],"single":["🔂"],"fast":["⏩","⏪","⏫","⏬"],"forward":["⏩"],"next":["⏭️"],"or":["⏯️"],"pause":["⏯️","⏸️"],"reverse":["◀️","⏪"],"upwards":["🔼"],"downwards":["🔽"],"record":["⏺️"],"eject":["⏏️"],"cinema":["🎦"],"dim":["🔅"],"bright":["🔆"],"bars":["📶"],"wireless":["🛜"],"vibration":["📳"],"mode":["📳"],"female":["♀️"],"male":["♂️"],"transgender":["⚧️","🏳️‍⚧️"],"multiply":["✖️"],"plus":["➕"],"minus":["➖"],"divide":["➗"],"heavy":["🟰","💲"],"equals":["🟰"],"infinity":["♾️"],"double":["‼️","➿"],"question":["⁉️","❓","❔"],"wavy":["〰️"],"currency":["💱"],"exchange":["💱"],"recycle":["♻️"],"fleur":["⚜️"],"de":["⚜️"],"lis":["⚜️"],"trident":["🔱"],"emblem":["🔱"],"name":["📛"],"badge":["📛"],"for":["🔰","🈺"],"beginner":["🔰"],"hollow":["⭕"],"circle":["⭕","🔴","🟠","🟡","🟢","🔵","🟣","🟤","⚫","⚪"],"check":["✅","☑️","✔️"],"loop":["➰","➿"],"part":["〽️"],"alternation":["〽️"],"spoked":["✳️"],"asterisk":["✳️"],"copyright":["©️"],"registered":["®️"],"trade":["™️"],"keycap":["#️⃣","*️⃣","0️⃣","1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣","🔟"],"input":["🔠","🔡","🔢","🔣","🔤"],"uppercase":["🔠"],"lowercase":["🔡"],"numbers":["🔢"],"letters":["🔤"],"type":["🅰️","🆎","🅱️","🅾️"],"ab":["🆎"],"cl":["🆑"],"cool":["🆒"],"free":["🆓","🈶","🈚"],"information":["ℹ️"],"id":["🆔"],"circled":["Ⓜ️"],"ng":["🆖"],"sos":["🆘"],"vs":["🆚"],"here":["🈁"],"charge":["🈂️","🈶","🈚"],"monthly":["🈷️"],"amount":["🈷️"],"reserved":["🈯"],"bargain":["🉐"],"discount":["🈹"],"acceptable":["🉑"],"application":["🈸"],"pass":["🈴"],"grade":["🈴"],"vacancy":["🈳","🈵"],"congratulations":["㊗️"],"secret":["㊙️"],"business":["🈺"],"square":["🟥","🟧","🟨","🟩","🟦","🟪","🟫","⬛","⬜","◼️","◻️","◾","◽","▪️","▫️","🔳","🔲"],"triangle":["🔺","🔻"],"dot":["💠"],"chequered":["🏁"],"flags":["🎌"],"pirate":["🏴‍☠️"],"ascension":["🇦🇨"],"andorra":["🇦🇩"],"united":["🇦🇪","🇬🇧","🇺🇳","🇺🇸"],"arab":["🇦🇪"],"emirates":["🇦🇪"],"afghanistan":["🇦🇫"],"antigua":["🇦🇬"],"barbuda":["🇦🇬"],"anguilla":["🇦🇮"],"albania":["🇦🇱"],"armenia":["🇦🇲"],"angola":["🇦🇴"],"antarctica":["🇦🇶"],"argentina":["🇦🇷"],"samoa":["🇦🇸","🇼🇸"],"austria":["🇦🇹"],"aruba":["🇦🇼"],"aland":["🇦🇽"],"islands":["🇦🇽","🇨🇨","🇨🇰","🇫🇰","🇫🇴","🇬🇸","🇭🇲","🇮🇨","🇰🇾","🇲🇭","🇲🇵","🇵🇳","🇸🇧","🇹🇨","🇺🇲","🇻🇬","🇻🇮"],"azerbaijan":["🇦🇿"],"bosnia":["🇧🇦"],"herzegovina":["🇧🇦"],"barbados":["🇧🇧"],"bangladesh":["🇧🇩"],"belgium":["🇧🇪"],"burkina":["🇧🇫"],"faso":["🇧🇫"],"bulgaria":["🇧🇬"],"bahrain":["🇧🇭"],"burundi":["🇧🇮"],"benin":["🇧🇯"],"st":["🇧🇱","🇰🇳","🇱🇨","🇲🇫","🇵🇲","🇸🇭","🇻🇨"],"barthelemy":["🇧🇱"],"bermuda":["🇧🇲"],"brunei":["🇧🇳"],"bolivia":["🇧🇴"],"caribbean":["🇧🇶"],"netherlands":["🇧🇶","🇳🇱"],"brazil":["🇧🇷"],"bahamas":["🇧🇸"],"bhutan":["🇧🇹"],"bouvet":["🇧🇻"],"botswana":["🇧🇼"],"belarus":["🇧🇾"],"belize":["🇧🇿"],"canada":["🇨🇦"],"cocos":["🇨🇨"],"keel":["🇨🇨"],"congo":["🇨🇩","🇨🇬"],"kinshasa":["🇨🇩"],"central":["🇨🇫"],"african":["🇨🇫"],"republic":["🇨🇫","🇩🇴"],"brazzaville":["🇨🇬"],"switzerland":["🇨🇭"],"cote":["🇨🇮"],"ivoire":["🇨🇮"],"chile":["🇨🇱"],"cameroon":["🇨🇲"],"china":["🇨🇳","🇭🇰","🇲🇴"],"colombia":["🇨🇴"],"clipperton":["🇨🇵"],"costa":["🇨🇷"],"rica":["🇨🇷"],"cuba":["🇨🇺"],"cape":["🇨🇻"],"verde":["🇨🇻"],"curacao":["🇨🇼"],"cyprus":["🇨🇾"],"czechia":["🇨🇿"],"germany":["🇩🇪"],"diego":["🇩🇬"],"garcia":["🇩🇬"],"djibouti":["🇩🇯"],"denmark":["🇩🇰"],"dominica":["🇩🇲"],"dominican":["🇩🇴"],"algeria":["🇩🇿"],"ceuta":["🇪🇦"],"melilla":["🇪🇦"],"ecuador":["🇪🇨"],"estonia":["🇪🇪"],"egypt":["🇪🇬"],"western":["🇪🇭"],"sahara":["🇪🇭"],"eritrea":["🇪🇷"],"spain":["🇪🇸"],"ethiopia":["🇪🇹"],"european":["🇪🇺"],"union":["🇪🇺"],"finland":["🇫🇮"],"fiji":["🇫🇯"],"falkland":["🇫🇰"],"micronesia":["🇫🇲"],"faroe":["🇫🇴"],"france":["🇫🇷"],"gabon":["🇬🇦"],"kingdom":["🇬🇧"],"grenada":["🇬🇩"],"georgia":["🇬🇪","🇬🇸"],"guiana":["🇬🇫"],"guernsey":["🇬🇬"],"ghana":["🇬🇭"],"gibraltar":["🇬🇮"],"greenland":["🇬🇱"],"gambia":["🇬🇲"],"guinea":["🇬🇳","🇬🇶","🇬🇼","🇵🇬"],"guadeloupe":["🇬🇵"],"equatorial":["🇬🇶"],"greece":["🇬🇷"],"south":["🇬🇸","🇰🇷","🇸🇸","🇿🇦"],"guatemala":["🇬🇹"],"guam":["🇬🇺"],"bissau":["🇬🇼"],"guyana":["🇬🇾"],"hong":["🇭🇰"],"kong":["🇭🇰"],"sar":["🇭🇰","🇲🇴"],"heard":["🇭🇲"],"mcdonald":["🇭🇲"],"honduras":["🇭🇳"],"croatia":["🇭🇷"],"haiti":["🇭🇹"],"hungary":["🇭🇺"],"canary":["🇮🇨"],"indonesia":["🇮🇩"],"ireland":["🇮🇪"],"israel":["🇮🇱"],"isle":["🇮🇲"],"india":["🇮🇳"],"british":["🇮🇴","🇻🇬"],"indian":["🇮🇴"],"ocean":["🇮🇴"],"territory":["🇮🇴"],"iraq":["🇮🇶"],"iran":["🇮🇷"],"iceland":["🇮🇸"],"italy":["🇮🇹"],"jersey":["🇯🇪"],"jamaica":["🇯🇲"],"jordan":["🇯🇴"],"kenya":["🇰🇪"],"kyrgyzstan":["🇰🇬"],"cambodia":["🇰🇭"],"kiribati":["🇰🇮"],"comoros":["🇰🇲"],"kitts":["🇰🇳"],"nevis":["🇰🇳"],"north":["🇰🇵","🇲🇰"],"korea":["🇰🇵","🇰🇷"],"kuwait":["🇰🇼"],"cayman":["🇰🇾"],"kazakhstan":["🇰🇿"],"laos":["🇱🇦"],"lebanon":["🇱🇧"],"lucia":["🇱🇨"],"liechtenstein":["🇱🇮"],"sri":["🇱🇰"],"lanka":["🇱🇰"],"liberia":["🇱🇷"],"lesotho":["🇱🇸"],"lithuania":["🇱🇹"],"luxembourg":["🇱🇺"],"latvia":["🇱🇻"],"libya":["🇱🇾"],"morocco":["🇲🇦"],"monaco":["🇲🇨"],"moldova":["🇲🇩"],"montenegro":["🇲🇪"],"martin":["🇲🇫"],"madagascar":["🇲🇬"],"marshall":["🇲🇭"],"macedonia":["🇲🇰"],"mali":["🇲🇱"],"myanmar":["🇲🇲"],"burma":["🇲🇲"],"mongolia":["🇲🇳"],"macao":["🇲🇴"],"northern":["🇲🇵"],"mariana":["🇲🇵"],"martinique":["🇲🇶"],"mauritania":["🇲🇷"],"montserrat":["🇲🇸"],"malta":["🇲🇹"],"mauritius":["🇲🇺"],"maldives":["🇲🇻"],"malawi":["🇲🇼"],"mexico":["🇲🇽"],"malaysia":["🇲🇾"],"mozambique":["🇲🇿"],"namibia":["🇳🇦"],"caledonia":["🇳🇨"],"niger":["🇳🇪"],"norfolk":["🇳🇫"],"nigeria":["🇳🇬"],"nicaragua":["🇳🇮"],"norway":["🇳🇴"],"nepal":["🇳🇵"],"nauru":["🇳🇷"],"niue":["🇳🇺"],"zealand":["🇳🇿"],"oman":["🇴🇲"],"panama":["🇵🇦"],"peru":["🇵🇪"],"polynesia":["🇵🇫"],"papua":["🇵🇬"],"philippines":["🇵🇭"],"pakistan":["🇵🇰"],"poland":["🇵🇱"],"pierre":["🇵🇲"],"miquelon":["🇵🇲"],"pitcairn":["🇵🇳"],"puerto":["🇵🇷"],"rico":["🇵🇷"],"palestinian":["🇵🇸"],"territories":["🇵🇸","🇹🇫"],"portugal":["🇵🇹"],"palau":["🇵🇼"],"paraguay":["🇵🇾"],"qatar":["🇶🇦"],"reunion":["🇷🇪"],"romania":["🇷🇴"],"serbia":["🇷🇸"],"russia":["🇷🇺"],"rwanda":["🇷🇼"],"saudi":["🇸🇦"],"arabia":["🇸🇦"],"solomon":["🇸🇧"],"seychelles":["🇸🇨"],"sudan":["🇸🇩","🇸🇸"],"sweden":["🇸🇪"],"singapore":["🇸🇬"],"helena":["🇸🇭"],"slovenia":["🇸🇮"],"svalbard":["🇸🇯"],"jan":["🇸🇯"],"mayen":["🇸🇯"],"slovakia":["🇸🇰"],"sierra":["🇸🇱"],"leone":["🇸🇱"],"san":["🇸🇲"],"marino":["🇸🇲"],"senegal":["🇸🇳"],"somalia":["🇸🇴"],"suriname":["🇸🇷"],"sao":["🇸🇹"],"tome":["🇸🇹"],"principe":["🇸🇹"],"el":["🇸🇻"],"salvador":["🇸🇻"],"sint":["🇸🇽"],"maarten":["🇸🇽"],"syria":["🇸🇾"],"eswatini":["🇸🇿"],"tristan":["🇹🇦"],"da":["🇹🇦"],"cunha":["🇹🇦"],"turks":["🇹🇨"],"caicos":["🇹🇨"],"chad":["🇹🇩"],"southern":["🇹🇫"],"togo":["🇹🇬"],"thailand":["🇹🇭"],"tajikistan":["🇹🇯"],"tokelau":["🇹🇰"],"timor":["🇹🇱"],"leste":["🇹🇱"],"turkmenistan":["🇹🇲"],"tunisia":["🇹🇳"],"tonga":["🇹🇴"],"trinidad":["🇹🇹"],"tobago":["🇹🇹"],"tuvalu":["🇹🇻"],"taiwan":["🇹🇼"],"tanzania":["🇹🇿"],"ukraine":["🇺🇦"],"uganda":["🇺🇬"],"us":["🇺🇲","🇻🇮"],"outly":["🇺🇲"],"nations":["🇺🇳"],"states":["🇺🇸"],"uruguay":["🇺🇾"],"uzbekistan":["🇺🇿"],"vatican":["🇻🇦"],"city":["🇻🇦"],"vincent":["🇻🇨"],"grenadines":["🇻🇨"],"venezuela":["🇻🇪"],"virgin":["🇻🇬","🇻🇮"],"vietnam":["🇻🇳"],"vanuatu":["🇻🇺"],"wallis":["🇼🇫"],"futuna":["🇼🇫"],"kosovo":["🇽🇰"],"yemen":["🇾🇪"],"mayotte":["🇾🇹"],"zambia":["🇿🇲"],"zimbabwe":["🇿🇼"],"england":["🏴󠁧󠁢󠁥󠁮󠁧󠁿"],"scotland":["🏴󠁧󠁢󠁳󠁣󠁴󠁿"],"wales":["🏴󠁧󠁢󠁷󠁬󠁳󠁿"]}
+},{}],44:[function(require,module,exports){
+module.exports={"߀":"0","́":""," ":" ","Ⓐ":"A","Ａ":"A","À":"A","Á":"A","Â":"A","Ầ":"A","Ấ":"A","Ẫ":"A","Ẩ":"A","Ã":"A","Ā":"A","Ă":"A","Ằ":"A","Ắ":"A","Ẵ":"A","Ẳ":"A","Ȧ":"A","Ǡ":"A","Ä":"A","Ǟ":"A","Ả":"A","Å":"A","Ǻ":"A","Ǎ":"A","Ȁ":"A","Ȃ":"A","Ạ":"A","Ậ":"A","Ặ":"A","Ḁ":"A","Ą":"A","Ⱥ":"A","Ɐ":"A","Ꜳ":"AA","Æ":"AE","Ǽ":"AE","Ǣ":"AE","Ꜵ":"AO","Ꜷ":"AU","Ꜹ":"AV","Ꜻ":"AV","Ꜽ":"AY","Ⓑ":"B","Ｂ":"B","Ḃ":"B","Ḅ":"B","Ḇ":"B","Ƀ":"B","Ɓ":"B","ｃ":"C","Ⓒ":"C","Ｃ":"C","Ꜿ":"C","Ḉ":"C","Ç":"C","Ⓓ":"D","Ｄ":"D","Ḋ":"D","Ď":"D","Ḍ":"D","Ḑ":"D","Ḓ":"D","Ḏ":"D","Đ":"D","Ɗ":"D","Ɖ":"D","ᴅ":"D","Ꝺ":"D","Ð":"Dh","Ǳ":"DZ","Ǆ":"DZ","ǲ":"Dz","ǅ":"Dz","ɛ":"E","Ⓔ":"E","Ｅ":"E","È":"E","É":"E","Ê":"E","Ề":"E","Ế":"E","Ễ":"E","Ể":"E","Ẽ":"E","Ē":"E","Ḕ":"E","Ḗ":"E","Ĕ":"E","Ė":"E","Ë":"E","Ẻ":"E","Ě":"E","Ȅ":"E","Ȇ":"E","Ẹ":"E","Ệ":"E","Ȩ":"E","Ḝ":"E","Ę":"E","Ḙ":"E","Ḛ":"E","Ɛ":"E","Ǝ":"E","ᴇ":"E","ꝼ":"F","Ⓕ":"F","Ｆ":"F","Ḟ":"F","Ƒ":"F","Ꝼ":"F","Ⓖ":"G","Ｇ":"G","Ǵ":"G","Ĝ":"G","Ḡ":"G","Ğ":"G","Ġ":"G","Ǧ":"G","Ģ":"G","Ǥ":"G","Ɠ":"G","Ꞡ":"G","Ᵹ":"G","Ꝿ":"G","ɢ":"G","Ⓗ":"H","Ｈ":"H","Ĥ":"H","Ḣ":"H","Ḧ":"H","Ȟ":"H","Ḥ":"H","Ḩ":"H","Ḫ":"H","Ħ":"H","Ⱨ":"H","Ⱶ":"H","Ɥ":"H","Ⓘ":"I","Ｉ":"I","Ì":"I","Í":"I","Î":"I","Ĩ":"I","Ī":"I","Ĭ":"I","İ":"I","Ï":"I","Ḯ":"I","Ỉ":"I","Ǐ":"I","Ȉ":"I","Ȋ":"I","Ị":"I","Į":"I","Ḭ":"I","Ɨ":"I","Ⓙ":"J","Ｊ":"J","Ĵ":"J","Ɉ":"J","ȷ":"J","Ⓚ":"K","Ｋ":"K","Ḱ":"K","Ǩ":"K","Ḳ":"K","Ķ":"K","Ḵ":"K","Ƙ":"K","Ⱪ":"K","Ꝁ":"K","Ꝃ":"K","Ꝅ":"K","Ꞣ":"K","Ⓛ":"L","Ｌ":"L","Ŀ":"L","Ĺ":"L","Ľ":"L","Ḷ":"L","Ḹ":"L","Ļ":"L","Ḽ":"L","Ḻ":"L","Ł":"L","Ƚ":"L","Ɫ":"L","Ⱡ":"L","Ꝉ":"L","Ꝇ":"L","Ꞁ":"L","Ǉ":"LJ","ǈ":"Lj","Ⓜ":"M","Ｍ":"M","Ḿ":"M","Ṁ":"M","Ṃ":"M","Ɱ":"M","Ɯ":"M","ϻ":"M","Ꞥ":"N","Ƞ":"N","Ⓝ":"N","Ｎ":"N","Ǹ":"N","Ń":"N","Ñ":"N","Ṅ":"N","Ň":"N","Ṇ":"N","Ņ":"N","Ṋ":"N","Ṉ":"N","Ɲ":"N","Ꞑ":"N","ᴎ":"N","Ǌ":"NJ","ǋ":"Nj","Ⓞ":"O","Ｏ":"O","Ò":"O","Ó":"O","Ô":"O","Ồ":"O","Ố":"O","Ỗ":"O","Ổ":"O","Õ":"O","Ṍ":"O","Ȭ":"O","Ṏ":"O","Ō":"O","Ṑ":"O","Ṓ":"O","Ŏ":"O","Ȯ":"O","Ȱ":"O","Ö":"O","Ȫ":"O","Ỏ":"O","Ő":"O","Ǒ":"O","Ȍ":"O","Ȏ":"O","Ơ":"O","Ờ":"O","Ớ":"O","Ỡ":"O","Ở":"O","Ợ":"O","Ọ":"O","Ộ":"O","Ǫ":"O","Ǭ":"O","Ø":"O","Ǿ":"O","Ɔ":"O","Ɵ":"O","Ꝋ":"O","Ꝍ":"O","Œ":"OE","Ƣ":"OI","Ꝏ":"OO","Ȣ":"OU","Ⓟ":"P","Ｐ":"P","Ṕ":"P","Ṗ":"P","Ƥ":"P","Ᵽ":"P","Ꝑ":"P","Ꝓ":"P","Ꝕ":"P","Ⓠ":"Q","Ｑ":"Q","Ꝗ":"Q","Ꝙ":"Q","Ɋ":"Q","Ⓡ":"R","Ｒ":"R","Ŕ":"R","Ṙ":"R","Ř":"R","Ȑ":"R","Ȓ":"R","Ṛ":"R","Ṝ":"R","Ŗ":"R","Ṟ":"R","Ɍ":"R","Ɽ":"R","Ꝛ":"R","Ꞧ":"R","Ꞃ":"R","Ⓢ":"S","Ｓ":"S","ẞ":"S","Ś":"S","Ṥ":"S","Ŝ":"S","Ṡ":"S","Š":"S","Ṧ":"S","Ṣ":"S","Ṩ":"S","Ș":"S","Ş":"S","Ȿ":"S","Ꞩ":"S","Ꞅ":"S","Ⓣ":"T","Ｔ":"T","Ṫ":"T","Ť":"T","Ṭ":"T","Ț":"T","Ţ":"T","Ṱ":"T","Ṯ":"T","Ŧ":"T","Ƭ":"T","Ʈ":"T","Ⱦ":"T","Ꞇ":"T","Þ":"Th","Ꜩ":"TZ","Ⓤ":"U","Ｕ":"U","Ù":"U","Ú":"U","Û":"U","Ũ":"U","Ṹ":"U","Ū":"U","Ṻ":"U","Ŭ":"U","Ü":"U","Ǜ":"U","Ǘ":"U","Ǖ":"U","Ǚ":"U","Ủ":"U","Ů":"U","Ű":"U","Ǔ":"U","Ȕ":"U","Ȗ":"U","Ư":"U","Ừ":"U","Ứ":"U","Ữ":"U","Ử":"U","Ự":"U","Ụ":"U","Ṳ":"U","Ų":"U","Ṷ":"U","Ṵ":"U","Ʉ":"U","Ⓥ":"V","Ｖ":"V","Ṽ":"V","Ṿ":"V","Ʋ":"V","Ꝟ":"V","Ʌ":"V","Ꝡ":"VY","Ⓦ":"W","Ｗ":"W","Ẁ":"W","Ẃ":"W","Ŵ":"W","Ẇ":"W","Ẅ":"W","Ẉ":"W","Ⱳ":"W","Ⓧ":"X","Ｘ":"X","Ẋ":"X","Ẍ":"X","Ⓨ":"Y","Ｙ":"Y","Ỳ":"Y","Ý":"Y","Ŷ":"Y","Ỹ":"Y","Ȳ":"Y","Ẏ":"Y","Ÿ":"Y","Ỷ":"Y","Ỵ":"Y","Ƴ":"Y","Ɏ":"Y","Ỿ":"Y","Ⓩ":"Z","Ｚ":"Z","Ź":"Z","Ẑ":"Z","Ż":"Z","Ž":"Z","Ẓ":"Z","Ẕ":"Z","Ƶ":"Z","Ȥ":"Z","Ɀ":"Z","Ⱬ":"Z","Ꝣ":"Z","ⓐ":"a","ａ":"a","ẚ":"a","à":"a","á":"a","â":"a","ầ":"a","ấ":"a","ẫ":"a","ẩ":"a","ã":"a","ā":"a","ă":"a","ằ":"a","ắ":"a","ẵ":"a","ẳ":"a","ȧ":"a","ǡ":"a","ä":"a","ǟ":"a","ả":"a","å":"a","ǻ":"a","ǎ":"a","ȁ":"a","ȃ":"a","ạ":"a","ậ":"a","ặ":"a","ḁ":"a","ą":"a","ⱥ":"a","ɐ":"a","ɑ":"a","ꜳ":"aa","æ":"ae","ǽ":"ae","ǣ":"ae","ꜵ":"ao","ꜷ":"au","ꜹ":"av","ꜻ":"av","ꜽ":"ay","ⓑ":"b","ｂ":"b","ḃ":"b","ḅ":"b","ḇ":"b","ƀ":"b","ƃ":"b","ɓ":"b","Ƃ":"b","ⓒ":"c","ć":"c","ĉ":"c","ċ":"c","č":"c","ç":"c","ḉ":"c","ƈ":"c","ȼ":"c","ꜿ":"c","ↄ":"c","C":"c","Ć":"c","Ĉ":"c","Ċ":"c","Č":"c","Ƈ":"c","Ȼ":"c","ⓓ":"d","ｄ":"d","ḋ":"d","ď":"d","ḍ":"d","ḑ":"d","ḓ":"d","ḏ":"d","đ":"d","ƌ":"d","ɖ":"d","ɗ":"d","Ƌ":"d","Ꮷ":"d","ԁ":"d","Ɦ":"d","ð":"dh","ǳ":"dz","ǆ":"dz","ⓔ":"e","ｅ":"e","è":"e","é":"e","ê":"e","ề":"e","ế":"e","ễ":"e","ể":"e","ẽ":"e","ē":"e","ḕ":"e","ḗ":"e","ĕ":"e","ė":"e","ë":"e","ẻ":"e","ě":"e","ȅ":"e","ȇ":"e","ẹ":"e","ệ":"e","ȩ":"e","ḝ":"e","ę":"e","ḙ":"e","ḛ":"e","ɇ":"e","ǝ":"e","ⓕ":"f","ｆ":"f","ḟ":"f","ƒ":"f","ﬀ":"ff","ﬁ":"fi","ﬂ":"fl","ﬃ":"ffi","ﬄ":"ffl","ⓖ":"g","ｇ":"g","ǵ":"g","ĝ":"g","ḡ":"g","ğ":"g","ġ":"g","ǧ":"g","ģ":"g","ǥ":"g","ɠ":"g","ꞡ":"g","ꝿ":"g","ᵹ":"g","ⓗ":"h","ｈ":"h","ĥ":"h","ḣ":"h","ḧ":"h","ȟ":"h","ḥ":"h","ḩ":"h","ḫ":"h","ẖ":"h","ħ":"h","ⱨ":"h","ⱶ":"h","ɥ":"h","ƕ":"hv","ⓘ":"i","ｉ":"i","ì":"i","í":"i","î":"i","ĩ":"i","ī":"i","ĭ":"i","ï":"i","ḯ":"i","ỉ":"i","ǐ":"i","ȉ":"i","ȋ":"i","ị":"i","į":"i","ḭ":"i","ɨ":"i","ı":"i","ⓙ":"j","ｊ":"j","ĵ":"j","ǰ":"j","ɉ":"j","ⓚ":"k","ｋ":"k","ḱ":"k","ǩ":"k","ḳ":"k","ķ":"k","ḵ":"k","ƙ":"k","ⱪ":"k","ꝁ":"k","ꝃ":"k","ꝅ":"k","ꞣ":"k","ⓛ":"l","ｌ":"l","ŀ":"l","ĺ":"l","ľ":"l","ḷ":"l","ḹ":"l","ļ":"l","ḽ":"l","ḻ":"l","ſ":"l","ł":"l","ƚ":"l","ɫ":"l","ⱡ":"l","ꝉ":"l","ꞁ":"l","ꝇ":"l","ɭ":"l","ǉ":"lj","ⓜ":"m","ｍ":"m","ḿ":"m","ṁ":"m","ṃ":"m","ɱ":"m","ɯ":"m","ⓝ":"n","ｎ":"n","ǹ":"n","ń":"n","ñ":"n","ṅ":"n","ň":"n","ṇ":"n","ņ":"n","ṋ":"n","ṉ":"n","ƞ":"n","ɲ":"n","ŉ":"n","ꞑ":"n","ꞥ":"n","ԉ":"n","ǌ":"nj","ⓞ":"o","ｏ":"o","ò":"o","ó":"o","ô":"o","ồ":"o","ố":"o","ỗ":"o","ổ":"o","õ":"o","ṍ":"o","ȭ":"o","ṏ":"o","ō":"o","ṑ":"o","ṓ":"o","ŏ":"o","ȯ":"o","ȱ":"o","ö":"o","ȫ":"o","ỏ":"o","ő":"o","ǒ":"o","ȍ":"o","ȏ":"o","ơ":"o","ờ":"o","ớ":"o","ỡ":"o","ở":"o","ợ":"o","ọ":"o","ộ":"o","ǫ":"o","ǭ":"o","ø":"o","ǿ":"o","ꝋ":"o","ꝍ":"o","ɵ":"o","ɔ":"o","ᴑ":"o","œ":"oe","ƣ":"oi","ꝏ":"oo","ȣ":"ou","ⓟ":"p","ｐ":"p","ṕ":"p","ṗ":"p","ƥ":"p","ᵽ":"p","ꝑ":"p","ꝓ":"p","ꝕ":"p","ρ":"p","ⓠ":"q","ｑ":"q","ɋ":"q","ꝗ":"q","ꝙ":"q","ⓡ":"r","ｒ":"r","ŕ":"r","ṙ":"r","ř":"r","ȑ":"r","ȓ":"r","ṛ":"r","ṝ":"r","ŗ":"r","ṟ":"r","ɍ":"r","ɽ":"r","ꝛ":"r","ꞧ":"r","ꞃ":"r","ⓢ":"s","ｓ":"s","ś":"s","ṥ":"s","ŝ":"s","ṡ":"s","š":"s","ṧ":"s","ṣ":"s","ṩ":"s","ș":"s","ş":"s","ȿ":"s","ꞩ":"s","ꞅ":"s","ẛ":"s","ʂ":"s","ß":"ss","ⓣ":"t","ｔ":"t","ṫ":"t","ẗ":"t","ť":"t","ṭ":"t","ț":"t","ţ":"t","ṱ":"t","ṯ":"t","ŧ":"t","ƭ":"t","ʈ":"t","ⱦ":"t","ꞇ":"t","þ":"th","ꜩ":"tz","ⓤ":"u","ｕ":"u","ù":"u","ú":"u","û":"u","ũ":"u","ṹ":"u","ū":"u","ṻ":"u","ŭ":"u","ü":"u","ǜ":"u","ǘ":"u","ǖ":"u","ǚ":"u","ủ":"u","ů":"u","ű":"u","ǔ":"u","ȕ":"u","ȗ":"u","ư":"u","ừ":"u","ứ":"u","ữ":"u","ử":"u","ự":"u","ụ":"u","ṳ":"u","ų":"u","ṷ":"u","ṵ":"u","ʉ":"u","ⓥ":"v","ｖ":"v","ṽ":"v","ṿ":"v","ʋ":"v","ꝟ":"v","ʌ":"v","ꝡ":"vy","ⓦ":"w","ｗ":"w","ẁ":"w","ẃ":"w","ŵ":"w","ẇ":"w","ẅ":"w","ẘ":"w","ẉ":"w","ⱳ":"w","ⓧ":"x","ｘ":"x","ẋ":"x","ẍ":"x","ⓨ":"y","ｙ":"y","ỳ":"y","ý":"y","ŷ":"y","ỹ":"y","ȳ":"y","ẏ":"y","ÿ":"y","ỷ":"y","ẙ":"y","ỵ":"y","ƴ":"y","ɏ":"y","ỿ":"y","ⓩ":"z","ｚ":"z","ź":"z","ẑ":"z","ż":"z","ž":"z","ẓ":"z","ẕ":"z","ƶ":"z","ȥ":"z","ɀ":"z","ⱬ":"z","ꝣ":"z"}
+},{}],45:[function(require,module,exports){
+/*
+	String Kit
+
+	Copyright (c) 2014 - 2021 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const latinizeMap = require( './json-data/latinize-map.json' ) ;
+
+module.exports = function( str ) {
+	return str.replace( /[^\u0000-\u007e]/g , ( c ) => { return latinizeMap[ c ] || c ; } ) ;
+} ;
+
+
+
+},{"./json-data/latinize-map.json":44}],46:[function(require,module,exports){
 (function (process){(function (){
 /*
 	Dom Kit
@@ -10248,7 +11013,7 @@ domKit.html = ( $element , html ) => $element.innerHTML = html ;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"@cronvel/xmldom":143,"_process":161}],38:[function(require,module,exports){
+},{"@cronvel/xmldom":171,"_process":212}],47:[function(require,module,exports){
 (function (global){(function (){
 /*
 	EXM
@@ -10433,7 +11198,7 @@ if ( ! global.EXM ) {
 
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],39:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.detector = void 0;
@@ -10465,7 +11230,7 @@ function detector(input) {
 }
 exports.detector = detector;
 
-},{"./types/index":48}],40:[function(require,module,exports){
+},{"./types/index":57}],49:[function(require,module,exports){
 (function (process){(function (){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -10598,7 +11363,7 @@ exports.setConcurrency = setConcurrency;
 exports.types = Object.keys(index_1.typeHandlers);
 
 }).call(this)}).call(this,require('_process'))
-},{"./detector":39,"./types/index":48,"_process":161,"fs":143,"path":160,"queue":77}],41:[function(require,module,exports){
+},{"./detector":48,"./types/index":57,"_process":212,"fs":171,"path":211,"queue":86}],50:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BMP = void 0;
@@ -10611,7 +11376,7 @@ exports.BMP = {
     }),
 };
 
-},{"./utils":59}],42:[function(require,module,exports){
+},{"./utils":68}],51:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CUR = void 0;
@@ -10630,7 +11395,7 @@ exports.CUR = {
     calculate: (input) => ico_1.ICO.calculate(input),
 };
 
-},{"./ico":47,"./utils":59}],43:[function(require,module,exports){
+},{"./ico":56,"./utils":68}],52:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DDS = void 0;
@@ -10643,7 +11408,7 @@ exports.DDS = {
     }),
 };
 
-},{"./utils":59}],44:[function(require,module,exports){
+},{"./utils":68}],53:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GIF = void 0;
@@ -10657,7 +11422,7 @@ exports.GIF = {
     }),
 };
 
-},{"./utils":59}],45:[function(require,module,exports){
+},{"./utils":68}],54:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HEIF = void 0;
@@ -10694,7 +11459,7 @@ exports.HEIF = {
     }
 };
 
-},{"./utils":59}],46:[function(require,module,exports){
+},{"./utils":68}],55:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ICNS = void 0;
@@ -10797,7 +11562,7 @@ exports.ICNS = {
     },
 };
 
-},{"./utils":59}],47:[function(require,module,exports){
+},{"./utils":68}],56:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ICO = void 0;
@@ -10867,7 +11632,7 @@ exports.ICO = {
     },
 };
 
-},{"./utils":59}],48:[function(require,module,exports){
+},{"./utils":68}],57:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.typeHandlers = void 0;
@@ -10911,7 +11676,7 @@ exports.typeHandlers = {
     webp: webp_1.WEBP,
 };
 
-},{"./bmp":41,"./cur":42,"./dds":43,"./gif":44,"./heif":45,"./icns":46,"./ico":47,"./j2c":49,"./jp2":50,"./jpg":51,"./ktx":52,"./png":53,"./pnm":54,"./psd":55,"./svg":56,"./tga":57,"./tiff":58,"./webp":60}],49:[function(require,module,exports){
+},{"./bmp":50,"./cur":51,"./dds":52,"./gif":53,"./heif":54,"./icns":55,"./ico":56,"./j2c":58,"./jp2":59,"./jpg":60,"./ktx":61,"./png":62,"./pnm":63,"./psd":64,"./svg":65,"./tga":66,"./tiff":67,"./webp":69}],58:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.J2C = void 0;
@@ -10925,7 +11690,7 @@ exports.J2C = {
     }),
 };
 
-},{"./utils":59}],50:[function(require,module,exports){
+},{"./utils":68}],59:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.JP2 = void 0;
@@ -10952,7 +11717,7 @@ exports.JP2 = {
     },
 };
 
-},{"./utils":59}],51:[function(require,module,exports){
+},{"./utils":68}],60:[function(require,module,exports){
 "use strict";
 // NOTE: we only support baseline and progressive JPGs here
 // due to the structure of the loader class, we only get a buffer
@@ -11077,7 +11842,7 @@ exports.JPG = {
     },
 };
 
-},{"./utils":59}],52:[function(require,module,exports){
+},{"./utils":68}],61:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.KTX = void 0;
@@ -11098,7 +11863,7 @@ exports.KTX = {
     },
 };
 
-},{"./utils":59}],53:[function(require,module,exports){
+},{"./utils":68}],62:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PNG = void 0;
@@ -11135,7 +11900,7 @@ exports.PNG = {
     },
 };
 
-},{"./utils":59}],54:[function(require,module,exports){
+},{"./utils":68}],63:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PNM = void 0;
@@ -11209,7 +11974,7 @@ exports.PNM = {
     },
 };
 
-},{"./utils":59}],55:[function(require,module,exports){
+},{"./utils":68}],64:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PSD = void 0;
@@ -11222,7 +11987,7 @@ exports.PSD = {
     }),
 };
 
-},{"./utils":59}],56:[function(require,module,exports){
+},{"./utils":68}],65:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SVG = void 0;
@@ -11314,7 +12079,7 @@ exports.SVG = {
     },
 };
 
-},{"./utils":59}],57:[function(require,module,exports){
+},{"./utils":68}],66:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TGA = void 0;
@@ -11331,7 +12096,7 @@ exports.TGA = {
     },
 };
 
-},{"./utils":59}],58:[function(require,module,exports){
+},{"./utils":68}],67:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TIFF = void 0;
@@ -11428,7 +12193,7 @@ exports.TIFF = {
     },
 };
 
-},{"./utils":59,"fs":143}],59:[function(require,module,exports){
+},{"./utils":68,"fs":171}],68:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.findBox = exports.readUInt = exports.readUInt32LE = exports.readUInt32BE = exports.readInt32LE = exports.readUInt24LE = exports.readUInt16LE = exports.readUInt16BE = exports.readInt16LE = exports.toHexString = exports.toUTF8String = void 0;
@@ -11503,7 +12268,7 @@ function findBox(buffer, boxName, offset) {
 }
 exports.findBox = findBox;
 
-},{}],60:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.WEBP = void 0;
@@ -11565,7 +12330,7 @@ exports.WEBP = {
     },
 };
 
-},{"./utils":59}],61:[function(require,module,exports){
+},{"./utils":68}],70:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -11594,7 +12359,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],62:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -11656,7 +12421,7 @@ ObjectEntry.unserializer = function( ... args ) {
 } ;
 
 
-},{}],63:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -11706,7 +12471,7 @@ class Stack extends Array {
 module.exports = Stack ;
 
 
-},{}],64:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -12391,7 +13156,7 @@ for ( let key in exports ) {
 }
 
 
-},{"./ObjectEntry.js":62,"./Stack.js":63,"./mode.js":66}],65:[function(require,module,exports){
+},{"./ObjectEntry.js":71,"./Stack.js":72,"./mode.js":75}],74:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -12452,7 +13217,7 @@ module.exports = ( params , mapping , named = {} ) => {
 } ;
 
 
-},{"./ObjectEntry.js":62}],66:[function(require,module,exports){
+},{"./ObjectEntry.js":71}],75:[function(require,module,exports){
 /*
 	Kung Fig Expression
 
@@ -12492,7 +13257,7 @@ exports.LIST = 5 ;
 exports.KV = 6 ;
 
 
-},{}],67:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 /*
 	Next-Gen Events
 
@@ -12718,7 +13483,7 @@ LeanEvents.prototype.getAllStates = function() {
 } ;
 
 
-},{"../package.json":71}],68:[function(require,module,exports){
+},{"../package.json":80}],77:[function(require,module,exports){
 (function (process,global,setImmediate){(function (){
 /*
 	Next-Gen Events
@@ -14140,7 +14905,7 @@ NextGenEvents.Proxy = require( './Proxy.js' ) ;
 
 
 }).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"../package.json":71,"./Proxy.js":69,"_process":161,"timers":170}],69:[function(require,module,exports){
+},{"../package.json":80,"./Proxy.js":78,"_process":212,"timers":223}],78:[function(require,module,exports){
 /*
 	Next-Gen Events
 
@@ -14687,7 +15452,7 @@ RemoteService.prototype.receiveAckEmit = function( message ) {
 } ;
 
 
-},{"./NextGenEvents.js":68}],70:[function(require,module,exports){
+},{"./NextGenEvents.js":77}],79:[function(require,module,exports){
 (function (process){(function (){
 /*
 	Next-Gen Events
@@ -14733,7 +15498,7 @@ module.exports.isBrowser = true ;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./NextGenEvents.js":68,"_process":161}],71:[function(require,module,exports){
+},{"./NextGenEvents.js":77,"_process":212}],80:[function(require,module,exports){
 module.exports={
   "name": "nextgen-events",
   "version": "1.5.3",
@@ -14793,7 +15558,7 @@ module.exports={
   }
 }
 
-},{}],72:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 (function (Buffer){(function (){
 /**
  * https://opentype.js.org v1.3.4 | (c) Frederik De Bleser and other contributors | MIT License | Uses tiny-inflate by Devon Govett and string.prototype.codepointat polyfill by Mathias Bynens
@@ -29274,7 +30039,7 @@ module.exports={
 
 
 }).call(this)}).call(this,require("buffer").Buffer)
-},{"buffer":143,"fs":143}],73:[function(require,module,exports){
+},{"buffer":171,"fs":171}],82:[function(require,module,exports){
 /**
  * chroma.js - JavaScript library for color conversions
  *
@@ -30141,7 +30906,7 @@ module.exports={
 
 }));
 
-},{}],74:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 /*
 	Palette Shade
 
@@ -30356,7 +31121,7 @@ Color.parse = function( str ) {
 } ;
 
 
-},{}],75:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 /*
 	Palette Shade
 
@@ -30671,7 +31436,7 @@ Palette.cleanClip = function( chromaColor , lch ) {
 } ;
 
 
-},{"../extlib/chromajs.custom.js":73}],76:[function(require,module,exports){
+},{"../extlib/chromajs.custom.js":82}],85:[function(require,module,exports){
 /*
 	Palette Shade
 
@@ -30704,7 +31469,7 @@ exports.Color = require( './Color.js' ) ;
 exports.Palette = require( './Palette.js' ) ;
 
 
-},{"./Color.js":74,"./Palette.js":75}],77:[function(require,module,exports){
+},{"./Color.js":83,"./Palette.js":84}],86:[function(require,module,exports){
 var inherits = require('inherits')
 var EventEmitter = require('events').EventEmitter
 
@@ -30901,7 +31666,7 @@ function done (err) {
   this.emit('end', err)
 }
 
-},{"events":148,"inherits":61}],78:[function(require,module,exports){
+},{"events":189,"inherits":70}],87:[function(require,module,exports){
 (function (process,global){(function (){
 (function (global, undefined) {
     "use strict";
@@ -31091,7 +31856,7 @@ function done (err) {
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
 }).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":161}],79:[function(require,module,exports){
+},{"_process":212}],88:[function(require,module,exports){
 /*
 	Seventh
 
@@ -31320,7 +32085,7 @@ Queue.prototype.getStats = function() {
 } ;
 
 
-},{"./seventh.js":86}],80:[function(require,module,exports){
+},{"./seventh.js":95}],89:[function(require,module,exports){
 /*
 	Seventh
 
@@ -31404,7 +32169,7 @@ Promise.promisifyAnyNodeApi = ( api , suffix , multiSuffix , filter ) => {
 
 
 
-},{"./seventh.js":86}],81:[function(require,module,exports){
+},{"./seventh.js":95}],90:[function(require,module,exports){
 /*
 	Seventh
 
@@ -31737,7 +32502,7 @@ Promise.some = ( iterable , iterator ) => {
 
 
 /*
-	More closed to Array#filter().
+	More close to Array#filter().
 	The iterator should return truthy if the array element should be kept,
 	or falsy if the element should be filtered out.
 	Any rejection reject the whole promise.
@@ -32027,7 +32792,7 @@ Promise.race = ( iterable ) => {
 } ;
 
 
-},{"./seventh.js":86}],82:[function(require,module,exports){
+},{"./seventh.js":95}],91:[function(require,module,exports){
 (function (process,global,setImmediate){(function (){
 /*
 	Seventh
@@ -32116,7 +32881,7 @@ Promise.prototype._exec = function() {
 	try {
 		this.fn(
 			// Don't return anything, it would create nasty bugs! E.g.:
-			// bad: error => this.reject( error_ )
+			// bad: error_ => this.reject( error_ )
 			// good: error_ => { this.reject( error_ ) ; }
 			result_ => { this.resolve( result_ ) ; } ,
 			error_ => { this.reject( error_ ) ; }
@@ -32567,11 +33332,19 @@ Promise.reject = function( error ) {
 
 
 
+Promise.prototype.resolveTimeout = Promise.prototype.fulfillTimeout = function( timeout , value ) {
+	setTimeout( () => this.resolve( value ) , timeout ) ;
+} ;
+
 Promise.resolveTimeout = Promise.fulfillTimeout = function( timeout , value ) {
 	return new Promise( resolve => setTimeout( () => resolve( value ) , timeout ) ) ;
 } ;
 
 
+
+Promise.prototype.rejectTimeout = function( timeout , error ) {
+	setTimeout( () => this.reject( error ) , timeout ) ;
+} ;
 
 Promise.rejectTimeout = function( timeout , error ) {
 	return new Promise( ( resolve , reject ) => setTimeout( () => reject( error ) , timeout ) ) ;
@@ -32601,9 +33374,9 @@ Promise.dormant = function( fn ) {
 
 
 // Try-catched Promise.resolve( fn() )
-Promise.try = function( fn ) {
+Promise.try = function( fn , ... args ) {
 	try {
-		return Promise.resolve( fn() ) ;
+		return Promise.resolve( fn( ... args ) ) ;
 	}
 	catch ( error ) {
 		return Promise.reject( error ) ;
@@ -32774,6 +33547,23 @@ Promise.resolved = Promise.dummy = Promise.resolve() ;
 
 
 /*
+	Vanilla Promise compatibility.
+*/
+
+
+
+// This method merely achieves what this lib is doing right from the begining:
+// allowing one to pass a promise and process it elsewhere.
+Promise.withResolvers = () => {
+	var promise = new Promise() ;
+	return { promise , resolve: promise.resolve.bind( promise ) , reject: promise.reject.bind( promise ) } ;
+} ;
+
+
+
+
+
+/*
 	Browser specific.
 */
 
@@ -32799,7 +33589,7 @@ if ( process.browser ) {
 
 
 }).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"_process":161,"setimmediate":78,"timers":170}],83:[function(require,module,exports){
+},{"_process":212,"setimmediate":87,"timers":223}],92:[function(require,module,exports){
 /*
 	Seventh
 
@@ -33184,6 +33974,7 @@ Promise.debounceNextTick = ( asyncFn , thisBinding ) => {
 		* delay: `number` a delay before calling again the decoratee
 		* delayFn: async `function` called before calling again the decoratee
 		* waitFn: async `function` called before calling the decoratee (even the first try), use-case: Window.requestAnimationFrame()
+		* waitNextTick: if true, wait for the next tick before updating, it's the same than:  options.waitFn = Promise.resolveNextTick
 */
 Promise.debounceUpdate = ( options , asyncFn , thisBinding ) => {
 	var inWrapper = null ,
@@ -33501,7 +34292,7 @@ Promise.variableTimeout = ( asyncFn , thisBinding ) => {
 } ;
 
 
-},{"./seventh.js":86}],84:[function(require,module,exports){
+},{"./seventh.js":95}],93:[function(require,module,exports){
 (function (process){(function (){
 /*
 	Seventh
@@ -33601,7 +34392,7 @@ Promise.resolveSafeTimeout = function( timeout , value ) {
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./seventh.js":86,"_process":161}],85:[function(require,module,exports){
+},{"./seventh.js":95,"_process":212}],94:[function(require,module,exports){
 /*
 	Seventh
 
@@ -33653,7 +34444,7 @@ Promise.parasite = () => {
 } ;
 
 
-},{"./seventh.js":86}],86:[function(require,module,exports){
+},{"./seventh.js":95}],95:[function(require,module,exports){
 /*
 	Seventh
 
@@ -33697,7 +34488,7 @@ require( './parasite.js' ) ;
 require( './misc.js' ) ;
 
 
-},{"./Queue.js":79,"./api.js":80,"./batch.js":81,"./core.js":82,"./decorators.js":83,"./misc.js":84,"./parasite.js":85,"./wrapper.js":87}],87:[function(require,module,exports){
+},{"./Queue.js":88,"./api.js":89,"./batch.js":90,"./core.js":91,"./decorators.js":92,"./misc.js":93,"./parasite.js":94,"./wrapper.js":96}],96:[function(require,module,exports){
 /*
 	Seventh
 
@@ -33862,7 +34653,7 @@ Promise.onceEventAllOrError = ( emitter , eventName , excludeEvents ) => {
 } ;
 
 
-},{"./seventh.js":86}],88:[function(require,module,exports){
+},{"./seventh.js":95}],97:[function(require,module,exports){
 /*
 	Spellcast - shared utilities
 
@@ -34136,7 +34927,7 @@ for ( let key in exports ) {
 }
 
 
-},{"kung-fig-expression/lib/getNamedParameters.js":65}],89:[function(require,module,exports){
+},{"kung-fig-expression/lib/getNamedParameters.js":74}],98:[function(require,module,exports){
 /*
 	String Kit
 
@@ -34176,15 +34967,31 @@ for ( let key in exports ) {
 
 
 
-function StringNumber( number , decimalSeparator = '.' , groupSeparator = '' , forceDecimalSeparator = false ) {
+const NUMERALS = [
+	'0' , '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' ,
+	'a' , 'b' , 'c' , 'd' , 'e' , 'f' ,
+	'g' , 'h' , 'i' , 'j' , 'k' , 'l' , 'm' , 'n' , 'o' , 'p' , 'q' , 'r' , 's' , 't' , 'u' , 'v' , 'w' , 'x' , 'y' , 'z'
+] ;
+
+//const NUMERAL_MAP = buildNumeralMap( NUMERALS ) ;
+
+
+
+function StringNumber( number , options = {} ) {
 	this.sign = 1 ;
 	this.digits = [] ;
 	this.exposant = 0 ;
-	this.special = null ;	// 'special' store special values like NaN, Infinity, etc
+	this.special = null ;	// It stores special values like NaN, Infinity, etc
 
-	this.decimalSeparator = decimalSeparator ;
-	this.forceDecimalSeparator = !! forceDecimalSeparator ;
-	this.groupSeparator = groupSeparator ;
+	this.decimalSeparator = options.decimalSeparator ?? '.' ;
+	this.forceDecimalSeparator = !! options.forceDecimalSeparator ;
+	this.groupSeparator = options.groupSeparator ?? '' ;
+
+	this.numerals = options.numerals ?? NUMERALS ;
+	this.numeralZero = options.numeralZero ?? null ;	// Special numeral when the result is EXACTLY 0 (used for Roman Numerals)
+	this.placeNumerals = options.placeNumerals ?? null ;
+	//this.numeralMap = NUMERAL_MAP ;
+	//if ( options.numerals ) { this.numeralMap = buildNumeralMap( options.numerals ) ; }
 
 	this.set( number ) ;
 }
@@ -34193,8 +35000,23 @@ module.exports = StringNumber ;
 
 
 
+/*
+function buildNumeralMap( numbers ) {
+	var map = new Map() ;
+
+	for ( let i = 0 ; i < numbers.length ; i ++ ) {
+		let number = numbers[ i ] ;
+		map.set( NUMERALS[ i ] , numbers[ i ] ) ;
+	}
+
+	return map ;
+}
+*/
+
+
+
 StringNumber.prototype.set = function( number ) {
-	var matches , digits , exposant , v , i , iMax , index , hasNonZeroHead , tailIndex ;
+	var matches , v , i , iMax , index , hasNonZeroHead , tailIndex ;
 
 	number = + number ;
 
@@ -34340,45 +35162,49 @@ StringNumber.prototype.toNoExpString = function( leadingZero = 1 , trailingZero 
 		str = this.sign < 0 ? '-' : forcePlusSign ? '+' : '' ;
 
 	if ( ! this.digits.length ) {
-		arrayFill( integerDigits , 0 , leadingZero ) ;
+		if ( leadingZero > 1 ) {
+			this.fillZeroes( integerDigits , leadingZero - 1 , leadingZero ) ;
+		}
+
+		integerDigits.push( this.numeralZero ?? this.placeNumerals?.[ 0 ]?.[ 0 ] ?? this.numerals[ 0 ] ) ;
 
 		if ( trailingZero && ! onlyIfDecimal ) {
-			arrayFill( decimalDigits , 0 , trailingZero ) ;
+			this.fillZeroes( decimalDigits , trailingZero ) ;
 		}
 	}
 	else if ( exposant <= 0 ) {
 		// This number is of type 0.[0...]xyz
-		arrayFill( integerDigits , 0 , leadingZero ) ;
+		this.fillZeroes( integerDigits , leadingZero ) ;
 
-		arrayFill( decimalDigits , 0 , -exposant ) ;
-		arrayConcatSlice( decimalDigits , this.digits ) ;
+		this.fillZeroes( decimalDigits , -exposant , trailingZero - this.digits.length ) ;
+		this.appendNumerals( decimalDigits , this.digits , undefined , undefined , -exposant - 1 ) ;
 
 		if ( trailingZero && this.digits.length - exposant < trailingZero ) {
-			arrayFill( decimalDigits , 0 , trailingZero - this.digits.length + exposant ) ;
+			this.fillZeroes( decimalDigits , trailingZero - this.digits.length + exposant ) ;
 		}
 	}
 	else if ( exposant >= this.digits.length ) {
 		// This number is of type xyz[0...]
-		if ( exposant < leadingZero ) { arrayFill( integerDigits , 0 , leadingZero - exposant ) ; }
-		arrayConcatSlice( integerDigits , this.digits ) ;
-		arrayFill( integerDigits , 0 , exposant - this.digits.length ) ;
+		if ( exposant < leadingZero ) { this.fillZeroes( integerDigits , leadingZero - exposant , exposant - 1 ) ; }
+		this.appendNumerals( integerDigits , this.digits , undefined , undefined , exposant - 1 ) ;
+		this.fillZeroes( integerDigits , exposant - this.digits.length ) ;
 
 		if ( trailingZero && ! onlyIfDecimal ) {
-			arrayFill( decimalDigits , 0 , trailingZero ) ;
+			this.fillZeroes( decimalDigits , trailingZero ) ;
 		}
 	}
 	else {
 		// Here the digits are splitted with a dot in the middle
-		if ( exposant < leadingZero ) { arrayFill( integerDigits , 0 , leadingZero - exposant ) ; }
-		arrayConcatSlice( integerDigits , this.digits , 0 , exposant ) ;
+		if ( exposant < leadingZero ) { this.fillZeroes( integerDigits , leadingZero - exposant ) ; }
+		this.appendNumerals( integerDigits , this.digits , 0 , exposant , exposant - 1 ) ;
 
-		arrayConcatSlice( decimalDigits , this.digits , exposant ) ;
+		this.appendNumerals( decimalDigits , this.digits , exposant , undefined , this.digits.length - exposant ) ;
 
 		if (
 			trailingZero && this.digits.length - exposant < trailingZero
 			&& ( ! onlyIfDecimal || this.digits.length - exposant > 0 )
 		) {
-			arrayFill( decimalDigits , 0 , trailingZero - this.digits.length + exposant ) ;
+			this.fillZeroes( decimalDigits , trailingZero - this.digits.length + exposant ) ;
 		}
 	}
 
@@ -34537,20 +35363,74 @@ StringNumber.prototype.groupDigits = function( digits , separator , inverseOrder
 
 
 
-function arrayFill( intoArray , value , repeat ) {
-	while ( repeat -- ) { intoArray[ intoArray.length ] = value ; }
+StringNumber.prototype.appendNumerals = function( intoArray , sourceArray , start = 0 , end = sourceArray.length , leftPlace = end ) {
+	//console.log( "appendNumerals:" , { intoArray , sourceArray , start , end , leftPlace } ) ;
+	for ( let i = start , place = leftPlace ; i < end ; i ++ , place -- ) {
+		let numerals = this.placeNumerals?.[ place ] ?? this.numerals ;
+		intoArray.push( numerals[ sourceArray[ i ] ] ?? sourceArray[ i ] ) ;
+	}
+
 	return intoArray ;
-}
+} ;
 
 
 
-function arrayConcatSlice( intoArray , sourceArray , start = 0 , end = sourceArray.length ) {
-	for ( let i = start ; i < end ; i ++ ) { intoArray[ intoArray.length ] = sourceArray[ i ] ; }
+StringNumber.prototype.fillZeroes = function( intoArray , count , leftPlace = count - 1 ) {
+	//console.log( "fillZeroes:" , { intoArray , count , leftPlace } ) ;
+	for ( let i = 0 , place = leftPlace ; i < count ; i ++ , place -- ) {
+		let numerals = this.placeNumerals?.[ place ] ?? this.numerals ;
+		intoArray.push( numerals[ 0 ] ?? 0 ) ;
+	}
+
 	return intoArray ;
-}
+} ;
 
 
-},{}],90:[function(require,module,exports){
+
+const ROMAN_OPTIONS = {
+	numeralZero: 'N' ,
+	placeNumerals: [
+		[ '' , 'I' , 'II' , 'III' , 'IV' , 'V' , 'VI' , 'VII' , 'VIII' , 'IX' ] ,
+		[ '' , 'X' , 'XX' , 'XXX' , 'XL' , 'L' , 'LX' , 'LXX' , 'LXXX' , 'XC' ] ,
+		[ '' , 'C' , 'CC' , 'CCC' , 'CD' , 'D' , 'DC' , 'DCC' , 'DCCC' , 'CM' ] ,
+		[ '' , 'M' , 'MM' , 'MMM' , 'MMMM' , 'ↁ' , 'ↁↀ' , 'ↁↀↀ' , 'ↁↀↀↀ' , 'ↁↀↀↀↀ' ]
+	]
+} ;
+
+const ADDITIVE_ROMAN_OPTIONS = {
+	numeralZero: 'N' ,
+	placeNumerals: [
+		[ '' , 'I' , 'II' , 'III' , 'IIII' , 'V' , 'VI' , 'VII' , 'VIII' , 'VIIII' ] ,
+		[ '' , 'X' , 'XX' , 'XXX' , 'XXXX' , 'L' , 'LX' , 'LXX' , 'LXXX' , 'LXXXX' ] ,
+		[ '' , 'C' , 'CC' , 'CCC' , 'CCCC' , 'D' , 'DC' , 'DCC' , 'DCCC' , 'DCCCC' ] ,
+		[ '' , 'M' , 'MM' , 'MMM' , 'MMMM' , 'ↁ' , 'ↁↀ' , 'ↁↀↀ' , 'ↁↀↀↀ' , 'ↁↀↀↀↀ' ]
+	]
+} ;
+
+const APOSTROPHUS_ROMAN_OPTIONS = {
+	numeralZero: 'N' ,
+	placeNumerals: [
+		[ '' , 'I' , 'II' , 'III' , 'IV' , 'V' , 'VI' , 'VII' , 'VIII' , 'IX' ] ,
+		[ '' , 'X' , 'XX' , 'XXX' , 'XL' , 'L' , 'LX' , 'LXX' , 'LXXX' , 'XC' ] ,
+		[ '' , 'C' , 'CC' , 'CCC' , 'CD' , 'D' , 'DC' , 'DCC' , 'DCCC' , 'CM' ] ,
+		[ '' , 'M' , 'MM' , 'MMM' , 'MMMM' , 'IↃↃ' , 'IↃↃCIↃ' , 'IↃↃCIↃCIↃ' , 'IↃↃCIↃCIↃCIↃ' , 'IↃↃCIↃCIↃCIↃCIↃ' ] ,
+		[ '' , 'CCIↃↃ' , 'CCIↃↃCCIↃↃ' , 'CCIↃↃCCIↃↃCCIↃↃ' , 'CCIↃↃCCIↃↃCCIↃↃCCIↃↃ' , 'IↃↃↃ' , 'IↃↃↃCCIↃↃ' , 'IↃↃↃCCIↃↃCCIↃↃ' , 'IↃↃↃCCIↃↃCCIↃↃCCIↃↃ' , 'IↃↃↃCCIↃↃCCIↃↃCCIↃↃCCIↃↃ' ] ,
+		[ '' , 'CCCIↃↃↃ' , 'CCCIↃↃↃCCCIↃↃↃ' , 'CCCIↃↃↃCCCIↃↃↃCCCIↃↃↃ' , 'CCCIↃↃↃCCCIↃↃↃCCCIↃↃↃCCCIↃↃↃ' , 'IↃↃↃↃ' , 'IↃↃↃↃCCCIↃↃↃ' , 'IↃↃↃↃCCCIↃↃↃCCCIↃↃↃ' , 'IↃↃↃↃCCCIↃↃↃCCCIↃↃↃCCCIↃↃↃ' , 'IↃↃↃↃCCCIↃↃↃCCCIↃↃↃCCCIↃↃↃCCCIↃↃↃ' ]
+	]
+} ;
+
+StringNumber.roman = ( number , options ) => {
+	options = options ? Object.assign( {} , options , ROMAN_OPTIONS ) : ROMAN_OPTIONS ;
+	return new StringNumber( number , options ) ;
+} ;
+
+StringNumber.additiveRoman = ( number , options ) => {
+	options = options ? Object.assign( {} , options , ADDITIVE_ROMAN_OPTIONS ) : ADDITIVE_ROMAN_OPTIONS ;
+	return new StringNumber( number , options ) ;
+} ;
+
+
+},{}],99:[function(require,module,exports){
 /*
 	String Kit
 
@@ -34819,430 +35699,15 @@ ansi.parse = str => {
 } ;
 
 
-},{}],91:[function(require,module,exports){
-/*
-	String Kit
-
-	Copyright (c) 2014 - 2021 Cédric Ronvel
-
-	The MIT License (MIT)
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-*/
-
-"use strict" ;
-
-
-
-var camel = {} ;
-module.exports = camel ;
-
-
-
-// Transform alphanum separated by underscore or minus to camel case
-camel.toCamelCase = function( str , preserveUpperCase = false , initialUpperCase = false ) {
-	if ( ! str || typeof str !== 'string' ) { return '' ; }
-
-	return str.replace(
-		/(?:^[\s_-]*|([\s_-]+))(([^\s_-]?)([^\s_-]*))/g ,
-		( match , isNotFirstWord , word , firstLetter , endOfWord ) => {
-			if ( preserveUpperCase ) {
-				if ( ! isNotFirstWord && ! initialUpperCase ) { return word ; }
-				if ( ! firstLetter ) { return '' ; }
-				return firstLetter.toUpperCase() + endOfWord ;
-			}
-
-			if ( ! isNotFirstWord && ! initialUpperCase ) { return word.toLowerCase() ; }
-			if ( ! firstLetter ) { return '' ; }
-			return firstLetter.toUpperCase() + endOfWord.toLowerCase() ;
-		}
-	) ;
-} ;
-
-
-
-camel.camelCaseToSeparated = function( str , separator = ' ' , acronym = true ) {
-	if ( ! str || typeof str !== 'string' ) { return '' ; }
-
-	if ( ! acronym ) {
-		return str.replace( /^([A-Z])|([A-Z])/g , ( match , firstLetter , letter ) => {
-			if ( firstLetter ) { return firstLetter.toLowerCase() ; }
-			return separator + letter.toLowerCase() ;
-		} ) ;
-	}
-
-	// (^)? and (^)? does not work, so we have to use (?:(^)|)) and (?:($)|)) to capture end or not
-	return str.replace( /(?:(^)|)([A-Z]+)(?:($)|(?=[a-z]))/g , ( match , isStart , letters , isEnd ) => {
-		isStart = isStart === '' ;
-		isEnd = isEnd === '' ;
-
-		var prefix = isStart ? '' : separator ;
-
-		return letters.length === 1 ? prefix + letters.toLowerCase() :
-			isEnd ? prefix + letters :
-			letters.length === 2 ? prefix + letters[ 0 ].toLowerCase() + separator + letters[ 1 ].toLowerCase() :
-			prefix + letters.slice( 0 , -1 ) + separator + letters.slice( -1 ).toLowerCase() ;
-	} ) ;
-} ;
-
-
-
-// Transform camel case to alphanum separated by minus
-camel.camelCaseToDash =
-camel.camelCaseToDashed = ( str ) => camel.camelCaseToSeparated( str , '-' , false ) ;
-
-
-},{}],92:[function(require,module,exports){
-/*
-	Book Source
-
-	Copyright (c) 2023 Cédric Ronvel
-
-	The MIT License (MIT)
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-*/
-
-"use strict" ;
-
-
-
-const latinize = require( './latinize.js' ) ;
-const english = require( './english.js' ) ;
-
-const KEYWORD_TO_CHARLIST = require( './json-data/emoji-keyword-to-charlist.json' ) ;
-const CHAR_TO_CANONICAL_NAME = require( './json-data/emoji-char-to-canonical-name.json' ) ;
-
-
-
-const emoji = {} ;
-module.exports = emoji ;
-
-
-
-emoji.getCanonicalName = emojiChar => CHAR_TO_CANONICAL_NAME[ emojiChar ] ;
-
-
-
-const emojiToKeywordsCache = {} ;
-
-// Return a cached and frozen array
-emoji.getKeywords = emojiChar => {
-	if ( ! CHAR_TO_CANONICAL_NAME[ emojiChar ] ) { return ; }
-
-	if ( ! emojiToKeywordsCache[ emojiChar ] ) {
-		emojiToKeywordsCache[ emojiChar ] = emoji.splitIntoKeywords( CHAR_TO_CANONICAL_NAME[ emojiChar ] ) ;
-		Object.freeze( emojiToKeywordsCache[ emojiChar ] ) ;
-	}
-
-	return emojiToKeywordsCache[ emojiChar ] ;
-} ;
-
-
-
-emoji.search = ( name , bestOnly = false ) => {
-	var keywords = emoji.splitIntoKeywords( name ) ,
-		matches = {} ,
-		score ,
-		bestScore = 0 ;
-
-	for ( let keyword of keywords ) {
-		if ( ! KEYWORD_TO_CHARLIST[ keyword ] ) { continue ; }
-
-		for ( let emojiChar of KEYWORD_TO_CHARLIST[ keyword ] ) {
-			if ( ! matches[ emojiChar ] ) {
-				score = 1 ;
-				matches[ emojiChar ] = {
-					emoji: emojiChar ,
-					score ,
-					canonical: CHAR_TO_CANONICAL_NAME[ emojiChar ] ,
-					keywords: emoji.getKeywords( emojiChar )
-				} ;
-			}
-			else {
-				score = matches[ emojiChar ].score + 1 ;
-				matches[ emojiChar ].score = score ;
-			}
-
-			if ( score > bestScore ) { bestScore = score ; }
-		}
-	}
-
-	var results = [ ... Object.values( matches ) ] ;
-	if ( bestOnly ) { results = results.filter( e => e.score === bestScore ) ; }
-	results.sort( ( a , b ) => ( b.score - a.score ) || ( a.keywords.length - b.keywords.length ) ) ;
-	return results ;
-} ;
-
-emoji.searchBest = name => emoji.search( name , true ) ;
-emoji.get = name => emoji.search( name , true )[ 0 ]?.emoji ;
-
-
-
-
-
-// Internal API, exposed because it is used by the builder
-
-
-
-emoji.simplifyName = name => {
-	name = name.toLowerCase().replace( /[“”().!]/g , '' ).replace( /[ ’',]/g , '-' ).replace( /-+/g , '-' ) ;
-	name = latinize( name ) ;
-	return name ;
-} ;
-
-
-
-emoji.simplifyKeyword = inputKeyword => {
-	var kw = inputKeyword ;
-	kw = english.undoPresentParticiple( kw ) ;
-
-	//if ( kw !== inputKeyword ) { console.log( "Changing KW:" , inputKeyword , "-->" , kw ) ; }
-	return kw ;
-} ;
-
-
-
-const KEYWORD_EXCLUSION = new Set( [ 'with' , 'of' ] ) ;
-
-emoji.splitIntoKeywords = ( name , noSimplify = false ) => {
-	if ( ! noSimplify ) { name = emoji.simplifyName( name ) ; }
-	var keywords = name.split( /-/g ).filter( keyword => keyword.length >= 2 && ! KEYWORD_EXCLUSION.has( keyword ) ) ;
-	keywords = keywords.map( emoji.simplifyKeyword ) ;
-	keywords = [ ... new Set( keywords ) ] ;	// Make them unique
-	return keywords ;
-} ;
-
-
-},{"./english.js":93,"./json-data/emoji-char-to-canonical-name.json":98,"./json-data/emoji-keyword-to-charlist.json":99,"./latinize.js":102}],93:[function(require,module,exports){
-/*
-	Book Source
-
-	Copyright (c) 2023 Cédric Ronvel
-
-	The MIT License (MIT)
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-*/
-
-"use strict" ;
-
-
-
-const english = {} ;
-module.exports = english ;
-
-
-
-const VOWELS = new Set( [ 'a' , 'e' , 'i' , 'o' , 'u' , 'y' ] ) ;
-const VOWELS_ADDING_E = new Set( [ 'a' , 'i' , 'o' , 'u' ] ) ;
-const CONSONANTS_AFTER_VOWEL_ADDING_E = new Set( [ 's' ] ) ;
-const CONSONANTS_ADDING_E = new Set( [ 'v' ] ) ;
-const CONSONANTS_NOT_ADDING_E = new Set( [ 'w' , 'x' ] ) ;
-const DOUBLE_CONSONANTS_ADDING_E = new Set( [ 'cl' , 'dl' , 'gl' , 'kl' , 'nc' , 'pl' , 'tl' ] ) ;
-const REDUCING_DOUBLE_CONSONANTS = new Set( [ 'd' , 'g' , 'm' , 'n' , 'p' ] ) ;
-const CONSONANTS_AFTER_VOWELS_COMBO_NOT_ADDING_E = new Set( [ 'or' ] ) ;	// Last chance fix
-
-// Remove -ing and transform to a proper verb or noun
-english.undoPresentParticiple = word => {
-	if ( word.endsWith( 'ing' ) && word.length >= 6 && ! word.endsWith( 'ghtning' ) ) {
-		let ingSuffix = 'ing' ;
-		//if ( word.endsWith( 'ling' ) ) { ingSuffix = 'ling' ; }
-
-		let ingLen = ingSuffix.length ;
-
-		let before = word[ word.length - ingLen - 1 ] ,
-			before2 = word[ word.length - ingLen - 2 ] ,
-			before3 = word[ word.length - ingLen - 3 ] ;
-
-		if ( VOWELS.has( before ) ) {
-			word = word.slice( 0 , -ingLen ) ;
-		}
-		else if ( VOWELS.has( before2 ) ) {
-			if ( VOWELS.has( before3 ) ) {
-				if ( CONSONANTS_AFTER_VOWEL_ADDING_E.has( before ) && ! CONSONANTS_AFTER_VOWELS_COMBO_NOT_ADDING_E.has( before2 + before ) ) {
-					word = word.slice( 0 , -ingLen ) + 'e' ;
-				}
-				else {
-					word = word.slice( 0 , -ingLen ) ;
-				}
-			}
-			else if ( VOWELS_ADDING_E.has( before2 ) && ! CONSONANTS_NOT_ADDING_E.has( before ) ) {
-				word = word.slice( 0 , -ingLen ) + 'e' ;
-			}
-			else {
-				word = word.slice( 0 , -ingLen ) ;
-			}
-		}
-		else if ( before === before2 && REDUCING_DOUBLE_CONSONANTS.has( before ) ) {
-			word = word.slice( 0 , -ingLen - 1 ) ;
-		}
-		else if ( CONSONANTS_ADDING_E.has( before ) || DOUBLE_CONSONANTS_ADDING_E.has( before2 + before ) ) {
-			word = word.slice( 0 , -ingLen ) + 'e' ;
-		}
-		else {
-			word = word.slice( 0 , -ingLen ) ;
-		}
-	}
-
-	return word ;
-} ;
-
-
-},{}],94:[function(require,module,exports){
-/*
-	String Kit
-
-	Copyright (c) 2014 - 2021 Cédric Ronvel
-
-	The MIT License (MIT)
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-*/
-
-/*
-	Escape collection.
-*/
-
-
-
-"use strict" ;
-
-
-
-// From Mozilla Developper Network
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
-exports.regExp = exports.regExpPattern = str => str.replace( /([.*+?^${}()|[\]/\\])/g , '\\$1' ) ;
-
-// This replace any single $ by a double $$
-exports.regExpReplacement = str => str.replace( /\$/g , '$$$$' ) ;
-
-// Escape for string.format()
-// This replace any single % by a double %%
-exports.format = str => str.replace( /%/g , '%%' ) ;
-
-exports.jsSingleQuote = str => exports.control( str ).replace( /'/g , "\\'" ) ;
-exports.jsDoubleQuote = str => exports.control( str ).replace( /"/g , '\\"' ) ;
-
-exports.shellArg = str => '\'' + str.replace( /'/g , "'\\''" ) + '\'' ;
-
-
-
-var escapeControlMap = {
-	'\r': '\\r' ,
-	'\n': '\\n' ,
-	'\t': '\\t' ,
-	'\x7f': '\\x7f'
-} ;
-
-// Escape \r \n \t so they become readable again, escape all ASCII control character as well, using \x syntaxe
-exports.control = ( str , keepNewLineAndTab = false ) => str.replace( /[\x00-\x1f\x7f]/g , match => {
-	if ( keepNewLineAndTab && ( match === '\n' || match === '\t' ) ) { return match ; }
-	if ( escapeControlMap[ match ] !== undefined ) { return escapeControlMap[ match ] ; }
-	var hex = match.charCodeAt( 0 ).toString( 16 ) ;
-	if ( hex.length % 2 ) { hex = '0' + hex ; }
-	return '\\x' + hex ;
-} ) ;
-
-
-
-var escapeHtmlMap = {
-	'&': '&amp;' ,
-	'<': '&lt;' ,
-	'>': '&gt;' ,
-	'"': '&quot;' ,
-	"'": '&#039;'
-} ;
-
-// Only escape & < > so this is suited for content outside tags
-exports.html = str => str.replace( /[&<>]/g , match => escapeHtmlMap[ match ] ) ;
-
-// Escape & < > " so this is suited for content inside a double-quoted attribute
-exports.htmlAttr = str => str.replace( /[&<>"]/g , match => escapeHtmlMap[ match ] ) ;
-
-// Escape all html special characters & < > " '
-exports.htmlSpecialChars = str => str.replace( /[&<>"']/g , match => escapeHtmlMap[ match ] ) ;
-
-// Percent-encode all control chars and codepoint greater than 255 using percent encoding
-exports.unicodePercentEncode = str => str.replace( /[\x00-\x1f\u0100-\uffff\x7f%]/g , match => {
-	try {
-		return encodeURI( match ) ;
-	}
-	catch ( error ) {
-		// encodeURI can throw on bad surrogate pairs, but we just strip those characters
-		return '' ;
-	}
-} ) ;
-
-// Encode HTTP header value
-exports.httpHeaderValue = str => exports.unicodePercentEncode( str ) ;
-
-
-},{}],95:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
+arguments[4][32][0].apply(exports,arguments)
+},{"dup":32}],101:[function(require,module,exports){
+arguments[4][40][0].apply(exports,arguments)
+},{"./english.js":102,"./json-data/emoji-char-to-canonical-name.json":107,"./json-data/emoji-keyword-to-charlist.json":108,"./latinize.js":111,"dup":40}],102:[function(require,module,exports){
+arguments[4][41][0].apply(exports,arguments)
+},{"dup":41}],103:[function(require,module,exports){
+arguments[4][33][0].apply(exports,arguments)
+},{"dup":33}],104:[function(require,module,exports){
 (function (Buffer){(function (){
 /*
 	String Kit
@@ -35321,6 +35786,8 @@ const StringNumber = require( './StringNumber.js' ) ;
 	%O		object (like inspect, but with ultra minimal options)
 	%E		call string-kit's inspectError()
 	%J		JSON.stringify()
+	%v		roman numerals, additive variant (e.g. 4 is IIII instead of IV)
+	%V		roman numerals
 	%D		drop
 	%F		filter function existing in the 'this' context, e.g. %[filter:%a%a]F
 	%a		argument for a function
@@ -35790,9 +36257,12 @@ exports.format.modes = modes ;	// <-- expose modes, used by Babel-Tower for Stri
 
 
 // string
-modes.s = arg => {
+modes.s = ( arg , modeArg ) => {
+	var subModes = stringModeArg( modeArg ) ;
+
 	if ( typeof arg === 'string' ) { return arg ; }
-	if ( arg === null || arg === undefined || arg === true || arg === false ) { return '(' + arg + ')' ; }
+	if ( arg === null || arg === undefined || arg === false ) { return subModes.empty ? '' : '(' + arg + ')' ; }
+	if ( arg === true ) { return '(' + arg + ')' ; }
 	if ( typeof arg === 'number' ) { return '' + arg ; }
 	if ( typeof arg.toString === 'function' ) { return arg.toString() ; }
 	return '(' + arg + ')' ;
@@ -35805,12 +36275,15 @@ modes.r.noSanitize = true ;
 
 // string, interpret ^ formatting
 modes.S = ( arg , modeArg , options ) => {
+	var subModes = stringModeArg( modeArg ) ;
+
 	// We do the sanitizing part on our own
 	var interpret = options.escapeMarkup ? str => ( options.argumentSanitizer ? options.argumentSanitizer( str ) : str ) :
 		str => exports.markupMethod.call( options , options.argumentSanitizer ? options.argumentSanitizer( str ) : str ) ;
 
 	if ( typeof arg === 'string' ) { return interpret( arg ) ; }
-	if ( arg === null || arg === undefined || arg === true || arg === false ) { return '(' + arg + ')' ; }
+	if ( arg === null || arg === undefined || arg === false ) { return subModes.empty ? '' : '(' + arg + ')' ; }
+	if ( arg === true ) { return '(' + arg + ')' ; }
 	if ( typeof arg === 'number' ) { return '' + arg ; }
 	if ( typeof arg.toString === 'function' ) { return interpret( arg.toString() ) ; }
 	return interpret( '(' + arg + ')' ) ;
@@ -35834,7 +36307,7 @@ modes.f = ( arg , modeArg ) => {
 	if ( typeof arg !== 'number' ) { arg = 0 ; }
 
 	var subModes = floatModeArg( modeArg ) ,
-		sn = new StringNumber( arg , '.' , subModes.groupSeparator ) ;
+		sn = new StringNumber( arg , { decimalSeparator: '.' , groupSeparator: subModes.groupSeparator } ) ;
 
 	if ( subModes.rounding !== null ) { sn.round( subModes.rounding ) ; }
 	if ( subModes.precision ) { sn.precision( subModes.precision ) ; }
@@ -35846,6 +36319,42 @@ modes.f.noSanitize = true ;
 
 
 
+// roman numeral, additive variant
+modes.v = ( arg , modeArg ) => {
+	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
+	if ( typeof arg !== 'number' ) { arg = 0 ; }
+
+	var subModes = floatModeArg( modeArg ) ,
+		sn = StringNumber.additiveRoman( arg , { decimalSeparator: '.' , groupSeparator: subModes.groupSeparator } ) ;
+
+	if ( subModes.rounding !== null ) { sn.round( subModes.rounding ) ; }
+	if ( subModes.precision ) { sn.precision( subModes.precision ) ; }
+
+	return sn.toString( subModes.leftPadding , subModes.rightPadding , subModes.rightPaddingOnlyIfDecimal ) ;
+} ;
+
+modes.v.noSanitize = true ;
+
+
+
+// roman numeral
+modes.V = ( arg , modeArg ) => {
+	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
+	if ( typeof arg !== 'number' ) { arg = 0 ; }
+
+	var subModes = floatModeArg( modeArg ) ,
+		sn = StringNumber.roman( arg , { decimalSeparator: '.' , groupSeparator: subModes.groupSeparator } ) ;
+
+	if ( subModes.rounding !== null ) { sn.round( subModes.rounding ) ; }
+	if ( subModes.precision ) { sn.precision( subModes.precision ) ; }
+
+	return sn.toString( subModes.leftPadding , subModes.rightPadding , subModes.rightPaddingOnlyIfDecimal ) ;
+} ;
+
+modes.V.noSanitize = true ;
+
+
+
 // absolute percent
 modes.P = ( arg , modeArg ) => {
 	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
@@ -35854,7 +36363,7 @@ modes.P = ( arg , modeArg ) => {
 	arg *= 100 ;
 
 	var subModes = floatModeArg( modeArg ) ,
-		sn = new StringNumber( arg , '.' , subModes.groupSeparator ) ;
+		sn = new StringNumber( arg , { decimalSeparator: '.' , groupSeparator: subModes.groupSeparator } ) ;
 
 	// Force rounding to zero by default
 	if ( subModes.rounding !== null || ! subModes.precision ) { sn.round( subModes.rounding || 0 ) ; }
@@ -35875,7 +36384,7 @@ modes.p = ( arg , modeArg ) => {
 	arg = ( arg - 1 ) * 100 ;
 
 	var subModes = floatModeArg( modeArg ) ,
-		sn = new StringNumber( arg , '.' , subModes.groupSeparator ) ;
+		sn = new StringNumber( arg , { decimalSeparator: '.' , groupSeparator: subModes.groupSeparator } ) ;
 
 	// Force rounding to zero by default
 	if ( subModes.rounding !== null || ! subModes.precision ) { sn.round( subModes.rounding || 0 ) ; }
@@ -35895,7 +36404,7 @@ modes.k = ( arg , modeArg ) => {
 	if ( typeof arg !== 'number' ) { return '0' ; }
 
 	var subModes = floatModeArg( modeArg ) ,
-		sn = new StringNumber( arg , '.' , subModes.groupSeparator ) ;
+		sn = new StringNumber( arg , { decimalSeparator: '.' , groupSeparator: subModes.groupSeparator } ) ;
 
 	if ( subModes.rounding !== null ) { sn.round( subModes.rounding ) ; }
 	// Default to 3 numbers precision
@@ -35914,7 +36423,7 @@ modes.e = ( arg , modeArg ) => {
 	if ( typeof arg !== 'number' ) { arg = 0 ; }
 
 	var subModes = floatModeArg( modeArg ) ,
-		sn = new StringNumber( arg , '.' , subModes.groupSeparator ) ;
+		sn = new StringNumber( arg , { decimalSeparator: '.' , groupSeparator: subModes.groupSeparator } ) ;
 
 	if ( subModes.rounding !== null ) { sn.round( subModes.rounding ) ; }
 	if ( subModes.precision ) { sn.precision( subModes.precision ) ; }
@@ -35932,7 +36441,7 @@ modes.K = ( arg , modeArg ) => {
 	if ( typeof arg !== 'number' ) { arg = 0 ; }
 
 	var subModes = floatModeArg( modeArg ) ,
-		sn = new StringNumber( arg , '.' , subModes.groupSeparator ) ;
+		sn = new StringNumber( arg , { decimalSeparator: '.' , groupSeparator: subModes.groupSeparator } ) ;
 
 	if ( subModes.rounding !== null ) { sn.round( subModes.rounding ) ; }
 	if ( subModes.precision ) { sn.precision( subModes.precision ) ; }
@@ -36105,7 +36614,7 @@ modes.t = ( arg , modeArg ) => {
 	}
 
 	if ( s < 60 && ! subModes.forceMinutes ) {
-		sn = new StringNumber( s , sSeparator , undefined , forceDecimalSeparator ) ;
+		sn = new StringNumber( s , { decimalSeparator: sSeparator , forceDecimalSeparator } ) ;
 		sn.round( subModes.rounding , roundingType ) ;
 
 		// Check if rounding has made it reach 60
@@ -36121,7 +36630,7 @@ modes.t = ( arg , modeArg ) => {
 	min = Math.floor( s / 60 ) ;
 	s = s % 60 ;
 
-	sn = new StringNumber( s , sSeparator , undefined , forceDecimalSeparator ) ;
+	sn = new StringNumber( s , { decimalSeparator: sSeparator , forceDecimalSeparator } ) ;
 	sn.round( subModes.rounding , roundingType ) ;
 
 	// Check if rounding has made it reach 60
@@ -36378,6 +36887,28 @@ function floatModeArg( modeArg ) {
 
 
 
+const STRING_MODES = {
+	empty: false
+} ;
+
+// Generic number modes
+function stringModeArg( modeArg ) {
+	STRING_MODES.empty = false ;
+
+	if ( modeArg ) {
+		for ( let [ , k , v ] of modeArg.matchAll( MODE_ARG_FORMAT_REGEX ) ) {
+			if ( k === 'e' ) {
+				// Empty mode:
+				STRING_MODES.empty = true ;
+			}
+		}
+	}
+
+	return STRING_MODES ;
+}
+
+
+
 const DATE_TIME_MODES = {
 	useAbbreviation: false ,
 	rightPadding: 0 ,
@@ -36571,6 +37102,8 @@ function genericNaturalModeRecursive( arg , delimiters , depthLimit , depth ) {
 		return modes.f( arg , '.3g ' ) ;
 	}
 
+	if ( arg instanceof Set ) { arg = [ ... arg ] ; }
+
 	if ( Array.isArray( arg ) ) {
 		if ( depth >= depthLimit ) { return '[...]' ; }
 
@@ -36676,7 +37209,7 @@ function round( v , step ) {
 
 
 }).call(this)}).call(this,require("buffer").Buffer)
-},{"./StringNumber.js":89,"./ansi.js":90,"./escape.js":94,"./inspect.js":97,"./naturalSort.js":104,"./unicode.js":108,"buffer":143}],96:[function(require,module,exports){
+},{"./StringNumber.js":98,"./ansi.js":99,"./escape.js":103,"./inspect.js":106,"./naturalSort.js":113,"./unicode.js":117,"buffer":171}],105:[function(require,module,exports){
 /*
 	String Kit
 
@@ -36992,7 +37525,7 @@ fuzzy.levenshtein = ( left , right ) => {
 } ;
 
 
-},{}],97:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 (function (Buffer,process){(function (){
 /*
 	String Kit
@@ -37755,56 +38288,19 @@ inspectStyle.html = Object.assign( {} , inspectStyle.none , {
 } ) ;
 
 
-}).call(this)}).call(this,{"isBuffer":require("../../../../../../../../opt/node-v20.11.0/lib/node_modules/browserify/node_modules/is-buffer/index.js")},require('_process'))
-},{"../../../../../../../../opt/node-v20.11.0/lib/node_modules/browserify/node_modules/is-buffer/index.js":158,"./ansi.js":90,"./escape.js":94,"_process":161}],98:[function(require,module,exports){
-module.exports={"😀":"grinning-face","😃":"grinning-face-with-big-eyes","😄":"grinning-face-with-smiling-eyes","😁":"beaming-face-with-smiling-eyes","😆":"grinning-squinting-face","😅":"grinning-face-with-sweat","🤣":"rolling-on-the-floor-laughing","😂":"face-with-tears-of-joy","🙂":"slightly-smiling-face","🙃":"upside-down-face","🫠":"melting-face","😉":"winking-face","😊":"smiling-face-with-smiling-eyes","😇":"smiling-face-with-halo","🥰":"smiling-face-with-hearts","😍":"smiling-face-with-heart-eyes","🤩":"star-struck","😘":"face-blowing-a-kiss","😗":"kissing-face","☺️":"smiling-face","😚":"kissing-face-with-closed-eyes","😙":"kissing-face-with-smiling-eyes","🥲":"smiling-face-with-tear","😋":"face-savoring-food","😛":"face-with-tongue","😜":"winking-face-with-tongue","🤪":"zany-face","😝":"squinting-face-with-tongue","🤑":"money-mouth-face","🤗":"smiling-face-with-open-hands","🤭":"face-with-hand-over-mouth","🫢":"face-with-open-eyes-and-hand-over-mouth","🫣":"face-with-peeking-eye","🤫":"shushing-face","🤔":"thinking-face","🫡":"saluting-face","🤐":"zipper-mouth-face","🤨":"face-with-raised-eyebrow","😐":"neutral-face","😑":"expressionless-face","😶":"face-without-mouth","🫥":"dotted-line-face","😶‍🌫️":"face-in-clouds","😏":"smirking-face","😒":"unamused-face","🙄":"face-with-rolling-eyes","😬":"grimacing-face","😮‍💨":"face-exhaling","🤥":"lying-face","🫨":"shaking-face","😌":"relieved-face","😔":"pensive-face","😪":"sleepy-face","🤤":"drooling-face","😴":"sleeping-face","😷":"face-with-medical-mask","🤒":"face-with-thermometer","🤕":"face-with-head-bandage","🤢":"nauseated-face","🤮":"face-vomiting","🤧":"sneezing-face","🥵":"hot-face","🥶":"cold-face","🥴":"woozy-face","😵":"face-with-crossed-out-eyes","😵‍💫":"face-with-spiral-eyes","🤯":"exploding-head","🤠":"cowboy-hat-face","🥳":"partying-face","🥸":"disguised-face","😎":"smiling-face-with-sunglasses","🤓":"nerd-face","🧐":"face-with-monocle","😕":"confused-face","🫤":"face-with-diagonal-mouth","😟":"worried-face","🙁":"slightly-frowning-face","☹️":"frowning-face","😮":"face-with-open-mouth","😯":"hushed-face","😲":"astonished-face","😳":"flushed-face","🥺":"pleading-face","🥹":"face-holding-back-tears","😦":"frowning-face-with-open-mouth","😧":"anguished-face","😨":"fearful-face","😰":"anxious-face-with-sweat","😥":"sad-but-relieved-face","😢":"crying-face","😭":"loudly-crying-face","😱":"face-screaming-in-fear","😖":"confounded-face","😣":"persevering-face","😞":"disappointed-face","😓":"downcast-face-with-sweat","😩":"weary-face","😫":"tired-face","🥱":"yawning-face","😤":"face-with-steam-from-nose","😡":"enraged-face","😠":"angry-face","🤬":"face-with-symbols-on-mouth","😈":"smiling-face-with-horns","👿":"angry-face-with-horns","💀":"skull","☠️":"skull-and-crossbones","💩":"pile-of-poo","🤡":"clown-face","👹":"ogre","👺":"goblin","👻":"ghost","👽":"alien","👾":"alien-monster","🤖":"robot","😺":"grinning-cat","😸":"grinning-cat-with-smiling-eyes","😹":"cat-with-tears-of-joy","😻":"smiling-cat-with-heart-eyes","😼":"cat-with-wry-smile","😽":"kissing-cat","🙀":"weary-cat","😿":"crying-cat","😾":"pouting-cat","🙈":"see-no-evil-monkey","🙉":"hear-no-evil-monkey","🙊":"speak-no-evil-monkey","💌":"love-letter","💘":"heart-with-arrow","💝":"heart-with-ribbon","💖":"sparkling-heart","💗":"growing-heart","💓":"beating-heart","💞":"revolving-hearts","💕":"two-hearts","💟":"heart-decoration","❣️":"heart-exclamation","💔":"broken-heart","❤️‍🔥":"heart-on-fire","❤️‍🩹":"mending-heart","❤️":"red-heart","🩷":"pink-heart","🧡":"orange-heart","💛":"yellow-heart","💚":"green-heart","💙":"blue-heart","🩵":"light-blue-heart","💜":"purple-heart","🤎":"brown-heart","🖤":"black-heart","🩶":"grey-heart","🤍":"white-heart","💋":"kiss-mark","💯":"hundred-points","💢":"anger-symbol","💥":"collision","💫":"dizzy","💦":"sweat-droplets","💨":"dashing-away","🕳️":"hole","💬":"speech-balloon","👁️‍🗨️":"eye-in-speech-bubble","🗨️":"left-speech-bubble","🗯️":"right-anger-bubble","💭":"thought-balloon","💤":"zzz","👋":"waving-hand","🤚":"raised-back-of-hand","🖐️":"hand-with-fingers-splayed","✋":"raised-hand","🖖":"vulcan-salute","🫱":"rightwards-hand","🫲":"leftwards-hand","🫳":"palm-down-hand","🫴":"palm-up-hand","🫷":"leftwards-pushing-hand","🫸":"rightwards-pushing-hand","👌":"ok-hand","🤌":"pinched-fingers","🤏":"pinching-hand","✌️":"victory-hand","🤞":"crossed-fingers","🫰":"hand-with-index-finger-and-thumb-crossed","🤟":"love-you-gesture","🤘":"sign-of-the-horns","🤙":"call-me-hand","👈":"backhand-index-pointing-left","👉":"backhand-index-pointing-right","👆":"backhand-index-pointing-up","🖕":"middle-finger","👇":"backhand-index-pointing-down","☝️":"index-pointing-up","🫵":"index-pointing-at-the-viewer","👍":"thumbs-up","👎":"thumbs-down","✊":"raised-fist","👊":"oncoming-fist","🤛":"left-facing-fist","🤜":"right-facing-fist","👏":"clapping-hands","🙌":"raising-hands","🫶":"heart-hands","👐":"open-hands","🤲":"palms-up-together","🤝":"handshake","🙏":"folded-hands","✍️":"writing-hand","💅":"nail-polish","🤳":"selfie","💪":"flexed-biceps","🦾":"mechanical-arm","🦿":"mechanical-leg","🦵":"leg","🦶":"foot","👂":"ear","🦻":"ear-with-hearing-aid","👃":"nose","🧠":"brain","🫀":"anatomical-heart","🫁":"lungs","🦷":"tooth","🦴":"bone","👀":"eyes","👁️":"eye","👅":"tongue","👄":"mouth","🫦":"biting-lip","👶":"baby","🧒":"child","👦":"boy","👧":"girl","🧑":"person","👱":"person-blond-hair","👨":"man","🧔":"person-beard","🧔‍♂️":"man-beard","🧔‍♀️":"woman-beard","👨‍🦰":"man-red-hair","👨‍🦱":"man-curly-hair","👨‍🦳":"man-white-hair","👨‍🦲":"man-bald","👩":"woman","👩‍🦰":"woman-red-hair","🧑‍🦰":"person-red-hair","👩‍🦱":"woman-curly-hair","🧑‍🦱":"person-curly-hair","👩‍🦳":"woman-white-hair","🧑‍🦳":"person-white-hair","👩‍🦲":"woman-bald","🧑‍🦲":"person-bald","👱‍♀️":"woman-blond-hair","👱‍♂️":"man-blond-hair","🧓":"older-person","👴":"old-man","👵":"old-woman","🙍":"person-frowning","🙍‍♂️":"man-frowning","🙍‍♀️":"woman-frowning","🙎":"person-pouting","🙎‍♂️":"man-pouting","🙎‍♀️":"woman-pouting","🙅":"person-gesturing-no","🙅‍♂️":"man-gesturing-no","🙅‍♀️":"woman-gesturing-no","🙆":"person-gesturing-ok","🙆‍♂️":"man-gesturing-ok","🙆‍♀️":"woman-gesturing-ok","💁":"person-tipping-hand","💁‍♂️":"man-tipping-hand","💁‍♀️":"woman-tipping-hand","🙋":"person-raising-hand","🙋‍♂️":"man-raising-hand","🙋‍♀️":"woman-raising-hand","🧏":"deaf-person","🧏‍♂️":"deaf-man","🧏‍♀️":"deaf-woman","🙇":"person-bowing","🙇‍♂️":"man-bowing","🙇‍♀️":"woman-bowing","🤦":"person-facepalming","🤦‍♂️":"man-facepalming","🤦‍♀️":"woman-facepalming","🤷":"person-shrugging","🤷‍♂️":"man-shrugging","🤷‍♀️":"woman-shrugging","🧑‍⚕️":"health-worker","👨‍⚕️":"man-health-worker","👩‍⚕️":"woman-health-worker","🧑‍🎓":"student","👨‍🎓":"man-student","👩‍🎓":"woman-student","🧑‍🏫":"teacher","👨‍🏫":"man-teacher","👩‍🏫":"woman-teacher","🧑‍⚖️":"judge","👨‍⚖️":"man-judge","👩‍⚖️":"woman-judge","🧑‍🌾":"farmer","👨‍🌾":"man-farmer","👩‍🌾":"woman-farmer","🧑‍🍳":"cook","👨‍🍳":"man-cook","👩‍🍳":"woman-cook","🧑‍🔧":"mechanic","👨‍🔧":"man-mechanic","👩‍🔧":"woman-mechanic","🧑‍🏭":"factory-worker","👨‍🏭":"man-factory-worker","👩‍🏭":"woman-factory-worker","🧑‍💼":"office-worker","👨‍💼":"man-office-worker","👩‍💼":"woman-office-worker","🧑‍🔬":"scientist","👨‍🔬":"man-scientist","👩‍🔬":"woman-scientist","🧑‍💻":"technologist","👨‍💻":"man-technologist","👩‍💻":"woman-technologist","🧑‍🎤":"singer","👨‍🎤":"man-singer","👩‍🎤":"woman-singer","🧑‍🎨":"artist","👨‍🎨":"man-artist","👩‍🎨":"woman-artist","🧑‍✈️":"pilot","👨‍✈️":"man-pilot","👩‍✈️":"woman-pilot","🧑‍🚀":"astronaut","👨‍🚀":"man-astronaut","👩‍🚀":"woman-astronaut","🧑‍🚒":"firefighter","👨‍🚒":"man-firefighter","👩‍🚒":"woman-firefighter","👮":"police-officer","👮‍♂️":"man-police-officer","👮‍♀️":"woman-police-officer","🕵️":"detective","🕵️‍♂️":"man-detective","🕵️‍♀️":"woman-detective","💂":"guard","💂‍♂️":"man-guard","💂‍♀️":"woman-guard","🥷":"ninja","👷":"construction-worker","👷‍♂️":"man-construction-worker","👷‍♀️":"woman-construction-worker","🫅":"person-with-crown","🤴":"prince","👸":"princess","👳":"person-wearing-turban","👳‍♂️":"man-wearing-turban","👳‍♀️":"woman-wearing-turban","👲":"person-with-skullcap","🧕":"woman-with-headscarf","🤵":"person-in-tuxedo","🤵‍♂️":"man-in-tuxedo","🤵‍♀️":"woman-in-tuxedo","👰":"person-with-veil","👰‍♂️":"man-with-veil","👰‍♀️":"woman-with-veil","🤰":"pregnant-woman","🫃":"pregnant-man","🫄":"pregnant-person","🤱":"breast-feeding","👩‍🍼":"woman-feeding-baby","👨‍🍼":"man-feeding-baby","🧑‍🍼":"person-feeding-baby","👼":"baby-angel","🎅":"santa-claus","🤶":"mrs-claus","🧑‍🎄":"mx-claus","🦸":"superhero","🦸‍♂️":"man-superhero","🦸‍♀️":"woman-superhero","🦹":"supervillain","🦹‍♂️":"man-supervillain","🦹‍♀️":"woman-supervillain","🧙":"mage","🧙‍♂️":"man-mage","🧙‍♀️":"woman-mage","🧚":"fairy","🧚‍♂️":"man-fairy","🧚‍♀️":"woman-fairy","🧛":"vampire","🧛‍♂️":"man-vampire","🧛‍♀️":"woman-vampire","🧜":"merperson","🧜‍♂️":"merman","🧜‍♀️":"mermaid","🧝":"elf","🧝‍♂️":"man-elf","🧝‍♀️":"woman-elf","🧞":"genie","🧞‍♂️":"man-genie","🧞‍♀️":"woman-genie","🧟":"zombie","🧟‍♂️":"man-zombie","🧟‍♀️":"woman-zombie","🧌":"troll","💆":"person-getting-massage","💆‍♂️":"man-getting-massage","💆‍♀️":"woman-getting-massage","💇":"person-getting-haircut","💇‍♂️":"man-getting-haircut","💇‍♀️":"woman-getting-haircut","🚶":"person-walking","🚶‍♂️":"man-walking","🚶‍♀️":"woman-walking","🧍":"person-standing","🧍‍♂️":"man-standing","🧍‍♀️":"woman-standing","🧎":"person-kneeling","🧎‍♂️":"man-kneeling","🧎‍♀️":"woman-kneeling","🧑‍🦯":"person-with-white-cane","👨‍🦯":"man-with-white-cane","👩‍🦯":"woman-with-white-cane","🧑‍🦼":"person-in-motorized-wheelchair","👨‍🦼":"man-in-motorized-wheelchair","👩‍🦼":"woman-in-motorized-wheelchair","🧑‍🦽":"person-in-manual-wheelchair","👨‍🦽":"man-in-manual-wheelchair","👩‍🦽":"woman-in-manual-wheelchair","🏃":"person-running","🏃‍♂️":"man-running","🏃‍♀️":"woman-running","💃":"woman-dancing","🕺":"man-dancing","🕴️":"person-in-suit-levitating","👯":"people-with-bunny-ears","👯‍♂️":"men-with-bunny-ears","👯‍♀️":"women-with-bunny-ears","🧖":"person-in-steamy-room","🧖‍♂️":"man-in-steamy-room","🧖‍♀️":"woman-in-steamy-room","🧗":"person-climbing","🧗‍♂️":"man-climbing","🧗‍♀️":"woman-climbing","🤺":"person-fencing","🏇":"horse-racing","⛷️":"skier","🏂":"snowboarder","🏌️":"person-golfing","🏌️‍♂️":"man-golfing","🏌️‍♀️":"woman-golfing","🏄":"person-surfing","🏄‍♂️":"man-surfing","🏄‍♀️":"woman-surfing","🚣":"person-rowing-boat","🚣‍♂️":"man-rowing-boat","🚣‍♀️":"woman-rowing-boat","🏊":"person-swimming","🏊‍♂️":"man-swimming","🏊‍♀️":"woman-swimming","⛹️":"person-bouncing-ball","⛹️‍♂️":"man-bouncing-ball","⛹️‍♀️":"woman-bouncing-ball","🏋️":"person-lifting-weights","🏋️‍♂️":"man-lifting-weights","🏋️‍♀️":"woman-lifting-weights","🚴":"person-biking","🚴‍♂️":"man-biking","🚴‍♀️":"woman-biking","🚵":"person-mountain-biking","🚵‍♂️":"man-mountain-biking","🚵‍♀️":"woman-mountain-biking","🤸":"person-cartwheeling","🤸‍♂️":"man-cartwheeling","🤸‍♀️":"woman-cartwheeling","🤼":"people-wrestling","🤼‍♂️":"men-wrestling","🤼‍♀️":"women-wrestling","🤽":"person-playing-water-polo","🤽‍♂️":"man-playing-water-polo","🤽‍♀️":"woman-playing-water-polo","🤾":"person-playing-handball","🤾‍♂️":"man-playing-handball","🤾‍♀️":"woman-playing-handball","🤹":"person-juggling","🤹‍♂️":"man-juggling","🤹‍♀️":"woman-juggling","🧘":"person-in-lotus-position","🧘‍♂️":"man-in-lotus-position","🧘‍♀️":"woman-in-lotus-position","🛀":"person-taking-bath","🛌":"person-in-bed","🧑‍🤝‍🧑":"people-holding-hands","👭":"women-holding-hands","👫":"woman-and-man-holding-hands","👬":"men-holding-hands","💏":"kiss","👩‍❤️‍💋‍👨":"kiss-woman-man","👨‍❤️‍💋‍👨":"kiss-man-man","👩‍❤️‍💋‍👩":"kiss-woman-woman","💑":"couple-with-heart","👩‍❤️‍👨":"couple-with-heart-woman-man","👨‍❤️‍👨":"couple-with-heart-man-man","👩‍❤️‍👩":"couple-with-heart-woman-woman","👪":"family","👨‍👩‍👦":"family-man-woman-boy","👨‍👩‍👧":"family-man-woman-girl","👨‍👩‍👧‍👦":"family-man-woman-girl-boy","👨‍👩‍👦‍👦":"family-man-woman-boy-boy","👨‍👩‍👧‍👧":"family-man-woman-girl-girl","👨‍👨‍👦":"family-man-man-boy","👨‍👨‍👧":"family-man-man-girl","👨‍👨‍👧‍👦":"family-man-man-girl-boy","👨‍👨‍👦‍👦":"family-man-man-boy-boy","👨‍👨‍👧‍👧":"family-man-man-girl-girl","👩‍👩‍👦":"family-woman-woman-boy","👩‍👩‍👧":"family-woman-woman-girl","👩‍👩‍👧‍👦":"family-woman-woman-girl-boy","👩‍👩‍👦‍👦":"family-woman-woman-boy-boy","👩‍👩‍👧‍👧":"family-woman-woman-girl-girl","👨‍👦":"family-man-boy","👨‍👦‍👦":"family-man-boy-boy","👨‍👧":"family-man-girl","👨‍👧‍👦":"family-man-girl-boy","👨‍👧‍👧":"family-man-girl-girl","👩‍👦":"family-woman-boy","👩‍👦‍👦":"family-woman-boy-boy","👩‍👧":"family-woman-girl","👩‍👧‍👦":"family-woman-girl-boy","👩‍👧‍👧":"family-woman-girl-girl","🗣️":"speaking-head","👤":"bust-in-silhouette","👥":"busts-in-silhouette","🫂":"people-hugging","👣":"footprints","🐵":"monkey-face","🐒":"monkey","🦍":"gorilla","🦧":"orangutan","🐶":"dog-face","🐕":"dog","🦮":"guide-dog","🐕‍🦺":"service-dog","🐩":"poodle","🐺":"wolf","🦊":"fox","🦝":"raccoon","🐱":"cat-face","🐈":"cat","🐈‍⬛":"black-cat","🦁":"lion","🐯":"tiger-face","🐅":"tiger","🐆":"leopard","🐴":"horse-face","🫎":"moose","🫏":"donkey","🐎":"horse","🦄":"unicorn","🦓":"zebra","🦌":"deer","🦬":"bison","🐮":"cow-face","🐂":"ox","🐃":"water-buffalo","🐄":"cow","🐷":"pig-face","🐖":"pig","🐗":"boar","🐽":"pig-nose","🐏":"ram","🐑":"ewe","🐐":"goat","🐪":"camel","🐫":"two-hump-camel","🦙":"llama","🦒":"giraffe","🐘":"elephant","🦣":"mammoth","🦏":"rhinoceros","🦛":"hippopotamus","🐭":"mouse-face","🐁":"mouse","🐀":"rat","🐹":"hamster","🐰":"rabbit-face","🐇":"rabbit","🐿️":"chipmunk","🦫":"beaver","🦔":"hedgehog","🦇":"bat","🐻":"bear","🐻‍❄️":"polar-bear","🐨":"koala","🐼":"panda","🦥":"sloth","🦦":"otter","🦨":"skunk","🦘":"kangaroo","🦡":"badger","🐾":"paw-prints","🦃":"turkey","🐔":"chicken","🐓":"rooster","🐣":"hatching-chick","🐤":"baby-chick","🐥":"front-facing-baby-chick","🐦":"bird","🐧":"penguin","🕊️":"dove","🦅":"eagle","🦆":"duck","🦢":"swan","🦉":"owl","🦤":"dodo","🪶":"feather","🦩":"flamingo","🦚":"peacock","🦜":"parrot","🪽":"wing","🐦‍⬛":"black-bird","🪿":"goose","🐸":"frog","🐊":"crocodile","🐢":"turtle","🦎":"lizard","🐍":"snake","🐲":"dragon-face","🐉":"dragon","🦕":"sauropod","🦖":"t-rex","🐳":"spouting-whale","🐋":"whale","🐬":"dolphin","🦭":"seal","🐟":"fish","🐠":"tropical-fish","🐡":"blowfish","🦈":"shark","🐙":"octopus","🐚":"spiral-shell","🪸":"coral","🪼":"jellyfish","🐌":"snail","🦋":"butterfly","🐛":"bug","🐜":"ant","🐝":"honeybee","🪲":"beetle","🐞":"lady-beetle","🦗":"cricket","🪳":"cockroach","🕷️":"spider","🕸️":"spider-web","🦂":"scorpion","🦟":"mosquito","🪰":"fly","🪱":"worm","🦠":"microbe","💐":"bouquet","🌸":"cherry-blossom","💮":"white-flower","🪷":"lotus","🏵️":"rosette","🌹":"rose","🥀":"wilted-flower","🌺":"hibiscus","🌻":"sunflower","🌼":"blossom","🌷":"tulip","🪻":"hyacinth","🌱":"seedling","🪴":"potted-plant","🌲":"evergreen-tree","🌳":"deciduous-tree","🌴":"palm-tree","🌵":"cactus","🌾":"sheaf-of-rice","🌿":"herb","☘️":"shamrock","🍀":"four-leaf-clover","🍁":"maple-leaf","🍂":"fallen-leaf","🍃":"leaf-fluttering-in-wind","🪹":"empty-nest","🪺":"nest-with-eggs","🍄":"mushroom","🍇":"grapes","🍈":"melon","🍉":"watermelon","🍊":"tangerine","🍋":"lemon","🍌":"banana","🍍":"pineapple","🥭":"mango","🍎":"red-apple","🍏":"green-apple","🍐":"pear","🍑":"peach","🍒":"cherries","🍓":"strawberry","🫐":"blueberries","🥝":"kiwi-fruit","🍅":"tomato","🫒":"olive","🥥":"coconut","🥑":"avocado","🍆":"eggplant","🥔":"potato","🥕":"carrot","🌽":"ear-of-corn","🌶️":"hot-pepper","🫑":"bell-pepper","🥒":"cucumber","🥬":"leafy-green","🥦":"broccoli","🧄":"garlic","🧅":"onion","🥜":"peanuts","🫘":"beans","🌰":"chestnut","🫚":"ginger-root","🫛":"pea-pod","🍞":"bread","🥐":"croissant","🥖":"baguette-bread","🫓":"flatbread","🥨":"pretzel","🥯":"bagel","🥞":"pancakes","🧇":"waffle","🧀":"cheese-wedge","🍖":"meat-on-bone","🍗":"poultry-leg","🥩":"cut-of-meat","🥓":"bacon","🍔":"hamburger","🍟":"french-fries","🍕":"pizza","🌭":"hot-dog","🥪":"sandwich","🌮":"taco","🌯":"burrito","🫔":"tamale","🥙":"stuffed-flatbread","🧆":"falafel","🥚":"egg","🍳":"cooking","🥘":"shallow-pan-of-food","🍲":"pot-of-food","🫕":"fondue","🥣":"bowl-with-spoon","🥗":"green-salad","🍿":"popcorn","🧈":"butter","🧂":"salt","🥫":"canned-food","🍱":"bento-box","🍘":"rice-cracker","🍙":"rice-ball","🍚":"cooked-rice","🍛":"curry-rice","🍜":"steaming-bowl","🍝":"spaghetti","🍠":"roasted-sweet-potato","🍢":"oden","🍣":"sushi","🍤":"fried-shrimp","🍥":"fish-cake-with-swirl","🥮":"moon-cake","🍡":"dango","🥟":"dumpling","🥠":"fortune-cookie","🥡":"takeout-box","🦀":"crab","🦞":"lobster","🦐":"shrimp","🦑":"squid","🦪":"oyster","🍦":"soft-ice-cream","🍧":"shaved-ice","🍨":"ice-cream","🍩":"doughnut","🍪":"cookie","🎂":"birthday-cake","🍰":"shortcake","🧁":"cupcake","🥧":"pie","🍫":"chocolate-bar","🍬":"candy","🍭":"lollipop","🍮":"custard","🍯":"honey-pot","🍼":"baby-bottle","🥛":"glass-of-milk","☕":"hot-beverage","🫖":"teapot","🍵":"teacup-without-handle","🍶":"sake","🍾":"bottle-with-popping-cork","🍷":"wine-glass","🍸":"cocktail-glass","🍹":"tropical-drink","🍺":"beer-mug","🍻":"clinking-beer-mugs","🥂":"clinking-glasses","🥃":"tumbler-glass","🫗":"pouring-liquid","🥤":"cup-with-straw","🧋":"bubble-tea","🧃":"beverage-box","🧉":"mate","🧊":"ice","🥢":"chopsticks","🍽️":"fork-and-knife-with-plate","🍴":"fork-and-knife","🥄":"spoon","🔪":"kitchen-knife","🫙":"jar","🏺":"amphora","🌍":"globe-showing-europe-africa","🌎":"globe-showing-americas","🌏":"globe-showing-asia-australia","🌐":"globe-with-meridians","🗺️":"world-map","🗾":"map-of-japan","🧭":"compass","🏔️":"snow-capped-mountain","⛰️":"mountain","🌋":"volcano","🗻":"mount-fuji","🏕️":"camping","🏖️":"beach-with-umbrella","🏜️":"desert","🏝️":"desert-island","🏞️":"national-park","🏟️":"stadium","🏛️":"classical-building","🏗️":"building-construction","🧱":"brick","🪨":"rock","🪵":"wood","🛖":"hut","🏘️":"houses","🏚️":"derelict-house","🏠":"house","🏡":"house-with-garden","🏢":"office-building","🏣":"japanese-post-office","🏤":"post-office","🏥":"hospital","🏦":"bank","🏨":"hotel","🏩":"love-hotel","🏪":"convenience-store","🏫":"school","🏬":"department-store","🏭":"factory","🏯":"japanese-castle","🏰":"castle","💒":"wedding","🗼":"tokyo-tower","🗽":"statue-of-liberty","⛪":"church","🕌":"mosque","🛕":"hindu-temple","🕍":"synagogue","⛩️":"shinto-shrine","🕋":"kaaba","⛲":"fountain","⛺":"tent","🌁":"foggy","🌃":"night-with-stars","🏙️":"cityscape","🌄":"sunrise-over-mountains","🌅":"sunrise","🌆":"cityscape-at-dusk","🌇":"sunset","🌉":"bridge-at-night","♨️":"hot-springs","🎠":"carousel-horse","🛝":"playground-slide","🎡":"ferris-wheel","🎢":"roller-coaster","💈":"barber-pole","🎪":"circus-tent","🚂":"locomotive","🚃":"railway-car","🚄":"high-speed-train","🚅":"bullet-train","🚆":"train","🚇":"metro","🚈":"light-rail","🚉":"station","🚊":"tram","🚝":"monorail","🚞":"mountain-railway","🚋":"tram-car","🚌":"bus","🚍":"oncoming-bus","🚎":"trolleybus","🚐":"minibus","🚑":"ambulance","🚒":"fire-engine","🚓":"police-car","🚔":"oncoming-police-car","🚕":"taxi","🚖":"oncoming-taxi","🚗":"automobile","🚘":"oncoming-automobile","🚙":"sport-utility-vehicle","🛻":"pickup-truck","🚚":"delivery-truck","🚛":"articulated-lorry","🚜":"tractor","🏎️":"racing-car","🏍️":"motorcycle","🛵":"motor-scooter","🦽":"manual-wheelchair","🦼":"motorized-wheelchair","🛺":"auto-rickshaw","🚲":"bicycle","🛴":"kick-scooter","🛹":"skateboard","🛼":"roller-skate","🚏":"bus-stop","🛣️":"motorway","🛤️":"railway-track","🛢️":"oil-drum","⛽":"fuel-pump","🛞":"wheel","🚨":"police-car-light","🚥":"horizontal-traffic-light","🚦":"vertical-traffic-light","🛑":"stop-sign","🚧":"construction","⚓":"anchor","🛟":"ring-buoy","⛵":"sailboat","🛶":"canoe","🚤":"speedboat","🛳️":"passenger-ship","⛴️":"ferry","🛥️":"motor-boat","🚢":"ship","✈️":"airplane","🛩️":"small-airplane","🛫":"airplane-departure","🛬":"airplane-arrival","🪂":"parachute","💺":"seat","🚁":"helicopter","🚟":"suspension-railway","🚠":"mountain-cableway","🚡":"aerial-tramway","🛰️":"satellite","🚀":"rocket","🛸":"flying-saucer","🛎️":"bellhop-bell","🧳":"luggage","⌛":"hourglass-done","⏳":"hourglass-not-done","⌚":"watch","⏰":"alarm-clock","⏱️":"stopwatch","⏲️":"timer-clock","🕰️":"mantelpiece-clock","🕛":"twelve-o-clock","🕧":"twelve-thirty","🕐":"one-o-clock","🕜":"one-thirty","🕑":"two-o-clock","🕝":"two-thirty","🕒":"three-o-clock","🕞":"three-thirty","🕓":"four-o-clock","🕟":"four-thirty","🕔":"five-o-clock","🕠":"five-thirty","🕕":"six-o-clock","🕡":"six-thirty","🕖":"seven-o-clock","🕢":"seven-thirty","🕗":"eight-o-clock","🕣":"eight-thirty","🕘":"nine-o-clock","🕤":"nine-thirty","🕙":"ten-o-clock","🕥":"ten-thirty","🕚":"eleven-o-clock","🕦":"eleven-thirty","🌑":"new-moon","🌒":"waxing-crescent-moon","🌓":"first-quarter-moon","🌔":"waxing-gibbous-moon","🌕":"full-moon","🌖":"waning-gibbous-moon","🌗":"last-quarter-moon","🌘":"waning-crescent-moon","🌙":"crescent-moon","🌚":"new-moon-face","🌛":"first-quarter-moon-face","🌜":"last-quarter-moon-face","🌡️":"thermometer","☀️":"sun","🌝":"full-moon-face","🌞":"sun-with-face","🪐":"ringed-planet","⭐":"star","🌟":"glowing-star","🌠":"shooting-star","🌌":"milky-way","☁️":"cloud","⛅":"sun-behind-cloud","⛈️":"cloud-with-lightning-and-rain","🌤️":"sun-behind-small-cloud","🌥️":"sun-behind-large-cloud","🌦️":"sun-behind-rain-cloud","🌧️":"cloud-with-rain","🌨️":"cloud-with-snow","🌩️":"cloud-with-lightning","🌪️":"tornado","🌫️":"fog","🌬️":"wind-face","🌀":"cyclone","🌈":"rainbow","🌂":"closed-umbrella","☂️":"umbrella","☔":"umbrella-with-rain-drops","⛱️":"umbrella-on-ground","⚡":"high-voltage","❄️":"snowflake","☃️":"snowman","⛄":"snowman-without-snow","☄️":"comet","🔥":"fire","💧":"droplet","🌊":"water-wave","🎃":"jack-o-lantern","🎄":"christmas-tree","🎆":"fireworks","🎇":"sparkler","🧨":"firecracker","✨":"sparkles","🎈":"balloon","🎉":"party-popper","🎊":"confetti-ball","🎋":"tanabata-tree","🎍":"pine-decoration","🎎":"japanese-dolls","🎏":"carp-streamer","🎐":"wind-chime","🎑":"moon-viewing-ceremony","🧧":"red-envelope","🎀":"ribbon","🎁":"wrapped-gift","🎗️":"reminder-ribbon","🎟️":"admission-tickets","🎫":"ticket","🎖️":"military-medal","🏆":"trophy","🏅":"sports-medal","🥇":"1st-place-medal","🥈":"2nd-place-medal","🥉":"3rd-place-medal","⚽":"soccer-ball","⚾":"baseball","🥎":"softball","🏀":"basketball","🏐":"volleyball","🏈":"american-football","🏉":"rugby-football","🎾":"tennis","🥏":"flying-disc","🎳":"bowling","🏏":"cricket-game","🏑":"field-hockey","🏒":"ice-hockey","🥍":"lacrosse","🏓":"ping-pong","🏸":"badminton","🥊":"boxing-glove","🥋":"martial-arts-uniform","🥅":"goal-net","⛳":"flag-in-hole","⛸️":"ice-skate","🎣":"fishing-pole","🤿":"diving-mask","🎽":"running-shirt","🎿":"skis","🛷":"sled","🥌":"curling-stone","🎯":"bullseye","🪀":"yo-yo","🪁":"kite","🔫":"water-pistol","🎱":"pool-8-ball","🔮":"crystal-ball","🪄":"magic-wand","🎮":"video-game","🕹️":"joystick","🎰":"slot-machine","🎲":"game-die","🧩":"puzzle-piece","🧸":"teddy-bear","🪅":"pinata","🪩":"mirror-ball","🪆":"nesting-dolls","♠️":"spade-suit","♥️":"heart-suit","♦️":"diamond-suit","♣️":"club-suit","♟️":"chess-pawn","🃏":"joker","🀄":"mahjong-red-dragon","🎴":"flower-playing-cards","🎭":"performing-arts","🖼️":"framed-picture","🎨":"artist-palette","🧵":"thread","🪡":"sewing-needle","🧶":"yarn","🪢":"knot","👓":"glasses","🕶️":"sunglasses","🥽":"goggles","🥼":"lab-coat","🦺":"safety-vest","👔":"necktie","👕":"t-shirt","👖":"jeans","🧣":"scarf","🧤":"gloves","🧥":"coat","🧦":"socks","👗":"dress","👘":"kimono","🥻":"sari","🩱":"one-piece-swimsuit","🩲":"briefs","🩳":"shorts","👙":"bikini","👚":"woman-s-clothes","🪭":"folding-hand-fan","👛":"purse","👜":"handbag","👝":"clutch-bag","🛍️":"shopping-bags","🎒":"backpack","🩴":"thong-sandal","👞":"man-s-shoe","👟":"running-shoe","🥾":"hiking-boot","🥿":"flat-shoe","👠":"high-heeled-shoe","👡":"woman-s-sandal","🩰":"ballet-shoes","👢":"woman-s-boot","🪮":"hair-pick","👑":"crown","👒":"woman-s-hat","🎩":"top-hat","🎓":"graduation-cap","🧢":"billed-cap","🪖":"military-helmet","⛑️":"rescue-worker-s-helmet","📿":"prayer-beads","💄":"lipstick","💍":"ring","💎":"gem-stone","🔇":"muted-speaker","🔈":"speaker-low-volume","🔉":"speaker-medium-volume","🔊":"speaker-high-volume","📢":"loudspeaker","📣":"megaphone","📯":"postal-horn","🔔":"bell","🔕":"bell-with-slash","🎼":"musical-score","🎵":"musical-note","🎶":"musical-notes","🎙️":"studio-microphone","🎚️":"level-slider","🎛️":"control-knobs","🎤":"microphone","🎧":"headphone","📻":"radio","🎷":"saxophone","🪗":"accordion","🎸":"guitar","🎹":"musical-keyboard","🎺":"trumpet","🎻":"violin","🪕":"banjo","🥁":"drum","🪘":"long-drum","🪇":"maracas","🪈":"flute","📱":"mobile-phone","📲":"mobile-phone-with-arrow","☎️":"telephone","📞":"telephone-receiver","📟":"pager","📠":"fax-machine","🔋":"battery","🪫":"low-battery","🔌":"electric-plug","💻":"laptop","🖥️":"desktop-computer","🖨️":"printer","⌨️":"keyboard","🖱️":"computer-mouse","🖲️":"trackball","💽":"computer-disk","💾":"floppy-disk","💿":"optical-disk","📀":"dvd","🧮":"abacus","🎥":"movie-camera","🎞️":"film-frames","📽️":"film-projector","🎬":"clapper-board","📺":"television","📷":"camera","📸":"camera-with-flash","📹":"video-camera","📼":"videocassette","🔍":"magnifying-glass-tilted-left","🔎":"magnifying-glass-tilted-right","🕯️":"candle","💡":"light-bulb","🔦":"flashlight","🏮":"red-paper-lantern","🪔":"diya-lamp","📔":"notebook-with-decorative-cover","📕":"closed-book","📖":"open-book","📗":"green-book","📘":"blue-book","📙":"orange-book","📚":"books","📓":"notebook","📒":"ledger","📃":"page-with-curl","📜":"scroll","📄":"page-facing-up","📰":"newspaper","🗞️":"rolled-up-newspaper","📑":"bookmark-tabs","🔖":"bookmark","🏷️":"label","💰":"money-bag","🪙":"coin","💴":"yen-banknote","💵":"dollar-banknote","💶":"euro-banknote","💷":"pound-banknote","💸":"money-with-wings","💳":"credit-card","🧾":"receipt","💹":"chart-increasing-with-yen","✉️":"envelope","📧":"e-mail","📨":"incoming-envelope","📩":"envelope-with-arrow","📤":"outbox-tray","📥":"inbox-tray","📦":"package","📫":"closed-mailbox-with-raised-flag","📪":"closed-mailbox-with-lowered-flag","📬":"open-mailbox-with-raised-flag","📭":"open-mailbox-with-lowered-flag","📮":"postbox","🗳️":"ballot-box-with-ballot","✏️":"pencil","✒️":"black-nib","🖋️":"fountain-pen","🖊️":"pen","🖌️":"paintbrush","🖍️":"crayon","📝":"memo","💼":"briefcase","📁":"file-folder","📂":"open-file-folder","🗂️":"card-index-dividers","📅":"calendar","📆":"tear-off-calendar","🗒️":"spiral-notepad","🗓️":"spiral-calendar","📇":"card-index","📈":"chart-increasing","📉":"chart-decreasing","📊":"bar-chart","📋":"clipboard","📌":"pushpin","📍":"round-pushpin","📎":"paperclip","🖇️":"linked-paperclips","📏":"straight-ruler","📐":"triangular-ruler","✂️":"scissors","🗃️":"card-file-box","🗄️":"file-cabinet","🗑️":"wastebasket","🔒":"locked","🔓":"unlocked","🔏":"locked-with-pen","🔐":"locked-with-key","🔑":"key","🗝️":"old-key","🔨":"hammer","🪓":"axe","⛏️":"pick","⚒️":"hammer-and-pick","🛠️":"hammer-and-wrench","🗡️":"dagger","⚔️":"crossed-swords","💣":"bomb","🪃":"boomerang","🏹":"bow-and-arrow","🛡️":"shield","🪚":"carpentry-saw","🔧":"wrench","🪛":"screwdriver","🔩":"nut-and-bolt","⚙️":"gear","🗜️":"clamp","⚖️":"balance-scale","🦯":"white-cane","🔗":"link","⛓️":"chains","🪝":"hook","🧰":"toolbox","🧲":"magnet","🪜":"ladder","⚗️":"alembic","🧪":"test-tube","🧫":"petri-dish","🧬":"dna","🔬":"microscope","🔭":"telescope","📡":"satellite-antenna","💉":"syringe","🩸":"drop-of-blood","💊":"pill","🩹":"adhesive-bandage","🩼":"crutch","🩺":"stethoscope","🩻":"x-ray","🚪":"door","🛗":"elevator","🪞":"mirror","🪟":"window","🛏️":"bed","🛋️":"couch-and-lamp","🪑":"chair","🚽":"toilet","🪠":"plunger","🚿":"shower","🛁":"bathtub","🪤":"mouse-trap","🪒":"razor","🧴":"lotion-bottle","🧷":"safety-pin","🧹":"broom","🧺":"basket","🧻":"roll-of-paper","🪣":"bucket","🧼":"soap","🫧":"bubbles","🪥":"toothbrush","🧽":"sponge","🧯":"fire-extinguisher","🛒":"shopping-cart","🚬":"cigarette","⚰️":"coffin","🪦":"headstone","⚱️":"funeral-urn","🧿":"nazar-amulet","🪬":"hamsa","🗿":"moai","🪧":"placard","🪪":"identification-card","🏧":"atm-sign","🚮":"litter-in-bin-sign","🚰":"potable-water","♿":"wheelchair-symbol","🚹":"men-s-room","🚺":"women-s-room","🚻":"restroom","🚼":"baby-symbol","🚾":"water-closet","🛂":"passport-control","🛃":"customs","🛄":"baggage-claim","🛅":"left-luggage","⚠️":"warning","🚸":"children-crossing","⛔":"no-entry","🚫":"prohibited","🚳":"no-bicycles","🚭":"no-smoking","🚯":"no-littering","🚱":"non-potable-water","🚷":"no-pedestrians","📵":"no-mobile-phones","🔞":"no-one-under-eighteen","☢️":"radioactive","☣️":"biohazard","⬆️":"up-arrow","↗️":"up-right-arrow","➡️":"right-arrow","↘️":"down-right-arrow","⬇️":"down-arrow","↙️":"down-left-arrow","⬅️":"left-arrow","↖️":"up-left-arrow","↕️":"up-down-arrow","↔️":"left-right-arrow","↩️":"right-arrow-curving-left","↪️":"left-arrow-curving-right","⤴️":"right-arrow-curving-up","⤵️":"right-arrow-curving-down","🔃":"clockwise-vertical-arrows","🔄":"counterclockwise-arrows-button","🔙":"back-arrow","🔚":"end-arrow","🔛":"on-arrow","🔜":"soon-arrow","🔝":"top-arrow","🛐":"place-of-worship","⚛️":"atom-symbol","🕉️":"om","✡️":"star-of-david","☸️":"wheel-of-dharma","☯️":"yin-yang","✝️":"latin-cross","☦️":"orthodox-cross","☪️":"star-and-crescent","☮️":"peace-symbol","🕎":"menorah","🔯":"dotted-six-pointed-star","🪯":"khanda","♈":"aries","♉":"taurus","♊":"gemini","♋":"cancer","♌":"leo","♍":"virgo","♎":"libra","♏":"scorpio","♐":"sagittarius","♑":"capricorn","♒":"aquarius","♓":"pisces","⛎":"ophiuchus","🔀":"shuffle-tracks-button","🔁":"repeat-button","🔂":"repeat-single-button","▶️":"play-button","⏩":"fast-forward-button","⏭️":"next-track-button","⏯️":"play-or-pause-button","◀️":"reverse-button","⏪":"fast-reverse-button","⏮️":"last-track-button","🔼":"upwards-button","⏫":"fast-up-button","🔽":"downwards-button","⏬":"fast-down-button","⏸️":"pause-button","⏹️":"stop-button","⏺️":"record-button","⏏️":"eject-button","🎦":"cinema","🔅":"dim-button","🔆":"bright-button","📶":"antenna-bars","🛜":"wireless","📳":"vibration-mode","📴":"mobile-phone-off","♀️":"female-sign","♂️":"male-sign","⚧️":"transgender-symbol","✖️":"multiply","➕":"plus","➖":"minus","➗":"divide","🟰":"heavy-equals-sign","♾️":"infinity","‼️":"double-exclamation-mark","⁉️":"exclamation-question-mark","❓":"red-question-mark","❔":"white-question-mark","❕":"white-exclamation-mark","❗":"red-exclamation-mark","〰️":"wavy-dash","💱":"currency-exchange","💲":"heavy-dollar-sign","⚕️":"medical-symbol","♻️":"recycling-symbol","⚜️":"fleur-de-lis","🔱":"trident-emblem","📛":"name-badge","🔰":"japanese-symbol-for-beginner","⭕":"hollow-red-circle","✅":"check-mark-button","☑️":"check-box-with-check","✔️":"check-mark","❌":"cross-mark","❎":"cross-mark-button","➰":"curly-loop","➿":"double-curly-loop","〽️":"part-alternation-mark","✳️":"eight-spoked-asterisk","✴️":"eight-pointed-star","❇️":"sparkle","©️":"copyright","®️":"registered","™️":"trade-mark","#️⃣":"keycap-#","*️⃣":"keycap-*","0️⃣":"keycap-0","1️⃣":"keycap-1","2️⃣":"keycap-2","3️⃣":"keycap-3","4️⃣":"keycap-4","5️⃣":"keycap-5","6️⃣":"keycap-6","7️⃣":"keycap-7","8️⃣":"keycap-8","9️⃣":"keycap-9","🔟":"keycap-10","🔠":"input-latin-uppercase","🔡":"input-latin-lowercase","🔢":"input-numbers","🔣":"input-symbols","🔤":"input-latin-letters","🅰️":"a-button-blood-type","🆎":"ab-button-blood-type","🅱️":"b-button-blood-type","🆑":"cl-button","🆒":"cool-button","🆓":"free-button","ℹ️":"information","🆔":"id-button","Ⓜ️":"circled-m","🆕":"new-button","🆖":"ng-button","🅾️":"o-button-blood-type","🆗":"ok-button","🅿️":"p-button","🆘":"sos-button","🆙":"up-button","🆚":"vs-button","🈁":"japanese-here-button","🈂️":"japanese-service-charge-button","🈷️":"japanese-monthly-amount-button","🈶":"japanese-not-free-of-charge-button","🈯":"japanese-reserved-button","🉐":"japanese-bargain-button","🈹":"japanese-discount-button","🈚":"japanese-free-of-charge-button","🈲":"japanese-prohibited-button","🉑":"japanese-acceptable-button","🈸":"japanese-application-button","🈴":"japanese-passing-grade-button","🈳":"japanese-vacancy-button","㊗️":"japanese-congratulations-button","㊙️":"japanese-secret-button","🈺":"japanese-open-for-business-button","🈵":"japanese-no-vacancy-button","🔴":"red-circle","🟠":"orange-circle","🟡":"yellow-circle","🟢":"green-circle","🔵":"blue-circle","🟣":"purple-circle","🟤":"brown-circle","⚫":"black-circle","⚪":"white-circle","🟥":"red-square","🟧":"orange-square","🟨":"yellow-square","🟩":"green-square","🟦":"blue-square","🟪":"purple-square","🟫":"brown-square","⬛":"black-large-square","⬜":"white-large-square","◼️":"black-medium-square","◻️":"white-medium-square","◾":"black-medium-small-square","◽":"white-medium-small-square","▪️":"black-small-square","▫️":"white-small-square","🔶":"large-orange-diamond","🔷":"large-blue-diamond","🔸":"small-orange-diamond","🔹":"small-blue-diamond","🔺":"red-triangle-pointed-up","🔻":"red-triangle-pointed-down","💠":"diamond-with-a-dot","🔘":"radio-button","🔳":"white-square-button","🔲":"black-square-button","🏁":"chequered-flag","🚩":"triangular-flag","🎌":"crossed-flags","🏴":"black-flag","🏳️":"white-flag","🏳️‍🌈":"rainbow-flag","🏳️‍⚧️":"transgender-flag","🏴‍☠️":"pirate-flag","🇦🇨":"flag-ascension-island","🇦🇩":"flag-andorra","🇦🇪":"flag-united-arab-emirates","🇦🇫":"flag-afghanistan","🇦🇬":"flag-antigua-&-barbuda","🇦🇮":"flag-anguilla","🇦🇱":"flag-albania","🇦🇲":"flag-armenia","🇦🇴":"flag-angola","🇦🇶":"flag-antarctica","🇦🇷":"flag-argentina","🇦🇸":"flag-american-samoa","🇦🇹":"flag-austria","🇦🇺":"flag-australia","🇦🇼":"flag-aruba","🇦🇽":"flag-aland-islands","🇦🇿":"flag-azerbaijan","🇧🇦":"flag-bosnia-&-herzegovina","🇧🇧":"flag-barbados","🇧🇩":"flag-bangladesh","🇧🇪":"flag-belgium","🇧🇫":"flag-burkina-faso","🇧🇬":"flag-bulgaria","🇧🇭":"flag-bahrain","🇧🇮":"flag-burundi","🇧🇯":"flag-benin","🇧🇱":"flag-st-barthelemy","🇧🇲":"flag-bermuda","🇧🇳":"flag-brunei","🇧🇴":"flag-bolivia","🇧🇶":"flag-caribbean-netherlands","🇧🇷":"flag-brazil","🇧🇸":"flag-bahamas","🇧🇹":"flag-bhutan","🇧🇻":"flag-bouvet-island","🇧🇼":"flag-botswana","🇧🇾":"flag-belarus","🇧🇿":"flag-belize","🇨🇦":"flag-canada","🇨🇨":"flag-cocos-keeling-islands","🇨🇩":"flag-congo-kinshasa","🇨🇫":"flag-central-african-republic","🇨🇬":"flag-congo-brazzaville","🇨🇭":"flag-switzerland","🇨🇮":"flag-cote-d-ivoire","🇨🇰":"flag-cook-islands","🇨🇱":"flag-chile","🇨🇲":"flag-cameroon","🇨🇳":"flag-china","🇨🇴":"flag-colombia","🇨🇵":"flag-clipperton-island","🇨🇷":"flag-costa-rica","🇨🇺":"flag-cuba","🇨🇻":"flag-cape-verde","🇨🇼":"flag-curacao","🇨🇽":"flag-christmas-island","🇨🇾":"flag-cyprus","🇨🇿":"flag-czechia","🇩🇪":"flag-germany","🇩🇬":"flag-diego-garcia","🇩🇯":"flag-djibouti","🇩🇰":"flag-denmark","🇩🇲":"flag-dominica","🇩🇴":"flag-dominican-republic","🇩🇿":"flag-algeria","🇪🇦":"flag-ceuta-&-melilla","🇪🇨":"flag-ecuador","🇪🇪":"flag-estonia","🇪🇬":"flag-egypt","🇪🇭":"flag-western-sahara","🇪🇷":"flag-eritrea","🇪🇸":"flag-spain","🇪🇹":"flag-ethiopia","🇪🇺":"flag-european-union","🇫🇮":"flag-finland","🇫🇯":"flag-fiji","🇫🇰":"flag-falkland-islands","🇫🇲":"flag-micronesia","🇫🇴":"flag-faroe-islands","🇫🇷":"flag-france","🇬🇦":"flag-gabon","🇬🇧":"flag-united-kingdom","🇬🇩":"flag-grenada","🇬🇪":"flag-georgia","🇬🇫":"flag-french-guiana","🇬🇬":"flag-guernsey","🇬🇭":"flag-ghana","🇬🇮":"flag-gibraltar","🇬🇱":"flag-greenland","🇬🇲":"flag-gambia","🇬🇳":"flag-guinea","🇬🇵":"flag-guadeloupe","🇬🇶":"flag-equatorial-guinea","🇬🇷":"flag-greece","🇬🇸":"flag-south-georgia-&-south-sandwich-islands","🇬🇹":"flag-guatemala","🇬🇺":"flag-guam","🇬🇼":"flag-guinea-bissau","🇬🇾":"flag-guyana","🇭🇰":"flag-hong-kong-sar-china","🇭🇲":"flag-heard-&-mcdonald-islands","🇭🇳":"flag-honduras","🇭🇷":"flag-croatia","🇭🇹":"flag-haiti","🇭🇺":"flag-hungary","🇮🇨":"flag-canary-islands","🇮🇩":"flag-indonesia","🇮🇪":"flag-ireland","🇮🇱":"flag-israel","🇮🇲":"flag-isle-of-man","🇮🇳":"flag-india","🇮🇴":"flag-british-indian-ocean-territory","🇮🇶":"flag-iraq","🇮🇷":"flag-iran","🇮🇸":"flag-iceland","🇮🇹":"flag-italy","🇯🇪":"flag-jersey","🇯🇲":"flag-jamaica","🇯🇴":"flag-jordan","🇯🇵":"flag-japan","🇰🇪":"flag-kenya","🇰🇬":"flag-kyrgyzstan","🇰🇭":"flag-cambodia","🇰🇮":"flag-kiribati","🇰🇲":"flag-comoros","🇰🇳":"flag-st-kitts-&-nevis","🇰🇵":"flag-north-korea","🇰🇷":"flag-south-korea","🇰🇼":"flag-kuwait","🇰🇾":"flag-cayman-islands","🇰🇿":"flag-kazakhstan","🇱🇦":"flag-laos","🇱🇧":"flag-lebanon","🇱🇨":"flag-st-lucia","🇱🇮":"flag-liechtenstein","🇱🇰":"flag-sri-lanka","🇱🇷":"flag-liberia","🇱🇸":"flag-lesotho","🇱🇹":"flag-lithuania","🇱🇺":"flag-luxembourg","🇱🇻":"flag-latvia","🇱🇾":"flag-libya","🇲🇦":"flag-morocco","🇲🇨":"flag-monaco","🇲🇩":"flag-moldova","🇲🇪":"flag-montenegro","🇲🇫":"flag-st-martin","🇲🇬":"flag-madagascar","🇲🇭":"flag-marshall-islands","🇲🇰":"flag-north-macedonia","🇲🇱":"flag-mali","🇲🇲":"flag-myanmar-burma","🇲🇳":"flag-mongolia","🇲🇴":"flag-macao-sar-china","🇲🇵":"flag-northern-mariana-islands","🇲🇶":"flag-martinique","🇲🇷":"flag-mauritania","🇲🇸":"flag-montserrat","🇲🇹":"flag-malta","🇲🇺":"flag-mauritius","🇲🇻":"flag-maldives","🇲🇼":"flag-malawi","🇲🇽":"flag-mexico","🇲🇾":"flag-malaysia","🇲🇿":"flag-mozambique","🇳🇦":"flag-namibia","🇳🇨":"flag-new-caledonia","🇳🇪":"flag-niger","🇳🇫":"flag-norfolk-island","🇳🇬":"flag-nigeria","🇳🇮":"flag-nicaragua","🇳🇱":"flag-netherlands","🇳🇴":"flag-norway","🇳🇵":"flag-nepal","🇳🇷":"flag-nauru","🇳🇺":"flag-niue","🇳🇿":"flag-new-zealand","🇴🇲":"flag-oman","🇵🇦":"flag-panama","🇵🇪":"flag-peru","🇵🇫":"flag-french-polynesia","🇵🇬":"flag-papua-new-guinea","🇵🇭":"flag-philippines","🇵🇰":"flag-pakistan","🇵🇱":"flag-poland","🇵🇲":"flag-st-pierre-&-miquelon","🇵🇳":"flag-pitcairn-islands","🇵🇷":"flag-puerto-rico","🇵🇸":"flag-palestinian-territories","🇵🇹":"flag-portugal","🇵🇼":"flag-palau","🇵🇾":"flag-paraguay","🇶🇦":"flag-qatar","🇷🇪":"flag-reunion","🇷🇴":"flag-romania","🇷🇸":"flag-serbia","🇷🇺":"flag-russia","🇷🇼":"flag-rwanda","🇸🇦":"flag-saudi-arabia","🇸🇧":"flag-solomon-islands","🇸🇨":"flag-seychelles","🇸🇩":"flag-sudan","🇸🇪":"flag-sweden","🇸🇬":"flag-singapore","🇸🇭":"flag-st-helena","🇸🇮":"flag-slovenia","🇸🇯":"flag-svalbard-&-jan-mayen","🇸🇰":"flag-slovakia","🇸🇱":"flag-sierra-leone","🇸🇲":"flag-san-marino","🇸🇳":"flag-senegal","🇸🇴":"flag-somalia","🇸🇷":"flag-suriname","🇸🇸":"flag-south-sudan","🇸🇹":"flag-sao-tome-&-principe","🇸🇻":"flag-el-salvador","🇸🇽":"flag-sint-maarten","🇸🇾":"flag-syria","🇸🇿":"flag-eswatini","🇹🇦":"flag-tristan-da-cunha","🇹🇨":"flag-turks-&-caicos-islands","🇹🇩":"flag-chad","🇹🇫":"flag-french-southern-territories","🇹🇬":"flag-togo","🇹🇭":"flag-thailand","🇹🇯":"flag-tajikistan","🇹🇰":"flag-tokelau","🇹🇱":"flag-timor-leste","🇹🇲":"flag-turkmenistan","🇹🇳":"flag-tunisia","🇹🇴":"flag-tonga","🇹🇷":"flag-turkey","🇹🇹":"flag-trinidad-&-tobago","🇹🇻":"flag-tuvalu","🇹🇼":"flag-taiwan","🇹🇿":"flag-tanzania","🇺🇦":"flag-ukraine","🇺🇬":"flag-uganda","🇺🇲":"flag-us-outlying-islands","🇺🇳":"flag-united-nations","🇺🇸":"flag-united-states","🇺🇾":"flag-uruguay","🇺🇿":"flag-uzbekistan","🇻🇦":"flag-vatican-city","🇻🇨":"flag-st-vincent-&-grenadines","🇻🇪":"flag-venezuela","🇻🇬":"flag-british-virgin-islands","🇻🇮":"flag-us-virgin-islands","🇻🇳":"flag-vietnam","🇻🇺":"flag-vanuatu","🇼🇫":"flag-wallis-&-futuna","🇼🇸":"flag-samoa","🇽🇰":"flag-kosovo","🇾🇪":"flag-yemen","🇾🇹":"flag-mayotte","🇿🇦":"flag-south-africa","🇿🇲":"flag-zambia","🇿🇼":"flag-zimbabwe","🏴󠁧󠁢󠁥󠁮󠁧󠁿":"flag-england","🏴󠁧󠁢󠁳󠁣󠁴󠁿":"flag-scotland","🏴󠁧󠁢󠁷󠁬󠁳󠁿":"flag-wales"}
-},{}],99:[function(require,module,exports){
-module.exports={"10":["🔟"],"grin":["😀","😃","😄","😆","😅","😺","😸"],"face":["😀","😃","😄","😁","😆","😅","😂","🙂","🙃","🫠","😉","😊","😇","🥰","😍","😘","😗","☺️","😚","😙","🥲","😋","😛","😜","🤪","😝","🤑","🤗","🤭","🫢","🫣","🤫","🤔","🫡","🤐","🤨","😐","😑","😶","🫥","😶‍🌫️","😏","😒","🙄","😬","😮‍💨","🤥","🫨","😌","😔","😪","🤤","😴","😷","🤒","🤕","🤢","🤮","🤧","🥵","🥶","🥴","😵","😵‍💫","🤠","🥳","🥸","😎","🤓","🧐","😕","🫤","😟","🙁","☹️","😮","😯","😲","😳","🥺","🥹","😦","😧","😨","😰","😥","😢","😭","😱","😖","😣","😞","😓","😩","😫","🥱","😤","😡","😠","🤬","😈","👿","🤡","🤛","🤜","🐵","🐶","🐱","🐯","🐴","🐮","🐷","🐭","🐰","🐥","🐲","🌚","🌛","🌜","🌝","🌞","🌬️","📄"],"big":["😃"],"eyes":["😃","😄","😁","😊","😍","😚","😙","🫢","🙄","😵","😵‍💫","😸","😻","👀"],"smile":["😄","😁","🙂","😊","😇","🥰","😍","☺️","😙","🥲","🤗","😎","😈","😸","😻","😼"],"beam":["😁"],"squint":["😆","😝"],"sweat":["😅","😰","😓","💦"],"roll":["🤣","🙄","🧻"],"on":["🤣","🤬","❤️‍🔥","🍖","⛱️","🔛"],"the":["🤣","🤘","🫵"],"floor":["🤣"],"laugh":["🤣"],"tears":["😂","🥹","😹"],"joy":["😂","😹"],"slightly":["🙂","🙁"],"upside":["🙃"],"down":["🙃","🫳","👇","👎","↘️","⬇️","↙️","↕️","⤵️","⏬","🔻"],"melt":["🫠"],"wink":["😉","😜"],"halo":["😇"],"hearts":["🥰","💞","💕"],"heart":["😍","😻","💘","💝","💖","💗","💓","💟","❣️","💔","❤️‍🔥","❤️‍🩹","❤️","🩷","🧡","💛","💚","💙","🩵","💜","🤎","🖤","🩶","🤍","🫶","🫀","💑","👩‍❤️‍👨","👨‍❤️‍👨","👩‍❤️‍👩","♥️"],"star":["🤩","⭐","🌟","🌠","✡️","☪️","🔯","✴️"],"struck":["🤩"],"blow":["😘"],"kiss":["😘","😗","😚","😙","😽","💋","💏","👩‍❤️‍💋‍👨","👨‍❤️‍💋‍👨","👩‍❤️‍💋‍👩"],"closed":["😚","🌂","📕","📫","📪"],"tear":["🥲","📆"],"savore":["😋"],"food":["😋","🥘","🍲","🥫"],"tongue":["😛","😜","😝","👅"],"zany":["🤪"],"money":["🤑","💰","💸"],"mouth":["🤑","🤭","🫢","🤐","😶","🫤","😮","😦","🤬","👄"],"open":["🤗","🫢","😮","😦","👐","📖","📬","📭","📂","🈺"],"hands":["🤗","👏","🙌","🫶","👐","🙏","🧑‍🤝‍🧑","👭","👫","👬"],"hand":["🤭","🫢","👋","🤚","🖐️","✋","🫱","🫲","🫳","🫴","🫷","🫸","👌","🤏","✌️","🫰","🤙","✍️","💁","💁‍♂️","💁‍♀️","🙋","🙋‍♂️","🙋‍♀️","🪭"],"over":["🤭","🫢","🌄"],"and":["🫢","☠️","🫰","👫","🍽️","🍴","⛈️","⚒️","🛠️","🏹","🔩","🛋️","☪️"],"peek":["🫣"],"eye":["🫣","👁️‍🗨️","👁️"],"shush":["🤫"],"think":["🤔"],"salute":["🫡","🖖"],"zipper":["🤐"],"raised":["🤨","🤚","✋","✊","📫","📬"],"eyebrow":["🤨"],"neutral":["😐"],"expressionless":["😑"],"without":["😶","🍵","⛄"],"dotted":["🫥","🔯"],"line":["🫥"],"in":["😶‍🌫️","😱","👁️‍🗨️","🤵","🤵‍♂️","🤵‍♀️","🧑‍🦼","👨‍🦼","👩‍🦼","🧑‍🦽","👨‍🦽","👩‍🦽","🕴️","🧖","🧖‍♂️","🧖‍♀️","🧘","🧘‍♂️","🧘‍♀️","🛌","👤","👥","🍃","⛳","🚮"],"clouds":["😶‍🌫️"],"smirk":["😏"],"unamused":["😒"],"grimace":["😬"],"exhale":["😮‍💨"],"lying":["🤥"],"shake":["🫨"],"relieved":["😌","😥"],"pensive":["😔"],"sleepy":["😪"],"drool":["🤤"],"sleep":["😴"],"medical":["😷","⚕️"],"mask":["😷","🤿"],"thermometer":["🤒","🌡️"],"head":["🤕","🤯","🗣️"],"bandage":["🤕","🩹"],"nauseated":["🤢"],"vomite":["🤮"],"sneez":["🤧"],"hot":["🥵","🌶️","🌭","☕","♨️"],"cold":["🥶"],"woozy":["🥴"],"crossed":["😵","🤞","🫰","⚔️","🎌"],"out":["😵"],"spiral":["😵‍💫","🐚","🗒️","🗓️"],"explode":["🤯"],"cowboy":["🤠"],"hat":["🤠","👒","🎩"],"party":["🥳","🎉"],"disguised":["🥸"],"sunglasses":["😎","🕶️"],"nerd":["🤓"],"monocle":["🧐"],"confused":["😕"],"diagonal":["🫤"],"worried":["😟"],"frown":["🙁","☹️","😦","🙍","🙍‍♂️","🙍‍♀️"],"hushed":["😯"],"astonished":["😲"],"flushed":["😳"],"plead":["🥺"],"hold":["🥹","🧑‍🤝‍🧑","👭","👫","👬"],"back":["🥹","🤚","🔙"],"anguished":["😧"],"fearful":["😨"],"anxious":["😰"],"sad":["😥"],"but":["😥"],"cry":["😢","😭","😿"],"loudly":["😭"],"scream":["😱"],"fear":["😱"],"confounded":["😖"],"persever":["😣"],"disappointed":["😞"],"downcast":["😓"],"weary":["😩","🙀"],"tired":["😫"],"yawn":["🥱"],"steam":["😤","🍜"],"from":["😤"],"nose":["😤","👃","🐽"],"enraged":["😡"],"angry":["😠","👿"],"symbols":["🤬","🔣"],"horns":["😈","👿","🤘"],"skull":["💀","☠️"],"crossbones":["☠️"],"pile":["💩"],"poo":["💩"],"clown":["🤡"],"ogre":["👹"],"goblin":["👺"],"ghost":["👻"],"alien":["👽","👾"],"monster":["👾"],"robot":["🤖"],"cat":["😺","😸","😹","😻","😼","😽","🙀","😿","😾","🐱","🐈","🐈‍⬛"],"wry":["😼"],"pout":["😾","🙎","🙎‍♂️","🙎‍♀️"],"see":["🙈"],"no":["🙈","🙉","🙊","🙅","🙅‍♂️","🙅‍♀️","⛔","🚳","🚭","🚯","🚷","📵","🔞","🈵"],"evil":["🙈","🙉","🙊"],"monkey":["🙈","🙉","🙊","🐵","🐒"],"hear":["🙉","🦻"],"speak":["🙊","🗣️"],"love":["💌","🤟","🏩"],"letter":["💌"],"arrow":["💘","📲","📩","🏹","⬆️","↗️","➡️","↘️","⬇️","↙️","⬅️","↖️","↕️","↔️","↩️","↪️","⤴️","⤵️","🔙","🔚","🔛","🔜","🔝"],"ribbon":["💝","🎀","🎗️"],"sparkle":["💖","❇️"],"grow":["💗"],"beat":["💓"],"revolve":["💞"],"two":["💕","🐫","🕑","🕝"],"decoration":["💟","🎍"],"exclamation":["❣️","‼️","⁉️","❕","❗"],"broken":["💔"],"fire":["❤️‍🔥","🚒","🔥","🧯"],"mend":["❤️‍🩹"],"red":["❤️","👨‍🦰","👩‍🦰","🧑‍🦰","🍎","🧧","🀄","🏮","❓","❗","⭕","🔴","🟥","🔺","🔻"],"pink":["🩷"],"orange":["🧡","📙","🟠","🟧","🔶","🔸"],"yellow":["💛","🟡","🟨"],"green":["💚","🍏","🥬","🥗","📗","🟢","🟩"],"blue":["💙","🩵","📘","🔵","🟦","🔷","🔹"],"light":["🩵","🚈","🚨","🚥","🚦","💡"],"purple":["💜","🟣","🟪"],"brown":["🤎","🟤","🟫"],"black":["🖤","🐈‍⬛","🐦‍⬛","✒️","⚫","⬛","◼️","◾","▪️","🔲","🏴"],"grey":["🩶"],"white":["🤍","👨‍🦳","👩‍🦳","🧑‍🦳","🧑‍🦯","👨‍🦯","👩‍🦯","💮","🦯","❔","❕","⚪","⬜","◻️","◽","▫️","🔳","🏳️"],"mark":["💋","‼️","⁉️","❓","❔","❕","❗","✅","✔️","❌","❎","〽️","™️"],"hundred":["💯"],"points":["💯"],"anger":["💢","🗯️"],"symbol":["💢","♿","🚼","⚛️","☮️","⚧️","⚕️","♻️","🔰"],"collision":["💥"],"dizzy":["💫"],"droplets":["💦"],"dash":["💨","〰️"],"away":["💨"],"hole":["🕳️","⛳"],"speech":["💬","👁️‍🗨️","🗨️"],"balloon":["💬","💭","🎈"],"bubble":["👁️‍🗨️","🗨️","🗯️","🧋"],"left":["🗨️","👈","🤛","🔍","🛅","↙️","⬅️","↖️","↔️","↩️","↪️"],"right":["🗯️","👉","🤜","🔎","↗️","➡️","↘️","↔️","↩️","↪️","⤴️","⤵️"],"thought":["💭"],"zzz":["💤"],"wave":["👋","🌊"],"fingers":["🖐️","🤌","🤞"],"splayed":["🖐️"],"vulcan":["🖖"],"rightwards":["🫱","🫸"],"leftwards":["🫲","🫷"],"palm":["🫳","🫴","🌴"],"up":["🫴","👆","☝️","👍","🤲","📄","🗞️","⬆️","↗️","↖️","↕️","⤴️","⏫","🆙","🔺"],"push":["🫷","🫸"],"ok":["👌","🙆","🙆‍♂️","🙆‍♀️","🆗"],"pinched":["🤌"],"pinch":["🤏"],"victory":["✌️"],"index":["🫰","👈","👉","👆","👇","☝️","🫵","🗂️","📇"],"finger":["🫰","🖕"],"thumb":["🫰"],"you":["🤟"],"gesture":["🤟","🙅","🙅‍♂️","🙅‍♀️","🙆","🙆‍♂️","🙆‍♀️"],"sign":["🤘","🛑","🏧","🚮","♀️","♂️","🟰","💲"],"call":["🤙"],"me":["🤙"],"backhand":["👈","👉","👆","👇"],"point":["👈","👉","👆","👇","☝️","🫵"],"middle":["🖕"],"at":["🫵","🌆","🌉"],"viewer":["🫵"],"thumbs":["👍","👎"],"fist":["✊","👊","🤛","🤜"],"oncome":["👊","🚍","🚔","🚖","🚘"],"clap":["👏"],"raise":["🙌","🙋","🙋‍♂️","🙋‍♀️"],"palms":["🤲"],"together":["🤲"],"handshake":["🤝"],"folded":["🙏"],"write":["✍️"],"nail":["💅"],"polish":["💅"],"selfie":["🤳"],"flexed":["💪"],"biceps":["💪"],"mechanical":["🦾","🦿"],"arm":["🦾"],"leg":["🦿","🦵","🍗"],"foot":["🦶"],"ear":["👂","🦻","🌽"],"aid":["🦻"],"brain":["🧠"],"anatomical":["🫀"],"lungs":["🫁"],"tooth":["🦷"],"bone":["🦴","🍖"],"bite":["🫦"],"lip":["🫦"],"baby":["👶","👩‍🍼","👨‍🍼","🧑‍🍼","👼","🐤","🐥","🍼","🚼"],"child":["🧒"],"boy":["👦","👨‍👩‍👦","👨‍👩‍👧‍👦","👨‍👩‍👦‍👦","👨‍👨‍👦","👨‍👨‍👧‍👦","👨‍👨‍👦‍👦","👩‍👩‍👦","👩‍👩‍👧‍👦","👩‍👩‍👦‍👦","👨‍👦","👨‍👦‍👦","👨‍👧‍👦","👩‍👦","👩‍👦‍👦","👩‍👧‍👦"],"girl":["👧","👨‍👩‍👧","👨‍👩‍👧‍👦","👨‍👩‍👧‍👧","👨‍👨‍👧","👨‍👨‍👧‍👦","👨‍👨‍👧‍👧","👩‍👩‍👧","👩‍👩‍👧‍👦","👩‍👩‍👧‍👧","👨‍👧","👨‍👧‍👦","👨‍👧‍👧","👩‍👧","👩‍👧‍👦","👩‍👧‍👧"],"person":["🧑","👱","🧔","🧑‍🦰","🧑‍🦱","🧑‍🦳","🧑‍🦲","🧓","🙍","🙎","🙅","🙆","💁","🙋","🧏","🙇","🤦","🤷","🫅","👳","👲","🤵","👰","🫄","🧑‍🍼","💆","💇","🚶","🧍","🧎","🧑‍🦯","🧑‍🦼","🧑‍🦽","🏃","🕴️","🧖","🧗","🤺","🏌️","🏄","🚣","🏊","⛹️","🏋️","🚴","🚵","🤸","🤽","🤾","🤹","🧘","🛀","🛌"],"blond":["👱","👱‍♀️","👱‍♂️"],"hair":["👱","👨‍🦰","👨‍🦱","👨‍🦳","👩‍🦰","🧑‍🦰","👩‍🦱","🧑‍🦱","👩‍🦳","🧑‍🦳","👱‍♀️","👱‍♂️","🪮"],"man":["👨","🧔‍♂️","👨‍🦰","👨‍🦱","👨‍🦳","👨‍🦲","👱‍♂️","👴","🙍‍♂️","🙎‍♂️","🙅‍♂️","🙆‍♂️","💁‍♂️","🙋‍♂️","🧏‍♂️","🙇‍♂️","🤦‍♂️","🤷‍♂️","👨‍⚕️","👨‍🎓","👨‍🏫","👨‍⚖️","👨‍🌾","👨‍🍳","👨‍🔧","👨‍🏭","👨‍💼","👨‍🔬","👨‍💻","👨‍🎤","👨‍🎨","👨‍✈️","👨‍🚀","👨‍🚒","👮‍♂️","🕵️‍♂️","💂‍♂️","👷‍♂️","👳‍♂️","🤵‍♂️","👰‍♂️","🫃","👨‍🍼","🦸‍♂️","🦹‍♂️","🧙‍♂️","🧚‍♂️","🧛‍♂️","🧝‍♂️","🧞‍♂️","🧟‍♂️","💆‍♂️","💇‍♂️","🚶‍♂️","🧍‍♂️","🧎‍♂️","👨‍🦯","👨‍🦼","👨‍🦽","🏃‍♂️","🕺","🧖‍♂️","🧗‍♂️","🏌️‍♂️","🏄‍♂️","🚣‍♂️","🏊‍♂️","⛹️‍♂️","🏋️‍♂️","🚴‍♂️","🚵‍♂️","🤸‍♂️","🤽‍♂️","🤾‍♂️","🤹‍♂️","🧘‍♂️","👫","👩‍❤️‍💋‍👨","👨‍❤️‍💋‍👨","👩‍❤️‍👨","👨‍❤️‍👨","👨‍👩‍👦","👨‍👩‍👧","👨‍👩‍👧‍👦","👨‍👩‍👦‍👦","👨‍👩‍👧‍👧","👨‍👨‍👦","👨‍👨‍👧","👨‍👨‍👧‍👦","👨‍👨‍👦‍👦","👨‍👨‍👧‍👧","👨‍👦","👨‍👦‍👦","👨‍👧","👨‍👧‍👦","👨‍👧‍👧","👞","🇮🇲"],"beard":["🧔","🧔‍♂️","🧔‍♀️"],"woman":["🧔‍♀️","👩","👩‍🦰","👩‍🦱","👩‍🦳","👩‍🦲","👱‍♀️","👵","🙍‍♀️","🙎‍♀️","🙅‍♀️","🙆‍♀️","💁‍♀️","🙋‍♀️","🧏‍♀️","🙇‍♀️","🤦‍♀️","🤷‍♀️","👩‍⚕️","👩‍🎓","👩‍🏫","👩‍⚖️","👩‍🌾","👩‍🍳","👩‍🔧","👩‍🏭","👩‍💼","👩‍🔬","👩‍💻","👩‍🎤","👩‍🎨","👩‍✈️","👩‍🚀","👩‍🚒","👮‍♀️","🕵️‍♀️","💂‍♀️","👷‍♀️","👳‍♀️","🧕","🤵‍♀️","👰‍♀️","🤰","👩‍🍼","🦸‍♀️","🦹‍♀️","🧙‍♀️","🧚‍♀️","🧛‍♀️","🧝‍♀️","🧞‍♀️","🧟‍♀️","💆‍♀️","💇‍♀️","🚶‍♀️","🧍‍♀️","🧎‍♀️","👩‍🦯","👩‍🦼","👩‍🦽","🏃‍♀️","💃","🧖‍♀️","🧗‍♀️","🏌️‍♀️","🏄‍♀️","🚣‍♀️","🏊‍♀️","⛹️‍♀️","🏋️‍♀️","🚴‍♀️","🚵‍♀️","🤸‍♀️","🤽‍♀️","🤾‍♀️","🤹‍♀️","🧘‍♀️","👫","👩‍❤️‍💋‍👨","👩‍❤️‍💋‍👩","👩‍❤️‍👨","👩‍❤️‍👩","👨‍👩‍👦","👨‍👩‍👧","👨‍👩‍👧‍👦","👨‍👩‍👦‍👦","👨‍👩‍👧‍👧","👩‍👩‍👦","👩‍👩‍👧","👩‍👩‍👧‍👦","👩‍👩‍👦‍👦","👩‍👩‍👧‍👧","👩‍👦","👩‍👦‍👦","👩‍👧","👩‍👧‍👦","👩‍👧‍👧","👚","👡","👢","👒"],"curly":["👨‍🦱","👩‍🦱","🧑‍🦱","➰","➿"],"bald":["👨‍🦲","👩‍🦲","🧑‍🦲"],"older":["🧓"],"old":["👴","👵","🗝️"],"tip":["💁","💁‍♂️","💁‍♀️"],"deaf":["🧏","🧏‍♂️","🧏‍♀️"],"bow":["🙇","🙇‍♂️","🙇‍♀️","🏹"],"facepalm":["🤦","🤦‍♂️","🤦‍♀️"],"shrug":["🤷","🤷‍♂️","🤷‍♀️"],"health":["🧑‍⚕️","👨‍⚕️","👩‍⚕️"],"worker":["🧑‍⚕️","👨‍⚕️","👩‍⚕️","🧑‍🏭","👨‍🏭","👩‍🏭","🧑‍💼","👨‍💼","👩‍💼","👷","👷‍♂️","👷‍♀️","⛑️"],"student":["🧑‍🎓","👨‍🎓","👩‍🎓"],"teacher":["🧑‍🏫","👨‍🏫","👩‍🏫"],"judge":["🧑‍⚖️","👨‍⚖️","👩‍⚖️"],"farmer":["🧑‍🌾","👨‍🌾","👩‍🌾"],"cook":["🧑‍🍳","👨‍🍳","👩‍🍳","🍳","🇨🇰"],"mechanic":["🧑‍🔧","👨‍🔧","👩‍🔧"],"factory":["🧑‍🏭","👨‍🏭","👩‍🏭","🏭"],"office":["🧑‍💼","👨‍💼","👩‍💼","🏢","🏣","🏤"],"scientist":["🧑‍🔬","👨‍🔬","👩‍🔬"],"technologist":["🧑‍💻","👨‍💻","👩‍💻"],"singer":["🧑‍🎤","👨‍🎤","👩‍🎤"],"artist":["🧑‍🎨","👨‍🎨","👩‍🎨","🎨"],"pilot":["🧑‍✈️","👨‍✈️","👩‍✈️"],"astronaut":["🧑‍🚀","👨‍🚀","👩‍🚀"],"firefighter":["🧑‍🚒","👨‍🚒","👩‍🚒"],"police":["👮","👮‍♂️","👮‍♀️","🚓","🚔","🚨"],"officer":["👮","👮‍♂️","👮‍♀️"],"detective":["🕵️","🕵️‍♂️","🕵️‍♀️"],"guard":["💂","💂‍♂️","💂‍♀️"],"ninja":["🥷"],"construction":["👷","👷‍♂️","👷‍♀️","🏗️","🚧"],"crown":["🫅","👑"],"prince":["🤴"],"princess":["👸"],"wear":["👳","👳‍♂️","👳‍♀️"],"turban":["👳","👳‍♂️","👳‍♀️"],"skullcap":["👲"],"headscarf":["🧕"],"tuxedo":["🤵","🤵‍♂️","🤵‍♀️"],"veil":["👰","👰‍♂️","👰‍♀️"],"pregnant":["🤰","🫃","🫄"],"breast":["🤱"],"feed":["🤱","👩‍🍼","👨‍🍼","🧑‍🍼"],"angel":["👼"],"santa":["🎅"],"claus":["🎅","🤶","🧑‍🎄"],"mrs":["🤶"],"mx":["🧑‍🎄"],"superhero":["🦸","🦸‍♂️","🦸‍♀️"],"supervillain":["🦹","🦹‍♂️","🦹‍♀️"],"mage":["🧙","🧙‍♂️","🧙‍♀️"],"fairy":["🧚","🧚‍♂️","🧚‍♀️"],"vampire":["🧛","🧛‍♂️","🧛‍♀️"],"merperson":["🧜"],"merman":["🧜‍♂️"],"mermaid":["🧜‍♀️"],"elf":["🧝","🧝‍♂️","🧝‍♀️"],"genie":["🧞","🧞‍♂️","🧞‍♀️"],"zombie":["🧟","🧟‍♂️","🧟‍♀️"],"troll":["🧌"],"gett":["💆","💆‍♂️","💆‍♀️","💇","💇‍♂️","💇‍♀️"],"massage":["💆","💆‍♂️","💆‍♀️"],"haircut":["💇","💇‍♂️","💇‍♀️"],"walk":["🚶","🚶‍♂️","🚶‍♀️"],"stand":["🧍","🧍‍♂️","🧍‍♀️"],"kneel":["🧎","🧎‍♂️","🧎‍♀️"],"cane":["🧑‍🦯","👨‍🦯","👩‍🦯","🦯"],"motorized":["🧑‍🦼","👨‍🦼","👩‍🦼","🦼"],"wheelchair":["🧑‍🦼","👨‍🦼","👩‍🦼","🧑‍🦽","👨‍🦽","👩‍🦽","🦽","🦼","♿"],"manual":["🧑‍🦽","👨‍🦽","👩‍🦽","🦽"],"run":["🏃","🏃‍♂️","🏃‍♀️","🎽","👟"],"dance":["💃","🕺"],"suit":["🕴️","♠️","♥️","♦️","♣️"],"levitate":["🕴️"],"people":["👯","🤼","🧑‍🤝‍🧑","🫂"],"bunny":["👯","👯‍♂️","👯‍♀️"],"ears":["👯","👯‍♂️","👯‍♀️"],"men":["👯‍♂️","🤼‍♂️","👬","🚹"],"women":["👯‍♀️","🤼‍♀️","👭","🚺"],"steamy":["🧖","🧖‍♂️","🧖‍♀️"],"room":["🧖","🧖‍♂️","🧖‍♀️","🚹","🚺"],"climb":["🧗","🧗‍♂️","🧗‍♀️"],"fence":["🤺"],"horse":["🏇","🐴","🐎","🎠"],"race":["🏇","🏎️"],"skier":["⛷️"],"snowboarder":["🏂"],"golf":["🏌️","🏌️‍♂️","🏌️‍♀️"],"surf":["🏄","🏄‍♂️","🏄‍♀️"],"row":["🚣","🚣‍♂️","🚣‍♀️"],"boat":["🚣","🚣‍♂️","🚣‍♀️","🛥️"],"swim":["🏊","🏊‍♂️","🏊‍♀️"],"bounce":["⛹️","⛹️‍♂️","⛹️‍♀️"],"ball":["⛹️","⛹️‍♂️","⛹️‍♀️","🍙","🎊","⚽","🎱","🔮","🪩"],"lift":["🏋️","🏋️‍♂️","🏋️‍♀️"],"weights":["🏋️","🏋️‍♂️","🏋️‍♀️"],"bike":["🚴","🚴‍♂️","🚴‍♀️","🚵","🚵‍♂️","🚵‍♀️"],"mountain":["🚵","🚵‍♂️","🚵‍♀️","🏔️","⛰️","🚞","🚠"],"cartwheel":["🤸","🤸‍♂️","🤸‍♀️"],"wrestle":["🤼","🤼‍♂️","🤼‍♀️"],"play":["🤽","🤽‍♂️","🤽‍♀️","🤾","🤾‍♂️","🤾‍♀️","🎴","▶️","⏯️"],"water":["🤽","🤽‍♂️","🤽‍♀️","🐃","🌊","🔫","🚰","🚾","🚱"],"polo":["🤽","🤽‍♂️","🤽‍♀️"],"handball":["🤾","🤾‍♂️","🤾‍♀️"],"juggle":["🤹","🤹‍♂️","🤹‍♀️"],"lotus":["🧘","🧘‍♂️","🧘‍♀️","🪷"],"position":["🧘","🧘‍♂️","🧘‍♀️"],"take":["🛀"],"bath":["🛀"],"bed":["🛌","🛏️"],"couple":["💑","👩‍❤️‍👨","👨‍❤️‍👨","👩‍❤️‍👩"],"family":["👪","👨‍👩‍👦","👨‍👩‍👧","👨‍👩‍👧‍👦","👨‍👩‍👦‍👦","👨‍👩‍👧‍👧","👨‍👨‍👦","👨‍👨‍👧","👨‍👨‍👧‍👦","👨‍👨‍👦‍👦","👨‍👨‍👧‍👧","👩‍👩‍👦","👩‍👩‍👧","👩‍👩‍👧‍👦","👩‍👩‍👦‍👦","👩‍👩‍👧‍👧","👨‍👦","👨‍👦‍👦","👨‍👧","👨‍👧‍👦","👨‍👧‍👧","👩‍👦","👩‍👦‍👦","👩‍👧","👩‍👧‍👦","👩‍👧‍👧"],"bust":["👤"],"silhouette":["👤","👥"],"busts":["👥"],"hug":["🫂"],"footprints":["👣"],"gorilla":["🦍"],"orangutan":["🦧"],"dog":["🐶","🐕","🦮","🐕‍🦺","🌭"],"guide":["🦮"],"service":["🐕‍🦺","🈂️"],"poodle":["🐩"],"wolf":["🐺"],"fox":["🦊"],"raccoon":["🦝"],"lion":["🦁"],"tiger":["🐯","🐅"],"leopard":["🐆"],"moose":["🫎"],"donkey":["🫏"],"unicorn":["🦄"],"zebra":["🦓"],"deer":["🦌"],"bison":["🦬"],"cow":["🐮","🐄"],"ox":["🐂"],"buffalo":["🐃"],"pig":["🐷","🐖","🐽"],"boar":["🐗"],"ram":["🐏"],"ewe":["🐑"],"goat":["🐐"],"camel":["🐪","🐫"],"hump":["🐫"],"llama":["🦙"],"giraffe":["🦒"],"elephant":["🐘"],"mammoth":["🦣"],"rhinoceros":["🦏"],"hippopotamus":["🦛"],"mouse":["🐭","🐁","🖱️","🪤"],"rat":["🐀"],"hamster":["🐹"],"rabbit":["🐰","🐇"],"chipmunk":["🐿️"],"beaver":["🦫"],"hedgehog":["🦔"],"bat":["🦇"],"bear":["🐻","🐻‍❄️","🧸"],"polar":["🐻‍❄️"],"koala":["🐨"],"panda":["🐼"],"sloth":["🦥"],"otter":["🦦"],"skunk":["🦨"],"kangaroo":["🦘"],"badger":["🦡"],"paw":["🐾"],"prints":["🐾"],"turkey":["🦃","🇹🇷"],"chicken":["🐔"],"rooster":["🐓"],"hatch":["🐣"],"chick":["🐣","🐤","🐥"],"front":["🐥"],"bird":["🐦","🐦‍⬛"],"penguin":["🐧"],"dove":["🕊️"],"eagle":["🦅"],"duck":["🦆"],"swan":["🦢"],"owl":["🦉"],"dodo":["🦤"],"feather":["🪶"],"flamingo":["🦩"],"peacock":["🦚"],"parrot":["🦜"],"wing":["🪽"],"goose":["🪿"],"frog":["🐸"],"crocodile":["🐊"],"turtle":["🐢"],"lizard":["🦎"],"snake":["🐍"],"dragon":["🐲","🐉","🀄"],"sauropod":["🦕"],"rex":["🦖"],"spout":["🐳"],"whale":["🐳","🐋"],"dolphin":["🐬"],"seal":["🦭"],"fish":["🐟","🐠","🍥","🎣"],"tropical":["🐠","🍹"],"blowfish":["🐡"],"shark":["🦈"],"octopus":["🐙"],"shell":["🐚"],"coral":["🪸"],"jellyfish":["🪼"],"snail":["🐌"],"butterfly":["🦋"],"bug":["🐛"],"ant":["🐜"],"honeybee":["🐝"],"beetle":["🪲","🐞"],"lady":["🐞"],"cricket":["🦗","🏏"],"cockroach":["🪳"],"spider":["🕷️","🕸️"],"web":["🕸️"],"scorpion":["🦂"],"mosquito":["🦟"],"fly":["🪰","🛸","🥏"],"worm":["🪱"],"microbe":["🦠"],"bouquet":["💐"],"cherry":["🌸"],"blossom":["🌸","🌼"],"flower":["💮","🥀","🎴"],"rosette":["🏵️"],"rose":["🌹"],"wilted":["🥀"],"hibiscus":["🌺"],"sunflower":["🌻"],"tulip":["🌷"],"hyacinth":["🪻"],"seedle":["🌱"],"potted":["🪴"],"plant":["🪴"],"evergreen":["🌲"],"tree":["🌲","🌳","🌴","🎄","🎋"],"deciduous":["🌳"],"cactus":["🌵"],"sheaf":["🌾"],"rice":["🌾","🍘","🍙","🍚","🍛"],"herb":["🌿"],"shamrock":["☘️"],"four":["🍀","🕓","🕟"],"leaf":["🍀","🍁","🍂","🍃"],"clover":["🍀"],"maple":["🍁"],"fallen":["🍂"],"flutter":["🍃"],"wind":["🍃","🌬️","🎐"],"empty":["🪹"],"nest":["🪹","🪺","🪆"],"eggs":["🪺"],"mushroom":["🍄"],"grapes":["🍇"],"melon":["🍈"],"watermelon":["🍉"],"tangerine":["🍊"],"lemon":["🍋"],"banana":["🍌"],"pineapple":["🍍"],"mango":["🥭"],"apple":["🍎","🍏"],"pear":["🍐"],"peach":["🍑"],"cherries":["🍒"],"strawberry":["🍓"],"blueberries":["🫐"],"kiwi":["🥝"],"fruit":["🥝"],"tomato":["🍅"],"olive":["🫒"],"coconut":["🥥"],"avocado":["🥑"],"eggplant":["🍆"],"potato":["🥔","🍠"],"carrot":["🥕"],"corn":["🌽"],"pepper":["🌶️","🫑"],"bell":["🫑","🛎️","🔔","🔕"],"cucumber":["🥒"],"leafy":["🥬"],"broccoli":["🥦"],"garlic":["🧄"],"onion":["🧅"],"peanuts":["🥜"],"beans":["🫘"],"chestnut":["🌰"],"ginger":["🫚"],"root":["🫚"],"pea":["🫛"],"pod":["🫛"],"bread":["🍞","🥖"],"croissant":["🥐"],"baguette":["🥖"],"flatbread":["🫓","🥙"],"pretzel":["🥨"],"bagel":["🥯"],"pancakes":["🥞"],"waffle":["🧇"],"cheese":["🧀"],"wedge":["🧀"],"meat":["🍖","🥩"],"poultry":["🍗"],"cut":["🥩"],"bacon":["🥓"],"hamburger":["🍔"],"french":["🍟","🇬🇫","🇵🇫","🇹🇫"],"fries":["🍟"],"pizza":["🍕"],"sandwich":["🥪","🇬🇸"],"taco":["🌮"],"burrito":["🌯"],"tamale":["🫔"],"stuffed":["🥙"],"falafel":["🧆"],"egg":["🥚"],"shallow":["🥘"],"pan":["🥘"],"pot":["🍲","🍯"],"fondue":["🫕"],"bowl":["🥣","🍜","🎳"],"spoon":["🥣","🥄"],"salad":["🥗"],"popcorn":["🍿"],"butter":["🧈"],"salt":["🧂"],"canned":["🥫"],"bento":["🍱"],"box":["🍱","🥡","🧃","🥊","🗳️","🗃️","☑️"],"cracker":["🍘"],"cooked":["🍚"],"curry":["🍛"],"spaghetti":["🍝"],"roasted":["🍠"],"sweet":["🍠"],"oden":["🍢"],"sushi":["🍣"],"fried":["🍤"],"shrimp":["🍤","🦐"],"cake":["🍥","🥮","🎂"],"swirl":["🍥"],"moon":["🥮","🌑","🌒","🌓","🌔","🌕","🌖","🌗","🌘","🌙","🌚","🌛","🌜","🌝","🎑"],"dango":["🍡"],"dumple":["🥟"],"fortune":["🥠"],"cookie":["🥠","🍪"],"takeout":["🥡"],"crab":["🦀"],"lobster":["🦞"],"squid":["🦑"],"oyster":["🦪"],"soft":["🍦"],"ice":["🍦","🍧","🍨","🧊","🏒","⛸️"],"cream":["🍦","🍨"],"shaved":["🍧"],"doughnut":["🍩"],"birthday":["🎂"],"shortcake":["🍰"],"cupcake":["🧁"],"pie":["🥧"],"chocolate":["🍫"],"bar":["🍫","📊"],"candy":["🍬"],"lollipop":["🍭"],"custard":["🍮"],"honey":["🍯"],"bottle":["🍼","🍾","🧴"],"glass":["🥛","🍷","🍸","🥃","🔍","🔎"],"milk":["🥛"],"beverage":["☕","🧃"],"teapot":["🫖"],"teacup":["🍵"],"handle":["🍵"],"sake":["🍶"],"pop":["🍾"],"cork":["🍾"],"wine":["🍷"],"cocktail":["🍸"],"drink":["🍹"],"beer":["🍺","🍻"],"mug":["🍺"],"clink":["🍻","🥂"],"mugs":["🍻"],"glasses":["🥂","👓"],"tumbler":["🥃"],"pour":["🫗"],"liquid":["🫗"],"cup":["🥤"],"straw":["🥤"],"tea":["🧋"],"mate":["🧉"],"chopsticks":["🥢"],"fork":["🍽️","🍴"],"knife":["🍽️","🍴","🔪"],"plate":["🍽️"],"kitchen":["🔪"],"jar":["🫙"],"amphora":["🏺"],"globe":["🌍","🌎","🌏","🌐"],"show":["🌍","🌎","🌏"],"europe":["🌍"],"africa":["🌍","🇿🇦"],"americas":["🌎"],"asia":["🌏"],"australia":["🌏","🇦🇺"],"meridians":["🌐"],"world":["🗺️"],"map":["🗺️","🗾"],"japan":["🗾","🇯🇵"],"compass":["🧭"],"snow":["🏔️","🌨️","⛄"],"capped":["🏔️"],"volcano":["🌋"],"mount":["🗻"],"fuji":["🗻"],"camp":["🏕️"],"beach":["🏖️"],"umbrella":["🏖️","🌂","☂️","☔","⛱️"],"desert":["🏜️","🏝️"],"island":["🏝️","🇦🇨","🇧🇻","🇨🇵","🇨🇽","🇳🇫"],"national":["🏞️"],"park":["🏞️"],"stadium":["🏟️"],"classical":["🏛️"],"build":["🏛️","🏗️","🏢"],"brick":["🧱"],"rock":["🪨"],"wood":["🪵"],"hut":["🛖"],"houses":["🏘️"],"derelict":["🏚️"],"house":["🏚️","🏠","🏡"],"garden":["🏡"],"japanese":["🏣","🏯","🎎","🔰","🈁","🈂️","🈷️","🈶","🈯","🉐","🈹","🈚","🈲","🉑","🈸","🈴","🈳","㊗️","㊙️","🈺","🈵"],"post":["🏣","🏤"],"hospital":["🏥"],"bank":["🏦"],"hotel":["🏨","🏩"],"convenience":["🏪"],"store":["🏪","🏬"],"school":["🏫"],"department":["🏬"],"castle":["🏯","🏰"],"wed":["💒"],"tokyo":["🗼"],"tower":["🗼"],"statue":["🗽"],"liberty":["🗽"],"church":["⛪"],"mosque":["🕌"],"hindu":["🛕"],"temple":["🛕"],"synagogue":["🕍"],"shinto":["⛩️"],"shrine":["⛩️"],"kaaba":["🕋"],"fountain":["⛲","🖋️"],"tent":["⛺","🎪"],"foggy":["🌁"],"night":["🌃","🌉"],"stars":["🌃"],"cityscape":["🏙️","🌆"],"sunrise":["🌄","🌅"],"mountains":["🌄"],"dusk":["🌆"],"sunset":["🌇"],"bridge":["🌉"],"springs":["♨️"],"carousel":["🎠"],"playground":["🛝"],"slide":["🛝"],"ferris":["🎡"],"wheel":["🎡","🛞","☸️"],"roller":["🎢","🛼"],"coaster":["🎢"],"barber":["💈"],"pole":["💈","🎣"],"circus":["🎪"],"locomotive":["🚂"],"railway":["🚃","🚞","🛤️","🚟"],"car":["🚃","🚋","🚓","🚔","🏎️","🚨"],"high":["🚄","⚡","👠","🔊"],"speed":["🚄"],"train":["🚄","🚅","🚆"],"bullet":["🚅"],"metro":["🚇"],"rail":["🚈"],"station":["🚉"],"tram":["🚊","🚋"],"monorail":["🚝"],"bus":["🚌","🚍","🚏"],"trolleybus":["🚎"],"minibus":["🚐"],"ambulance":["🚑"],"engine":["🚒"],"taxi":["🚕","🚖"],"automobile":["🚗","🚘"],"sport":["🚙"],"utility":["🚙"],"vehicle":["🚙"],"pickup":["🛻"],"truck":["🛻","🚚"],"delivery":["🚚"],"articulated":["🚛"],"lorry":["🚛"],"tractor":["🚜"],"motorcycle":["🏍️"],"motor":["🛵","🛥️"],"scooter":["🛵","🛴"],"auto":["🛺"],"rickshaw":["🛺"],"bicycle":["🚲"],"kick":["🛴"],"skateboard":["🛹"],"skate":["🛼","⛸️"],"stop":["🚏","🛑","⏹️"],"motorway":["🛣️"],"track":["🛤️","⏭️","⏮️"],"oil":["🛢️"],"drum":["🛢️","🥁","🪘"],"fuel":["⛽"],"pump":["⛽"],"horizontal":["🚥"],"traffic":["🚥","🚦"],"vertical":["🚦","🔃"],"anchor":["⚓"],"ring":["🛟","💍"],"buoy":["🛟"],"sailboat":["⛵"],"canoe":["🛶"],"speedboat":["🚤"],"passenger":["🛳️"],"ship":["🛳️","🚢"],"ferry":["⛴️"],"airplane":["✈️","🛩️","🛫","🛬"],"small":["🛩️","🌤️","◾","◽","▪️","▫️","🔸","🔹"],"departure":["🛫"],"arrival":["🛬"],"parachute":["🪂"],"seat":["💺"],"helicopter":["🚁"],"suspension":["🚟"],"cableway":["🚠"],"aerial":["🚡"],"tramway":["🚡"],"satellite":["🛰️","📡"],"rocket":["🚀"],"saucer":["🛸"],"bellhop":["🛎️"],"luggage":["🧳","🛅"],"hourglass":["⌛","⏳"],"done":["⌛","⏳"],"not":["⏳","🈶"],"watch":["⌚"],"alarm":["⏰"],"clock":["⏰","⏲️","🕰️","🕛","🕐","🕑","🕒","🕓","🕔","🕕","🕖","🕗","🕘","🕙","🕚"],"stopwatch":["⏱️"],"timer":["⏲️"],"mantelpiece":["🕰️"],"twelve":["🕛","🕧"],"thirty":["🕧","🕜","🕝","🕞","🕟","🕠","🕡","🕢","🕣","🕤","🕥","🕦"],"one":["🕐","🕜","🩱","🔞"],"three":["🕒","🕞"],"five":["🕔","🕠"],"six":["🕕","🕡","🔯"],"seven":["🕖","🕢"],"eight":["🕗","🕣","✳️","✴️"],"nine":["🕘","🕤"],"ten":["🕙","🕥"],"eleven":["🕚","🕦"],"new":["🌑","🌚","🆕","🇳🇨","🇳🇿","🇵🇬"],"wax":["🌒","🌔"],"crescent":["🌒","🌘","🌙","☪️"],"first":["🌓","🌛"],"quarter":["🌓","🌗","🌛","🌜"],"gibbous":["🌔","🌖"],"full":["🌕","🌝"],"wane":["🌖","🌘"],"last":["🌗","🌜","⏮️"],"sun":["☀️","🌞","⛅","🌤️","🌥️","🌦️"],"ringed":["🪐"],"planet":["🪐"],"glow":["🌟"],"shoot":["🌠"],"milky":["🌌"],"way":["🌌"],"cloud":["☁️","⛅","⛈️","🌤️","🌥️","🌦️","🌧️","🌨️","🌩️"],"behind":["⛅","🌤️","🌥️","🌦️"],"lightning":["⛈️","🌩️"],"rain":["⛈️","🌦️","🌧️","☔"],"large":["🌥️","⬛","⬜","🔶","🔷"],"tornado":["🌪️"],"fog":["🌫️"],"cyclone":["🌀"],"rainbow":["🌈","🏳️‍🌈"],"drops":["☔"],"ground":["⛱️"],"voltage":["⚡"],"snowflake":["❄️"],"snowman":["☃️","⛄"],"comet":["☄️"],"droplet":["💧"],"jack":["🎃"],"lantern":["🎃","🏮"],"christmas":["🎄","🇨🇽"],"fireworks":["🎆"],"sparkler":["🎇"],"firecracker":["🧨"],"sparkles":["✨"],"popper":["🎉"],"confetti":["🎊"],"tanabata":["🎋"],"pine":["🎍"],"dolls":["🎎","🪆"],"carp":["🎏"],"streamer":["🎏"],"chime":["🎐"],"view":["🎑"],"ceremony":["🎑"],"envelope":["🧧","✉️","📨","📩"],"wrapped":["🎁"],"gift":["🎁"],"reminder":["🎗️"],"admission":["🎟️"],"tickets":["🎟️"],"ticket":["🎫"],"military":["🎖️","🪖"],"medal":["🎖️","🏅","🥇","🥈","🥉"],"trophy":["🏆"],"sports":["🏅"],"1st":["🥇"],"place":["🥇","🥈","🥉","🛐"],"2nd":["🥈"],"3rd":["🥉"],"soccer":["⚽"],"baseball":["⚾"],"softball":["🥎"],"basketball":["🏀"],"volleyball":["🏐"],"american":["🏈","🇦🇸"],"football":["🏈","🏉"],"rugby":["🏉"],"tennis":["🎾"],"disc":["🥏"],"game":["🏏","🎮","🎲"],"field":["🏑"],"hockey":["🏑","🏒"],"lacrosse":["🥍"],"ping":["🏓"],"pong":["🏓"],"badminton":["🏸"],"glove":["🥊"],"martial":["🥋"],"arts":["🥋","🎭"],"uniform":["🥋"],"goal":["🥅"],"net":["🥅"],"flag":["⛳","📫","📪","📬","📭","🏁","🚩","🏴","🏳️","🏳️‍🌈","🏳️‍⚧️","🏴‍☠️","🇦🇨","🇦🇩","🇦🇪","🇦🇫","🇦🇬","🇦🇮","🇦🇱","🇦🇲","🇦🇴","🇦🇶","🇦🇷","🇦🇸","🇦🇹","🇦🇺","🇦🇼","🇦🇽","🇦🇿","🇧🇦","🇧🇧","🇧🇩","🇧🇪","🇧🇫","🇧🇬","🇧🇭","🇧🇮","🇧🇯","🇧🇱","🇧🇲","🇧🇳","🇧🇴","🇧🇶","🇧🇷","🇧🇸","🇧🇹","🇧🇻","🇧🇼","🇧🇾","🇧🇿","🇨🇦","🇨🇨","🇨🇩","🇨🇫","🇨🇬","🇨🇭","🇨🇮","🇨🇰","🇨🇱","🇨🇲","🇨🇳","🇨🇴","🇨🇵","🇨🇷","🇨🇺","🇨🇻","🇨🇼","🇨🇽","🇨🇾","🇨🇿","🇩🇪","🇩🇬","🇩🇯","🇩🇰","🇩🇲","🇩🇴","🇩🇿","🇪🇦","🇪🇨","🇪🇪","🇪🇬","🇪🇭","🇪🇷","🇪🇸","🇪🇹","🇪🇺","🇫🇮","🇫🇯","🇫🇰","🇫🇲","🇫🇴","🇫🇷","🇬🇦","🇬🇧","🇬🇩","🇬🇪","🇬🇫","🇬🇬","🇬🇭","🇬🇮","🇬🇱","🇬🇲","🇬🇳","🇬🇵","🇬🇶","🇬🇷","🇬🇸","🇬🇹","🇬🇺","🇬🇼","🇬🇾","🇭🇰","🇭🇲","🇭🇳","🇭🇷","🇭🇹","🇭🇺","🇮🇨","🇮🇩","🇮🇪","🇮🇱","🇮🇲","🇮🇳","🇮🇴","🇮🇶","🇮🇷","🇮🇸","🇮🇹","🇯🇪","🇯🇲","🇯🇴","🇯🇵","🇰🇪","🇰🇬","🇰🇭","🇰🇮","🇰🇲","🇰🇳","🇰🇵","🇰🇷","🇰🇼","🇰🇾","🇰🇿","🇱🇦","🇱🇧","🇱🇨","🇱🇮","🇱🇰","🇱🇷","🇱🇸","🇱🇹","🇱🇺","🇱🇻","🇱🇾","🇲🇦","🇲🇨","🇲🇩","🇲🇪","🇲🇫","🇲🇬","🇲🇭","🇲🇰","🇲🇱","🇲🇲","🇲🇳","🇲🇴","🇲🇵","🇲🇶","🇲🇷","🇲🇸","🇲🇹","🇲🇺","🇲🇻","🇲🇼","🇲🇽","🇲🇾","🇲🇿","🇳🇦","🇳🇨","🇳🇪","🇳🇫","🇳🇬","🇳🇮","🇳🇱","🇳🇴","🇳🇵","🇳🇷","🇳🇺","🇳🇿","🇴🇲","🇵🇦","🇵🇪","🇵🇫","🇵🇬","🇵🇭","🇵🇰","🇵🇱","🇵🇲","🇵🇳","🇵🇷","🇵🇸","🇵🇹","🇵🇼","🇵🇾","🇶🇦","🇷🇪","🇷🇴","🇷🇸","🇷🇺","🇷🇼","🇸🇦","🇸🇧","🇸🇨","🇸🇩","🇸🇪","🇸🇬","🇸🇭","🇸🇮","🇸🇯","🇸🇰","🇸🇱","🇸🇲","🇸🇳","🇸🇴","🇸🇷","🇸🇸","🇸🇹","🇸🇻","🇸🇽","🇸🇾","🇸🇿","🇹🇦","🇹🇨","🇹🇩","🇹🇫","🇹🇬","🇹🇭","🇹🇯","🇹🇰","🇹🇱","🇹🇲","🇹🇳","🇹🇴","🇹🇷","🇹🇹","🇹🇻","🇹🇼","🇹🇿","🇺🇦","🇺🇬","🇺🇲","🇺🇳","🇺🇸","🇺🇾","🇺🇿","🇻🇦","🇻🇨","🇻🇪","🇻🇬","🇻🇮","🇻🇳","🇻🇺","🇼🇫","🇼🇸","🇽🇰","🇾🇪","🇾🇹","🇿🇦","🇿🇲","🇿🇼","🏴󠁧󠁢󠁥󠁮󠁧󠁿","🏴󠁧󠁢󠁳󠁣󠁴󠁿","🏴󠁧󠁢󠁷󠁬󠁳󠁿"],"dive":["🤿"],"shirt":["🎽","👕"],"skis":["🎿"],"sled":["🛷"],"curl":["🥌","📃"],"stone":["🥌","💎"],"bullseye":["🎯"],"yo":["🪀"],"kite":["🪁"],"pistol":["🔫"],"pool":["🎱"],"crystal":["🔮"],"magic":["🪄"],"wand":["🪄"],"video":["🎮","📹"],"joystick":["🕹️"],"slot":["🎰"],"machine":["🎰","📠"],"die":["🎲"],"puzzle":["🧩"],"piece":["🧩","🩱"],"teddy":["🧸"],"pinata":["🪅"],"mirror":["🪩","🪞"],"spade":["♠️"],"diamond":["♦️","🔶","🔷","🔸","🔹","💠"],"club":["♣️"],"chess":["♟️"],"pawn":["♟️"],"joker":["🃏"],"mahjong":["🀄"],"cards":["🎴"],"perform":["🎭"],"framed":["🖼️"],"picture":["🖼️"],"palette":["🎨"],"thread":["🧵"],"sew":["🪡"],"needle":["🪡"],"yarn":["🧶"],"knot":["🪢"],"goggles":["🥽"],"lab":["🥼"],"coat":["🥼","🧥"],"safety":["🦺","🧷"],"vest":["🦺"],"necktie":["👔"],"jeans":["👖"],"scarf":["🧣"],"gloves":["🧤"],"socks":["🧦"],"dress":["👗"],"kimono":["👘"],"sari":["🥻"],"swimsuit":["🩱"],"briefs":["🩲"],"shorts":["🩳"],"bikini":["👙"],"clothes":["👚"],"fold":["🪭"],"fan":["🪭"],"purse":["👛"],"handbag":["👜"],"clutch":["👝"],"bag":["👝","💰"],"shop":["🛍️","🛒"],"bags":["🛍️"],"backpack":["🎒"],"thong":["🩴"],"sandal":["🩴","👡"],"shoe":["👞","👟","🥿","👠"],"hike":["🥾"],"boot":["🥾","👢"],"flat":["🥿"],"heeled":["👠"],"ballet":["🩰"],"shoes":["🩰"],"pick":["🪮","⛏️","⚒️"],"top":["🎩","🔝"],"graduation":["🎓"],"cap":["🎓","🧢"],"billed":["🧢"],"helmet":["🪖","⛑️"],"rescue":["⛑️"],"prayer":["📿"],"beads":["📿"],"lipstick":["💄"],"gem":["💎"],"muted":["🔇"],"speaker":["🔇","🔈","🔉","🔊"],"low":["🔈","🪫"],"volume":["🔈","🔉","🔊"],"medium":["🔉","◼️","◻️","◾","◽"],"loudspeaker":["📢"],"megaphone":["📣"],"postal":["📯"],"horn":["📯"],"slash":["🔕"],"musical":["🎼","🎵","🎶","🎹"],"score":["🎼"],"note":["🎵"],"notes":["🎶"],"studio":["🎙️"],"microphone":["🎙️","🎤"],"level":["🎚️"],"slider":["🎚️"],"control":["🎛️","🛂"],"knobs":["🎛️"],"headphone":["🎧"],"radio":["📻","🔘"],"saxophone":["🎷"],"accordion":["🪗"],"guitar":["🎸"],"keyboard":["🎹","⌨️"],"trumpet":["🎺"],"violin":["🎻"],"banjo":["🪕"],"long":["🪘"],"maracas":["🪇"],"flute":["🪈"],"mobile":["📱","📲","📵","📴"],"phone":["📱","📲","📴"],"telephone":["☎️","📞"],"receiver":["📞"],"pager":["📟"],"fax":["📠"],"battery":["🔋","🪫"],"electric":["🔌"],"plug":["🔌"],"laptop":["💻"],"desktop":["🖥️"],"computer":["🖥️","🖱️","💽"],"printer":["🖨️"],"trackball":["🖲️"],"disk":["💽","💾","💿"],"floppy":["💾"],"optical":["💿"],"dvd":["📀"],"abacus":["🧮"],"movie":["🎥"],"camera":["🎥","📷","📸","📹"],"film":["🎞️","📽️"],"frames":["🎞️"],"projector":["📽️"],"clapper":["🎬"],"board":["🎬"],"television":["📺"],"flash":["📸"],"videocassette":["📼"],"magnify":["🔍","🔎"],"tilted":["🔍","🔎"],"candle":["🕯️"],"bulb":["💡"],"flashlight":["🔦"],"paper":["🏮","🧻"],"diya":["🪔"],"lamp":["🪔","🛋️"],"notebook":["📔","📓"],"decorative":["📔"],"cover":["📔"],"book":["📕","📖","📗","📘","📙"],"books":["📚"],"ledger":["📒"],"page":["📃","📄"],"scroll":["📜"],"newspaper":["📰","🗞️"],"rolled":["🗞️"],"bookmark":["📑","🔖"],"tabs":["📑"],"label":["🏷️"],"coin":["🪙"],"yen":["💴","💹"],"banknote":["💴","💵","💶","💷"],"dollar":["💵","💲"],"euro":["💶"],"pound":["💷"],"wings":["💸"],"credit":["💳"],"card":["💳","🗂️","📇","🗃️","🪪"],"receipt":["🧾"],"chart":["💹","📈","📉","📊"],"increase":["💹","📈"],"mail":["📧"],"income":["📨"],"outbox":["📤"],"tray":["📤","📥"],"inbox":["📥"],"package":["📦"],"mailbox":["📫","📪","📬","📭"],"lowered":["📪","📭"],"postbox":["📮"],"ballot":["🗳️"],"pencil":["✏️"],"nib":["✒️"],"pen":["🖋️","🖊️","🔏"],"paintbrush":["🖌️"],"crayon":["🖍️"],"memo":["📝"],"briefcase":["💼"],"file":["📁","📂","🗃️","🗄️"],"folder":["📁","📂"],"dividers":["🗂️"],"calendar":["📅","📆","🗓️"],"off":["📆","📴"],"notepad":["🗒️"],"decrease":["📉"],"clipboard":["📋"],"pushpin":["📌","📍"],"round":["📍"],"paperclip":["📎"],"linked":["🖇️"],"paperclips":["🖇️"],"straight":["📏"],"ruler":["📏","📐"],"triangular":["📐","🚩"],"scissors":["✂️"],"cabinet":["🗄️"],"wastebasket":["🗑️"],"locked":["🔒","🔏","🔐"],"unlocked":["🔓"],"key":["🔐","🔑","🗝️"],"hammer":["🔨","⚒️","🛠️"],"axe":["🪓"],"wrench":["🛠️","🔧"],"dagger":["🗡️"],"swords":["⚔️"],"bomb":["💣"],"boomerang":["🪃"],"shield":["🛡️"],"carpentry":["🪚"],"saw":["🪚"],"screwdriver":["🪛"],"nut":["🔩"],"bolt":["🔩"],"gear":["⚙️"],"clamp":["🗜️"],"balance":["⚖️"],"scale":["⚖️"],"link":["🔗"],"chains":["⛓️"],"hook":["🪝"],"toolbox":["🧰"],"magnet":["🧲"],"ladder":["🪜"],"alembic":["⚗️"],"test":["🧪"],"tube":["🧪"],"petri":["🧫"],"dish":["🧫"],"dna":["🧬"],"microscope":["🔬"],"telescope":["🔭"],"antenna":["📡","📶"],"syringe":["💉"],"drop":["🩸"],"blood":["🩸","🅰️","🆎","🅱️","🅾️"],"pill":["💊"],"adhesive":["🩹"],"crutch":["🩼"],"stethoscope":["🩺"],"ray":["🩻"],"door":["🚪"],"elevator":["🛗"],"window":["🪟"],"couch":["🛋️"],"chair":["🪑"],"toilet":["🚽"],"plunger":["🪠"],"shower":["🚿"],"bathtub":["🛁"],"trap":["🪤"],"razor":["🪒"],"lotion":["🧴"],"pin":["🧷"],"broom":["🧹"],"basket":["🧺"],"bucket":["🪣"],"soap":["🧼"],"bubbles":["🫧"],"toothbrush":["🪥"],"sponge":["🧽"],"extinguisher":["🧯"],"cart":["🛒"],"cigarette":["🚬"],"coffin":["⚰️"],"headstone":["🪦"],"funeral":["⚱️"],"urn":["⚱️"],"nazar":["🧿"],"amulet":["🧿"],"hamsa":["🪬"],"moai":["🗿"],"placard":["🪧"],"identification":["🪪"],"atm":["🏧"],"litter":["🚮","🚯"],"bin":["🚮"],"potable":["🚰","🚱"],"restroom":["🚻"],"closet":["🚾"],"passport":["🛂"],"customs":["🛃"],"baggage":["🛄"],"claim":["🛄"],"warn":["⚠️"],"children":["🚸"],"cross":["🚸","✝️","☦️","❌","❎"],"entry":["⛔"],"prohibited":["🚫","🈲"],"bicycles":["🚳"],"smoke":["🚭"],"non":["🚱"],"pedestrians":["🚷"],"phones":["📵"],"under":["🔞"],"eighteen":["🔞"],"radioactive":["☢️"],"biohazard":["☣️"],"curve":["↩️","↪️","⤴️","⤵️"],"clockwise":["🔃"],"arrows":["🔃","🔄"],"counterclockwise":["🔄"],"button":["🔄","🔀","🔁","🔂","▶️","⏩","⏭️","⏯️","◀️","⏪","⏮️","🔼","⏫","🔽","⏬","⏸️","⏹️","⏺️","⏏️","🔅","🔆","✅","❎","🅰️","🆎","🅱️","🆑","🆒","🆓","🆔","🆕","🆖","🅾️","🆗","🅿️","🆘","🆙","🆚","🈁","🈂️","🈷️","🈶","🈯","🉐","🈹","🈚","🈲","🉑","🈸","🈴","🈳","㊗️","㊙️","🈺","🈵","🔘","🔳","🔲"],"end":["🔚"],"soon":["🔜"],"worship":["🛐"],"atom":["⚛️"],"om":["🕉️"],"david":["✡️"],"dharma":["☸️"],"yin":["☯️"],"yang":["☯️"],"latin":["✝️","🔠","🔡","🔤"],"orthodox":["☦️"],"peace":["☮️"],"menorah":["🕎"],"pointed":["🔯","✴️","🔺","🔻"],"khanda":["🪯"],"aries":["♈"],"taurus":["♉"],"gemini":["♊"],"cancer":["♋"],"leo":["♌"],"virgo":["♍"],"libra":["♎"],"scorpio":["♏"],"sagittarius":["♐"],"capricorn":["♑"],"aquarius":["♒"],"pisces":["♓"],"ophiuchus":["⛎"],"shuffle":["🔀"],"tracks":["🔀"],"repeat":["🔁","🔂"],"single":["🔂"],"fast":["⏩","⏪","⏫","⏬"],"forward":["⏩"],"next":["⏭️"],"or":["⏯️"],"pause":["⏯️","⏸️"],"reverse":["◀️","⏪"],"upwards":["🔼"],"downwards":["🔽"],"record":["⏺️"],"eject":["⏏️"],"cinema":["🎦"],"dim":["🔅"],"bright":["🔆"],"bars":["📶"],"wireless":["🛜"],"vibration":["📳"],"mode":["📳"],"female":["♀️"],"male":["♂️"],"transgender":["⚧️","🏳️‍⚧️"],"multiply":["✖️"],"plus":["➕"],"minus":["➖"],"divide":["➗"],"heavy":["🟰","💲"],"equals":["🟰"],"infinity":["♾️"],"double":["‼️","➿"],"question":["⁉️","❓","❔"],"wavy":["〰️"],"currency":["💱"],"exchange":["💱"],"recycle":["♻️"],"fleur":["⚜️"],"de":["⚜️"],"lis":["⚜️"],"trident":["🔱"],"emblem":["🔱"],"name":["📛"],"badge":["📛"],"for":["🔰","🈺"],"beginner":["🔰"],"hollow":["⭕"],"circle":["⭕","🔴","🟠","🟡","🟢","🔵","🟣","🟤","⚫","⚪"],"check":["✅","☑️","✔️"],"loop":["➰","➿"],"part":["〽️"],"alternation":["〽️"],"spoked":["✳️"],"asterisk":["✳️"],"copyright":["©️"],"registered":["®️"],"trade":["™️"],"keycap":["#️⃣","*️⃣","0️⃣","1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣","🔟"],"input":["🔠","🔡","🔢","🔣","🔤"],"uppercase":["🔠"],"lowercase":["🔡"],"numbers":["🔢"],"letters":["🔤"],"type":["🅰️","🆎","🅱️","🅾️"],"ab":["🆎"],"cl":["🆑"],"cool":["🆒"],"free":["🆓","🈶","🈚"],"information":["ℹ️"],"id":["🆔"],"circled":["Ⓜ️"],"ng":["🆖"],"sos":["🆘"],"vs":["🆚"],"here":["🈁"],"charge":["🈂️","🈶","🈚"],"monthly":["🈷️"],"amount":["🈷️"],"reserved":["🈯"],"bargain":["🉐"],"discount":["🈹"],"acceptable":["🉑"],"application":["🈸"],"pass":["🈴"],"grade":["🈴"],"vacancy":["🈳","🈵"],"congratulations":["㊗️"],"secret":["㊙️"],"business":["🈺"],"square":["🟥","🟧","🟨","🟩","🟦","🟪","🟫","⬛","⬜","◼️","◻️","◾","◽","▪️","▫️","🔳","🔲"],"triangle":["🔺","🔻"],"dot":["💠"],"chequered":["🏁"],"flags":["🎌"],"pirate":["🏴‍☠️"],"ascension":["🇦🇨"],"andorra":["🇦🇩"],"united":["🇦🇪","🇬🇧","🇺🇳","🇺🇸"],"arab":["🇦🇪"],"emirates":["🇦🇪"],"afghanistan":["🇦🇫"],"antigua":["🇦🇬"],"barbuda":["🇦🇬"],"anguilla":["🇦🇮"],"albania":["🇦🇱"],"armenia":["🇦🇲"],"angola":["🇦🇴"],"antarctica":["🇦🇶"],"argentina":["🇦🇷"],"samoa":["🇦🇸","🇼🇸"],"austria":["🇦🇹"],"aruba":["🇦🇼"],"aland":["🇦🇽"],"islands":["🇦🇽","🇨🇨","🇨🇰","🇫🇰","🇫🇴","🇬🇸","🇭🇲","🇮🇨","🇰🇾","🇲🇭","🇲🇵","🇵🇳","🇸🇧","🇹🇨","🇺🇲","🇻🇬","🇻🇮"],"azerbaijan":["🇦🇿"],"bosnia":["🇧🇦"],"herzegovina":["🇧🇦"],"barbados":["🇧🇧"],"bangladesh":["🇧🇩"],"belgium":["🇧🇪"],"burkina":["🇧🇫"],"faso":["🇧🇫"],"bulgaria":["🇧🇬"],"bahrain":["🇧🇭"],"burundi":["🇧🇮"],"benin":["🇧🇯"],"st":["🇧🇱","🇰🇳","🇱🇨","🇲🇫","🇵🇲","🇸🇭","🇻🇨"],"barthelemy":["🇧🇱"],"bermuda":["🇧🇲"],"brunei":["🇧🇳"],"bolivia":["🇧🇴"],"caribbean":["🇧🇶"],"netherlands":["🇧🇶","🇳🇱"],"brazil":["🇧🇷"],"bahamas":["🇧🇸"],"bhutan":["🇧🇹"],"bouvet":["🇧🇻"],"botswana":["🇧🇼"],"belarus":["🇧🇾"],"belize":["🇧🇿"],"canada":["🇨🇦"],"cocos":["🇨🇨"],"keel":["🇨🇨"],"congo":["🇨🇩","🇨🇬"],"kinshasa":["🇨🇩"],"central":["🇨🇫"],"african":["🇨🇫"],"republic":["🇨🇫","🇩🇴"],"brazzaville":["🇨🇬"],"switzerland":["🇨🇭"],"cote":["🇨🇮"],"ivoire":["🇨🇮"],"chile":["🇨🇱"],"cameroon":["🇨🇲"],"china":["🇨🇳","🇭🇰","🇲🇴"],"colombia":["🇨🇴"],"clipperton":["🇨🇵"],"costa":["🇨🇷"],"rica":["🇨🇷"],"cuba":["🇨🇺"],"cape":["🇨🇻"],"verde":["🇨🇻"],"curacao":["🇨🇼"],"cyprus":["🇨🇾"],"czechia":["🇨🇿"],"germany":["🇩🇪"],"diego":["🇩🇬"],"garcia":["🇩🇬"],"djibouti":["🇩🇯"],"denmark":["🇩🇰"],"dominica":["🇩🇲"],"dominican":["🇩🇴"],"algeria":["🇩🇿"],"ceuta":["🇪🇦"],"melilla":["🇪🇦"],"ecuador":["🇪🇨"],"estonia":["🇪🇪"],"egypt":["🇪🇬"],"western":["🇪🇭"],"sahara":["🇪🇭"],"eritrea":["🇪🇷"],"spain":["🇪🇸"],"ethiopia":["🇪🇹"],"european":["🇪🇺"],"union":["🇪🇺"],"finland":["🇫🇮"],"fiji":["🇫🇯"],"falkland":["🇫🇰"],"micronesia":["🇫🇲"],"faroe":["🇫🇴"],"france":["🇫🇷"],"gabon":["🇬🇦"],"kingdom":["🇬🇧"],"grenada":["🇬🇩"],"georgia":["🇬🇪","🇬🇸"],"guiana":["🇬🇫"],"guernsey":["🇬🇬"],"ghana":["🇬🇭"],"gibraltar":["🇬🇮"],"greenland":["🇬🇱"],"gambia":["🇬🇲"],"guinea":["🇬🇳","🇬🇶","🇬🇼","🇵🇬"],"guadeloupe":["🇬🇵"],"equatorial":["🇬🇶"],"greece":["🇬🇷"],"south":["🇬🇸","🇰🇷","🇸🇸","🇿🇦"],"guatemala":["🇬🇹"],"guam":["🇬🇺"],"bissau":["🇬🇼"],"guyana":["🇬🇾"],"hong":["🇭🇰"],"kong":["🇭🇰"],"sar":["🇭🇰","🇲🇴"],"heard":["🇭🇲"],"mcdonald":["🇭🇲"],"honduras":["🇭🇳"],"croatia":["🇭🇷"],"haiti":["🇭🇹"],"hungary":["🇭🇺"],"canary":["🇮🇨"],"indonesia":["🇮🇩"],"ireland":["🇮🇪"],"israel":["🇮🇱"],"isle":["🇮🇲"],"india":["🇮🇳"],"british":["🇮🇴","🇻🇬"],"indian":["🇮🇴"],"ocean":["🇮🇴"],"territory":["🇮🇴"],"iraq":["🇮🇶"],"iran":["🇮🇷"],"iceland":["🇮🇸"],"italy":["🇮🇹"],"jersey":["🇯🇪"],"jamaica":["🇯🇲"],"jordan":["🇯🇴"],"kenya":["🇰🇪"],"kyrgyzstan":["🇰🇬"],"cambodia":["🇰🇭"],"kiribati":["🇰🇮"],"comoros":["🇰🇲"],"kitts":["🇰🇳"],"nevis":["🇰🇳"],"north":["🇰🇵","🇲🇰"],"korea":["🇰🇵","🇰🇷"],"kuwait":["🇰🇼"],"cayman":["🇰🇾"],"kazakhstan":["🇰🇿"],"laos":["🇱🇦"],"lebanon":["🇱🇧"],"lucia":["🇱🇨"],"liechtenstein":["🇱🇮"],"sri":["🇱🇰"],"lanka":["🇱🇰"],"liberia":["🇱🇷"],"lesotho":["🇱🇸"],"lithuania":["🇱🇹"],"luxembourg":["🇱🇺"],"latvia":["🇱🇻"],"libya":["🇱🇾"],"morocco":["🇲🇦"],"monaco":["🇲🇨"],"moldova":["🇲🇩"],"montenegro":["🇲🇪"],"martin":["🇲🇫"],"madagascar":["🇲🇬"],"marshall":["🇲🇭"],"macedonia":["🇲🇰"],"mali":["🇲🇱"],"myanmar":["🇲🇲"],"burma":["🇲🇲"],"mongolia":["🇲🇳"],"macao":["🇲🇴"],"northern":["🇲🇵"],"mariana":["🇲🇵"],"martinique":["🇲🇶"],"mauritania":["🇲🇷"],"montserrat":["🇲🇸"],"malta":["🇲🇹"],"mauritius":["🇲🇺"],"maldives":["🇲🇻"],"malawi":["🇲🇼"],"mexico":["🇲🇽"],"malaysia":["🇲🇾"],"mozambique":["🇲🇿"],"namibia":["🇳🇦"],"caledonia":["🇳🇨"],"niger":["🇳🇪"],"norfolk":["🇳🇫"],"nigeria":["🇳🇬"],"nicaragua":["🇳🇮"],"norway":["🇳🇴"],"nepal":["🇳🇵"],"nauru":["🇳🇷"],"niue":["🇳🇺"],"zealand":["🇳🇿"],"oman":["🇴🇲"],"panama":["🇵🇦"],"peru":["🇵🇪"],"polynesia":["🇵🇫"],"papua":["🇵🇬"],"philippines":["🇵🇭"],"pakistan":["🇵🇰"],"poland":["🇵🇱"],"pierre":["🇵🇲"],"miquelon":["🇵🇲"],"pitcairn":["🇵🇳"],"puerto":["🇵🇷"],"rico":["🇵🇷"],"palestinian":["🇵🇸"],"territories":["🇵🇸","🇹🇫"],"portugal":["🇵🇹"],"palau":["🇵🇼"],"paraguay":["🇵🇾"],"qatar":["🇶🇦"],"reunion":["🇷🇪"],"romania":["🇷🇴"],"serbia":["🇷🇸"],"russia":["🇷🇺"],"rwanda":["🇷🇼"],"saudi":["🇸🇦"],"arabia":["🇸🇦"],"solomon":["🇸🇧"],"seychelles":["🇸🇨"],"sudan":["🇸🇩","🇸🇸"],"sweden":["🇸🇪"],"singapore":["🇸🇬"],"helena":["🇸🇭"],"slovenia":["🇸🇮"],"svalbard":["🇸🇯"],"jan":["🇸🇯"],"mayen":["🇸🇯"],"slovakia":["🇸🇰"],"sierra":["🇸🇱"],"leone":["🇸🇱"],"san":["🇸🇲"],"marino":["🇸🇲"],"senegal":["🇸🇳"],"somalia":["🇸🇴"],"suriname":["🇸🇷"],"sao":["🇸🇹"],"tome":["🇸🇹"],"principe":["🇸🇹"],"el":["🇸🇻"],"salvador":["🇸🇻"],"sint":["🇸🇽"],"maarten":["🇸🇽"],"syria":["🇸🇾"],"eswatini":["🇸🇿"],"tristan":["🇹🇦"],"da":["🇹🇦"],"cunha":["🇹🇦"],"turks":["🇹🇨"],"caicos":["🇹🇨"],"chad":["🇹🇩"],"southern":["🇹🇫"],"togo":["🇹🇬"],"thailand":["🇹🇭"],"tajikistan":["🇹🇯"],"tokelau":["🇹🇰"],"timor":["🇹🇱"],"leste":["🇹🇱"],"turkmenistan":["🇹🇲"],"tunisia":["🇹🇳"],"tonga":["🇹🇴"],"trinidad":["🇹🇹"],"tobago":["🇹🇹"],"tuvalu":["🇹🇻"],"taiwan":["🇹🇼"],"tanzania":["🇹🇿"],"ukraine":["🇺🇦"],"uganda":["🇺🇬"],"us":["🇺🇲","🇻🇮"],"outly":["🇺🇲"],"nations":["🇺🇳"],"states":["🇺🇸"],"uruguay":["🇺🇾"],"uzbekistan":["🇺🇿"],"vatican":["🇻🇦"],"city":["🇻🇦"],"vincent":["🇻🇨"],"grenadines":["🇻🇨"],"venezuela":["🇻🇪"],"virgin":["🇻🇬","🇻🇮"],"vietnam":["🇻🇳"],"vanuatu":["🇻🇺"],"wallis":["🇼🇫"],"futuna":["🇼🇫"],"kosovo":["🇽🇰"],"yemen":["🇾🇪"],"mayotte":["🇾🇹"],"zambia":["🇿🇲"],"zimbabwe":["🇿🇼"],"england":["🏴󠁧󠁢󠁥󠁮󠁧󠁿"],"scotland":["🏴󠁧󠁢󠁳󠁣󠁴󠁿"],"wales":["🏴󠁧󠁢󠁷󠁬󠁳󠁿"]}
-},{}],100:[function(require,module,exports){
-module.exports={"߀":"0","́":""," ":" ","Ⓐ":"A","Ａ":"A","À":"A","Á":"A","Â":"A","Ầ":"A","Ấ":"A","Ẫ":"A","Ẩ":"A","Ã":"A","Ā":"A","Ă":"A","Ằ":"A","Ắ":"A","Ẵ":"A","Ẳ":"A","Ȧ":"A","Ǡ":"A","Ä":"A","Ǟ":"A","Ả":"A","Å":"A","Ǻ":"A","Ǎ":"A","Ȁ":"A","Ȃ":"A","Ạ":"A","Ậ":"A","Ặ":"A","Ḁ":"A","Ą":"A","Ⱥ":"A","Ɐ":"A","Ꜳ":"AA","Æ":"AE","Ǽ":"AE","Ǣ":"AE","Ꜵ":"AO","Ꜷ":"AU","Ꜹ":"AV","Ꜻ":"AV","Ꜽ":"AY","Ⓑ":"B","Ｂ":"B","Ḃ":"B","Ḅ":"B","Ḇ":"B","Ƀ":"B","Ɓ":"B","ｃ":"C","Ⓒ":"C","Ｃ":"C","Ꜿ":"C","Ḉ":"C","Ç":"C","Ⓓ":"D","Ｄ":"D","Ḋ":"D","Ď":"D","Ḍ":"D","Ḑ":"D","Ḓ":"D","Ḏ":"D","Đ":"D","Ɗ":"D","Ɖ":"D","ᴅ":"D","Ꝺ":"D","Ð":"Dh","Ǳ":"DZ","Ǆ":"DZ","ǲ":"Dz","ǅ":"Dz","ɛ":"E","Ⓔ":"E","Ｅ":"E","È":"E","É":"E","Ê":"E","Ề":"E","Ế":"E","Ễ":"E","Ể":"E","Ẽ":"E","Ē":"E","Ḕ":"E","Ḗ":"E","Ĕ":"E","Ė":"E","Ë":"E","Ẻ":"E","Ě":"E","Ȅ":"E","Ȇ":"E","Ẹ":"E","Ệ":"E","Ȩ":"E","Ḝ":"E","Ę":"E","Ḙ":"E","Ḛ":"E","Ɛ":"E","Ǝ":"E","ᴇ":"E","ꝼ":"F","Ⓕ":"F","Ｆ":"F","Ḟ":"F","Ƒ":"F","Ꝼ":"F","Ⓖ":"G","Ｇ":"G","Ǵ":"G","Ĝ":"G","Ḡ":"G","Ğ":"G","Ġ":"G","Ǧ":"G","Ģ":"G","Ǥ":"G","Ɠ":"G","Ꞡ":"G","Ᵹ":"G","Ꝿ":"G","ɢ":"G","Ⓗ":"H","Ｈ":"H","Ĥ":"H","Ḣ":"H","Ḧ":"H","Ȟ":"H","Ḥ":"H","Ḩ":"H","Ḫ":"H","Ħ":"H","Ⱨ":"H","Ⱶ":"H","Ɥ":"H","Ⓘ":"I","Ｉ":"I","Ì":"I","Í":"I","Î":"I","Ĩ":"I","Ī":"I","Ĭ":"I","İ":"I","Ï":"I","Ḯ":"I","Ỉ":"I","Ǐ":"I","Ȉ":"I","Ȋ":"I","Ị":"I","Į":"I","Ḭ":"I","Ɨ":"I","Ⓙ":"J","Ｊ":"J","Ĵ":"J","Ɉ":"J","ȷ":"J","Ⓚ":"K","Ｋ":"K","Ḱ":"K","Ǩ":"K","Ḳ":"K","Ķ":"K","Ḵ":"K","Ƙ":"K","Ⱪ":"K","Ꝁ":"K","Ꝃ":"K","Ꝅ":"K","Ꞣ":"K","Ⓛ":"L","Ｌ":"L","Ŀ":"L","Ĺ":"L","Ľ":"L","Ḷ":"L","Ḹ":"L","Ļ":"L","Ḽ":"L","Ḻ":"L","Ł":"L","Ƚ":"L","Ɫ":"L","Ⱡ":"L","Ꝉ":"L","Ꝇ":"L","Ꞁ":"L","Ǉ":"LJ","ǈ":"Lj","Ⓜ":"M","Ｍ":"M","Ḿ":"M","Ṁ":"M","Ṃ":"M","Ɱ":"M","Ɯ":"M","ϻ":"M","Ꞥ":"N","Ƞ":"N","Ⓝ":"N","Ｎ":"N","Ǹ":"N","Ń":"N","Ñ":"N","Ṅ":"N","Ň":"N","Ṇ":"N","Ņ":"N","Ṋ":"N","Ṉ":"N","Ɲ":"N","Ꞑ":"N","ᴎ":"N","Ǌ":"NJ","ǋ":"Nj","Ⓞ":"O","Ｏ":"O","Ò":"O","Ó":"O","Ô":"O","Ồ":"O","Ố":"O","Ỗ":"O","Ổ":"O","Õ":"O","Ṍ":"O","Ȭ":"O","Ṏ":"O","Ō":"O","Ṑ":"O","Ṓ":"O","Ŏ":"O","Ȯ":"O","Ȱ":"O","Ö":"O","Ȫ":"O","Ỏ":"O","Ő":"O","Ǒ":"O","Ȍ":"O","Ȏ":"O","Ơ":"O","Ờ":"O","Ớ":"O","Ỡ":"O","Ở":"O","Ợ":"O","Ọ":"O","Ộ":"O","Ǫ":"O","Ǭ":"O","Ø":"O","Ǿ":"O","Ɔ":"O","Ɵ":"O","Ꝋ":"O","Ꝍ":"O","Œ":"OE","Ƣ":"OI","Ꝏ":"OO","Ȣ":"OU","Ⓟ":"P","Ｐ":"P","Ṕ":"P","Ṗ":"P","Ƥ":"P","Ᵽ":"P","Ꝑ":"P","Ꝓ":"P","Ꝕ":"P","Ⓠ":"Q","Ｑ":"Q","Ꝗ":"Q","Ꝙ":"Q","Ɋ":"Q","Ⓡ":"R","Ｒ":"R","Ŕ":"R","Ṙ":"R","Ř":"R","Ȑ":"R","Ȓ":"R","Ṛ":"R","Ṝ":"R","Ŗ":"R","Ṟ":"R","Ɍ":"R","Ɽ":"R","Ꝛ":"R","Ꞧ":"R","Ꞃ":"R","Ⓢ":"S","Ｓ":"S","ẞ":"S","Ś":"S","Ṥ":"S","Ŝ":"S","Ṡ":"S","Š":"S","Ṧ":"S","Ṣ":"S","Ṩ":"S","Ș":"S","Ş":"S","Ȿ":"S","Ꞩ":"S","Ꞅ":"S","Ⓣ":"T","Ｔ":"T","Ṫ":"T","Ť":"T","Ṭ":"T","Ț":"T","Ţ":"T","Ṱ":"T","Ṯ":"T","Ŧ":"T","Ƭ":"T","Ʈ":"T","Ⱦ":"T","Ꞇ":"T","Þ":"Th","Ꜩ":"TZ","Ⓤ":"U","Ｕ":"U","Ù":"U","Ú":"U","Û":"U","Ũ":"U","Ṹ":"U","Ū":"U","Ṻ":"U","Ŭ":"U","Ü":"U","Ǜ":"U","Ǘ":"U","Ǖ":"U","Ǚ":"U","Ủ":"U","Ů":"U","Ű":"U","Ǔ":"U","Ȕ":"U","Ȗ":"U","Ư":"U","Ừ":"U","Ứ":"U","Ữ":"U","Ử":"U","Ự":"U","Ụ":"U","Ṳ":"U","Ų":"U","Ṷ":"U","Ṵ":"U","Ʉ":"U","Ⓥ":"V","Ｖ":"V","Ṽ":"V","Ṿ":"V","Ʋ":"V","Ꝟ":"V","Ʌ":"V","Ꝡ":"VY","Ⓦ":"W","Ｗ":"W","Ẁ":"W","Ẃ":"W","Ŵ":"W","Ẇ":"W","Ẅ":"W","Ẉ":"W","Ⱳ":"W","Ⓧ":"X","Ｘ":"X","Ẋ":"X","Ẍ":"X","Ⓨ":"Y","Ｙ":"Y","Ỳ":"Y","Ý":"Y","Ŷ":"Y","Ỹ":"Y","Ȳ":"Y","Ẏ":"Y","Ÿ":"Y","Ỷ":"Y","Ỵ":"Y","Ƴ":"Y","Ɏ":"Y","Ỿ":"Y","Ⓩ":"Z","Ｚ":"Z","Ź":"Z","Ẑ":"Z","Ż":"Z","Ž":"Z","Ẓ":"Z","Ẕ":"Z","Ƶ":"Z","Ȥ":"Z","Ɀ":"Z","Ⱬ":"Z","Ꝣ":"Z","ⓐ":"a","ａ":"a","ẚ":"a","à":"a","á":"a","â":"a","ầ":"a","ấ":"a","ẫ":"a","ẩ":"a","ã":"a","ā":"a","ă":"a","ằ":"a","ắ":"a","ẵ":"a","ẳ":"a","ȧ":"a","ǡ":"a","ä":"a","ǟ":"a","ả":"a","å":"a","ǻ":"a","ǎ":"a","ȁ":"a","ȃ":"a","ạ":"a","ậ":"a","ặ":"a","ḁ":"a","ą":"a","ⱥ":"a","ɐ":"a","ɑ":"a","ꜳ":"aa","æ":"ae","ǽ":"ae","ǣ":"ae","ꜵ":"ao","ꜷ":"au","ꜹ":"av","ꜻ":"av","ꜽ":"ay","ⓑ":"b","ｂ":"b","ḃ":"b","ḅ":"b","ḇ":"b","ƀ":"b","ƃ":"b","ɓ":"b","Ƃ":"b","ⓒ":"c","ć":"c","ĉ":"c","ċ":"c","č":"c","ç":"c","ḉ":"c","ƈ":"c","ȼ":"c","ꜿ":"c","ↄ":"c","C":"c","Ć":"c","Ĉ":"c","Ċ":"c","Č":"c","Ƈ":"c","Ȼ":"c","ⓓ":"d","ｄ":"d","ḋ":"d","ď":"d","ḍ":"d","ḑ":"d","ḓ":"d","ḏ":"d","đ":"d","ƌ":"d","ɖ":"d","ɗ":"d","Ƌ":"d","Ꮷ":"d","ԁ":"d","Ɦ":"d","ð":"dh","ǳ":"dz","ǆ":"dz","ⓔ":"e","ｅ":"e","è":"e","é":"e","ê":"e","ề":"e","ế":"e","ễ":"e","ể":"e","ẽ":"e","ē":"e","ḕ":"e","ḗ":"e","ĕ":"e","ė":"e","ë":"e","ẻ":"e","ě":"e","ȅ":"e","ȇ":"e","ẹ":"e","ệ":"e","ȩ":"e","ḝ":"e","ę":"e","ḙ":"e","ḛ":"e","ɇ":"e","ǝ":"e","ⓕ":"f","ｆ":"f","ḟ":"f","ƒ":"f","ﬀ":"ff","ﬁ":"fi","ﬂ":"fl","ﬃ":"ffi","ﬄ":"ffl","ⓖ":"g","ｇ":"g","ǵ":"g","ĝ":"g","ḡ":"g","ğ":"g","ġ":"g","ǧ":"g","ģ":"g","ǥ":"g","ɠ":"g","ꞡ":"g","ꝿ":"g","ᵹ":"g","ⓗ":"h","ｈ":"h","ĥ":"h","ḣ":"h","ḧ":"h","ȟ":"h","ḥ":"h","ḩ":"h","ḫ":"h","ẖ":"h","ħ":"h","ⱨ":"h","ⱶ":"h","ɥ":"h","ƕ":"hv","ⓘ":"i","ｉ":"i","ì":"i","í":"i","î":"i","ĩ":"i","ī":"i","ĭ":"i","ï":"i","ḯ":"i","ỉ":"i","ǐ":"i","ȉ":"i","ȋ":"i","ị":"i","į":"i","ḭ":"i","ɨ":"i","ı":"i","ⓙ":"j","ｊ":"j","ĵ":"j","ǰ":"j","ɉ":"j","ⓚ":"k","ｋ":"k","ḱ":"k","ǩ":"k","ḳ":"k","ķ":"k","ḵ":"k","ƙ":"k","ⱪ":"k","ꝁ":"k","ꝃ":"k","ꝅ":"k","ꞣ":"k","ⓛ":"l","ｌ":"l","ŀ":"l","ĺ":"l","ľ":"l","ḷ":"l","ḹ":"l","ļ":"l","ḽ":"l","ḻ":"l","ſ":"l","ł":"l","ƚ":"l","ɫ":"l","ⱡ":"l","ꝉ":"l","ꞁ":"l","ꝇ":"l","ɭ":"l","ǉ":"lj","ⓜ":"m","ｍ":"m","ḿ":"m","ṁ":"m","ṃ":"m","ɱ":"m","ɯ":"m","ⓝ":"n","ｎ":"n","ǹ":"n","ń":"n","ñ":"n","ṅ":"n","ň":"n","ṇ":"n","ņ":"n","ṋ":"n","ṉ":"n","ƞ":"n","ɲ":"n","ŉ":"n","ꞑ":"n","ꞥ":"n","ԉ":"n","ǌ":"nj","ⓞ":"o","ｏ":"o","ò":"o","ó":"o","ô":"o","ồ":"o","ố":"o","ỗ":"o","ổ":"o","õ":"o","ṍ":"o","ȭ":"o","ṏ":"o","ō":"o","ṑ":"o","ṓ":"o","ŏ":"o","ȯ":"o","ȱ":"o","ö":"o","ȫ":"o","ỏ":"o","ő":"o","ǒ":"o","ȍ":"o","ȏ":"o","ơ":"o","ờ":"o","ớ":"o","ỡ":"o","ở":"o","ợ":"o","ọ":"o","ộ":"o","ǫ":"o","ǭ":"o","ø":"o","ǿ":"o","ꝋ":"o","ꝍ":"o","ɵ":"o","ɔ":"o","ᴑ":"o","œ":"oe","ƣ":"oi","ꝏ":"oo","ȣ":"ou","ⓟ":"p","ｐ":"p","ṕ":"p","ṗ":"p","ƥ":"p","ᵽ":"p","ꝑ":"p","ꝓ":"p","ꝕ":"p","ρ":"p","ⓠ":"q","ｑ":"q","ɋ":"q","ꝗ":"q","ꝙ":"q","ⓡ":"r","ｒ":"r","ŕ":"r","ṙ":"r","ř":"r","ȑ":"r","ȓ":"r","ṛ":"r","ṝ":"r","ŗ":"r","ṟ":"r","ɍ":"r","ɽ":"r","ꝛ":"r","ꞧ":"r","ꞃ":"r","ⓢ":"s","ｓ":"s","ś":"s","ṥ":"s","ŝ":"s","ṡ":"s","š":"s","ṧ":"s","ṣ":"s","ṩ":"s","ș":"s","ş":"s","ȿ":"s","ꞩ":"s","ꞅ":"s","ẛ":"s","ʂ":"s","ß":"ss","ⓣ":"t","ｔ":"t","ṫ":"t","ẗ":"t","ť":"t","ṭ":"t","ț":"t","ţ":"t","ṱ":"t","ṯ":"t","ŧ":"t","ƭ":"t","ʈ":"t","ⱦ":"t","ꞇ":"t","þ":"th","ꜩ":"tz","ⓤ":"u","ｕ":"u","ù":"u","ú":"u","û":"u","ũ":"u","ṹ":"u","ū":"u","ṻ":"u","ŭ":"u","ü":"u","ǜ":"u","ǘ":"u","ǖ":"u","ǚ":"u","ủ":"u","ů":"u","ű":"u","ǔ":"u","ȕ":"u","ȗ":"u","ư":"u","ừ":"u","ứ":"u","ữ":"u","ử":"u","ự":"u","ụ":"u","ṳ":"u","ų":"u","ṷ":"u","ṵ":"u","ʉ":"u","ⓥ":"v","ｖ":"v","ṽ":"v","ṿ":"v","ʋ":"v","ꝟ":"v","ʌ":"v","ꝡ":"vy","ⓦ":"w","ｗ":"w","ẁ":"w","ẃ":"w","ŵ":"w","ẇ":"w","ẅ":"w","ẘ":"w","ẉ":"w","ⱳ":"w","ⓧ":"x","ｘ":"x","ẋ":"x","ẍ":"x","ⓨ":"y","ｙ":"y","ỳ":"y","ý":"y","ŷ":"y","ỹ":"y","ȳ":"y","ẏ":"y","ÿ":"y","ỷ":"y","ẙ":"y","ỵ":"y","ƴ":"y","ɏ":"y","ỿ":"y","ⓩ":"z","ｚ":"z","ź":"z","ẑ":"z","ż":"z","ž":"z","ẓ":"z","ẕ":"z","ƶ":"z","ȥ":"z","ɀ":"z","ⱬ":"z","ꝣ":"z"}
-},{}],101:[function(require,module,exports){
+}).call(this)}).call(this,{"isBuffer":require("../../../../../../../../usr/local/lib/node_modules/browserify/node_modules/is-buffer/index.js")},require('_process'))
+},{"../../../../../../../../usr/local/lib/node_modules/browserify/node_modules/is-buffer/index.js":201,"./ansi.js":99,"./escape.js":103,"_process":212}],107:[function(require,module,exports){
+arguments[4][42][0].apply(exports,arguments)
+},{"dup":42}],108:[function(require,module,exports){
+arguments[4][43][0].apply(exports,arguments)
+},{"dup":43}],109:[function(require,module,exports){
+arguments[4][44][0].apply(exports,arguments)
+},{"dup":44}],110:[function(require,module,exports){
 module.exports=[{"s":9728,"e":9747,"w":1},{"s":9748,"e":9749,"w":2},{"s":9750,"e":9799,"w":1},{"s":9800,"e":9811,"w":2},{"s":9812,"e":9854,"w":1},{"s":9855,"e":9855,"w":2},{"s":9856,"e":9874,"w":1},{"s":9875,"e":9875,"w":2},{"s":9876,"e":9888,"w":1},{"s":9889,"e":9889,"w":2},{"s":9890,"e":9897,"w":1},{"s":9898,"e":9899,"w":2},{"s":9900,"e":9916,"w":1},{"s":9917,"e":9918,"w":2},{"s":9919,"e":9923,"w":1},{"s":9924,"e":9925,"w":2},{"s":9926,"e":9933,"w":1},{"s":9934,"e":9934,"w":2},{"s":9935,"e":9939,"w":1},{"s":9940,"e":9940,"w":2},{"s":9941,"e":9961,"w":1},{"s":9962,"e":9962,"w":2},{"s":9963,"e":9969,"w":1},{"s":9970,"e":9971,"w":2},{"s":9972,"e":9972,"w":1},{"s":9973,"e":9973,"w":2},{"s":9974,"e":9977,"w":1},{"s":9978,"e":9978,"w":2},{"s":9979,"e":9980,"w":1},{"s":9981,"e":9981,"w":2},{"s":9982,"e":9983,"w":1},{"s":9984,"e":9988,"w":1},{"s":9989,"e":9989,"w":2},{"s":9990,"e":9993,"w":1},{"s":9994,"e":9995,"w":2},{"s":9996,"e":10023,"w":1},{"s":10024,"e":10024,"w":2},{"s":10025,"e":10059,"w":1},{"s":10060,"e":10060,"w":2},{"s":10061,"e":10061,"w":1},{"s":10062,"e":10062,"w":2},{"s":10063,"e":10066,"w":1},{"s":10067,"e":10069,"w":2},{"s":10070,"e":10070,"w":1},{"s":10071,"e":10071,"w":2},{"s":10072,"e":10132,"w":1},{"s":10133,"e":10135,"w":2},{"s":10136,"e":10159,"w":1},{"s":10160,"e":10160,"w":2},{"s":10161,"e":10174,"w":1},{"s":10175,"e":10175,"w":2},{"s":126976,"e":126979,"w":1},{"s":126980,"e":126980,"w":2},{"s":126981,"e":127182,"w":1},{"s":127183,"e":127183,"w":2},{"s":127184,"e":127373,"w":1},{"s":127374,"e":127374,"w":2},{"s":127375,"e":127376,"w":1},{"s":127377,"e":127386,"w":2},{"s":127387,"e":127487,"w":1},{"s":127744,"e":127776,"w":2},{"s":127777,"e":127788,"w":1},{"s":127789,"e":127797,"w":2},{"s":127798,"e":127798,"w":1},{"s":127799,"e":127868,"w":2},{"s":127869,"e":127869,"w":1},{"s":127870,"e":127891,"w":2},{"s":127892,"e":127903,"w":1},{"s":127904,"e":127946,"w":2},{"s":127947,"e":127950,"w":1},{"s":127951,"e":127955,"w":2},{"s":127956,"e":127967,"w":1},{"s":127968,"e":127984,"w":2},{"s":127985,"e":127987,"w":1},{"s":127988,"e":127988,"w":2},{"s":127989,"e":127991,"w":1},{"s":127992,"e":127994,"w":2},{"s":128000,"e":128062,"w":2},{"s":128063,"e":128063,"w":1},{"s":128064,"e":128064,"w":2},{"s":128065,"e":128065,"w":1},{"s":128066,"e":128252,"w":2},{"s":128253,"e":128254,"w":1},{"s":128255,"e":128317,"w":2},{"s":128318,"e":128330,"w":1},{"s":128331,"e":128334,"w":2},{"s":128335,"e":128335,"w":1},{"s":128336,"e":128359,"w":2},{"s":128360,"e":128377,"w":1},{"s":128378,"e":128378,"w":2},{"s":128379,"e":128404,"w":1},{"s":128405,"e":128406,"w":2},{"s":128407,"e":128419,"w":1},{"s":128420,"e":128420,"w":2},{"s":128421,"e":128506,"w":1},{"s":128507,"e":128591,"w":2},{"s":128592,"e":128639,"w":1},{"s":128640,"e":128709,"w":2},{"s":128710,"e":128715,"w":1},{"s":128716,"e":128716,"w":2},{"s":128717,"e":128719,"w":1},{"s":128720,"e":128722,"w":2},{"s":128723,"e":128724,"w":1},{"s":128725,"e":128727,"w":2},{"s":128728,"e":128746,"w":1},{"s":128747,"e":128748,"w":2},{"s":128749,"e":128755,"w":1},{"s":128756,"e":128764,"w":2},{"s":128765,"e":128991,"w":1},{"s":128992,"e":129003,"w":2},{"s":129004,"e":129291,"w":1},{"s":129292,"e":129338,"w":2},{"s":129339,"e":129339,"w":1},{"s":129340,"e":129349,"w":2},{"s":129350,"e":129350,"w":1},{"s":129351,"e":129400,"w":2},{"s":129401,"e":129401,"w":1},{"s":129402,"e":129483,"w":2},{"s":129484,"e":129484,"w":1},{"s":129485,"e":129535,"w":2},{"s":129536,"e":129647,"w":1},{"s":129648,"e":129652,"w":2},{"s":129653,"e":129655,"w":1},{"s":129656,"e":129658,"w":2},{"s":129659,"e":129663,"w":1},{"s":129664,"e":129670,"w":2},{"s":129671,"e":129679,"w":1},{"s":129680,"e":129704,"w":2},{"s":129705,"e":129711,"w":1},{"s":129712,"e":129718,"w":2},{"s":129719,"e":129727,"w":1},{"s":129728,"e":129730,"w":2},{"s":129731,"e":129743,"w":1},{"s":129744,"e":129750,"w":2},{"s":129751,"e":129791,"w":1}]
 
-},{}],102:[function(require,module,exports){
-/*
-	String Kit
-
-	Copyright (c) 2014 - 2021 Cédric Ronvel
-
-	The MIT License (MIT)
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-*/
-
-"use strict" ;
-
-
-
-const latinizeMap = require( './json-data/latinize-map.json' ) ;
-
-module.exports = function( str ) {
-	return str.replace( /[^\u0000-\u007e]/g , ( c ) => { return latinizeMap[ c ] || c ; } ) ;
-} ;
-
-
-
-},{"./json-data/latinize-map.json":100}],103:[function(require,module,exports){
+},{}],111:[function(require,module,exports){
+arguments[4][45][0].apply(exports,arguments)
+},{"./json-data/latinize-map.json":109,"dup":45}],112:[function(require,module,exports){
 /*
 	String Kit
 
@@ -37864,7 +38360,7 @@ exports.occurrenceCount = function( str , subStr , overlap = false ) {
 } ;
 
 
-},{}],104:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 /*
 	String Kit
 
@@ -38011,7 +38507,7 @@ function naturalSort( a , b ) {
 module.exports = naturalSort ;
 
 
-},{}],105:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 /*
 	String Kit
 
@@ -38068,7 +38564,7 @@ exports.regexp.array2alternatives = function array2alternatives( array ) {
 
 
 
-},{"./escape.js":94}],106:[function(require,module,exports){
+},{"./escape.js":103}],115:[function(require,module,exports){
 /*
 	String Kit
 
@@ -38163,7 +38659,7 @@ stringKit.installPolyfills = function installPolyfills() {
 //*/
 
 
-},{"./StringNumber.js":89,"./ansi.js":90,"./camel.js":91,"./emoji.js":92,"./english.js":93,"./escape.js":94,"./format.js":95,"./fuzzy.js":96,"./inspect.js":97,"./latinize.js":102,"./misc.js":103,"./naturalSort.js":104,"./regexp.js":105,"./toTitleCase.js":107,"./unicode.js":108,"./wordwrap.js":109}],107:[function(require,module,exports){
+},{"./StringNumber.js":98,"./ansi.js":99,"./camel.js":100,"./emoji.js":101,"./english.js":102,"./escape.js":103,"./format.js":104,"./fuzzy.js":105,"./inspect.js":106,"./latinize.js":111,"./misc.js":112,"./naturalSort.js":113,"./regexp.js":114,"./toTitleCase.js":116,"./unicode.js":117,"./wordwrap.js":118}],116:[function(require,module,exports){
 /*
 	String Kit
 
@@ -38252,7 +38748,7 @@ module.exports = ( str , options = DEFAULT_OPTIONS ) => {
 } ;
 
 
-},{}],108:[function(require,module,exports){
+},{}],117:[function(require,module,exports){
 /*
 	String Kit
 
@@ -38380,6 +38876,22 @@ unicode.length = str => {
 
 
 
+// Return a string that does not exceed the character limit
+unicode.truncateLength = unicode.truncate = ( str , limit ) => {
+	var position = 0 , length = 0 ;
+
+	for ( let char of str ) {
+		if ( length === limit ) { return str.slice( 0 , position ) ; }
+		length ++ ;
+		position += char.length ;
+	}
+
+	// The string remains unchanged
+	return str ;
+} ;
+
+
+
 // Return the width of a string in a terminal/monospace font
 unicode.width = str => {
 	// for ... of is unicode-aware
@@ -38410,9 +38922,7 @@ unicode.arrayWidth = ( array , limit ) => {
 var lastTruncateWidth = 0 ;
 unicode.getLastTruncateWidth = () => lastTruncateWidth ;
 
-
-
-// Return a string that does not exceed the limit.
+// Return a string that does not exceed the width limit (taking wide-char into considerations)
 unicode.widthLimit =	// DEPRECATED
 unicode.truncateWidth = ( str , limit ) => {
 	var char , charWidth , position = 0 ;
@@ -38600,7 +39110,7 @@ unicode.isEmojiModifierCodePoint = code =>
 	code === 0xfe0f ;	// VARIATION SELECTOR-16 [VS16] {emoji variation selector}
 
 
-},{"./json-data/unicode-emoji-width-ranges.json":101}],109:[function(require,module,exports){
+},{"./json-data/unicode-emoji-width-ranges.json":110}],118:[function(require,module,exports){
 /*
 	String Kit
 
@@ -38804,11 +39314,1050 @@ module.exports = function wordwrap( str , options ) {
 } ;
 
 
-},{"./unicode.js":108}],110:[function(require,module,exports){
+},{"./unicode.js":117}],119:[function(require,module,exports){
 /*
 	SVG Kit
 
-	Copyright (c) 2017 - 2023 Cédric Ronvel
+	Copyright (c) 2017 - 2024 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+function BoundingBox( xmin = 0 , ymin = 0 , xmax = xmin , ymax = ymin ) {
+	this.xmin = 0 ;
+	this.ymin = 0 ;
+	this.xmax = 0 ;
+	this.ymax = 0 ;
+
+	if ( xmin && typeof xmin === 'object' ) {
+		this.set( xmin ) ;
+	}
+	else if ( xmin === null ) {
+		this.xmin = Infinity ;
+		this.xmax = - Infinity ;
+		this.ymin = Infinity ;
+		this.ymax = - Infinity ;
+	}
+	else {
+		this.xmin = xmin ;
+		this.ymin = ymin ;
+		this.xmax = xmax ;
+		this.ymax = ymax ;
+	}
+}
+
+module.exports = BoundingBox ;
+
+
+
+BoundingBox.prototype.set = function( params ) {
+	if ( params instanceof BoundingBox ) {
+		this.xmin = params.xmin ;
+		this.ymin = params.ymin ;
+		this.xmax = params.xmax ;
+		this.ymax = params.ymax ;
+		return ;
+	}
+
+	if ( params.xmin !== undefined ) { this.xmin = params.xmin ; }
+	if ( params.ymin !== undefined ) { this.ymin = params.ymin ; }
+	if ( params.xmax !== undefined ) { this.xmax = params.xmax ; }
+	if ( params.ymax !== undefined ) { this.ymax = params.ymax ; }
+	if ( params.x !== undefined ) { this.x = params.x ; }
+	if ( params.y !== undefined ) { this.y = params.y ; }
+	if ( params.width !== undefined ) { this.width = params.width ; }
+	if ( params.height !== undefined ) { this.height = params.height ; }
+} ;
+
+
+
+// Shorter update lines
+BoundingBox.prototype.setMinMax = function( xmin = 0 , ymin = 0 , xmax = xmin , ymax = ymin ) {
+	this.xmin = xmin ;
+	this.ymin = ymin ;
+	this.xmax = xmax ;
+	this.ymax = ymax ;
+} ;
+
+
+
+// Prepare a bounding box for a sequence of .merge()/.ensurePoint(), making it negatively infinitely large
+BoundingBox.prototype.nullify = function() {
+	this.xmin = Infinity ;
+	this.xmax = - Infinity ;
+	this.ymin = Infinity ;
+	this.ymax = - Infinity ;
+} ;
+
+
+
+// A null bounding box is a neutral bounding box ready for any .merge()/.ensurePoint() operation
+BoundingBox.prototype.isNull = function() {
+	return this.xmin === Infinity && this.xmax === - Infinity && this.ymin === Infinity && this.ymax === - Infinity ;
+} ;
+
+
+
+
+// A zero bounding box is has no area (or a negative one)
+BoundingBox.prototype.isZero = function() {
+	return this.xmin >= this.xmax || this.ymin >= this.ymax ;
+} ;
+
+
+
+Object.defineProperties( BoundingBox.prototype , {
+	x: {
+		get: function() { return this.xmin ; } ,
+		set: function( x ) {
+			// Preserve width
+			var width = this.xmax - this.xmin ;
+			this.xmin = x ;
+			this.xmax = this.xmin + width ;
+		}
+	} ,
+	y: {
+		get: function() { return this.ymin ; } ,
+		set: function( y ) {
+			// Preserve height
+			var height = this.ymax - this.ymin ;
+			this.ymin = y ;
+			this.ymax = this.ymin + height ;
+		}
+	} ,
+	width: {
+		get: function() { return this.xmax - this.xmin ; } ,
+		set: function( width ) { this.xmax = this.xmin + width ; }
+	} ,
+	height: {
+		get: function() { return this.ymax - this.ymin ; } ,
+		set: function( height ) { this.ymax = this.ymin + height ; }
+	}
+} ) ;
+
+
+
+BoundingBox.prototype.export = function() {
+	return {
+		xmin: this.xmin ,
+		ymin: this.ymin ,
+		xmax: this.xmax ,
+		ymax: this.ymax
+	} ;
+} ;
+
+
+
+BoundingBox.prototype.dup =
+BoundingBox.prototype.clone = function() {
+	return new BoundingBox( this.xmin , this.ymin , this.xmax , this.ymax ) ;
+} ;
+
+
+
+// Floor min and ceil max
+BoundingBox.prototype.round = function( bbox ) {
+	this.xmin = Math.floor( this.xmin ) ;
+	this.ymin = Math.floor( this.ymin ) ;
+	this.xmax = Math.ceil( this.xmax ) ;
+	this.ymax = Math.ceil( this.ymax ) ;
+	return this ;
+} ;
+
+
+
+// Merge two bounding box
+BoundingBox.prototype.merge = function( bbox ) {
+	this.xmin = Math.min( this.xmin , bbox.xmin ) ;
+	this.ymin = Math.min( this.ymin , bbox.ymin ) ;
+	this.xmax = Math.max( this.xmax , bbox.xmax ) ;
+	this.ymax = Math.max( this.ymax , bbox.ymax ) ;
+	return this ;
+} ;
+
+
+
+BoundingBox.prototype.mergeArray = function( bboxList ) {
+	for ( let bbox of bboxList ) {
+		this.xmin = Math.min( this.xmin , bbox.xmin ) ;
+		this.ymin = Math.min( this.ymin , bbox.ymin ) ;
+		this.xmax = Math.max( this.xmax , bbox.xmax ) ;
+		this.ymax = Math.max( this.ymax , bbox.ymax ) ;
+	}
+
+	return this ;
+} ;
+
+
+
+// Ensure that the bounding box includes a point, like .merge() but for singularity
+BoundingBox.prototype.ensurePoint = function( point ) {
+	this.xmin = Math.min( this.xmin , point.x ) ;
+	this.ymin = Math.min( this.ymin , point.y ) ;
+	this.xmax = Math.max( this.xmax , point.x ) ;
+	this.ymax = Math.max( this.ymax , point.y ) ;
+	return this ;
+} ;
+
+
+
+BoundingBox.prototype.ensurePointArray = function( pointList ) {
+	for ( let point of pointList ) {
+		this.xmin = Math.min( this.xmin , point.x ) ;
+		this.ymin = Math.min( this.ymin , point.y ) ;
+		this.xmax = Math.max( this.xmax , point.x ) ;
+		this.ymax = Math.max( this.ymax , point.y ) ;
+	}
+
+	return this ;
+} ;
+
+
+
+BoundingBox.prototype.isEqualTo = function( bbox ) {
+	return bbox.xmin === this.xmin && bbox.xmax === this.xmax && bbox.ymin === this.ymin && bbox.ymax === this.ymax ;
+} ;
+
+
+
+// Is equal to a foreign object, support both the xmin/xmax/ymin/ymax and the x/y/width/height format
+BoundingBox.prototype.isEqualToObject = function( object ) {
+	if ( object.width !== undefined ) {
+		return object.x === this.xmin && object.width === this.width && object.y === this.ymin && object.height === this.height ;
+	}
+
+	if ( object.xmin !== undefined ) {
+		return object.xmin === this.xmin && object.xmax === this.xmax && object.ymin === this.ymin && object.ymax === this.ymax ;
+	}
+
+	return false ;
+} ;
+
+
+
+BoundingBox.prototype.isInside = function( coords ) {
+	return coords.x >= this.xmin && coords.x <= this.xmax && coords.y >= this.ymin && coords.y <= this.ymax ;
+} ;
+
+
+
+BoundingBox.prototype.enlarge = function( value ) {
+	value = + value || 0 ;
+	if ( value < 0 ) { return this.shrink( - value ) ; }
+	this.xmin -= value ;
+	this.xmax += value ;
+	this.ymin -= value ;
+	this.ymax += value ;
+
+	return this ;
+} ;
+
+
+
+BoundingBox.prototype.shrink = function( value , min = 0 ) {
+	value = + value || 0 ;
+	if ( value < 0 ) { return this.enlarge( - value ) ; }
+
+	var width = this.xmax - this.xmin ,
+		height = this.ymax - this.ymin ;
+
+	if ( width < 2 * value ) {
+		this.xmin += width / 2 - min / 2 ;
+		this.xmax -= width / 2 - min / 2 ;
+	}
+	else {
+		this.xmin += value ;
+		this.xmax -= value ;
+	}
+
+	if ( height < 2 * value ) {
+		this.ymin += height / 2 - min / 2 ;
+		this.ymax -= height / 2 - min / 2 ;
+	}
+	else {
+		this.ymin += value ;
+		this.ymax -= value ;
+	}
+
+	return this ;
+} ;
+
+
+},{}],120:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2024 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const Polygon = require( './Polygon.js' ) ;
+const BoundingBox = require( './BoundingBox.js' ) ;
+
+
+
+function ConvexPolygon( params ) {
+	this.points = [] ;
+	this.sides = [] ;
+	this.boundingBox = new BoundingBox( null ) ;
+	this.badConvexPolygon = false ;
+
+	if ( params ) { this.set( params ) ; }
+}
+
+module.exports = ConvexPolygon ;
+
+ConvexPolygon.prototype = Object.create( Polygon.prototype ) ;
+ConvexPolygon.prototype.constructor = ConvexPolygon ;
+ConvexPolygon.prototype.__prototypeUID__ = 'svg-kit/ConvexPolygon' ;
+ConvexPolygon.prototype.__prototypeVersion__ = require( '../package.json' ).version ;
+
+
+
+ConvexPolygon.prototype.set = function( params ) {
+	Polygon.prototype.set.call( this , params ) ;
+} ;
+
+
+
+ConvexPolygon.prototype.setPoints = function( points ) {
+	Polygon.prototype.setPoints.call( this , points ) ;
+} ;
+
+
+
+ConvexPolygon.prototype.isInside = function( coords ) {
+	if ( ! this.sides.length ) { return false ; }
+
+	return this.totalAngle > 0 ?
+		this.sides.every( side => Polygon.testSideLineEquation( side , coords ) >= 0 ) :
+		this.sides.every( side => Polygon.testSideLineEquation( side , coords ) <= 0 ) ;
+} ;
+
+
+
+ConvexPolygon.prototype.checkConvex = function() {
+	// Checking convexity is easy : just check that each point lie on the correct side of its line equation
+	this.badConvexPolygon = false ;
+	if ( ! this.sides.length ) { return true ; }
+
+	for ( let i = 0 ; i < this.sides.length ; i ++ ) {
+		let side = this.sides[ i ] ;
+
+		for ( let j = i + 2 ; j < this.points.length ; j ++ ) {
+			// We don't check points of the current side
+			if ( j === i || j === ( i + 1 ) % this.sides.length ) { continue ; }
+
+			let point = this.points[ j ] ;
+
+			let ok = this.totalAngle > 0 ?
+				Polygon.testSideLineEquation( side , point ) > 0 :
+				Polygon.testSideLineEquation( side , point ) < 0 ;
+
+			if ( ! ok ) {
+				console.warn( "Bad convex polygon, probably not simple/convex" ) ;
+				this.badConvexPolygon = true ;
+				return false ;
+			}
+		}
+	}
+
+	return true ;
+} ;
+
+
+},{"../package.json":170,"./BoundingBox.js":119,"./Polygon.js":132}],121:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2024 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+//const svgKit = require( './svg-kit.js' ) ;
+const BoundingBox = require( './BoundingBox.js' ) ;
+
+
+
+function DynamicArea( entity , params ) {
+	// A status change will trigger the redraw.
+	// Can be things like on/off, or a tick number for animation.
+	this.availableStatus = new Set() ;	// The list of status that this dynamic area can have
+	this.status = 'base' ;
+
+	this.everyTick = 1 ;	// Divide the DynamicManager's tick by this value before setting up the DynamicArea's tick
+	this.tick = 0 ;		// A tick change will trigger the redraw
+
+	// Should be a Path2D, from time to time, we will have to check if some events are inside the area or not.
+	// The boundingBox act as a fast early out test.
+	this.area = null ;
+	this.boundingBox = new BoundingBox( entity.boundingBox ) ;
+
+	this.statusData = {} ;
+	this.morph = null ;
+	this.toEmit = [] ;	// Pending events to be emited
+
+	this.noRedraw = params.noRedraw || false ;		// If set, this dynamic area is not used to trigger redraw (probably just to send event back)
+	this.outdated = false ;		// If set, redraw is needed
+	this.backgroundImageData = null ;	// Image data stored for the redraw
+	this.useEntityBackgroundImageData = true ;	// Use the entity's image data instead of the dynamic area one
+
+	// Non-enumerable properties (better for displaying the data)
+	Object.defineProperties( this , {
+		entity: { value: entity }	// The entity where to apply things
+	} ) ;
+
+	this.set( params ) ;
+
+	// Force .outdated back to false after the initial call to .set()
+	this.outdated = false ;
+
+	if ( this.useEntityBackgroundImageData && ! this.noRedraw ) {
+		this.entity.needFullDraw = true ;
+		if ( this.entity.root ) { this.entity.root.needFullDraw = true ; }
+	}
+}
+
+module.exports = DynamicArea ;
+
+DynamicArea.prototype.__prototypeUID__ = 'svg-kit/DynamicArea' ;
+DynamicArea.prototype.__prototypeVersion__ = require( '../package.json' ).version ;
+
+
+
+DynamicArea.prototype.set = function( params ) {
+	if ( params.everyTick ) { this.everyTick = + params.everyTick || 1 ; }
+
+	if ( params.statusData && typeof params.statusData === 'object' ) {
+		for ( let statusName in params.statusData ) {
+			this.setStatusMorph( statusName , params.statusData[ statusName ] ) ;
+		}
+	}
+
+	if ( params.status ) { this.setStatus( params.status ) ; }
+
+	if ( params.boundingBox && typeof params.boundingBox === 'object' ) {
+		this.boundingBox.set( params.boundingBox ) ;
+
+		if ( this.useEntityBackgroundImageData && ! this.boundingBox.isEqualTo( this.entity.boundingBox ) ) {
+			this.useEntityBackgroundImageData = false ;
+		}
+	}
+} ;
+
+
+
+DynamicArea.prototype.setStatusMorph = function( statusName , data ) {
+	if ( ! this.availableStatus.has( statusName ) ) { this.availableStatus.add( statusName ) ; }
+
+	if ( data.frames ) { data.modulo = data.frames.reduce( ( v , e ) => v + ( e.ticks || 1 ) , 0 ) ; }
+
+	this.statusData[ statusName ] = data ;
+	if ( ! this.noRedraw ) { this.outdated = true ; }
+} ;
+
+
+
+DynamicArea.prototype.setStatus = function( status ) {
+	if ( status && status !== this.status && this.availableStatus.has( status ) ) {
+		//console.warn( "DynamicArea#setStatus() for:" , this.entity.__prototypeUID__ ) ;
+		this.status = status ;
+		this.updateMorph() ;
+
+		let data = this.statusData[ this.status ] ;
+		if ( data.emit ) {
+			let event = {
+				name: data.emit.name ,
+				data: Object.assign( {} , data.emit.data )
+			} ;
+
+			event.data.boundingBox = this.boundingBox.export() ;
+			event.data.entityUid = this.entity._id ;
+
+			this.toEmit.push( event ) ;
+		}
+	}
+} ;
+
+
+
+DynamicArea.prototype.setTick = function( tick ) {
+	tick = Math.floor( tick / this.everyTick ) ;
+	if ( tick === this.tick ) { return ; }
+	this.tick = tick ;
+	this.updateMorph() ;
+} ;
+
+
+
+DynamicArea.prototype.updateMorph = function() {
+	//console.warn( "> DynamicArea#updateMorph() for:" , this.entity.__prototypeUID__ ) ;
+	var data = this.statusData[ this.status ] ;
+	if ( ! data ) { return ; }
+
+	var morph = null ;
+
+	if ( data.morph ) {
+		morph = data.morph ;
+	}
+	else if ( data.frames ) {
+		let tickModulo = this.tick % data.modulo ;
+		for ( let frame of data.frames ) {
+			if ( tickModulo < frame.ticks ) {
+				morph = frame.morph ;
+				break ;
+			}
+
+			tickModulo -= frame.ticks ;
+		}
+	}
+	else if ( data.eachFrame ) {
+		morph = data.eachFrame( this ) ;
+	}
+	else {
+		return ;
+	}
+
+	if ( morph === true ) {
+		// Special case: force a redraw without changing anything, mostly for special FX, or random translations like tremors
+		if ( ! this.noRedraw ) { this.outdated = true ; }
+		return ;
+	}
+
+	if ( ! morph || morph === this.morph ) { return ; }
+
+	this.morph = morph ;
+	this.entity.set( this.morph ) ;
+
+	if ( ! this.noRedraw ) { this.outdated = true ; }
+	//console.log( "==> " , this.noRedraw , this.outdated ) ;
+} ;
+
+
+
+// Get the data that can be emitted as event
+DynamicArea.prototype.getEmittableEvent = function( eventName ) {
+	for ( let status in this.statusData ) {
+		let data = this.statusData[ status ] ;
+		if ( data.emit?.name === eventName ) {
+			let eventData = Object.assign( {} , data.emit.data ) ;
+			eventData.boundingBox = this.boundingBox.export() ;
+			eventData.entityUid = this.entity._id ;
+			return eventData ;
+		}
+	}
+
+	return null ;
+} ;
+
+
+
+DynamicArea.prototype.save = function( canvasCtx ) {
+	if ( this.noRedraw ) { return ; }
+
+
+	if ( this.useEntityBackgroundImageData ) {
+		if ( this.entity.backgroundImageUsed ) { return ; }
+		//console.warn( "::: Saving backgroundImageData for:" , this.entity.__prototypeUID__.slice( 8 ) + ' ' + this.entity._id ) ;
+
+		this.entity.backgroundImageData = canvasCtx.getImageData(
+			this.boundingBox.x , this.boundingBox.y ,
+			this.boundingBox.width , this.boundingBox.height
+		) ;
+
+		this.entity.backgroundImageUsed = true ;
+	}
+	else {
+		this.backgroundImageData = canvasCtx.getImageData(
+			this.boundingBox.x , this.boundingBox.y ,
+			this.boundingBox.width , this.boundingBox.height
+		) ;
+	}
+} ;
+
+
+
+DynamicArea.prototype.restore = function( canvasCtx ) {
+	if ( this.noRedraw ) { return ; }
+
+	if ( this.useEntityBackgroundImageData ) {
+		if ( this.entity.backgroundImageUsed ) { return ; }
+		if ( ! this.entity.backgroundImageData ) {
+			//console.warn( "!!! Missing backgroundImageData:" , this.entity.__prototypeUID__.slice( 8 ) + ' ' + this.entity._id ) ;
+		}
+		canvasCtx.putImageData( this.entity.backgroundImageData , this.boundingBox.x , this.boundingBox.y ) ;
+		this.entity.backgroundImageUsed = true ;
+	}
+	else {
+		canvasCtx.putImageData( this.backgroundImageData , this.boundingBox.x , this.boundingBox.y ) ;
+	}
+} ;
+
+
+},{"../package.json":170,"./BoundingBox.js":119}],122:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2024 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const canvasUtilities = require( './canvas-utilities.js' ) ;
+
+const LeanEvents = require( 'nextgen-events/lib/LeanEvents.js' ) ;
+const Promise = require( 'seventh' ) ;
+
+
+
+function DynamicManager( ctx , vg , tickTime ) {
+	this.ctx = ctx ;
+	this.vg = vg ;
+	this.tickTime = tickTime || 100 ;
+
+	this.tick = 0 ;
+	this.timer = null ;
+	this.running = false ;
+
+	this.canvasListeners = [] ;
+
+	this.babylonControl = null ;
+	this.babylonControlListeners = [] ;
+
+	this.toEmit = [] ;	// Pending events to be emited
+
+	// A debounced redraw
+	this.redraw = Promise.debounceUpdate( { delay: this.tickTime / 2 } , async () => {
+		//console.warn( "###! redraw()" ) ;
+		await this.vg.redrawCanvas( this.ctx ) ;
+		this.emit( 'redraw' ) ;
+		/*
+		try {
+			await this.vg.redrawCanvas( this.ctx ) ;
+			this.emit( 'redraw' ) ;
+		} catch ( error ) {
+			console.error( "Error:" , error ) ;
+			this.destroy() ;
+			return ;
+		}
+		//*/
+		//console.warn( "###! redrawn()" ) ;
+	} ) ;
+}
+
+module.exports = DynamicManager ;
+
+DynamicManager.prototype = Object.create( LeanEvents.prototype ) ;
+DynamicManager.prototype.constructor = DynamicManager ;
+DynamicManager.prototype.__prototypeUID__ = 'svg-kit/DynamicManager' ;
+DynamicManager.prototype.__prototypeVersion__ = require( '../package.json' ).version ;
+
+
+
+DynamicManager.prototype.destroy = function() {
+	this.reset() ;
+} ;
+
+
+
+DynamicManager.prototype.reset = function() {
+	if ( this.timer ) {
+		clearInterval( this.timer ) ;
+		this.timer = null ;
+	}
+
+	this.clearCanvasEventListener() ;
+	this.clearBabylonControlEventListener() ;
+	this.babylonControl = null ;
+	this.running = false ;
+} ;
+
+
+
+DynamicManager.prototype.emitPendingEvents = function() {
+	for ( let event of this.toEmit ) {
+		this.emit( event.name , event.data ) ;
+	}
+
+	this.toEmit.length = 0 ;
+} ;
+
+
+
+DynamicManager.prototype.onTick = function() {
+	//console.warn( "###! onTick()" ) ;
+	this.tick ++ ;
+
+	let outdated = false ;
+
+	for ( let dynamic of this.vg.dynamicAreaIterator() ) {
+		dynamic.setTick( this.tick ) ;
+
+		if ( dynamic.outdated ) {
+			outdated = true ;
+		}
+	}
+
+	if ( outdated ) { this.redraw() ; }
+} ;
+
+
+
+DynamicManager.prototype.onPointerMove = function( canvasCoords , convertBackCoords ) {
+	let outdated = false ;
+	let contextCoords = canvasUtilities.canvasToContextCoords( this.ctx , canvasCoords ) ;
+
+	for ( let dynamic of this.vg.dynamicAreaIterator() ) {
+		if ( dynamic.boundingBox.isInside( contextCoords ) ) {
+			if ( dynamic.status !== 'press' ) {
+				dynamic.setStatus( 'hover' ) ;
+			}
+		}
+		else {
+			dynamic.setStatus( 'base' ) ;
+		}
+
+		if ( dynamic.outdated ) {
+			outdated = true ;
+		}
+
+		if ( dynamic.toEmit ) {
+			for ( let event of dynamic.toEmit ) {
+				this.convertEventCoords( event.data , convertBackCoords ) ;
+				this.toEmit.push( event ) ;
+			}
+
+			dynamic.toEmit.length = 0 ;
+		}
+	}
+
+	if ( outdated ) { this.redraw() ; }
+	if ( this.toEmit.length ) { this.emitPendingEvents() ; }
+} ;
+
+
+
+DynamicManager.prototype.onPointerPress = function( canvasCoords , convertBackCoords ) {
+	let outdated = false ;
+	let contextCoords = canvasUtilities.canvasToContextCoords( this.ctx , canvasCoords ) ;
+
+	for ( let dynamic of this.vg.dynamicAreaIterator() ) {
+		if ( dynamic.boundingBox.isInside( contextCoords ) ) {
+			dynamic.setStatus( 'press' ) ;
+		}
+		else {
+			dynamic.setStatus( 'base' ) ;
+		}
+
+		if ( dynamic.outdated ) {
+			outdated = true ;
+		}
+
+		if ( dynamic.toEmit ) {
+			for ( let event of dynamic.toEmit ) {
+				this.convertEventCoords( event.data , convertBackCoords ) ;
+				this.toEmit.push( event ) ;
+			}
+
+			dynamic.toEmit.length = 0 ;
+		}
+	}
+
+	if ( outdated ) { this.redraw() ; }
+	if ( this.toEmit.length ) { this.emitPendingEvents() ; }
+} ;
+
+
+
+DynamicManager.prototype.onPointerRelease = function( canvasCoords , convertBackCoords ) {
+	let outdated = false ;
+	let contextCoords = canvasUtilities.canvasToContextCoords( this.ctx , canvasCoords ) ;
+
+	for ( let dynamic of this.vg.dynamicAreaIterator() ) {
+		if ( dynamic.boundingBox.isInside( contextCoords ) ) {
+			dynamic.setStatus( 'release' ) ;
+		}
+		else {
+			dynamic.setStatus( 'base' ) ;
+		}
+
+		if ( dynamic.outdated ) {
+			outdated = true ;
+		}
+
+		if ( dynamic.toEmit ) {
+			for ( let event of dynamic.toEmit ) {
+				this.convertEventCoords( event.data , convertBackCoords ) ;
+				this.toEmit.push( event ) ;
+			}
+
+			dynamic.toEmit.length = 0 ;
+		}
+	}
+
+	if ( outdated ) { this.redraw() ; }
+	if ( this.toEmit.length ) { this.emitPendingEvents() ; }
+} ;
+
+
+
+DynamicManager.prototype.convertEventCoords = function( eventData , convertBackCoords ) {
+	let min = canvasUtilities.contextToCanvasCoords( this.ctx , { x: eventData.boundingBox.xmin , y: eventData.boundingBox.ymin } ) ,
+		max = canvasUtilities.contextToCanvasCoords( this.ctx , { x: eventData.boundingBox.xmax , y: eventData.boundingBox.ymax } ) ;
+
+	min = convertBackCoords( min ) ;
+	max = convertBackCoords( max ) ;
+
+	eventData.foreignBoundingBox = {
+		xmin: min.x ,
+		ymin: min.y ,
+		xmax: max.x ,
+		ymax: max.y
+	} ;
+} ;
+
+
+
+// Misc
+
+
+
+DynamicManager.prototype.getAllEmittableEvents = function( eventName , convertBackCoords = null ) {
+	var list = [] ;
+
+	for ( let dynamic of this.vg.dynamicAreaIterator() ) {
+		let eventData = dynamic.getEmittableEvent( eventName ) ;
+		if ( eventData ) {
+			if ( convertBackCoords ) { this.convertEventCoords( eventData , convertBackCoords ) ; }
+			list.push( eventData ) ;
+		}
+	}
+
+	return list ;
+} ;
+
+
+
+// Browser specifics
+
+
+
+DynamicManager.prototype.manageBrowserCanvas = function() {
+	if ( this.running ) { throw new Error( "Manager is already running!" ) ; }
+	this.running = true ;
+
+	if ( this.timer ) {
+		clearInterval( this.timer ) ;
+		this.timer = null ;
+	}
+
+	this.timer = setInterval( () => this.onTick() , this.tickTime ) ;
+
+	const convertCoords = event => canvasUtilities.screenToCanvasCoords( this.ctx.canvas , { x: event.clientX , y: event.clientY } ) ;
+	const convertBackCoords = coords => canvasUtilities.canvasToScreenCoords( this.ctx.canvas , coords ) ;
+
+	this.addCanvasEventListener( 'mousemove' , event => this.onPointerMove( convertCoords( event ) , convertBackCoords ) ) ;
+	this.addCanvasEventListener( 'mousedown' , event => this.onPointerPress( convertCoords( event ) , convertBackCoords ) ) ;
+	this.addCanvasEventListener( 'mouseup' , event => this.onPointerRelease( convertCoords( event ) , convertBackCoords ) ) ;
+} ;
+
+
+
+DynamicManager.prototype.addCanvasEventListener = function( eventName , listener ) {
+	this.canvasListeners.push( [ eventName , listener ] ) ;
+	this.ctx.canvas.addEventListener( eventName , listener ) ;
+} ;
+
+
+
+DynamicManager.prototype.clearCanvasEventListener = function() {
+	for ( let [ eventName , listener ] of this.canvasListeners ) {
+		this.ctx.canvas.removeEventListener( eventName , listener ) ;
+	}
+
+	this.canvasListeners.length = 0 ;
+} ;
+
+
+
+DynamicManager.prototype.getAllBrowserEmittableEvents = function( eventName ) {
+	return this.getAllEmittableEvents(
+		eventName ,
+		coords => canvasUtilities.canvasToScreenCoords( this.ctx.canvas , coords )
+	) ;
+} ;
+
+
+
+// BabylonJS specifics
+
+
+
+DynamicManager.prototype.manageBabylonControl = function( control ) {
+	if ( this.running ) { throw new Error( "Manager is already running!" ) ; }
+	this.running = true ;
+
+	if ( ! control ) { throw new Error( "No Babylon Control was provided" ) ; }
+
+	this.babylonControl = control ;
+
+	if ( this.timer ) {
+		clearInterval( this.timer ) ;
+		this.timer = null ;
+	}
+
+	this.timer = setInterval( () => this.onTick() , this.tickTime ) ;
+
+	const convertCoords = coords => {
+		// This is the same than: this.babylonControl.getLocalCoordinates( coords ), except we avoid instanciation
+		return {
+			x: coords.x - this.babylonControl._currentMeasure.left ,
+			y: coords.y - this.babylonControl._currentMeasure.top
+		} ;
+	} ;
+
+	const convertBackCoords = coords => {
+		return {
+			x: coords.x + this.babylonControl._currentMeasure.left ,
+			y: coords.y + this.babylonControl._currentMeasure.top
+		} ;
+	} ;
+
+	this.addBabylonControlEventListener( 'onPointerMoveObservable' , coords => this.onPointerMove( convertCoords( coords ) , convertBackCoords ) ) ;
+	this.addBabylonControlEventListener( 'onPointerDownObservable' , coords => this.onPointerPress( convertCoords( coords ) , convertBackCoords ) ) ;
+	this.addBabylonControlEventListener( 'onPointerUpObservable' , coords => this.onPointerRelease( convertCoords( coords ) , convertBackCoords ) ) ;
+
+	// Special case, acts as if the pointer was moved to the negative region
+	this.addBabylonControlEventListener( 'onPointerOutObservable' , coords => this.onPointerMove( { x: - 1 , y: - 1 } , convertBackCoords ) ) ;
+} ;
+
+
+
+DynamicManager.prototype.addBabylonControlEventListener = function( observable , listener ) {
+	this.babylonControlListeners.push( [ observable , listener ] ) ;
+	this.babylonControl[ observable ].add( listener ) ;
+} ;
+
+
+
+DynamicManager.prototype.clearBabylonControlEventListener = function() {
+	for ( let [ observable , listener ] of this.babylonControlListeners ) {
+		this.babylonControl[ observable ].removeCallback( listener ) ;
+	}
+
+	this.babylonControlListeners.length = 0 ;
+} ;
+
+
+
+DynamicManager.prototype.getAllBabylonControlEmittableEvents = function( eventName ) {
+	return this.getAllEmittableEvents(
+		eventName ,
+		coords => {
+			return {
+				x: coords.x + this.babylonControl._currentMeasure.left ,
+				y: coords.y + this.babylonControl._currentMeasure.top
+			} ;
+		}
+	) ;
+} ;
+
+
+},{"../package.json":170,"./canvas-utilities.js":158,"nextgen-events/lib/LeanEvents.js":76,"seventh":95}],123:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2024 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -38921,11 +40470,2767 @@ Metric.isEqual = function( a , b ) {
 } ;
 
 
-},{}],111:[function(require,module,exports){
+},{}],124:[function(require,module,exports){
 /*
 	SVG Kit
 
-	Copyright (c) 2017 - 2023 Cédric Ronvel
+	Copyright (c) 2017 - 2024 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+/*
+	Mostly derived from svg-path-properties by RogerVecianaAbzu:
+	https://github.com/rveciana/svg-path-properties/blob/master/src/bezier.ts
+*/
+
+
+
+const BoundingBox = require( '../BoundingBox.js' ) ;
+
+
+
+function Arc( startPoint , radius , xAxisRotate , largeArcFlag , sweepFlag , endPoint ) {
+	this.startPoint = startPoint ;
+	this.radius = radius ;
+	this.xAxisRotate = xAxisRotate ;
+	this.largeArcFlag = largeArcFlag ;
+	this.sweepFlag = sweepFlag ;
+	this.endPoint = endPoint ;
+
+	this.boundingBox = new BoundingBox( null ) ;
+	this.length = this.getLength( true ) ;	// <-- this will update the BBox
+}
+
+module.exports = Arc ;
+
+
+
+Arc.prototype.getLength = function( updateBBox ) {
+	if ( updateBBox ) { this.boundingBox.nullify() ; }
+
+	const lengthProperties = this.approximateArcLengthOfCurve(
+		300 ,
+		t => this.pointOnEllipticalArc(
+			this.startPoint ,
+			this.radius ,
+			this.xAxisRotate ,
+			this.largeArcFlag ,
+			this.sweepFlag ,
+			this.endPoint ,
+			t
+		) ,
+		updateBBox ? this.boundingBox : null
+	) ;
+
+	return lengthProperties.arcLength ;
+} ;
+
+
+
+Arc.prototype.getPointAtLength = function( length ) {
+	if ( length === 0 ) { return { x: this.startPoint.x , y: this.startPoint.y } ; }
+	if ( length === this.length ) { return { x: this.endPoint.x , y: this.endPoint.y } ; }
+
+	const position = this.pointOnEllipticalArc(
+		this.startPoint ,
+		this.radius ,
+		this.xAxisRotate ,
+		this.largeArcFlag ,
+		this.sweepFlag ,
+		this.endPoint ,
+		length / this.length
+	) ;
+
+	return { x: position.x , y: position.y } ;
+} ;
+
+
+
+Arc.prototype.getTangentAtLength = function( length ) {
+	const delta = 0.001 * ( Math.min( this.radius.x , this.radius.y ) || this.length ) ; // should manage degenerate case
+	const p1 = this.getPointAtLength( length - delta ) ;
+	const p2 = this.getPointAtLength( length + delta ) ;
+	const dx = p2.x - p1.x ;
+	const dy = p2.y - p1.y ;
+	const dist = Math.sqrt( dx * dx + dy * dy ) ;
+
+	return {
+		x: dx / dist ,
+		y: dy / dist ,
+		angle: Math.atan2( dy , dx )
+	} ;
+} ;
+
+
+
+// Position + Tangent + Angle (radians)
+Arc.prototype.getPropertiesAtLength = function( length ) {
+	const point = this.getPointAtLength( length ) ;
+	const tangent = this.getTangentAtLength( length ) ;
+
+	return {
+		x: point.x ,
+		y: point.y ,
+		dx: tangent.x ,
+		dy: tangent.y ,
+		angle: tangent.angle
+	} ;
+} ;
+
+
+
+
+Arc.pointOnEllipticalArc =
+Arc.prototype.pointOnEllipticalArc = function( p0 , radius , xAxisRotation , largeArcFlag , sweepFlag , p1 , t ) {
+	// In accordance to: http://www.w3.org/TR/SVG/implnote.html#ArcOutOfRangeParameters
+	let rx = Math.abs( radius.x ) ,
+		ry = Math.abs( radius.y ) ,
+		xAxisRotationRadians = toRadians( mod( xAxisRotation , 360 ) ) ;
+
+	// If the endpoints are identical, then this is equivalent to omitting the elliptical arc segment entirely.
+	if ( p0.x === p1.x && p0.y === p1.y ) {
+		return { x: p0.x , y: p0.y , ellipticalArcAngle: 0 } ; // Check if angle is correct
+	}
+
+	// If rx = 0 or ry = 0 then this arc is treated as a straight line segment joining the endpoints.
+	if ( rx === 0 || ry === 0 ) {
+		//return this.pointOnLine(p0, p1, t);
+		return { x: 0 , y: 0 , ellipticalArcAngle: 0 } ; // Check if angle is correct
+	}
+
+	// Following "Conversion from endpoint to center parameterization"
+	// http://www.w3.org/TR/SVG/implnote.html#ArcConversionEndpointToCenter
+
+	// Step #1: Compute transformedPoint
+	const dx = ( p0.x - p1.x ) / 2 ;
+	const dy = ( p0.y - p1.y ) / 2 ;
+	const transformedPoint = {
+		x: Math.cos( xAxisRotationRadians ) * dx + Math.sin( xAxisRotationRadians ) * dy ,
+		y: - Math.sin( xAxisRotationRadians ) * dx + Math.cos( xAxisRotationRadians ) * dy
+	} ;
+	// Ensure radii are large enough
+	const radiiCheck =
+    Math.pow( transformedPoint.x , 2 ) / Math.pow( rx , 2 ) +
+    Math.pow( transformedPoint.y , 2 ) / Math.pow( ry , 2 ) ;
+	if ( radiiCheck > 1 ) {
+		rx = Math.sqrt( radiiCheck ) * rx ;
+		ry = Math.sqrt( radiiCheck ) * ry ;
+	}
+
+	// Step #2: Compute transformedCenter
+	const cSquareNumerator =
+    Math.pow( rx , 2 ) * Math.pow( ry , 2 ) -
+    Math.pow( rx , 2 ) * Math.pow( transformedPoint.y , 2 ) -
+    Math.pow( ry , 2 ) * Math.pow( transformedPoint.x , 2 ) ;
+	const cSquareRootDenom =
+    Math.pow( rx , 2 ) * Math.pow( transformedPoint.y , 2 ) +
+    Math.pow( ry , 2 ) * Math.pow( transformedPoint.x , 2 ) ;
+	let cRadicand = cSquareNumerator / cSquareRootDenom ;
+	// Make sure this never drops below zero because of precision
+	cRadicand = cRadicand < 0 ? 0 : cRadicand ;
+	const cCoef = ( largeArcFlag !== sweepFlag ? 1 : - 1 ) * Math.sqrt( cRadicand ) ;
+	const transformedCenter = {
+		x: cCoef * ( ( rx * transformedPoint.y ) / ry ) ,
+		y: cCoef * ( - ( ry * transformedPoint.x ) / rx )
+	} ;
+
+	// Step #3: Compute center
+	const center = {
+		x:
+      Math.cos( xAxisRotationRadians ) * transformedCenter.x -
+      Math.sin( xAxisRotationRadians ) * transformedCenter.y +
+      ( p0.x + p1.x ) / 2 ,
+		y:
+      Math.sin( xAxisRotationRadians ) * transformedCenter.x +
+      Math.cos( xAxisRotationRadians ) * transformedCenter.y +
+      ( p0.y + p1.y ) / 2
+	} ;
+
+	// Step #4: Compute start/sweep angles
+	// Start angle of the elliptical arc prior to the stretch and rotate operations.
+	// Difference between the start and end angles
+	const startVector = {
+		x: ( transformedPoint.x - transformedCenter.x ) / rx ,
+		y: ( transformedPoint.y - transformedCenter.y ) / ry
+	} ;
+	const startAngle = angleBetween(
+		{
+			x: 1 ,
+			y: 0
+		} ,
+		startVector
+	) ;
+
+	const endVector = {
+		x: ( - transformedPoint.x - transformedCenter.x ) / rx ,
+		y: ( - transformedPoint.y - transformedCenter.y ) / ry
+	} ;
+	let sweepAngle = angleBetween( startVector , endVector ) ;
+
+	if ( ! sweepFlag && sweepAngle > 0 ) {
+		sweepAngle -= 2 * Math.PI ;
+	}
+	else if ( sweepFlag && sweepAngle < 0 ) {
+		sweepAngle += 2 * Math.PI ;
+	}
+	// We use % instead of `mod(..)` because we want it to be -360deg to 360deg(but actually in radians)
+	sweepAngle %= 2 * Math.PI ;
+
+	// From http://www.w3.org/TR/SVG/implnote.html#ArcParameterizationAlternatives
+	const angle = startAngle + sweepAngle * t ;
+	const ellipseComponentX = rx * Math.cos( angle ) ;
+	const ellipseComponentY = ry * Math.sin( angle ) ;
+
+	const point = {
+		x:
+      Math.cos( xAxisRotationRadians ) * ellipseComponentX -
+      Math.sin( xAxisRotationRadians ) * ellipseComponentY +
+      center.x ,
+		y:
+      Math.sin( xAxisRotationRadians ) * ellipseComponentX +
+      Math.cos( xAxisRotationRadians ) * ellipseComponentY +
+      center.y ,
+		ellipticalArcStartAngle: startAngle ,
+		ellipticalArcEndAngle: startAngle + sweepAngle ,
+		ellipticalArcAngle: angle ,
+		ellipticalArcCenter: center ,
+		resultantRx: rx ,
+		resultantRy: ry
+	} ;
+
+	return point ;
+} ;
+
+
+
+Arc.approximateArcLengthOfCurve =
+Arc.prototype.approximateArcLengthOfCurve = function( resolution , pointOnCurveFunc , boundingBox = null )  {
+	// Resolution is the number of segments we use
+	resolution = resolution ? resolution : 500 ;
+
+	let resultantArcLength = 0 ;
+	const arcLengthMap = [] ;
+	const approximationLines = [] ;
+
+	let nextPoint ,
+		prevPoint = pointOnCurveFunc( 0 ) ;
+
+	if ( boundingBox ) { boundingBox.ensurePoint( prevPoint ) ; }
+
+	for ( let i = 0 ; i < resolution ; i ++ ) {
+		const t = clamp( i * ( 1 / resolution ) , 0 , 1 ) ;
+		nextPoint = pointOnCurveFunc( t ) ;
+		if ( boundingBox ) { boundingBox.ensurePoint( nextPoint ) ; }
+		resultantArcLength += distance( prevPoint , nextPoint ) ;
+		approximationLines.push( [ prevPoint , nextPoint ] ) ;
+
+		arcLengthMap.push( {
+			t: t ,
+			arcLength: resultantArcLength
+		} ) ;
+
+		prevPoint = nextPoint ;
+	}
+
+	// Last stretch to the endpoint
+	nextPoint = pointOnCurveFunc( 1 ) ;
+	if ( boundingBox ) { boundingBox.ensurePoint( nextPoint ) ; }
+	approximationLines.push( [ prevPoint , nextPoint ] ) ;
+	resultantArcLength += distance( prevPoint , nextPoint ) ;
+	arcLengthMap.push( {
+		t: 1 ,
+		arcLength: resultantArcLength
+	} ) ;
+
+	return {
+		arcLength: resultantArcLength ,
+		arcLengthMap: arcLengthMap ,
+		approximationLines: approximationLines
+	} ;
+} ;
+
+
+
+const mod = ( x , m ) => {
+	return ( ( x % m ) + m ) % m ;
+} ;
+
+const toRadians = ( angle ) => {
+	return angle * ( Math.PI / 180 ) ;
+} ;
+
+const distance = ( p0 , p1 ) => {
+	return Math.sqrt( Math.pow( p1.x - p0.x , 2 ) + Math.pow( p1.y - p0.y , 2 ) ) ;
+} ;
+
+const clamp = ( val , min , max ) => {
+	return Math.min( Math.max( val , min ) , max ) ;
+} ;
+
+const angleBetween = ( v0 , v1 ) => {
+	const p = v0.x * v1.x + v0.y * v1.y ;
+	const n = Math.sqrt(
+		( Math.pow( v0.x , 2 ) + Math.pow( v0.y , 2 ) ) * ( Math.pow( v1.x , 2 ) + Math.pow( v1.y , 2 ) )
+	) ;
+	const sign = v0.x * v1.y - v0.y * v1.x < 0 ? - 1 : 1 ;
+	const angle = sign * Math.acos( p / n ) ;
+
+	return angle ;
+} ;
+
+
+},{"../BoundingBox.js":119}],125:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2024 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+/*
+	Mostly derived from svg-path-properties by RogerVecianaAbzu:
+	https://github.com/rveciana/svg-path-properties/blob/master/src/bezier.ts
+*/
+
+
+
+function Bezier( ... args ) {
+	// Cache those values for faster execution
+	this.xs = args.map( v => v.x ) ;
+	this.ys = args.map( v => v.y ) ;
+	this.length = this.getLength( this.xs , this.ys , 1 ) ;
+	this.boundingBox = this.getBoundingBox( this.xs , this.ys ) ;
+}
+
+module.exports = Bezier ;
+
+
+
+Bezier.prototype.getPointAtLength = function( length ) {
+	if ( length === 0 ) { return { x: this.startPoint.x , y: this.startPoint.y } ; }
+	if ( length === this.length ) { return { x: this.endPoint.x , y: this.endPoint.y } ; }
+
+	const t = this.getT( this.xs , this.ys , length ) ;
+	return this.getPoint( this.xs , this.ys , t ) ;
+} ;
+
+
+
+Bezier.prototype.getTangentAtLength = function( length ) {
+	const t = this.getT( this.xs , this.ys , length ) ;
+
+	const derivative = this.getDerivative( this.xs , this.ys , t ) ;
+	const mdl = Math.sqrt( derivative.x * derivative.x + derivative.y * derivative.y ) ;
+
+	let tangent ;
+
+	if ( mdl > 0 ) {
+		tangent = { x: derivative.x / mdl , y: derivative.y / mdl } ;
+	}
+	else {
+		tangent = { x: 0 , y: 0 } ;
+	}
+
+	tangent.angle = Math.atan2( tangent.y , tangent.x ) ;
+
+	return tangent ;
+} ;
+
+
+
+// Position + Tangent + Angle (radians)
+Bezier.prototype.getPropertiesAtLength = function( length ) {
+	const t = this.getT( this.xs , this.ys , length ) ;
+
+	let point , tangent ;
+
+	if ( length === 0 ) { point = { x: this.startPoint.x , y: this.startPoint.y } ; }
+	else if ( length === this.length ) { point = { x: this.endPoint.x , y: this.endPoint.y } ; }
+	else { point = this.getPoint( this.xs , this.ys , t ) ; }
+
+	const derivative = this.getDerivative( this.xs , this.ys , t ) ;
+	const mdl = Math.sqrt( derivative.x * derivative.x + derivative.y * derivative.y ) ;
+
+	if ( mdl > 0 ) {
+		tangent = { x: derivative.x / mdl , y: derivative.y / mdl } ;
+	}
+	else {
+		tangent = { x: 0 , y: 0 } ;
+	}
+
+	return {
+		x: point.x ,
+		y: point.y ,
+		dx: tangent.x ,
+		dy: tangent.y ,
+		angle: Math.atan2( tangent.y , tangent.x )
+	} ;
+} ;
+
+
+
+// Get the t value for a given length
+Bezier.prototype.getT = function( xs , ys , length ) {
+	let error = 1 ;
+	let t = length / this.length ;
+	let step = ( length - this.getLength( xs , ys , t ) ) / this.length ;
+
+	let numIterations = 0 ;
+
+	while ( error > 0.001 ) {
+		const increasedTLength = this.getLength( xs , ys , t + step ) ;
+		const increasedTError = Math.abs( length - increasedTLength ) / this.length ;
+		if ( increasedTError < error ) {
+			error = increasedTError ;
+			t += step ;
+		}
+		else {
+			const decreasedTLength = this.getLength( xs , ys , t - step ) ;
+			const decreasedTError = Math.abs( length - decreasedTLength ) / this.length ;
+			if ( decreasedTError < error ) {
+				error = decreasedTError ;
+				t -= step ;
+			}
+			else {
+				step /= 2 ;
+			}
+		}
+
+		numIterations ++ ;
+		if ( numIterations > 500 ) {
+			break ;
+		}
+	}
+
+	return t ;
+} ;
+
+
+},{}],126:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2024 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+/*
+	Mostly derived from svg-path-properties by RogerVecianaAbzu:
+	https://github.com/rveciana/svg-path-properties/blob/master/src/bezier.ts
+*/
+
+
+
+const Bezier = require( './Bezier.js' ) ;
+const QuadraticBezier = require( './QuadraticBezier.js' ) ;
+const BoundingBox = require( '../BoundingBox.js' ) ;
+const { tValues , cValues , binomialCoefficients } = require( './bezier-values.json' ) ;
+
+
+
+function CubicBezier( startPoint , startControl , endControl , endPoint ) {
+	this.startPoint = startPoint ;
+	this.startControl = startControl ;
+	this.endControl = endControl ;
+	this.endPoint = endPoint ;
+	Bezier.call( this , startPoint , startControl , endControl , endPoint ) ;
+}
+
+module.exports = CubicBezier ;
+
+CubicBezier.prototype = Object.create( Bezier.prototype ) ;
+CubicBezier.prototype.constructor = CubicBezier ;
+
+
+
+// The parametric formula for a given axis
+function parametric( ps , t ) {
+	const mt = 1 - t ;
+	return ( mt * mt * mt * ps[0] ) + ( 3 * mt * mt * t * ps[1] ) + ( 3 * mt * t * t * ps[2] ) + ( t * t * t * ps[3] ) ;
+}
+
+
+
+CubicBezier.getPoint =
+CubicBezier.prototype.getPoint = ( xs , ys , t ) => {
+	return {
+		x: parametric( xs , t ) ,
+		y: parametric( ys , t )
+	} ;
+} ;
+
+
+
+CubicBezier.getDerivative =
+CubicBezier.prototype.getDerivative = ( xs , ys , t ) => {
+	const derivative = QuadraticBezier.getPoint(
+		[ 3 * ( xs[1] - xs[0] ) , 3 * ( xs[2] - xs[1] ) , 3 * ( xs[3] - xs[2] ) ] ,
+		[ 3 * ( ys[1] - ys[0] ) , 3 * ( ys[2] - ys[1] ) , 3 * ( ys[3] - ys[2] ) ] ,
+		t
+	) ;
+	return derivative ;
+} ;
+
+
+
+CubicBezier.getLength =
+CubicBezier.prototype.getLength = ( xs , ys , t = 1 ) => {
+	let z ;
+	let sum ;
+	let correctedT ;
+
+	/*if (xs.length >= tValues.length) {
+        throw new Error('too high n bezier');
+      }*/
+
+	const n = 20 ;
+
+	z = t / 2 ;
+	sum = 0 ;
+	for ( let i = 0 ; i < n ; i ++ ) {
+		correctedT = z * tValues[n][i] + z ;
+		sum += cValues[n][i] * cubicIteration( xs , ys , correctedT ) ;
+	}
+	return z * sum ;
+} ;
+
+
+
+function cubicIteration( xs , ys , t ) {
+	const xbase = getCurveDerivative( 1 , t , xs ) ;
+	const ybase = getCurveDerivative( 1 , t , ys ) ;
+	const combined = xbase * xbase + ybase * ybase ;
+	return Math.sqrt( combined ) ;
+}
+
+
+
+// Compute the curve derivative (hodograph) at t.
+function getCurveDerivative( derivative , t , vs ) {
+	// the derivative of any 't'-less function is zero.
+	const n = vs.length - 1 ;
+	let _vs ;
+	let value ;
+
+	if ( n === 0 ) {
+		return 0 ;
+	}
+
+	// direct values? compute!
+	if ( derivative === 0 ) {
+		value = 0 ;
+		for ( let k = 0 ; k <= n ; k ++ ) {
+			value +=
+        binomialCoefficients[n][k] *
+        Math.pow( 1 - t , n - k ) *
+        Math.pow( t , k ) *
+        vs[k] ;
+		}
+		return value ;
+	}
+	// Still some derivative? go down one order, then try
+	// for the lower order curve's.
+	_vs = new Array( n ) ;
+	for ( let k = 0 ; k < n ; k ++ ) {
+		_vs[k] = n * ( vs[k + 1] - vs[k] ) ;
+	}
+
+	return getCurveDerivative( derivative - 1 , t , _vs ) ;
+}
+
+
+
+// Derived from:For cubic bezier.
+// https://stackoverflow.com/questions/24809978/calculating-the-bounding-box-of-cubic-bezier-curve
+CubicBezier.getBoundingBox =
+CubicBezier.prototype.getBoundingBox = function( xs , ys ) {
+	let tExtrema = [] ,
+		xExtrema = [ xs[0] , xs[3] ] ,
+		yExtrema = [ ys[0] , ys[3] ] ;
+
+	getTExtrema( xs , tExtrema ) ;
+	getTExtrema( ys , tExtrema ) ;
+
+	for ( let t of tExtrema ) {
+		xExtrema.push( parametric( xs , t ) ) ;
+		yExtrema.push( parametric( ys , t ) ) ;
+	}
+
+	return new BoundingBox(
+		Math.min( ... xExtrema ) ,
+		Math.min( ... yExtrema ) ,
+		Math.max( ... xExtrema ) ,
+		Math.max( ... yExtrema )
+	) ;
+} ;
+
+/* eslint-disable camelcase */
+function getTExtrema( ps , tExtrema ) {
+	let b = 6 * ps[0] - 12 * ps[1] + 6 * ps[2] ,
+		a = - 3 * ps[0] + 9 * ps[1] - 9 * ps[2] + 3 * ps[3] ,
+		c = 3 * ps[1] - 3 * ps[0] ;
+
+	if ( Math.abs( a ) < 1e-12 ) {
+		if ( Math.abs( b ) < 1e-12 ) { return ; }
+		let t = - c / b ;
+		if ( 0 < t && t < 1 ) { tExtrema.push( t ) ; }
+		return ;
+	}
+
+	let b2ac = b * b - 4 * c * a ;
+
+	if ( b2ac < 0 ) {
+		if ( Math.abs( b2ac ) < 1e-12 ) {
+			let t = - b / ( 2 * a ) ;
+			if ( 0 < t && t < 1 ) { tExtrema.push( t ) ; }
+		}
+		return ;
+	}
+
+	let sqrt_b2ac = Math.sqrt( b2ac ) ;
+	let t1 = ( - b + sqrt_b2ac ) / ( 2 * a ) ;
+	if ( 0 < t1 && t1 < 1 ) { tExtrema.push( t1 ) ; }
+
+	let t2 = ( - b - sqrt_b2ac ) / ( 2 * a ) ;
+	if ( 0 < t2 && t2 < 1 ) { tExtrema.push( t2 ) ; }
+}
+
+
+},{"../BoundingBox.js":119,"./Bezier.js":125,"./QuadraticBezier.js":130,"./bezier-values.json":131}],127:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2024 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const BoundingBox = require( '../BoundingBox.js' ) ;
+
+
+
+function Line( startPoint , endPoint ) {
+	this.startPoint = startPoint ;
+	this.endPoint = endPoint ;
+	this.length = this.getLength() ;
+
+	this.boundingBox = new BoundingBox( null ) ;
+	this.boundingBox.ensurePoint( startPoint ) ;
+	this.boundingBox.ensurePoint( endPoint ) ;
+}
+
+module.exports = Line ;
+
+
+
+Line.prototype.getLength = function( t = 1 ) {
+	let dx = this.endPoint.x - this.startPoint.x ,
+		dy = this.endPoint.y - this.startPoint.y ;
+
+	return t * Math.sqrt( dx * dx + dy * dy ) ;
+} ;
+
+
+
+Line.prototype.getPointAtLength = function( length ) {
+	if ( length === 0 ) { return { x: this.startPoint.x , y: this.startPoint.y } ; }
+	if ( length === this.length ) { return { x: this.endPoint.x , y: this.endPoint.y } ; }
+
+	let dx = this.endPoint.x - this.startPoint.x ,
+		dy = this.endPoint.y - this.startPoint.y ,
+		t = length / this.length || 0 ;
+
+	return {
+		x: this.startPoint.x + t * dx ,
+		y: this.startPoint.y + t * dy
+	} ;
+} ;
+
+
+
+// No argument, it does not depend on the length, it's always the same
+Line.prototype.getTangentAtLength = function() {
+	let dx = this.endPoint.x - this.startPoint.x ,
+		dy = this.endPoint.y - this.startPoint.y ;
+
+	return {
+		x: dx / this.length || 0 ,
+		y: dy / this.length || 0 ,
+		angle: Math.atan2( dy , dx )
+	} ;
+} ;
+
+
+
+// Position + Tangent + Angle (radians)
+Line.prototype.getPropertiesAtLength = function( length ) {
+	var point = this.getPointAtLength( length ) ;
+	var tangent = this.getTangentAtLength() ;
+
+	return {
+		x: point.x ,
+		y: point.y ,
+		dx: tangent.x ,
+		dy: tangent.y ,
+		angle: tangent.angle
+	} ;
+} ;
+
+
+},{"../BoundingBox.js":119}],128:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2024 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+// Dummy class, only for interface
+
+// common null bounding box?
+//const BoundingBox = require( '../BoundingBox.js' ) ;
+//const BOUNDING_BOX = new BoundingBox( null ) ;
+
+function Move( endPoint ) {
+	this.endPoint = endPoint ;
+	this.length = 0 ;
+	//this.boundingBox = BOUNDING_BOX ;
+}
+
+module.exports = Move ;
+
+Move.prototype.getLength = function() { return 0 ; } ;
+
+Move.prototype.getPointAtLength = function() {
+	return {
+		x: this.endPoint.x ,
+		y: this.endPoint.y
+	} ;
+} ;
+
+Move.prototype.getTangentAtLength = function() {
+	return {
+		x: 0 ,
+		y: 0 ,
+		angle: 0
+	} ;
+} ;
+
+Move.prototype.getPropertiesAtLength = function() {
+	return {
+		x: this.endPoint.x ,
+		y: this.endPoint.y ,
+		dx: 0 ,
+		dy: 0 ,
+		angle: 0
+	} ;
+} ;
+
+
+},{}],129:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2024 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const Move = require( './Move.js' ) ;
+const Line = require( './Line.js' ) ;
+const CubicBezier = require( './CubicBezier.js' ) ;
+const QuadraticBezier = require( './QuadraticBezier.js' ) ;
+const Arc = require( './Arc.js' ) ;
+const BoundingBox = require( '../BoundingBox.js' ) ;
+
+const degToRad = deg => deg * Math.PI / 180 ;
+const radToDeg = rad => rad * 180 / Math.PI ;
+const radToRoundedDeg = rad => Math.round( rad * 180 / Math.PI ) ;
+
+
+
+function Path( commands , invertY = false ) {
+	this.commands = [] ;
+	this.invertY = invertY ;
+
+	// Computed
+	this.computeCurvesBuild = null ;
+	this.curves = [] ;
+	this.totalLength = 0 ;
+	this.polygonHull = null ;
+	this.polylineHull = null ;
+	this.boundingBox = new BoundingBox( null ) ;
+
+	if ( commands ) { this.set( commands ) ; }
+}
+
+module.exports = Path ;
+
+Path.prototype.__prototypeUID__ = 'svg-kit/Path' ;
+Path.prototype.__prototypeVersion__ = require( '../../package.json' ).version ;
+
+// Circular...
+const Polygon = require( '../Polygon.js' ) ;
+const Polyline = require( '../Polyline.js' ) ;
+
+
+
+Path.prototype.set = function( commands ) {
+	if ( ! Array.isArray( commands ) ) { return ; }
+
+	this.boundingBox.nullify() ;
+	this.polygonHull = this.polylineHull = null ;
+
+	for ( let command of commands ) {
+		if ( Path.commands[ command.type ].add ) {
+			Path.commands[ command.type ].add( this.commands , command ) ;
+		}
+	}
+} ;
+
+
+
+Path.prototype.export = function( data = {} ) {
+	if ( this.commands.length ) { data.commands = this.commands.map( command => Object.assign( {} , command ) ) ; }
+	return data ;
+} ;
+
+
+
+// Changing invertY parameter can change commands based on chirality (turtle-based commands)
+Path.prototype.setInvertY = function( invertY ) {
+	invertY = !! invertY ;
+	if ( this.invertY === invertY ) { return ; }
+	this.invertY = invertY ;
+	this.clearComputed() ;
+	this.computeCurves() ;
+} ;
+
+
+
+Path.prototype.clearComputed = function() {
+	this.computeCurvesBuild = null ;
+	this.curves.length = 0 ;
+	this.totalLength = 0 ;
+	this.polygonHull = this.polylineHull = null ;
+	this.boundingBox.nullify() ;
+} ;
+
+
+
+/*
+	This method is used to build the SVG 'd' attribute from the SVG Kit's command format.
+*/
+
+Path.prototype.toD = function() {
+	return Path.commandsToD( this.commands , this.invertY )  ;
+} ;
+
+
+
+// TODO - for an existing parser, see here:
+// https://github.com/fontello/svgpath/blob/master/lib/path_parse.js
+Path.parse = function() {} ;
+
+
+
+Path.commandsToD = ( commands , invertY = false ) => {
+	var build = {
+		invertY ,
+		d: '' ,
+		pu: false ,	// Pen Up, when true, turtle-like commands move without tracing anything
+		cx: 0 ,		// cursor position x
+		cy: 0 ,		// cursor position y
+		ca: invertY ? - Math.PI / 2 : Math.PI / 2		// cursor angle, default to positive Y-axis
+	} ;
+
+	commands.forEach( ( command , index ) => {
+		if ( ! Path.commands[ command.type ].toD ) { return ; }
+		if ( index ) { build.d += ' ' ; }
+		Path.commands[ command.type ].toD( command , build ) ;
+	} ) ;
+
+	return build.d ;
+} ;
+
+
+
+Path.prototype.computeCurves = function() {
+	if ( this.computeCurvesBuild && this.computeCurvesBuild.next >= this.commands.length ) { return ; }
+
+	if ( ! this.computeCurvesBuild ) {
+		this.computeCurvesBuild = {
+			next: 0 ,
+			invertY: this.invertY ,
+			lastCurve: null ,
+			openPoint: { x: 0 , y: 0 } ,	// The point the .close() command close to
+			pu: false ,	// Pen Up, when true, turtle-like commands move without tracing anything
+			ca: this.invertY ? - Math.PI / 2 : Math.PI / 2		// cursor angle, default to positive Y-axis
+		} ;
+	}
+
+	for ( ; this.computeCurvesBuild.next < this.commands.length ; this.computeCurvesBuild.next ++ ) {
+		let command = this.commands[ this.computeCurvesBuild.next ] ;
+
+		if ( Path.commands[ command.type ].toCurve ) {
+			let curve = Path.commands[ command.type ].toCurve( command , this.computeCurvesBuild ) ;
+
+			if ( curve ) {
+				if ( curve instanceof Move ) {
+					this.computeCurvesBuild.openPoint = { x: curve.endPoint.x , y: curve.endPoint.y } ;
+				}
+				else {
+					this.totalLength += curve.length ;
+					this.boundingBox.merge( curve.boundingBox ) ;
+				}
+
+				this.computeCurvesBuild.lastCurve = curve ;
+				this.curves.push( curve ) ;
+			}
+		}
+	}
+} ;
+
+
+
+Path.prototype.getLength = function() {
+	this.computeCurves() ;
+	return this.totalLength ;
+} ;
+
+
+
+Path.prototype.getPointAtLength = function( length , extraData = false ) {
+	this.computeCurves() ;
+
+	if ( length < 0 ) { length = 0 ; }
+	else if ( length > this.totalLength ) { length = this.totalLength ; }
+
+	var lastCurve = null ,
+		remainingLength = length ;
+
+	for ( let curve of this.curves ) {
+		if ( curve ) {
+			if ( ! ( curve instanceof Move ) ) {
+				if ( remainingLength <= curve.length ) {
+					return extraData ? curve.getPropertiesAtLength( remainingLength ) : curve.getPointAtLength( remainingLength ) ;
+				}
+
+				remainingLength -= curve.length ;
+			}
+
+			lastCurve = curve ;
+		}
+	}
+
+	// Nothing found? Return the endPoint of the last curve
+	if ( ! lastCurve ) {
+		return extraData ? { x: 0 , y: 0 , dx: 0 , dy: 0 } : { x: 0 , y: 0 } ;	// eslint-disable-line object-curly-newline
+	}
+
+	if ( lastCurve instanceof Move ) {
+		return extraData ? { x: lastCurve.endPoint.x , y: lastCurve.endPoint.y , dx: 0 , dy: 0 } : { x: lastCurve.endPoint.x , y: lastCurve.endPoint.y } ;	// eslint-disable-line object-curly-newline
+	}
+
+	// Due to floating point error, it is possible that length = totalLength  overflow
+	// This will prevent this
+	return extraData ? lastCurve.getPropertiesAtLength( lastCurve.length ) : lastCurve.getPointAtLength( lastCurve.length ) ;
+} ;
+
+
+
+const isPointEqual = ( point1 , point2 ) => point1.x === point2.x && point1.y === point2.y ;
+
+// Split on Move curve, grouping by shapes (closed or not)
+// noOpenShape: remove group that DOES NOT close to itself (that are not polygons)
+// noClosedShape: remove group that DOES close to itself (that are not polylines)
+Path.prototype.groupCurvesByShape = function( noOpenShape = false , noClosedShape = false ) {
+	var group = [] ,
+		groupList = [] ,
+		closed ;
+
+	for ( let curve of this.curves ) {
+		if ( curve instanceof Move ) {
+			if ( group.length ) {
+				closed = isPointEqual( group[ 0 ].startPoint , group[ group.length - 1 ].endPoint ) ;
+				if ( closed ? ! noClosedShape : ! noOpenShape ) {
+					groupList.push( group ) ;
+				}
+
+				group = [] ;
+			}
+		}
+		else {
+			group.push( curve ) ;
+		}
+	}
+
+	closed = isPointEqual( group[ 0 ].startPoint , group[ group.length - 1 ].endPoint ) ;
+	if ( group.length && ( closed ? ! noClosedShape : ! noOpenShape ) ) {
+		groupList.push( group ) ;
+	}
+
+	return groupList ;
+} ;
+
+
+
+/*
+	Options:
+		step: get a point every step value length
+		forceKeyPoints: boolean (default: false), if true: always add points at the begining and at the end of a path's part (aka 'cusp')
+		angleThreshold: if set, only add the point if its tangent angle has moved more than this threshold (in radian)
+		angleThresholdDeg: the same than angleThreshold, but angle is in degree
+		groupShape: boolean (default: false), if true: points are grouped by shape, if false: the produced array is flatten
+		noOpenShape: internal, used by .toPolygon(), remove points of open shape
+		noClosedShape: internal, used by .toPolyline(), remove points of closed shaped
+*/
+Path.prototype.getPoints = function( options = {} ) {
+	var step = options.step || 1 ,
+		forceKeyPoints = !! options.forceKeyPoints ,
+		angleThreshold = options.angleThresholdDeg !== undefined ? degToRad( + options.angleThresholdDeg || 0 ) : + options.angleThreshold || 0 ,
+		simplifyLines = !! angleThreshold ,
+		pointsGroups = [] ;
+
+	this.computeCurves() ;
+
+	var length = 0 ,
+		lengthRemainder = 0 ;
+
+	for ( let group of this.groupCurvesByShape( options.noOpenShape , options.noClosedShape ) ) {
+		let data = this.getPointsOfShape( group , step , forceKeyPoints , length , lengthRemainder , simplifyLines ) ;
+		pointsGroups.push( data.points ) ;
+		length = data.endingLength ;
+		lengthRemainder = data.lengthRemainder ;
+	}
+
+	if ( angleThreshold ) {
+		for ( let points of pointsGroups ) {
+			this.simplifyShape( points , angleThreshold ) ;
+		}
+	}
+
+	console.warn( "getPoints():" , pointsGroups.flat() ) ;
+	return options.groupShape ? pointsGroups : pointsGroups.flat() ;
+} ;
+
+
+
+Path.prototype.getPointsOfShape = function( curveList , step , forceKeyPoints , startingLength , lengthRemainder , simplifyLines ) {
+	var pointList = [] ,
+		lastPoint = null ,
+		lengthUpToLastCurve = startingLength ,
+		lastCurveRemainder = lengthRemainder ;
+
+	for ( let curve of curveList ) {
+		let startPoint = curve.getPropertiesAtLength( 0 ) ;
+
+		if ( ! lastPoint ) {
+			startPoint.atLength = lengthUpToLastCurve ;
+			startPoint.startShape = true ;
+			if ( forceKeyPoints ) { startPoint.keyPoint = true ; }
+			pointList.push( startPoint ) ;
+			lastPoint = startPoint ;
+		}
+		else {
+			lastPoint.nextAngle = startPoint.angle ;
+		}
+
+		if ( forceKeyPoints ) {
+			let point ,
+				lengthInCurve = step ,
+				subdivision = Math.round( curve.length / step ) || 1 ,
+				everyCurveLength = curve.length / subdivision ;
+
+			if ( ! simplifyLines || ! ( curve instanceof Line ) ) {
+				for ( let i = 1 ; i < subdivision ; i ++ , lengthInCurve += everyCurveLength ) {
+					point = curve.getPropertiesAtLength( lengthInCurve ) ;
+					point.atLength = lengthUpToLastCurve + lengthInCurve ;
+					pointList.push( point ) ;
+					lastPoint = point ;
+				}
+			}
+
+			// Special case for the end of the curve, we want to avoid floating point errors
+			point = curve.getPropertiesAtLength( curve.length ) ;
+			point.atLength = lengthUpToLastCurve + curve.length ;
+			point.keyPoint = true ;
+			pointList.push( point ) ;
+			lastPoint = point ;
+			lengthUpToLastCurve += curve.length ;
+		}
+		else {
+			let lastLengthInCurve ,
+				lengthInCurve = step - lastCurveRemainder ;
+
+			for ( ; lengthInCurve <= curve.length ; lengthInCurve += step ) {
+				let point = curve.getPropertiesAtLength( lengthInCurve ) ;
+				point.atLength = lengthUpToLastCurve + lengthInCurve ;
+				lastLengthInCurve = lengthInCurve ;
+				pointList.push( point ) ;
+				lastPoint = point ;
+			}
+
+			lengthUpToLastCurve += curve.length ;
+			lastCurveRemainder = curve.length - lastLengthInCurve ;
+		}
+	}
+
+	lastPoint.endShape = true ;
+
+	return {
+		points: pointList ,
+		endingLength: lengthUpToLastCurve ,
+		lengthRemainder: lastCurveRemainder
+	} ;
+} ;
+
+
+
+function threePointsAngle( pointList , previousIndex , index , nextIndex ) {
+	let angle ,
+		previousPoint = pointList[ previousIndex ] ,
+		point = pointList[ index ] ,
+		nextPoint = pointList[ nextIndex ] ,
+		previousDirection = Math.atan2( point.x - previousPoint.x , point.y - previousPoint.y ) ,
+		nextDirection = Math.atan2( nextPoint.x - point.x , nextPoint.y - point.y ) ;
+
+	// Absolute value of the angle
+	angle = Math.abs( ( previousDirection - nextDirection ) % ( 2 * Math.PI ) ) ;
+	angle = angle <= Math.PI ? angle : 2 * Math.PI - angle ;
+	return angle ;
+}
+
+Path.prototype.simplifyShape = function( pointList , angleThreshold ) {
+	var simplified = true ;
+
+	// We need a multi-pass approch here, doing it in one-shot will produce multiple consecutive points stripped
+	// and 2 consecutive points non-stripped, and so on... The previous lines eat all the “angle capital”.
+	// The removal is badly distributed.
+	// That's why a single pass should not remove consecutive points.
+	while ( simplified ) {
+		simplified = false ;
+
+		for ( let index = 1 ; index <= pointList.length - 2 ; index ++ ) {
+			// Do not remove key-points
+			if ( ! pointList[ index ].keyPoint ) {
+				let angle = threePointsAngle( pointList , index - 1 , index , index + 1 ) ;
+				//console.warn( "Angle:" , radToRoundedDeg( angle ) ) ;
+
+				if ( angle < angleThreshold ) {
+					// Now we will remove this point ONLY if the angle before and after are not
+					let angleBefore = index >= 2 ? threePointsAngle( pointList , index - 2 , index - 1 , index + 1 ) : 0 ;
+					let angleAfter = index <= pointList.length - 3 ? threePointsAngle( pointList , index - 1 , index + 1 , index + 2 ) : 0 ;
+					//console.log( "Angle before/after:" , radToRoundedDeg( angleBefore ) , radToRoundedDeg( angleAfter ) ) ;
+
+					if ( angleBefore <= angleThreshold && angleAfter <= angleThreshold ) {
+						//console.log( "==> remove it!" ) ;
+						pointList.splice( index , 1 ) ;
+						simplified = true ;
+						//index -- ;	// Can't do that, we need a mutli-pass approch
+					}
+				}
+			}
+		}
+	}
+} ;
+
+
+
+const DEFAULT_ANGLE_THRESHOLD = degToRad( 15 ) ;
+
+// Simplify the path, get a list of Polygon (only close-shapes are returned)
+Path.prototype.toPolygon = function( options = {} ) {
+	var groups = this.getPoints( {
+		step: options.step || 10 ,
+		forceKeyPoints: true ,
+		angleThreshold: ( options.angleThresholdDeg ? degToRad( + options.angleThresholdDeg || 0 ) : + options.angleThreshold || 0 ) || DEFAULT_ANGLE_THRESHOLD ,
+		noOpenShape: true ,
+		groupShape: true
+	} ) ;
+
+	return groups.map( points => new Polygon( { points } ) ) ;
+} ;
+
+
+
+// Simplify the path, get a list of Polyline (only open-shapes are returned)
+Path.prototype.toPolyline = function( options = {} ) {
+	var groups = this.getPoints( {
+		step: options.step || 10 ,
+		forceKeyPoints: true ,
+		angleThreshold: ( options.angleThresholdDeg ? degToRad( + options.angleThresholdDeg || 0 ) : + options.angleThreshold || 0 ) || DEFAULT_ANGLE_THRESHOLD ,
+		noClosedShape: true ,
+		groupShape: true
+	} ) ;
+
+	return groups.map( points => new Polyline( { points } ) ) ;
+} ;
+
+
+
+Path.prototype.computeHull = function() {
+	if ( ! this.polygonHull || ! this.polylineHull ) {
+		this.polygonHull = this.toPolygon() ;
+		this.polylineHull = this.toPolyline() ;
+	}
+
+	/*
+	this.boundingBox.nullify() ;
+	this.polygonHull.forEach( polygon => this.boundingBox.merge( polygon.boundingBox ) ) ;
+	this.polylineHull.forEach( polyline => this.boundingBox.merge( polyline.boundingBox ) ) ;
+	*/
+} ;
+
+
+
+Path.prototype.isInside = function( coords ) {
+	// First, check the BBox, maybe we don't have perform the more expensive polygon hull creation and test (lot of line-segments)...
+	if ( ! this.boundingBox.isInside( coords ) ) { return false ; }
+
+	if ( ! this.polygonHull ) { this.computeHull() ; }
+	return this.polygonHull.some( polygon => polygon.isInside( coords ) ) ;
+} ;
+
+
+
+/*
+	Now add path commands.
+	First, true SVG path commands.
+*/
+
+const ORIGIN = { x: 0 , y: 0 } ;
+//const radToDeg = rad => rad * 180 / Math.PI ;
+
+Path.commands = {} ;
+
+Path.commands.close = {
+	add: ( commands ) => commands.push( { type: 'close' } ) ,
+	toD: ( command , build ) => build.d += 'z' ,
+	toCurve: ( command , build ) => {
+		let lastPoint = build.lastCurve ? build.lastCurve.endPoint : ORIGIN ;
+
+		return new Line(
+			{ x: lastPoint.x , y: lastPoint.y } ,
+			{ x: build.openPoint.x , y: build.openPoint.y }
+		) ;
+	}
+} ;
+
+Path.commands.move = {
+	add: ( commands , data ) => commands.push( {
+		type: 'move' ,
+		rel: true ,
+		x: data.x || 0 ,
+		y: data.y || 0
+	} ) ,
+	toD: ( command , build ) => {
+		let y = build.invertY ? - command.y : command.y ;
+
+		if ( command.rel ) {
+			build.d += 'm ' + command.x + ' ' + y ;
+			build.cx += command.x ;
+			build.cy += y ;
+		}
+		else {
+			build.d += 'M ' + command.x + ' ' + y ;
+			build.cx = command.x ;
+			build.cy = y ;
+		}
+	} ,
+	toCurve: ( command , build ) => {
+		let lastPoint = build.lastCurve ? build.lastCurve.endPoint : ORIGIN ;
+
+		let ox = 0 , oy = 0 ;
+		if ( command.rel ) { ox = lastPoint.x ; oy = lastPoint.y ; }
+
+		return new Move(
+			{ x: ox + command.x , y: oy + command.y }
+		) ;
+	}
+} ;
+
+// Converted to 'move' (rel: false)
+Path.commands.moveTo = {
+	add: ( commands , data ) => commands.push( {
+		type: 'move' ,
+		x: data.x || 0 ,
+		y: data.y || 0
+	} )
+} ;
+
+Path.commands.line = {
+	add: ( commands , data ) => commands.push( {
+		type: 'line' ,
+		rel: true ,
+		x: data.x || 0 ,
+		y: data.y || 0
+	} ) ,
+	toD: ( command , build ) => {
+		let y = build.invertY ? - command.y : command.y ;
+
+		if ( command.rel ) {
+			build.d += 'l ' + command.x + ' ' + y ;
+			build.cx += command.x ;
+			build.cy += y ;
+		}
+		else {
+			build.d += 'L ' + command.x + ' ' + y ;
+			build.cx = command.x ;
+			build.cy = y ;
+		}
+	} ,
+	toCurve: ( command , build ) => {
+		let lastPoint = build.lastCurve ? build.lastCurve.endPoint : ORIGIN ;
+
+		let ox = 0 , oy = 0 ;
+		if ( command.rel ) { ox = lastPoint.x ; oy = lastPoint.y ; }
+
+		return new Line(
+			{ x: lastPoint.x , y: lastPoint.y } ,
+			{ x: ox + command.x , y: oy + command.y }
+		) ;
+	}
+} ;
+
+// Converted to 'line' (rel: false)
+Path.commands.lineTo = {
+	add: ( commands , data ) => commands.push( {
+		type: 'line' ,
+		x: data.x || 0 ,
+		y: data.y || 0
+	} )
+} ;
+
+Path.commands.hLine = {
+	add: ( commands , data ) => commands.push( {
+		type: 'hLine' ,
+		rel: true ,
+		x: typeof data === 'number' ? data || 0 : data.x || 0
+	} ) ,
+	toD: ( command , build ) => {
+		if ( command.rel ) {
+			build.d += 'h ' + command.x ;
+			build.cx += command.x ;
+		}
+		else {
+			build.d += 'H ' + command.x ;
+			build.cx = command.x ;
+		}
+	} ,
+	toCurve: ( command , build ) => {
+		let lastPoint = build.lastCurve ? build.lastCurve.endPoint : ORIGIN ;
+
+		let ox = 0 ;
+		if ( command.rel ) { ox = lastPoint.x ; }
+
+		return new Line(
+			{ x: lastPoint.x , y: lastPoint.y } ,
+			{ x: ox + command.x , y: lastPoint.y }
+		) ;
+	}
+} ;
+
+// Converted to 'hLine' (rel: false)
+Path.commands.hLineTo = {
+	add: ( commands , data ) => commands.push( {
+		type: 'hLine' ,
+		x: typeof data === 'number' ? data || 0 : data.x || 0
+	} )
+} ;
+
+Path.commands.vLine = {
+	add: ( commands , data ) => commands.push( {
+		type: 'vLine' ,
+		rel: true ,
+		y: typeof data === 'number' ? data || 0 : data.y || 0
+	} ) ,
+	toD: ( command , build ) => {
+		let y = build.invertY ? - command.y : command.y ;
+
+		if ( command.rel ) {
+			build.d += 'v ' + y ;
+			build.cy += y ;
+		}
+		else {
+			build.d += 'V ' + y ;
+			build.cy = y ;
+		}
+	} ,
+	toCurve: ( command , build ) => {
+		let lastPoint = build.lastCurve ? build.lastCurve.endPoint : ORIGIN ;
+
+		let oy = 0 ;
+		if ( command.rel ) { oy = lastPoint.y ; }
+
+		return new Line(
+			{ x: lastPoint.x , y: lastPoint.y } ,
+			{ x: lastPoint.x , y: oy + command.y }
+		) ;
+	}
+} ;
+
+// Converted to 'vLine' (rel: false)
+Path.commands.vLineTo = {
+	add: ( commands , data ) => commands.push( {
+		type: 'vLine' ,
+		y: typeof data === 'number' ? data || 0 : data.y || 0
+	} )
+} ;
+
+Path.commands.curve = {
+	add: ( commands , data ) => commands.push( {
+		type: 'curve' ,
+		rel: true ,
+		cx1: data.cx1 || 0 ,
+		cy1: data.cy1 || 0 ,
+		cx2: data.cx2 || 0 ,
+		cy2: data.cy2 || 0 ,
+		x: data.x || 0 ,
+		y: data.y || 0
+	} ) ,
+	toD: ( command , build ) => {
+		let cy1 = build.invertY ? - command.cy1 : command.cy1 ,
+			cy2 = build.invertY ? - command.cy2 : command.cy2 ,
+			y = build.invertY ? - command.y : command.y ;
+
+		if ( command.rel ) {
+			build.d += 'c ' + command.cx1 + ' ' + cy1 + ' ' + command.cx2 + ' ' + cy2 + ' '  + command.x + ' ' + y ;
+			build.cx += command.x ;
+			build.cy += y ;
+		}
+		else {
+			build.d += 'C ' + command.cx1 + ' ' + cy1 + ' ' + command.cx2 + ' ' + cy2 + ' '  + command.x + ' ' + y ;
+			build.cx = command.x ;
+			build.cy = y ;
+		}
+	} ,
+	toCurve: ( command , build ) => {
+		let lastPoint = build.lastCurve ? build.lastCurve.endPoint : ORIGIN ;
+
+		let ox = 0 , oy = 0 ;
+		if ( command.rel ) { ox = lastPoint.x ; oy = lastPoint.y ; }
+
+		return new CubicBezier(
+			{ x: lastPoint.x , y: lastPoint.y } ,
+			{ x: ox + command.cx1 , y: oy + command.cy1 } ,
+			{ x: ox + command.cx2 , y: oy + command.cy2 } ,
+			{ x: ox + command.x , y: oy + command.y }
+		) ;
+	}
+} ;
+
+// Converted to 'curve'
+Path.commands.curveTo = {
+	add: ( commands , data ) => commands.push( {
+		type: 'curve' ,
+		cx1: data.cx1 || 0 ,
+		cy1: data.cy1 || 0 ,
+		cx2: data.cx2 || 0 ,
+		cy2: data.cy2 || 0 ,
+		x: data.x || 0 ,
+		y: data.y || 0
+	} )
+} ;
+
+Path.commands.smoothCurve = {
+	add: ( commands , data ) => commands.push( {
+		type: 'smoothCurve' ,
+		rel: true ,
+		cx: data.cx || data.cx2 || 0 ,
+		cy: data.cy || data.cy2 || 0 ,
+		x: data.x || 0 ,
+		y: data.y || 0
+	} ) ,
+	toD: ( command , build ) => {
+		let cy = build.invertY ? - command.cy : command.cy ,
+			y = build.invertY ? - command.y : command.y ;
+
+		if ( command.rel ) {
+			build.d += 's ' + command.cx + ' ' + cy + ' ' + command.x + ' ' + y ;
+			build.cx += command.x ;
+			build.cy += y ;
+		}
+		else {
+			build.d += 'S ' + command.cx + ' ' + cy + ' ' + command.x + ' ' + y ;
+			build.cx = command.x ;
+			build.cy = y ;
+		}
+	} ,
+	toCurve: ( command , build ) => {
+		let lastPoint = build.lastCurve ? build.lastCurve.endPoint : ORIGIN ;
+		let lastControl = build.lastCurve && ( build.lastCurve instanceof CubicBezier ) ? build.lastCurve.endControl : lastPoint ;
+
+		let ox = 0 , oy = 0 ;
+		if ( command.rel ) { ox = lastPoint.x ; oy = lastPoint.y ; }
+
+		return new CubicBezier(
+			{ x: lastPoint.x , y: lastPoint.y } ,
+			{ x: 2 * lastPoint.x - lastControl.x , y: 2 * lastPoint.y - lastControl.y } ,
+			{ x: ox + command.cx , y: oy + command.cy } ,
+			{ x: ox + command.x , y: oy + command.y }
+		) ;
+	}
+} ;
+
+// Converted to 'smoothCurve'
+Path.commands.smoothCurveTo = {
+	add: ( commands , data ) => commands.push( {
+		type: 'smoothCurve' ,
+		cx: data.cx || data.cx2 || 0 ,
+		cy: data.cy || data.cy2 || 0 ,
+		x: data.x || 0 ,
+		y: data.y || 0
+	} )
+} ;
+
+// q-curve = Quadratic curve, it uses just one controle point instead of two
+Path.commands.qCurve = {
+	add: ( commands , data ) => commands.push( {
+		type: 'qCurve' ,
+		rel: true ,
+		cx: data.cx || data.cx1 || 0 ,
+		cy: data.cy || data.cy1 || 0 ,
+		x: data.x || 0 ,
+		y: data.y || 0
+	} ) ,
+	toD: ( command , build ) => {
+		let cy = build.invertY ? - command.cy : command.cy ,
+			y = build.invertY ? - command.y : command.y ;
+
+		if ( command.rel ) {
+			build.d += 'q ' + command.cx + ' ' + cy + ' ' + command.x + ' ' + y ;
+			build.cx += command.x ;
+			build.cy += y ;
+		}
+		else {
+			build.d += 'Q ' + command.cx + ' ' + cy + ' ' + command.x + ' ' + y ;
+			build.cx = command.x ;
+			build.cy = y ;
+		}
+	} ,
+	toCurve: ( command , build ) => {
+		let lastPoint = build.lastCurve ? build.lastCurve.endPoint : ORIGIN ;
+
+		let ox = 0 , oy = 0 ;
+		if ( command.rel ) { ox = lastPoint.x ; oy = lastPoint.y ; }
+
+		return new QuadraticBezier(
+			{ x: lastPoint.x , y: lastPoint.y } ,
+			{ x: ox + command.cx , y: oy + command.cy } ,
+			{ x: ox + command.x , y: oy + command.y }
+		) ;
+	}
+} ;
+
+// Converted to 'qCurve'
+Path.commands.qCurveTo = {
+	add: ( commands , data ) => commands.push( {
+		type: 'qCurve' ,
+		cx: data.cx || data.cx1 || 0 ,
+		cy: data.cy || data.cy1 || 0 ,
+		x: data.x || 0 ,
+		y: data.y || 0
+	} )
+} ;
+
+Path.commands.smoothQCurve = {
+	add: ( commands , data ) => commands.push( {
+		type: 'smoothQCurve' ,
+		rel: true ,
+		x: data.x || 0 ,
+		y: data.y || 0
+	} ) ,
+	toD: ( command , build ) => {
+		let y = build.invertY ? - command.y : command.y ;
+
+		if ( command.rel ) {
+			build.d += 't ' + command.x + ' ' + y ;
+			build.cx += command.x ;
+			build.cy += y ;
+		}
+		else {
+			build.d += 'T ' + command.x + ' ' + y ;
+			build.cx = command.x ;
+			build.cy = y ;
+		}
+	} ,
+	toCurve: ( command , build ) => {
+		let lastPoint = build.lastCurve ? build.lastCurve.endPoint : ORIGIN ;
+		let lastControl = build.lastCurve && ( build.lastCurve instanceof QuadraticBezier ) ? build.lastCurve.control : lastPoint ;
+
+		let ox = 0 , oy = 0 ;
+		if ( command.rel ) { ox = lastPoint.x ; oy = lastPoint.y ; }
+
+		return new QuadraticBezier(
+			{ x: lastPoint.x , y: lastPoint.y } ,
+			{ x: 2 * lastPoint.x - lastControl.x , y: 2 * lastPoint.y - lastControl.y } ,
+			{ x: ox + command.x , y: oy + command.y }
+		) ;
+	}
+} ;
+
+// Converted to 'smoothQCurve'
+Path.commands.smoothQCurveTo = {
+	add: ( commands , data ) => commands.push( {
+		type: 'smoothQCurve' ,
+		x: data.x || 0 ,
+		y: data.y || 0
+	} )
+} ;
+
+Path.commands.arc = {
+	add: ( commands , data ) => commands.push( {
+		type: 'arc' ,
+		rel: true ,
+		rx: data.rx || 0 ,
+		ry: data.ry || 0 ,
+		ra: data.ra || data.a || 0 ,	// x-axis rotation
+		la:
+			data.largeArc !== undefined ? !! data.largeArc :
+			data.longArc !== undefined ? !! data.longArc :
+			data.la !== undefined ? !! data.la :
+			false ,
+		pr:
+			data.positiveRotation !== undefined ? !! data.positiveRotation :
+			data.sweep !== undefined ? !! data.sweep :		// <- this is the SVG term
+			data.pr !== undefined ? !! data.pr :
+			true ,
+		x: data.x || 0 ,
+		y: data.y || 0
+	} ) ,
+	toD: ( command , build ) => {
+		let ra = build.invertY ? - command.ra : command.ra ,
+			pr = build.invertY ? ! command.pr : command.pr ,
+			y = build.invertY ? - command.y : command.y ;
+
+		if ( command.rel ) {
+			build.d += 'a ' + command.rx + ' ' + command.ry + ' ' + ra + ' ' + ( + command.la ) + ' '  + ( + pr ) + ' ' + command.x + ' ' + y ;
+			build.cx += command.x ;
+			build.cy += y ;
+		}
+		else {
+			build.d += 'A ' + command.rx + ' ' + command.ry + ' ' + ra + ' ' + ( + command.la ) + ' '  + ( + pr ) + ' ' + command.x + ' ' + y ;
+			build.cx = command.x ;
+			build.cy = y ;
+		}
+	} ,
+	toCurve: ( command , build ) => {
+		let lastPoint = build.lastCurve ? build.lastCurve.endPoint : ORIGIN ;
+
+		let ox = 0 , oy = 0 ;
+		if ( command.rel ) { ox = lastPoint.x ; oy = lastPoint.y ; }
+
+		return new Arc(
+			{ x: lastPoint.x , y: lastPoint.y } ,
+			{ x: command.rx , y: command.ry } ,
+			command.ra ,
+			command.la ,
+			command.pr ,
+			{ x: ox + command.x , y: oy + command.y }
+		) ;
+	}
+} ;
+
+// Converted to 'arc'
+Path.commands.arcTo = {
+	add: ( commands , data ) => commands.push( {
+		type: 'arc' ,
+		rx: data.rx || 0 ,
+		ry: data.ry || 0 ,
+		ra: data.ra || data.a || 0 ,	// x-axis rotation
+		la:
+			data.largeArc !== undefined ? !! data.largeArc :
+			data.longArc !== undefined ? !! data.longArc :
+			data.la !== undefined ? !! data.la :
+			false ,
+		pr:
+			data.positiveRotation !== undefined ? !! data.positiveRotation :
+			data.sweep !== undefined ? !! data.sweep :		// <- this is the SVG term
+			data.pr !== undefined ? !! data.pr :
+			true ,
+		x: data.x || 0 ,
+		y: data.y || 0
+	} )
+} ;
+
+// Converted to 'arc'
+// All angles use positive as Y-axis to X-axis (Spellcast usage)
+Path.commands.negativeArc = {
+	add: ( commands , data ) => commands.push( {
+		type: 'arc' ,
+		rel: true ,
+		rx: data.rx || 0 ,
+		ry: data.ry || 0 ,
+		ra: - ( data.ra || data.a || 0 ) ,	// x-axis rotation
+		la:
+			data.largeArc !== undefined ? !! data.largeArc :
+			data.longArc !== undefined ? !! data.longArc :
+			data.la !== undefined ? !! data.la :
+			false ,
+		pr: ! (
+			data.positiveRotation !== undefined ? !! data.positiveRotation :
+			data.sweep !== undefined ? !! data.sweep :		// <- this is the SVG term
+			data.pr !== undefined ? !! data.pr :
+			true
+		) ,
+		x: data.x || 0 ,
+		y: data.y || 0
+	} )
+} ;
+
+// Converted to 'arc'
+// All angles use positive as Y-axis to X-axis (Spellcast usage)
+Path.commands.negativeArcTo = {
+	add: ( commands , data ) => commands.push( {
+		type: 'arc' ,
+		rx: data.rx || 0 ,
+		ry: data.ry || 0 ,
+		ra: - ( data.ra || data.a || 0 ) ,	// x-axis rotation
+		la:
+			data.largeArc !== undefined ? !! data.largeArc :
+			data.longArc !== undefined ? !! data.longArc :
+			data.la !== undefined ? !! data.la :
+			false ,
+		pr: ! (
+			data.positiveRotation !== undefined ? !! data.positiveRotation :
+			data.sweep !== undefined ? !! data.sweep :		// <- this is the SVG term
+			data.pr !== undefined ? !! data.pr :
+			true
+		) ,
+		x: data.x || 0 ,
+		y: data.y || 0
+	} )
+} ;
+
+
+
+/*
+	Turtle-like commands.
+*/
+
+// Not a user command, user should use penUp or penDown
+Path.commands.pen = {
+	add: ( commands , data ) => commands.push( {
+		type: 'pen' ,
+		u: !! data.up
+	} ) ,
+	toD: ( command , build ) => {
+		build.pu = command.u ;
+	} ,
+	toCurve: ( command , build ) => {
+		build.pu = command.u ;
+	}
+} ;
+
+// Converted to 'pen'
+Path.commands.penUp = {
+	add: ( commands ) => commands.push( {
+		type: 'pen' ,
+		u: true
+	} )
+} ;
+
+// Converted to 'pen'
+Path.commands.penDown = {
+	add: ( commands ) => commands.push( {
+		type: 'pen' ,
+		u: false
+	} )
+} ;
+
+Path.commands.forward = {
+	add: ( commands , data ) => commands.push( {
+		type: 'forward' ,
+		l: typeof data === 'number' ? data : data.length || data.l || 0
+	} ) ,
+	toD: ( command , build ) => {
+		let dx = command.l * Math.cos( build.ca ) ,
+			dy = command.l * Math.sin( build.ca ) ;
+
+		if ( build.pu ) { build.d += 'm ' + dx + ' ' + dy ; }
+		else { build.d += 'l ' + dx + ' ' + dy ; }
+
+		build.cx += dx ;
+		build.cy += dy ;
+	} ,
+	toCurve: ( command , build ) => {
+		let lastPoint = build.lastCurve ? build.lastCurve.endPoint : ORIGIN ;
+
+		let dx = command.l * Math.cos( build.ca ) ,
+			dy = command.l * Math.sin( build.ca ) ;
+
+		if ( build.pu ) {
+			return new Move( { x: lastPoint.x + dx , y: lastPoint.y + dy } ) ;
+		}
+
+		return new Line(
+			{ x: lastPoint.x , y: lastPoint.y } ,
+			{ x: lastPoint.x + dx , y: lastPoint.y + dy }
+		) ;
+	}
+} ;
+
+// Converted to 'forward'
+Path.commands.backward = {
+	add: ( commands , data ) => commands.push( {
+		type: 'forward' ,
+		l: - ( typeof data === 'number' ? data : data.length || data.l || 0 )
+	} )
+} ;
+
+// Turn using positive as X-axis to Y-axis
+Path.commands.turn = {
+	add: ( commands , data ) => commands.push( {
+		type: 'turn' ,
+		rel: true ,
+		a: typeof data === 'number' ? data : data.angle || data.a || 0
+	} ) ,
+	toD: ( command , build ) => {
+		let a = build.invertY ? - command.a : command.a ;
+
+		if ( command.rel ) {
+			build.ca += degToRad( a ) ;
+		}
+		else {
+			build.ca = degToRad( a ) ;
+		}
+	} ,
+	toCurve: ( command , build ) => {
+		let a = build.invertY ? - command.a : command.a ;
+
+		if ( command.rel ) {
+			build.ca += degToRad( a ) ;
+		}
+		else {
+			build.ca = degToRad( a ) ;
+		}
+	}
+} ;
+
+// Converted to 'turn'
+// Turn from X-axis to Y-axis
+Path.commands.turnTo = {
+	add: ( commands , data ) => commands.push( {
+		type: 'turn' ,
+		a: typeof data === 'number' ? data : data.angle || data.a || 0
+	} )
+} ;
+
+// Converted to 'turn'
+// Turn using positive as Y-axis to X-axis (Spellcast usage)
+Path.commands.negativeTurn = {
+	add: ( commands , data ) => commands.push( {
+		type: 'turn' ,
+		rel: true ,
+		a: - ( typeof data === 'number' ? data : data.angle || data.a || 0 )
+	} )
+} ;
+
+// Converted to 'turn'
+// Turn from Y-axis to X-axis (clockwise when Y point upward, the invert of the standard 2D computer graphics) (Spellcast usage)
+Path.commands.negativeTurnTo = {
+	add: ( commands , data ) => commands.push( {
+		type: 'turn' ,
+		a: 90 - ( typeof data === 'number' ? data : data.angle || data.a || 0 )
+	} )
+} ;
+
+// A turtle-like way of doing a curve: combine a forward and turn, moving along a circle
+Path.commands.forwardTurn = {
+	add: ( commands , data ) => commands.push( {
+		type: 'forwardTurn' ,
+		l: data.length || data.l || 0 ,
+		a: data.angle || data.a || 0
+	} ) ,
+	toD: ( command , build ) => {
+		let a = build.invertY ? - command.a : command.a ;
+
+		/*
+			We will first transpose to a circle of center 0,0 and we are starting at x=radius,y=0 and moving positively
+		*/
+		let angleRad = degToRad( a ) ,
+			angleSign = angleRad >= 0 ? 1 : - 1 ,
+			alpha = Math.abs( angleRad ) ,
+			radius = command.l / alpha ,
+			trX = radius * Math.cos( alpha ) ,
+			trY = radius * Math.sin( alpha ) ,
+			dist = Math.sqrt( ( radius - trX ) ** 2 + trY ** 2 ) ,
+			beta = Math.atan2( radius - trX , trY ) ;	// beta is the deviation
+
+		let dx = dist * Math.cos( build.ca + angleSign * beta ) ,
+			dy = dist * Math.sin( build.ca + angleSign * beta ) ;
+
+		if ( build.pu ) {
+			build.d += 'm ' + dx + ' ' + dy ;
+		}
+		else {
+			build.d += 'a ' + radius + ' ' + radius + ' 0 ' + ( alpha > Math.PI ? 1 : 0 ) + ' '  + ( angleRad >= 0 ? 1 : 0 ) + ' ' + dx + ' ' + dy ;
+		}
+
+		build.cx += dx ;
+		build.cy += dy ;
+		build.ca += angleRad ;
+	}
+} ;
+
+// Converted to 'forwardTurn'
+// Turn using positive as Y-axis to X-axis (clockwise when Y point upward, the invert of the standard 2D computer graphics) (Spellcast usage)
+Path.commands.forwardNegativeTurn = {
+	add: ( commands , data ) => commands.push( {
+		type: 'forwardTurn' ,
+		l: data.length || data.l || 0 ,
+		a: - ( data.angle || data.a || 0 )
+	} )
+} ;
+
+
+
+// Create API methods
+for ( let type in Path.commands ) {
+	if ( Path.commands[ type ].add ) {
+		Path.prototype[ type ] = function( data ) {
+			Path.commands[ type ].add( this.commands , data ) ;
+			this.computeCurves() ;
+			return this ;
+		} ;
+	}
+}
+
+
+
+// Utilities
+
+// Create lines from an array of points (object with .x and .y)
+Path.linePointsToD = ( points , invertY = false ) => {
+	let yMul = invertY ? - 1 : 1 ,
+		str = 'M' ;
+
+	points.forEach( point => {
+		str += ' ' + point.x + ',' + ( point.y * yMul ) ;
+	} ) ;
+
+	return str ;
+} ;
+
+Path.polygonPointsToD = ( points , invertY = false ) => Path.linePointsToD( points , invertY ) + ' z' ;
+
+
+},{"../../package.json":170,"../BoundingBox.js":119,"../Polygon.js":132,"../Polyline.js":133,"./Arc.js":124,"./CubicBezier.js":126,"./Line.js":127,"./Move.js":128,"./QuadraticBezier.js":130}],130:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2024 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+/*
+	Mostly derived from svg-path-properties by RogerVecianaAbzu:
+	https://github.com/rveciana/svg-path-properties/blob/master/src/bezier.ts
+*/
+
+
+
+const Bezier = require( './Bezier.js' ) ;
+const BoundingBox = require( '../BoundingBox.js' ) ;
+
+
+
+function QuadraticBezier( startPoint , control , endPoint ) {
+	this.startPoint = startPoint ;
+	this.control = control ;
+	this.endPoint = endPoint ;
+	Bezier.call( this , startPoint , control , endPoint ) ;
+}
+
+module.exports = QuadraticBezier ;
+
+QuadraticBezier.prototype = Object.create( Bezier.prototype ) ;
+QuadraticBezier.prototype.constructor = QuadraticBezier ;
+
+
+// The parametric formula for a given axis
+function parametric( ps , t ) {
+	const mt = 1 - t ;
+	return mt * mt * ps[0] + 2 * mt * t * ps[1] + t * t * ps[2] ;
+}
+
+
+
+QuadraticBezier.getPoint =
+QuadraticBezier.prototype.getPoint = ( xs , ys , t ) => {
+	return {
+		x: parametric( xs , t ) ,
+		y: parametric( ys , t )
+	} ;
+} ;
+
+
+
+QuadraticBezier.getDerivative =
+QuadraticBezier.prototype.getDerivative = ( xs , ys , t ) => {
+	return {
+		x: ( 1 - t ) * 2 * ( xs[1] - xs[0] ) + t * 2 * ( xs[2] - xs[1] ) ,
+		y: ( 1 - t ) * 2 * ( ys[1] - ys[0] ) + t * 2 * ( ys[2] - ys[1] )
+	} ;
+} ;
+
+
+
+QuadraticBezier.getLength =
+QuadraticBezier.prototype.getLength = ( xs , ys , t = 1 ) => {
+	const ax = xs[0] - 2 * xs[1] + xs[2] ;
+	const ay = ys[0] - 2 * ys[1] + ys[2] ;
+	const bx = 2 * xs[1] - 2 * xs[0] ;
+	const by = 2 * ys[1] - 2 * ys[0] ;
+
+	const A = 4 * ( ax * ax + ay * ay ) ;
+	const B = 4 * ( ax * bx + ay * by ) ;
+	const C = bx * bx + by * by ;
+
+	if ( A === 0 ) {
+		return (
+			t * Math.sqrt( Math.pow( xs[2] - xs[0] , 2 ) + Math.pow( ys[2] - ys[0] , 2 ) )
+		) ;
+	}
+
+	const b = B / ( 2 * A ) ;
+	const c = C / A ;
+	const u = t + b ;
+	const k = c - b * b ;
+
+	const uuk = u * u + k > 0 ? Math.sqrt( u * u + k ) : 0 ;
+	const bbk = b * b + k > 0 ? Math.sqrt( b * b + k ) : 0 ;
+	const term = b + Math.sqrt( b * b + k ) !== 0 && ( ( u + uuk ) / ( b + bbk ) ) !== 0 ?
+		k * Math.log( Math.abs( ( u + uuk ) / ( b + bbk ) ) ) :
+		0 ;
+
+	return ( Math.sqrt( A ) / 2 ) * ( u * uuk - b * bbk + term ) ;
+} ;
+
+
+
+// Derived from:
+// https://stackoverflow.com/questions/24809978/calculating-the-bounding-box-of-cubic-bezier-curve
+QuadraticBezier.getBoundingBox =
+QuadraticBezier.prototype.getBoundingBox = function( xs , ys ) {
+	var xExtrema = [ xs[0] , xs[2] ] ,
+		yExtrema = [ ys[0] , ys[2] ] ;
+
+	getExtrema( xs , xExtrema ) ;
+	getExtrema( ys , yExtrema ) ;
+
+	return new BoundingBox(
+		Math.min( ... xExtrema ) ,
+		Math.min( ... yExtrema ) ,
+		Math.max( ... xExtrema ) ,
+		Math.max( ... yExtrema )
+	) ;
+} ;
+
+
+
+function getExtrema( ps , pExtrema ) {
+	let a = ps[0] - 2 * ps[1] + ps[2] ,
+		b = - 2 * ps[0] + 2 * ps[1] ,
+		c = ps[0] ;
+
+	if ( Math.abs( a ) > 1e-12 ) {
+		let t = - b / ( 2 * a ) ;
+		if ( 0 < t && t < 1 ) {
+			pExtrema.push( a * t * t + b * t + c ) ;
+		}
+	}
+}
+
+
+},{"../BoundingBox.js":119,"./Bezier.js":125}],131:[function(require,module,exports){
+module.exports={"tValues":[[],[],[-0.5773502691896257,0.5773502691896257],[0,-0.7745966692414834,0.7745966692414834],[-0.33998104358485626,0.33998104358485626,-0.8611363115940526,0.8611363115940526],[0,-0.5384693101056831,0.5384693101056831,-0.906179845938664,0.906179845938664],[0.6612093864662645,-0.6612093864662645,-0.2386191860831969,0.2386191860831969,-0.932469514203152,0.932469514203152],[0,0.4058451513773972,-0.4058451513773972,-0.7415311855993945,0.7415311855993945,-0.9491079123427585,0.9491079123427585],[-0.1834346424956498,0.1834346424956498,-0.525532409916329,0.525532409916329,-0.7966664774136267,0.7966664774136267,-0.9602898564975363,0.9602898564975363],[0,-0.8360311073266358,0.8360311073266358,-0.9681602395076261,0.9681602395076261,-0.3242534234038089,0.3242534234038089,-0.6133714327005904,0.6133714327005904],[-0.14887433898163122,0.14887433898163122,-0.4333953941292472,0.4333953941292472,-0.6794095682990244,0.6794095682990244,-0.8650633666889845,0.8650633666889845,-0.9739065285171717,0.9739065285171717],[0,-0.26954315595234496,0.26954315595234496,-0.5190961292068118,0.5190961292068118,-0.7301520055740494,0.7301520055740494,-0.8870625997680953,0.8870625997680953,-0.978228658146057,0.978228658146057],[-0.1252334085114689,0.1252334085114689,-0.3678314989981802,0.3678314989981802,-0.5873179542866175,0.5873179542866175,-0.7699026741943047,0.7699026741943047,-0.9041172563704749,0.9041172563704749,-0.9815606342467192,0.9815606342467192],[0,-0.2304583159551348,0.2304583159551348,-0.44849275103644687,0.44849275103644687,-0.6423493394403402,0.6423493394403402,-0.8015780907333099,0.8015780907333099,-0.9175983992229779,0.9175983992229779,-0.9841830547185881,0.9841830547185881],[-0.10805494870734367,0.10805494870734367,-0.31911236892788974,0.31911236892788974,-0.5152486363581541,0.5152486363581541,-0.6872929048116855,0.6872929048116855,-0.827201315069765,0.827201315069765,-0.9284348836635735,0.9284348836635735,-0.9862838086968123,0.9862838086968123],[0,-0.20119409399743451,0.20119409399743451,-0.3941513470775634,0.3941513470775634,-0.5709721726085388,0.5709721726085388,-0.7244177313601701,0.7244177313601701,-0.8482065834104272,0.8482065834104272,-0.937273392400706,0.937273392400706,-0.9879925180204854,0.9879925180204854],[-0.09501250983763744,0.09501250983763744,-0.2816035507792589,0.2816035507792589,-0.45801677765722737,0.45801677765722737,-0.6178762444026438,0.6178762444026438,-0.755404408355003,0.755404408355003,-0.8656312023878318,0.8656312023878318,-0.9445750230732326,0.9445750230732326,-0.9894009349916499,0.9894009349916499],[0,-0.17848418149584785,0.17848418149584785,-0.3512317634538763,0.3512317634538763,-0.5126905370864769,0.5126905370864769,-0.6576711592166907,0.6576711592166907,-0.7815140038968014,0.7815140038968014,-0.8802391537269859,0.8802391537269859,-0.9506755217687678,0.9506755217687678,-0.9905754753144174,0.9905754753144174],[-0.0847750130417353,0.0847750130417353,-0.2518862256915055,0.2518862256915055,-0.41175116146284263,0.41175116146284263,-0.5597708310739475,0.5597708310739475,-0.6916870430603532,0.6916870430603532,-0.8037049589725231,0.8037049589725231,-0.8926024664975557,0.8926024664975557,-0.9558239495713977,0.9558239495713977,-0.9915651684209309,0.9915651684209309],[0,-0.16035864564022537,0.16035864564022537,-0.31656409996362983,0.31656409996362983,-0.46457074137596094,0.46457074137596094,-0.600545304661681,0.600545304661681,-0.7209661773352294,0.7209661773352294,-0.8227146565371428,0.8227146565371428,-0.9031559036148179,0.9031559036148179,-0.96020815213483,0.96020815213483,-0.9924068438435844,0.9924068438435844],[-0.07652652113349734,0.07652652113349734,-0.22778585114164507,0.22778585114164507,-0.37370608871541955,0.37370608871541955,-0.5108670019508271,0.5108670019508271,-0.636053680726515,0.636053680726515,-0.7463319064601508,0.7463319064601508,-0.8391169718222188,0.8391169718222188,-0.912234428251326,0.912234428251326,-0.9639719272779138,0.9639719272779138,-0.9931285991850949,0.9931285991850949],[0,-0.1455618541608951,0.1455618541608951,-0.2880213168024011,0.2880213168024011,-0.4243421202074388,0.4243421202074388,-0.5516188358872198,0.5516188358872198,-0.6671388041974123,0.6671388041974123,-0.7684399634756779,0.7684399634756779,-0.8533633645833173,0.8533633645833173,-0.9200993341504008,0.9200993341504008,-0.9672268385663063,0.9672268385663063,-0.9937521706203895,0.9937521706203895],[-0.06973927331972223,0.06973927331972223,-0.20786042668822127,0.20786042668822127,-0.34193582089208424,0.34193582089208424,-0.469355837986757,0.469355837986757,-0.5876404035069116,0.5876404035069116,-0.6944872631866827,0.6944872631866827,-0.7878168059792081,0.7878168059792081,-0.8658125777203002,0.8658125777203002,-0.926956772187174,0.926956772187174,-0.9700604978354287,0.9700604978354287,-0.9942945854823992,0.9942945854823992],[0,-0.1332568242984661,0.1332568242984661,-0.26413568097034495,0.26413568097034495,-0.3903010380302908,0.3903010380302908,-0.5095014778460075,0.5095014778460075,-0.6196098757636461,0.6196098757636461,-0.7186613631319502,0.7186613631319502,-0.8048884016188399,0.8048884016188399,-0.8767523582704416,0.8767523582704416,-0.9329710868260161,0.9329710868260161,-0.9725424712181152,0.9725424712181152,-0.9947693349975522,0.9947693349975522],[-0.06405689286260563,0.06405689286260563,-0.1911188674736163,0.1911188674736163,-0.3150426796961634,0.3150426796961634,-0.4337935076260451,0.4337935076260451,-0.5454214713888396,0.5454214713888396,-0.6480936519369755,0.6480936519369755,-0.7401241915785544,0.7401241915785544,-0.820001985973903,0.820001985973903,-0.8864155270044011,0.8864155270044011,-0.9382745520027328,0.9382745520027328,-0.9747285559713095,0.9747285559713095,-0.9951872199970213,0.9951872199970213]],"cValues":[[],[],[1,1],[0.8888888888888888,0.5555555555555556,0.5555555555555556],[0.6521451548625461,0.6521451548625461,0.34785484513745385,0.34785484513745385],[0.5688888888888889,0.47862867049936647,0.47862867049936647,0.23692688505618908,0.23692688505618908],[0.3607615730481386,0.3607615730481386,0.46791393457269104,0.46791393457269104,0.17132449237917036,0.17132449237917036],[0.4179591836734694,0.3818300505051189,0.3818300505051189,0.27970539148927664,0.27970539148927664,0.1294849661688697,0.1294849661688697],[0.362683783378362,0.362683783378362,0.31370664587788727,0.31370664587788727,0.22238103445337448,0.22238103445337448,0.10122853629037626,0.10122853629037626],[0.3302393550012598,0.1806481606948574,0.1806481606948574,0.08127438836157441,0.08127438836157441,0.31234707704000286,0.31234707704000286,0.26061069640293544,0.26061069640293544],[0.29552422471475287,0.29552422471475287,0.26926671930999635,0.26926671930999635,0.21908636251598204,0.21908636251598204,0.1494513491505806,0.1494513491505806,0.06667134430868814,0.06667134430868814],[0.2729250867779006,0.26280454451024665,0.26280454451024665,0.23319376459199048,0.23319376459199048,0.18629021092773426,0.18629021092773426,0.1255803694649046,0.1255803694649046,0.05566856711617366,0.05566856711617366],[0.24914704581340277,0.24914704581340277,0.2334925365383548,0.2334925365383548,0.20316742672306592,0.20316742672306592,0.16007832854334622,0.16007832854334622,0.10693932599531843,0.10693932599531843,0.04717533638651183,0.04717533638651183],[0.2325515532308739,0.22628318026289723,0.22628318026289723,0.2078160475368885,0.2078160475368885,0.17814598076194574,0.17814598076194574,0.13887351021978725,0.13887351021978725,0.09212149983772845,0.09212149983772845,0.04048400476531588,0.04048400476531588],[0.2152638534631578,0.2152638534631578,0.2051984637212956,0.2051984637212956,0.18553839747793782,0.18553839747793782,0.15720316715819355,0.15720316715819355,0.12151857068790319,0.12151857068790319,0.08015808715976021,0.08015808715976021,0.03511946033175186,0.03511946033175186],[0.2025782419255613,0.19843148532711158,0.19843148532711158,0.1861610000155622,0.1861610000155622,0.16626920581699392,0.16626920581699392,0.13957067792615432,0.13957067792615432,0.10715922046717194,0.10715922046717194,0.07036604748810812,0.07036604748810812,0.03075324199611727,0.03075324199611727],[0.1894506104550685,0.1894506104550685,0.18260341504492358,0.18260341504492358,0.16915651939500254,0.16915651939500254,0.14959598881657674,0.14959598881657674,0.12462897125553388,0.12462897125553388,0.09515851168249279,0.09515851168249279,0.062253523938647894,0.062253523938647894,0.027152459411754096,0.027152459411754096],[0.17944647035620653,0.17656270536699264,0.17656270536699264,0.16800410215645004,0.16800410215645004,0.15404576107681028,0.15404576107681028,0.13513636846852548,0.13513636846852548,0.11188384719340397,0.11188384719340397,0.08503614831717918,0.08503614831717918,0.0554595293739872,0.0554595293739872,0.02414830286854793,0.02414830286854793],[0.1691423829631436,0.1691423829631436,0.16427648374583273,0.16427648374583273,0.15468467512626524,0.15468467512626524,0.14064291467065065,0.14064291467065065,0.12255520671147846,0.12255520671147846,0.10094204410628717,0.10094204410628717,0.07642573025488905,0.07642573025488905,0.0497145488949698,0.0497145488949698,0.02161601352648331,0.02161601352648331],[0.1610544498487837,0.15896884339395434,0.15896884339395434,0.15276604206585967,0.15276604206585967,0.1426067021736066,0.1426067021736066,0.12875396253933621,0.12875396253933621,0.11156664554733399,0.11156664554733399,0.09149002162245,0.09149002162245,0.06904454273764123,0.06904454273764123,0.0448142267656996,0.0448142267656996,0.019461788229726478,0.019461788229726478],[0.15275338713072584,0.15275338713072584,0.14917298647260374,0.14917298647260374,0.14209610931838204,0.14209610931838204,0.13168863844917664,0.13168863844917664,0.11819453196151841,0.11819453196151841,0.10193011981724044,0.10193011981724044,0.08327674157670475,0.08327674157670475,0.06267204833410907,0.06267204833410907,0.04060142980038694,0.04060142980038694,0.017614007139152118,0.017614007139152118],[0.14608113364969041,0.14452440398997005,0.14452440398997005,0.13988739479107315,0.13988739479107315,0.13226893863333747,0.13226893863333747,0.12183141605372853,0.12183141605372853,0.10879729916714838,0.10879729916714838,0.09344442345603386,0.09344442345603386,0.0761001136283793,0.0761001136283793,0.057134425426857205,0.057134425426857205,0.036953789770852494,0.036953789770852494,0.016017228257774335,0.016017228257774335],[0.13925187285563198,0.13925187285563198,0.13654149834601517,0.13654149834601517,0.13117350478706238,0.13117350478706238,0.12325237681051242,0.12325237681051242,0.11293229608053922,0.11293229608053922,0.10041414444288096,0.10041414444288096,0.08594160621706773,0.08594160621706773,0.06979646842452049,0.06979646842452049,0.052293335152683286,0.052293335152683286,0.03377490158481415,0.03377490158481415,0.0146279952982722,0.0146279952982722],[0.13365457218610619,0.1324620394046966,0.1324620394046966,0.12890572218808216,0.12890572218808216,0.12304908430672953,0.12304908430672953,0.11499664022241136,0.11499664022241136,0.10489209146454141,0.10489209146454141,0.09291576606003515,0.09291576606003515,0.07928141177671895,0.07928141177671895,0.06423242140852585,0.06423242140852585,0.04803767173108467,0.04803767173108467,0.030988005856979445,0.030988005856979445,0.013411859487141771,0.013411859487141771],[0.12793819534675216,0.12793819534675216,0.1258374563468283,0.1258374563468283,0.12167047292780339,0.12167047292780339,0.1155056680537256,0.1155056680537256,0.10744427011596563,0.10744427011596563,0.09761865210411388,0.09761865210411388,0.08619016153195327,0.08619016153195327,0.0733464814110803,0.0733464814110803,0.05929858491543678,0.05929858491543678,0.04427743881741981,0.04427743881741981,0.028531388628933663,0.028531388628933663,0.0123412297999872,0.0123412297999872]],"binomialCoefficients":[[1],[1,1],[1,2,1],[1,3,3,1]]}
+},{}],132:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2024 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const BoundingBox = require( './BoundingBox.js' ) ;
+
+
+
+function Polygon( params ) {
+	this.points = [] ;
+	this.sides = [] ;
+	this.boundingBox = new BoundingBox( null ) ;
+	this.totalAngle = 0 ;
+
+	if ( params ) { this.set( params ) ; }
+}
+
+module.exports = Polygon ;
+
+Polygon.prototype.__prototypeUID__ = 'svg-kit/Polygon' ;
+Polygon.prototype.__prototypeVersion__ = require( '../package.json' ).version ;
+
+// Circular...
+const Path = require( './Path/Path.js' ) ;
+
+
+
+Polygon.prototype.set = function( params ) {
+	if ( params.points ) { this.setPoints( params.points ) ; }
+} ;
+
+
+
+Polygon.prototype.setPoints = function( points ) {
+	this.points.length = 0 ;
+	this.sides.length = 0 ;
+	this.boundingBox.nullify() ;
+
+	if ( ! Array.isArray( points ) ) { return ; }
+	for ( let point of points ) { this.addPoint( point , true ) ; }
+	if ( this.addClosingSide ) { this.addClosingSide() ; }
+	this.computeTotalAngle() ;
+} ;
+
+
+
+Polygon.prototype.addPoint = function( point , noExtraCompute = false ) {
+	if ( ! point || typeof point !== 'object' ) { return ; }
+
+	var pointClone = { x: + point.x || 0 , y: + point.y || 0 } ;
+	this.points.push( pointClone ) ;
+	this.boundingBox.ensurePoint( pointClone ) ;
+
+	this.addLastSide() ;
+	if ( noExtraCompute ) { return ; }
+	if ( this.addClosingSide ) { this.addClosingSide() ; }
+	this.computeTotalAngle() ;
+} ;
+
+
+
+Polygon.prototype.addLastSide = function() {
+	var count = this.points.length ;
+	if ( count <= 1 ) { return ; }
+	this.sides[ count - 2 ] = Polygon.getParametricLineParameters( this.points[ count - 2 ] , this.points[ count - 1 ] ) ;
+} ;
+
+
+
+Polygon.prototype.addClosingSide = function() {
+	var count = this.points.length ;
+	if ( count < 3 ) { return ; }
+	this.sides[ count - 1 ] = Polygon.getParametricLineParameters( this.points[ count - 1 ] , this.points[ 0 ] ) ;
+} ;
+
+
+
+Polygon.prototype.export = function( data = {} ) {
+	data.points = this.points.map( p => ( { x: p.x , y: p.y } ) ) ;
+	return data ;
+} ;
+
+
+
+Polygon.prototype.toD = function( invertY = false ) {
+	return Path.polygonPointsToD( this.points , invertY ) ;
+} ;
+
+
+
+Polygon.prototype.isInside = function( coords ) {
+	if ( ! this.sides.length ) { return false ; }
+
+	var count = 0 ;
+
+	// Cast rays on each side, and count the intersection
+	for ( let side of this.sides ) {
+		if ( Polygon.castRayOnSide( side , coords ) ) { count ++ ; }
+	}
+
+	//console.log( "Polygon.isInside: count =" , count ) ;
+
+	// Odd count means it's inside, even count means it's outside
+	return !! ( count % 2 ) ;
+} ;
+
+
+
+Polygon.prototype.computeTotalAngle = function() {
+	this.totalAngle = 0 ;
+
+	for ( let i = 0 ; i < this.sides.length ; i ++ ) {
+		let angleDelta = this.sides[ ( i + 1 ) % this.sides.length ].angle - this.sides[ i ].angle ;
+		if ( angleDelta > Math.PI ) { angleDelta -= 2 * Math.PI ; }
+		if ( angleDelta < - Math.PI ) { angleDelta += 2 * Math.PI ; }
+		this.totalAngle += angleDelta ;
+	}
+} ;
+
+
+
+Polygon.computeTotalAngle = function( points ) {
+	let totalAngle = 0 ;
+
+	for ( let i = 0 ; i < points.length ; i ++ ) {
+		let p1 = points[ i ] ,
+			p2 = points[ ( i + 1 ) % points.length ] ,
+			p3 = points[ ( i + 2 ) % points.length ] ,
+			angle1 = Math.atan2( p2.y - p1.y , p2.x - p1.x ) ,
+			angle2 = Math.atan2( p3.y - p2.y , p3.x - p2.x ) ,
+			angleDelta = angle2 - angle1 ;
+
+		if ( angleDelta > Math.PI ) { angleDelta -= 2 * Math.PI ; }
+		if ( angleDelta < - Math.PI ) { angleDelta += 2 * Math.PI ; }
+		totalAngle += angleDelta ;
+	}
+
+	return totalAngle ;
+} ;
+
+
+
+// Ensure the side turns in the correct orientation, can be useful for third-party like 3D, to create faces
+// with the correct face-normal (e.g. for polygon extrusion)
+Polygon.prototype.ensureOrientation = function( sign ) {
+	sign = Math.sign( + sign || 1 ) ;
+	if ( Math.sign( this.totalAngle ) === sign ) { return ; }
+	console.warn( "Reversing the orientation (Polygon.prototype.ensureOrientation)" ) ;
+	this.setPoints( this.points.slice().reverse() ) ;
+} ;
+
+
+
+Polygon.ensureOrientation = function( points , sign ) {
+	sign = Math.sign( + sign || 1 ) ;
+	var totalAngle = Polygon.computeTotalAngle( points ) ;
+	if ( Math.sign( totalAngle ) === sign ) { return ; }
+	console.warn( "Reversing the orientation (Polygon.ensureOrientation)" ) ;
+	points.reverse() ;
+} ;
+
+
+
+/*
+	Get the line equation's parameters.
+	The equation is:   ax + by + c
+	The result is =0 on the line, >0 on the left-side (point 1 toward point 2), <0 on the right-side.
+
+	Also get the parametric line segment parameters.
+	For 0 ≤ t ≤ 1 :
+	x = x0 + dx * t
+	y = y0 + dy * t
+*/
+Polygon.getParametricLineParameters = function( point1 , point2 ) {
+	var dx = point2.x - point1.x ,
+		dy = point2.y - point1.y ;
+
+	return {
+		// Line equation
+		a: - dy ,
+		b: dx ,
+		c: - dx * point1.y + dy * point1.x ,
+
+		// Parametric
+		x0: point1.x ,
+		y0: point1.y ,
+		dx ,
+		dy ,
+
+		// Misc
+		angle: Math.atan2( dy , dx )
+	} ;
+} ;
+
+
+
+// Apply the line equation on a point/coords, result is =0 if on the line, >0 if on the left-side, <0 if on the right-side
+Polygon.testSideLineEquation = function( side , coords ) {
+	return side.a * coords.x + side.b * coords.y + side.c ;
+} ;
+
+
+
+// Cast an horizontal ray, and return true if it intersect with a side.
+// The ray is infinite on the left-side (x<0) and stop ath the precise ray.x and ray.y coordinates.
+Polygon.castRayOnSide = function( side , ray ) {
+	// Tangential rays are always considered not intersecting, so horizontal line segments don't intersect
+	if ( ! side.dy ) { return false ; }
+
+	// Compute the parametric t value for the side's line-segment for the Y horizontal line
+	// y = y0 + dy * t   <=>   t = ( y - y0 ) / dy
+	let t = ( ray.y - side.y0 ) / side.dy ;
+
+	// If we don't have 0 < t < 1, then the ray is not in the correct Y-axis range
+	// To avoid degenerate cases, we consider edge case to be OUTSIDE, no intersection.
+	if ( t <= 0 || t >= 1 ) { return false ; }
+
+	// Now get the X coord of the intersection
+	// x = x0 + dx * t
+	let x = side.x0 + side.dx * t ;
+
+	// The ray is infinite on the left and stop at ray's (x,y), so for the ray to intersect,
+	// its X coord should be greater than the X coord of the line intersection.
+	// Again, to avoid degenerate cases, we consider edge case to be OUTSIDE, no intersection.
+	return ray.x > x ;
+} ;
+
+
+},{"../package.json":170,"./BoundingBox.js":119,"./Path/Path.js":129}],133:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2024 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const Polygon = require( './Polygon.js' ) ;
+const BoundingBox = require( './BoundingBox.js' ) ;
+
+
+
+function Polyline( params ) {
+	this.points = [] ;
+	this.sides = [] ;
+	this.boundingBox = new BoundingBox( null ) ;
+
+	if ( params ) { this.set( params ) ; }
+}
+
+module.exports = Polyline ;
+
+Polyline.prototype = Object.create( Polygon.prototype ) ;
+Polyline.prototype.constructor = Polyline ;
+Polyline.prototype.__prototypeUID__ = 'svg-kit/Polyline' ;
+Polyline.prototype.__prototypeVersion__ = require( '../package.json' ).version ;
+
+Polyline.prototype.addClosingSide = null ;
+Polyline.prototype.isInside = function( coords ) { return false ; } ;	// There is no “inside”, just lines
+
+
+},{"../package.json":170,"./BoundingBox.js":119,"./Polygon.js":132}],134:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2024 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const colorUtilities = require( './color-utilities.js' ) ;
+
+const camel = require( 'string-kit/lib/camel' ) ;
+const escape = require( 'string-kit/lib/escape' ) ;
+
+
+
+const DEFAULT_STYLE = {
+	fill: null ,
+	stroke: null ,
+	strokeWidth: 1 ,
+	opacity: 1 ,
+	paintOrder: [ 'fill' , 'stroke' , 'markers' ]
+} ;
+
+
+
+function Style( params ) {
+	this.fill = null ;
+	this.stroke = null ;
+	this.strokeWidth = 1 ;
+	this.opacity = 1 ;
+	this.paintOrder = [ ... DEFAULT_STYLE.paintOrder ] ;
+
+	if ( params ) { this.set( params ) ; }
+}
+
+module.exports = Style ;
+
+
+
+// Getters/Setters
+
+Style.prototype.set = function( params ) {
+	if ( ! params || typeof params !== 'object' ) { return ; }
+
+	if ( params.fill === null || typeof params.fill === 'string' ) { this.fill = params.fill || null ; }
+	if ( params.stroke === null || typeof params.stroke === 'string' ) { this.stroke = params.stroke || null ; }
+	if ( typeof params.strokeWidth === 'number' ) { this.strokeWidth = + params.strokeWidth || 0 ; }
+	if ( typeof params.opacity === 'number' ) { this.opacity = + params.opacity || 0 ; }
+	if ( params.paintOrder !== undefined ) { this.setPaintOrder( params.paintOrder ) ; }
+} ;
+
+
+
+const PAINT_ORDER_VALUES = new Set( [ 'fill' , 'stroke' , 'markers' ] ) ;
+
+Style.prototype.setPaintOrder = function( paintOrder ) {
+	if ( typeof paintOrder === 'string' ) {
+		paintOrder = paintOrder.trim() ;
+		paintOrder = paintOrder === 'normal' ? null : paintOrder.split( / +/ ) ;
+	}
+
+	if ( paintOrder === null ) {
+		paintOrder = [ ... DEFAULT_STYLE.paintOrder ] ;
+		return ;
+	}
+
+	if ( ! Array.isArray( paintOrder ) ) { return ; }
+
+	let filteredPaintOrder = new Set() ;
+
+	for ( let value of paintOrder ) {
+		if ( PAINT_ORDER_VALUES.has( value ) ) { filteredPaintOrder.add( value ) ; }
+	}
+
+	if ( filteredPaintOrder.size < PAINT_ORDER_VALUES.size ) {
+		for ( let value of PAINT_ORDER_VALUES ) { filteredPaintOrder.add( value ) ; }
+	}
+
+	paintOrder = [ ... filteredPaintOrder ] ;
+
+	this.paintOrder = paintOrder ;
+} ;
+
+
+
+Style.prototype.export = function( data = {} ) {
+	var hasKey = false ;
+
+	for ( let key of Object.keys( DEFAULT_STYLE ) ) {
+		if ( Array.isArray( this[ key ] ) ) {
+			if ( this[ key ].some( ( v , i ) => DEFAULT_STYLE[ key ][ i ] !== v ) ) {
+				data[ key ] = this[ key ] ;
+				hasKey = true ;
+			}
+		}
+		else if ( this[ key ] !== DEFAULT_STYLE[ key ] ) {
+			data[ key ] = this[ key ] ;
+			hasKey = true ;
+		}
+	}
+
+	if ( ! hasKey ) { return null ; }
+
+	return data ;
+} ;
+
+
+
+Style.prototype.escape = function( value ) {
+	if ( typeof value === 'object' ) { return null ; }
+	if ( typeof value !== 'string' ) { return value ; }
+	return escape.htmlAttr( value ) ;
+} ;
+
+
+
+const STYLE_PROPERTY_UNIT = {
+	fontSize: 'px'
+} ;
+
+const STYLE_PROPERTY_COLOR = {
+	fill: true ,
+	stroke: true
+} ;
+
+const STYLE_PROPERTY_JOIN = {
+	paintOrder: true
+} ;
+
+Style.prototype.getSvgStyleString = function( palette , addInitialSpace = false ) {
+	var str = '' ;
+
+	for ( let key of Object.keys( DEFAULT_STYLE ) ) {
+		// Default style does not need to be specified
+		if ( Array.isArray( this[ key ] ) ) {
+			if ( this[ key ].every( ( v , i ) => DEFAULT_STYLE[ key ][ i ] === v ) ) { continue ; }
+		}
+		else if ( this[ key ] === DEFAULT_STYLE[ key ] ) { continue ; }
+
+		let value = this[ key ] ;
+
+		if ( value === null ) {
+			value = '' ;
+		}
+		else if ( typeof value === 'number' && STYLE_PROPERTY_UNIT[ key ] ) {
+			value = '' + value + STYLE_PROPERTY_UNIT[ key ] ;
+		}
+		else if ( STYLE_PROPERTY_COLOR[ key ] ) {
+			value = colorUtilities.colorToString( value , palette ) ;
+		}
+		else if ( STYLE_PROPERTY_JOIN[ key ] ) {
+			value = value.join( ' ' ) ;
+		}
+
+		// Key is in camelCase, but should use dash
+		str += this.escape( camel.camelCaseToDash( key ) ) + ':' + this.escape( value ) + ';' ;
+	}
+
+	if ( str ) {
+		str = ( addInitialSpace ? ' ' : '' ) + 'style="' + str + '"' ;
+	}
+
+	return str ;
+} ;
+
+
+
+Style.prototype.setDomSvgStyle = function( $element , palette ) {
+	for ( let key of Object.keys( DEFAULT_STYLE ) ) {
+		let value = this[ key ] ;
+
+		if ( value === null ) {
+			value = '' ;
+		}
+		else if ( typeof value === 'number' && STYLE_PROPERTY_UNIT[ key ] ) {
+			value = '' + value + STYLE_PROPERTY_UNIT[ key ] ;
+		}
+		else if ( STYLE_PROPERTY_COLOR[ key ] ) {
+			value = colorUtilities.colorToString( value , palette ) ;
+		}
+		else if ( STYLE_PROPERTY_JOIN[ key ] ) {
+			value = value.join( ' ' ) ;
+		}
+
+		// Key is already in camelCase
+		$element.style[ key ] = value ;
+	}
+} ;
+
+
+},{"./color-utilities.js":159,"string-kit/lib/camel":166,"string-kit/lib/escape":167}],135:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2024 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -38960,25 +43265,29 @@ Metric.isEqual = function( a , b ) {
 
 
 const VGContainer = require( './VGContainer.js' ) ;
+const Palette = require( 'palette-shade' ).Palette ;
+const DEFAULT_PALETTE = new Palette() ;
 
 var autoId = 0 ;
 
 
 
-function VG( options ) {
-	VGContainer.call( this , options ) ;
+function VG( params ) {
+	VGContainer.call( this , params ) ;
 
 	this.root = this ;	// This is the root element
 
-	this.id = ( options && options.id ) || 'vg_' + ( autoId ++ ) ;
-	this.viewBox = {
+	this.id = ( params && params.id ) || 'vg_' + ( autoId ++ ) ;
+	this.viewBox = this.boundingBox ;
+	this.viewBox.set( {
 		x: 0 , y: 0 , width: 100 , height: 100
-	} ;
+	} ) ;
 
-	this.css = [] ;
+	this.palette = DEFAULT_PALETTE ;
 	this.invertY = false ;
+	this.css = [] ;
 
-	if ( options ) { this.set( options ) ; }
+	if ( params ) { this.set( params ) ; }
 }
 
 module.exports = VG ;
@@ -38997,28 +43306,21 @@ VG.prototype.svgTag = 'svg' ;
 
 
 
-VG.prototype.svgAttributes = function() {
-	var attr = {
-		xmlns: this.NS ,
-		// xlink is required for image, since href works only on the browser, everywhere else we need xlink:href instead
-		'xmlns:xlink': "http://www.w3.org/1999/xlink" ,
-		viewBox: this.viewBox.x + ' ' + ( this.root.invertY ? - this.viewBox.y - this.viewBox.height : this.viewBox.y ) + ' ' + this.viewBox.width + ' ' + this.viewBox.height
-	} ;
-
-	return attr ;
-} ;
-
-
-
 VG.prototype.set = function( params ) {
-	VGContainer.prototype.set.call( this , params ) ;
-
 	if ( params.viewBox && typeof params.viewBox === 'object' ) {
-		if ( params.viewBox.x !== undefined ) { this.viewBox.x = params.viewBox.x ; }
-		if ( params.viewBox.y !== undefined ) { this.viewBox.y = params.viewBox.y ; }
-		if ( params.viewBox.width !== undefined ) { this.viewBox.width = params.viewBox.width ; }
-		if ( params.viewBox.height !== undefined ) { this.viewBox.height = params.viewBox.height ; }
+		this.viewBox.set( params.viewBox ) ;
 	}
+
+	if ( params.palette && typeof params.palette === 'object' ) {
+		if ( params.palette instanceof Palette ) {
+			this.palette = params.palette ;
+		}
+		else {
+			this.palette = new Palette( params.palette ) ;
+		}
+	}
+
+	if ( params.invertY !== undefined ) { this.invertY = !! params.invertY ; }
 
 	if ( params.css && Array.isArray( params.css ) ) {
 		this.css.length = 0 ;
@@ -39027,7 +43329,7 @@ VG.prototype.set = function( params ) {
 		}
 	}
 
-	if ( params.invertY !== undefined ) { this.invertY = !! params.invertY ; }
+	VGContainer.prototype.set.call( this , params ) ;
 } ;
 
 
@@ -39035,11 +43337,30 @@ VG.prototype.set = function( params ) {
 VG.prototype.export = function( data = {} ) {
 	VGContainer.prototype.export.call( this , data ) ;
 
-	data.viewBox = this.viewBox ;
+	data.viewBox = {
+		x: this.viewBox.x ,
+		y: this.viewBox.y ,
+		width: this.viewBox.width ,
+		height: this.viewBox.height
+	} ;
+
 	if ( this.css.length ) { data.css = this.css ; }
 	data.invertY = this.invertY ;
 
 	return data ;
+} ;
+
+
+
+VG.prototype.svgAttributes = function( master = this ) {
+	var attr = {
+		xmlns: this.NS ,
+		// xlink is required for image, since href works only on the browser, everywhere else we need xlink:href instead
+		'xmlns:xlink': "http://www.w3.org/1999/xlink" ,
+		viewBox: this.viewBox.x + ' ' + ( this.root.invertY ? - this.viewBox.y - this.viewBox.height : this.viewBox.y ) + ' ' + this.viewBox.width + ' ' + this.viewBox.height
+	} ;
+
+	return attr ;
 } ;
 
 
@@ -39063,11 +43384,11 @@ VG.prototype.addCssRule = function( rule ) {
 } ;
 
 
-},{"../package.json":142,"./VGContainer.js":113}],112:[function(require,module,exports){
+},{"../package.json":170,"./VGContainer.js":137,"palette-shade":85}],136:[function(require,module,exports){
 /*
 	SVG Kit
 
-	Copyright (c) 2017 - 2023 Cédric Ronvel
+	Copyright (c) 2017 - 2024 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -39139,6 +43460,7 @@ VGClip.prototype.addClippingEntity = function( clippingEntity , clone = false ) 
 		clippingEntity.parent = this ;
 		clippingEntity.root = this.root ;
 		this.clippingEntities.push( clippingEntity ) ;
+		clippingEntity.onAttach() ;
 	}
 } ;
 
@@ -39172,11 +43494,11 @@ VGClip.prototype.svgContentGroupAttributes = function() {
 } ;
 
 
-},{"../package.json":142,"./VGContainer.js":113,"./VGEntity.js":115,"./svg-kit.js":132,"array-kit":25}],113:[function(require,module,exports){
+},{"../package.json":170,"./VGContainer.js":137,"./VGEntity.js":140,"./svg-kit.js":165,"array-kit":25}],137:[function(require,module,exports){
 /*
 	SVG Kit
 
-	Copyright (c) 2017 - 2023 Cédric Ronvel
+	Copyright (c) 2017 - 2024 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -39210,8 +43532,8 @@ const arrayKit = require( 'array-kit' ) ;
 
 
 
-function VGContainer( options ) {
-	VGEntity.call( this , options ) ;
+function VGContainer( params ) {
+	VGEntity.call( this , params ) ;
 	this.entities = [] ;
 }
 
@@ -39271,7 +43593,9 @@ VGContainer.prototype.addEntity = function( entity , clone = false ) {
 		if ( entity.parent ) { entity.parent.removeEntity( entity ) ; }
 		entity.parent = this ;
 		entity.root = this.root ;
+		if ( entity.needFullRedraw ) { this.root.needFullRedraw = true ; }
 		this.entities.push( entity ) ;
+		entity.onAttach() ;
 	}
 } ;
 
@@ -39282,6 +43606,16 @@ VGContainer.prototype.removeEntity = function( entity ) {
 		arrayKit.deleteValue( this.entities , entity ) ;
 		entity.root = entity.parent = null ;
 	}
+} ;
+
+
+
+VGContainer.prototype.clearEntities = function() {
+	for ( let entity of this.entities ) {
+		entity.root = entity.parent = null ;
+	}
+
+	this.entities.length = 0 ;
 } ;
 
 
@@ -39367,11 +43701,11 @@ VGContainer.prototype.morphSvgDom = function() {
 } ;
 
 
-},{"../package.json":142,"./VGEntity.js":115,"./svg-kit.js":132,"array-kit":25}],114:[function(require,module,exports){
+},{"../package.json":170,"./VGEntity.js":140,"./svg-kit.js":165,"array-kit":25}],138:[function(require,module,exports){
 /*
 	SVG Kit
 
-	Copyright (c) 2017 - 2023 Cédric Ronvel
+	Copyright (c) 2017 - 2024 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -39399,7 +43733,167 @@ VGContainer.prototype.morphSvgDom = function() {
 
 
 const VGEntity = require( './VGEntity.js' ) ;
-const canvas = require( './canvas.js' ) ;
+const ConvexPolygon = require( './ConvexPolygon.js' ) ;
+const canvasUtilities = require( './canvas-utilities.js' ) ;
+
+
+
+function VGConvexPolygon( params ) {
+	VGEntity.call( this , params ) ;
+
+	this.convexPolygon = new ConvexPolygon() ;
+
+	if ( params ) { this.set( params ) ; }
+}
+
+module.exports = VGConvexPolygon ;
+
+VGConvexPolygon.prototype = Object.create( VGEntity.prototype ) ;
+VGConvexPolygon.prototype.constructor = VGConvexPolygon ;
+VGConvexPolygon.prototype.__prototypeUID__ = 'svg-kit/VGConvexPolygon' ;
+VGConvexPolygon.prototype.__prototypeVersion__ = require( '../package.json' ).version ;
+
+
+
+VGConvexPolygon.prototype.svgTag = 'path' ;
+
+
+
+VGConvexPolygon.prototype.set = function( params ) {
+	var refreshBbox = !! ( params.style?.stroke || params.style?.strokeWidth ) ;
+
+	if ( params.build ) {
+		// .build() call .set() again, no need to compute BBox here
+		this.build( params.build ) ;
+	}
+
+	if ( params.points ) {
+		this.convexPolygon.setPoints( params.points ) ;
+		refreshBbox = true ;
+		//console.warn( this.convexPolygon.totalAngle ) ;
+		if ( ! this.convexPolygon.checkConvex() ) { throw new Error( "Not a convex polygon" ) ; }
+	}
+
+	VGEntity.prototype.set.call( this , params ) ;
+
+	if ( refreshBbox ) { this.computeBoundingBox() ; }
+} ;
+
+
+
+VGConvexPolygon.prototype.export = function( data = {} ) {
+	VGEntity.prototype.export.call( this , data ) ;
+	this.convexPolygon.export( data ) ;
+	return data ;
+} ;
+
+
+
+// Methods that pass to ConvexPolygon methods
+VGConvexPolygon.prototype.toD = function() { return this.convexPolygon.toD( this.root.invertY ) ; } ;
+VGConvexPolygon.prototype.isInside = function( coords ) { return this.convexPolygon.isInside( coords ) ; } ;
+
+VGConvexPolygon.prototype.setPoints = function( points ) {
+	this.convexPolygon.setPoints( points ) ;
+	this.computeBoundingBox() ;
+} ;
+
+VGConvexPolygon.prototype.addPoint = function( point ) {
+	this.convexPolygon.addPoint( point ) ;
+	this.computeBoundingBox() ;
+} ;
+
+VGConvexPolygon.prototype.computeBoundingBox = function() {
+	this.boundingBox.set( this.convexPolygon.boundingBox ) ;
+	var width = this.style.stroke ? this.style.strokeWidth : 0 ;
+	if ( width ) { this.boundingBox.enlarge( width ) ; }
+} ;
+
+
+
+const degToRad = deg => deg * Math.PI / 180 ;
+
+VGConvexPolygon.prototype.build = function( data = {} ) {
+	var points = [] ,
+		cx = data.cx !== undefined ? + data.cx || 0 : + data.x || 0 ,
+		cy = data.cy !== undefined ? + data.cy || 0 : + data.y || 0 ,
+		sides = + data.sides || 1 ,
+		angleInc = 2 * Math.PI / sides ,
+		angle = data.angleDeg !== undefined ? degToRad( + data.angleDeg || 0 ) : + data.angle || 0 ,
+		radius = + data.radius || 0 ;
+
+	for ( let i = 0 ; i < sides ; i ++ , angle += angleInc ) {
+		points.push( {
+			x: cx + Math.cos( angle ) * radius ,
+			y: cy + Math.sin( angle ) * radius
+		} ) ;
+	}
+	console.warn( "points: " , points ) ;
+
+	this.set( { points } ) ;
+} ;
+
+
+
+VGConvexPolygon.prototype.svgAttributes = function( master = this ) {
+	var attr = {
+		// SVG attribute 'd' (data)
+		d: this.toD()
+	} ;
+
+	return attr ;
+} ;
+
+
+
+VGConvexPolygon.prototype.renderHookForCanvas = function( canvasCtx , options = {} , isRedraw = false , master = this ) {
+	canvasCtx.save() ;
+	canvasCtx.beginPath() ;
+	canvasUtilities.fillAndStrokeUsingStyle( canvasCtx , this.style , master?.palette , new Path2D( this.toD() ) ) ;
+	canvasCtx.restore() ;
+} ;
+
+
+
+VGConvexPolygon.prototype.renderHookForPath2D = function( path2D , canvasCtx , options = {} , master = this ) {
+	path2D.addPath( new Path2D( this.toD() ) ) ;
+} ;
+
+
+},{"../package.json":170,"./ConvexPolygon.js":120,"./VGEntity.js":140,"./canvas-utilities.js":158}],139:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2024 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const VGEntity = require( './VGEntity.js' ) ;
+const BoundingBox = require( './BoundingBox.js' ) ;
+const canvasUtilities = require( './canvas-utilities.js' ) ;
 
 
 
@@ -39428,17 +43922,21 @@ VGEllipse.prototype.svgTag = 'ellipse' ;
 
 
 VGEllipse.prototype.set = function( params ) {
-	VGEntity.prototype.set.call( this , params ) ;
+	var refreshBbox = !! ( params.style?.stroke || params.style?.strokeWidth ) ;
 
 	// Interop'
-	if ( params.cx !== undefined ) { this.x = params.cx ; }
-	if ( params.cy !== undefined ) { this.y = params.cy ; }
+	if ( params.cx !== undefined ) { this.x = params.cx ; refreshBbox = true ; }
+	if ( params.cy !== undefined ) { this.y = params.cy ; refreshBbox = true ; }
 
-	if ( params.x !== undefined ) { this.x = params.x ; }
-	if ( params.y !== undefined ) { this.y = params.y ; }
-	if ( params.r !== undefined ) { this.rx = this.ry = params.r ; }
-	if ( params.rx !== undefined ) { this.rx = params.rx ; }
-	if ( params.ry !== undefined ) { this.ry = params.ry ; }
+	if ( params.x !== undefined ) { this.x = params.x ; refreshBbox = true ; }
+	if ( params.y !== undefined ) { this.y = params.y ; refreshBbox = true ; }
+	if ( params.r !== undefined ) { this.rx = this.ry = params.r ; refreshBbox = true ; }
+	if ( params.rx !== undefined ) { this.rx = params.rx ; refreshBbox = true ; }
+	if ( params.ry !== undefined ) { this.ry = params.ry ; refreshBbox = true ; }
+
+	VGEntity.prototype.set.call( this , params ) ;
+
+	if ( refreshBbox ) { this.computeBoundingBox() ; }
 } ;
 
 
@@ -39456,7 +43954,19 @@ VGEllipse.prototype.export = function( data = {} ) {
 
 
 
-VGEllipse.prototype.svgAttributes = function() {
+VGEllipse.prototype.computeBoundingBox = function() {
+	var strokeWidth = this.style.stroke ? this.style.strokeWidth : 0 ;
+	this.boundingBox.setMinMax(
+		this.x - this.rx - strokeWidth ,
+		this.y - this.ry - strokeWidth ,
+		this.x + this.rx + strokeWidth ,
+		this.y + this.ry + strokeWidth
+	) ;
+} ;
+
+
+
+VGEllipse.prototype.svgAttributes = function( master = this ) {
 	var attr = {
 		cx: this.x ,
 		cy: this.root.invertY ? - this.y : this.y ,
@@ -39469,30 +43979,30 @@ VGEllipse.prototype.svgAttributes = function() {
 
 
 
-VGEllipse.prototype.renderHookForCanvas = function( canvasCtx , options = {} ) {
+VGEllipse.prototype.renderHookForCanvas = function( canvasCtx , options = {} , isRedraw = false , master = this ) {
 	var yOffset = this.root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y : 0 ;
 
 	canvasCtx.save() ;
 	canvasCtx.beginPath() ;
 	canvasCtx.ellipse( this.x , this.y + yOffset , this.rx , this.ry , 0 , 0 , 2 * Math.PI ) ;
-	canvas.fillAndStrokeUsingSvgStyle( canvasCtx , this.style ) ;
+	canvasUtilities.fillAndStrokeUsingStyle( canvasCtx , this.style , master?.palette ) ;
 	canvasCtx.restore() ;
 } ;
 
 
 
-VGEllipse.prototype.renderHookForPath2D = function( path2D , canvasCtx , options = {} ) {
+VGEllipse.prototype.renderHookForPath2D = function( path2D , canvasCtx , options = {} , master = this ) {
 	var yOffset = this.root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y : 0 ;
 	path2D.ellipse( this.x , this.y + yOffset , this.rx , this.ry , 0 , 0 , 2 * Math.PI ) ;
 } ;
 
 
-},{"../package.json":142,"./VGEntity.js":115,"./canvas.js":126}],115:[function(require,module,exports){
+},{"../package.json":170,"./BoundingBox.js":119,"./VGEntity.js":140,"./canvas-utilities.js":158}],140:[function(require,module,exports){
 (function (process){(function (){
 /*
 	SVG Kit
 
-	Copyright (c) 2017 - 2023 Cédric Ronvel
+	Copyright (c) 2017 - 2024 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -39519,11 +44029,18 @@ VGEllipse.prototype.renderHookForPath2D = function( path2D , canvasCtx , options
 
 
 
+const BoundingBox = require( './BoundingBox.js' ) ;
+const Style = require( './Style.js' ) ;
+const DynamicArea = require( './DynamicArea.js' ) ;
+
 const fontLib = require( './fontLib.js' ) ;
+const colorUtilities = require( './color-utilities.js' ) ;
+const fx = require( './fx/fx.js' ) ;
 
 const dom = require( 'dom-kit' ) ;
 const camel = require( 'string-kit/lib/camel' ) ;
 const escape = require( 'string-kit/lib/escape' ) ;
+const Promise = require( 'seventh' ) ;
 
 
 
@@ -39532,10 +44049,15 @@ var autoId = 0 ;
 
 
 function VGEntity( params ) {
-	this._id = '_vgEntId_' + ( autoId ++ ) ;	// Used when a VG has to create unique ID automatically (e.g. creating a <clipPath>)
+	// ._id is used when a VG has to create unique ID automatically (e.g. creating a <clipPath>).
+	// It is the internal unique ID, while id is .id is the userland ID.
+	//this._id = '_vgEntId_' + ( autoId ++ ) ;
+	this._id = '_' + this.constructor.name + '_' + ( autoId ++ ) ;	// Used when a VG has to create unique ID automatically (e.g. creating a <clipPath>)
 	this.id = null ;
+
+	this.boundingBox = new BoundingBox() ;
 	this.class = new Set() ;
-	this.style = {} ;
+	this.style = new Style() ;
 	this.data = null ;		// User custom data, e.g. data-* attributes
 
 	// Spellcast data
@@ -39546,6 +44068,14 @@ function VGEntity( params ) {
 	this.morphLog = [] ;
 	this.$element = null ;
 	this.$style = null ;
+
+	this.dynamicAreas = [] ;
+	this.childrenDynamic = null ;	// can be transmitted to some children (pseudoEntities)
+	this.backgroundImageData = null ;	// Image data stored for the redraw, only for dynamic areas having the same bounding box as the entity
+	this.backgroundImageUsed = false ;	// multiple dynamic area may the the same entity.backgroundImageData, this is used for save/restore only once
+	this.renderCanvasPromise = null ;	// a promise to avoid race concurrencies
+	this.needFullDraw = true ;	// set to true if the canvas can't use redraw, and should perform a regular draw instead, only used for the root entity
+	this.fxData = {} ;	// Data used for FX (complex dynamic effects)
 
 	// Non-enumerable properties (better for displaying the data)
 	Object.defineProperties( this , {
@@ -39564,13 +44094,17 @@ VGEntity.prototype.__prototypeVersion__ = require( '../package.json' ).version ;
 VGEntity.prototype.NS = VGEntity.NS = 'http://www.w3.org/2000/svg' ;
 VGEntity.prototype.isContainer = false ;
 VGEntity.prototype.isRenderingContainer = false ;	// If set, it's not a high-level container but it's rendered as a container
+VGEntity.prototype.noFill = false ;		// If set, this entity has no fill style (e.g. polyline has only stroke)
 VGEntity.prototype.svgTag = 'none' ;
-VGEntity.prototype.svgAttributes = () => ( {} ) ;
+VGEntity.prototype.svgAttributes = ( master = this ) => ( {} ) ;
+VGEntity.prototype.onAttach = () => undefined ;
 
 
 
 VGEntity.prototype.set = function( params ) {
 	if ( params.id !== undefined ) { this.id = params.id || null ; }
+
+	if ( params.boundingBox ) { this.boundingBox.set( params.boundingBox ) ; }
 
 	if ( params.class ) {
 		if ( typeof params.class === 'string' ) {
@@ -39593,10 +44127,7 @@ VGEntity.prototype.set = function( params ) {
 	}
 
 	if ( params.style ) {
-		for ( let key in params.style ) {
-			// Stored in the camelCase variant
-			this.style[ this.toCamelCase( key ) ] = params.style[ key ] === null ? '' : params.style[ key ] ;
-		}
+		this.style.set( params.style ) ;
 	}
 
 	if ( params.data !== undefined ) {
@@ -39610,9 +44141,33 @@ VGEntity.prototype.set = function( params ) {
 		}
 	}
 
+	if ( params.dynamic !== undefined ) {
+		this.setDynamic( params.dynamic ) ;
+	}
+
+	if ( params.childrenDynamic && ( this.isContainer || this.isPseudoContainer ) ) {
+		this.childrenDynamic = params.childrenDynamic ;
+	}
+
+	// Useful for Spellcast SVG UI, but maybe somewhat deprecated...
 	if ( params.button !== undefined ) { this.button = params.button || null ; }
 	if ( params.hint !== undefined ) { this.hint = params.hint || null ; }
 	if ( params.area !== undefined ) { this.area = params.area || null ; }
+
+	if ( params.fx && typeof params.fx === 'object' ) {
+		for ( let type in params.fx ) {
+			if ( fx[ type ] ) {
+				this.set( fx[ type ]( params.fx[ type ] ) ) ;
+			}
+		}
+	}
+} ;
+
+
+
+VGEntity.prototype.setDynamic = function( dynamic ) {
+	this.clearDynamicAreas() ;
+	if ( dynamic ) { this.addDynamicArea( dynamic ) ; }
 } ;
 
 
@@ -39623,7 +44178,9 @@ VGEntity.prototype.export = function( data = {} ) {
 	if ( this.id ) { data.id = this.id ; }
 
 	if ( this.class.size ) { data.class = [ ... this.class ] ; }
-	if ( Object.keys( this.style ).length ) { data.style = this.style ; }
+
+	let style = this.style.export() ;
+	if ( style ) { data.style = style ; }
 
 	if ( this.data ) { data.data = this.data ; }
 	if ( this.button ) { data.button = this.button ; }
@@ -39666,6 +44223,85 @@ VGEntity.prototype.importMorphLog = function( log ) {
 
 
 
+VGEntity.prototype.clearDynamicAreas = function() {
+	this.dynamicAreas.length = 0 ;
+} ;
+
+
+
+VGEntity.prototype.addDynamicArea = function( params ) {
+	var dynamic = new DynamicArea( this , params ) ;
+	this.dynamicAreas.push( dynamic ) ;
+} ;
+
+
+
+VGEntity.prototype.isDynamic = function( params ) {
+	if ( this.dynamicAreas.length ) { return true ; }
+
+	if ( this.isPseudoContainer ) {
+		if ( this.pseudoEntities.some( pseudoEntity => pseudoEntity.isDynamic() ) ) { return true ; }
+	}
+
+	if ( this.isContainer ) {
+		if ( this.entities.some( entity => entity.isDynamic() ) ) { return true ; }
+	}
+
+	return false ;
+} ;
+
+
+
+VGEntity.prototype.setAllDynamicAreaStatus = function( status ) {
+	for ( let dynamic of this.dynamicAreas ) {
+		dynamic.setStatus( status ) ;
+	}
+
+	if ( this.isPseudoContainer ) {
+		this.pseudoEntities.forEach( pseudoEntity => pseudoEntity.setAllDynamicAreaStatus( status ) ) ;
+	}
+
+	if ( this.isContainer ) {
+		this.entities.forEach( entity => entity.setAllDynamicAreaStatus( status ) ) ;
+	}
+} ;
+
+
+
+VGEntity.prototype.dynamicAreaIterator = function* () {
+	for ( let dynamic of this.dynamicAreas ) {
+		yield dynamic ;
+	}
+
+	if ( this.isPseudoContainer ) {
+		for ( let pseudoEntity of this.pseudoEntities ) {
+			yield * pseudoEntity.dynamicAreaIterator() ;
+		}
+	}
+
+	if ( this.isContainer ) {
+		for ( let entity of this.entities ) {
+			yield * entity.dynamicAreaIterator() ;
+		}
+	}
+} ;
+
+
+
+VGEntity.prototype.isInside = function( coords ) {
+	if ( this.isContainer ) {
+		return this.entities.some( entity => entity.isInside( coords ) ) ;
+	}
+
+	if ( this.boundingBox ) {
+		return this.boundingBox.isInside( coords ) ;
+	}
+
+	return false ;
+} ;
+
+
+
 // Use the preserveUpperCase option, cause the value can be in camelCased already
 VGEntity.prototype.toCamelCase = value => camel.toCamelCase( value , true ) ;
 
@@ -39692,53 +44328,17 @@ VGEntity.prototype.attrToString = function( attr , prefix = '' , addInitialSpace
 
 
 
-const STYLE_PROPERTY_UNIT = {
-	fontSize: 'px'
-} ;
-
-
-
-VGEntity.prototype.styleToString = function( style , addInitialSpace = false ) {
-	var str = '' ;
-
-	for ( let key in style ) {
-		// Key is in camelCase, but should use dash
-		let v = style[ key ] === null ? '' : style[ key ] ;
-		if ( typeof v === 'number' && STYLE_PROPERTY_UNIT[ key ] ) { v = '' + v + STYLE_PROPERTY_UNIT[ key ] ; }
-		str += this.escape( camel.camelCaseToDash( key ) ) + ':' + this.escape( v ) + ';' ;
-	}
-
-	if ( str ) {
-		str = ( addInitialSpace ? ' ' : '' ) + 'style="' + str + '"' ;
-	}
-
-	return str ;
-} ;
-
-
-
-VGEntity.prototype.domStyle = function( $element , style ) {
-	for ( let key in this.style ) {
-		// Key is already in camelCase
-		let v = style[ key ] === null ? '' : style[ key ] ;
-		if ( typeof v === 'number' && STYLE_PROPERTY_UNIT[ key ] ) { v = '' + v + STYLE_PROPERTY_UNIT[ key ] ; }
-		$element.style[ key ] = v ;
-	}
-} ;
-
-
-
 // Render the Vector Graphic as a text SVG
-VGEntity.prototype.renderSvgText = async function( options = {} ) {
+VGEntity.prototype.renderSvgText = async function( options = {} , master = this ) {
 	var str = '' ;
 
-	if ( options.insideClipPath && this.isRenderingContainer && this.renderingContainerHookForSvgText ) {
-		str += await this.renderingContainerHookForSvgText() ;
+	if ( options.noGTag && this.isRenderingContainer && this.renderingContainerHookForSvgText ) {
+		str += await this.renderingContainerHookForSvgText( master ) ;
 		return str ;
 	}
 
 	var textNodeStr = '' ,
-		attr = this.svgAttributes() ;
+		attr = this.svgAttributes( master ) ;
 
 	str += '<' + this.svgTag ;
 
@@ -39760,7 +44360,10 @@ VGEntity.prototype.renderSvgText = async function( options = {} ) {
 
 	str += this.attrToString( attr , undefined , true ) ;
 	if ( this.data ) { str += this.attrToString( this.data , 'data-' , true ) ; }
-	str += this.styleToString( this.style , true ) ;
+
+	if ( ! this.isContainer ) {
+		str += this.style.getSvgStyleString( master?.palette , true ) ;
+	}
 
 	if ( this.svgTextNode ) { textNodeStr = this.svgTextNode() ; }
 
@@ -39793,7 +44396,7 @@ VGEntity.prototype.renderSvgText = async function( options = {} ) {
 	// Inner content
 
 	if ( this.isRenderingContainer && this.renderingContainerHookForSvgText ) {
-		str += await this.renderingContainerHookForSvgText() ;
+		str += await this.renderingContainerHookForSvgText( master ) ;
 	}
 
 	if ( this.supportClippingEntities ) {
@@ -39803,7 +44406,7 @@ VGEntity.prototype.renderSvgText = async function( options = {} ) {
 
 		if ( this.clippingEntities?.length ) {
 			for ( let clippingEntity of this.clippingEntities ) {
-				str += await clippingEntity.renderSvgText( { insideClipPath: true } ) ;
+				str += await clippingEntity.renderSvgText( { noGTag: true } , master ) ;
 			}
 		}
 
@@ -39813,17 +44416,51 @@ VGEntity.prototype.renderSvgText = async function( options = {} ) {
 		str += this.attrToString( this.svgContentGroupAttributes() , undefined , true ) ;
 		str += '>' ;
 
+		if ( this.isPseudoContainer ) {
+			if ( ! this.arePseudoEntitiesReady ) { await this.computePseudoEntities() ; }
+
+			if ( this.renderBeforeHookForSvgText ) {
+				str += await this.renderBeforeHookForSvgText( master ) ;
+			}
+
+			for ( let pseudoEntity of this.pseudoEntities ) {
+				str += await pseudoEntity.renderSvgText( options , master ) ;
+			}
+
+			if ( this.renderAfterHookForSvgText ) {
+				str += await this.renderAfterHookForSvgText( master ) ;
+			}
+		}
+
 		if ( this.isContainer && this.entities?.length ) {
 			for ( let entity of this.entities ) {
-				str += await entity.renderSvgText( options ) ;
+				str += await entity.renderSvgText( options , master ) ;
 			}
 		}
 
 		str += '</' + this.svgContentGroupTag + '>' ;
 	}
-	else if ( this.isContainer && this.entities ) {
-		for ( let entity of this.entities ) {
-			str += await entity.renderSvgText( options ) ;
+	else {
+		if ( this.isPseudoContainer ) {
+			if ( ! this.arePseudoEntitiesReady ) { await this.computePseudoEntities() ; }
+
+			if ( this.renderBeforeHookForSvgText ) {
+				str += await this.renderBeforeHookForSvgText( master ) ;
+			}
+
+			for ( let pseudoEntity of this.pseudoEntities ) {
+				str += await pseudoEntity.renderSvgText( options , master ) ;
+			}
+
+			if ( this.renderAfterHookForSvgText ) {
+				str += await this.renderAfterHookForSvgText( master ) ;
+			}
+		}
+
+		if ( this.isContainer && this.entities ) {
+			for ( let entity of this.entities ) {
+				str += await entity.renderSvgText( options , master ) ;
+			}
 		}
 	}
 
@@ -39836,8 +44473,8 @@ VGEntity.prototype.renderSvgText = async function( options = {} ) {
 
 
 // Render the Vector Graphic inside a browser, as DOM SVG
-VGEntity.prototype.renderSvgDom = async function( options = {} ) {
-	let attr = this.svgAttributes() ;
+VGEntity.prototype.renderSvgDom = async function( options = {} , master = this ) {
+	let attr = this.svgAttributes( master ) ;
 
 	this.$element = document.createElementNS( this.NS , options.overrideTag || this.svgTag ) ;
 
@@ -39852,13 +44489,16 @@ VGEntity.prototype.renderSvgDom = async function( options = {} ) {
 
 	dom.attr( this.$element , attr ) ;
 	if ( this.data ) { dom.attr( this.$element , this.data , 'data-' ) ; }
-	this.domStyle( this.$element , this.style ) ;
+
+	if ( ! this.isContainer ) {
+		this.style.setDomSvgStyle( this.$element , master?.palette ) ;
+	}
 
 	if ( this.svgTextNode ) {
 		this.$element.appendChild( document.createTextNode( this.svgTextNode() ) ) ;
 	}
 
-	if ( ! this.isContainer && ! this.isRenderingContainer ) { return this.$element ; }
+	if ( ! this.isContainer && ! this.isPseudoContainer && ! this.isRenderingContainer ) { return this.$element ; }
 
 	// StyleSheet inside a <style> tag
 	if ( this.css && this.css.length ) {
@@ -39889,7 +44529,7 @@ VGEntity.prototype.renderSvgDom = async function( options = {} ) {
 	// Inner content
 
 	if ( this.isRenderingContainer && this.renderingContainerHookForSvgDom ) {
-		let subElements = await this.renderingContainerHookForSvgDom() ;
+		let subElements = await this.renderingContainerHookForSvgDom( master ) ;
 		subElements.forEach( $subElement => this.$element.appendChild( $subElement ) ) ;
 	}
 
@@ -39905,30 +44545,71 @@ VGEntity.prototype.renderSvgDom = async function( options = {} ) {
 
 		if ( this.clippingEntities?.length ) {
 			for ( let clippingEntity of this.clippingEntities ) {
-				let $child = await clippingEntity.renderSvgDom( options ) ;
+				let $child = await clippingEntity.renderSvgDom( options , master ) ;
 				// There is a bug in browser, they do not accept <g> inside <clipPath> (but Inkscape supports it),
 				// so we will append children of that group directly
-				if ( $child.tagName === 'g' ) {
-					while ( $child.firstChild ) { $clippingGroup.appendChild( $child.firstChild ) ; }
+				VGEntity.appendToWithoutGTag( $clippingGroup , $child ) ;
+			}
+		}
+
+		if ( this.isPseudoContainer ) {
+			if ( ! this.arePseudoEntitiesReady ) { await this.computePseudoEntities() ; }
+
+			if ( this.renderBeforeHookForSvgDom ) {
+				let subElements = await this.renderBeforeHookForSvgDom( master ) ;
+				if ( subElements ) {
+					subElements.forEach( $subElement => $contentGroup.appendChild( $subElement ) ) ;
 				}
-				else {
-					$clippingGroup.appendChild( $child ) ;
+			}
+
+			for ( let pseudoEntity of this.pseudoEntities ) {
+				$contentGroup.appendChild( await pseudoEntity.renderSvgDom( options , master ) ) ;
+			}
+
+			if ( this.renderAfterHookForSvgDom ) {
+				let subElements = await this.renderAfterHookForSvgDom( master ) ;
+				if ( subElements ) {
+					subElements.forEach( $subElement => $contentGroup.appendChild( $subElement ) ) ;
 				}
 			}
 		}
 
 		if ( this.isContainer && this.entities?.length ) {
 			for ( let entity of this.entities ) {
-				$contentGroup.appendChild( await entity.renderSvgDom( options ) ) ;
+				$contentGroup.appendChild( await entity.renderSvgDom( options , master ) ) ;
 			}
 		}
 
 		this.$element.appendChild( $clippingGroup ) ;
 		this.$element.appendChild( $contentGroup ) ;
 	}
-	else if ( this.isContainer && this.entities?.length ) {
-		for ( let entity of this.entities ) {
-			this.$element.appendChild( await entity.renderSvgDom( options ) ) ;
+	else {
+		if ( this.isPseudoContainer ) {
+			if ( ! this.arePseudoEntitiesReady ) { await this.computePseudoEntities() ; }
+
+			if ( this.renderBeforeHookForSvgDom ) {
+				let subElements = await this.renderBeforeHookForSvgDom( master ) ;
+				if ( subElements ) {
+					subElements.forEach( $subElement => this.$element.appendChild( $subElement ) ) ;
+				}
+			}
+
+			for ( let pseudoEntity of this.pseudoEntities ) {
+				this.$element.appendChild( await pseudoEntity.renderSvgDom( options , master ) ) ;
+			}
+
+			if ( this.renderAfterHookForSvgDom ) {
+				let subElements = await this.renderAfterHookForSvgDom( master ) ;
+				if ( subElements ) {
+					subElements.forEach( $subElement => this.$element.appendChild( $subElement ) ) ;
+				}
+			}
+		}
+
+		if ( this.isContainer && this.entities?.length ) {
+			for ( let entity of this.entities ) {
+				this.$element.appendChild( await entity.renderSvgDom( options , master ) ) ;
+			}
 		}
 	}
 
@@ -39938,11 +44619,136 @@ VGEntity.prototype.renderSvgDom = async function( options = {} ) {
 
 
 // Render the Vector Graphic inside a browser's canvas
-VGEntity.prototype.renderCanvas = async function( canvasCtx , options = {} ) {
-	options.pixelsPerUnit = + options.pixelsPerUnit || 1 ;
+VGEntity.prototype.renderCanvas = async function( canvasCtx , options , isRedraw = false , master = this ) {
+	options = options || {} ;
 
-	if ( this.renderHookForCanvas ) {
-		await this.renderHookForCanvas( canvasCtx , options ) ;
+	if ( this.root === this ) {
+		if ( this.renderCanvasPromise ) {
+			//console.warn( "=== root renderCanvas() ALREADY RUNNING" , isRedraw ) ;
+			await this.renderCanvasPromise ;
+		}
+
+		//console.warn( ">>> root renderCanvas()" , isRedraw ? 'redraw' : 'draw' , this.getEntityTree() ) ;
+		if ( isRedraw && this.needFullDraw ) {
+			//console.warn( "+++ force a full draw" ) ;
+			isRedraw = false ;
+		}
+	}
+
+	var promise = this.renderCanvasPromise = new Promise() ,
+		shouldRestore = false ,
+		shouldRender = true ;
+
+	// Manage position, rotation and scale using canvas' transformation methods
+	if ( master === this ) {
+		let viewport = {
+				x: 0 , y: 0 , width: canvasCtx.canvas.width , height: canvasCtx.canvas.height
+			} ,
+			translateX = options.x || 0 ,
+			translateY = options.y || 0 ,
+			rotation = options.rotation || 0 ,
+			scale = options.scale || 1 ,
+			scaleX = options.scaleX || scale ,
+			scaleY = options.scaleY || scale ;
+
+		if ( options.viewport ) {
+			viewport.x = options.viewport.x ?? 0 ;
+			viewport.y = options.viewport.y ?? 0 ;
+			viewport.width = options.viewport.width ?? canvasCtx.canvas.width ;
+			viewport.height = options.viewport.height ?? canvasCtx.canvas.width ;
+
+			translateX += viewport.x ;
+			translateY += viewport.y ;
+
+			if ( ! shouldRestore ) {
+				canvasCtx.save() ;
+				shouldRestore = true ;
+			}
+
+			canvasCtx.beginPath() ;
+			canvasCtx.rect( viewport.x , viewport.y , viewport.width , viewport.height ) ;
+			canvasCtx.clip() ;
+		}
+
+		if ( options.stretch && this.viewBox ) {
+			translateX = - this.viewBox.x + viewport.x ;
+			translateY = - this.viewBox.y + viewport.y ;
+			scaleX = viewport.width / this.viewBox.width ;
+			scaleY = viewport.height / this.viewBox.height ;
+
+			switch ( options.stretch ) {
+				case true :
+				case 'stretch' :
+					break ;
+				case 'cover' :
+					scaleX = scaleY = Math.max( scaleX , scaleY ) ;
+					break ;
+				case 'contain' :
+					scaleX = scaleY = Math.min( scaleX , scaleY ) ;
+					break ;
+			}
+		}
+
+		if ( translateX || translateY || rotation || scaleX !== 1 || scaleY !== 1 ) {
+			if ( ! shouldRestore ) {
+				canvasCtx.save() ;
+				shouldRestore = true ;
+			}
+
+			if ( scaleX !== 1 || scaleY !== 1 ) { canvasCtx.scale( scaleX , scaleY ) ; }
+			if ( translateX || translateY ) { canvasCtx.translate( translateX , translateY ) ; }
+			if ( rotation ) { canvasCtx.rotate( rotation ) ; }
+		}
+	}
+
+	this.backgroundImageUsed = false ;
+
+	if ( isRedraw ) {
+		shouldRender = false ;
+		for ( let dynamic of this.dynamicAreas ) {
+			if ( dynamic.outdated ) {
+				//console.log( "restore 1 area for:" , this.__prototypeUID__ ) ;
+				dynamic.restore( canvasCtx ) ;
+				shouldRender = true ;
+			}
+		}
+	}
+	else {
+		for ( let dynamic of this.dynamicAreas ) {
+			if ( ! dynamic.noRedraw ) {
+				dynamic.save( canvasCtx ) ;
+			}
+		}
+	}
+
+
+	if ( this.isPseudoContainer ) {
+		if ( ! this.arePseudoEntitiesReady ) { await this.computePseudoEntities() ; }
+
+		canvasCtx.save() ;
+
+		if ( this.renderBeforeHookForCanvas ) {
+			await this.renderBeforeHookForCanvas( canvasCtx , options , isRedraw , master ) ;
+		}
+
+		for ( let pseudoEntity of this.pseudoEntities ) {
+			await pseudoEntity.renderCanvas( canvasCtx , options , isRedraw && ! shouldRender , master ) ;
+		}
+
+		if ( this.renderAfterHookForCanvas ) {
+			await this.renderAfterHookForCanvas( canvasCtx , options , isRedraw , master ) ;
+		}
+
+		if ( shouldRender ) {
+			for ( let dynamic of this.dynamicAreas ) { dynamic.outdated = false ; }
+		}
+
+		canvasCtx.restore() ;
+	}
+	else if ( this.renderHookForCanvas && shouldRender ) {
+		//console.log( "render for:" , this.__prototypeUID__ ) ;
+		await this.renderHookForCanvas( canvasCtx , options , isRedraw , master ) ;
+		for ( let dynamic of this.dynamicAreas ) { dynamic.outdated = false ; }
 	}
 
 	if ( this.isContainer && this.entities?.length ) {
@@ -39952,36 +44758,81 @@ VGEntity.prototype.renderCanvas = async function( canvasCtx , options = {} ) {
 			let clipPath2D = new Path2D() ;
 
 			for ( let clippingEntity of this.clippingEntities ) {
-				await clippingEntity.renderPath2D( clipPath2D , canvasCtx , options ) ;
+				await clippingEntity.renderPath2D( clipPath2D , canvasCtx , options , master ) ;
 			}
 
 			canvasCtx.clip( clipPath2D ) ;
 
 			for ( let entity of this.entities ) {
-				await entity.renderCanvas( canvasCtx , options ) ;
+				await entity.renderCanvas( canvasCtx , options , isRedraw , master ) ;
 			}
 
 			canvasCtx.restore() ;
 		}
 		else {
 			for ( let entity of this.entities ) {
-				await entity.renderCanvas( canvasCtx , options ) ;
+				await entity.renderCanvas( canvasCtx , options , isRedraw , master ) ;
 			}
+		}
+	}
+
+	// Restore, removing transformations
+	if ( shouldRestore ) { canvasCtx.restore() ; }
+
+	//if ( this.root === this ) { console.warn( "<<< root renderCanvas()" , isRedraw ? 'redraw' : 'draw' ) ; }
+	this.needFullDraw = false ;
+
+	this.renderCanvasPromise = null ;
+	promise.resolve() ;
+} ;
+
+
+
+VGEntity.prototype.redrawCanvas = function( canvasCtx , options = {} ) {
+	return this.renderCanvas( canvasCtx , options , true ) ;
+} ;
+
+
+
+VGEntity.prototype.renderPath2D = async function( path2D , canvasCtx , options = {} , master = this ) {
+	if ( this.isPseudoContainer ) {
+		if ( ! this.arePseudoEntitiesReady ) { await this.computePseudoEntities() ; }
+
+		if ( this.renderBeforeHookForPath2D ) {
+			await this.renderBeforeHookForPath2D( path2D , canvasCtx , options , master ) ;
+		}
+
+		for ( let pseudoEntity of this.pseudoEntities ) {
+			await pseudoEntity.renderPath2D( path2D , canvasCtx , options , master ) ;
+		}
+
+		if ( this.renderAfterHookForPath2D ) {
+			await this.renderAfterHookForPath2D( path2D , canvasCtx , options , master ) ;
+		}
+	}
+	else if ( this.renderHookForPath2D ) {
+		await this.renderHookForPath2D( path2D , canvasCtx , options , master ) ;
+	}
+
+	if ( this.isContainer && this.entities?.length ) {
+		for ( let entity of this.entities ) {
+			await entity.renderPath2D( path2D , canvasCtx , options , master ) ;
 		}
 	}
 } ;
 
 
 
-VGEntity.prototype.renderPath2D = async function( path2D , canvasCtx , options = {} ) {
-	if ( this.renderHookForPath2D ) {
-		await this.renderHookForPath2D( path2D , canvasCtx , options ) ;
-	}
-
-	if ( this.isContainer && this.entities?.length ) {
-		for ( let entity of this.entities ) {
-			await entity.renderPath2D( path2D , canvasCtx , options ) ;
+// Append a child to a parent, but if the child is a <g> tag, append all children of <g> instead.
+// Useful because of a browser bug, not supporting <g> inside <clipPath> (but Inkscape supports it).
+VGEntity.appendToWithoutGTag = function( $parent , $child ) {
+	if ( $child.tagName === 'g' ) {
+		for ( let $child2 of $child.childNodes ) {
+			VGEntity.appendToWithoutGTag( $parent , $child2 ) ;
 		}
+	}
+	else {
+		$parent.appendChild( $child ) ;
 	}
 } ;
 
@@ -40070,17 +44921,43 @@ VGEntity.prototype.preloadFonts = async function() {
 
 
 
+// For debug purposes
+VGEntity.prototype.getEntityTree = function( depth = 0 ) {
+	var str = '  '.repeat( depth ) ;
+	str += this.__prototypeUID__.slice( 8 ) + ' ' + this._id ;
+	//str +=
+	str += '\n' ;
+
+	if ( this.isPseudoContainer ) {
+		for ( let pseudoEntity of this.pseudoEntities ) {
+			str += pseudoEntity.getEntityTree( depth + 1 ) ;
+		}
+	}
+
+	if ( this.isContainer ) {
+		for ( let entity of this.entities ) {
+			str += entity.getEntityTree( depth + 1 ) ;
+		}
+	}
+
+	return str ;
+} ;
+
+
+
 // Should be derived
 // Return null or an array of font names used by this entity
 VGEntity.prototype.getUsedFontNames = function() { return null ; } ;
+// Update the boundingBox
+VGEntity.prototype.computeBoundingBox = function() {} ;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"../package.json":142,"./fontLib.js":127,"_process":161,"dom-kit":37,"string-kit/lib/camel":135,"string-kit/lib/escape":136}],116:[function(require,module,exports){
+},{"../package.json":170,"./BoundingBox.js":119,"./DynamicArea.js":121,"./Style.js":134,"./color-utilities.js":159,"./fontLib.js":161,"./fx/fx.js":162,"_process":212,"dom-kit":46,"seventh":95,"string-kit/lib/camel":166,"string-kit/lib/escape":167}],141:[function(require,module,exports){
 /*
 	SVG Kit
 
-	Copyright (c) 2017 - 2023 Cédric Ronvel
+	Copyright (c) 2017 - 2024 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -40113,6 +44990,7 @@ const TextMetrics = require( './TextMetrics.js' ) ;
 
 function StructuredTextLine( parts , metrics ) {
 	this.parts = Array.isArray( parts ) ? parts : [] ;
+	this.followUpEmptyLines = 0 ;
 	this.metrics = metrics instanceof TextMetrics ? metrics : null ;
 }
 
@@ -40125,38 +45003,46 @@ module.exports = StructuredTextLine ;
 StructuredTextLine.prototype.fuseEqualAttr = function() {
 	if ( this.parts.length <= 1 ) { return ; }
 
-	let last = this.parts[ 0 ] ; // IStructuredTextPart
-	let lastInserted = last ; // IStructuredTextPart
-	const outputParts = [ last ] ; // StructuredText
+	//console.warn( "!!! BF .fuseEqualAttr()" , this.parts ) ;
+	let lastPart = this.parts[ 0 ] ; // IStructuredTextPart
+	let lastInsertedPart = lastPart ; // IStructuredTextPart
+	const outputParts = [ lastPart ] ; // StructuredText
 
 	for ( let index = 1 ; index < this.parts.length ; index ++ ) {
 		const part = this.parts[ index ] ;
 
-		if ( last.attr.isEqual( part.attr ) ) {
-			lastInserted.text += part.text ;
+		if (
+			! part.imageUrl && ! lastPart.imageUrl
+			&& part.margin === lastPart.margin	// We will not compare individual margins, because a block with margin stand out of another
+			&& part.fx === lastPart.fx
+			&& part.dynamic === lastPart.dynamic
+			&& part.attr.isEqual( lastPart.attr )
+		) {
+			lastInsertedPart.text += part.text ;
 
 			// Note that it's always defined at that point
-			if ( lastInserted.metrics && part.metrics ) {
-				lastInserted.metrics.fuseWithRightPart( part.metrics ) ;
+			if ( lastInsertedPart.metrics && part.metrics ) {
+				lastInsertedPart.metrics.fuseWithRightPart( part.metrics ) ;
 			}
 		}
 		else {
 			outputParts.push( part ) ;
-			lastInserted = part ;
+			lastInsertedPart = part ;
 		}
 
-		last = part ;
+		lastPart = part ;
 	}
 
 	this.parts = outputParts ;
+	//console.warn( "!!! AFT .fuseEqualAttr()" , this.parts ) ;
 } ;
 
 
-},{"./TextMetrics.js":119}],117:[function(require,module,exports){
+},{"./TextMetrics.js":145}],142:[function(require,module,exports){
 /*
 	SVG Kit
 
-	Copyright (c) 2017 - 2023 Cédric Ronvel
+	Copyright (c) 2017 - 2024 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -40186,17 +45072,23 @@ StructuredTextLine.prototype.fuseEqualAttr = function() {
 const TextAttribute = require( './TextAttribute.js' ) ;
 const TextMetrics = require( './TextMetrics.js' ) ;
 
+//const DynamicArea = require( '../DynamicArea.js' ) ;
+
 const escape = require( 'string-kit/lib/escape.js' ) ;
 
 
 
-function StructuredTextPart( params = {} ) {
-	this.text = params.text || '' ;
+function StructuredTextPart( params = {} , textOverride = null ) {
+	this.imageUrl = params.imageUrl || params.image || null ;
+	this.text = this.imageUrl ? '' : textOverride ?? ( params.text || '' ) ;
 
 	// Word-wrapping data
 	this.canLineSplitBefore = true ;
 	this.forceNoLineSplitBefore = false ;
 	this.canLineSplitAfter = true ;
+
+	this.margin = params.margin || null ;	// Mostly used for FX, it enlarges the bounding box
+	if ( this.margin ) { console.log( "StructuredTextPart() margin:" , this.margin ) ; }
 
 	this.attr = ! params.attr ? new TextAttribute( params ) :
 		params.attr instanceof TextAttribute ? params.attr :
@@ -40205,32 +45097,83 @@ function StructuredTextPart( params = {} ) {
 	// Computed metrics
 	this.metrics = params.metrics instanceof TextMetrics ? params.metrics : null ;
 
-	/*
-	// From my abandoned StructuredText code for BabylonJS
+	this.fx = params.fx || null ;
+	this.dynamic = null ;
 
-	// When set, call observers for a click event
-	href?: any;
-
-	// Force splitting this part into one part per character.
-	// This is useful for special effects.
-	splitIntoCharacters?: boolean;
-
-
-	// Userland data
-	staticCustomData?: object;
-	dynamicCustomData?: object;
-	*/
+	if ( params.dynamic ) {
+		// Complete syntax
+		this.dynamic = params.dynamic ;
+	}
+	else {
+		// Maybe shorthand syntax
+		this.dynamic = StructuredTextPart.shorthandToDynamicDef( params , this ) ;
+		if ( this.dynamic ) { console.warn( "::: Dynamic Set:" , this.dynamic ) ; }
+	}
 }
 
 module.exports = StructuredTextPart ;
 
 
 
+const DYNAMIC_SHORTHANDS = [ 'hover' , 'click' , 'press' , 'release' ] ;
+
+StructuredTextPart.shorthandToDynamicDef = function( params , baseFallback = null ) {
+	var def = {} ;
+
+	if ( ! DYNAMIC_SHORTHANDS.some( k => Object.hasOwn( params , k ) ) ) { return null ; }
+
+	def.base = StructuredTextPart.shorthandToDynamicStatusDef( params.base ?? baseFallback ?? params ) ;
+
+	if ( params.hover ) {
+		def.hover = StructuredTextPart.shorthandToDynamicStatusDef( params.hover ) ;
+	}
+
+	if ( params.press ) {
+		def.press = StructuredTextPart.shorthandToDynamicStatusDef( params.press ) ;
+	}
+
+	if ( params.release ) {
+		def.release = StructuredTextPart.shorthandToDynamicStatusDef( params.release ) ;
+	}
+
+	if ( params.click ) {
+		def.release = StructuredTextPart.shorthandToDynamicStatusDef( params.click ) ;
+		if ( ! def.press ) {
+			def.press = def.hover || def.base ;
+		}
+	}
+
+	return { statusData: def } ;
+} ;
+
+
+
+StructuredTextPart.shorthandToDynamicStatusDef = function( params ) {
+	var def = { morph: {} } ;
+
+	if ( params.attr ) {
+		def.morph.attr =
+			// If it's a TextAttribute, we export it, so we only get non-null propeties
+			params.attr instanceof TextAttribute ? params.attr.export() :
+			params.attr ;
+	}
+	//if ( params.metrics ) { def.morph.metrics = params.metrics ; }
+
+	if ( params.emit ) { def.emit = params.emit ; }
+
+	return def ;
+} ;
+
+
+
 StructuredTextPart.prototype.export = function( data = {} ) {
-	data.text = this.text ;
+	if ( this.imageUrl ) { data.imageUrl = this.imageUrl ; }
+	else { data.text = this.text ; }
 
 	let attr = this.attr.export( undefined , true ) ;
 	if ( attr ) { data.attr = attr ; }
+
+	if ( this.dynamic ) { data.dynamic = this.dynamic ; }
 
 	return data ;
 } ;
@@ -40258,12 +45201,21 @@ const WORD_SPLIT_REGEXP = new RegExp(
 
 
 
-// Split the into words, suitable to compute word-wrapping
+// Split the into words, suitable to compute word-wrapping.
 // Note: This splitting function does not exclude the splitter,
-// it keeps it on the left of the right-side of the split
+// it keeps it on the left of the right-side of the split.
 StructuredTextPart.prototype.splitIntoWords = function( intoList = [] ) {
-	let match ;
-	let lastIndex = 0 ;
+	if ( this.imageUrl ) {
+		// Image are not splittable, and have special rules for line-split
+		this.canLineSplitAfter = true ;
+		this.canLineSplitBefore = false ;
+		this.forceNoLineSplitBefore = false ;
+
+		intoList.push( this ) ;
+		return intoList ;
+	}
+
+	var match , lastIndex = 0 ;
 	WORD_SPLIT_REGEXP.lastIndex = 0 ;
 
 	while ( ( match = WORD_SPLIT_REGEXP.exec( this.text ) ) ) {
@@ -40305,6 +45257,14 @@ StructuredTextPart.prototype.splitIntoWords = function( intoList = [] ) {
 
 
 StructuredTextPart.prototype.checkLineSplit = function() {
+	if ( this.imageUrl ) {
+		// Images are special case
+		this.canLineSplitAfter = true ;
+		this.canLineSplitBefore = false ;
+		this.forceNoLineSplitBefore = false ;
+		return ;
+	}
+
 	if ( CAN_SPLIT_BEFORE.has( this.text[ 0 ] ) ) {
 		this.canLineSplitBefore = ! FORCE_NO_SPLIT_BEFORE.has( this.text[ 1 ] ) ;
 		this.forceNoLineSplitBefore = false ;
@@ -40318,11 +45278,11 @@ StructuredTextPart.prototype.checkLineSplit = function() {
 } ;
 
 
-},{"./TextAttribute.js":118,"./TextMetrics.js":119,"string-kit/lib/escape.js":136}],118:[function(require,module,exports){
+},{"./TextAttribute.js":144,"./TextMetrics.js":145,"string-kit/lib/escape.js":167}],143:[function(require,module,exports){
 /*
 	SVG Kit
 
-	Copyright (c) 2017 - 2023 Cédric Ronvel
+	Copyright (c) 2017 - 2024 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -40349,7 +45309,285 @@ StructuredTextPart.prototype.checkLineSplit = function() {
 
 
 
+function StructuredTextRenderer( dynamicStyles ) {
+	this.dynamicStyles = dynamicStyles ;
+}
+
+module.exports = StructuredTextRenderer ;
+
+
+
+StructuredTextRenderer.prototype.type = 'flatStructure' ;
+
+
+
+// Render the full document, called last with all content rendered
+StructuredTextRenderer.prototype.document = function( meta , renderedChildren ) {
+	//console.warn( "document:" , renderedChildren ) ;
+	return renderedChildren ;
+} ;
+
+
+
+// Block
+
+
+
+StructuredTextRenderer.prototype.paragraph = function( data , renderedChildren ) {
+	//console.warn( "paragraph:" , renderedChildren ) ;
+	renderedChildren.push( { text: "\n\n" } ) ;
+	return renderedChildren ;
+} ;
+
+
+
+StructuredTextRenderer.prototype.quote = function( data , renderedChildren ) {
+	renderedChildren.push( { text: "\n\n" } ) ;
+	return renderedChildren ;
+} ;
+
+
+
+StructuredTextRenderer.prototype.header = function( data , renderedChildren ) {
+	renderedChildren.push( { text: "\n\n" } ) ;
+	return renderedChildren ;
+} ;
+
+
+
+StructuredTextRenderer.prototype.cite = function( data , renderedChildren ) {
+	renderedChildren.push( { text: "\n\n" } ) ;
+	return renderedChildren ;
+} ;
+
+
+
+StructuredTextRenderer.prototype.list = function( data , renderedChildren ) {
+	renderedChildren.push( { text: "\n\n" } ) ;
+	return renderedChildren ;
+} ;
+
+
+
+StructuredTextRenderer.prototype.listItem = function( data , renderedChildren ) {
+	renderedChildren.unshift( { text: '• ' } ) ;
+	renderedChildren.push( { text: "\n" } ) ;
+	return renderedChildren ;
+} ;
+
+
+
+StructuredTextRenderer.prototype.orderedList = function( data , renderedChildren ) {
+	renderedChildren.push( { text: "\n\n" } ) ;
+	return renderedChildren ;
+} ;
+
+
+
+StructuredTextRenderer.prototype.orderedListItem = function( data , renderedChildren , stack , index ) {
+	renderedChildren.unshift( { text: '' + ( index + 1 ) + '. ' } ) ;
+	renderedChildren.push( { text: "\n" } ) ;
+	return renderedChildren ;
+} ;
+
+
+
+// Inline
+
+
+
+StructuredTextRenderer.prototype.text = function( data ) {
+	return { text: data.text } ;
+} ;
+
+
+
+StructuredTextRenderer.prototype.code = function( data ) {
+	return {
+		text: data.text ,
+		isCode: true
+	} ;
+} ;
+
+
+
+StructuredTextRenderer.prototype.emphasisText = function( data , renderedChildren ) {
+	renderedChildren.forEach( child => {
+		if ( child.isCode ) { return ; }
+		if ( data.level >= 3 ) {
+			child.fontWeight = 'bold' ;
+			child.fontStyle = 'italic' ;
+		}
+		else if ( data.level === 2 ) {
+			child.fontWeight = 'bold' ;
+		}
+		else {
+			child.fontStyle = 'italic' ;
+		}
+	} ) ;
+
+	return renderedChildren ;
+} ;
+
+
+
+StructuredTextRenderer.prototype.decoratedText = function( data , renderedChildren ) {
+	renderedChildren.forEach( child => {
+		if ( child.isCode ) { return ; }
+		if ( data.level >= 2 ) {
+			child.underline = true ;
+		}
+		else {
+			child.underline = true ;
+		}
+	} ) ;
+
+	return renderedChildren ;
+} ;
+
+
+
+StructuredTextRenderer.prototype.styledText = function( data , renderedChildren ) {
+	renderedChildren.forEach( child => {
+		if ( child.isCode ) { return ; }
+		if ( data.style ) { this.populateStyle( child , data.style ) ; }
+	} ) ;
+
+	return renderedChildren ;
+} ;
+
+
+
+StructuredTextRenderer.prototype.link = function( data , renderedChildren ) {
+	renderedChildren.forEach( child => {
+		if ( child.isCode ) { return ; }
+
+		child.underline = this.dynamicStyles.linkUnderline ;
+		child.color = this.dynamicStyles.linkColor ;
+
+		child.hover = {
+			attr: {
+				underline: this.dynamicStyles.linkUnderline ,
+				color: this.dynamicStyles.linkHoverColor
+			}
+		} ;
+
+		child.press = {
+			attr: {
+				underline: this.dynamicStyles.linkUnderline ,
+				color: this.dynamicStyles.linkPressColor
+			}
+		} ;
+
+		child.release = {
+			emit: { name: 'link' , data: { href: data.href } }
+		} ;
+
+		if ( data.style ) { this.populateStyle( child , data.style ) ; }
+	} ) ;
+
+	return renderedChildren ;
+} ;
+
+
+
+StructuredTextRenderer.prototype.infotipedText = function( data , renderedChildren ) {
+	renderedChildren.forEach( child => {
+		if ( child.isCode ) { return ; }
+
+		child.base = {
+			attr: {
+				underline: this.dynamicStyles.infotipUnderline ,
+				color: this.dynamicStyles.infotipColor
+			} ,
+			emit: { name: 'infotipClosed' , data: { href: data.href , hint: data.hint } }
+		} ;
+
+		child.hover = {
+			attr: {
+				underline: this.dynamicStyles.infotipUnderline ,
+				color: this.dynamicStyles.infotipHoverColor
+			} ,
+			emit: { name: 'infotip' , data: { href: data.href , hint: data.hint } }
+		} ;
+
+		if ( data.style ) { this.populateStyle( child , data.style ) ; }
+	} ) ;
+
+	return renderedChildren ;
+} ;
+
+
+
+StructuredTextRenderer.prototype.image = function( data ) {
+	return { imageUrl: data.href } ;
+} ;
+
+//StructuredTextRenderer.prototype.pictogram = function( data ) {} ;
+//StructuredTextRenderer.prototype.anchor = function( data ) {} ;
+
+
+
+// Helpers
+
+
+
+StructuredTextRenderer.prototype.populateStyle = function( part , style ) {
+	if ( style.italic ) { part.fontStyle = 'italic' ; }
+	if ( style.bold ) { part.fontWeight = 'bold' ; }
+	if ( style.underline ) { part.underline = true ; }
+
+	if ( style.textColor ) { part.color = style.textColor ; }
+
+	if ( style.backgroundColor ) {
+		part.frame = true ;
+		part.frameColor = style.backgroundColor ;
+		part.frameOutlineColor = "#777" ;   // <-- TEMP
+		part.frameCornerRadius = 5 ;   // <-- TEMP
+	}
+
+	if ( style.fx ) {
+		part.fx = {} ;
+		part.fx[ style.fx ] = true ;
+	}
+} ;
+
+
+},{}],144:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2024 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const colorUtilities = require( '../color-utilities.js' ) ;
 const Metric = require( '../Metric.js' ) ;
+const Style = require( '../Style.js' ) ;
+const Color = require( 'palette-shade' ).Color ;
 
 
 
@@ -40359,6 +45597,7 @@ const DEFAULT_ATTR = {
 	fontWeight: 'regular' ,
 	fontSize: new Metric( 16 ) ,
 	color: '#000' ,
+	opacity: 1 ,
 	outline: false ,
 	outlineWidth: new Metric( 0.025 , 'em' ) ,
 	outlineColor: '#fff' ,
@@ -40388,6 +45627,7 @@ function TextAttribute( params ) {
 
 	// Styles
 	this.color = null ;
+	this.opacity = null ;
 	this.outline = null ;
 	this.outlineWidth = null ;
 	this.outlineColor = null ;
@@ -40409,19 +45649,11 @@ function TextAttribute( params ) {
 	if ( params ) { this.set( params ) ; }
 
 	/*
-	// Other attributes not ported yet, from my abandoned StructuredText code PR for BabylonJS
-
-	shadowColor?: string;
-	shadowBlur?: number;
-	shadowOffsetX?: number;
-	shadowOffsetY?: number;
-
-	// When set, change appearance of that part when the mouse is hovering it.
-	// Only property that does not change the metrics should ever be supported here.
-	hover?: {
-		color?: string | ICanvasGradient;
-		underline?: boolean;
-	};
+		Other possible attributes:
+		shadowColor
+		shadowBlur
+		shadowOffsetX
+		shadowOffsetY
 	*/
 }
 
@@ -40440,18 +45672,19 @@ TextAttribute.prototype.set = function( params ) {
 	if ( params.fontSize ) { this.setFontSize( params.fontSize ) ; }
 
 	if ( params.color ) { this.setColor( params.color ) ; }
-	if ( params.outline ) { this.setOutline( params.outline ) ; }
+	if ( params.opacity ) { this.setOpacity( params.opacity ) ; }
+	if ( params.outline !== undefined ) { this.setOutline( params.outline ) ; }
 	if ( params.outlineWidth ) { this.setOutlineWidth( params.outlineWidth ) ; }
 	if ( params.outlineColor ) { this.setOutlineColor( params.outlineColor ) ; }
 
-	if ( params.underline ) { this.setUnderline( params.underline ) ; }
-	if ( params.lineThrough ) { this.setLineThrough( params.lineThrough ) ; }
+	if ( params.underline !== undefined ) { this.setUnderline( params.underline ) ; }
+	if ( params.lineThrough !== undefined ) { this.setLineThrough( params.lineThrough ) ; }
 	if ( params.lineColor ) { this.setLineColor( params.lineColor ) ; }
 	if ( params.lineThickness ) { this.setLineThickness( params.lineThickness ) ; }
-	if ( params.lineOutline ) { this.setLineOutline( params.lineOutline ) ; }
+	if ( params.lineOutline !== undefined ) { this.setLineOutline( params.lineOutline ) ; }
 	if ( params.lineOutlineWidth ) { this.setLineOutlineWidth( params.lineOutlineWidth ) ; }
 	if ( params.lineOutlineColor ) { this.setLineOutlineColor( params.lineOutlineColor ) ; }
-	if ( params.frame ) { this.setFrame( params.frame ) ; }
+	if ( params.frame !== undefined ) { this.setFrame( params.frame ) ; }
 	if ( params.frameColor ) { this.setFrameColor( params.frameColor ) ; }
 	if ( params.frameOutlineWidth ) { this.setFrameOutlineWidth( params.frameOutlineWidth ) ; }
 	if ( params.frameOutlineColor ) { this.setFrameOutlineColor( params.frameOutlineColor ) ; }
@@ -40483,34 +45716,37 @@ TextAttribute.prototype.isEqual = function( to ) {
 		&& this.fontWeight === to.fontWeight
 		&& Metric.isEqual( this.fontSize , to.fontSize )
 
-		&& this.color === to.color
+		&& TextAttribute.isColorEqual( this.color , to.color )
 		&& this.outline === to.outline
 		&& ( ! this.outline || (
 			Metric.isEqual( this.outlineWidth , to.outlineWidth )
-			&& this.outlineColor === to.outlineColor
+			&& TextAttribute.isColorEqual( this.outlineColor , to.outlineColor )
 		) )
 
+		&& this.opacity === to.opacity
 		&& this.underline === to.underline
 		&& this.lineThrough === to.lineThrough
 		&& ( ( ! this.underline && ! this.lineThrough ) || (
-			this.lineColor === to.lineColor
+			TextAttribute.isColorEqual( this.lineColor , to.lineColor )
 			&& Metric.isEqual( this.lineThickness , to.lineThickness )
 			&& this.lineOutline === to.lineOutline
 			&& ( ! this.lineOutline || (
 				Metric.isEqual( this.lineOutlineWidth , to.lineOutlineWidth )
-				&& this.lineOutlineColor === to.lineOutlineColor
+				&& TextAttribute.isColorEqual( this.lineOutlineColor , to.lineOutlineColor )
 			) )
 		) )
 
 		&& this.frame === to.frame
 		&& ( ! this.frame || (
-			this.frameColor === to.frameColor
+			TextAttribute.isColorEqual( this.frameColor , to.frameColor )
 			&& Metric.isEqual( this.frameOutlineWidth , to.frameOutlineWidth )
-			&& this.frameOutlineColor === to.frameOutlineColor
+			&& TextAttribute.isColorEqual( this.frameOutlineColor , to.frameOutlineColor )
 			&& Metric.isEqual( this.frameCornerRadius , to.frameCornerRadius )
 		) )
 	) ;
 } ;
+
+TextAttribute.isColorEqual = ( a , b ) => a === b || ( a && b && typeof a === 'object' && typeof b === 'object' && Color.isEqual( a , b ) ) ;
 
 
 
@@ -40557,11 +45793,21 @@ TextAttribute.prototype.getFontSize = function( inherit = null ) {
 
 
 TextAttribute.prototype.setColor = function( v ) {
-	this.color = v && typeof v === 'string' ? v : null ;
+	this.color = v && ( typeof v === 'string' || typeof v === 'object' ) ? v : null ;
 } ;
 
 TextAttribute.prototype.getColor = function( inherit = null ) {
 	return this.color ?? inherit?.color ?? DEFAULT_ATTR.color ;
+} ;
+
+
+
+TextAttribute.prototype.setOpacity = function( v ) {
+	this.opacity = typeof v === 'number' ? v : null ;
+} ;
+
+TextAttribute.prototype.getOpacity = function( inherit = null ) {
+	return this.opacity ?? inherit?.opacity ?? DEFAULT_ATTR.opacity ;
 } ;
 
 
@@ -40591,7 +45837,7 @@ TextAttribute.prototype.getOutlineWidth = function( inherit = null , relTo = nul
 
 
 TextAttribute.prototype.setOutlineColor = function( v ) {
-	this.outlineColor = v && typeof v === 'string' ? v : null ;
+	this.outlineColor = v && ( typeof v === 'string' || typeof v === 'object' ) ? v : null ;
 } ;
 
 TextAttribute.prototype.getOutlineColor = function( inherit = null ) {
@@ -40621,7 +45867,7 @@ TextAttribute.prototype.getLineThrough = function( inherit = null ) {
 
 
 TextAttribute.prototype.setLineColor = function( v ) {
-	this.lineColor = v && typeof v === 'string' ? v : null ;
+	this.lineColor = v && ( typeof v === 'string' || typeof v === 'object' ) ? v : null ;
 } ;
 
 TextAttribute.prototype.getLineColor = function( inherit = null ) {
@@ -40677,7 +45923,7 @@ TextAttribute.prototype.getLineOutlineWidth = function( inherit = null , relTo =
 
 
 TextAttribute.prototype.setLineOutlineColor = function( v ) {
-	this.lineOutlineColor = v && typeof v === 'string' ? v : null ;
+	this.lineOutlineColor = v && ( typeof v === 'string' || typeof v === 'object' ) ? v : null ;
 } ;
 
 TextAttribute.prototype.getLineOutlineColor = function( inherit = null ) {
@@ -40700,7 +45946,7 @@ TextAttribute.prototype.getFrame = function( inherit = null ) {
 
 
 TextAttribute.prototype.setFrameColor = function( v ) {
-	this.frameColor = v && typeof v === 'string' ? v : null ;
+	this.frameColor = v && ( typeof v === 'string' || typeof v === 'object' ) ? v : null ;
 } ;
 
 TextAttribute.prototype.getFrameColor = function( inherit = null ) {
@@ -40724,7 +45970,7 @@ TextAttribute.prototype.getFrameOutlineWidth = function( inherit = null , relTo 
 
 
 TextAttribute.prototype.setFrameOutlineColor = function( v ) {
-	this.frameOutlineColor = v && typeof v === 'string' ? v : null ;
+	this.frameOutlineColor = v && ( typeof v === 'string' || typeof v === 'object' ) ? v : null ;
 } ;
 
 TextAttribute.prototype.getFrameOutlineColor = function( inherit = null ) {
@@ -40749,20 +45995,28 @@ TextAttribute.prototype.getFrameCornerRadius = function( inherit = null , relTo 
 
 // Utilities
 
-TextAttribute.prototype.getTextSvgStyleString = function( inherit = null , relTo = null ) {
+const PAINT_ORDER = [ 'stroke' , 'fill' , 'markers' ] ;
+
+TextAttribute.prototype.getTextSvgStyleString = function( inherit = null , relTo = null , palette = null ) {
 	relTo = relTo ?? this.getFontSize( inherit ) ;
 
 	var str = '' ,
 		color = this.getColor( inherit ) ,
+		opacity = this.getOpacity( inherit ) ,
 		outline = this.getOutline( inherit ) ,
 		outlineWidth ;
 
-	str += 'fill:' + color + ';' ;
+	if ( opacity !== null ) {
+		//str += 'fill-opacity:' + opacity + ';' + 'stroke-opacity:' + opacity + ';' ;
+		str += 'opacity:' + opacity + ';' ;
+	}
+
+	str += 'fill:' + colorUtilities.colorToString( color , palette ) + ';' ;
 
 	if ( outline && ( outlineWidth = this.getOutlineWidth( inherit , relTo ) ) ) {
 		let outlineColor = this.getOutlineColor( inherit ) ;
-		if ( outlineColor ) { str += 'stroke:' + outlineColor + ';' ; }
-		else { str += 'stroke:' + color + ';' ; }
+		if ( outlineColor ) { str += 'stroke:' + colorUtilities.colorToString( outlineColor , palette ) + ';' ; }
+		else { str += 'stroke:' + colorUtilities.colorToString( color , palette ) + ';' ; }
 
 		// It should force paint-order to stroke first, or some font will not be displayed as intended:
 		// some strokes can happen in the middle of a letter.
@@ -40774,23 +46028,30 @@ TextAttribute.prototype.getTextSvgStyleString = function( inherit = null , relTo
 	return str ;
 } ;
 
-TextAttribute.prototype.getTextSvgStyle = function( inherit = null , relTo = null ) {
+TextAttribute.prototype.getTextSvgStyle = function( inherit = null , relTo = null , palette = null ) {
 	relTo = relTo ?? this.getFontSize( inherit ) ;
 
-	var style = {} ,
+	var style = new Style() ,
 		color = this.getColor( inherit ) ,
+		opacity = this.getOpacity( inherit ) ,
 		outline = this.getOutline( inherit ) ,
 		outlineWidth ;
 
-	style.fill = color ;
+	if ( opacity !== null ) {
+		//style.fillOpacity = opacity ;
+		//style.strokeOpacity = opacity ;
+		style.opacity = opacity ;
+	}
+
+	style.fill = colorUtilities.colorToString( color , palette ) ;
 
 	if ( outline && ( outlineWidth = this.getOutlineWidth( inherit , relTo ) ) ) {
 		let outlineColor = this.getOutlineColor( inherit ) ;
-		if ( outlineColor ) { style.stroke = outlineColor ; }
-		else { style.stroke = color ; }
+		if ( outlineColor ) { style.stroke = colorUtilities.colorToString( outlineColor , palette ) ; }
+		else { style.stroke = colorUtilities.colorToString( color , palette ) ; }
 
 		style.strokeWidth = outlineWidth * 2 ;
-		style.paintOrder = 'stroke' ;
+		style.paintOrder = PAINT_ORDER ;
 	}
 
 	return style ;
@@ -40798,20 +46059,26 @@ TextAttribute.prototype.getTextSvgStyle = function( inherit = null , relTo = nul
 
 
 
-TextAttribute.prototype.getLineSvgStyleString = function( inherit = null , relTo = null ) {
+TextAttribute.prototype.getLineSvgStyleString = function( inherit = null , relTo = null , palette = null ) {
 	relTo = relTo ?? this.getFontSize( inherit ) ;
 
 	var str = '' ,
 		color = this.getLineColor( inherit ) ,
+		opacity = this.getOpacity( inherit ) ,
 		outline = this.getLineOutline( inherit ) ,
 		outlineWidth ;
 
-	str += 'fill:' + color + ';' ;
+	if ( opacity !== null ) {
+		//str += 'fill-opacity:' + opacity + ';' + 'stroke-opacity:' + opacity + ';' ;
+		str += 'opacity:' + opacity + ';' ;
+	}
+
+	str += 'fill:' + colorUtilities.colorToString( color , palette ) + ';' ;
 
 	if ( outline && ( outlineWidth = this.getLineOutlineWidth( inherit , relTo ) ) ) {
 		let outlineColor = this.getLineOutlineColor( inherit ) ;
-		if ( outlineColor ) { str += 'stroke:' + outlineColor + ';' ; }
-		else { str += 'stroke:' + color + ';' ; }
+		if ( outlineColor ) { str += 'stroke:' + colorUtilities.colorToString( outlineColor , palette ) + ';' ; }
+		else { str += 'stroke:' + colorUtilities.colorToString( color , palette ) + ';' ; }
 
 		// It should force paint-order to stroke first, so the outline is out of the content.
 		// As a result, outline width is multiplied by 2 because half of the stroke width is overwritten by the fill pass.
@@ -40822,23 +46089,30 @@ TextAttribute.prototype.getLineSvgStyleString = function( inherit = null , relTo
 	return str ;
 } ;
 
-TextAttribute.prototype.getLineSvgStyle = function( inherit = null , relTo = null ) {
+TextAttribute.prototype.getLineSvgStyle = function( inherit = null , relTo = null , palette = null ) {
 	relTo = relTo ?? this.getFontSize( inherit ) ;
 
-	var style = {} ,
+	var style = new Style() ,
 		color = this.getLineColor( inherit ) ,
+		opacity = this.getOpacity( inherit ) ,
 		outline = this.getLineOutline( inherit ) ,
 		outlineWidth ;
 
-	style.fill = color ;
+	if ( opacity !== null ) {
+		//style.fillOpacity = opacity ;
+		//style.strokeOpacity = opacity ;
+		style.opacity = opacity ;
+	}
+
+	style.fill = colorUtilities.colorToString( color , palette ) ;
 
 	if ( outline && ( outlineWidth = this.getLineOutlineWidth( inherit , relTo ) ) ) {
 		let outlineColor = this.getLineOutlineColor( inherit ) ;
-		if ( outlineColor ) { style.stroke = outlineColor ; }
-		else { style.stroke = color ; }
+		if ( outlineColor ) { style.stroke = colorUtilities.colorToString( outlineColor , palette ) ; }
+		else { style.stroke = colorUtilities.colorToString( color , palette ) ; }
 
 		style.strokeWidth = outlineWidth * 2 ;
-		style.paintOrder = 'stroke' ;
+		style.paintOrder = PAINT_ORDER ;
 	}
 
 	return style ;
@@ -40846,19 +46120,25 @@ TextAttribute.prototype.getLineSvgStyle = function( inherit = null , relTo = nul
 
 
 
-TextAttribute.prototype.getFrameSvgStyleString = function( inherit = null , relTo = null ) {
+TextAttribute.prototype.getFrameSvgStyleString = function( inherit = null , relTo = null , palette = null ) {
 	relTo = relTo ?? this.getFontSize( inherit ) ;
 
 	var str = '' ,
 		color = this.getFrameColor( inherit ) ,
+		opacity = this.getOpacity( inherit ) ,
 		outlineWidth = this.getFrameOutlineWidth( inherit , relTo ) ;
 
-	str += 'fill:' + color + ';' ;
+	if ( opacity !== null ) {
+		//str += 'fill-opacity:' + opacity + ';' + 'stroke-opacity:' + opacity + ';' ;
+		str += 'opacity:' + opacity + ';' ;
+	}
+
+	str += 'fill:' + colorUtilities.colorToString( color , palette ) + ';' ;
 
 	if ( outlineWidth ) {
 		let outlineColor = this.getFrameOutlineColor( inherit ) ;
-		if ( outlineColor ) { str += 'stroke:' + outlineColor + ';' ; }
-		else { str += 'stroke:' + color + ';' ; }
+		if ( outlineColor ) { str += 'stroke:' + colorUtilities.colorToString( outlineColor , palette ) + ';' ; }
+		else { str += 'stroke:' + colorUtilities.colorToString( color , palette ) + ';' ; }
 
 		// It should force paint-order to stroke first, so the outline is out of the content.
 		// As a result, outline width is multiplied by 2 because half of the stroke width is overwritten by the fill pass.
@@ -40869,33 +46149,40 @@ TextAttribute.prototype.getFrameSvgStyleString = function( inherit = null , relT
 	return str ;
 } ;
 
-TextAttribute.prototype.getFrameSvgStyle = function( inherit = null , relTo = null ) {
+TextAttribute.prototype.getFrameSvgStyle = function( inherit = null , relTo = null , palette = null ) {
 	relTo = relTo ?? this.getFontSize( inherit ) ;
 
-	var style = {} ,
+	var style = new Style() ,
 		color = this.getFrameColor( inherit ) ,
+		opacity = this.getOpacity( inherit ) ,
 		outlineWidth = this.getFrameOutlineWidth( inherit , relTo ) ;
 
-	style.fill = color ;
+	if ( opacity !== null ) {
+		//style.fillOpacity = opacity ;
+		//style.strokeOpacity = opacity ;
+		style.opacity = opacity ;
+	}
+
+	style.fill = colorUtilities.colorToString( color , palette ) ;
 
 	if ( outlineWidth ) {
 		let outlineColor = this.getFrameOutlineColor( inherit ) ;
-		if ( outlineColor ) { style.stroke = outlineColor ; }
-		else { style.stroke = color ; }
+		if ( outlineColor ) { style.stroke = colorUtilities.colorToString( outlineColor , palette ) ; }
+		else { style.stroke = colorUtilities.colorToString( color , palette ) ; }
 
 		style.strokeWidth = outlineWidth * 2 ;
-		style.paintOrder = 'stroke' ;
+		style.paintOrder = PAINT_ORDER ;
 	}
 
 	return style ;
 } ;
 
 
-},{"../Metric.js":110}],119:[function(require,module,exports){
+},{"../Metric.js":123,"../Style.js":134,"../color-utilities.js":159,"palette-shade":85}],145:[function(require,module,exports){
 /*
 	SVG Kit
 
-	Copyright (c) 2017 - 2023 Cédric Ronvel
+	Copyright (c) 2017 - 2024 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -40923,6 +46210,7 @@ TextAttribute.prototype.getFrameSvgStyle = function( inherit = null , relTo = nu
 
 
 const fontLib = require( '../fontLib.js' ) ;
+const getImageSize = require( '../getImageSize.js' ) ;
 
 
 
@@ -40936,6 +46224,7 @@ function TextMetrics( ascender , descender , lineGap  , width , x = null , basel
 	//this.isPositionComputed = x !== null && baselineY !== null ;
 	this.x = + x || 0 ;
 	this.baselineY = + baselineY || 0 ;
+	this.charCount = 0 ;
 }
 
 module.exports = TextMetrics ;
@@ -40956,8 +46245,9 @@ TextMetrics.prototype.clear = function() {
 
 
 TextMetrics.prototype.fuseWithRightPart = function( metrics ) {
-	// widths are summed
+	// widths and charCounts are summed
 	this.width += metrics.width ;
+	this.charCount += metrics.charCount ;
 
 	// .ascender, .descender and .lineGap are maximized
 	if ( metrics.ascender > this.ascender ) { this.ascender = metrics.ascender ; }
@@ -40985,9 +46275,27 @@ TextMetrics.measureFontHeights = function( font , fontSize ) {
 
 
 TextMetrics.measureFontText = function( font , fontSize , text ) {
-	var fontOptions = null ;
+	var fontOptions = null , count = 0 ;
 	var metrics = TextMetrics.measureFontHeights( font , fontSize ) ;
 	metrics.width = font.getAdvanceWidth( text , fontSize , fontOptions ) ;
+
+	// Probably the fastest way to count chars of an unicode string (BTW text.length dosen't work because of surrogate pairs)
+	for ( let char of text ) { count ++ ; }		/* eslint-disable-line no-unused-vars */
+	metrics.charCount = count ;
+
+	return metrics ;
+} ;
+
+
+
+TextMetrics.measureImage = async function( font , fontSize , imageUrl ) {
+	var imageSize = await getImageSize( imageUrl ) ;
+
+	var metrics = TextMetrics.measureFontHeights( font , fontSize ) ;
+	metrics.ascender = imageSize.height ;
+	metrics.width = imageSize.width ;
+	metrics.charCount = 1 ;	// Images count as 1
+
 	return metrics ;
 } ;
 
@@ -41002,17 +46310,19 @@ TextMetrics.measureStructuredTextPart = async function( part , inheritedAttr ) {
 
 	var font = await fontLib.getFallbackFontAsync( fontFamily , fontStyle , fontWeight ) ;
 
-	var metrics = TextMetrics.measureFontText( font , fontSize , part.text ) ;
+	var metrics =
+		part.imageUrl ? await TextMetrics.measureImage( font , fontSize , part.imageUrl ) :
+		TextMetrics.measureFontText( font , fontSize , part.text ) ;
 
 	return metrics ;
 } ;
 
 
-},{"../fontLib.js":127}],120:[function(require,module,exports){
+},{"../fontLib.js":161,"../getImageSize.js":164}],146:[function(require,module,exports){
 /*
 	SVG Kit
 
-	Copyright (c) 2017 - 2023 Cédric Ronvel
+	Copyright (c) 2017 - 2024 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -41039,21 +46349,28 @@ TextMetrics.measureStructuredTextPart = async function( part , inheritedAttr ) {
 
 
 
-const VGEntity = require( '../VGEntity.js' ) ;
+const VGPseudoContainer = require( '../VGPseudoContainer.js' ) ;
 
 const StructuredTextPart = require( './StructuredTextPart.js' ) ;
 const StructuredTextLine = require( './StructuredTextLine.js' ) ;
 const TextAttribute = require( './TextAttribute.js' ) ;
 const TextMetrics = require( './TextMetrics.js' ) ;
+const BoundingBox = require( '../BoundingBox.js' ) ;
+const VGFlowingTextPart = require( './VGFlowingTextPart.js' ) ;
+const VGFlowingTextImagePart = require( './VGFlowingTextImagePart.js' ) ;
+
+const bookSource = require( 'book-source' ) ;
+const StructuredTextRenderer = require( './StructuredTextRenderer.js' ) ;
 
 const fontLib = require( '../fontLib.js' ) ;
-const canvas = require( '../canvas.js' ) ;
-const structuredText = require( '../structuredText.js' ) ;
+const canvasUtilities = require( '../canvas-utilities.js' ) ;
+
+const dom = require( 'dom-kit' ) ;
 
 
 
 function VGFlowingText( params ) {
-	VGEntity.call( this , params ) ;
+	VGPseudoContainer.call( this , params ) ;
 
 	this.x = 0 ;
 	this.y = 0 ;
@@ -41067,21 +46384,37 @@ function VGFlowingText( params ) {
 	this.textVerticalAlignment = null ;	// null/top/bottom/center
 	this.textHorizontalAlignment = null ;	// null/left/right/center
 
-	this.debugContainer = !! params.debugContainer ;
+	this.dynamicStyles = {
+		linkUnderline: true ,
+		linkColor: '#448' ,
+		linkHoverColor: '#488' ,
+		linkPressColor: '#6aa' ,
+
+		infotipUnderline: true ,
+		infotipColor: '#448' ,
+		infotipHoverColor: '#488'
+	} ;
+
+	// Special FX properties
+	this.charLimit = Infinity ;	// Limit how many characters will be displayed, useful for slow-typing effects
+
+	this.debugContainer = false ;
 
 	// Computed
 	this.areLinesComputed = false ;
 	this.structuredTextLines = [] ;	// Array of StructuredTextLine
-	this._contentWidth = 0 ;
-	this._contentHeight = 0 ;
-	this._characterCount = 0 ;
+	this.contentX = 0 ;
+	this.contentY = 0 ;
+	this.contentWidth = 0 ;
+	this.contentHeight = 0 ;
+	this.charCount = 0 ;
 
 	if ( params ) { this.set( params ) ; }
 }
 
 module.exports = VGFlowingText ;
 
-VGFlowingText.prototype = Object.create( VGEntity.prototype ) ;
+VGFlowingText.prototype = Object.create( VGPseudoContainer.prototype ) ;
 VGFlowingText.prototype.constructor = VGFlowingText ;
 VGFlowingText.prototype.__prototypeUID__ = 'svg-kit/VGFlowingText' ;
 VGFlowingText.prototype.__prototypeVersion__ = require( '../../package.json' ).version ;
@@ -41103,36 +46436,61 @@ const TEXT_WRAPPING = {
 
 
 VGFlowingText.prototype.set = function( params ) {
-	VGEntity.prototype.set.call( this , params ) ;
+	let dirty = false ;
 
-	if ( params.x !== undefined ) { this.x = + params.x || 0 ; this.areLinesComputed = false ; }
-	if ( params.y !== undefined ) { this.y = + params.y || 0 ; this.areLinesComputed = false ; }
-	if ( params.width !== undefined ) { this.width = + params.width || 0 ; this.areLinesComputed = false ; }
-	if ( params.height !== undefined ) { this.height = + params.height || 0 ; this.areLinesComputed = false ; }
+	if ( params.x !== undefined ) { this.boundingBox.x = this.x = + params.x || 0 ; dirty = true ; }
+	if ( params.y !== undefined ) { this.boundingBox.y = this.y = + params.y || 0 ; dirty = true ; }
+	if ( params.width !== undefined ) { this.boundingBox.width = this.width = + params.width || 0 ; dirty = true ; }
+	if ( params.height !== undefined ) { this.boundingBox.height = this.height = + params.height || 0 ; dirty = true ; }
 
 	if ( params.clip !== undefined ) { this.clip = !! params.clip ; }
+
+	// Should comes *BEFORE* .setMarkupText()
+	if ( params.dynamicStyles && typeof params.dynamicStyles === 'object' ) {
+		let p = params.dynamicStyles ;
+		let style = this.dynamicStyles ;
+
+		if ( p.linkUnderline !== undefined ) { style.linkUnderline = !! p.linkUnderline ; }
+		if ( p.linkColor ) { style.linkColor = p.linkColor ; }
+		if ( p.linkHoverColor ) { style.linkHoverColor = p.linkHoverColor ; }
+		if ( p.linkPressColor ) { style.linkPressColor = p.linkPressColor ; }
+
+		if ( p.infotipUnderline !== undefined ) { style.infotipUnderline = !! p.infotipUnderline ; }
+		if ( p.infotipColor ) { style.infotipColor = p.infotipColor ; }
+		if ( p.infotipHoverColor ) { style.infotipHoverColor = p.infotipHoverColor ; }
+
+		dirty = true ;
+	}
 
 	if ( params.structuredText ) { this.setStructuredText( params.structuredText ) ; }
 	else if ( params.markupText ) { this.setMarkupText( params.markupText ) ; }
 	else if ( params.text ) { this.setText( params.text ) ; }
 
-	if ( params.attr ) { this.attr = new TextAttribute( params.attr ) ; this.areLinesComputed = false ; }
-	if ( params.lineSpacing !== undefined ) { this.lineSpacing = + params.lineSpacing || 0 ; this.areLinesComputed = false ; }
-	if ( params.textVerticalAlignment !== undefined ) { this.textVerticalAlignment = params.textVerticalAlignment ; this.areLinesComputed = false ; }
-	if ( params.textHorizontalAlignment !== undefined ) { this.textHorizontalAlignment = params.textHorizontalAlignment ; this.areLinesComputed = false ; }
+	if ( params.attr ) { this.attr = new TextAttribute( params.attr ) ; dirty = true ; }
+	if ( params.lineSpacing !== undefined ) { this.lineSpacing = + params.lineSpacing || 0 ; dirty = true ; }
+	if ( params.textVerticalAlignment !== undefined ) { this.textVerticalAlignment = params.textVerticalAlignment ; dirty = true ; }
+	if ( params.textHorizontalAlignment !== undefined ) { this.textHorizontalAlignment = params.textHorizontalAlignment ; dirty = true ; }
 
 	if ( params.textWrapping !== undefined ) {
 		this.textWrapping = TEXT_WRAPPING[ params.textWrapping ] || null ;
-		this.areLinesComputed = false ;
+		dirty = true ;
+	}
+
+	if ( params.charLimit !== undefined ) {
+		this.charLimit = params.charLimit === false ? Infinity : + params.charLimit ;
 	}
 
 	if ( params.debugContainer !== undefined ) { this.debugContainer = !! params.debugContainer ; }
+
+	if ( dirty ) { this.shouldComputeAgain() ; }
+
+	VGPseudoContainer.prototype.set.call( this , params ) ;
 } ;
 
 
 
 VGFlowingText.prototype.export = function( data = {} ) {
-	VGEntity.prototype.export.call( this , data ) ;
+	VGPseudoContainer.prototype.export.call( this , data ) ;
 
 	data.x = this.x ;
 	data.y = this.y ;
@@ -41155,6 +46513,14 @@ VGFlowingText.prototype.export = function( data = {} ) {
 
 
 
+VGFlowingText.prototype.shouldComputeAgain = function() {
+	//console.error( "shouldComputeAgain" ) ;
+	this.areLinesComputed = false ;
+	this.arePseudoEntitiesReady = false ;
+} ;
+
+
+
 VGFlowingText.prototype.setStructuredText = function( structuredText_ ) {
 	if ( ! Array.isArray( structuredText_ ) ) { return ; }
 
@@ -41165,13 +46531,17 @@ VGFlowingText.prototype.setStructuredText = function( structuredText_ ) {
 		else { this.structuredText.push( new StructuredTextPart( structuredTextPart ) ) ; }
 	}
 
-	this.areLinesComputed = false ;
+	this.shouldComputeAgain() ;
 } ;
 
 
 
 VGFlowingText.prototype.setMarkupText = function( markupText ) {
-	var parsed = structuredText.parseMarkup( markupText ) ;
+	var structuredTextRenderer = new StructuredTextRenderer( this.dynamicStyles ) ;
+	var structuredDocument = bookSource.parse( markupText ) ;
+	var parsed = structuredDocument.render( structuredTextRenderer ) ;
+	//console.warn( "PARSED:" , parsed ) ;
+
 	return this.setStructuredText( parsed ) ;
 } ;
 
@@ -41185,29 +46555,44 @@ VGFlowingText.prototype.setText = function( text ) {
 
 VGFlowingText.prototype.getContentWidth = async function() {
 	if ( ! this.areLinesComputed ) { await this.computeLines() ; }
-	return this._contentWidth ;
+	return this.contentWidth ;
 } ;
 
 
 
 VGFlowingText.prototype.getContentHeight = async function() {
 	if ( ! this.areLinesComputed ) { await this.computeLines() ; }
-	return this._contentHeight ;
+	return this.contentHeight ;
 } ;
 
 
 
-VGFlowingText.prototype.getCharacterCount = async function() {
+VGFlowingText.prototype.getCharacterCount = VGFlowingText.prototype.getCharCount = async function() {
 	if ( ! this.areLinesComputed ) { await this.computeLines() ; }
-	return this._characterCount ;
+	return this.charCount ;
+} ;
+
+
+
+VGFlowingText.prototype.computeBoundingBox = function() {
+	this.boundingBox.setMinMax( this.x , this.y , this.x + this.width , this.y + this.height ) ;
+} ;
+
+
+
+VGFlowingText.prototype.getContentBoundingBox = async function() {
+	if ( ! this.areLinesComputed ) { await this.computeLines() ; }
+	return new BoundingBox( this.contentX , this.contentY , this.contentX + this.contentWidth , this.contentY + this.contentHeight ) ;
 } ;
 
 
 
 VGFlowingText.prototype.computeLines = async function() {
+	if ( this.areLinesComputed ) { return ; }
 	this.structuredTextLines = await this.breakLines( this.width ) ;
-	this.computePartsPosition() ;
 	this.structuredTextLines.forEach( line => line.fuseEqualAttr() ) ;
+	this.computePartsPosition() ;
+	//console.error( "Input -> Lines" , this.structuredText , this.structuredTextLines ) ;
 	this.areLinesComputed = true ;
 } ;
 
@@ -41220,21 +46605,41 @@ VGFlowingText.prototype.breakLines = async function() {
 	// Finally split/apply text-wrapping
 	if ( this.textWrapping === 'ellipsis' ) {
 		for ( let line of lines ) {
-			outputLines.push( await this.parseStructuredTextLineEllipsis( line ) ) ;
+			VGFlowingText.appendLine( outputLines , await this.parseStructuredTextLineEllipsis( line ) ) ;
 		}
 	}
 	else if ( this.textWrapping === 'wordWrap' ) {
 		for ( let line of lines ) {
-			outputLines.push( ... await this.parseStructuredTextLineWordWrap( line ) ) ;
+			//outputLines.push( ... await this.parseStructuredTextLineWordWrap( line ) ) ;
+			( await this.parseStructuredTextLineWordWrap( line ) ).forEach( l => VGFlowingText.appendLine( outputLines , l ) ) ;
 		}
 	}
 	else {
 		for ( let line of lines ) {
-			outputLines.push( await this.parseStructuredTextLine( line ) ) ;
+			VGFlowingText.appendLine( outputLines , await this.parseStructuredTextLine( line ) ) ;
 		}
 	}
 
+	// No follow-up empty lines for the last line
+	if ( outputLines.length ) {
+		outputLines[ outputLines.length - 1 ].followUpEmptyLines = 0 ;
+	}
+
 	return outputLines ;
+} ;
+
+
+
+VGFlowingText.appendLine = async function( outputLines , line ) {
+	if ( ! line.parts.length ) {
+		if ( outputLines.length ) {
+			outputLines[ outputLines.length - 1 ].followUpEmptyLines ++ ;
+		}
+
+		return ;
+	}
+
+	outputLines.push( line ) ;
 } ;
 
 
@@ -41279,6 +46684,7 @@ VGFlowingText.prototype.parseStructuredTextLineWordWrap = async function( line )
 	for ( let part of line ) {
 		part.splitIntoWords( outputParts ) ;
 	}
+	//console.warn( "??? AFT splitIntoWords()" , outputParts.map( e => ( { text: e.text , imageUrl: e.imageUrl } ) ) ) ;
 
 	let lastTestLineMetrics = new TextMetrics() ;
 	let testLineMetrics = new TextMetrics() ;
@@ -41314,10 +46720,14 @@ VGFlowingText.prototype.parseStructuredTextLineWordWrap = async function( line )
 			lastTestLineMetrics = new TextMetrics() ;
 
 			// Create a new line with the current part as the first part.
-			// We have to left-trim it because it mays contain spaces.
+			// We have to left-trim it because it may contain spaces.
+			// It's a loop, because we can strip multiple space-only parts.
 			let indexOfNextLine = index - removed + 1 ;
 			for ( ; indexOfNextLine <= index ; indexOfNextLine ++ ) {
 				let nextLinePart = outputParts[ indexOfNextLine ] ;
+
+				if ( nextLinePart.imageUrl ) { break ; }
+
 				//console.log( "nextLinePart: '" + nextLinePart.text + "'" ) ;
 				let trimmedText = nextLinePart.text.trimStart() ;
 
@@ -41340,11 +46750,11 @@ VGFlowingText.prototype.parseStructuredTextLineWordWrap = async function( line )
 		}
 
 		blockAdded ++ ;
-		let dbg = '' ;
+		//let dbg = '' ;
 		for ( let indexOfPartToAdd = lastIndex + 1 ; indexOfPartToAdd <= index ; indexOfPartToAdd ++ ) {
 			//console.log( "indexOfPartToAdd" , indexOfPartToAdd ) ;
 			lastTestLineMetrics.fuseWithRightPart( outputParts[ indexOfPartToAdd ].metrics ) ;
-			dbg += outputParts[ indexOfPartToAdd ].text ;
+			//dbg += outputParts[ indexOfPartToAdd ].text ;
 		}
 		//console.log( "added:" , lastIndex + 1 , index , "'" + dbg + "'" ) ;
 
@@ -41373,15 +46783,16 @@ VGFlowingText.prototype.computePartsSizeMetrics = async function( structuredText
 
 
 VGFlowingText.prototype.computeContentSize = function() {
-	this._contentWidth = 0 ;
-	this._contentHeight = 0 ;
+	this.contentWidth = 0 ;
+	this.contentHeight = 0 ;
 
-	var lastStructuredTextLine = null ;
+	var first = true ;
 
 	for ( let structuredTextLine of this.structuredTextLines ) {
-		if ( lastStructuredTextLine ) { this._contentHeight += this.lineSpacing ; }
-		this._contentHeight += structuredTextLine.metrics.ascender - structuredTextLine.metrics.descender + structuredTextLine.metrics.lineGap ;
-		if ( structuredTextLine.metrics.width > this._contentWidth ) { this._contentWidth = structuredTextLine.metrics.width ; }
+		if ( ! first ) { this.contentHeight += this.lineSpacing ; }
+		this.contentHeight += structuredTextLine.metrics.ascender - structuredTextLine.metrics.descender + structuredTextLine.metrics.lineGap ;
+		if ( structuredTextLine.metrics.width > this.contentWidth ) { this.contentWidth = structuredTextLine.metrics.width ; }
+		first = false ;
 	}
 } ;
 
@@ -41391,29 +46802,36 @@ VGFlowingText.prototype.computeContentSize = function() {
 VGFlowingText.prototype.computePartsPosition = function() {
 	this.computeContentSize() ;
 
-	this._characterCount = 0 ;
+	this.charCount = 0 ;
 
 	var x , y ,
 		lastStructuredTextLine = null ;
 
 	switch ( this.textVerticalAlignment ) {
 		case 'bottom' :
-			y = this.y + this.height - this._contentHeight ;
+			y = this.contentY = this.y + this.height - this.contentHeight ;
 			break ;
 		case 'center' :
 		case 'middle' :
-			y = this.y + ( this.height - this._contentHeight ) / 2 ;
+			y = this.contentY = this.y + ( this.height - this.contentHeight ) / 2 ;
 			break ;
 		case 'top' :
 		default :
-			y = this.y ;
+			y = this.contentY = this.y ;
 			break ;
 	}
+
+	this.contentX = Infinity ;
 
 	for ( let structuredTextLine of this.structuredTextLines ) {
 		if ( lastStructuredTextLine ) {
 			// It is a new line, offset it depending on the previous one
 			y += - lastStructuredTextLine.metrics.descender + lastStructuredTextLine.metrics.lineGap + this.lineSpacing ;
+
+			// Manage empty lines
+			if ( lastStructuredTextLine.followUpEmptyLines ) {
+				y += lastStructuredTextLine.followUpEmptyLines * this.attr.getFontSize() ;
+			}
 		}
 
 		y += structuredTextLine.metrics.ascender ;
@@ -41432,6 +46850,8 @@ VGFlowingText.prototype.computePartsPosition = function() {
 				break ;
 		}
 
+		if ( x < this.contentX ) { this.contentX = x ; }
+
 		structuredTextLine.metrics.x = x ;
 		structuredTextLine.metrics.baselineY = y ;
 
@@ -41443,7 +46863,8 @@ VGFlowingText.prototype.computePartsPosition = function() {
 				x += part.metrics.width ;
 			}
 
-			this._characterCount += part.text.length ;
+			part.charOffset = this.charCount ;
+			this.charCount += part.metrics.charCount ;
 		}
 
 		lastStructuredTextLine = structuredTextLine ;
@@ -41470,7 +46891,8 @@ VGFlowingText.parseNewLine = function( structuredText_ ) {
 					lines.push( currentLine ) ;
 				}
 
-				let newPart = new StructuredTextPart( { text: splitPart , attr: part.attr } ) ;
+				let newPart = new StructuredTextPart( part , splitPart ) ;
+				//let newPart = new StructuredTextPart( { text: splitPart , attr: part.attr , dynamic: part.dynamic , margin: part.margin , fx: part.fx } ) ;
 				currentLine.push( newPart ) ;
 
 			}
@@ -41493,7 +46915,7 @@ VGFlowingText.parseNewLine = function( structuredText_ ) {
 
 
 
-VGFlowingText.prototype.svgAttributes = function() {
+VGFlowingText.prototype.svgAttributes = function( master = this ) {
 	var attr = {} ;
 
 	if ( this.clip ) {
@@ -41519,14 +46941,37 @@ VGFlowingText.prototype.getUsedFontNames = function() {
 
 
 
-// Render the Vector Graphic as a text SVG
-VGFlowingText.prototype.renderingContainerHookForSvgText = async function() {
+VGFlowingText.prototype.computePseudoEntities = async function() {
+	if ( this.arePseudoEntitiesReady ) { return ; }
+
 	if ( ! this.areLinesComputed ) { await this.computeLines() ; }
 
-	var yOffset = this.root.invertY ? - 2 * this.y - this.height : 0 ,
-		str = '' ;
+	this.clearPseudoEntities() ;
+
+	for ( let structuredTextLine of this.structuredTextLines ) {
+		for ( let part of structuredTextLine.parts ) {
+			let pseudoEntity =
+				part.imageUrl ? new VGFlowingTextImagePart( part ) :
+				new VGFlowingTextPart( part ) ;
+			if ( this.childrenDynamic ) {
+				pseudoEntity.addDynamicArea( this.childrenDynamic ) ;
+			}
+			this.addPseudoEntity( pseudoEntity ) ;
+		}
+	}
+
+	this.arePseudoEntitiesReady = true ;
+} ;
+
+
+
+// Render the Vector Graphic as a text SVG
+VGFlowingText.prototype.renderBeforeHookForSvgText = async function( master = this ) {
+	var str = '' ;
 
 	if ( this.clip ) {
+		let yOffset = this.root.invertY ? - 2 * this.y - this.height : 0 ;
+
 		// Nothing inside the <clipPath> is displayed
 		str += '<clipPath id="' + this._id + '_clipPath">' ;
 		str += '<rect' ;
@@ -41538,78 +46983,17 @@ VGFlowingText.prototype.renderingContainerHookForSvgText = async function() {
 		str += '</clipPath>' ;
 	}
 
-	for ( let structuredTextLine of this.structuredTextLines ) {
-		for ( let part of structuredTextLine.parts ) {
-			let fontFamily = part.attr.getFontFamily( this.attr ) ,
-				fontStyle = part.attr.getFontStyle( this.attr ) ,
-				fontWeight = part.attr.getFontWeight( this.attr ) ,
-				fontSize = part.attr.getFontSize( this.attr ) ,
-				textStyleStr = part.attr.getTextSvgStyleString( this.attr , fontSize ) ,
-				lineStyleStr , lineThickness ,
-				underline = part.attr.getUnderline( this.attr ) ,
-				lineThrough = part.attr.getLineThrough( this.attr ) ,
-				frame = part.attr.getFrame( this.attr ) ;
+	return str ;
+} ;
 
-			let font = await fontLib.getFallbackFontAsync( fontFamily , fontStyle , fontWeight ) ;
-			if ( ! font ) { throw new Error( "Font not found: " + fontFamily + ' ' + fontStyle + ' ' + fontWeight ) ; }
 
-			if ( frame ) {
-				let frameY = part.metrics.baselineY - part.metrics.ascender + yOffset ,
-					frameHeight = part.metrics.ascender - part.metrics.descender ,
-					frameStyleStr = part.attr.getFrameSvgStyleString( this.attr , fontSize ) ,
-					cornerRadius = part.attr.getFrameCornerRadius( this.attr , fontSize ) ;
 
-				//console.error( "frameStyleStr:" , frameStyleStr , part.attr ) ;
-				str += '<rect' ;
-				str += ' x="' + part.metrics.x + '"' ;
-				str += ' y="' + frameY + '"' ;
-				str += ' width="' + part.metrics.width + '"' ;
-				str += ' height="' + frameHeight + '"' ;
-				if ( cornerRadius ) { str += ' rx="' + cornerRadius + '"' ; }
-				if ( frameStyleStr ) { str += ' style="' + frameStyleStr + '"' ; }
-				str += ' />' ;
-			}
-
-			if ( underline || lineThrough ) {
-				lineStyleStr = part.attr.getLineSvgStyleString( this.attr , fontSize ) ;
-				lineThickness = part.attr.getLineThickness( this.attr , fontSize ) ;
-			}
-
-			if ( underline ) {
-				let underlineY = part.metrics.baselineY - part.metrics.descender * 0.6 - lineThickness + yOffset ;
-
-				str += '<rect' ;
-				str += ' x="' + part.metrics.x + '"' ;
-				str += ' y="' + underlineY + '"' ;
-				str += ' width="' + part.metrics.width + '"' ;
-				str += ' height="' + lineThickness + '"' ;
-				if ( lineStyleStr ) { str += ' style="' + lineStyleStr + '"' ; }
-				str += ' />' ;
-			}
-
-			let path = font.getPath( part.text , part.metrics.x , part.metrics.baselineY + yOffset , fontSize ) ;
-			let pathData = path.toPathData() ;
-
-			str += '<path' ;
-			if ( textStyleStr ) { str += ' style="' + textStyleStr + '"' ; }
-			str += ' d="' + pathData + '"' ;
-			str += ' />' ;
-
-			if ( lineThrough ) {
-				let lineThroughY = part.metrics.baselineY - part.metrics.ascender * 0.25 - lineThickness + yOffset ;
-
-				str += '<rect' ;
-				str += ' x="' + part.metrics.x + '"' ;
-				str += ' y="' + lineThroughY + '"' ;
-				str += ' width="' + part.metrics.width + '"' ;
-				str += ' height="' + lineThickness + '"' ;
-				if ( lineStyleStr ) { str += ' style="' + lineStyleStr + '"' ; }
-				str += ' />' ;
-			}
-		}
-	}
+VGFlowingText.prototype.renderAfterHookForSvgText = async function( master = this ) {
+	var str = '' ;
 
 	if ( this.debugContainer ) {
+		let yOffset = this.root.invertY ? - 2 * this.y - this.height : 0 ;
+
 		str += '<rect' ;
 		str += ' x="' + this.x + '"' ;
 		str += ' y="' + ( this.y + yOffset ) + '"' ;
@@ -41624,13 +47008,12 @@ VGFlowingText.prototype.renderingContainerHookForSvgText = async function() {
 
 
 
-VGFlowingText.prototype.renderingContainerHookForSvgDom = async function() {
-	if ( ! this.areLinesComputed ) { await this.computeLines() ; }
-
-	var yOffset = this.root.invertY ? - 2 * this.y - this.height : 0 ,
-		elementList = [] ;
+VGFlowingText.prototype.renderBeforeHookForSvgDom = async function( master = this ) {
+	var elementList = [] ;
 
 	if ( this.clip ) {
+		let yOffset = this.root.invertY ? - 2 * this.y - this.height : 0 ;
+
 		// Nothing inside the <clipPath> is displayed
 		let $clipPath = document.createElementNS( this.NS , 'clipPath' ) ;
 		$clipPath.setAttribute( 'id' , this._id + '_clipPath' ) ;
@@ -41644,79 +47027,17 @@ VGFlowingText.prototype.renderingContainerHookForSvgDom = async function() {
 		$clipPath.appendChild( $rect ) ;
 	}
 
-	for ( let structuredTextLine of this.structuredTextLines ) {
-		for ( let part of structuredTextLine.parts ) {
-			let fontFamily = part.attr.getFontFamily( this.attr ) ,
-				fontStyle = part.attr.getFontStyle( this.attr ) ,
-				fontWeight = part.attr.getFontWeight( this.attr ) ,
-				fontSize = part.attr.getFontSize( this.attr ) ,
-				textStyleStr = part.attr.getTextSvgStyleString( this.attr , fontSize ) ,
-				lineStyleStr , lineThickness ,
-				underline = part.attr.getUnderline( this.attr ) ,
-				lineThrough = part.attr.getLineThrough( this.attr ) ,
-				frame = part.attr.getFrame( this.attr ) ;
+	return elementList ;
+} ;
 
-			//console.error( "???" , fontFamily , fontSize , textStyleStr ) ;
-			let font = await fontLib.getFallbackFontAsync( fontFamily , fontStyle , fontWeight ) ;
-			if ( ! font ) { throw new Error( "Font not found: " + fontFamily + ' ' + fontStyle + ' ' + fontWeight ) ; }
 
-			if ( frame ) {
-				let frameY = part.metrics.baselineY - part.metrics.ascender + yOffset ,
-					frameHeight = part.metrics.ascender - part.metrics.descender ,
-					frameStyleStr = part.attr.getFrameSvgStyleString( this.attr , fontSize ) ,
-					cornerRadius = part.attr.getFrameCornerRadius( this.attr , fontSize ) ;
 
-				//console.error( "frameStyleStr:" , frameStyleStr , part.attr ) ;
-				let $frame = document.createElementNS( this.NS , 'rect' ) ;
-				$frame.setAttribute( 'x' , part.metrics.x ) ;
-				$frame.setAttribute( 'y' , frameY ) ;
-				$frame.setAttribute( 'width' , part.metrics.width ) ;
-				$frame.setAttribute( 'height' , frameHeight ) ;
-				if ( cornerRadius ) { $frame.setAttribute( 'rx' , cornerRadius ) ; }
-				if ( frameStyleStr ) { $frame.setAttribute( 'style' , frameStyleStr ) ; }
-				elementList.push( $frame ) ;
-			}
-
-			if ( underline || lineThrough ) {
-				lineStyleStr = part.attr.getLineSvgStyleString( this.attr , fontSize ) ;
-				lineThickness = part.attr.getLineThickness( this.attr , fontSize ) ;
-			}
-
-			if ( underline ) {
-				let underlineY = part.metrics.baselineY - part.metrics.descender * 0.6 - lineThickness + yOffset ;
-
-				let $line = document.createElementNS( this.NS , 'rect' ) ;
-				$line.setAttribute( 'x' , part.metrics.x ) ;
-				$line.setAttribute( 'y' , underlineY ) ;
-				$line.setAttribute( 'width' , part.metrics.width ) ;
-				$line.setAttribute( 'height' , lineThickness ) ;
-				if ( lineStyleStr ) { $line.setAttribute( 'style' , lineStyleStr ) ; }
-				elementList.push( $line ) ;
-			}
-
-			let path = font.getPath( part.text , part.metrics.x , part.metrics.baselineY + yOffset , fontSize ) ;
-			let pathData = path.toPathData() ;
-
-			let $textPath = document.createElementNS( this.NS , 'path' ) ;
-			if ( textStyleStr ) { $textPath.setAttribute( 'style' , textStyleStr ) ; }
-			$textPath.setAttribute( 'd' , pathData ) ;
-			elementList.push( $textPath ) ;
-
-			if ( lineThrough ) {
-				let lineThroughY = part.metrics.baselineY - part.metrics.ascender * 0.25 - lineThickness + yOffset ;
-
-				let $line = document.createElementNS( this.NS , 'rect' ) ;
-				$line.setAttribute( 'x' , part.metrics.x ) ;
-				$line.setAttribute( 'y' , lineThroughY ) ;
-				$line.setAttribute( 'width' , part.metrics.width ) ;
-				$line.setAttribute( 'height' , lineThickness ) ;
-				if ( lineStyleStr ) { $line.setAttribute( 'style' , lineStyleStr ) ; }
-				elementList.push( $line ) ;
-			}
-		}
-	}
+VGFlowingText.prototype.renderAfterHookForSvgDom = async function( master = this ) {
+	var elementList = [] ;
 
 	if ( this.debugContainer ) {
+		let yOffset = this.root.invertY ? - 2 * this.y - this.height : 0 ;
+
 		let $debugRect = document.createElementNS( this.NS , 'rect' ) ;
 		$debugRect.setAttribute( 'x' , this.x ) ;
 		$debugRect.setAttribute( 'y' , this.y + yOffset ) ;
@@ -41732,138 +47053,33 @@ VGFlowingText.prototype.renderingContainerHookForSvgDom = async function() {
 
 
 
-VGFlowingText.prototype.renderHookForCanvas = async function( canvasCtx , options = {} ) {
-	if ( ! this.areLinesComputed ) { await this.computeLines() ; }
-
-	var yOffset = this.root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y - ( this.height - 1 ) : 0 ;
-
-	// We have to save context because canvasCtx.clip() is not reversible
-	canvasCtx.save() ;
-
+VGFlowingText.prototype.renderBeforeHookForCanvas = async function( canvasCtx , options = {} , isRedraw = false , master = this ) {
 	if ( this.clip ) {
+		let yOffset = this.root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y - ( this.height - 1 ) : 0 ;
+
 		canvasCtx.beginPath() ;
 		// For some reason, it seems that the first row and column is clipped away, so we have to grow the size by one pixel
 		canvasCtx.rect( this.x - 1 , this.y - 1 + yOffset , this.width + 1 , this.height + 1 ) ;
 		canvasCtx.clip() ;
 	}
+} ;
 
-	for ( let structuredTextLine of this.structuredTextLines ) {
-		for ( let part of structuredTextLine.parts ) {
-			let fontFamily = part.attr.getFontFamily( this.attr ) ,
-				fontStyle = part.attr.getFontStyle( this.attr ) ,
-				fontWeight = part.attr.getFontWeight( this.attr ) ,
-				fontSize = part.attr.getFontSize( this.attr ) ,
-				textStyle = part.attr.getTextSvgStyle( this.attr , fontSize ) ,
-				lineStyle , lineThickness ,
-				underline = part.attr.getUnderline( this.attr ) ,
-				lineThrough = part.attr.getLineThrough( this.attr ) ,
-				frame = part.attr.getFrame( this.attr ) ;
 
-			//console.error( "???" , fontFamily , fontSize , textStyle ) ;
-			let font = await fontLib.getFallbackFontAsync( fontFamily , fontStyle , fontWeight ) ;
-			if ( ! font ) { throw new Error( "Font not found: " + fontFamily + ' ' + fontStyle + ' ' + fontWeight ) ; }
 
-			if ( frame ) {
-				let frameY = part.metrics.baselineY - part.metrics.ascender + yOffset ,
-					frameHeight = part.metrics.ascender - part.metrics.descender ,
-					frameStyle = part.attr.getFrameSvgStyle( this.attr , fontSize ) ,
-					cornerRadius = part.attr.getFrameCornerRadius( this.attr , fontSize ) ;
-
-				canvasCtx.beginPath() ;
-
-				if ( cornerRadius ) {
-					canvasCtx.roundRect( part.metrics.x , frameY , part.metrics.width , frameHeight , cornerRadius ) ;
-				}
-				else {
-					canvasCtx.rect( part.metrics.x , frameY , part.metrics.width , frameHeight ) ;
-				}
-
-				canvas.fillAndStrokeUsingSvgStyle( canvasCtx , frameStyle ) ;
-			}
-
-			if ( underline || lineThrough ) {
-				lineStyle = part.attr.getLineSvgStyle( this.attr , fontSize ) ;
-				lineThickness = part.attr.getLineThickness( this.attr , fontSize ) ;
-			}
-
-			if ( underline ) {
-				let underlineY = part.metrics.baselineY - part.metrics.descender * 0.6 - lineThickness + yOffset ;
-				canvasCtx.beginPath() ;
-				canvasCtx.rect( part.metrics.x , underlineY , part.metrics.width , lineThickness ) ;
-				canvas.fillAndStrokeUsingSvgStyle( canvasCtx , lineStyle ) ;
-			}
-
-			let path = font.getPath( part.text , part.metrics.x , part.metrics.baselineY + yOffset , fontSize ) ;
-			let pathData = path.toPathData() ;
-			let path2D = new Path2D( pathData ) ;
-			canvas.fillAndStrokeUsingSvgStyle( canvasCtx , textStyle , path2D ) ;
-
-			if ( lineThrough ) {
-				let lineThroughY = part.metrics.baselineY - part.metrics.ascender * 0.25 - lineThickness + yOffset ;
-				canvasCtx.beginPath() ;
-				canvasCtx.rect( part.metrics.x , lineThroughY , part.metrics.width , lineThickness ) ;
-				canvas.fillAndStrokeUsingSvgStyle( canvasCtx , lineStyle ) ;
-			}
-		}
-	}
-
+VGFlowingText.prototype.renderAfterHookForCanvas = async function( canvasCtx , options = {} , isRedraw = false , master = this ) {
 	if ( this.debugContainer ) {
+		let yOffset = this.root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y - ( this.height - 1 ) : 0 ;
+
 		canvasCtx.beginPath() ;
 		canvasCtx.rect( this.x , this.y + yOffset , this.width , this.height ) ;
-		canvas.fillAndStrokeUsingSvgStyle( canvasCtx , { fill: 'none' , stroke: '#f33' } ) ;
-	}
-
-	canvasCtx.restore() ;
-} ;
-
-
-
-/*
-	This renderer does not support clipping the text, debugContainer, and frame.
-*/
-VGFlowingText.prototype.renderHookForPath2D = async function( path2D , canvasCtx , options = {} ) {
-	if ( ! this.areLinesComputed ) { await this.computeLines() ; }
-
-	var yOffset = this.root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y - ( this.height - 1 ) : 0 ;
-
-	for ( let structuredTextLine of this.structuredTextLines ) {
-		for ( let part of structuredTextLine.parts ) {
-			let fontFamily = part.attr.getFontFamily( this.attr ) ,
-				fontStyle = part.attr.getFontStyle( this.attr ) ,
-				fontWeight = part.attr.getFontWeight( this.attr ) ,
-				fontSize = part.attr.getFontSize( this.attr ) ,
-				lineThickness ,
-				underline = part.attr.getUnderline( this.attr ) ,
-				lineThrough = part.attr.getLineThrough( this.attr ) ;
-
-			//console.error( "???" , fontFamily , fontSize , textStyle ) ;
-			let font = await fontLib.getFallbackFontAsync( fontFamily , fontStyle , fontWeight ) ;
-			if ( ! font ) { throw new Error( "Font not found: " + fontFamily + ' ' + fontStyle + ' ' + fontWeight ) ; }
-
-			if ( underline || lineThrough ) {
-				lineThickness = part.attr.getLineThickness( this.attr , fontSize ) ;
-			}
-
-			if ( underline ) {
-				let underlineY = part.metrics.baselineY - part.metrics.descender * 0.6 - lineThickness + yOffset ;
-				path2D.rect( part.metrics.x , underlineY , part.metrics.width , lineThickness ) ;
-			}
-
-			let path = font.getPath( part.text , part.metrics.x , part.metrics.baselineY + yOffset , fontSize ) ;
-			let pathData = path.toPathData() ;
-			path2D.addPath( new Path2D( pathData ) ) ;
-
-			if ( lineThrough ) {
-				let lineThroughY = part.metrics.baselineY - part.metrics.ascender * 0.25 - lineThickness + yOffset ;
-				path2D.rect( part.metrics.x , lineThroughY , part.metrics.width , lineThickness ) ;
-			}
-		}
+		canvasUtilities.fillAndStrokeUsingSvgStyle( canvasCtx , { fill: 'none' , stroke: '#f33' } ) ;
 	}
 } ;
 
 
 
-
+// For Path2D, everything is done on the pseudo-entities.
+// This renderer does not support clipping the text, debugContainer, frame and image.
 
 
 
@@ -41914,20 +47130,609 @@ VGFlowingText.prototype.computeXYOffset = function() {
 		// No offset, so nothing to do for top alignment
 		//case Control.VERTICAL_ALIGNMENT_TOP:
 		case Control.VERTICAL_ALIGNMENT_BOTTOM :
-			this.yOffset += this.currentMeasure.height - this._contentHeight ;
+			this.yOffset += this.currentMeasure.height - this.contentHeight ;
 			break ;
 		case Control.VERTICAL_ALIGNMENT_CENTER :
-			this.yOffset += ( this.currentMeasure.height - this._contentHeight ) / 2 ;
+			this.yOffset += ( this.currentMeasure.height - this.contentHeight ) / 2 ;
 			break ;
 	}
 } ;
 
 
-},{"../../package.json":142,"../VGEntity.js":115,"../canvas.js":126,"../fontLib.js":127,"../structuredText.js":131,"./StructuredTextLine.js":116,"./StructuredTextPart.js":117,"./TextAttribute.js":118,"./TextMetrics.js":119}],121:[function(require,module,exports){
+},{"../../package.json":170,"../BoundingBox.js":119,"../VGPseudoContainer.js":154,"../canvas-utilities.js":158,"../fontLib.js":161,"./StructuredTextLine.js":141,"./StructuredTextPart.js":142,"./StructuredTextRenderer.js":143,"./TextAttribute.js":144,"./TextMetrics.js":145,"./VGFlowingTextImagePart.js":147,"./VGFlowingTextPart.js":148,"book-source":37,"dom-kit":46}],147:[function(require,module,exports){
 /*
 	SVG Kit
 
-	Copyright (c) 2017 - 2023 Cédric Ronvel
+	Copyright (c) 2017 - 2024 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const VGPseudoEntity = require( '../VGPseudoEntity.js' ) ;
+
+//const TextMetrics = require( './TextMetrics.js' ) ;
+//const BoundingBox = require( '../BoundingBox.js' ) ;
+
+const dom = require( 'dom-kit' ) ;
+
+
+
+function VGFlowingTextImagePart( params ) {
+	VGPseudoEntity.call( this , params ) ;
+
+	this.imageUrl = '' ;
+	this.metrics = null ;
+
+	if ( params ) { this.set( params ) ; }
+}
+
+module.exports = VGFlowingTextImagePart ;
+
+VGFlowingTextImagePart.prototype = Object.create( VGPseudoEntity.prototype ) ;
+VGFlowingTextImagePart.prototype.constructor = VGFlowingTextImagePart ;
+VGFlowingTextImagePart.prototype.__prototypeUID__ = 'svg-kit/VGFlowingTextImagePart' ;
+VGFlowingTextImagePart.prototype.__prototypeVersion__ = require( '../../package.json' ).version ;
+
+
+
+VGFlowingTextImagePart.prototype.isRenderingContainer = true ;
+VGFlowingTextImagePart.prototype.svgTag = 'g' ;
+
+
+
+VGFlowingTextImagePart.prototype.set = function( params ) {
+	if ( params.imageUrl ) { this.imageUrl = params.imageUrl ; }
+	if ( params.metrics ) { this.metrics = params.metrics ; }
+
+	VGPseudoEntity.prototype.set.call( this , params ) ;
+} ;
+
+
+
+// Renderers
+
+
+
+VGFlowingTextImagePart.prototype.svgAttributes = function( master = this ) {
+	var attr = {} ;
+	return attr ;
+} ;
+
+
+
+// Render the Vector Graphic as a text SVG
+VGFlowingTextImagePart.prototype.renderingContainerHookForSvgText = async function( master = this ) {
+	var yOffset = this.root.invertY ? - 2 * this.y - this.height : 0 ,
+		str = '' ;
+
+	str += '<image' ;
+	str += ' x="' + ( this.metrics.x ) + '"' ;
+	str += ' y="' + ( this.metrics.baselineY - this.metrics.ascender + yOffset ) + '"' ;
+	str += ' width="' + ( this.metrics.width ) + '"' ;
+	str += ' height="' + ( this.metrics.ascender ) + '"' ;
+	//str += ' preserveAspectRatio="none"' ;
+	str += ' xlink:href="' + this.imageUrl + '"' ;
+	str += ' />' ;
+
+	return str ;
+} ;
+
+
+
+VGFlowingTextImagePart.prototype.renderingContainerHookForSvgDom = async function( master = this ) {
+	var yOffset = this.root.invertY ? - 2 * this.y - this.height : 0 ,
+		elementList = [] ;
+
+	//console.error( "???" , fontFamily , fontSize , textStyleStr ) ;
+
+	let $image = document.createElementNS( this.NS , 'image' ) ;
+	dom.attr( $image , {
+		x: this.metrics.x ,
+		y: this.metrics.baselineY - this.metrics.ascender + yOffset ,
+		width: this.metrics.width ,
+		height: this.metrics.ascender ,
+		//preserveAspectRatio: 'none' ,
+		href: this.imageUrl
+	} ) ;
+	elementList.push( $image ) ;
+
+	//console.log( "Returning:" , elementList ) ;
+	return elementList ;
+} ;
+
+
+
+VGFlowingTextImagePart.prototype.renderHookForCanvas = async function( canvasCtx , options = {} , isRedraw = false , master = this ) {
+	var yOffset = this.root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y - ( this.height - 1 ) : 0 ;
+
+	//console.error( "???" , fontFamily , fontSize , textStyle ) ;
+
+	canvasCtx.save() ;
+
+	let image = new Image() ;
+	image.src = this.imageUrl ;
+
+	await new Promise( resolve => {
+		image.onload = () => {
+			canvasCtx.drawImage(
+				image ,
+				this.metrics.x ,
+				this.metrics.baselineY - this.metrics.ascender + yOffset
+			) ;
+			resolve() ;
+		} ;
+	} ) ;
+
+	canvasCtx.restore() ;
+} ;
+
+
+},{"../../package.json":170,"../VGPseudoEntity.js":155,"dom-kit":46}],148:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2024 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const VGPseudoEntity = require( '../VGPseudoEntity.js' ) ;
+
+const TextAttribute = require( './TextAttribute.js' ) ;
+const TextMetrics = require( './TextMetrics.js' ) ;
+//const BoundingBox = require( '../BoundingBox.js' ) ;
+
+const fontLib = require( '../fontLib.js' ) ;
+const canvasUtilities = require( '../canvas-utilities.js' ) ;
+
+const unicode = require( 'string-kit/lib/unicode.js' ) ;
+
+//const dom = require( 'dom-kit' ) ;
+
+
+
+function VGFlowingTextPart( params ) {
+	VGPseudoEntity.call( this , params ) ;
+
+	this.text = '' ;
+	this.metrics = null ;
+	this.attr = null ;
+	this.charOffset = 0 ;	// The character offset relative to the VGFlowingText parent, used for slow-typing FX
+	this.margin = {
+		top: 0 ,
+		bottom: 0 ,
+		left: 0 ,
+		right: 0
+	} ;
+
+	if ( params ) { this.set( params ) ; }
+}
+
+module.exports = VGFlowingTextPart ;
+
+VGFlowingTextPart.prototype = Object.create( VGPseudoEntity.prototype ) ;
+VGFlowingTextPart.prototype.constructor = VGFlowingTextPart ;
+VGFlowingTextPart.prototype.__prototypeUID__ = 'svg-kit/VGFlowingTextPart' ;
+VGFlowingTextPart.prototype.__prototypeVersion__ = require( '../../package.json' ).version ;
+
+
+
+VGFlowingTextPart.prototype.isRenderingContainer = true ;
+VGFlowingTextPart.prototype.svgTag = 'g' ;
+
+
+
+VGFlowingTextPart.prototype.set = function( params ) {
+	//console.warn( "VGFlowingTextPart.prototype.set:" , params ) ;
+	if ( params.text !== undefined ) { this.text = params.text ; }
+
+	if ( params.margin && typeof params.margin === 'object' ) {
+		this.margin.top = + params.margin.top || 0 ;
+		this.margin.bottom = + params.margin.bottom || 0 ;
+		this.margin.left = + params.margin.left || 0 ;
+		this.margin.right = + params.margin.right || 0 ;
+		this.computeBoundingBox() ;
+	}
+
+	if ( params.metrics ) {
+		if ( params.metrics instanceof TextMetrics ) { this.metrics = params.metrics ; }
+		// TextMetrics.set() does not exist ATM
+		//else { this.metrics.set( params.metrics ) ; }
+		this.computeBoundingBox() ;
+	}
+
+	if ( params.attr ) {
+		if ( params.attr instanceof TextAttribute ) { this.attr = params.attr ; }
+		else { this.attr.set( params.attr ) ; }
+	}
+
+	if ( params.charOffset !== undefined ) { this.charOffset = params.charOffset ; }
+
+	if ( params.fxData ) {
+		if ( params.fxData.x ) { this.fxData.x = params.fxData.x ; }
+		if ( params.fxData.y ) { this.fxData.y = params.fxData.y ; }
+	}
+
+	VGPseudoEntity.prototype.set.call( this , params ) ;
+} ;
+
+
+
+VGFlowingTextPart.prototype.computeBoundingBox = function() {
+	if ( ! this.metrics ) { return ; }
+
+	this.boundingBox.x = this.metrics.x - this.margin.left ;
+	this.boundingBox.y = this.metrics.baselineY - this.metrics.ascender - this.margin.top ;
+	this.boundingBox.width = this.metrics.width + 1 + this.margin.left + this.margin.right ;
+	this.boundingBox.height = this.metrics.ascender - this.metrics.descender + 1 + this.margin.top + this.margin.bottom ;
+} ;
+
+
+
+// Renderers
+
+
+
+VGFlowingTextPart.prototype.svgAttributes = function( master = this ) {
+	var attr = {} ;
+	return attr ;
+} ;
+
+
+
+// Render the Vector Graphic as a text SVG
+VGFlowingTextPart.prototype.renderingContainerHookForSvgText = async function( master = this ) {
+	var parentAttr = this.parent.attr ,
+		yOffset = this.root.invertY ? - 2 * this.y - this.height : 0 ,
+		str = '' ,
+		fontFamily = this.attr.getFontFamily( parentAttr ) ,
+		fontStyle = this.attr.getFontStyle( parentAttr ) ,
+		fontWeight = this.attr.getFontWeight( parentAttr ) ,
+		fontSize = this.attr.getFontSize( parentAttr ) ,
+		textStyleStr = this.attr.getTextSvgStyleString( parentAttr , fontSize , master?.palette ) ,
+		lineStyleStr , lineThickness ,
+		underline = this.attr.getUnderline( parentAttr ) ,
+		lineThrough = this.attr.getLineThrough( parentAttr ) ,
+		frame = this.attr.getFrame( parentAttr ) ;
+
+	var font = await fontLib.getFallbackFontAsync( fontFamily , fontStyle , fontWeight ) ;
+	if ( ! font ) { throw new Error( "Font not found: " + fontFamily + ' ' + fontStyle + ' ' + fontWeight ) ; }
+
+	if ( frame ) {
+		let frameY = this.metrics.baselineY - this.metrics.ascender + yOffset ,
+			frameHeight = this.metrics.ascender - this.metrics.descender ,
+			frameStyleStr = this.attr.getFrameSvgStyleString( parentAttr , fontSize , master?.palette ) ,
+			cornerRadius = this.attr.getFrameCornerRadius( parentAttr , fontSize ) ;
+
+		//console.error( "frameStyleStr:" , frameStyleStr , this.attr ) ;
+		str += '<rect' ;
+		str += ' x="' + this.metrics.x + '"' ;
+		str += ' y="' + frameY + '"' ;
+		str += ' width="' + this.metrics.width + '"' ;
+		str += ' height="' + frameHeight + '"' ;
+		if ( cornerRadius ) { str += ' rx="' + cornerRadius + '"' ; }
+		if ( frameStyleStr ) { str += ' style="' + frameStyleStr + '"' ; }
+		str += ' />' ;
+	}
+
+	if ( underline || lineThrough ) {
+		lineStyleStr = this.attr.getLineSvgStyleString( parentAttr , fontSize , master?.palette ) ;
+		lineThickness = this.attr.getLineThickness( parentAttr , fontSize ) ;
+	}
+
+	if ( underline ) {
+		let underlineY = this.metrics.baselineY - this.metrics.descender * 0.6 - lineThickness + yOffset ;
+
+		str += '<rect' ;
+		str += ' x="' + this.metrics.x + '"' ;
+		str += ' y="' + underlineY + '"' ;
+		str += ' width="' + this.metrics.width + '"' ;
+		str += ' height="' + lineThickness + '"' ;
+		if ( lineStyleStr ) { str += ' style="' + lineStyleStr + '"' ; }
+		str += ' />' ;
+	}
+
+	let path = font.getPath( this.text , this.metrics.x , this.metrics.baselineY + yOffset , fontSize ) ;
+	let pathData = path.toPathData() ;
+
+	str += '<path' ;
+	if ( textStyleStr ) { str += ' style="' + textStyleStr + '"' ; }
+	str += ' d="' + pathData + '"' ;
+	str += ' />' ;
+
+	if ( lineThrough ) {
+		let lineThroughY = this.metrics.baselineY - this.metrics.ascender * 0.25 - lineThickness + yOffset ;
+
+		str += '<rect' ;
+		str += ' x="' + this.metrics.x + '"' ;
+		str += ' y="' + lineThroughY + '"' ;
+		str += ' width="' + this.metrics.width + '"' ;
+		str += ' height="' + lineThickness + '"' ;
+		if ( lineStyleStr ) { str += ' style="' + lineStyleStr + '"' ; }
+		str += ' />' ;
+	}
+
+	return str ;
+} ;
+
+
+
+VGFlowingTextPart.prototype.renderingContainerHookForSvgDom = async function( master = this ) {
+	var parentAttr = this.parent.attr ,
+		yOffset = this.root.invertY ? - 2 * this.y - this.height : 0 ,
+		elementList = [] ,
+		fontFamily = this.attr.getFontFamily( parentAttr ) ,
+		fontStyle = this.attr.getFontStyle( parentAttr ) ,
+		fontWeight = this.attr.getFontWeight( parentAttr ) ,
+		fontSize = this.attr.getFontSize( parentAttr ) ,
+		textStyleStr = this.attr.getTextSvgStyleString( parentAttr , fontSize , master?.palette ) ,
+		lineStyleStr , lineThickness ,
+		underline = this.attr.getUnderline( parentAttr ) ,
+		lineThrough = this.attr.getLineThrough( parentAttr ) ,
+		frame = this.attr.getFrame( parentAttr ) ;
+
+	//console.error( "???" , fontFamily , fontSize , textStyleStr ) ;
+	var font = await fontLib.getFallbackFontAsync( fontFamily , fontStyle , fontWeight ) ;
+	if ( ! font ) { throw new Error( "Font not found: " + fontFamily + ' ' + fontStyle + ' ' + fontWeight ) ; }
+
+	if ( frame ) {
+		let frameY = this.metrics.baselineY - this.metrics.ascender + yOffset ,
+			frameHeight = this.metrics.ascender - this.metrics.descender ,
+			frameStyleStr = this.attr.getFrameSvgStyleString( parentAttr , fontSize , master?.palette ) ,
+			cornerRadius = this.attr.getFrameCornerRadius( parentAttr , fontSize ) ;
+
+		//console.error( "frameStyleStr:" , frameStyleStr , this.attr ) ;
+		let $frame = document.createElementNS( this.NS , 'rect' ) ;
+		$frame.setAttribute( 'x' , this.metrics.x ) ;
+		$frame.setAttribute( 'y' , frameY ) ;
+		$frame.setAttribute( 'width' , this.metrics.width ) ;
+		$frame.setAttribute( 'height' , frameHeight ) ;
+		if ( cornerRadius ) { $frame.setAttribute( 'rx' , cornerRadius ) ; }
+		if ( frameStyleStr ) { $frame.setAttribute( 'style' , frameStyleStr ) ; }
+		elementList.push( $frame ) ;
+	}
+
+	if ( underline || lineThrough ) {
+		lineStyleStr = this.attr.getLineSvgStyleString( parentAttr , fontSize , master?.palette ) ;
+		lineThickness = this.attr.getLineThickness( parentAttr , fontSize ) ;
+	}
+
+	if ( underline ) {
+		let underlineY = this.metrics.baselineY - this.metrics.descender * 0.6 - lineThickness + yOffset ;
+
+		let $line = document.createElementNS( this.NS , 'rect' ) ;
+		$line.setAttribute( 'x' , this.metrics.x ) ;
+		$line.setAttribute( 'y' , underlineY ) ;
+		$line.setAttribute( 'width' , this.metrics.width ) ;
+		$line.setAttribute( 'height' , lineThickness ) ;
+		if ( lineStyleStr ) { $line.setAttribute( 'style' , lineStyleStr ) ; }
+		elementList.push( $line ) ;
+	}
+
+	let path = font.getPath( this.text , this.metrics.x , this.metrics.baselineY + yOffset , fontSize ) ;
+	let pathData = path.toPathData() ;
+
+	let $textPath = document.createElementNS( this.NS , 'path' ) ;
+	if ( textStyleStr ) { $textPath.setAttribute( 'style' , textStyleStr ) ; }
+	$textPath.setAttribute( 'd' , pathData ) ;
+	elementList.push( $textPath ) ;
+
+	if ( lineThrough ) {
+		let lineThroughY = this.metrics.baselineY - this.metrics.ascender * 0.25 - lineThickness + yOffset ;
+
+		let $line = document.createElementNS( this.NS , 'rect' ) ;
+		$line.setAttribute( 'x' , this.metrics.x ) ;
+		$line.setAttribute( 'y' , lineThroughY ) ;
+		$line.setAttribute( 'width' , this.metrics.width ) ;
+		$line.setAttribute( 'height' , lineThickness ) ;
+		if ( lineStyleStr ) { $line.setAttribute( 'style' , lineStyleStr ) ; }
+		elementList.push( $line ) ;
+	}
+
+	//console.log( "Returning:" , elementList ) ;
+	return elementList ;
+} ;
+
+
+
+VGFlowingTextPart.prototype.renderHookForCanvas = async function( canvasCtx , options = {} , isRedraw = false , master = this ) {
+	if ( this.charOffset >= this.parent.charLimit ) { return ; }
+
+	var text ,
+		parentAttr = this.parent.attr ,
+		yOffset = this.root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y - ( this.height - 1 ) : 0 ,
+		fontFamily = this.attr.getFontFamily( parentAttr ) ,
+		fontStyle = this.attr.getFontStyle( parentAttr ) ,
+		fontWeight = this.attr.getFontWeight( parentAttr ) ,
+		fontSize = this.attr.getFontSize( parentAttr ) ,
+		lineStyle , lineThickness ,
+		underline = false ,
+		lineThrough = false ,
+		frame = false ;
+	//console.error( "???" , fontFamily , fontSize , textStyle ) ;
+
+	if ( this.charOffset + this.metrics.charCount <= this.parent.charLimit ) {
+		// All characters are displayed and decoration are enabled
+		text = this.text ;
+		underline = this.attr.getUnderline( parentAttr ) ;
+		lineThrough = this.attr.getLineThrough( parentAttr ) ;
+		frame = this.attr.getFrame( parentAttr ) ;
+	}
+	else {
+		// Truncate the text, and do not display decoration
+		text = unicode.truncate( this.text , this.parent.charLimit - this.charOffset ) ;
+	}
+
+	var font = await fontLib.getFallbackFontAsync( fontFamily , fontStyle , fontWeight ) ;
+	if ( ! font ) { throw new Error( "Font not found: " + fontFamily + ' ' + fontStyle + ' ' + fontWeight ) ; }
+
+	if ( frame ) {
+		let frameY = this.metrics.baselineY - this.metrics.ascender + yOffset ,
+			frameHeight = this.metrics.ascender - this.metrics.descender ,
+			frameStyle = this.attr.getFrameSvgStyle( parentAttr , fontSize , master?.palette ) ,
+			cornerRadius = this.attr.getFrameCornerRadius( parentAttr , fontSize ) ;
+
+		canvasCtx.beginPath() ;
+
+		if ( cornerRadius ) {
+			canvasCtx.roundRect( this.metrics.x , frameY , this.metrics.width , frameHeight , cornerRadius ) ;
+		}
+		else {
+			canvasCtx.rect( this.metrics.x , frameY , this.metrics.width , frameHeight ) ;
+		}
+
+		canvasUtilities.fillAndStrokeUsingSvgStyle( canvasCtx , frameStyle ) ;
+	}
+
+	if ( underline || lineThrough ) {
+		lineStyle = this.attr.getLineSvgStyle( parentAttr , fontSize , master?.palette ) ;
+		lineThickness = this.attr.getLineThickness( parentAttr , fontSize ) ;
+	}
+
+	if ( underline ) {
+		let underlineY = this.metrics.baselineY - this.metrics.descender * 0.6 - lineThickness + yOffset ;
+		canvasCtx.beginPath() ;
+		canvasCtx.rect( this.metrics.x , underlineY , this.metrics.width , lineThickness ) ;
+		canvasUtilities.fillAndStrokeUsingSvgStyle( canvasCtx , lineStyle ) ;
+	}
+
+	if ( this.fxData.perCharacter ) {
+		let pathList = font.getPaths(
+			text ,
+			this.metrics.x + ( + this.fxData.x || 0 ) ,
+			this.metrics.baselineY + yOffset + ( + this.fxData.y || 0 ) ,
+			fontSize
+		) ;
+
+		let i = 0 ;
+
+		for ( let path of pathList ) {
+			let fxData = this.fxData.perCharacter[ i ] ;
+			let pathData = path.toPathData() ;
+			let path2D = new Path2D( pathData ) ;
+			let textStyle = ( fxData.attr ?? this.attr ).getTextSvgStyle( parentAttr , fontSize , master?.palette ) ;
+
+			// There is no simple way to translate a path2D, except by applying a translation to the canvas, then restoring
+			canvasCtx.save() ;
+			canvasCtx.translate( fxData.x || 0 , fxData.y || 0 ) ;
+			canvasUtilities.fillAndStrokeUsingSvgStyle( canvasCtx , textStyle , path2D ) ;
+			canvasCtx.restore() ;
+
+			i ++ ;
+		}
+	}
+	else {
+		let path = font.getPath(
+			text ,
+			this.metrics.x + ( + this.fxData.x || 0 ) ,
+			this.metrics.baselineY + yOffset + ( + this.fxData.y || 0 ) ,
+			fontSize
+		) ;
+		let pathData = path.toPathData() ;
+		let path2D = new Path2D( pathData ) ;
+		let textStyle = ( this.fxData.attr ?? this.attr ).getTextSvgStyle( parentAttr , fontSize , master?.palette ) ;
+		//console.log( "textStyle:" , textStyle ) ;
+
+		canvasUtilities.fillAndStrokeUsingSvgStyle( canvasCtx , textStyle , path2D ) ;
+	}
+
+	if ( lineThrough ) {
+		let lineThroughY = this.metrics.baselineY - this.metrics.ascender * 0.25 - lineThickness + yOffset ;
+		canvasCtx.beginPath() ;
+		canvasCtx.rect( this.metrics.x , lineThroughY , this.metrics.width , lineThickness ) ;
+		canvasUtilities.fillAndStrokeUsingSvgStyle( canvasCtx , lineStyle ) ;
+	}
+} ;
+
+
+
+/*
+	This renderer does not support clipping the text, debugContainer, and frame.
+*/
+VGFlowingTextPart.prototype.renderHookForPath2D = async function( path2D , canvasCtx , options = {} , master = this ) {
+	var parentAttr = this.parent.attr ,
+		yOffset = this.root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y - ( this.height - 1 ) : 0 ,
+		fontFamily = this.attr.getFontFamily( parentAttr ) ,
+		fontStyle = this.attr.getFontStyle( parentAttr ) ,
+		fontWeight = this.attr.getFontWeight( parentAttr ) ,
+		fontSize = this.attr.getFontSize( parentAttr ) ,
+		lineThickness ,
+		underline = this.attr.getUnderline( parentAttr ) ,
+		lineThrough = this.attr.getLineThrough( parentAttr ) ;
+
+	//console.error( "???" , fontFamily , fontSize , textStyle ) ;
+	var font = await fontLib.getFallbackFontAsync( fontFamily , fontStyle , fontWeight ) ;
+	if ( ! font ) { throw new Error( "Font not found: " + fontFamily + ' ' + fontStyle + ' ' + fontWeight ) ; }
+
+	if ( underline || lineThrough ) {
+		lineThickness = this.attr.getLineThickness( parentAttr , fontSize ) ;
+	}
+
+	if ( underline ) {
+		let underlineY = this.metrics.baselineY - this.metrics.descender * 0.6 - lineThickness + yOffset ;
+		path2D.rect( this.metrics.x , underlineY , this.metrics.width , lineThickness ) ;
+	}
+
+	let path = font.getPath( this.text , this.metrics.x , this.metrics.baselineY + yOffset , fontSize ) ;
+	let pathData = path.toPathData() ;
+	path2D.addPath( new Path2D( pathData ) ) ;
+
+	if ( lineThrough ) {
+		let lineThroughY = this.metrics.baselineY - this.metrics.ascender * 0.25 - lineThickness + yOffset ;
+		path2D.rect( this.metrics.x , lineThroughY , this.metrics.width , lineThickness ) ;
+	}
+} ;
+
+
+},{"../../package.json":170,"../VGPseudoEntity.js":155,"../canvas-utilities.js":158,"../fontLib.js":161,"./TextAttribute.js":144,"./TextMetrics.js":145,"string-kit/lib/unicode.js":169}],149:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2024 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -41980,11 +47785,11 @@ VGGroup.prototype.set = function( params ) {
 } ;
 
 
-},{"../package.json":142,"./VGContainer.js":113,"./svg-kit.js":132}],122:[function(require,module,exports){
+},{"../package.json":170,"./VGContainer.js":137,"./svg-kit.js":165}],150:[function(require,module,exports){
 /*
 	SVG Kit
 
-	Copyright (c) 2017 - 2023 Cédric Ronvel
+	Copyright (c) 2017 - 2024 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -42012,7 +47817,7 @@ VGGroup.prototype.set = function( params ) {
 
 
 const VGEntity = require( './VGEntity.js' ) ;
-const canvas = require( './canvas.js' ) ;
+const BoundingBox = require( './BoundingBox.js' ) ;
 const getImageSize = require( './getImageSize.js' ) ;
 
 const dom = require( 'dom-kit' ) ;
@@ -42070,12 +47875,10 @@ const ASPECT = {
 
 
 VGImage.prototype.set = function( params ) {
-	VGEntity.prototype.set.call( this , params ) ;
-
-	if ( params.x !== undefined ) { this.x = params.x ; }
-	if ( params.y !== undefined ) { this.y = params.y ; }
-	if ( params.width !== undefined ) { this.width = params.width ; }
-	if ( params.height !== undefined ) { this.height = params.height ; }
+	if ( params.x !== undefined ) { this.boundingBox.x = this.x = params.x ; }
+	if ( params.y !== undefined ) { this.boundingBox.y = this.y = params.y ; }
+	if ( params.width !== undefined ) { this.boundingBox.width = this.width = params.width ; }
+	if ( params.height !== undefined ) { this.boundingBox.height = this.height = params.height ; }
 	if ( params.url && typeof params.url === 'string' ) { this.url = params.url ; }
 
 	if ( params.aspect !== undefined ) { this.aspect = ASPECT[ params.aspect ] || 'stretch' ; }
@@ -42101,6 +47904,8 @@ VGImage.prototype.set = function( params ) {
 			this.sourceLeftWidth !== null && this.sourceRightWidth !== null
 			&& this.sourceTopHeight !== null && this.sourceBottomHeight !== null ;
 	}
+
+	VGEntity.prototype.set.call( this , params ) ;
 } ;
 
 
@@ -42120,12 +47925,18 @@ VGImage.prototype.export = function( data = {} ) {
 
 
 
+VGImage.prototype.computeBoundingBox = function() {
+	this.boundingBox.setMinMax( this.x , this.y , this.x + this.width , this.y + this.height ) ;
+} ;
+
+
+
 VGImage.prototype.svgTag = 'g' ;
 VGImage.prototype.isRenderingContainer = true ;
 
 
 
-VGImage.prototype.renderingContainerHookForSvgText = async function() {
+VGImage.prototype.renderingContainerHookForSvgText = async function( master = this ) {
 	var imageSize = await getImageSize( this.url ) ;
 
 	if ( this.ninePatch ) {
@@ -42135,7 +47946,8 @@ VGImage.prototype.renderingContainerHookForSvgText = async function() {
 
 	if ( this.clip ) {
 		return this.renderSvgTextClipImage(
-			imageSize , {
+			imageSize ,
+			{
 				sx: this.sourceX ,
 				sy: this.sourceY ,
 				sw: this.sourceWidth ,
@@ -42209,7 +48021,7 @@ VGImage.prototype.renderSvgTextNinePatchImage = function( imageSize ) {
 
 
 
-VGImage.prototype.renderingContainerHookForSvgDom = async function() {
+VGImage.prototype.renderingContainerHookForSvgDom = async function( master = this ) {
 	var elementList = [] ;
 
 	var imageSize = await getImageSize( this.url ) ;
@@ -42298,7 +48110,7 @@ VGImage.prototype.renderSvgDomNinePatchImage = function( imageSize , elementList
 
 
 
-VGImage.prototype.renderHookForCanvas = async function( canvasCtx , options = {} ) {
+VGImage.prototype.renderHookForCanvas = async function( canvasCtx , options = {} , isRedraw = false , master = this ) {
 	canvasCtx.save() ;
 
 	var image = new Image() ;
@@ -42561,11 +48373,11 @@ VGImage.prototype.getNinePatchCoordsList = function( imageSize ) {
 } ;
 
 
-},{"../package.json":142,"./VGEntity.js":115,"./canvas.js":126,"./getImageSize.js":128,"dom-kit":37}],123:[function(require,module,exports){
+},{"../package.json":170,"./BoundingBox.js":119,"./VGEntity.js":140,"./getImageSize.js":164,"dom-kit":46}],151:[function(require,module,exports){
 /*
 	SVG Kit
 
-	Copyright (c) 2017 - 2023 Cédric Ronvel
+	Copyright (c) 2017 - 2024 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -42593,14 +48405,17 @@ VGImage.prototype.getNinePatchCoordsList = function( imageSize ) {
 
 
 const VGEntity = require( './VGEntity.js' ) ;
-const canvas = require( './canvas.js' ) ;
+const VGPolygon = require( './VGPolygon.js' ) ;
+const VGPolyline = require( './VGPolyline.js' ) ;
+const Path = require( './Path/Path.js' ) ;
+const canvasUtilities = require( './canvas-utilities.js' ) ;
 
 
 
 function VGPath( params ) {
 	VGEntity.call( this , params ) ;
 
-	this.commands = [] ;
+	this.path = new Path() ;
 
 	if ( params ) { this.set( params ) ; }
 }
@@ -42619,23 +48434,48 @@ VGPath.prototype.svgTag = 'path' ;
 
 
 VGPath.prototype.set = function( params ) {
+	var refreshBbox = !! ( params.style?.stroke || params.style?.strokeWidth ) ;
+
+	if ( Array.isArray( params.commands ) ) {
+		this.path.set( params.commands ) ;
+		refreshBbox = true ;
+	}
+
+	// /!\ Bounding box should be calculated from path
+
 	VGEntity.prototype.set.call( this , params ) ;
-	if ( Array.isArray( params.commands ) ) { this.commands = params.commands ; }
+
+	if ( refreshBbox ) { this.computeBoundingBox() ; }
 } ;
 
 
 
 VGPath.prototype.export = function( data = {} ) {
 	VGEntity.prototype.export.call( this , data ) ;
-	if ( this.commands.length ) { data.commands = this.commands ; }
+	this.path.export( data ) ;
 	return data ;
 } ;
 
 
 
-VGPath.prototype.svgAttributes = function() {
+VGPath.prototype.onAttach = function() {
+	this.path.setInvertY( this.root.invertY ) ;
+	this.computeBoundingBox() ;
+} ;
+
+
+
+VGPath.prototype.computeBoundingBox = function() {
+	this.boundingBox.set( this.path.boundingBox ) ;
+	var width = this.style.stroke ? this.style.strokeWidth : 0 ;
+	if ( width ) { this.boundingBox.enlarge( width ) ; }
+} ;
+
+
+
+VGPath.prototype.svgAttributes = function( master = this ) {
 	var attr = {
-		// That enigmatic SVG attribute 'd' probably means 'data' or 'draw'
+		// SVG attribute 'd' (data)
 		d: this.toD()
 	} ;
 
@@ -42644,621 +48484,68 @@ VGPath.prototype.svgAttributes = function() {
 
 
 
-// Build the SVG 'd' attribute
-VGPath.prototype.toD = function() {
-	var build = {
-		root: this.root ,
-		d: '' ,
-		pu: false ,	// Pen Up, when true, turtle-like commands move without tracing anything
-		cx: 0 ,		// cursor position x
-		cy: 0 ,		// cursor position y
-		ca: this.root.invertY ? - Math.PI / 2 : Math.PI / 2		// cursor angle, default to positive Y-axis
-	} ;
+// Methods that pass to Path methods
+VGPath.prototype.toD = function() { return this.path.toD( this.root.invertY ) ; } ;
+VGPath.prototype.isInside = function( coords ) { return this.path.isInside( coords ) ; } ;
 
-	this.commands.forEach( ( command , index ) => {
-		if ( index ) { build.d += ' ' ; }
-		builders[ command.type ]( command , build ) ;
-	} ) ;
 
-	return build.d ;
+
+// Return an array of VGPolygon, the hull of the current path (non-closing path are EXCLUDED!)
+VGPath.prototype.toVGPolygonHull = function( options = {} ) {
+	this.path.computeHull() ;
+	return this.path.polygonHull.map( polygon => new VGPolygon( { polygon , style: options.style } ) ) ;
 } ;
 
 
 
-VGPath.prototype.renderHookForCanvas = function( canvasCtx , options = {} ) {
+// Return an array of VGPolygon
+VGPath.prototype.toVGPolygon = function( options = {} ) {
+	var polygonList = this.path.toPolygon() ;
+	return polygonList.map( polygon => new VGPolygon( { polygon , style: options.style } ) ) ;
+} ;
+
+
+
+// Return an array of VGPolyline
+VGPath.prototype.toVGPolyline = function( options = {} ) {
+	var polylineList = this.path.toPolyline() ;
+	return polylineList.map( polyline => new VGPolyline( { polyline , style: options.style } ) ) ;
+} ;
+
+
+
+// Create API methods
+for ( let type in Path.commands ) {
+	if ( Path.commands[ type ].add ) {
+		VGPath.prototype[ type ] = function( data ) {
+			this.path[ type ]( data ) ;
+			this.computeBoundingBox() ;
+			return this ;
+		} ;
+	}
+}
+
+
+
+VGPath.prototype.renderHookForCanvas = function( canvasCtx , options = {} , isRedraw = false , master = this ) {
 	canvasCtx.save() ;
 	canvasCtx.beginPath() ;
-	canvas.fillAndStrokeUsingSvgStyle( canvasCtx , this.style , new Path2D( this.toD() ) ) ;
+	canvasUtilities.fillAndStrokeUsingStyle( canvasCtx , this.style , master?.palette , new Path2D( this.toD() ) ) ;
 	canvasCtx.restore() ;
 } ;
 
 
 
-VGPath.prototype.renderHookForPath2D = function( path2D , canvasCtx , options = {} ) {
+VGPath.prototype.renderHookForPath2D = function( path2D , canvasCtx , options = {} , master = this ) {
 	path2D.addPath( new Path2D( this.toD() ) ) ;
 } ;
 
 
-
-const degToRad = deg => deg * Math.PI / 180 ;
-const radToDeg = rad => rad * 180 / Math.PI ;
-
-
-
-const builders = {} ;
-
-builders.close = ( command , build ) => {
-	build.d += 'z' ;
-} ;
-
-builders.move = ( command , build ) => {
-	var y = build.root.invertY ? - command.y : command.y ;
-
-	if ( command.rel ) {
-		build.d += 'm ' + command.x + ' ' + y ;
-		build.cx += command.x ;
-		build.cy += y ;
-	}
-	else {
-		build.d += 'M ' + command.x + ' ' + y ;
-		build.cx = command.x ;
-		build.cy = y ;
-	}
-} ;
-
-builders.line = ( command , build ) => {
-	var y = build.root.invertY ? - command.y : command.y ;
-
-	if ( command.rel ) {
-		build.d += 'l ' + command.x + ' ' + y ;
-		build.cx += command.x ;
-		build.cy += y ;
-	}
-	else {
-		build.d += 'L ' + command.x + ' ' + y ;
-		build.cx = command.x ;
-		build.cy = y ;
-	}
-} ;
-
-builders.curve = ( command , build ) => {
-	var cy1 = build.root.invertY ? - command.cy1 : command.cy1 ,
-		cy2 = build.root.invertY ? - command.cy2 : command.cy2 ,
-		y = build.root.invertY ? - command.y : command.y ;
-
-	if ( command.rel ) {
-		build.d += 'c ' + command.cx1 + ' ' + cy1 + ' ' + command.cx2 + ' ' + cy2 + ' '  + command.x + ' ' + y ;
-		build.cx += command.x ;
-		build.cy += y ;
-	}
-	else {
-		build.d += 'C ' + command.cx1 + ' ' + cy1 + ' ' + command.cx2 + ' ' + cy2 + ' '  + command.x + ' ' + y ;
-		build.cx = command.x ;
-		build.cy = y ;
-	}
-} ;
-
-builders.smoothCurve = ( command , build ) => {
-	var cy = build.root.invertY ? - command.cy : command.cy ,
-		y = build.root.invertY ? - command.y : command.y ;
-
-	if ( command.rel ) {
-		build.d += 's ' + command.cx + ' ' + cy + ' ' + command.x + ' ' + y ;
-		build.cx += command.x ;
-		build.cy += y ;
-	}
-	else {
-		build.d += 'S ' + command.cx + ' ' + cy + ' ' + command.x + ' ' + y ;
-		build.cx = command.x ;
-		build.cy = y ;
-	}
-} ;
-
-builders.qCurve = ( command , build ) => {
-	var cy = build.root.invertY ? - command.cy : command.cy ,
-		y = build.root.invertY ? - command.y : command.y ;
-
-	if ( command.rel ) {
-		build.d += 'q ' + command.cx + ' ' + cy + ' ' + command.x + ' ' + y ;
-		build.cx += command.x ;
-		build.cy += y ;
-	}
-	else {
-		build.d += 'Q ' + command.cx + ' ' + cy + ' ' + command.x + ' ' + y ;
-		build.cx = command.x ;
-		build.cy = y ;
-	}
-} ;
-
-builders.smoothQCurve = ( command , build ) => {
-	var y = build.root.invertY ? - command.y : command.y ;
-
-	if ( command.rel ) {
-		build.d += 't ' + command.x + ' ' + y ;
-		build.cx += command.x ;
-		build.cy += y ;
-	}
-	else {
-		build.d += 'T ' + command.x + ' ' + y ;
-		build.cx = command.x ;
-		build.cy = y ;
-	}
-} ;
-
-builders.arc = ( command , build ) => {
-	var ra = build.root.invertY ? - command.ra : command.ra ,
-		pr = build.root.invertY ? ! command.pr : command.pr ,
-		y = build.root.invertY ? - command.y : command.y ;
-
-	if ( command.rel ) {
-		build.d += 'a ' + command.rx + ' ' + command.ry + ' ' + ra + ' ' + ( + command.la ) + ' '  + ( + pr ) + ' ' + command.x + ' ' + y ;
-		build.cx += command.x ;
-		build.cy += y ;
-	}
-	else {
-		build.d += 'A ' + command.rx + ' ' + command.ry + ' ' + ra + ' ' + ( + command.la ) + ' '  + ( + pr ) + ' ' + command.x + ' ' + y ;
-		build.cx = command.x ;
-		build.cy = y ;
-	}
-} ;
-
-// VG-specific
-
-/*
-	Approximation of circles using cubic bezier curves.
-
-	Controle point distance/radius ratio for quarter of circle: 0.55228475 or 4/3 (sqrt(2)-1)
-	For half of a circle: 4/3
-
-	From: https://www.tinaja.com/glib/bezcirc2.pdf
-	The arc is bissected by the X-axis.
-	x0 = cos( / 2)			y0 = sin( / 2)
-	x3 = x1					y3 = - y0
-	x1 = (4 - x0) / 3		y1 = (1 - x0)(3 - x0) / 3 y0
-	x2 = x1					y2 = -y1
-
-	This distance ensure that the mid-time point is exactly on the arc.
-	It works very well for angle ranging from 0-90°, can be good enough for 90-180°,
-	but it's bad for greater than 180°.
-	In fact it's not possible to approximate a 270° arc with a single cubic bezier curve.
-*/
-function controleDistance( angle ) {
-	if ( ! angle ) { return 0 ; }
-	var angleRad = degToRad( angle ) ;
-	var x0 = Math.cos( angleRad / 2 ) ,
-		y0 = Math.sin( angleRad / 2 ) ,
-		x1 = ( 4 - x0 ) / 3 ,
-		y1 = ( 1 - x0 ) * ( 3 - x0 ) / ( 3 * y0 ) ;
-	return Math.sqrt( ( x0 - x1 ) ** 2 + ( y0 - y1 ) ** 2 ) ;
-}
-
-builders.centerArc = ( command , build ) => {
-
-	// ---------------------------------------------------------------------------------- NOT CODED ----------------------------------------------------------------
-
-	// It's supposed to ease circle creation inside path, converting them to SVG curves...
-
-	var { x , y , cx , cy } = command ;
-
-	if ( command.rel ) {
-		x += build.cx ;
-		y += build.cy ;
-		cx += build.cx ;
-		cy += build.cy ;
-	}
-
-	var startAngle = Math.atan2( build.cy - cy , build.cx - cx ) ,
-		endAngle = Math.atan2( y - cy , x - cx ) ;
-
-	build.cx = x ;
-	build.cy = y ;
-} ;
-
-// Turtle-like
-
-builders.pen = ( command , build ) => {
-	build.pu = command.u ;
-} ;
-
-builders.forward = ( command , build ) => {
-	var dx = command.l * Math.cos( build.ca ) ,
-		dy = command.l * Math.sin( build.ca ) ;
-
-	if ( build.pu ) { build.d += 'm ' + dx + ' ' + dy ; }
-	else { build.d += 'l ' + dx + ' ' + dy ; }
-
-	build.cx += dx ;
-	build.cy += dy ;
-} ;
-
-builders.turn = ( command , build ) => {
-	var a = build.root.invertY ? - command.a : command.a ;
-
-	if ( command.rel ) {
-		build.ca += degToRad( a ) ;
-	}
-	else {
-		build.ca = degToRad( a ) ;
-	}
-} ;
-
-builders.forwardTurn = ( command , build ) => {
-	var a = build.root.invertY ? - command.a : command.a ;
-
-	/*
-		We will first transpose to a circle of center 0,0 and we are starting at x=radius,y=0 and moving positively
-	*/
-	var angleRad = degToRad( a ) ,
-		angleSign = angleRad >= 0 ? 1 : - 1 ,
-		alpha = Math.abs( angleRad ) ,
-		radius = command.l / alpha ,
-		trX = radius * Math.cos( alpha ) ,
-		trY = radius * Math.sin( alpha ) ,
-		dist = Math.sqrt( ( radius - trX ) ** 2 + trY ** 2 ) ,
-		beta = Math.atan2( radius - trX , trY ) ;	// beta is the deviation
-
-	var dx = dist * Math.cos( build.ca + angleSign * beta ) ,
-		dy = dist * Math.sin( build.ca + angleSign * beta ) ;
-
-	if ( build.pu ) {
-		build.d += 'm ' + dx + ' ' + dy ;
-	}
-	else {
-		build.d += 'a ' + radius + ' ' + radius + ' 0 ' + ( alpha > Math.PI ? 1 : 0 ) + ' '  + ( angleRad >= 0 ? 1 : 0 ) + ' ' + dx + ' ' + dy ;
-	}
-
-	build.cx += dx ;
-	build.cy += dy ;
-	build.ca += angleRad ;
-} ;
-
-
-
-/*
-	First, true SVG path commands
-*/
-
-VGPath.prototype.close = function() {
-	this.commands.push( { type: 'close' } ) ;
-} ;
-
-VGPath.prototype.move = function( data ) {
-	this.commands.push( {
-		type: 'move' ,
-		rel: true ,
-		x: data.x || 0 ,
-		y: data.y || 0
-	} ) ;
-} ;
-
-VGPath.prototype.moveTo = function( data ) {
-	this.commands.push( {
-		type: 'move' ,
-		x: data.x || 0 ,
-		y: data.y || 0
-	} ) ;
-} ;
-
-VGPath.prototype.line = function( data ) {
-	this.commands.push( {
-		type: 'line' ,
-		rel: true ,
-		x: data.x || 0 ,
-		y: data.y || 0
-	} ) ;
-} ;
-
-VGPath.prototype.lineTo = function( data ) {
-	this.commands.push( {
-		type: 'line' ,
-		x: data.x || 0 ,
-		y: data.y || 0
-	} ) ;
-} ;
-
-VGPath.prototype.curve = function( data ) {
-	this.commands.push( {
-		type: 'curve' ,
-		rel: true ,
-		cx1: data.cx1 || 0 ,
-		cy1: data.cy1 || 0 ,
-		cx2: data.cx2 || 0 ,
-		cy2: data.cy2 || 0 ,
-		x: data.x || 0 ,
-		y: data.y || 0
-	} ) ;
-} ;
-
-VGPath.prototype.curveTo = function( data ) {
-	this.commands.push( {
-		type: 'curve' ,
-		cx1: data.cx1 || 0 ,
-		cy1: data.cy1 || 0 ,
-		cx2: data.cx2 || 0 ,
-		cy2: data.cy2 || 0 ,
-		x: data.x || 0 ,
-		y: data.y || 0
-	} ) ;
-} ;
-
-VGPath.prototype.smoothCurve = function( data ) {
-	this.commands.push( {
-		type: 'smoothCurve' ,
-		rel: true ,
-		cx: data.cx || data.cx2 || 0 ,
-		cy: data.cy || data.cy2 || 0 ,
-		x: data.x || 0 ,
-		y: data.y || 0
-	} ) ;
-} ;
-
-VGPath.prototype.smoothCurveTo = function( data ) {
-	this.commands.push( {
-		type: 'smoothCurve' ,
-		cx: data.cx || data.cx2 || 0 ,
-		cy: data.cy || data.cy2 || 0 ,
-		x: data.x || 0 ,
-		y: data.y || 0
-	} ) ;
-} ;
-
-// q-curve = Quadratic curve, it uses just one controle point instead of two
-VGPath.prototype.qCurve = function( data ) {
-	this.commands.push( {
-		type: 'qCurve' ,
-		rel: true ,
-		cx: data.cx || data.cx1 || 0 ,
-		cy: data.cy || data.cy1 || 0 ,
-		x: data.x || 0 ,
-		y: data.y || 0
-	} ) ;
-} ;
-
-VGPath.prototype.qCurveTo = function( data ) {
-	this.commands.push( {
-		type: 'qCurve' ,
-		cx: data.cx || data.cx1 || 0 ,
-		cy: data.cy || data.cy1 || 0 ,
-		x: data.x || 0 ,
-		y: data.y || 0
-	} ) ;
-} ;
-
-VGPath.prototype.smoothQCurve = function( data ) {
-	this.commands.push( {
-		type: 'smoothQCurve' ,
-		rel: true ,
-		x: data.x || 0 ,
-		y: data.y || 0
-	} ) ;
-} ;
-
-VGPath.prototype.smoothQCurveTo = function( data ) {
-	this.commands.push( {
-		type: 'smoothQCurve' ,
-		x: data.x || 0 ,
-		y: data.y || 0
-	} ) ;
-} ;
-
-VGPath.prototype.arc = function( data ) {
-	this.commands.push( {
-		type: 'arc' ,
-		rel: true ,
-		rx: data.rx || 0 ,
-		ry: data.ry || 0 ,
-		ra: data.ra || data.a || 0 ,	// x-axis rotation
-		la:
-			data.largeArc !== undefined ? !! data.largeArc :
-			data.longArc !== undefined ? !! data.longArc :
-			data.la !== undefined ? !! data.la :
-			false ,
-		pr:
-			data.positiveRotation !== undefined ? !! data.positiveRotation :
-			data.sweep !== undefined ? !! data.sweep :		// <- this is the SVG term
-			data.pr !== undefined ? !! data.pr :
-			true ,
-		x: data.x || 0 ,
-		y: data.y || 0
-	} ) ;
-} ;
-
-VGPath.prototype.arcTo = function( data ) {
-	this.commands.push( {
-		type: 'arc' ,
-		rx: data.rx || 0 ,
-		ry: data.ry || 0 ,
-		ra: data.ra || data.a || 0 ,	// x-axis rotation
-		la:
-			data.largeArc !== undefined ? !! data.largeArc :
-			data.longArc !== undefined ? !! data.longArc :
-			data.la !== undefined ? !! data.la :
-			false ,
-		pr:
-			data.positiveRotation !== undefined ? !! data.positiveRotation :
-			data.sweep !== undefined ? !! data.sweep :		// <- this is the SVG term
-			data.pr !== undefined ? !! data.pr :
-			true ,
-		x: data.x || 0 ,
-		y: data.y || 0
-	} ) ;
-} ;
-
-// All angles use positive as Y-axis to X-axis (Spellcast usage)
-VGPath.prototype.negativeArc = function( data ) {
-	this.commands.push( {
-		type: 'arc' ,
-		rel: true ,
-		rx: data.rx || 0 ,
-		ry: data.ry || 0 ,
-		ra: - ( data.ra || data.a || 0 ) ,	// x-axis rotation
-		la:
-			data.largeArc !== undefined ? !! data.largeArc :
-			data.longArc !== undefined ? !! data.longArc :
-			data.la !== undefined ? !! data.la :
-			false ,
-		pr: ! (
-			data.positiveRotation !== undefined ? !! data.positiveRotation :
-			data.sweep !== undefined ? !! data.sweep :		// <- this is the SVG term
-			data.pr !== undefined ? !! data.pr :
-			true
-		) ,
-		x: data.x || 0 ,
-		y: data.y || 0
-	} ) ;
-} ;
-
-// All angles use positive as Y-axis to X-axis (Spellcast usage)
-VGPath.prototype.negativeArcTo = function( data ) {
-	this.commands.push( {
-		type: 'arc' ,
-		rx: data.rx || 0 ,
-		ry: data.ry || 0 ,
-		ra: - ( data.ra || data.a || 0 ) ,	// x-axis rotation
-		la:
-			data.largeArc !== undefined ? !! data.largeArc :
-			data.longArc !== undefined ? !! data.longArc :
-			data.la !== undefined ? !! data.la :
-			false ,
-		pr: ! (
-			data.positiveRotation !== undefined ? !! data.positiveRotation :
-			data.sweep !== undefined ? !! data.sweep :		// <- this is the SVG term
-			data.pr !== undefined ? !! data.pr :
-			true
-		) ,
-		x: data.x || 0 ,
-		y: data.y || 0
-	} ) ;
-} ;
-
-
-
-/*
-	VG-specific commands
-*/
-
-// Better arc-like command, but use curve behind the scene
-VGPath.prototype.centerArc = function( data ) {
-	this.commands.push( {
-		type: 'centerArc' ,
-		rel: true ,
-		cx: data.cx || 0 ,
-		cy: data.cy || 0 ,
-		la: data.largeArc !== undefined ? !! data.largeArc :
-		data.longArc !== undefined ? !! data.longArc :
-		data.la !== undefined ? !! data.la :
-		false ,
-		x: data.x || 0 ,
-		y: data.y || 0
-	} ) ;
-} ;
-
-VGPath.prototype.centerArcTo = function( data ) {
-	this.commands.push( {
-		type: 'centerArc' ,
-		cx: data.cx || 0 ,
-		cy: data.cy || 0 ,
-		la: data.largeArc !== undefined ? !! data.largeArc :
-		data.longArc !== undefined ? !! data.longArc :
-		data.la !== undefined ? !! data.la :
-		false ,
-		x: data.x || 0 ,
-		y: data.y || 0
-	} ) ;
-} ;
-
-
-
-/*
-	Turtle-like commands
-*/
-
-VGPath.prototype.penUp = function( data ) {
-	this.commands.push( {
-		type: 'pen' ,
-		u: true
-	} ) ;
-} ;
-
-VGPath.prototype.penDown = function( data ) {
-	this.commands.push( {
-		type: 'pen' ,
-		u: false
-	} ) ;
-} ;
-
-VGPath.prototype.forward = function( data ) {
-	this.commands.push( {
-		type: 'forward' ,
-		l: typeof data === 'number' ? data : data.length || data.l || 0
-	} ) ;
-} ;
-
-VGPath.prototype.backward = function( data ) {
-	this.commands.push( {
-		type: 'forward' ,
-		l: - ( typeof data === 'number' ? data : data.length || data.l || 0 )
-	} ) ;
-} ;
-
-// Turn using positive as X-axis to Y-axis
-VGPath.prototype.turn = function( data ) {
-	this.commands.push( {
-		type: 'turn' ,
-		rel: true ,
-		a: typeof data === 'number' ? data : data.angle || data.a || 0
-	} ) ;
-} ;
-
-// Turn from X-axis to Y-axis
-VGPath.prototype.turnTo = function( data ) {
-	this.commands.push( {
-		type: 'turn' ,
-		a: typeof data === 'number' ? data : data.angle || data.a || 0
-	} ) ;
-} ;
-
-// Turn using positive as Y-axis to X-axis (Spellcast usage)
-VGPath.prototype.negativeTurn = function( data ) {
-	this.commands.push( {
-		type: 'turn' ,
-		rel: true ,
-		a: - ( typeof data === 'number' ? data : data.angle || data.a || 0 )
-	} ) ;
-} ;
-
-// Turn from Y-axis to X-axis (clockwise when Y point upward, the invert of the standard 2D computer graphics) (Spellcast usage)
-VGPath.prototype.negativeTurnTo = function( data ) {
-	this.commands.push( {
-		type: 'turn' ,
-		a: 90 - ( typeof data === 'number' ? data : data.angle || data.a || 0 )
-	} ) ;
-} ;
-
-// A turtle-like way of doing a curve: combine a forward and turn, moving along a circle
-VGPath.prototype.forwardTurn = function( data ) {
-	this.commands.push( {
-		type: 'forwardTurn' ,
-		l: data.length || data.l || 0 ,
-		a: data.angle || data.a || 0
-	} ) ;
-} ;
-
-// Turn using positive as Y-axis to X-axis (clockwise when Y point upward, the invert of the standard 2D computer graphics) (Spellcast usage)
-VGPath.prototype.forwardNegativeTurn = function( data ) {
-	this.commands.push( {
-		type: 'forwardTurn' ,
-		l: data.length || data.l || 0 ,
-		a: - ( data.angle || data.a || 0 )
-	} ) ;
-} ;
-
-
-},{"../package.json":142,"./VGEntity.js":115,"./canvas.js":126}],124:[function(require,module,exports){
+},{"../package.json":170,"./Path/Path.js":129,"./VGEntity.js":140,"./VGPolygon.js":152,"./VGPolyline.js":153,"./canvas-utilities.js":158}],152:[function(require,module,exports){
 /*
 	SVG Kit
 
-	Copyright (c) 2017 - 2023 Cédric Ronvel
+	Copyright (c) 2017 - 2024 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -43286,7 +48573,419 @@ VGPath.prototype.forwardNegativeTurn = function( data ) {
 
 
 const VGEntity = require( './VGEntity.js' ) ;
-const canvas = require( './canvas.js' ) ;
+const Polygon = require( './Polygon.js' ) ;
+const canvasUtilities = require( './canvas-utilities.js' ) ;
+
+
+
+function VGPolygon( params ) {
+	VGEntity.call( this , params ) ;
+
+	this.polygon = params.polygon || new Polygon() ;
+
+	if ( params ) { this.set( params ) ; }
+}
+
+module.exports = VGPolygon ;
+
+VGPolygon.prototype = Object.create( VGEntity.prototype ) ;
+VGPolygon.prototype.constructor = VGPolygon ;
+VGPolygon.prototype.__prototypeUID__ = 'svg-kit/VGPolygon' ;
+VGPolygon.prototype.__prototypeVersion__ = require( '../package.json' ).version ;
+
+
+
+VGPolygon.prototype.svgTag = 'path' ;
+
+
+
+VGPolygon.prototype.set = function( params ) {
+	var refreshBbox = !! ( params.style?.stroke || params.style?.strokeWidth ) ;
+
+	if ( params.points ) {
+		this.polygon.setPoints( params.points ) ;
+		refreshBbox = true ;
+	}
+
+	VGEntity.prototype.set.call( this , params ) ;
+
+	if ( refreshBbox ) { this.computeBoundingBox() ; }
+} ;
+
+
+
+VGPolygon.prototype.export = function( data = {} ) {
+	VGEntity.prototype.export.call( this , data ) ;
+	this.polygon.exports( data ) ;
+	return data ;
+} ;
+
+
+
+// Methods that pass to Polygon methods
+VGPolygon.prototype.toD = function() { return this.polygon.toD( this.root.invertY ) ; } ;
+VGPolygon.prototype.isInside = function( coords ) { return this.polygon.isInside( coords ) ; } ;
+
+VGPolygon.prototype.setPoints = function( points ) {
+	this.polygon.setPoints( points ) ;
+	this.computeBoundingBox() ;
+} ;
+
+VGPolygon.prototype.addPoint = function( point ) {
+	this.polygon.addPoint( point ) ;
+	this.computeBoundingBox() ;
+} ;
+
+VGPolygon.prototype.computeBoundingBox = function() {
+	this.boundingBox.set( this.polygon.boundingBox ) ;
+	var width = this.style.stroke ? this.style.strokeWidth : 0 ;
+	if ( width ) { this.boundingBox.enlarge( width ) ; }
+} ;
+
+
+
+VGPolygon.prototype.svgAttributes = function( master = this ) {
+	var attr = {
+		// SVG attribute 'd' (data)
+		d: this.toD()
+	} ;
+
+	return attr ;
+} ;
+
+
+
+VGPolygon.prototype.renderHookForCanvas = function( canvasCtx , options = {} , isRedraw = false , master = this ) {
+	canvasCtx.save() ;
+	canvasCtx.beginPath() ;
+	canvasUtilities.fillAndStrokeUsingStyle( canvasCtx , this.style , master?.palette , new Path2D( this.toD() ) ) ;
+	canvasCtx.restore() ;
+} ;
+
+
+
+VGPolygon.prototype.renderHookForPath2D = function( path2D , canvasCtx , options = {} , master = this ) {
+	path2D.addPath( new Path2D( this.toD() ) ) ;
+} ;
+
+
+},{"../package.json":170,"./Polygon.js":132,"./VGEntity.js":140,"./canvas-utilities.js":158}],153:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2024 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const VGEntity = require( './VGEntity.js' ) ;
+const Polyline = require( './Polyline.js' ) ;
+const canvasUtilities = require( './canvas-utilities.js' ) ;
+
+
+
+function VGPolyline( params ) {
+	VGEntity.call( this , params ) ;
+
+	this.polyline = params.polyline || new Polyline() ;
+
+	if ( params ) { this.set( params ) ; }
+}
+
+module.exports = VGPolyline ;
+
+VGPolyline.prototype = Object.create( VGEntity.prototype ) ;
+VGPolyline.prototype.constructor = VGPolyline ;
+VGPolyline.prototype.__prototypeUID__ = 'svg-kit/VGPolyline' ;
+VGPolyline.prototype.__prototypeVersion__ = require( '../package.json' ).version ;
+
+
+
+VGPolyline.prototype.noFill = true ;
+VGPolyline.prototype.svgTag = 'path' ;
+
+
+
+VGPolyline.prototype.set = function( params ) {
+	var refreshBbox = !! ( params.style?.stroke || params.style?.strokeWidth ) ;
+
+	if ( params.points ) {
+		this.polyline.setPoints( params.points ) ;
+		refreshBbox = true ;
+	}
+
+	VGEntity.prototype.set.call( this , params ) ;
+
+	if ( refreshBbox ) { this.computeBoundingBox() ; }
+} ;
+
+
+
+VGPolyline.prototype.export = function( data = {} ) {
+	VGEntity.prototype.export.call( this , data ) ;
+	this.polyline.exports( data ) ;
+	return data ;
+} ;
+
+
+
+// Methods that pass to Polyline methods
+VGPolyline.prototype.toD = function() { return this.polyline.toD( this.root.invertY ) ; } ;
+VGPolyline.prototype.isInside = function( coords ) { return this.polyline.isInside( coords ) ; } ;
+
+VGPolyline.prototype.setPoints = function( points ) {
+	this.polyline.setPoints( points ) ;
+	this.computeBoundingBox() ;
+} ;
+
+VGPolyline.prototype.addPoint = function( point ) {
+	this.polyline.addPoint( point ) ;
+	this.computeBoundingBox() ;
+} ;
+
+VGPolyline.prototype.computeBoundingBox = function() {
+	this.boundingBox.set( this.polyline.boundingBox ) ;
+	var width = this.style.stroke ? this.style.strokeWidth : 0 ;
+	if ( width ) { this.boundingBox.enlarge( width ) ; }
+} ;
+
+
+
+VGPolyline.prototype.svgAttributes = function( master = this ) {
+	var attr = {
+		// SVG attribute 'd' (data)
+		d: this.toD()
+	} ;
+
+	return attr ;
+} ;
+
+
+
+VGPolyline.prototype.renderHookForCanvas = function( canvasCtx , options = {} , isRedraw = false , master = this ) {
+	canvasCtx.save() ;
+	canvasCtx.beginPath() ;
+	canvasUtilities.fillAndStrokeUsingStyle( canvasCtx , this.style , master?.palette , new Path2D( this.toD() ) ) ;
+	canvasCtx.restore() ;
+} ;
+
+
+
+VGPolyline.prototype.renderHookForPath2D = function( path2D , canvasCtx , options = {} , master = this ) {
+	path2D.addPath( new Path2D( this.toD() ) ) ;
+} ;
+
+
+},{"../package.json":170,"./Polyline.js":133,"./VGEntity.js":140,"./canvas-utilities.js":158}],154:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2024 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const svgKit = require( './svg-kit.js' ) ;
+const VGEntity = require( './VGEntity.js' ) ;
+
+const arrayKit = require( 'array-kit' ) ;
+
+
+
+/*
+	A pseudo-container is a container for pseudo-entities, entities that are not user-created entities
+	but on-the-fly entities created for rendering/compositing purposes.
+	A notable example is the VGFlowingText element.
+	From a rendering point-of-view, there is not much difference between pseudo-container and container,
+	but from the userland point-of-view, they do not exists and are not serialized.
+*/
+
+function VGPseudoContainer( params ) {
+	VGEntity.call( this , params ) ;
+
+	this.arePseudoEntitiesReady = false ;
+	this.pseudoEntities = [] ;
+}
+
+module.exports = VGPseudoContainer ;
+
+VGPseudoContainer.prototype = Object.create( VGEntity.prototype ) ;
+VGPseudoContainer.prototype.constructor = VGPseudoContainer ;
+VGPseudoContainer.prototype.__prototypeUID__ = 'svg-kit/VGPseudoContainer' ;
+VGPseudoContainer.prototype.__prototypeVersion__ = require( '../package.json' ).version ;
+
+
+
+VGPseudoContainer.prototype.isPseudoContainer = true ;
+
+
+
+VGPseudoContainer.prototype.addPseudoEntity = function( pseudoEntity ) {
+	if ( pseudoEntity.parent ) { pseudoEntity.parent.removePseudoEntity( pseudoEntity ) ; }
+	pseudoEntity.parent = this ;
+	pseudoEntity.root = this.root ;
+	this.pseudoEntities.push( pseudoEntity ) ;
+} ;
+
+
+
+VGPseudoContainer.prototype.removePseudoEntity = function( pseudoEntity ) {
+	arrayKit.deleteValue( this.pseudoEntities , pseudoEntity ) ;
+	pseudoEntity.root = pseudoEntity.parent = null ;
+} ;
+
+
+
+VGPseudoContainer.prototype.clearPseudoEntities = function() {
+	for ( let pseudoEntity of this.pseudoEntities ) {
+		pseudoEntity.root = pseudoEntity.parent = null ;
+	}
+
+	this.pseudoEntities.length = 0 ;
+} ;
+
+
+
+// To be derived...
+VGPseudoContainer.prototype.computePseudoEntities = async function() {} ;
+
+
+},{"../package.json":170,"./VGEntity.js":140,"./svg-kit.js":165,"array-kit":25}],155:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2024 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const svgKit = require( './svg-kit.js' ) ;
+const VGEntity = require( './VGEntity.js' ) ;
+
+const arrayKit = require( 'array-kit' ) ;
+
+
+
+/*
+	A pseudo-entity is an entity not created by user, created internally for rendering/compositing purposes.
+	Notable examples are VGFlowingText's sub-entities.
+*/
+
+function VGPseudoEntity( params ) {
+	VGEntity.call( this , params ) ;
+}
+
+module.exports = VGPseudoEntity ;
+
+VGPseudoEntity.prototype = Object.create( VGEntity.prototype ) ;
+VGPseudoEntity.prototype.constructor = VGPseudoEntity ;
+VGPseudoEntity.prototype.__prototypeUID__ = 'svg-kit/VGPseudoEntity' ;
+VGPseudoEntity.prototype.__prototypeVersion__ = require( '../package.json' ).version ;
+
+// Useful?
+//VGPseudoEntity.prototype.isPseudoEntity = true ;
+
+
+},{"../package.json":170,"./VGEntity.js":140,"./svg-kit.js":165,"array-kit":25}],156:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2024 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const VGEntity = require( './VGEntity.js' ) ;
+const BoundingBox = require( './BoundingBox.js' ) ;
+const canvasUtilities = require( './canvas-utilities.js' ) ;
 
 
 
@@ -43314,18 +49013,26 @@ VGRect.prototype.__prototypeVersion__ = require( '../package.json' ).version ;
 
 
 
-VGRect.prototype.set = function( params ) {
-	VGEntity.prototype.set.call( this , params ) ;
+VGRect.prototype.svgTag = 'rect' ;
 
-	if ( params.x !== undefined ) { this.x = params.x ; }
-	if ( params.y !== undefined ) { this.y = params.y ; }
-	if ( params.width !== undefined ) { this.width = params.width ; }
-	if ( params.height !== undefined ) { this.height = params.height ; }
+
+
+VGRect.prototype.set = function( params ) {
+	var refreshBbox = !! ( params.style?.stroke || params.style?.strokeWidth ) ;
+
+	if ( params.x !== undefined ) { this.x = params.x ; refreshBbox = true ; }
+	if ( params.y !== undefined ) { this.y = params.y ; refreshBbox = true ; }
+	if ( params.width !== undefined ) { this.width = params.width ; refreshBbox = true ; }
+	if ( params.height !== undefined ) { this.height = params.height ; refreshBbox = true ; }
 
 	// Round corner radius
 	if ( params.r !== undefined ) { this.rx = this.ry = params.r ; }
 	if ( params.rx !== undefined ) { this.rx = params.rx ; }
 	if ( params.ry !== undefined ) { this.ry = params.ry ; }
+
+	VGEntity.prototype.set.call( this , params ) ;
+
+	if ( refreshBbox ) { this.computeBoundingBox() ; }
 } ;
 
 
@@ -43346,11 +49053,19 @@ VGRect.prototype.export = function( data = {} ) {
 
 
 
-VGRect.prototype.svgTag = 'rect' ;
+VGRect.prototype.computeBoundingBox = function() {
+	var strokeWidth = this.style.stroke ? this.style.strokeWidth : 0 ;
+	this.boundingBox.setMinMax(
+		this.x - strokeWidth ,
+		this.y - strokeWidth ,
+		this.x + this.width + strokeWidth ,
+		this.y + this.height + strokeWidth
+	) ;
+} ;
 
 
 
-VGRect.prototype.svgAttributes = function() {
+VGRect.prototype.svgAttributes = function( master = this ) {
 	var attr = {
 		x: this.x ,
 		y: this.root.invertY ? - this.y - this.height : this.y ,
@@ -43365,7 +49080,7 @@ VGRect.prototype.svgAttributes = function() {
 
 
 
-VGRect.prototype.renderHookForCanvas = function( canvasCtx , options = {} ) {
+VGRect.prototype.renderHookForCanvas = function( canvasCtx , options = {} , isRedraw = false , master = this ) {
 	var yOffset = this.root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y - ( this.height - 1 ) : 0 ;
 
 	canvasCtx.save() ;
@@ -43378,13 +49093,13 @@ VGRect.prototype.renderHookForCanvas = function( canvasCtx , options = {} ) {
 		canvasCtx.rect( this.x , this.y + yOffset , this.width , this.height ) ;
 	}
 
-	canvas.fillAndStrokeUsingSvgStyle( canvasCtx , this.style ) ;
+	canvasUtilities.fillAndStrokeUsingStyle( canvasCtx , this.style , master?.palette ) ;
 	canvasCtx.restore() ;
 } ;
 
 
 
-VGRect.prototype.renderHookForPath2D = function( path2D , canvasCtx , options = {} ) {
+VGRect.prototype.renderHookForPath2D = function( path2D , canvasCtx , options = {} , master = this ) {
 	var yOffset = this.root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y - ( this.height - 1 ) : 0 ;
 
 	if ( this.rx || this.ry ) {
@@ -43396,11 +49111,11 @@ VGRect.prototype.renderHookForPath2D = function( path2D , canvasCtx , options = 
 } ;
 
 
-},{"../package.json":142,"./VGEntity.js":115,"./canvas.js":126}],125:[function(require,module,exports){
+},{"../package.json":170,"./BoundingBox.js":119,"./VGEntity.js":140,"./canvas-utilities.js":158}],157:[function(require,module,exports){
 /*
 	SVG Kit
 
-	Copyright (c) 2017 - 2023 Cédric Ronvel
+	Copyright (c) 2017 - 2024 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -43428,6 +49143,7 @@ VGRect.prototype.renderHookForPath2D = function( path2D , canvasCtx , options = 
 
 
 const VGEntity = require( './VGEntity.js' ) ;
+const TextAttribute = require( './VGFlowingText/TextAttribute.js' ) ;
 
 
 
@@ -43435,7 +49151,14 @@ const VGEntity = require( './VGEntity.js' ) ;
 	/!\ Must support text on path
 */
 
+var deprecatedWarningSent = false ;
+
 function VGText( params ) {
+	if ( ! deprecatedWarningSent ) {
+		console.warn( "VGText is OUTDATED, there are discrepancies with VGFLowingText that will be addressed later, the API is unstable and we be migrate toward better consistencies, and maybe will use a Path back-end instead of vanilla SVG Text (thus will rely on OpenType)" ) ;
+		deprecatedWarningSent = true ;
+	}
+
 	VGEntity.call( this , params ) ;
 
 	this.x = 0 ;
@@ -43444,6 +49167,7 @@ function VGText( params ) {
 	this.anchor = null ;		// the CSS 'text-anchors', can be 'start', 'middle' or 'end', in VG it default to 'middle' instead of 'start'
 	this.length = null ;		// the length of the text, textLength in SVG
 	this.adjustGlyph = false ;	// true make SVG's 'lengthAdjust' set to 'spacingAndGlyphs', false does not set it (the default for SVG being 'spacing')
+	this.attr = params?.attr ? null : new TextAttribute() ; // if it's defined, it will be created by this.set()
 
 	// Position text relative to the previous text element
 	//this.dx = 0 ;
@@ -43466,8 +49190,6 @@ VGText.prototype.svgTag = 'text' ;
 
 
 VGText.prototype.set = function( params ) {
-	VGEntity.prototype.set.call( this , params ) ;
-
 	if ( params.x !== undefined ) { this.x = params.x ; }
 	if ( params.y !== undefined ) { this.y = params.y ; }
 
@@ -43485,6 +49207,12 @@ VGText.prototype.set = function( params ) {
 	if ( params.lengthAdjust === 'spacingAndGlyphs' ) { this.adjustGlyph = true ; }
 	else if ( params.lengthAdjust === 'spacing' ) { this.adjustGlyph = false ; }
 	if ( params.adjustGlyph !== undefined ) { this.adjustGlyph = !! params.adjustGlyph ; }
+
+	if ( params.attr ) { this.attr = new TextAttribute( params.attr ) ; }
+
+	// /!\ Should compute bounding box, but it's not possible at this stage, since this doesn't use open-type
+
+	VGEntity.prototype.set.call( this , params ) ;
 } ;
 
 
@@ -43500,6 +49228,9 @@ VGText.prototype.export = function( data = {} ) {
 	if ( this.length !== null ) { data.length = this.length ; }
 	if ( this.adjustGlyph ) { data.adjustGlyph = this.adjustGlyph ; }
 
+	let attr = this.attr.export( undefined , true ) ;
+	if ( attr ) { data.attr = attr ; }
+
 	return data ;
 } ;
 
@@ -43512,12 +49243,22 @@ VGText.prototype.svgTextNode = function() {
 
 
 
-VGText.prototype.svgAttributes = function() {
+VGText.prototype.svgAttributes = function( master = this ) {
+	var fontFamily = this.attr.getFontFamily() ,
+		fontStyle = this.attr.getFontStyle() ,
+		fontWeight = this.attr.getFontWeight() ,
+		fontSize = this.attr.getFontSize() ;
+
 	var attr = {
 		x: this.x ,
 		y: this.root.invertY ? - this.y : this.y ,
-		'text-anchor': this.anchor || 'middle'
+		'text-anchor': this.anchor || 'middle' ,
+		'font-family': fontFamily ,
+		'font-size': fontSize + 'px'
 	} ;
+
+	if ( fontStyle !== 'regular' ) { attr['font-style'] = fontStyle ; }
+	if ( fontWeight !== 'regular' ) { attr['font-weight'] = fontWeight ; }
 
 	if ( this.length !== null ) { attr.textLength = this.length ; }
 	if ( this.adjustGlyph !== null ) { attr.lengthAdjust = 'spacingAndGlyphs' ; }
@@ -43527,7 +49268,7 @@ VGText.prototype.svgAttributes = function() {
 
 
 
-VGText.prototype.renderHookForCanvas = function( canvasCtx , options = {} ) {
+VGText.prototype.renderHookForCanvas = function( canvasCtx , options = {} , isRedraw = false , master = this ) {
 	var yOffset = this.root.invertY ? canvasCtx.canvas.height - 1 - 2 * this.y : 0 ,
 		style = this.style ,
 		fill = false ,
@@ -43558,24 +49299,28 @@ VGText.prototype.renderHookForCanvas = function( canvasCtx , options = {} ) {
 		canvasCtx.lineWidth = lineWidth ;
 	}
 
-	if ( ! style.paintOrder || style.paintOrder.startsWith( 'fill' ) ) {
-		if ( fill ) { canvasCtx.fillText( this.text , this.x , this.y + yOffset ) ; }
-		if ( stroke ) { canvasCtx.strokeText( this.text , this.x , this.y + yOffset ) ; }
-	}
-	else {
-		if ( stroke ) { canvasCtx.strokeText( this.text , this.x , this.y + yOffset ) ; }
-		if ( fill ) { canvasCtx.fillText( this.text , this.x , this.y + yOffset ) ; }
+	for ( let part of style.paintOrder ) {
+		switch ( part ) {
+			case 'fill' : {
+				if ( fill ) { canvasCtx.fillText( this.text , this.x , this.y + yOffset ) ; }
+				break ;
+			}
+			case 'stroke' : {
+				if ( stroke ) { canvasCtx.strokeText( this.text , this.x , this.y + yOffset ) ; }
+				break ;
+			}
+		}
 	}
 
 	canvasCtx.restore() ;
 } ;
 
 
-},{"../package.json":142,"./VGEntity.js":115}],126:[function(require,module,exports){
+},{"../package.json":170,"./VGEntity.js":140,"./VGFlowingText/TextAttribute.js":144}],158:[function(require,module,exports){
 /*
 	SVG Kit
 
-	Copyright (c) 2017 - 2023 Cédric Ronvel
+	Copyright (c) 2017 - 2024 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -43602,17 +49347,45 @@ VGText.prototype.renderHookForCanvas = function( canvasCtx , options = {} ) {
 
 
 
+const colorUtilities = require( './color-utilities.js' ) ;
+
+
+
 const canvas = {} ;
 module.exports = canvas ;
 
 
 
-canvas.fillAndStrokeUsingSvgStyle = ( canvasCtx , style , path2d = null ) => {
+const DEFAULT_PAINT_ORDER = [ 'fill' , 'stroke' ] ;
+
+// Using SVG style
+canvas.fillAndStrokeUsingSvgStyle = ( canvasCtx , style , path2d = null ) =>
+	canvas._fillAndStroke( canvasCtx , style , path2d , false ) ;
+
+// Using the lib style property and a palette
+canvas.fillAndStrokeUsingStyle = ( canvasCtx , style , palette , path2d = null ) =>
+	canvas._fillAndStroke( canvasCtx , style , path2d , true , palette ) ;
+
+canvas._fillAndStroke = ( canvasCtx , style , path2d = null , convertColor = false , palette = null ) => {
 	var fill = false ,
 		stroke = false ,
-		fillStyle = style.fill && style.fill !== 'none' ? style.fill : null ,
-		strokeStyle = style.stroke && style.stroke !== 'none' ? style.stroke : null ,
 		lineWidth = + ( style.strokeWidth ?? 1 ) || 0 ;
+
+	var fillStyle =
+			style.fill && style.fill !== 'none' ?
+				convertColor ?
+					colorUtilities.colorToString( style.fill , palette ) :
+					style.fill :
+				null ;
+
+	var strokeStyle =
+			style.stroke && style.stroke !== 'none' ?
+				convertColor ?
+					colorUtilities.colorToString( style.stroke , palette ) :
+					style.stroke :
+				null ;
+
+	canvasCtx.globalAlpha = style.opacity ?? 1 ;
 
 	if ( fillStyle ) {
 		fill = true ;
@@ -43627,35 +49400,687 @@ canvas.fillAndStrokeUsingSvgStyle = ( canvasCtx , style , path2d = null ) => {
 
 	if ( ! fill && ! stroke ) { return ; }
 
-	if ( ! style.paintOrder || style.paintOrder.startsWith( 'fill' ) ) {
-		if ( fill ) {
-			if ( path2d ) { canvasCtx.fill( path2d ) ; }
-			else { canvasCtx.fill() ; }
-		}
-		if ( stroke ) {
-			if ( path2d ) { canvasCtx.stroke( path2d ) ; }
-			else { canvasCtx.stroke() ; }
-		}
-	}
-	else {
-		if ( stroke ) {
-			if ( path2d ) { canvasCtx.stroke( path2d ) ; }
-			else { canvasCtx.stroke() ; }
-		}
-		if ( fill ) {
-			if ( path2d ) { canvasCtx.fill( path2d ) ; }
-			else { canvasCtx.fill() ; }
+	let paintOrder = style.paintOrder || DEFAULT_PAINT_ORDER ;
+
+	for ( let part of paintOrder ) {
+		switch ( part ) {
+			case 'fill' : {
+				if ( fill ) {
+					if ( path2d ) { canvasCtx.fill( path2d ) ; }
+					else { canvasCtx.fill() ; }
+				}
+				break ;
+			}
+			case 'stroke' : {
+				if ( stroke ) {
+					if ( path2d ) { canvasCtx.stroke( path2d ) ; }
+					else { canvasCtx.stroke() ; }
+				}
+				break ;
+			}
 		}
 	}
 } ;
 
 
-},{}],127:[function(require,module,exports){
+
+// Get the Canvas element coordinates given the screen coordinates, accounting for Canvas element
+// stretching (inner size different from displayed size).
+// For browser mouse event, .clientX and .clientY should be used.
+canvas.screenToCanvasCoords = ( $canvas , screenCoords ) => {
+	var rect = $canvas.getBoundingClientRect() ,
+		scaleX = $canvas.width / rect.width ,
+		scaleY = $canvas.height / rect.height ;
+
+	return {
+		x: ( screenCoords.x - rect.left ) * scaleX ,
+		y: ( screenCoords.y - rect.top ) * scaleY
+	} ;
+} ;
+
+
+
+// The reverse
+canvas.canvasToScreenCoords = ( $canvas , canvasCoords ) => {
+	var rect = $canvas.getBoundingClientRect() ,
+		scaleX = $canvas.width / rect.width ,
+		scaleY = $canvas.height / rect.height ;
+
+	return {
+		x: rect.left + canvasCoords.x / scaleX ,
+		y: rect.top + canvasCoords.y / scaleY
+	} ;
+} ;
+
+
+
+// Get the context coordinates given the coordinates over a Canvas element, accounting for context matrix transformations.
+// E.g.: you have the coordinates of the mouse related to the Canvas element, you want the coordinates in the Canvas context
+// which may have transformations.
+canvas.canvasToContextCoords = ( canvasCtx , canvasCoords ) => {
+	var matrix = canvasCtx.getTransform() ;
+	matrix.invertSelf() ;
+
+	return {
+		x: canvasCoords.x * matrix.a + canvasCoords.y * matrix.c + matrix.e ,
+		y: canvasCoords.x * matrix.b + canvasCoords.y * matrix.d + matrix.f
+	} ;
+} ;
+
+
+
+// The reverse
+canvas.contextToCanvasCoords = ( canvasCtx , contextCoords ) => {
+	var matrix = canvasCtx.getTransform() ;
+	//matrix.invertSelf() ;
+
+	return {
+		x: contextCoords.x * matrix.a + contextCoords.y * matrix.c + matrix.e ,
+		y: contextCoords.x * matrix.b + contextCoords.y * matrix.d + matrix.f
+	} ;
+} ;
+
+
+},{"./color-utilities.js":159}],159:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2024 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const Color = require( 'palette-shade' ).Color ;
+
+
+
+const colorUtilities = {} ;
+module.exports = colorUtilities ;
+
+
+
+const FALLBACK_COLOR = '#f0f' ;
+
+colorUtilities.colorToString = ( color , palette = null ) => {
+	if ( ! color ) { return FALLBACK_COLOR ; }
+
+	if ( typeof color === 'string' ) {
+		if ( color[ 0 ] === '%' ) {
+			if ( ! palette ) { return FALLBACK_COLOR ; }
+			return palette.getHex( Color.parse( color.slice( 1 ) ) ) ;
+		}
+
+		return color ;
+	}
+
+	if ( typeof color === 'object' ) {
+		if ( ! palette ) { return FALLBACK_COLOR ; }
+		return palette.getHex( color ) ;
+	}
+
+	return FALLBACK_COLOR ;
+} ;
+
+
+
+// From Terminal-kit's misc.hexToRgba()
+colorUtilities.hexToRgba = hex => {
+	// Strip the # if necessary
+	if ( hex[ 0 ] === '#' ) { hex = hex.slice( 1 ) ; }
+
+	if ( hex.length === 3 ) {
+		hex = hex[ 0 ] + hex[ 0 ] + hex[ 1 ] + hex[ 1 ] + hex[ 2 ] + hex[ 2 ] ;
+	}
+
+	return {
+		r: parseInt( hex.slice( 0 , 2 ) , 16 ) || 0 ,
+		g: parseInt( hex.slice( 2 , 4 ) , 16 ) || 0 ,
+		b: parseInt( hex.slice( 4 , 6 ) , 16 ) || 0 ,
+		a: hex.length > 6 ? parseInt( hex.slice( 6 , 8 ) , 16 ) || 0 : 255
+	} ;
+} ;
+
+
+
+colorUtilities.hexToRgb = hex => {
+	// Strip the # if necessary
+	if ( hex[ 0 ] === '#' ) { hex = hex.slice( 1 ) ; }
+
+	if ( hex.length === 3 ) {
+		hex = hex[ 0 ] + hex[ 0 ] + hex[ 1 ] + hex[ 1 ] + hex[ 2 ] + hex[ 2 ] ;
+	}
+
+	return {
+		r: parseInt( hex.slice( 0 , 2 ) , 16 ) || 0 ,
+		g: parseInt( hex.slice( 2 , 4 ) , 16 ) || 0 ,
+		b: parseInt( hex.slice( 4 , 6 ) , 16 ) || 0
+	} ;
+} ;
+
+
+
+function to2HexDigits( n ) {
+	if ( ! n || n < 0 ) { return '00' ; }
+	if ( n < 16 ) { return '0' + n.toString( 16 ) ; }
+	if ( n > 255 ) { return 'ff' ; }
+	return n.toString( 16 ) ;
+}
+
+
+
+colorUtilities.rgbToHex =
+colorUtilities.rgbaToHex = ( r , g , b , a = null ) => {
+	if ( r && typeof r === 'object' ) {
+		return typeof r.a !== 'number' ? '#' + to2HexDigits( r.r ) + to2HexDigits( r.g ) + to2HexDigits( r.b ) :
+			'#' + to2HexDigits( r.r ) + to2HexDigits( r.g ) + to2HexDigits( r.b ) + to2HexDigits( r.a ) ;
+	}
+
+	return a === null ? '#' + to2HexDigits( r ) + to2HexDigits( g ) + to2HexDigits( b ) :
+		'#' + to2HexDigits( r ) + to2HexDigits( g ) + to2HexDigits( b ) + to2HexDigits( a ) ;
+} ;
+
+
+
+colorUtilities.getContrastColorCode = ( colorStr , rate = 0.5 ) => {
+	var color = colorUtilities.hexToRgb( colorStr ) ;
+
+	if ( color.r + color.g + color.b >= 192 ) {
+		// This is a light color, we will contrast it with a darker color
+		color.r = Math.round( color.r * rate ) ;
+		color.g = Math.round( color.g * rate ) ;
+		color.b = Math.round( color.b * rate ) ;
+	}
+	else {
+		// This is a dark color, we will contrast it with a lighter color
+		color.r = Math.round( 255 - ( ( 255 - color.r ) * rate ) ) ;
+		color.g = Math.round( 255 - ( ( 255 - color.g ) * rate ) ) ;
+		color.b = Math.round( 255 - ( ( 255 - color.b ) * rate ) ) ;
+	}
+
+	return colorUtilities.rgbToHex( color ) ;
+} ;
+
+
+},{"palette-shade":85}],160:[function(require,module,exports){
+(function (process){(function (){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2024 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const fs = require( 'fs' ).promises ;
+const domKit = require( 'dom-kit' ) ;
+const escape = require( 'string-kit/lib/escape.js' ) ;
+
+
+
+const core = {} ;
+module.exports = core ;
+
+
+
+/*
+	load( url , [options] )
+
+	* url: the URL of the .svg file
+	* options: (optional) object of options, transmitted to .inject() and .patch()
+
+	Return a promise resolving to the SVG DOM document.
+*/
+core.load = async function( url , options = {} ) {
+	var content , $doc , $svg ;
+
+	if ( ! process.browser ) {
+		// Use Node.js 'fs' module
+		if ( url.substring( 0 , 7 ) === 'file://' ) { url = url.slice( 7 ) ; }
+		content = await fs.readFile( url , 'utf8' ) ;
+		$doc = domKit.fromXml( content ) ;
+	}
+	else {
+		// Use an AJAX HTTP Request
+		$doc = await core.ajax( url ) ;
+	}
+
+	if ( options.removeComments ) {
+		domKit.removeComments( $doc ) ;
+		delete options.removeComments ;
+	}
+
+	$svg = $doc.documentElement ;
+	core.inject( $svg , options ) ;
+	return $svg ;
+} ;
+
+
+
+core.loadFromString = function( content , options = {} ) {
+	var $doc = domKit.fromXml( content ) ;
+
+	if ( options.removeComments ) {
+		domKit.removeComments( $doc ) ;
+		delete options.removeComments ;
+	}
+
+	var $svg = $doc.documentElement ;
+	core.inject( $svg , options ) ;
+	return $svg ;
+} ;
+
+
+
+core.ajax = function( url ) {
+	return new Promise( ( resolve , reject ) => {
+		var xhr = new XMLHttpRequest() ;
+
+		xhr.responseType = 'document' ;
+
+		xhr.onreadystatechange = () => {
+			// From MDN: In the event of a communication error (such as the webserver going down),
+			// an exception will be thrown when attempting to access the 'status' property.
+
+			try {
+				if ( xhr.readyState === 4 ) {
+					if ( xhr.status === 200 ) {
+						resolve( xhr.responseXML ) ;
+					}
+					else if ( xhr.status === 0 && xhr.responseXML ) {	// Yay, loading with file:// does not provide any status...
+						resolve( xhr.responseXML ) ;
+					}
+					else if ( xhr.status ) { reject( xhr.status ) ; }
+					else { reject( new Error( "[svg-kit] ajaxStatus(): Error with falsy status" ) ) ; }
+				}
+			}
+			catch ( error ) {
+				reject( error ) ;
+			}
+		} ;
+
+		xhr.open( 'GET' , url ) ;
+		xhr.send() ;
+	} ) ;
+} ;
+
+
+
+/*
+	Fix few <svg> things in order to inject it in the dom
+
+	* $svg: the svg element
+	* options: options object, where:
+		* into: `DOMElement` an element where the .svg file should be loaded into
+		* as: `DOMElement` a <svg> element where the .svg file should replace, almost like the "into" option,
+		  useful when a <svg> tag should be created synchronously to start doing stuffs on it,
+		  and let the asynchronous loading works in the background
+		* all other options are passed to .patch()
+*/
+core.inject = function( $svg , options ) {
+	core.patch( $svg , options ) ;
+
+	if ( options.into ) { options.into.appendChild( $svg ) ; }
+
+	// Better to avoid to check the tag name:
+	// it's too defensive and it prevents from loading inside a <g> tag
+	if ( options.as ) { //&& options.as.tagName.toLowerCase() === 'svg' )
+		domKit.moveAttributes( $svg , options.as ) ;
+		domKit.moveChildrenInto( $svg , options.as ) ;
+	}
+} ;
+
+
+
+/*
+	Fix few <svg> things.
+
+	* $svg: the svg element
+	* options: options object, where:
+		* id: `string` the id attribute of the <svg> tag (recommanded)
+		* removeIds: `boolean` remove all 'id' attributes
+		* prefixIds: `string` prefix all IDs and patch url #ref
+		* hidden: `boolean` turn the svg hidden (useful to apply modification before the show)
+		* class: `string` or `object` (key=class, value=true/false) to add/remove on the <svg> tag
+		* removeSize: `boolean` remove the width and height attribute and style from the <svg> tag
+		* removeSvgStyle: `boolean` remove the top-level style attribute of the <svg> tag
+		* removeDefaultStyles: `boolean` used to removed meaningless style pollution
+		* css: `object` a css object to apply on the <svg> tag
+		* colorClass: `boolean` a very specialized option. It moves all stroke and fill color inline styles to attribute
+		  on all drawing elements and add the "primary" class to those that are class-less.
+		  Since CSS has a greater priority than attributes (but lesser than inline styles), this allows us to controle
+		  color using CSS.
+		* removeComments: `boolean` remove all comment nodes
+		* removeWhiteSpaces: `boolean` remove all white-space
+		* removeWhiteLines: `boolean` remove all empty lines
+		* removeExoticNamespaces: `boolean` remove all tag and attributes that have a namespace different than svg,
+		  the svg namespace is stripped
+*/
+core.patch = function( $svg , options ) {
+	var viewBox , width , height ;
+
+	core.lightCleanup( $svg ) ;
+
+	// Fix id, if necessary
+	if ( options.id !== undefined ) {
+		if ( typeof options.id === 'string' ) { $svg.setAttribute( 'id' , options.id ) ; }
+		else if ( ! options.id ) { $svg.removeAttribute( 'id' ) ; }
+	}
+
+	if ( options.class ) {
+		if ( typeof options.class === 'string' ) { $svg.classList.add( options.class ) ; }
+		else if ( typeof options.class === 'object' ) { domKit.class( $svg , options.class ) ; }
+	}
+
+	if ( options.hidden ) { $svg.style.visibility = 'hidden' ; }
+
+	if ( options.prefixIds ) { domKit.prefixIds( $svg , options.prefixIds ) ; }
+	if ( options.removeIds ) { domKit.removeAllAttributes( $svg , 'id' ) ; }
+
+	if ( options.removeSvgStyle ) { $svg.removeAttribute( 'style' ) ; }
+	if ( options.removeDefaultStyles ) { core.removeDefaultStyles( $svg ) ; }
+	if ( options.removeComments ) { domKit.removeComments( $svg ) ; }
+
+	if ( options.removeExoticNamespaces ) {
+		domKit.filterByNamespace( $svg , { primary: 'svg' , whitelist: [] } ) ;
+	}
+
+	if ( options.removeSize ) {
+		// Save and remove the width and height attribute
+		width = $svg.getAttribute( 'width' ) || $svg.style.width ;
+		height = $svg.getAttribute( 'height' ) || $svg.style.height ;
+
+		$svg.removeAttribute( 'height' ) ;
+		$svg.removeAttribute( 'width' ) ;
+		$svg.style.width = null ;
+		$svg.style.height = null ;
+
+		// if the $svg don't have a viewBox attribute, set it now from the width and height (it works most of time)
+		if ( ! $svg.getAttribute( 'viewBox' ) && width && height ) {
+			viewBox = '0 0 ' + width + ' ' + height ;
+			$svg.setAttribute( 'viewBox' , viewBox ) ;
+		}
+	}
+
+	if ( options.css ) { domKit.css( $svg , options.css ) ; }
+
+	if ( options.colorClass ) { core.colorClass( $svg ) ; }
+
+	if ( options.removeWhiteSpaces ) { domKit.removeWhiteSpaces( $svg ) ; }
+	else if ( options.removeWhiteLines ) { domKit.removeWhiteSpaces( $svg , true ) ; }
+} ;
+
+
+
+core.patchDocument = function( $doc , options ) {
+	var removeWhiteSpaces = options.removeWhiteSpaces ,
+		removeWhiteLines = options.removeWhiteLines ,
+		removeComments = options.removeComments ;
+
+	delete options.removeWhiteSpaces ;
+	delete options.removeWhiteLines ;
+	delete options.removeComments ;
+
+	if ( removeComments ) { domKit.removeComments( $doc ) ; }
+
+	core.patch( $doc.documentElement , options ) ;
+
+	if ( removeWhiteSpaces ) { domKit.removeWhiteSpaces( $doc ) ; }
+	else if ( removeWhiteLines ) { domKit.removeWhiteSpaces( $doc , true ) ; }
+} ;
+
+
+
+core.lightCleanup = function( $svg ) {
+	domKit.removeAllTags( $svg , 'metadata' ) ;
+	domKit.removeAllTags( $svg , 'script' ) ;
+	domKit.removeAllTags( $svg , 'defs' , true ) ;	// all empty defs
+} ;
+
+
+
+// List of svg tags that actually display things
+const drawingTags = [
+	'path' ,
+	'circle' ,
+	'ellipse' ,
+	'line' ,
+	'rect' ,
+	'polyline' ,
+	'polygone' ,
+	'text' ,
+	'textPath'
+] ;
+
+
+
+const defaultStyles = [
+	[ 'font-style' , 'normal' ] ,
+	[ 'font-weight' , 'normal' ] ,
+	[ 'font-variant' , 'normal' ] ,
+	[ 'font-stretch' , 'normal' ] ,
+	[ 'font-size' , 'medium' ] ,
+	[ 'line-height' , 'normal' ] ,
+	[ 'font-variant-ligatures' , 'normal' ] ,
+	//[ 'font-family' , 'sans-serif' ] ,
+	[ 'font-variant-position' , 'normal' ] ,
+	[ 'font-variant-caps' , 'normal' ] ,
+	[ 'font-variant-numeric' , 'normal' ] ,
+	[ 'font-variant-alternates' , 'normal' ] ,
+	[ 'font-variant-east-asian' , 'normal' ] ,
+	[ 'font-feature-settings' , 'normal' ] ,
+	[ 'text-indent' , '0' ] ,
+	[ 'text-align' , 'start' ] ,
+	[ 'text-decoration' , 'none' ] ,
+	[ 'text-decoration-line' , 'none' ] ,
+	[ 'text-decoration-style' , 'solid' ] ,
+	[ 'text-decoration-color' , '#000000' ] ,
+	[ 'letter-spacing' , 'normal' ] ,
+	[ 'word-spacing' , 'normal' ] ,
+	[ 'text-transform' , 'none' ] ,
+	[ 'writing-mode' , 'lr-tb' ] ,
+	[ 'direction' , 'ltr' ] ,
+	[ 'text-orientation' , 'mixed' ] ,
+	[ 'dominant-baseline' , 'auto' ] ,
+	[ 'baseline-shift' , 'baseline' ] ,
+	[ 'text-anchor' , 'start' ] ,
+	[ 'white-space' , 'normal' ] ,
+	[ 'shape-padding' , '0' ] ,
+	[ 'display' , 'inline' ] ,
+	[ 'visibility' , 'visible' ] ,
+	[ 'overflow' , 'visible' ] ,
+	[ 'opacity' , '1' ] ,
+	[ 'isolation' , 'auto' ] ,
+	[ 'mix-blend-mode' , 'normal' ] ,
+	[ 'color-interpolation' , 'sRGB' ] ,
+	[ 'color-interpolation-filters' , 'linearRGB' ] ,
+	[ 'solid-color' , '#000000' ] ,
+	[ 'solid-opacity' , '1' ] ,
+	[ 'vector-effect' , 'none' ] ,
+	[ 'fill-rule' , 'nonzero' ] ,
+	[ 'clip-rule' , 'nonzero' ] ,
+	[ 'color-rendering' , 'auto' ] ,
+	[ 'image-rendering' , 'auto' ] ,
+	[ 'shape-rendering' , 'auto' ] ,
+	[ 'text-rendering' , 'auto' ] ,
+	[ 'enable-background' , 'accumulate' ] ,
+	[ 'stroke-dasharray' , 'none' ] ,
+	[ 'stroke-dashoffset' , '0' ] ,
+	[ 'paint-order' , 'normal' ] ,
+	[ 'paint-order' , 'fill stroke markers' ]
+] ;
+
+
+
+core.colorClass = function( $svg ) {
+	drawingTags.forEach( ( tagName ) => {
+		Array.from( $svg.getElementsByTagName( tagName ) ).forEach( ( $element ) => {
+			// Beware, $element.className does not work as expected for SVG
+			if ( ! $element.getAttribute( 'class' ) ) {
+				$element.classList.add( 'primary' ) ;
+			}
+
+			// move style to attribute if they are not 'none'
+			domKit.styleToAttribute( $element , 'fill' , [ 'none' ] ) ;
+			domKit.styleToAttribute( $element , 'stroke' , [ 'none' ] ) ;
+		} ) ;
+	} ) ;
+} ;
+
+
+
+// Remove styles set to a default/unused value
+core.removeDefaultStyles = function( $svg ) {
+	drawingTags.forEach( ( tagName ) => {
+		Array.from( $svg.getElementsByTagName( tagName ) ).forEach( ( $element ) => {
+			var styles = $element.getAttribute( 'style' ) ;
+
+			defaultStyles.forEach( array => {
+				var k = array[ 0 ] ;
+				var v = array[ 1 ] ;
+
+				styles = styles.replace(
+					new RegExp( '(^|;) *' + escape.regExp( k ) + ' *: *' + escape.regExp( v ) + ' *(?:;|$)' ) ,
+					( full , pre ) => pre
+				) ;
+			} ) ;
+
+			$element.setAttribute( 'style' , styles ) ;
+		} ) ;
+	} ) ;
+} ;
+
+
+
+// Should remove all tags and attributes that have non-registered namespace,
+// e.g.: sodipodi, inkscape, etc...
+//core.heavyCleanup = function( svgElement ) {} ;
+
+
+
+core.getViewBox = function( $svg ) {
+	var raw = $svg.getAttribute( 'viewBox' ) ;
+
+	if ( ! raw ) { return null ; }
+
+	var array = raw.split( / +/ ) ;
+
+	return {
+		x: parseFloat( array[ 0 ] , 10 ) ,
+		y: parseFloat( array[ 1 ] , 10 ) ,
+		width: parseFloat( array[ 2 ] , 10 ) ,
+		height: parseFloat( array[ 3 ] , 10 )
+	} ;
+} ;
+
+
+
+core.setViewBox = function( $svg , viewBox ) {
+	$svg.setAttribute( 'viewBox' , viewBox.x + ' ' + viewBox.y + ' ' + viewBox.width + ' ' + viewBox.height ) ;
+} ;
+
+
+
+core.toAreaArray = function( object ) {
+	if ( object.min && object.max ) {
+		// Math Kit BoundingBox2D
+		return [
+			object.min.x ,
+			object.min.y ,
+			object.max.x - object.min.x ,
+			object.max.y - object.min.y
+		] ;
+	}
+	else if ( object.xmin !== undefined && object.xmax !== undefined && object.ymin !== undefined && object.ymax !== undefined ) {
+		return [
+			object.xmin ,
+			object.ymin ,
+			object.xmax - object.xmin ,
+			object.ymax - object.ymin
+		] ;
+	}
+	else if ( object.x !== undefined && object.y !== undefined && object.width !== undefined && object.height !== undefined ) {
+		return [
+			object.x ,
+			object.y ,
+			object.width ,
+			object.height
+		] ;
+	}
+
+	return [ 0 , 0 , 100 , 100 ] ;
+} ;
+
+
+
+core.standalone = function( content , viewBox ) {
+	var output = '<?xml version="1.0" encoding="UTF-8"?>\n' ;
+
+	if ( ! Array.isArray( viewBox ) ) { viewBox = core.toAreaArray( viewBox ) ; }
+
+	output += '<svg xmlns="http://www.w3.org/2000/svg" viewBox="' + viewBox.join( ' ' ) + '">\n' ;
+
+	// ?
+	// width="500"
+	// height="500"
+
+	output += content ;
+	output += '\n</svg>\n' ;
+
+	return output ;
+} ;
+
+
+}).call(this)}).call(this,require('_process'))
+},{"_process":212,"dom-kit":46,"fs":171,"string-kit/lib/escape.js":167}],161:[function(require,module,exports){
 (function (process,__dirname){(function (){
 /*
 	SVG Kit
 
-	Copyright (c) 2017 - 2023 Cédric Ronvel
+	Copyright (c) 2017 - 2024 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -43961,10 +50386,21 @@ fontLib.getFont = ( fontFamily , ... variant ) => {
 
 
 
-if ( process?.browser ) {
-	fontLib.getFontByUrlAsync = async ( url ) => {
-		if ( fontCache[ url ] ) { return fontCache[ url ] ; }
+const fontPromises = {} ;
 
+// Moving asyncness to another function allow us to cache the promise, avoid race condition and avoid wasting computing,
+// because subsequent calls for the same url always return the same promise.
+fontLib.getFontByUrlAsync = url => {
+	if ( fontCache[ url ] ) { return fontCache[ url ] ; }
+	if ( fontPromises[ url ] ) { return fontPromises[ url ] ; }
+	fontPromises[ url ] = fontLib._getFontByUrlAsync( url ) ;
+	return fontPromises[ url ] ;
+} ;
+
+
+
+if ( process?.browser ) {
+	fontLib._getFontByUrlAsync = async ( url ) => {
 		var response = await fetch( url ) ;
 
 		if ( ! response.ok ) {
@@ -43975,6 +50411,7 @@ if ( process?.browser ) {
 		var arrayBuffer = await blob.arrayBuffer() ;
 		var font = await opentype.parse( arrayBuffer ) ;
 		fontCache[ url ] = font ;
+		delete fontPromises[ url ] ;
 		console.log( "Loaded font: " , url , font ) ;
 
 		return font ;
@@ -43994,12 +50431,11 @@ else {
 	fontLib.setFontUrl( 'serif' , 'bold' , builtinPath + '/serif-bold.ttf' ) ;
 	fontLib.setFontUrl( 'serif' , 'bold' , 'italic' , builtinPath + '/serif-bold+italic.ttf' ) ;
 
-	fontLib.getFontByUrlAsync = async ( url ) => {
-		if ( fontCache[ url ] ) { return fontCache[ url ] ; }
-
+	fontLib._getFontByUrlAsync = async ( url ) => {
 		var buffer = await fs.promises.readFile( url ) ;
 		var font = await opentype.parse( buffer.buffer ) ;
 		fontCache[ url ] = font ;
+		delete fontPromises[ url ] ;
 		console.log( "Loaded (async) font: " , url , font ) ;
 
 		return font ;
@@ -44018,12 +50454,563 @@ else {
 
 
 }).call(this)}).call(this,require('_process'),"/node_modules/svg-kit/lib")
-},{"_process":161,"fs":143,"opentype.js":72,"path":160}],128:[function(require,module,exports){
+},{"_process":212,"fs":171,"opentype.js":81,"path":211}],162:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2024 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const mathFn = require( './mathFn.js' ) ;
+const TextAttribute = require( '../VGFlowingText/TextAttribute.js' ) ;
+
+
+
+/*
+	FX set up dynamic data automatically.
+*/
+
+
+// For VGFlowingText, slow-typing displays the text letter by letter
+exports.slowTyping = exports['slow-typing'] = ( params ) => {
+	let everyTick = 1 , multiply = 1 ;
+
+	if ( params.speed ) {
+		if ( params.speed >= 1 ) { multiply = Math.round( params.speed ) ; }
+		else { everyTick = Math.round( 1 / params.speed ) ; }
+	}
+
+	return {
+		charLimit: 0 ,
+		dynamic: {
+			noRedraw: true ,
+			everyTick ,
+			statusData: {
+				base: {
+					eachFrame: dynamicArea => {
+						let charLimit = dynamicArea.tick * multiply ;
+						if ( charLimit - multiply >= dynamicArea.entity.charCount ) { return ; }
+						return { charLimit } ;
+					}
+				}
+			}
+		} ,
+		childrenDynamic: {
+			everyTick ,
+			statusData: {
+				base: {
+					eachFrame: dynamicArea => {
+						let ent = dynamicArea.entity ,
+							charLimit = ent.parent.charLimit ,
+							partOffset = ent.charOffset ,
+							partLength = ent.metrics.charCount ;
+						return charLimit > partOffset && charLimit - multiply < partOffset + partLength ;
+					}
+				}
+			}
+		}
+	} ;
+} ;
+
+
+
+exports.pulse = ( params ) => {
+	var everyTick = + params.everyTick || 1 ,
+		multiply = 1 / ( + params.period || 25 ) ;
+
+	return {
+		margin: {
+			top: 1 , bottom: 1 , left: 1 , right: 1
+		} ,
+		dynamic: {
+			everyTick ,
+			statusData: {
+				base: {
+					eachFrame: dynamicArea => {
+						if ( ! dynamicArea.entity.fxData.attr ) {
+							dynamicArea.entity.fxData.attr = new TextAttribute( dynamicArea.entity.attr ) ;
+						}
+
+						dynamicArea.entity.fxData.attr.setOpacity(
+							mathFn.transform.cycle( multiply * dynamicArea.tick )
+						) ;
+
+						return true ;
+					}
+				}
+			}
+		}
+	} ;
+} ;
+
+
+
+exports.bob = ( params ) => {
+	var everyTick = + params.everyTick || 1 ,
+		amplitude = + params.amplitude || 4 ,
+		multiply = 1 / ( + params.period || 20 ) ,
+		marginTopBottom = Math.ceil( amplitude + 1 ) ;
+
+	return {
+		margin: {
+			top: marginTopBottom , bottom: marginTopBottom , left: 1 , right: 1
+		} ,
+		dynamic: {
+			everyTick ,
+			statusData: {
+				base: {
+					eachFrame: dynamicArea => {
+						dynamicArea.entity.fxData.y = mathFn.transform.cycleAround( multiply * dynamicArea.tick ) * amplitude ;
+						return true ;
+					}
+				}
+			}
+		}
+	} ;
+} ;
+
+
+
+exports.quiver = ( params ) => {
+	var everyTick = + params.everyTick || 2 ,
+		amplitude = + params.amplitude || 4 ,
+		margin = Math.ceil( amplitude + 1 ) ;
+
+	return {
+		margin: {
+			top: margin , bottom: margin , left: margin , right: margin
+		} ,
+		dynamic: {
+			everyTick ,
+			statusData: {
+				base: {
+					eachFrame: dynamicArea => {
+						dynamicArea.entity.fxData.x = ( 2 * Math.random() - 1 ) * amplitude ;
+						dynamicArea.entity.fxData.y = ( 2 * Math.random() - 1 ) * amplitude ;
+						return true ;
+					}
+				}
+			}
+		}
+	} ;
+} ;
+
+
+
+exports.shake = ( params ) => {
+	var everyTick = + params.everyTick || 2 ,
+		xAmplitude = params.amplitude ?? params.xAmplitude ?? 1 ,
+		yAmplitude = params.amplitude ?? params.yAmplitude ?? 2 ;
+
+	return {
+		margin: {
+			top: xAmplitude + 1 , bottom: xAmplitude + 1 , left: yAmplitude + 1 , right: yAmplitude + 1
+		} ,
+		dynamic: {
+			everyTick ,
+			statusData: {
+				base: {
+					eachFrame: dynamicArea => {
+						if ( ! dynamicArea.entity.fxData.perCharacter ) { dynamicArea.entity.fxData.perCharacter = [] ; }
+
+						let i = 0 ;
+
+						for ( let char of dynamicArea.entity.text ) {
+							let fxData = dynamicArea.entity.fxData.perCharacter[ i ] ;
+							if ( ! fxData ) { fxData = dynamicArea.entity.fxData.perCharacter[ i ] = {} ; }
+
+							fxData.x = ( 2 * Math.random() - 1 ) * xAmplitude ;
+							fxData.y = ( 2 * Math.random() - 1 ) * yAmplitude ;
+
+							i ++ ;
+						}
+
+						dynamicArea.entity.fxData.perCharacter.length = i ;
+
+						return true ;
+					}
+				}
+			}
+		}
+	} ;
+} ;
+
+
+
+exports.wave = ( params ) => {
+	var everyTick = + params.everyTick || 1 ,
+		amplitude = + params.amplitude || 4 ,
+		multiply = 1 / ( + params.period || 20 ) ,
+		phaseShift = + params.phaseShift || 1 / 24 ,
+		marginTopBottom = Math.ceil( amplitude + 1 ) ;
+
+	return {
+		margin: {
+			top: marginTopBottom , bottom: marginTopBottom , left: 1 , right: 1
+		} ,
+		dynamic: {
+			everyTick ,
+			statusData: {
+				base: {
+					eachFrame: dynamicArea => {
+						if ( ! dynamicArea.entity.fxData.perCharacter ) { dynamicArea.entity.fxData.perCharacter = [] ; }
+
+						let i = 0 ;
+
+						for ( let char of dynamicArea.entity.text ) {
+							let fxData = dynamicArea.entity.fxData.perCharacter[ i ] ;
+							if ( ! fxData ) { fxData = dynamicArea.entity.fxData.perCharacter[ i ] = {} ; }
+
+							fxData.x = 0 ;
+							//fxData.y = Math.sin( multiply * dynamicArea.tick - i * phaseShift ) * amplitude ;
+							fxData.y = mathFn.transform.cycleAround( multiply * dynamicArea.tick - i * phaseShift ) * amplitude ;
+
+							i ++ ;
+						}
+
+						dynamicArea.entity.fxData.perCharacter.length = i ;
+
+						return true ;
+					}
+				}
+			}
+		}
+	} ;
+} ;
+
+
+
+exports.spring = ( params ) => {
+	var everyTick = + params.everyTick || 1 ,
+		amplitude = + params.amplitude || 4 ,
+		multiply = 1 / ( + params.period || 20 ) ,
+		phaseShift = + params.phaseShift || 1 / 6 ,
+		pause = + params.pause || 3 ,
+		marginLeftRight = Math.ceil( amplitude + 1 ) ,
+		xShift = amplitude / 2 ;
+
+	return {
+		margin: {
+			top: 1 , bottom: 1 , left: marginLeftRight , right: marginLeftRight
+		} ,
+		dynamic: {
+			everyTick ,
+			statusData: {
+				base: {
+					eachFrame: dynamicArea => {
+						if ( ! dynamicArea.entity.fxData.perCharacter ) { dynamicArea.entity.fxData.perCharacter = [] ; }
+
+						let i = 0 ;
+
+						for ( let char of dynamicArea.entity.text ) {
+							let fxData = dynamicArea.entity.fxData.perCharacter[ i ] ;
+							if ( ! fxData ) { fxData = dynamicArea.entity.fxData.perCharacter[ i ] = {} ; }
+
+							fxData.x = xShift - mathFn.transform.roundTripAndPause( multiply * dynamicArea.tick - i * phaseShift , pause ) * amplitude ;
+							fxData.y = 0 ;
+
+							i ++ ;
+						}
+
+						dynamicArea.entity.fxData.perCharacter.length = i ;
+
+						return true ;
+					}
+				}
+			}
+		}
+	} ;
+} ;
+
+
+
+exports.jumpy = ( params ) => {
+	var everyTick = + params.everyTick || 1 ,
+		amplitude = + params.amplitude || 4 ,
+		jumpAmplitude = + params.jumpAmplitude || 4 ,
+		multiply = 1 / ( + params.period || 20 ) ,
+		phaseShift = + params.phaseShift || 1 / 6 ,
+		pause = + params.pause || 2 ,
+		//jumpPause = 4 * pause + 1 ,	// If we want to jump only in one direction
+		marginLeftRight = Math.ceil( amplitude + 1 ) ,
+		marginTop = Math.ceil( jumpAmplitude + 1 ) ,
+		xShift = amplitude / 2 ;
+
+	return {
+		margin: {
+			top: marginTop , bottom: 1 , left: marginLeftRight , right: marginLeftRight
+		} ,
+		dynamic: {
+			everyTick ,
+			statusData: {
+				base: {
+					eachFrame: dynamicArea => {
+						if ( ! dynamicArea.entity.fxData.perCharacter ) { dynamicArea.entity.fxData.perCharacter = [] ; }
+
+						let i = 0 ;
+
+						for ( let char of dynamicArea.entity.text ) {
+							let fxData = dynamicArea.entity.fxData.perCharacter[ i ] ;
+							if ( ! fxData ) { fxData = dynamicArea.entity.fxData.perCharacter[ i ] = {} ; }
+
+							fxData.x = xShift - mathFn.transform.goPauseReturnPause( multiply * dynamicArea.tick - i * phaseShift , pause , pause ) * amplitude ;
+							fxData.y = - mathFn.transform.roundTripAndPause( 2 * ( multiply * dynamicArea.tick - i * phaseShift ) , 2 * pause ) * jumpAmplitude ;
+
+							// If we want to jump only in one direction
+							//fxData.y = - mathFn.transform.roundTripAndPause( 2 * ( multiply * dynamicArea.tick - i * phaseShift ) , jumpPause ) * jumpAmplitude ;
+
+							i ++ ;
+						}
+
+						dynamicArea.entity.fxData.perCharacter.length = i ;
+
+						return true ;
+					}
+				}
+			}
+		}
+	} ;
+} ;
+
+
+
+const RAINBOW_COLOR_CYCLE = [
+	'#ff0000' ,
+	'#ff7f00' ,
+	'#ffff02' ,
+	'#00ff02' ,
+	'#00abcd' ,
+	'#0000e2' ,
+	'#9900ff'
+] ;
+
+exports.rainbow = ( params ) => {
+	var everyTick = + params.everyTick || 2 ,
+		colors = Array.isArray( params.colors ) ? params.colors : RAINBOW_COLOR_CYCLE ;
+
+	return {
+		dynamic: {
+			everyTick ,
+			statusData: {
+				base: {
+					eachFrame: dynamicArea => {
+						if ( ! dynamicArea.entity.fxData.perCharacter ) { dynamicArea.entity.fxData.perCharacter = [] ; }
+
+						let i = 0 ;
+
+						for ( let char of dynamicArea.entity.text ) {
+							let fxData = dynamicArea.entity.fxData.perCharacter[ i ] ;
+							if ( ! fxData ) {
+								fxData = dynamicArea.entity.fxData.perCharacter[ i ] = {
+									attr: new TextAttribute( dynamicArea.entity.attr )
+								} ;
+							}
+
+							fxData.attr.setColor( colors[ ( dynamicArea.tick + i ) % colors.length ] ) ;
+
+							i ++ ;
+						}
+
+						dynamicArea.entity.fxData.perCharacter.length = i ;
+
+						return true ;
+					}
+				}
+			}
+		}
+	} ;
+} ;
+
+
+
+exports.fade = ( params ) => {
+	var everyTick = + params.everyTick || 1 ,
+		multiply = 1 / ( + params.period || 25 ) ,
+		phaseShift = + params.phaseShift || 1 / 6 ,
+		pause = + params.pause || 2 ;
+
+	return {
+		margin: {
+			top: 1 , bottom: 1 , left: 1 , right: 1
+		} ,
+		dynamic: {
+			everyTick ,
+			statusData: {
+				base: {
+					eachFrame: dynamicArea => {
+						if ( ! dynamicArea.entity.fxData.perCharacter ) { dynamicArea.entity.fxData.perCharacter = [] ; }
+
+						let i = 0 ;
+
+						for ( let char of dynamicArea.entity.text ) {
+							let fxData = dynamicArea.entity.fxData.perCharacter[ i ] ;
+							if ( ! fxData ) {
+								fxData = dynamicArea.entity.fxData.perCharacter[ i ] = {
+									attr: new TextAttribute( dynamicArea.entity.attr )
+								} ;
+							}
+
+							fxData.attr.setOpacity(
+								mathFn.transform.goPauseReturnPause( multiply * dynamicArea.tick - i * phaseShift , pause * 0.25 , pause )
+							) ;
+
+							i ++ ;
+						}
+
+						dynamicArea.entity.fxData.perCharacter.length = i ;
+
+						return true ;
+					}
+				}
+			}
+		}
+	} ;
+} ;
+
+
+
+
+},{"../VGFlowingText/TextAttribute.js":144,"./mathFn.js":163}],163:[function(require,module,exports){
+/*
+	SVG Kit
+
+	Copyright (c) 2017 - 2024 Cédric Ronvel
+
+	The MIT License (MIT)
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+
+"use strict" ;
+
+
+
+const PI = Math.PI ;
+const PI_2 = 2 * Math.PI ;
+const PI_OVER_2 = Math.PI / 2 ;
+
+/*
+	Shape: /\___
+*/
+exports.sineOneOutOfX = ( v , div = 2 ) =>
+	Math.floor( v / PI_2 ) % div ? 0 :
+	1 + Math.sin( v - PI_OVER_2 ) / 2 ;
+
+/*	        ____
+	Shape: /    \_____
+*/
+exports.sineHalfOutOfX = ( v , div = 2 ) =>
+	Math.floor( v / PI ) % div ? (
+		Math.floor( v / ( PI *  div ) ) % 2
+	) :
+		1 + Math.sin( v - PI_OVER_2 ) / 2 ;
+
+
+
+function positiveModulo( a , b ) { return a < 0 ? b + ( a % b ) : a % b ; }
+
+
+
+const transform = exports.transform = {} ;
+
+transform.cycle = ( t , easingName = 'sine' ) => {
+	let easingFn = easing[ easingName ] || easing.sine ,
+		tLoop = 2 * positiveModulo( t , 1 ) ;
+
+	return (
+		tLoop <= 1 ? easingFn( tLoop ) :
+		tLoop <= 2 ? easingFn( 2 - tLoop ) :
+		0
+	) ;
+} ;
+
+transform.cycleAround = ( t , easingName = 'sine' ) => {
+	let easingFn = easing[ easingName ] || easing.sine ,
+		tLoop = 2 * positiveModulo( t , 1 ) ;
+
+	return (
+		tLoop <= 1 ? - 1 + 2 * easingFn( tLoop ) :
+		tLoop <= 2 ? - 1 + 2 * easingFn( 2 - tLoop ) :
+		0
+	) ;
+} ;
+
+transform.roundTripAndPause = ( t , pause = 1 , easingName = 'sine' ) => {
+	let easingFn = easing[ easingName ] || easing.sine ,
+		tLoop = 2 * positiveModulo( t , 1 + pause ) ;
+
+	return (
+		tLoop <= 1 ? easingFn( tLoop ) :
+		tLoop <= 2 ? easingFn( 2 - tLoop ) :
+		0
+	) ;
+} ;
+
+transform.goPauseReturnPause = ( t , pause1 = 1 , pause2 = 1 , easingName = 'sine' ) => {
+	let easingFn = easing[ easingName ] || easing.sine ,
+		tLoop = 2 * positiveModulo( t , 1 + pause1 + pause2 ) ;
+
+	return (
+		tLoop <= 1 ? easingFn( tLoop ) :
+		tLoop <= 2 * pause1 + 1 ? 1 :
+		tLoop <= 2 * pause1 + 2 ? easingFn( 2 * pause1 + 2 - tLoop ) :
+		0
+	) ;
+} ;
+
+const easing = exports.easing = {} ;
+
+easing.linear = t => t ;
+easing.sine = t => 0.5 + Math.sin( - PI_OVER_2 + t * PI ) / 2 ;
+
+
+
+},{}],164:[function(require,module,exports){
 (function (process){(function (){
 /*
 	SVG Kit
 
-	Copyright (c) 2017 - 2023 Cédric Ronvel
+	Copyright (c) 2017 - 2024 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -44076,11 +51063,11 @@ else {
 
 
 }).call(this)}).call(this,require('_process'))
-},{"_process":161,"image-size":40}],129:[function(require,module,exports){
+},{"_process":212,"image-size":49}],165:[function(require,module,exports){
 /*
 	SVG Kit
 
-	Copyright (c) 2017 - 2023 Cédric Ronvel
+	Copyright (c) 2017 - 2024 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -44104,444 +51091,22 @@ else {
 */
 
 "use strict" ;
-
-
-
-const misc = {} ;
-module.exports = misc ;
-
-
-
-// From Terminal-kit's misc.hexToRgba()
-misc.hexToRgba = hex => {
-	// Strip the # if necessary
-	if ( hex[ 0 ] === '#' ) { hex = hex.slice( 1 ) ; }
-
-	if ( hex.length === 3 ) {
-		hex = hex[ 0 ] + hex[ 0 ] + hex[ 1 ] + hex[ 1 ] + hex[ 2 ] + hex[ 2 ] ;
-	}
-
-	return {
-		r: parseInt( hex.slice( 0 , 2 ) , 16 ) || 0 ,
-		g: parseInt( hex.slice( 2 , 4 ) , 16 ) || 0 ,
-		b: parseInt( hex.slice( 4 , 6 ) , 16 ) || 0 ,
-		a: hex.length > 6 ? parseInt( hex.slice( 6 , 8 ) , 16 ) || 0 : 255
-	} ;
-} ;
-
-
-
-misc.hexToRgb = hex => {
-	// Strip the # if necessary
-	if ( hex[ 0 ] === '#' ) { hex = hex.slice( 1 ) ; }
-
-	if ( hex.length === 3 ) {
-		hex = hex[ 0 ] + hex[ 0 ] + hex[ 1 ] + hex[ 1 ] + hex[ 2 ] + hex[ 2 ] ;
-	}
-
-	return {
-		r: parseInt( hex.slice( 0 , 2 ) , 16 ) || 0 ,
-		g: parseInt( hex.slice( 2 , 4 ) , 16 ) || 0 ,
-		b: parseInt( hex.slice( 4 , 6 ) , 16 ) || 0
-	} ;
-} ;
-
-
-
-function to2HexDigits( n ) {
-	if ( ! n || n < 0 ) { return '00' ; }
-	if ( n < 16 ) { return '0' + n.toString( 16 ) ; }
-	if ( n > 255 ) { return 'ff' ; }
-	return n.toString( 16 ) ;
-}
-
-
-
-misc.rgbToHex =
-misc.rgbaToHex = ( r , g , b , a = null ) => {
-	if ( r && typeof r === 'object' ) {
-		return typeof r.a !== 'number' ? '#' + to2HexDigits( r.r ) + to2HexDigits( r.g ) + to2HexDigits( r.b ) :
-			'#' + to2HexDigits( r.r ) + to2HexDigits( r.g ) + to2HexDigits( r.b ) + to2HexDigits( r.a ) ;
-	}
-
-	return a === null ? '#' + to2HexDigits( r ) + to2HexDigits( g ) + to2HexDigits( b ) :
-		'#' + to2HexDigits( r ) + to2HexDigits( g ) + to2HexDigits( b ) + to2HexDigits( a ) ;
-} ;
-
-
-
-misc.getContrastColorCode = ( colorStr , rate = 0.5 ) => {
-	var color = misc.hexToRgb( colorStr ) ;
-
-	if ( color.r + color.g + color.b >= 192 ) {
-		// This is a light color, we will contrast it with a darker color
-		color.r = Math.round( color.r * rate ) ;
-		color.g = Math.round( color.g * rate ) ;
-		color.b = Math.round( color.b * rate ) ;
-	}
-	else {
-		// This is a dark color, we will contrast it with a lighter color
-		color.r = Math.round( 255 - ( ( 255 - color.r ) * rate ) ) ;
-		color.g = Math.round( 255 - ( ( 255 - color.g ) * rate ) ) ;
-		color.b = Math.round( 255 - ( ( 255 - color.b ) * rate ) ) ;
-	}
-
-	return misc.rgbToHex( color ) ;
-} ;
-
-
-},{}],130:[function(require,module,exports){
-/*
-	SVG Kit
-
-	Copyright (c) 2017 - 2023 Cédric Ronvel
-
-	The MIT License (MIT)
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-*/
-
-"use strict" ;
-
-
-
-const path = {} ;
-module.exports = path ;
-
-
-
-path.dFromPoints = ( points , invertY ) => {
-	var yMul = invertY ? - 1 : 1 ,
-		str = 'M' ;
-
-	points.forEach( point => {
-		str += ' ' + point.x + ',' + ( point.y * yMul ) ;
-	} ) ;
-
-	return str ;
-} ;
-
-
-},{}],131:[function(require,module,exports){
-/*
-	SVG Kit
-
-	Copyright (c) 2017 - 2023 Cédric Ronvel
-
-	The MIT License (MIT)
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-*/
-
-"use strict" ;
-
-
-
-const misc = require( './misc.js' ) ;
-const format = require( 'string-kit/lib/format.js' ) ;
-
-
-
-const structuredText = {} ;
-module.exports = structuredText ;
-
-
-
-const MARKUP_COLOR_CODE = {
-	black: '#000000' ,
-	brightBlack: '#555753' ,
-	red: '#cc0000' ,
-	brightRed: '#ef2929' ,
-	green: '#4e9a06' ,
-	brightGreen: '#8ae234' ,
-	yellow: '#c4a000' ,
-	brightYellow: '#fce94f' ,
-	blue: '#3465a4' ,
-	brightBlue: '#729fcf' ,
-	magenta: '#75507b' ,
-	brightMagenta: '#ad7fa8' ,
-	cyan: '#06989a' ,
-	brightCyan: '#34e2e2' ,
-	white: '#d3d7cf' ,
-	brightWhite: '#eeeeec'
-} ;
-
-MARKUP_COLOR_CODE.grey = MARKUP_COLOR_CODE.gray = MARKUP_COLOR_CODE.brightBlack ;
-
-
-
-structuredText.parseMarkup = function( text ) {
-	return structuredText.parseStringKitMarkup( text ).map( input => {
-		var part = { text: input.text } ;
-
-		if ( input.color ) {
-			part.color = input.color[ 0 ] === '#' ? input.color : MARKUP_COLOR_CODE[ input.color ] ;
-		}
-
-		if ( input.italic ) { part.fontStyle = 'italic' ; }
-		if ( input.bold ) { part.fontWeight = 'bold' ; }
-		if ( input.underline ) { part.underline = true ; }
-		if ( input.strike ) { part.lineThrough = true ; }
-		if ( input.big ) { part.fontSize = '1.4em' ; }
-		if ( input.small ) { part.fontSize = '0.7em' ; }
-
-		if ( input.bgColor ) {
-			part.frame = true ;
-			part.frameColor = input.bgColor[ 0 ] === '#' ? input.bgColor : MARKUP_COLOR_CODE[ input.bgColor ] ;
-			part.frameOutlineColor = misc.getContrastColorCode( part.frameColor , 0.7 ) ;
-		}
-
-		return part ;
-	} ) ;
-} ;
-
-
-
-// Catch-all keywords to key:value
-const CATCH_ALL_KEYWORDS = {
-	// Foreground colors
-	defaultColor: [ 'color' , 'default' ] ,
-	black: [ 'color' , 'black' ] ,
-	red: [ 'color' , 'red' ] ,
-	green: [ 'color' , 'green' ] ,
-	yellow: [ 'color' , 'yellow' ] ,
-	blue: [ 'color' , 'blue' ] ,
-	magenta: [ 'color' , 'magenta' ] ,
-	cyan: [ 'color' , 'cyan' ] ,
-	white: [ 'color' , 'white' ] ,
-	grey: [ 'color' , 'grey' ] ,
-	gray: [ 'color' , 'gray' ] ,
-	brightBlack: [ 'color' , 'brightBlack' ] ,
-	brightRed: [ 'color' , 'brightRed' ] ,
-	brightGreen: [ 'color' , 'brightGreen' ] ,
-	brightYellow: [ 'color' , 'brightYellow' ] ,
-	brightBlue: [ 'color' , 'brightBlue' ] ,
-	brightMagenta: [ 'color' , 'brightMagenta' ] ,
-	brightCyan: [ 'color' , 'brightCyan' ] ,
-	brightWhite: [ 'color' , 'brightWhite' ] ,
-
-	// Background colors
-	defaultBgColor: [ 'bgColor' , 'default' ] ,
-	bgBlack: [ 'bgColor' , 'black' ] ,
-	bgRed: [ 'bgColor' , 'red' ] ,
-	bgGreen: [ 'bgColor' , 'green' ] ,
-	bgYellow: [ 'bgColor' , 'yellow' ] ,
-	bgBlue: [ 'bgColor' , 'blue' ] ,
-	bgMagenta: [ 'bgColor' , 'magenta' ] ,
-	bgCyan: [ 'bgColor' , 'cyan' ] ,
-	bgWhite: [ 'bgColor' , 'white' ] ,
-	bgGrey: [ 'bgColor' , 'grey' ] ,
-	bgGray: [ 'bgColor' , 'gray' ] ,
-	bgBrightBlack: [ 'bgColor' , 'brightBlack' ] ,
-	bgBrightRed: [ 'bgColor' , 'brightRed' ] ,
-	bgBrightGreen: [ 'bgColor' , 'brightGreen' ] ,
-	bgBrightYellow: [ 'bgColor' , 'brightYellow' ] ,
-	bgBrightBlue: [ 'bgColor' , 'brightBlue' ] ,
-	bgBrightMagenta: [ 'bgColor' , 'brightMagenta' ] ,
-	bgBrightCyan: [ 'bgColor' , 'brightCyan' ] ,
-	bgBrightWhite: [ 'bgColor' , 'brightWhite' ] ,
-
-	// Other styles
-	dim: [ 'dim' , true ] ,
-	bold: [ 'bold' , true ] ,
-	underline: [ 'underline' , true ] ,
-	italic: [ 'italic' , true ] ,
-	inverse: [ 'inverse' , true ] ,
-	strike: [ 'strike' , true ]
-} ;
-
-
-
-const parseStringKitMarkupConfig = {
-	parse: true ,
-	markupReset: markupStack => {
-		markupStack.length = 0 ;
-	} ,
-	//shiftMarkup: { '#': 'background' } ,
-	markup: {
-		":": null ,
-		" ": markupStack => {
-			markupStack.length = 0 ;
-			return [ null , ' ' ] ;
-		} ,
-
-		"-": { dim: true } ,
-		"+": { bold: true } ,
-		"_": { underline: true } ,
-		"/": { italic: true } ,
-		"!": { inverse: true } ,
-		"~": { strike: true } ,
-		"=": { big: true } ,
-		".": { small: true } ,
-
-		"b": { color: "blue" } ,
-		"B": { color: "brightBlue" } ,
-		"c": { color: "cyan" } ,
-		"C": { color: "brightCyan" } ,
-		"g": { color: "green" } ,
-		"G": { color: "brightGreen" } ,
-		"k": { color: "black" } ,
-		"K": { color: "grey" } ,
-		"m": { color: "magenta" } ,
-		"M": { color: "brightMagenta" } ,
-		"r": { color: "red" } ,
-		"R": { color: "brightRed" } ,
-		"w": { color: "white" } ,
-		"W": { color: "brightWhite" } ,
-		"y": { color: "yellow" } ,
-		"Y": { color: "brightYellow" }
-	} ,
-	shiftedMarkup: {
-		background: {
-			/*
-			':': [ null , { defaultColor: true , bgDefaultColor: true } ] ,
-			' ': markupStack => {
-				markupStack.length = 0 ;
-				return [ null , { defaultColor: true , bgDefaultColor: true } , ' ' ] ;
-			} ,
-			*/
-			":": null ,
-			" ": markupStack => {
-				markupStack.length = 0 ;
-				return [ null , ' ' ] ;
-			} ,
-
-			"b": { bgColor: "blue" } ,
-			"B": { bgColor: "brightBlue" } ,
-			"c": { bgColor: "cyan" } ,
-			"C": { bgColor: "brightCyan" } ,
-			"g": { bgColor: "green" } ,
-			"G": { bgColor: "brightGreen" } ,
-			"k": { bgColor: "black" } ,
-			"K": { bgColor: "grey" } ,
-			"m": { bgColor: "magenta" } ,
-			"M": { bgColor: "brightMagenta" } ,
-			"r": { bgColor: "red" } ,
-			"R": { bgColor: "brightRed" } ,
-			"w": { bgColor: "white" } ,
-			"W": { bgColor: "brightWhite" } ,
-			"y": { bgColor: "yellow" } ,
-			"Y": { bgColor: "brightYellow" }
-		}
-	} ,
-	dataMarkup: {
-		color: 'color' ,
-		fgColor: 'color' ,
-		fg: 'color' ,
-		c: 'color' ,
-		bgColor: 'bgColor' ,
-		bg: 'bgColor' ,
-		fx: 'fx'
-	} ,
-	markupCatchAll: ( markupStack , key , value ) => {
-		var attr = {} ;
-
-		if ( value === undefined ) {
-			if ( key[ 0 ] === '#' ) {
-				attr.color = key ;
-			}
-			else if ( CATCH_ALL_KEYWORDS[ key ] ) {
-				attr[ CATCH_ALL_KEYWORDS[ key ][ 0 ] ] = CATCH_ALL_KEYWORDS[ key ][ 1 ] ;
-			}
-			else {
-				// Fallback: it's a foreground color
-				attr.color = key ;
-			}
-		}
-
-		markupStack.push( attr ) ;
-		return attr || {} ;
-	}
-} ;
-
-
-
-structuredText.parseStringKitMarkup = ( ... args ) => {
-	return format.markupMethod.apply( parseStringKitMarkupConfig , args ) ;
-} ;
-
-
-
-structuredText.stripMarkup = format.stripMarkup ;
-
-
-},{"./misc.js":129,"string-kit/lib/format.js":137}],132:[function(require,module,exports){
-(function (process){(function (){
-/*
-	SVG Kit
-
-	Copyright (c) 2017 - 2023 Cédric Ronvel
-
-	The MIT License (MIT)
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-*/
-
-"use strict" ;
-
-
-
-const fs = require( 'fs' ).promises ;
-const domKit = require( 'dom-kit' ) ;
-const escape = require( 'string-kit/lib/escape.js' ) ;
 
 
 
 const svgKit = {} ;
 module.exports = svgKit ;
 
-Object.assign( svgKit , require( './misc.js' ) ) ;
-svgKit.path = require( './path.js' ) ;
-svgKit.canvas = require( './canvas.js' ) ;
-svgKit.structuredText = require( './structuredText.js' ) ;
+Object.assign( svgKit , require( './core-utilities.js' ) ) ;
+Object.assign( svgKit , require( './color-utilities.js' ) ) ;
+svgKit.canvas = require( './canvas-utilities.js' ) ;
+
+svgKit.BoundingBox = require( './BoundingBox.js' ) ;
+svgKit.Polygon = require( './Polygon.js' ) ;
+svgKit.ConvexPolygon = require( './ConvexPolygon.js' ) ;
+svgKit.Polyline = require( './Polyline.js' ) ;
+svgKit.Path = require( './Path/Path.js' ) ;
+svgKit.Style = require( './Style.js' ) ;
 
 svgKit.VG = require( './VG.js' ) ;
 svgKit.VGEntity = require( './VGEntity.js' ) ;
@@ -44549,6 +51114,9 @@ svgKit.VGContainer = require( './VGContainer.js' ) ;
 svgKit.VGGroup = require( './VGGroup.js' ) ;
 svgKit.VGClip = require( './VGClip.js' ) ;
 svgKit.VGRect = require( './VGRect.js' ) ;
+svgKit.VGPolygon = require( './VGPolygon.js' ) ;
+svgKit.VGConvexPolygon = require( './VGConvexPolygon.js' ) ;
+svgKit.VGPolyline = require( './VGPolyline.js' ) ;
 svgKit.VGEllipse = require( './VGEllipse.js' ) ;
 svgKit.VGPath = require( './VGPath.js' ) ;
 svgKit.VGText = require( './VGText.js' ) ;
@@ -44561,420 +51129,17 @@ svgKit.StructuredTextPart = require( './VGFlowingText/StructuredTextPart.js' ) ;
 svgKit.TextAttribute = require( './VGFlowingText/TextAttribute.js' ) ;
 svgKit.TextMetrics = require( './VGFlowingText/TextMetrics.js' ) ;
 
-svgKit.domKit = domKit ;
+svgKit.DynamicArea = require( './DynamicArea.js' ) ;
+svgKit.DynamicManager = require( './DynamicManager.js' ) ;
+
+svgKit.fx = require( './fx/fx.js' ) ;
+
+svgKit.domKit = require( 'dom-kit' ) ;
 svgKit.opentype = require( 'opentype.js' ) ;
 
 
 
-/*
-	load( url , [options] )
-
-	* url: the URL of the .svg file
-	* options: (optional) object of options, transmitted to .inject() and .patch()
-
-	Return a promise resolving to the SVG DOM document.
-*/
-svgKit.load = async function( url , options = {} ) {
-	var content , $doc , $svg ;
-
-	if ( ! process.browser ) {
-		// Use Node.js 'fs' module
-		if ( url.substring( 0 , 7 ) === 'file://' ) { url = url.slice( 7 ) ; }
-		content = await fs.readFile( url , 'utf8' ) ;
-		$doc = domKit.fromXml( content ) ;
-	}
-	else {
-		// Use an AJAX HTTP Request
-		$doc = await svgKit.ajax( url ) ;
-	}
-
-	if ( options.removeComments ) {
-		domKit.removeComments( $doc ) ;
-		delete options.removeComments ;
-	}
-
-	$svg = $doc.documentElement ;
-	svgKit.inject( $svg , options ) ;
-	return $svg ;
-} ;
-
-
-
-svgKit.loadFromString = function( content , options = {} ) {
-	var $doc = domKit.fromXml( content ) ;
-
-	if ( options.removeComments ) {
-		domKit.removeComments( $doc ) ;
-		delete options.removeComments ;
-	}
-
-	var $svg = $doc.documentElement ;
-	svgKit.inject( $svg , options ) ;
-	return $svg ;
-} ;
-
-
-
-svgKit.ajax = function( url ) {
-	return new Promise( ( resolve , reject ) => {
-		var xhr = new XMLHttpRequest() ;
-
-		xhr.responseType = 'document' ;
-
-		xhr.onreadystatechange = () => {
-			// From MDN: In the event of a communication error (such as the webserver going down),
-			// an exception will be thrown when attempting to access the 'status' property.
-
-			try {
-				if ( xhr.readyState === 4 ) {
-					if ( xhr.status === 200 ) {
-						resolve( xhr.responseXML ) ;
-					}
-					else if ( xhr.status === 0 && xhr.responseXML ) {	// Yay, loading with file:// does not provide any status...
-						resolve( xhr.responseXML ) ;
-					}
-					else if ( xhr.status ) { reject( xhr.status ) ; }
-					else { reject( new Error( "[svg-kit] ajaxStatus(): Error with falsy status" ) ) ; }
-				}
-			}
-			catch ( error ) {
-				reject( error ) ;
-			}
-		} ;
-
-		xhr.open( 'GET' , url ) ;
-		xhr.send() ;
-	} ) ;
-} ;
-
-
-
-/*
-	Fix few <svg> things in order to inject it in the dom
-
-	* $svg: the svg element
-	* options: options object, where:
-		* into: `DOMElement` an element where the .svg file should be loaded into
-		* as: `DOMElement` a <svg> element where the .svg file should replace, almost like the "into" option,
-		  useful when a <svg> tag should be created synchronously to start doing stuffs on it,
-		  and let the asynchronous loading works in the background
-		* all other options are passed to .patch()
-*/
-svgKit.inject = function( $svg , options ) {
-	svgKit.patch( $svg , options ) ;
-
-	if ( options.into ) { options.into.appendChild( $svg ) ; }
-
-	// Better to avoid to check the tag name:
-	// it's too defensive and it prevents from loading inside a <g> tag
-	if ( options.as ) { //&& options.as.tagName.toLowerCase() === 'svg' )
-		domKit.moveAttributes( $svg , options.as ) ;
-		domKit.moveChildrenInto( $svg , options.as ) ;
-	}
-} ;
-
-
-
-/*
-	Fix few <svg> things.
-
-	* $svg: the svg element
-	* options: options object, where:
-		* id: `string` the id attribute of the <svg> tag (recommanded)
-		* removeIds: `boolean` remove all 'id' attributes
-		* prefixIds: `string` prefix all IDs and patch url #ref
-		* hidden: `boolean` turn the svg hidden (useful to apply modification before the show)
-		* class: `string` or `object` (key=class, value=true/false) to add/remove on the <svg> tag
-		* removeSize: `boolean` remove the width and height attribute and style from the <svg> tag
-		* removeSvgStyle: `boolean` remove the top-level style attribute of the <svg> tag
-		* removeDefaultStyles: `boolean` used to removed meaningless style pollution
-		* css: `object` a css object to apply on the <svg> tag
-		* colorClass: `boolean` a very specialized option. It moves all stroke and fill color inline styles to attribute
-		  on all drawing elements and add the "primary" class to those that are class-less.
-		  Since CSS has a greater priority than attributes (but lesser than inline styles), this allows us to controle
-		  color using CSS.
-		* removeComments: `boolean` remove all comment nodes
-		* removeWhiteSpaces: `boolean` remove all white-space
-		* removeWhiteLines: `boolean` remove all empty lines
-		* removeExoticNamespaces: `boolean` remove all tag and attributes that have a namespace different than svg,
-		  the svg namespace is stripped
-*/
-svgKit.patch = function( $svg , options ) {
-	var viewBox , width , height ;
-
-	svgKit.lightCleanup( $svg ) ;
-
-	// Fix id, if necessary
-	if ( options.id !== undefined ) {
-		if ( typeof options.id === 'string' ) { $svg.setAttribute( 'id' , options.id ) ; }
-		else if ( ! options.id ) { $svg.removeAttribute( 'id' ) ; }
-	}
-
-	if ( options.class ) {
-		if ( typeof options.class === 'string' ) { $svg.classList.add( options.class ) ; }
-		else if ( typeof options.class === 'object' ) { domKit.class( $svg , options.class ) ; }
-	}
-
-	if ( options.hidden ) { $svg.style.visibility = 'hidden' ; }
-
-	if ( options.prefixIds ) { domKit.prefixIds( $svg , options.prefixIds ) ; }
-	if ( options.removeIds ) { domKit.removeAllAttributes( $svg , 'id' ) ; }
-
-	if ( options.removeSvgStyle ) { $svg.removeAttribute( 'style' ) ; }
-	if ( options.removeDefaultStyles ) { svgKit.removeDefaultStyles( $svg ) ; }
-	if ( options.removeComments ) { domKit.removeComments( $svg ) ; }
-
-	if ( options.removeExoticNamespaces ) {
-		domKit.filterByNamespace( $svg , { primary: 'svg' , whitelist: [] } ) ;
-	}
-
-	if ( options.removeSize ) {
-		// Save and remove the width and height attribute
-		width = $svg.getAttribute( 'width' ) || $svg.style.width ;
-		height = $svg.getAttribute( 'height' ) || $svg.style.height ;
-
-		$svg.removeAttribute( 'height' ) ;
-		$svg.removeAttribute( 'width' ) ;
-		$svg.style.width = null ;
-		$svg.style.height = null ;
-
-		// if the $svg don't have a viewBox attribute, set it now from the width and height (it works most of time)
-		if ( ! $svg.getAttribute( 'viewBox' ) && width && height ) {
-			viewBox = '0 0 ' + width + ' ' + height ;
-			$svg.setAttribute( 'viewBox' , viewBox ) ;
-		}
-	}
-
-	if ( options.css ) { domKit.css( $svg , options.css ) ; }
-
-	if ( options.colorClass ) { svgKit.colorClass( $svg ) ; }
-
-	if ( options.removeWhiteSpaces ) { domKit.removeWhiteSpaces( $svg ) ; }
-	else if ( options.removeWhiteLines ) { domKit.removeWhiteSpaces( $svg , true ) ; }
-} ;
-
-
-
-svgKit.patchDocument = function( $doc , options ) {
-	var removeWhiteSpaces = options.removeWhiteSpaces ,
-		removeWhiteLines = options.removeWhiteLines ,
-		removeComments = options.removeComments ;
-
-	delete options.removeWhiteSpaces ;
-	delete options.removeWhiteLines ;
-	delete options.removeComments ;
-
-	if ( removeComments ) { domKit.removeComments( $doc ) ; }
-
-	svgKit.patch( $doc.documentElement , options ) ;
-
-	if ( removeWhiteSpaces ) { domKit.removeWhiteSpaces( $doc ) ; }
-	else if ( removeWhiteLines ) { domKit.removeWhiteSpaces( $doc , true ) ; }
-} ;
-
-
-
-svgKit.lightCleanup = function( $svg ) {
-	domKit.removeAllTags( $svg , 'metadata' ) ;
-	domKit.removeAllTags( $svg , 'script' ) ;
-	domKit.removeAllTags( $svg , 'defs' , true ) ;	// all empty defs
-} ;
-
-
-
-// List of svg tags that actually display things
-const drawingTags = [
-	'path' ,
-	'circle' ,
-	'ellipse' ,
-	'line' ,
-	'rect' ,
-	'polyline' ,
-	'polygone' ,
-	'text' ,
-	'textPath'
-] ;
-
-
-
-const defaultStyles = [
-	[ 'font-style' , 'normal' ] ,
-	[ 'font-weight' , 'normal' ] ,
-	[ 'font-variant' , 'normal' ] ,
-	[ 'font-stretch' , 'normal' ] ,
-	[ 'font-size' , 'medium' ] ,
-	[ 'line-height' , 'normal' ] ,
-	[ 'font-variant-ligatures' , 'normal' ] ,
-	//[ 'font-family' , 'sans-serif' ] ,
-	[ 'font-variant-position' , 'normal' ] ,
-	[ 'font-variant-caps' , 'normal' ] ,
-	[ 'font-variant-numeric' , 'normal' ] ,
-	[ 'font-variant-alternates' , 'normal' ] ,
-	[ 'font-variant-east-asian' , 'normal' ] ,
-	[ 'font-feature-settings' , 'normal' ] ,
-	[ 'text-indent' , '0' ] ,
-	[ 'text-align' , 'start' ] ,
-	[ 'text-decoration' , 'none' ] ,
-	[ 'text-decoration-line' , 'none' ] ,
-	[ 'text-decoration-style' , 'solid' ] ,
-	[ 'text-decoration-color' , '#000000' ] ,
-	[ 'letter-spacing' , 'normal' ] ,
-	[ 'word-spacing' , 'normal' ] ,
-	[ 'text-transform' , 'none' ] ,
-	[ 'writing-mode' , 'lr-tb' ] ,
-	[ 'direction' , 'ltr' ] ,
-	[ 'text-orientation' , 'mixed' ] ,
-	[ 'dominant-baseline' , 'auto' ] ,
-	[ 'baseline-shift' , 'baseline' ] ,
-	[ 'text-anchor' , 'start' ] ,
-	[ 'white-space' , 'normal' ] ,
-	[ 'shape-padding' , '0' ] ,
-	[ 'display' , 'inline' ] ,
-	[ 'visibility' , 'visible' ] ,
-	[ 'overflow' , 'visible' ] ,
-	[ 'opacity' , '1' ] ,
-	[ 'isolation' , 'auto' ] ,
-	[ 'mix-blend-mode' , 'normal' ] ,
-	[ 'color-interpolation' , 'sRGB' ] ,
-	[ 'color-interpolation-filters' , 'linearRGB' ] ,
-	[ 'solid-color' , '#000000' ] ,
-	[ 'solid-opacity' , '1' ] ,
-	[ 'vector-effect' , 'none' ] ,
-	[ 'fill-rule' , 'nonzero' ] ,
-	[ 'clip-rule' , 'nonzero' ] ,
-	[ 'color-rendering' , 'auto' ] ,
-	[ 'image-rendering' , 'auto' ] ,
-	[ 'shape-rendering' , 'auto' ] ,
-	[ 'text-rendering' , 'auto' ] ,
-	[ 'enable-background' , 'accumulate' ] ,
-	[ 'stroke-dasharray' , 'none' ] ,
-	[ 'stroke-dashoffset' , '0' ] ,
-	[ 'paint-order' , 'normal' ] ,
-	[ 'paint-order' , 'fill stroke markers' ]
-] ;
-
-
-
-svgKit.colorClass = function( $svg ) {
-	drawingTags.forEach( ( tagName ) => {
-		Array.from( $svg.getElementsByTagName( tagName ) ).forEach( ( $element ) => {
-			// Beware, $element.className does not work as expected for SVG
-			if ( ! $element.getAttribute( 'class' ) ) {
-				$element.classList.add( 'primary' ) ;
-			}
-
-			// move style to attribute if they are not 'none'
-			domKit.styleToAttribute( $element , 'fill' , [ 'none' ] ) ;
-			domKit.styleToAttribute( $element , 'stroke' , [ 'none' ] ) ;
-		} ) ;
-	} ) ;
-} ;
-
-
-
-// Remove styles set to a default/unused value
-svgKit.removeDefaultStyles = function( $svg ) {
-	drawingTags.forEach( ( tagName ) => {
-		Array.from( $svg.getElementsByTagName( tagName ) ).forEach( ( $element ) => {
-			var styles = $element.getAttribute( 'style' ) ;
-
-			defaultStyles.forEach( array => {
-				var k = array[ 0 ] ;
-				var v = array[ 1 ] ;
-
-				styles = styles.replace(
-					new RegExp( '(^|;) *' + escape.regExp( k ) + ' *: *' + escape.regExp( v ) + ' *(?:;|$)' ) ,
-					( full , pre ) => pre
-				) ;
-			} ) ;
-
-			$element.setAttribute( 'style' , styles ) ;
-		} ) ;
-	} ) ;
-} ;
-
-
-
-// Should remove all tags and attributes that have non-registered namespace,
-// e.g.: sodipodi, inkscape, etc...
-//svgKit.heavyCleanup = function( svgElement ) {} ;
-
-
-
-svgKit.getViewBox = function( $svg ) {
-	var raw = $svg.getAttribute( 'viewBox' ) ;
-
-	if ( ! raw ) { return null ; }
-
-	var array = raw.split( / +/ ) ;
-
-	return {
-		x: parseFloat( array[ 0 ] , 10 ) ,
-		y: parseFloat( array[ 1 ] , 10 ) ,
-		width: parseFloat( array[ 2 ] , 10 ) ,
-		height: parseFloat( array[ 3 ] , 10 )
-	} ;
-} ;
-
-
-
-svgKit.setViewBox = function( $svg , viewBox ) {
-	$svg.setAttribute( 'viewBox' , viewBox.x + ' ' + viewBox.y + ' ' + viewBox.width + ' ' + viewBox.height ) ;
-} ;
-
-
-
-svgKit.toAreaArray = function( object ) {
-	if ( object.min && object.max ) {
-		// Math Kit BoundingBox2D
-		return [
-			object.min.x ,
-			object.min.y ,
-			object.max.x - object.min.x ,
-			object.max.y - object.min.y
-		] ;
-	}
-	else if ( object.xmin !== undefined && object.xmax !== undefined && object.ymin !== undefined && object.ymax !== undefined ) {
-		return [
-			object.xmin ,
-			object.ymin ,
-			object.xmax - object.xmin ,
-			object.ymax - object.ymin
-		] ;
-	}
-	else if ( object.x !== undefined && object.y !== undefined && object.width !== undefined && object.height !== undefined ) {
-		return [
-			object.x ,
-			object.y ,
-			object.width ,
-			object.height
-		] ;
-	}
-
-	return [ 0 , 0 , 100 , 100 ] ;
-} ;
-
-
-
-svgKit.standalone = function( content , viewBox ) {
-	var output = '<?xml version="1.0" encoding="UTF-8"?>\n' ;
-
-	if ( ! Array.isArray( viewBox ) ) { viewBox = svgKit.toAreaArray( viewBox ) ; }
-
-	output += '<svg xmlns="http://www.w3.org/2000/svg" viewBox="' + viewBox.join( ' ' ) + '">\n' ;
-
-	// ?
-	// width="500"
-	// height="500"
-
-	output += content ;
-	output += '\n</svg>\n' ;
-
-	return output ;
-} ;
-
-
-
+// Best to *NOT* move to core-utilities.js, because it depends on the whole svgKit lib (would produce a bad dependency graph)
 svgKit.unserializeVG = str => svgKit.objectToVG( JSON.parse( str ) ) ;
 
 svgKit.objectToVG = function( object , clone = false ) {
@@ -44994,2388 +51159,34 @@ svgKit.objectToVG = function( object , clone = false ) {
 } ;
 
 
-}).call(this)}).call(this,require('_process'))
-},{"./VG.js":111,"./VGClip.js":112,"./VGContainer.js":113,"./VGEllipse.js":114,"./VGEntity.js":115,"./VGFlowingText/StructuredTextLine.js":116,"./VGFlowingText/StructuredTextPart.js":117,"./VGFlowingText/TextAttribute.js":118,"./VGFlowingText/TextMetrics.js":119,"./VGFlowingText/VGFlowingText.js":120,"./VGGroup.js":121,"./VGImage.js":122,"./VGPath.js":123,"./VGRect.js":124,"./VGText.js":125,"./canvas.js":126,"./fontLib.js":127,"./misc.js":129,"./path.js":130,"./structuredText.js":131,"_process":161,"dom-kit":37,"fs":143,"opentype.js":72,"string-kit/lib/escape.js":136}],133:[function(require,module,exports){
-arguments[4][89][0].apply(exports,arguments)
-},{"dup":89}],134:[function(require,module,exports){
-arguments[4][90][0].apply(exports,arguments)
-},{"dup":90}],135:[function(require,module,exports){
-arguments[4][91][0].apply(exports,arguments)
-},{"dup":91}],136:[function(require,module,exports){
-arguments[4][94][0].apply(exports,arguments)
-},{"dup":94}],137:[function(require,module,exports){
-(function (Buffer){(function (){
-/*
-	String Kit
-
-	Copyright (c) 2014 - 2021 Cédric Ronvel
-
-	The MIT License (MIT)
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-*/
-
-/*
-	String formater, inspired by C's sprintf().
-*/
-
-
-
-"use strict" ;
-
-
-
-const inspect = require( './inspect.js' ).inspect ;
-const inspectError = require( './inspect.js' ).inspectError ;
-const escape = require( './escape.js' ) ;
-const ansi = require( './ansi.js' ) ;
-const unicode = require( './unicode.js' ) ;
-const naturalSort = require( './naturalSort.js' ) ;
-const StringNumber = require( './StringNumber.js' ) ;
-
-
-
-/*
-	%%		a single %
-	%s		string
-	%S		string, interpret ^ formatting
-	%r		raw string: without sanitizer
-	%n		natural: output the most natural representation for this type, object entries are sorted by keys
-	%N		even more natural: avoid type hinting marks like bracket for array
-	%f		float
-	%k		number with metric system prefixes
-	%e		for exponential notation (e.g. 1.23e+2)
-	%K		for scientific notation (e.g. 1.23 × 10²)
-	%i	%d	integer
-	%u		unsigned integer
-	%U		unsigned positive integer (>0)
-	%P		number to (absolute) percent (e.g.: 0.75 -> 75%)
-	%p		number to relative percent (e.g.: 1.25 -> +25% ; 0.75 -> -25%)
-	%t		time duration, convert ms into h min s, e.g.: 2h14min52s or 2:14:52
-	%m		convert degree into degree, minutes and seconds
-	%h		hexadecimal (input is a number)
-	%x		hexadecimal (input is a number), force pair of symbols (e.g. 'f' -> '0f')
-	%o		octal
-	%b		binary
-	%X		hexadecimal: convert a string into hex charcode, force pair of symbols (e.g. 'f' -> '0f')
-	%z		base64
-	%Z		base64url
-	%I		call string-kit's inspect()
-	%Y		call string-kit's inspect(), but do not inspect non-enumerable
-	%O		object (like inspect, but with ultra minimal options)
-	%E		call string-kit's inspectError()
-	%J		JSON.stringify()
-	%D		drop
-	%F		filter function existing in the 'this' context, e.g. %[filter:%a%a]F
-	%a		argument for a function
-
-	Candidate format:
-	%A		for automatic type? probably not good: it's like %n Natural
-	%c		for char? (can receive a string or an integer translated into an UTF8 chars)
-	%C		for currency formating?
-	%B		for Buffer objects?
-*/
-
-exports.formatMethod = function( ... args ) {
-	var arg ,
-		str = args[ 0 ] ,
-		autoIndex = 1 ,
-		length = args.length ;
-
-	if ( typeof str !== 'string' ) {
-		if ( ! str ) { str = '' ; }
-		else if ( typeof str.toString === 'function' ) { str = str.toString() ; }
-		else { str = '' ; }
-	}
-
-	var runtime = {
-		hasMarkup: false ,
-		shift: null ,
-		markupStack: []
-	} ;
-
-	if ( this.markupReset && this.startingMarkupReset ) {
-		str = ( typeof this.markupReset === 'function' ? this.markupReset( runtime.markupStack ) : this.markupReset ) + str ;
-	}
-
-	//console.log( 'format args:' , arguments ) ;
-
-	// /!\ each changes here should be reported on string.format.count() and string.format.hasFormatting() too /!\
-	// Note: the closing bracket is optional to prevent ReDoS
-	str = str.replace( /\^\[([^\]]*)]?|\^(.)|(%%)|%([+-]?)([0-9]*)(?:\[([^\]]*)\])?([a-zA-Z])/g ,
-		( match , complexMarkup , markup , doublePercent , relative , index , modeArg , mode ) => {
-			var replacement , i , tmp , fn , fnArgString , argMatches , argList = [] ;
-
-			//console.log( 'replaceArgs:' , arguments ) ;
-			if ( doublePercent ) { return '%' ; }
-
-			if ( complexMarkup ) { markup = complexMarkup ; }
-			if ( markup ) {
-				if ( this.noMarkup ) { return '^' + markup ; }
-				return markupReplace.call( this , runtime , match , markup ) ;
-			}
-
-			if ( index ) {
-				index = parseInt( index , 10 ) ;
-
-				if ( relative ) {
-					if ( relative === '+' ) { index = autoIndex + index ; }
-					else if ( relative === '-' ) { index = autoIndex - index ; }
-				}
-			}
-			else {
-				index = autoIndex ;
-			}
-
-			autoIndex ++ ;
-
-			if ( index >= length || index < 1 ) { arg = undefined ; }
-			else { arg = args[ index ] ; }
-
-			if ( modes[ mode ] ) {
-				replacement = modes[ mode ]( arg , modeArg , this ) ;
-				if ( this.argumentSanitizer && ! modes[ mode ].noSanitize ) { replacement = this.argumentSanitizer( replacement ) ; }
-				if ( this.escapeMarkup && ! modes[ mode ].noEscapeMarkup ) { replacement = exports.escapeMarkup( replacement ) ; }
-				if ( modeArg && ! modes[ mode ].noCommonModeArg ) { replacement = commonModeArg( replacement , modeArg ) ; }
-				return replacement ;
-			}
-
-			// Function mode
-			if ( mode === 'F' ) {
-				autoIndex -- ;	// %F does not eat any arg
-
-				if ( modeArg === undefined ) { return '' ; }
-				tmp = modeArg.split( ':' ) ;
-				fn = tmp[ 0 ] ;
-				fnArgString = tmp[ 1 ] ;
-				if ( ! fn ) { return '' ; }
-
-				if ( fnArgString && ( argMatches = fnArgString.match( /%([+-]?)([0-9]*)[a-zA-Z]/g ) ) ) {
-					//console.log( argMatches ) ;
-					//console.log( fnArgString ) ;
-					for ( i = 0 ; i < argMatches.length ; i ++ ) {
-						relative = argMatches[ i ][ 1 ] ;
-						index = argMatches[ i ][ 2 ] ;
-
-						if ( index ) {
-							index = parseInt( index , 10 ) ;
-
-							if ( relative ) {
-								if ( relative === '+' ) { index = autoIndex + index ; }		// jshint ignore:line
-								else if ( relative === '-' ) { index = autoIndex - index ; }	// jshint ignore:line
-							}
-						}
-						else {
-							index = autoIndex ;
-						}
-
-						autoIndex ++ ;
-
-						if ( index >= length || index < 1 ) { argList[ i ] = undefined ; }
-						else { argList[ i ] = args[ index ] ; }
-					}
-				}
-
-				if ( ! this || ! this.fn || typeof this.fn[ fn ] !== 'function' ) { return '' ; }
-				return this.fn[ fn ].apply( this , argList ) ;
-			}
-
-			return '' ;
-		}
-	) ;
-
-	if ( runtime.hasMarkup && this.markupReset && this.endingMarkupReset ) {
-		str += typeof this.markupReset === 'function' ? this.markupReset( runtime.markupStack ) : this.markupReset ;
-	}
-
-	if ( this.extraArguments ) {
-		for ( ; autoIndex < length ; autoIndex ++ ) {
-			arg = args[ autoIndex ] ;
-			if ( arg === null || arg === undefined ) { continue ; }
-			else if ( typeof arg === 'string' ) { str += arg ; }
-			else if ( typeof arg === 'number' ) { str += arg ; }
-			else if ( typeof arg.toString === 'function' ) { str += arg.toString() ; }
-		}
-	}
-
-	return str ;
-} ;
-
-
-
-exports.markupMethod = function( str ) {
-	if ( typeof str !== 'string' ) {
-		if ( ! str ) { str = '' ; }
-		else if ( typeof str.toString === 'function' ) { str = str.toString() ; }
-		else { str = '' ; }
-	}
-
-	var runtime = {
-		hasMarkup: false ,
-		shift: null ,
-		markupStack: []
-	} ;
-
-	if ( this.parse ) {
-		let markupObjects , markupObject , match , complexMarkup , markup , raw , lastChunk ,
-			output = [] ;
-
-		// Note: the closing bracket is optional to prevent ReDoS
-		for ( [ match , complexMarkup , markup , raw ] of str.matchAll( /\^\[([^\]]*)]?|\^(.)|([^^]+)/g ) ) {
-			if ( raw ) {
-				if ( output.length ) { output[ output.length - 1 ].text += raw ; }
-				else { output.push( { text: raw } ) ; }
-				continue ;
-			}
-
-			if ( complexMarkup ) { markup = complexMarkup ; }
-			markupObjects = markupReplace.call( this , runtime , match , markup ) ;
-
-			if ( ! Array.isArray( markupObjects ) ) { markupObjects = [ markupObjects ] ; }
-
-			for ( markupObject of markupObjects ) {
-				lastChunk = output.length ? output[ output.length - 1 ] : null ;
-				if ( typeof markupObject === 'string' ) {
-					// This markup is actually a text to add to the last chunk (e.g. "^^" markup is converted to a single "^")
-					if ( lastChunk ) { lastChunk.text += markupObject ; }
-					else { output.push( { text: markupObject } ) ; }
-				}
-				else if ( ! markupObject ) {
-					// Null is for a markup's style reset
-					if ( lastChunk && lastChunk.text.length && Object.keys( lastChunk ).length > 1 ) {
-						// If there was style and text on the last chunk, then this means that the new markup starts a new chunk
-						// markupObject can be null for markup reset function, but we have to create a new chunk
-						output.push( { text: '' } ) ;
-					}
-				}
-				else {
-					if ( lastChunk && lastChunk.text.length ) {
-						// If there was text on the last chunk, then this means that the new markup starts a new chunk
-						output.push( Object.assign( { text: '' } , ... runtime.markupStack ) ) ;
-					}
-					else {
-						// There wasn't any text added, so append the current markup style to the current chunk
-						if ( lastChunk ) { Object.assign( lastChunk , markupObject ) ; }
-						else { output.push( Object.assign( { text: '' } , markupObject ) ) ; }
-					}
-				}
-			}
-		}
-
-		return output ;
-	}
-
-	if ( this.markupReset && this.startingMarkupReset ) {
-		str = ( typeof this.markupReset === 'function' ? this.markupReset( runtime.markupStack ) : this.markupReset ) + str ;
-	}
-
-	str = str.replace( /\^\[([^\]]*)]?|\^(.)/g , ( match , complexMarkup , markup ) => markupReplace.call( this , runtime , match , complexMarkup || markup ) ) ;
-
-	if ( runtime.hasMarkup && this.markupReset && this.endingMarkupReset ) {
-		str += typeof this.markupReset === 'function' ? this.markupReset( runtime.markupStack ) : this.markupReset ;
-	}
-
-	return str ;
-} ;
-
-
-
-// Used by both formatMethod and markupMethod
-function markupReplace( runtime , match , markup ) {
-	var markupTarget , key , value , replacement , colonIndex ;
-
-	if ( markup === '^' ) { return '^' ; }
-
-	if ( this.shiftMarkup && this.shiftMarkup[ markup ] ) {
-		runtime.shift = this.shiftMarkup[ markup ] ;
-		return '' ;
-	}
-
-	if ( markup.length > 1 && this.dataMarkup && ( colonIndex = markup.indexOf( ':' ) ) !== -1 ) {
-		key = markup.slice( 0 , colonIndex ) ;
-		markupTarget = this.dataMarkup[ key ] ;
-
-		if ( markupTarget === undefined ) {
-			if ( this.markupCatchAll === undefined ) { return '' ; }
-			markupTarget = this.markupCatchAll ;
-		}
-
-		runtime.hasMarkup = true ;
-		value = markup.slice( colonIndex + 1 ) ;
-
-		if ( typeof markupTarget === 'function' ) {
-			replacement = markupTarget( runtime.markupStack , key , value ) ;
-			// method should manage markup stack themselves
-		}
-		else {
-			replacement = { [ markupTarget ]: value } ;
-			stackMarkup( runtime , replacement ) ;
-		}
-
-		return replacement ;
-	}
-
-	if ( runtime.shift ) {
-		markupTarget = this.shiftedMarkup?.[ runtime.shift ]?.[ markup ] ;
-		runtime.shift = null ;
-	}
-	else {
-		markupTarget = this.markup?.[ markup ] ;
-	}
-
-	if ( markupTarget === undefined ) {
-		if ( this.markupCatchAll === undefined ) { return '' ; }
-		markupTarget = this.markupCatchAll ;
-	}
-
-	runtime.hasMarkup = true ;
-
-	if ( typeof markupTarget === 'function' ) {
-		replacement = markupTarget( runtime.markupStack , markup ) ;
-		// method should manage markup stack themselves
-	}
-	else {
-		replacement = markupTarget ;
-		stackMarkup( runtime , replacement ) ;
-	}
-
-	return replacement ;
-}
-
-
-
-// internal method for markupReplace()
-function stackMarkup( runtime , replacement ) {
-	if ( Array.isArray( replacement ) ) {
-		for ( let item of replacement ) {
-			if ( item === null ) { runtime.markupStack.length = 0 ; }
-			else { runtime.markupStack.push( item ) ; }
-		}
-	}
-	else {
-		if ( replacement === null ) { runtime.markupStack.length = 0 ; }
-		else { runtime.markupStack.push( replacement ) ; }
-	}
-}
-
-
-
-// Note: the closing bracket is optional to prevent ReDoS
-exports.stripMarkup = str => str.replace( /\^\[[^\]]*]?|\^./g , match =>
-	match === '^^' ? '^' :
-	match === '^ ' ? ' ' :
-	''
-) ;
-
-exports.escapeMarkup = str => str.replace( /\^/g , '^^' ) ;
-
-
-
-const DEFAULT_FORMATTER = {
-	argumentSanitizer: str => escape.control( str , true ) ,
-	extraArguments: true ,
-	color: false ,
-	noMarkup: false ,
-	escapeMarkup: false ,
-	endingMarkupReset: true ,
-	startingMarkupReset: false ,
-	markupReset: ansi.reset ,
-	shiftMarkup: {
-		'#': 'background'
-	} ,
-	markup: {
-		":": ansi.reset ,
-		" ": ansi.reset + " " ,
-
-		"-": ansi.dim ,
-		"+": ansi.bold ,
-		"_": ansi.underline ,
-		"/": ansi.italic ,
-		"!": ansi.inverse ,
-
-		"b": ansi.blue ,
-		"B": ansi.brightBlue ,
-		"c": ansi.cyan ,
-		"C": ansi.brightCyan ,
-		"g": ansi.green ,
-		"G": ansi.brightGreen ,
-		"k": ansi.black ,
-		"K": ansi.brightBlack ,
-		"m": ansi.magenta ,
-		"M": ansi.brightMagenta ,
-		"r": ansi.red ,
-		"R": ansi.brightRed ,
-		"w": ansi.white ,
-		"W": ansi.brightWhite ,
-		"y": ansi.yellow ,
-		"Y": ansi.brightYellow
-	} ,
-	shiftedMarkup: {
-		background: {
-			":": ansi.reset ,
-			" ": ansi.reset + " " ,
-
-			"b": ansi.bgBlue ,
-			"B": ansi.bgBrightBlue ,
-			"c": ansi.bgCyan ,
-			"C": ansi.bgBrightCyan ,
-			"g": ansi.bgGreen ,
-			"G": ansi.bgBrightGreen ,
-			"k": ansi.bgBlack ,
-			"K": ansi.bgBrightBlack ,
-			"m": ansi.bgMagenta ,
-			"M": ansi.bgBrightMagenta ,
-			"r": ansi.bgRed ,
-			"R": ansi.bgBrightRed ,
-			"w": ansi.bgWhite ,
-			"W": ansi.bgBrightWhite ,
-			"y": ansi.bgYellow ,
-			"Y": ansi.bgBrightYellow
-		}
-	} ,
-	dataMarkup: {
-		fg: ( markupStack , key , value ) => {
-			var str = ansi.fgColor[ value ] || ansi.trueColor( value ) ;
-			markupStack.push( str ) ;
-			return str ;
-		} ,
-		bg: ( markupStack , key , value ) => {
-			var str = ansi.bgColor[ value ] || ansi.bgTrueColor( value ) ;
-			markupStack.push( str ) ;
-			return str ;
-		}
-	} ,
-	markupCatchAll: ( markupStack , key , value ) => {
-		var str = '' ;
-
-		if ( value === undefined ) {
-			if ( key[ 0 ] === '#' ) {
-				str = ansi.trueColor( key ) ;
-			}
-			else if ( typeof ansi[ key ] === 'string' ) {
-				str = ansi[ key ] ;
-			}
-		}
-
-		markupStack.push( str ) ;
-		return str ;
-	}
-} ;
-
-// Aliases
-DEFAULT_FORMATTER.dataMarkup.color = DEFAULT_FORMATTER.dataMarkup.c = DEFAULT_FORMATTER.dataMarkup.fgColor = DEFAULT_FORMATTER.dataMarkup.fg ;
-DEFAULT_FORMATTER.dataMarkup.bgColor = DEFAULT_FORMATTER.dataMarkup.bg ;
-
-
-
-exports.createFormatter = ( options ) => exports.formatMethod.bind( Object.assign( {} , DEFAULT_FORMATTER , options ) ) ;
-exports.format = exports.formatMethod.bind( DEFAULT_FORMATTER ) ;
-exports.format.default = DEFAULT_FORMATTER ;
-
-exports.formatNoMarkup = exports.formatMethod.bind( Object.assign( {} , DEFAULT_FORMATTER , { noMarkup: true } ) ) ;
-// For passing string to Terminal-Kit, it will interpret markup on its own
-exports.formatThirdPartyMarkup = exports.formatMethod.bind( Object.assign( {} , DEFAULT_FORMATTER , { noMarkup: true , escapeMarkup: true } ) ) ;
-
-exports.createMarkup = ( options ) => exports.markupMethod.bind( Object.assign( {} , DEFAULT_FORMATTER , options ) ) ;
-exports.markup = exports.markupMethod.bind( DEFAULT_FORMATTER ) ;
-
-
-
-// Count the number of parameters needed for this string
-exports.format.count = function( str , noMarkup = false ) {
-	var markup , index , relative , autoIndex = 1 , maxIndex = 0 ;
-
-	if ( typeof str !== 'string' ) { return 0 ; }
-
-	// This regex differs slightly from the main regex: we do not count '%%' and %F is excluded
-	// Note: the closing bracket is optional to prevent ReDoS
-	var regexp = noMarkup ?
-		/%([+-]?)([0-9]*)(?:\[[^\]]*\])?[a-zA-EG-Z]/g :
-		/%([+-]?)([0-9]*)(?:\[[^\]]*\])?[a-zA-EG-Z]|(\^\[[^\]]*]?|\^.)/g ;
-
-	for ( [ , relative , index , markup ] of str.matchAll( regexp ) ) {
-		if ( markup ) { continue ; }
-
-		if ( index ) {
-			index = parseInt( index , 10 ) ;
-
-			if ( relative ) {
-				if ( relative === '+' ) { index = autoIndex + index ; }
-				else if ( relative === '-' ) { index = autoIndex - index ; }
-			}
-		}
-		else {
-			index = autoIndex ;
-		}
-
-		autoIndex ++ ;
-
-		if ( maxIndex < index ) { maxIndex = index ; }
-	}
-
-	return maxIndex ;
-} ;
-
-
-
-// Tell if this string contains formatter chars
-exports.format.hasFormatting = function( str ) {
-	if ( str.search( /\^(.?)|(%%)|%([+-]?)([0-9]*)(?:\[([^\]]*)\])?([a-zA-Z])/ ) !== -1 ) { return true ; }
-	return false ;
-} ;
-
-
-
-// --- Format MODES ---
-
-const modes = {} ;
-exports.format.modes = modes ;	// <-- expose modes, used by Babel-Tower for String Kit interop'
-
-
-
-// string
-modes.s = arg => {
-	if ( typeof arg === 'string' ) { return arg ; }
-	if ( arg === null || arg === undefined || arg === true || arg === false ) { return '(' + arg + ')' ; }
-	if ( typeof arg === 'number' ) { return '' + arg ; }
-	if ( typeof arg.toString === 'function' ) { return arg.toString() ; }
-	return '(' + arg + ')' ;
-} ;
-
-modes.r = arg => modes.s( arg ) ;
-modes.r.noSanitize = true ;
-
-
-
-// string, interpret ^ formatting
-modes.S = ( arg , modeArg , options ) => {
-	// We do the sanitizing part on our own
-	var interpret = options.escapeMarkup ? str => ( options.argumentSanitizer ? options.argumentSanitizer( str ) : str ) :
-		str => exports.markupMethod.call( options , options.argumentSanitizer ? options.argumentSanitizer( str ) : str ) ;
-
-	if ( typeof arg === 'string' ) { return interpret( arg ) ; }
-	if ( arg === null || arg === undefined || arg === true || arg === false ) { return '(' + arg + ')' ; }
-	if ( typeof arg === 'number' ) { return '' + arg ; }
-	if ( typeof arg.toString === 'function' ) { return interpret( arg.toString() ) ; }
-	return interpret( '(' + arg + ')' ) ;
-} ;
-
-modes.S.noSanitize = true ;
-modes.S.noEscapeMarkup = true ;
-modes.S.noCommonModeArg = true ;
-
-
-
-// natural (WIP)
-modes.N = ( arg , isSubCall ) => {
-	if ( typeof arg === 'string' ) { return arg ; }
-
-	if ( arg === null || arg === undefined || arg === true || arg === false ) {
-		return '' + arg ;
-	}
-
-	if ( typeof arg === 'number' ) {
-		return modes.f( arg , '.3g ' ) ;
-	}
-
-	if ( Array.isArray( arg ) ) {
-		arg = arg.map( e => modes.N( e , true ) ) ;
-
-		if ( isSubCall ) {
-			return '[' + arg.join( ',' ) + ']' ;
-		}
-
-		return arg.join( ', ' ) ;
-	}
-
-	if ( Buffer.isBuffer( arg ) ) {
-		arg = [ ... arg ].map( e => {
-			e = e.toString( 16 ) ;
-			if ( e.length === 1 ) { e = '0' + e ; }
-			return e ;
-		} ) ;
-		return '<' + arg.join( ' ' ) + '>' ;
-	}
-
-	var proto = Object.getPrototypeOf( arg ) ;
-
-	if ( proto === null || proto === Object.prototype ) {
-		// Plain objects
-		arg = Object.entries( arg ).sort( naturalSort )
-			.map( e => e[ 0 ] + ': ' + modes.N( e[ 1 ] , true ) ) ;
-
-		if ( isSubCall ) {
-			return '{' + arg.join( ', ' ) + '}' ;
-		}
-
-		return arg.join( ', ' ) ;
-	}
-
-	if ( typeof arg.inspect === 'function' ) { return arg.inspect() ; }
-	if ( typeof arg.toString === 'function' ) { return arg.toString() ; }
-
-	return '(' + arg + ')' ;
-} ;
-
-modes.n = arg => modes.N( arg , true ) ;
-
-
-
-// float
-modes.f = ( arg , modeArg ) => {
-	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
-	if ( typeof arg !== 'number' ) { arg = 0 ; }
-
-	var subModes = floatModeArg( modeArg ) ,
-		sn = new StringNumber( arg , '.' , subModes.groupSeparator ) ;
-
-	if ( subModes.rounding !== null ) { sn.round( subModes.rounding ) ; }
-	if ( subModes.precision ) { sn.precision( subModes.precision ) ; }
-
-	return sn.toString( subModes.leftPadding , subModes.rightPadding , subModes.rightPaddingOnlyIfDecimal ) ;
-} ;
-
-modes.f.noSanitize = true ;
-
-
-
-// absolute percent
-modes.P = ( arg , modeArg ) => {
-	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
-	if ( typeof arg !== 'number' ) { arg = 0 ; }
-
-	arg *= 100 ;
-
-	var subModes = floatModeArg( modeArg ) ,
-		sn = new StringNumber( arg , '.' , subModes.groupSeparator ) ;
-
-	// Force rounding to zero by default
-	if ( subModes.rounding !== null || ! subModes.precision ) { sn.round( subModes.rounding || 0 ) ; }
-	if ( subModes.precision ) { sn.precision( subModes.precision ) ; }
-
-	return sn.toNoExpString( subModes.leftPadding , subModes.rightPadding , subModes.rightPaddingOnlyIfDecimal ) + '%' ;
-} ;
-
-modes.P.noSanitize = true ;
-
-
-
-// relative percent
-modes.p = ( arg , modeArg ) => {
-	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
-	if ( typeof arg !== 'number' ) { arg = 0 ; }
-
-	arg = ( arg - 1 ) * 100 ;
-
-	var subModes = floatModeArg( modeArg ) ,
-		sn = new StringNumber( arg , '.' , subModes.groupSeparator ) ;
-
-	// Force rounding to zero by default
-	if ( subModes.rounding !== null || ! subModes.precision ) { sn.round( subModes.rounding || 0 ) ; }
-	if ( subModes.precision ) { sn.precision( subModes.precision ) ; }
-
-	// 4th argument force a '+' sign
-	return sn.toNoExpString( subModes.leftPadding , subModes.rightPadding , subModes.rightPaddingOnlyIfDecimal , true ) + '%' ;
-} ;
-
-modes.p.noSanitize = true ;
-
-
-
-// metric system
-modes.k = ( arg , modeArg ) => {
-	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
-	if ( typeof arg !== 'number' ) { return '0' ; }
-
-	var subModes = floatModeArg( modeArg ) ,
-		sn = new StringNumber( arg , '.' , subModes.groupSeparator ) ;
-
-	if ( subModes.rounding !== null ) { sn.round( subModes.rounding ) ; }
-	// Default to 3 numbers precision
-	if ( subModes.precision || subModes.rounding === null ) { sn.precision( subModes.precision || 3 ) ; }
-
-	return sn.toMetricString( subModes.leftPadding , subModes.rightPadding , subModes.rightPaddingOnlyIfDecimal ) ;
-} ;
-
-modes.k.noSanitize = true ;
-
-
-
-// exponential notation, a.k.a. "E notation" (e.g. 1.23e+2)
-modes.e = ( arg , modeArg ) => {
-	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
-	if ( typeof arg !== 'number' ) { arg = 0 ; }
-
-	var subModes = floatModeArg( modeArg ) ,
-		sn = new StringNumber( arg , '.' , subModes.groupSeparator ) ;
-
-	if ( subModes.rounding !== null ) { sn.round( subModes.rounding ) ; }
-	if ( subModes.precision ) { sn.precision( subModes.precision ) ; }
-
-	return sn.toExponential() ;
-} ;
-
-modes.e.noSanitize = true ;
-
-
-
-// scientific notation (e.g. 1.23 × 10²)
-modes.K = ( arg , modeArg ) => {
-	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
-	if ( typeof arg !== 'number' ) { arg = 0 ; }
-
-	var subModes = floatModeArg( modeArg ) ,
-		sn = new StringNumber( arg , '.' , subModes.groupSeparator ) ;
-
-	if ( subModes.rounding !== null ) { sn.round( subModes.rounding ) ; }
-	if ( subModes.precision ) { sn.precision( subModes.precision ) ; }
-
-	return sn.toScientific() ;
-} ;
-
-modes.K.noSanitize = true ;
-
-
-
-// integer
-modes.d = modes.i = arg => {
-	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
-	if ( typeof arg === 'number' ) { return '' + Math.floor( arg ) ; }
-	return '0' ;
-} ;
-
-modes.i.noSanitize = true ;
-
-
-
-// unsigned integer
-modes.u = arg => {
-	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
-	if ( typeof arg === 'number' ) { return '' + Math.max( Math.floor( arg ) , 0 ) ; }
-	return '0' ;
-} ;
-
-modes.u.noSanitize = true ;
-
-
-
-// unsigned positive integer
-modes.U = arg => {
-	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
-	if ( typeof arg === 'number' ) { return '' + Math.max( Math.floor( arg ) , 1 ) ; }
-	return '1' ;
-} ;
-
-modes.U.noSanitize = true ;
-
-
-
-// /!\ Should use StringNumber???
-// Degree, minutes and seconds.
-// Unlike %t which receive ms, here the input is in degree.
-modes.m = arg => {
-	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
-	if ( typeof arg !== 'number' ) { return '(NaN)' ; }
-
-	var minus = '' ;
-	if ( arg < 0 ) { minus = '-' ; arg = -arg ; }
-
-	var degrees = epsilonFloor( arg ) ,
-		frac = arg - degrees ;
-
-	if ( ! frac ) { return minus + degrees + '°' ; }
-
-	var minutes = epsilonFloor( frac * 60 ) ,
-		seconds = epsilonFloor( frac * 3600 - minutes * 60 ) ;
-
-	if ( seconds ) {
-		return minus + degrees + '°' + ( '' + minutes ).padStart( 2 , '0' ) + '′' + ( '' + seconds ).padStart( 2 , '0' ) + '″' ;
-	}
-
-	return minus + degrees + '°' + ( '' + minutes ).padStart( 2 , '0' ) + '′' ;
-
-} ;
-
-modes.m.noSanitize = true ;
-
-
-
-// time duration, transform ms into H:min:s
-// Later it should format Date as well: number=duration, date object=date
-// Note that it would not replace moment.js, but it could uses it.
-modes.t = ( arg , modeArg ) => {
-	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
-	if ( typeof arg !== 'number' ) { return '(NaN)' ; }
-
-	var h , min , s , sn , sStr ,
-		sign = '' ,
-		subModes = timeModeArg( modeArg ) ,
-		roundingType = subModes.roundingType ,
-		hSeparator = subModes.useAbbreviation ? 'h' : ':' ,
-		minSeparator = subModes.useAbbreviation ? 'min' : ':' ,
-		sSeparator = subModes.useAbbreviation ? 's' : '.' ,
-		forceDecimalSeparator = subModes.useAbbreviation ;
-
-	s = arg / 1000 ;
-
-	if ( s < 0 ) {
-		s = -s ;
-		roundingType *= -1 ;
-		sign = '-' ;
-	}
-
-	if ( s < 60 && ! subModes.forceMinutes ) {
-		sn = new StringNumber( s , sSeparator , undefined , forceDecimalSeparator ) ;
-		sn.round( subModes.rounding , roundingType ) ;
-
-		// Check if rounding has made it reach 60
-		if ( sn.toNumber() < 60 ) {
-			sStr = sn.toString( 1 , subModes.rightPadding , subModes.rightPaddingOnlyIfDecimal ) ;
-			return sign + sStr ;
-		}
-
-		s = 60 ;
-
-	}
-
-	min = Math.floor( s / 60 ) ;
-	s = s % 60 ;
-
-	sn = new StringNumber( s , sSeparator , undefined , forceDecimalSeparator ) ;
-	sn.round( subModes.rounding , roundingType ) ;
-
-	// Check if rounding has made it reach 60
-	if ( sn.toNumber() < 60 ) {
-		sStr = sn.toString( 2 , subModes.rightPadding , subModes.rightPaddingOnlyIfDecimal ) ;
-	}
-	else {
-		min ++ ;
-		s = 0 ;
-		sn.set( s ) ;
-		sStr = sn.toString( 2 , subModes.rightPadding , subModes.rightPaddingOnlyIfDecimal ) ;
-	}
-
-	if ( min < 60 && ! subModes.forceHours ) {
-		return sign + min + minSeparator + sStr ;
-	}
-
-	h = Math.floor( min / 60 ) ;
-	min = min % 60 ;
-
-	return sign + h + hSeparator + ( '' + min ).padStart( 2 , '0' ) + minSeparator + sStr ;
-} ;
-
-modes.t.noSanitize = true ;
-
-
-
-// unsigned hexadecimal
-modes.h = arg => {
-	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
-	if ( typeof arg === 'number' ) { return '' + Math.max( Math.floor( arg ) , 0 ).toString( 16 ) ; }
-	return '0' ;
-} ;
-
-modes.h.noSanitize = true ;
-
-
-
-// unsigned hexadecimal, force pair of symboles
-modes.x = arg => {
-	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
-	if ( typeof arg !== 'number' ) { return '00' ; }
-
-	var value = '' + Math.max( Math.floor( arg ) , 0 ).toString( 16 ) ;
-
-	if ( value.length % 2 ) { value = '0' + value ; }
-	return value ;
-} ;
-
-modes.x.noSanitize = true ;
-
-
-
-// unsigned octal
-modes.o = arg => {
-	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
-	if ( typeof arg === 'number' ) { return '' + Math.max( Math.floor( arg ) , 0 ).toString( 8 ) ; }
-	return '0' ;
-} ;
-
-modes.o.noSanitize = true ;
-
-
-
-// unsigned binary
-modes.b = arg => {
-	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
-	if ( typeof arg === 'number' ) { return '' + Math.max( Math.floor( arg ) , 0 ).toString( 2 ) ; }
-	return '0' ;
-} ;
-
-modes.b.noSanitize = true ;
-
-
-
-// String to hexadecimal, force pair of symboles
-modes.X = arg => {
-	if ( typeof arg === 'string' ) { arg = Buffer.from( arg ) ; }
-	else if ( ! Buffer.isBuffer( arg ) ) { return '' ; }
-	return arg.toString( 'hex' ) ;
-} ;
-
-modes.X.noSanitize = true ;
-
-
-
-// base64
-modes.z = arg => {
-	if ( typeof arg === 'string' ) { arg = Buffer.from( arg ) ; }
-	else if ( ! Buffer.isBuffer( arg ) ) { return '' ; }
-	return arg.toString( 'base64' ) ;
-} ;
-
-
-
-// base64url
-modes.Z = arg => {
-	if ( typeof arg === 'string' ) { arg = Buffer.from( arg ) ; }
-	else if ( ! Buffer.isBuffer( arg ) ) { return '' ; }
-	return arg.toString( 'base64' ).replace( /\+/g , '-' )
-		.replace( /\//g , '_' )
-		.replace( /[=]{1,2}$/g , '' ) ;
-} ;
-
-
-
-// Inspect
-const I_OPTIONS = {} ;
-modes.I = ( arg , modeArg , options ) => genericInspectMode( arg , modeArg , options , I_OPTIONS ) ;
-modes.I.noSanitize = true ;
-
-
-
-// More minimalist inspect
-const Y_OPTIONS = {
-	noFunc: true ,
-	enumOnly: true ,
-	noDescriptor: true ,
-	useInspect: true ,
-	useInspectPropertyBlackList: true
-} ;
-modes.Y = ( arg , modeArg , options ) => genericInspectMode( arg , modeArg , options , Y_OPTIONS ) ;
-modes.Y.noSanitize = true ;
-
-
-
-// Even more minimalist inspect
-const O_OPTIONS = { minimal: true , bulletIndex: true , noMarkup: true } ;
-modes.O = ( arg , modeArg , options ) => genericInspectMode( arg , modeArg , options , O_OPTIONS ) ;
-modes.O.noSanitize = true ;
-
-
-
-// Inspect error
-const E_OPTIONS = {} ;
-modes.E = ( arg , modeArg , options ) => genericInspectMode( arg , modeArg , options , E_OPTIONS , true ) ;
-modes.E.noSanitize = true ;
-
-
-
-// JSON
-modes.J = arg => arg === undefined ? 'null' : JSON.stringify( arg ) ;
-
-
-
-// drop
-modes.D = () => '' ;
-modes.D.noSanitize = true ;
-
-
-
-// ModeArg formats
-
-// The format for commonModeArg
-const COMMON_MODE_ARG_FORMAT_REGEX = /([a-zA-Z])(.[^a-zA-Z]*)/g ;
-
-// The format for specific mode arg
-const MODE_ARG_FORMAT_REGEX = /([a-zA-Z]|^)([^a-zA-Z]*)/g ;
-
-
-
-// Called when there is a modeArg and the mode allow common mode arg
-// CONVENTION: reserve upper-cased letters for common mode arg
-function commonModeArg( str , modeArg ) {
-	for ( let [ , k , v ] of modeArg.matchAll( COMMON_MODE_ARG_FORMAT_REGEX ) ) {
-		if ( k === 'L' ) {
-			let width = unicode.width( str ) ;
-			v = + v || 1 ;
-
-			if ( width > v ) {
-				str = unicode.truncateWidth( str , v - 1 ).trim() + '…' ;
-				width = unicode.width( str ) ;
-			}
-
-			if ( width < v ) { str = ' '.repeat( v - width ) + str ; }
-		}
-		else if ( k === 'R' ) {
-			let width = unicode.width( str ) ;
-			v = + v || 1 ;
-
-			if ( width > v ) {
-				str = unicode.truncateWidth( str , v - 1 ).trim() + '…' ;
-				width = unicode.width( str ) ;
-			}
-
-			if ( width < v ) { str = str + ' '.repeat( v - width ) ; }
-		}
-	}
-
-	return str ;
-}
-
-
-
-const FLOAT_MODES = {
-	leftPadding: 1 ,
-	rightPadding: 0 ,
-	rightPaddingOnlyIfDecimal: false ,
-	rounding: null ,
-	precision: null ,
-	groupSeparator: ''
-} ;
-
-// Generic number modes
-function floatModeArg( modeArg ) {
-	FLOAT_MODES.leftPadding = 1 ;
-	FLOAT_MODES.rightPadding = 0 ;
-	FLOAT_MODES.rightPaddingOnlyIfDecimal = false ;
-	FLOAT_MODES.rounding = null ;
-	FLOAT_MODES.precision = null ;
-	FLOAT_MODES.groupSeparator = '' ;
-
-	if ( modeArg ) {
-		for ( let [ , k , v ] of modeArg.matchAll( MODE_ARG_FORMAT_REGEX ) ) {
-			if ( k === 'z' ) {
-				// Zero-left padding
-				FLOAT_MODES.leftPadding = + v ;
-			}
-			else if ( k === 'g' ) {
-				// Group separator
-				FLOAT_MODES.groupSeparator = v || ' ' ;
-			}
-			else if ( ! k ) {
-				if ( v[ 0 ] === '.' ) {
-					// Rounding after the decimal
-					let lv = v[ v.length - 1 ] ;
-
-					// Zero-right padding?
-					if ( lv === '!' ) {
-						FLOAT_MODES.rounding = FLOAT_MODES.rightPadding = parseInt( v.slice( 1 , -1 ) , 10 ) || 0 ;
-					}
-					else if ( lv === '?' ) {
-						FLOAT_MODES.rounding = FLOAT_MODES.rightPadding = parseInt( v.slice( 1 , -1 ) , 10 ) || 0 ;
-						FLOAT_MODES.rightPaddingOnlyIfDecimal = true ;
-					}
-					else {
-						FLOAT_MODES.rounding = parseInt( v.slice( 1 ) , 10 ) || 0 ;
-					}
-				}
-				else if ( v[ v.length - 1 ] === '.' ) {
-					// Rounding before the decimal
-					FLOAT_MODES.rounding = -parseInt( v.slice( 0 , -1 ) , 10 ) || 0 ;
-				}
-				else {
-					// Precision, but only if integer
-					FLOAT_MODES.precision = parseInt( v , 10 ) || null ;
-				}
-			}
-		}
-	}
-
-	return FLOAT_MODES ;
-}
-
-
-
-const TIME_MODES = {
-	useAbbreviation: false ,
-	rightPadding: 0 ,
-	rightPaddingOnlyIfDecimal: false ,
-	rounding: 0 ,
-	roundingType: -1 ,	// -1: floor, 0: round, 1: ceil
-	forceHours: false ,
-	forceMinutes: false
-} ;
-
-// Generic number modes
-function timeModeArg( modeArg ) {
-	TIME_MODES.rightPadding = 0 ;
-	TIME_MODES.rightPaddingOnlyIfDecimal = false ;
-	TIME_MODES.rounding = 0 ;
-	TIME_MODES.roundingType = -1 ;
-	TIME_MODES.useAbbreviation = TIME_MODES.forceHours = TIME_MODES.forceMinutes = false ;
-
-	if ( modeArg ) {
-		for ( let [ , k , v ] of modeArg.matchAll( MODE_ARG_FORMAT_REGEX ) ) {
-			if ( k === 'h' ) {
-				TIME_MODES.forceHours = TIME_MODES.forceMinutes = true ;
-			}
-			else if ( k === 'm' ) {
-				TIME_MODES.forceMinutes = true ;
-			}
-			else if ( k === 'r' ) {
-				TIME_MODES.roundingType = 0 ;
-			}
-			else if ( k === 'f' ) {
-				TIME_MODES.roundingType = -1 ;
-			}
-			else if ( k === 'c' ) {
-				TIME_MODES.roundingType = 1 ;
-			}
-			else if ( k === 'a' ) {
-				TIME_MODES.useAbbreviation = true ;
-			}
-			else if ( ! k ) {
-				if ( v[ 0 ] === '.' ) {
-					// Rounding after the decimal
-					let lv = v[ v.length - 1 ] ;
-
-					// Zero-right padding?
-					if ( lv === '!' ) {
-						TIME_MODES.rounding = TIME_MODES.rightPadding = parseInt( v.slice( 1 , -1 ) , 10 ) || 0 ;
-					}
-					else if ( lv === '?' ) {
-						TIME_MODES.rounding = TIME_MODES.rightPadding = parseInt( v.slice( 1 , -1 ) , 10 ) || 0 ;
-						TIME_MODES.rightPaddingOnlyIfDecimal = true ;
-					}
-					else {
-						TIME_MODES.rounding = parseInt( v.slice( 1 ) , 10 ) || 0 ;
-					}
-				}
-			}
-		}
-	}
-
-	return TIME_MODES ;
-}
-
-
-
-// Generic inspect
-function genericInspectMode( arg , modeArg , options , modeOptions , isInspectError = false ) {
-	var outputMaxLength ,
-		maxLength ,
-		depth = 3 ,
-		style = options && options.color ? 'color' : 'none' ;
-
-	if ( modeArg ) {
-		for ( let [ , k , v ] of modeArg.matchAll( MODE_ARG_FORMAT_REGEX ) ) {
-			if ( k === 'c' ) {
-				if ( v === '+' ) { style = 'color' ; }
-				else if ( v === '-' ) { style = 'none' ; }
-			}
-			else if ( k === 'i' ) {
-				style = 'inline' ;
-			}
-			else if ( k === 'l' ) {
-				// total output max length
-				outputMaxLength = parseInt( v , 10 ) || undefined ;
-			}
-			else if ( k === 's' ) {
-				// string max length
-				maxLength = parseInt( v , 10 ) || undefined ;
-			}
-			else if ( ! k ) {
-				depth = parseInt( v , 10 ) || 1 ;
-			}
-		}
-	}
-
-	if ( isInspectError ) {
-		return inspectError( Object.assign( {
-			depth , style , outputMaxLength , maxLength
-		} , modeOptions ) , arg ) ;
-	}
-
-	return inspect( Object.assign( {
-		depth , style , outputMaxLength , maxLength
-	} , modeOptions ) , arg ) ;
-}
-
-
-
-// From math-kit module
-// /!\ Should be updated with the new way the math-kit module do it!!! /!\
-const EPSILON = 0.0000000001 ;
-const INVERSE_EPSILON = Math.round( 1 / EPSILON ) ;
-
-function epsilonRound( v ) {
-	return Math.round( v * INVERSE_EPSILON ) / INVERSE_EPSILON ;
-}
-
-function epsilonFloor( v ) {
-	return Math.floor( v + EPSILON ) ;
-}
-
-// Round with precision
-function round( v , step ) {
-	// use: v * ( 1 / step )
-	// not: v / step
-	// reason: epsilon rounding errors
-	return epsilonRound( step * Math.round( v * ( 1 / step ) ) ) ;
-}
-
-
-}).call(this)}).call(this,require("buffer").Buffer)
-},{"./StringNumber.js":133,"./ansi.js":134,"./escape.js":136,"./inspect.js":138,"./naturalSort.js":139,"./unicode.js":141,"buffer":143}],138:[function(require,module,exports){
-(function (Buffer,process){(function (){
-/*
-	String Kit
-
-	Copyright (c) 2014 - 2021 Cédric Ronvel
-
-	The MIT License (MIT)
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-*/
-
-/*
-	Variable inspector.
-*/
-
-"use strict" ;
-
-
-
-const escape = require( './escape.js' ) ;
-const ansi = require( './ansi.js' ) ;
-
-const EMPTY = {} ;
-const TRIVIAL_CONSTRUCTOR = new Set( [ Object , Array ] ) ;
-
-
-
-/*
-	Inspect a variable, return a string ready to be displayed with console.log(), or even as an HTML output.
-
-	Options:
-		* style:
-			* 'none': (default) normal output suitable for console.log() or writing in a file
-			* 'inline': like 'none', but without newlines
-			* 'color': colorful output suitable for terminal
-			* 'html': html output
-			* any object: full controle, inheriting from 'none'
-		* tab: `string` override the tab of the style
-		* depth: depth limit, default: 3
-		* maxLength: length limit for strings, default: 250
-		* outputMaxLength: length limit for the inspect output string, default: 5000
-		* noFunc: do not display functions
-		* noDescriptor: do not display descriptor information
-		* noArrayProperty: do not display array properties
-		* noIndex: do not display array indexes
-		* bulletIndex: do not display array indexes, instead display a bullet: *
-		* noType: do not display type and constructor
-		* noTypeButConstructor: do not display type, display non-trivial constructor (not Object or Array, but all others)
-		* enumOnly: only display enumerable properties
-		* funcDetails: display function's details
-		* proto: display object's prototype
-		* sort: sort the keys
-		* noMarkup: don't add Javascript/JSON markup: {}[],"
-		* minimal: imply noFunc: true, noDescriptor: true, noType: true, noArrayProperty: true, enumOnly: true, proto: false and funcDetails: false.
-		  Display a minimal JSON-like output
-		* minimalPlusConstructor: like minimal, but output non-trivial constructor
-		* protoBlackList: `Set` of blacklisted object prototype (will not recurse inside it)
-		* propertyBlackList: `Set` of blacklisted property names (will not even display it)
-		* useInspect: use .inspect() method when available on an object (default to false)
-		* useInspectPropertyBlackList: if set and if the object to be inspected has an 'inspectPropertyBlackList' property which value is a `Set`,
-		  use it like the 'propertyBlackList' option
-*/
-
-function inspect( options , variable ) {
-	if ( arguments.length < 2 ) { variable = options ; options = {} ; }
-	else if ( ! options || typeof options !== 'object' ) { options = {} ; }
-
-	var runtime = { depth: 0 , ancestors: [] } ;
-
-	if ( ! options.style ) { options.style = inspectStyle.none ; }
-	else if ( typeof options.style === 'string' ) { options.style = inspectStyle[ options.style ] ; }
-	// Too slow:
-	//else { options.style = Object.assign( {} , inspectStyle.none , options.style ) ; }
-
-	if ( options.depth === undefined ) { options.depth = 3 ; }
-	if ( options.maxLength === undefined ) { options.maxLength = 250 ; }
-	if ( options.outputMaxLength === undefined ) { options.outputMaxLength = 5000 ; }
-
-	// /!\ nofunc is deprecated
-	if ( options.nofunc ) { options.noFunc = true ; }
-
-	if ( options.minimal ) {
-		options.noFunc = true ;
-		options.noDescriptor = true ;
-		options.noType = true ;
-		options.noArrayProperty = true ;
-		options.enumOnly = true ;
-		options.proto = false ;
-		options.funcDetails = false ;
-	}
-
-	if ( options.minimalPlusConstructor ) {
-		options.noFunc = true ;
-		options.noDescriptor = true ;
-		options.noTypeButConstructor = true ;
-		options.noArrayProperty = true ;
-		options.enumOnly = true ;
-		options.proto = false ;
-		options.funcDetails = false ;
-	}
-
-	var str = inspect_( runtime , options , variable ) ;
-
-	if ( str.length > options.outputMaxLength ) {
-		str = options.style.truncate( str , options.outputMaxLength ) ;
-	}
-
-	return str ;
-}
-
-exports.inspect = inspect ;
-
-
-
-function inspect_( runtime , options , variable ) {
-	var i , funcName , length , proto , propertyList , isTrivialConstructor , constructor , keyIsProperty ,
-		type , pre , isArray , isFunc , specialObject ,
-		str = '' , key = '' , descriptorStr = '' , indent = '' ,
-		descriptor , nextAncestors ;
-
-	// Prepare things (indentation, key, descriptor, ... )
-
-	type = typeof variable ;
-
-	if ( runtime.depth ) {
-		indent = ( options.tab ?? options.style.tab ).repeat( options.noMarkup ? runtime.depth - 1 : runtime.depth ) ;
-	}
-
-	if ( type === 'function' && options.noFunc ) { return '' ; }
-
-	if ( runtime.key !== undefined ) {
-		if ( runtime.descriptor ) {
-			descriptorStr = [] ;
-
-			if ( runtime.descriptor.error ) {
-				descriptorStr = '[' + runtime.descriptor.error + ']' ;
-			}
-			else {
-				if ( ! runtime.descriptor.configurable ) { descriptorStr.push( '-conf' ) ; }
-				if ( ! runtime.descriptor.enumerable ) { descriptorStr.push( '-enum' ) ; }
-
-				// Already displayed by runtime.forceType
-				//if ( runtime.descriptor.get || runtime.descriptor.set ) { descriptorStr.push( 'getter/setter' ) ; } else
-				if ( ! runtime.descriptor.writable ) { descriptorStr.push( '-w' ) ; }
-
-				//if ( descriptorStr.length ) { descriptorStr = '(' + descriptorStr.join( ' ' ) + ')' ; }
-				if ( descriptorStr.length ) { descriptorStr = descriptorStr.join( ' ' ) ; }
-				else { descriptorStr = '' ; }
-			}
-		}
-
-		if ( runtime.keyIsProperty ) {
-			if ( ! options.noMarkup && keyNeedingQuotes( runtime.key ) ) {
-				key = '"' + options.style.key( runtime.key ) + '": ' ;
-			}
-			else {
-				key = options.style.key( runtime.key ) + ': ' ;
-			}
-		}
-		else if ( options.bulletIndex ) {
-			key = ( typeof options.bulletIndex === 'string' ? options.bulletIndex : '*' ) + ' ' ;
-		}
-		else if ( ! options.noIndex ) {
-			key = options.style.index( runtime.key ) ;
-		}
-
-		if ( descriptorStr ) { descriptorStr = ' ' + options.style.type( descriptorStr ) ; }
-	}
-
-	pre = runtime.noPre ? '' : indent + key ;
-
-
-	// Describe the current variable
-
-	if ( variable === undefined ) {
-		str += pre + options.style.constant( 'undefined' ) + descriptorStr + options.style.newline ;
-	}
-	else if ( variable === EMPTY ) {
-		str += pre + options.style.constant( '[empty]' ) + descriptorStr + options.style.newline ;
-	}
-	else if ( variable === null ) {
-		str += pre + options.style.constant( 'null' ) + descriptorStr + options.style.newline ;
-	}
-	else if ( variable === false ) {
-		str += pre + options.style.constant( 'false' ) + descriptorStr + options.style.newline ;
-	}
-	else if ( variable === true ) {
-		str += pre + options.style.constant( 'true' ) + descriptorStr + options.style.newline ;
-	}
-	else if ( type === 'number' ) {
-		str += pre + options.style.number( variable.toString() ) +
-			( options.noType || options.noTypeButConstructor ? '' : ' ' + options.style.type( 'number' ) ) +
-			descriptorStr + options.style.newline ;
-	}
-	else if ( type === 'string' ) {
-		if ( variable.length > options.maxLength ) {
-			str += pre + ( options.noMarkup ? '' : '"' ) + options.style.string( escape.control( variable.slice( 0 , options.maxLength - 1 ) ) ) + '…' + ( options.noMarkup ? '' : '"' ) +
-				( options.noType || options.noTypeButConstructor ? '' : ' ' + options.style.type( 'string' ) + options.style.length( '(' + variable.length + ' - TRUNCATED)' ) ) +
-				descriptorStr + options.style.newline ;
-		}
-		else {
-			str += pre + ( options.noMarkup ? '' : '"' ) + options.style.string( escape.control( variable ) ) + ( options.noMarkup ? '' : '"' ) +
-				( options.noType || options.noTypeButConstructor ? '' : ' ' + options.style.type( 'string' ) + options.style.length( '(' + variable.length + ')' ) ) +
-				descriptorStr + options.style.newline ;
-		}
-	}
-	else if ( Buffer.isBuffer( variable ) ) {
-		str += pre + options.style.inspect( variable.inspect() ) +
-			( options.noType ? '' : ' ' + options.style.type( 'Buffer' ) + options.style.length( '(' + variable.length + ')' ) ) +
-			descriptorStr + options.style.newline ;
-	}
-	else if ( type === 'object' || type === 'function' ) {
-		funcName = length = '' ;
-		isFunc = false ;
-
-		if ( type === 'function' ) {
-			isFunc = true ;
-			funcName = ' ' + options.style.funcName( ( variable.name ? variable.name : '(anonymous)' ) ) ;
-			length = options.style.length( '(' + variable.length + ')' ) ;
-		}
-
-		isArray = false ;
-
-		if ( Array.isArray( variable ) ) {
-			isArray = true ;
-			length = options.style.length( '(' + variable.length + ')' ) ;
-		}
-
-		if ( ! variable.constructor ) { constructor = '(no constructor)' ; }
-		else if ( ! variable.constructor.name ) { constructor = '(anonymous)' ; }
-		else { constructor = variable.constructor.name ; }
-
-		isTrivialConstructor = ! variable.constructor || TRIVIAL_CONSTRUCTOR.has( variable.constructor ) ;
-
-		constructor = options.style.constructorName( constructor ) ;
-		proto = Object.getPrototypeOf( variable ) ;
-
-		str += pre ;
-
-		if ( ! options.noType && ( ! options.noTypeButConstructor || ! isTrivialConstructor ) ) {
-			if ( runtime.forceType && ! options.noType && ! options.noTypeButConstructor ) {
-				str += options.style.type( runtime.forceType ) ;
-			}
-			else if ( options.noTypeButConstructor ) {
-				str += constructor ;
-			}
-			else {
-				str += constructor + funcName + length + ' ' + options.style.type( type ) + descriptorStr ;
-			}
-
-			if ( ! isFunc || options.funcDetails ) { str += ' ' ; }	// if no funcDetails imply no space here
-		}
-
-		if ( isArray && options.noArrayProperty ) {
-			propertyList = [ ... Array( variable.length ).keys() ] ;
-		}
-		else {
-			propertyList = Object.getOwnPropertyNames( variable ) ;
-		}
-
-		if ( options.sort ) { propertyList.sort() ; }
-
-		// Special Objects
-		specialObject = specialObjectSubstitution( variable , runtime , options ) ;
-
-		if ( options.protoBlackList && options.protoBlackList.has( proto ) ) {
-			str += options.style.limit( '[skip]' ) + options.style.newline ;
-		}
-		else if ( specialObject !== undefined ) {
-			if ( typeof specialObject === 'string' ) {
-				str += '=> ' + specialObject + options.style.newline ;
-			}
-			else {
-				str += '=> ' + inspect_(
-					{
-						depth: runtime.depth ,
-						ancestors: runtime.ancestors ,
-						noPre: true
-					} ,
-					options ,
-					specialObject
-				) ;
-			}
-		}
-		else if ( isFunc && ! options.funcDetails ) {
-			str += options.style.newline ;
-		}
-		else if ( ! propertyList.length && ! options.proto ) {
-			str += ( options.noMarkup ? '' : isArray ? '[]' : '{}' ) + options.style.newline ;
-		}
-		else if ( runtime.depth >= options.depth ) {
-			str += options.style.limit( '[depth limit]' ) + options.style.newline ;
-		}
-		else if ( runtime.ancestors.indexOf( variable ) !== -1 ) {
-			str += options.style.limit( '[circular]' ) + options.style.newline ;
-		}
-		else {
-			/*
-			str +=
-				options.noMarkup ? ( isArray && options.noIndex && ! runtime.keyIsProperty ? '' : options.style.newline ) :
-				( isArray ? '[' : '{' ) + options.style.newline ;
-			//*/
-			//*
-			str += ( options.noMarkup ? '' : isArray ? '[' : '{'  ) + options.style.newline ;
-			//*/
-
-			// Do not use .concat() here, it doesn't works as expected with arrays...
-			nextAncestors = runtime.ancestors.slice() ;
-			nextAncestors.push( variable ) ;
-
-			for ( i = 0 ; i < propertyList.length && str.length < options.outputMaxLength ; i ++ ) {
-				if ( ! isArray && (
-					( options.propertyBlackList && options.propertyBlackList.has( propertyList[ i ] ) )
-					|| ( options.useInspectPropertyBlackList && ( variable.inspectPropertyBlackList instanceof Set ) && variable.inspectPropertyBlackList.has( propertyList[ i ] ) )
-				) ) {
-					//str += options.style.limit( '[skip]' ) + options.style.newline ;
-					continue ;
-				}
-
-				if ( isArray && options.noArrayProperty && ! ( propertyList[ i ] in variable ) ) {
-					// Hole in the array (sparse array, item deleted, ...)
-					str += inspect_(
-						{
-							depth: runtime.depth + 1 ,
-							ancestors: nextAncestors ,
-							key: propertyList[ i ] ,
-							keyIsProperty: false
-						} ,
-						options ,
-						EMPTY
-					) ;
-				}
-				else {
-					try {
-						descriptor = Object.getOwnPropertyDescriptor( variable , propertyList[ i ] ) ;
-						// Note: descriptor can be undefined, this happens when the object is a Proxy with a bad implementation:
-						// it reports that key (Object.keys()) but doesn't give the descriptor for it.
-
-						if ( descriptor && ! descriptor.enumerable && options.enumOnly ) { continue ; }
-						keyIsProperty = ! isArray || ! descriptor.enumerable || isNaN( propertyList[ i ] ) ;
-
-						if ( ! options.noDescriptor && descriptor && ( descriptor.get || descriptor.set ) ) {
-							str += inspect_(
-								{
-									depth: runtime.depth + 1 ,
-									ancestors: nextAncestors ,
-									key: propertyList[ i ] ,
-									keyIsProperty: keyIsProperty ,
-									descriptor: descriptor ,
-									forceType: 'getter/setter'
-								} ,
-								options ,
-								{ get: descriptor.get , set: descriptor.set }
-							) ;
-						}
-						else {
-							str += inspect_(
-								{
-									depth: runtime.depth + 1 ,
-									ancestors: nextAncestors ,
-									key: propertyList[ i ] ,
-									keyIsProperty: keyIsProperty ,
-									descriptor: options.noDescriptor ? undefined : descriptor || { error: "Bad Proxy Descriptor" }
-								} ,
-								options ,
-								variable[ propertyList[ i ] ]
-							) ;
-						}
-					}
-					catch ( error ) {
-						str += inspect_(
-							{
-								depth: runtime.depth + 1 ,
-								ancestors: nextAncestors ,
-								key: propertyList[ i ] ,
-								keyIsProperty: keyIsProperty ,
-								descriptor: options.noDescriptor ? undefined : descriptor
-							} ,
-							options ,
-							error
-						) ;
-					}
-				}
-
-				if ( i < propertyList.length - 1 ) { str += options.style.comma ; }
-			}
-
-			if ( options.proto ) {
-				str += inspect_(
-					{
-						depth: runtime.depth + 1 ,
-						ancestors: nextAncestors ,
-						key: '__proto__' ,
-						keyIsProperty: true
-					} ,
-					options ,
-					proto
-				) ;
-			}
-
-			str += options.noMarkup ? '' : indent + ( isArray ? ']' : '}' ) + options.style.newline ;
-		}
-	}
-
-
-	// Finalizing
-
-
-	if ( runtime.depth === 0 ) {
-		if ( options.style.trim ) { str = str.trim() ; }
-		if ( options.style === 'html' ) { str = escape.html( str ) ; }
-	}
-
-	return str ;
-}
-
-
-
-function keyNeedingQuotes( key ) {
-	if ( ! key.length ) { return true ; }
-	return false ;
-}
-
-
-
-var promiseStates = [ 'pending' , 'fulfilled' , 'rejected' ] ;
-
-
-
-// Some special object are better written down when substituted by something else
-function specialObjectSubstitution( object , runtime , options ) {
-	if ( typeof object.constructor !== 'function' ) {
-		// Some objects have no constructor, e.g.: Object.create(null)
-		//console.error( object ) ;
-		return ;
-	}
-
-	if ( object instanceof String ) {
-		return object.toString() ;
-	}
-
-	if ( object instanceof RegExp ) {
-		return object.toString() ;
-	}
-
-	if ( object instanceof Date ) {
-		return object.toString() + ' [' + object.getTime() + ']' ;
-	}
-
-	if ( typeof Set === 'function' && object instanceof Set ) {
-		// This is an ES6 'Set' Object
-		return Array.from( object ) ;
-	}
-
-	if ( typeof Map === 'function' && object instanceof Map ) {
-		// This is an ES6 'Map' Object
-		return Array.from( object ) ;
-	}
-
-	if ( object instanceof Promise ) {
-		if ( process && process.binding && process.binding( 'util' ) && process.binding( 'util' ).getPromiseDetails ) {
-			let details = process.binding( 'util' ).getPromiseDetails( object ) ;
-			let state =  promiseStates[ details[ 0 ] ] ;
-			let str = 'Promise <' + state + '>' ;
-
-			if ( state === 'fulfilled' ) {
-				str += ' ' + inspect_(
-					{
-						depth: runtime.depth ,
-						ancestors: runtime.ancestors ,
-						noPre: true
-					} ,
-					options ,
-					details[ 1 ]
-				) ;
-			}
-			else if ( state === 'rejected' ) {
-				if ( details[ 1 ] instanceof Error ) {
-					str += ' ' + inspectError(
-						{
-							style: options.style ,
-							noErrorStack: true
-						} ,
-						details[ 1 ]
-					) ;
-				}
-				else {
-					str += ' ' + inspect_(
-						{
-							depth: runtime.depth ,
-							ancestors: runtime.ancestors ,
-							noPre: true
-						} ,
-						options ,
-						details[ 1 ]
-					) ;
-				}
-			}
-
-			return str ;
-		}
-	}
-
-	if ( object._bsontype ) {
-		// This is a MongoDB ObjectID, rather boring to display in its original form
-		// due to esoteric characters that confuse both the user and the terminal displaying it.
-		// Substitute it to its string representation
-		return object.toString() ;
-	}
-
-	if ( options.useInspect && typeof object.inspect === 'function' ) {
-		return object.inspect() ;
-	}
-
-	return ;
-}
-
-
-
-/*
-	Options:
-		noErrorStack: set to true if the stack should not be displayed
-*/
-function inspectError( options , error ) {
-	var str = '' , stack , type , code ;
-
-	if ( arguments.length < 2 ) { error = options ; options = {} ; }
-	else if ( ! options || typeof options !== 'object' ) { options = {} ; }
-
-	if ( ! options.style ) { options.style = inspectStyle.none ; }
-	else if ( typeof options.style === 'string' ) { options.style = inspectStyle[ options.style ] ; }
-
-	if ( ! ( error instanceof Error ) ) {
-		str += '[not an Error] ' ;
-
-		if ( typeof error === 'string' ) {
-			let maxLength = 5000 ;
-
-			if ( error.length > maxLength ) {
-				str += options.style.errorMessage( escape.control( error.slice( 0 , maxLength - 1 ) , true ) ) + '…'
-					+ options.style.length( '(' + error.length + ' - TRUNCATED)' )
-					+ options.style.newline ;
-			}
-			else {
-				str += options.style.errorMessage( escape.control( error , true ) )
-					+ options.style.newline ;
-			}
-
-			return str ;
-		}
-		else if ( ! error || typeof error !== 'object' || ! error.name || typeof error.name !== 'string' || ! error.message || typeof error.message !== 'string' ) {
-			str += inspect( options , error ) ;
-			return str ;
-		}
-
-		// It's an object, but it's compatible with Error, so we can move on...
-	}
-
-	if ( error.stack && ! options.noErrorStack ) { stack = inspectStack( options , error.stack ) ; }
-
-	type = error.type || error.constructor.name ;
-	code = error.code || error.name || error.errno || error.number ;
-
-	str += options.style.errorType( type ) +
-		( code ? ' [' + options.style.errorType( code ) + ']' : '' ) + ': ' ;
-	str += options.style.errorMessage( error.message ) + '\n' ;
-
-	if ( stack ) { str += options.style.errorStack( stack ) + '\n' ; }
-
-	if ( error.from ) {
-		str += options.style.newline + options.style.errorFromMessage( 'From error:' ) + options.style.newline + inspectError( options , error.from ) ;
-	}
-
-	return str ;
-}
-
-exports.inspectError = inspectError ;
-
-
-
-function inspectStack( options , stack ) {
-	if ( arguments.length < 2 ) { stack = options ; options = {} ; }
-	else if ( ! options || typeof options !== 'object' ) { options = {} ; }
-
-	if ( ! options.style ) { options.style = inspectStyle.none ; }
-	else if ( typeof options.style === 'string' ) { options.style = inspectStyle[ options.style ] ; }
-
-	if ( ! stack ) { return ; }
-
-	if ( ( options.browser || process.browser ) && stack.indexOf( '@' ) !== -1 ) {
-		// Assume a Firefox-compatible stack-trace here...
-		stack = stack
-			.replace( /[</]*(?=@)/g , '' )	// Firefox output some WTF </</</</< stuff in its stack trace -- removing that
-			.replace(
-				/^\s*([^@]*)\s*@\s*([^\n]*)(?::([0-9]+):([0-9]+))?$/mg ,
-				( matches , method , file , line , column ) => {
-					return options.style.errorStack( '    at ' ) +
-						( method ? options.style.errorStackMethod( method ) + ' ' : '' ) +
-						options.style.errorStack( '(' ) +
-						( file ? options.style.errorStackFile( file ) : options.style.errorStack( 'unknown' ) ) +
-						( line ? options.style.errorStack( ':' ) + options.style.errorStackLine( line ) : '' ) +
-						( column ? options.style.errorStack( ':' ) + options.style.errorStackColumn( column ) : '' ) +
-						options.style.errorStack( ')' ) ;
-				}
-			) ;
-	}
-	else {
-		stack = stack.replace( /^[^\n]*\n/ , '' ) ;
-		stack = stack.replace(
-			/^\s*(at)\s+(?:(?:(async|new)\s+)?([^\s:()[\]\n]+(?:\([^)]+\))?)\s)?(?:\[as ([^\s:()[\]\n]+)\]\s)?(?:\(?([^:()[\]\n]+):([0-9]+):([0-9]+)\)?)?$/mg ,
-			( matches , at , keyword , method , as , file , line , column ) => {
-				return options.style.errorStack( '    at ' ) +
-					( keyword ? options.style.errorStackKeyword( keyword ) + ' ' : '' ) +
-					( method ? options.style.errorStackMethod( method ) + ' ' : '' ) +
-					( as ? options.style.errorStack( '[as ' ) + options.style.errorStackMethodAs( as ) + options.style.errorStack( '] ' ) : '' ) +
-					options.style.errorStack( '(' ) +
-					( file ? options.style.errorStackFile( file ) : options.style.errorStack( 'unknown' ) ) +
-					( line ? options.style.errorStack( ':' ) + options.style.errorStackLine( line ) : '' ) +
-					( column ? options.style.errorStack( ':' ) + options.style.errorStackColumn( column ) : '' ) +
-					options.style.errorStack( ')' ) ;
-			}
-		) ;
-	}
-
-	return stack ;
-}
-
-exports.inspectStack = inspectStack ;
-
-
-
-// Inspect's styles
-
-var inspectStyle = {} ;
-
-var inspectStyleNoop = str => str ;
-
-
-
-inspectStyle.none = {
-	trim: false ,
-	tab: '    ' ,
-	newline: '\n' ,
-	comma: '' ,
-	limit: inspectStyleNoop ,
-	type: str => '<' + str + '>' ,
-	constant: inspectStyleNoop ,
-	funcName: inspectStyleNoop ,
-	constructorName: str => '<' + str + '>' ,
-	length: inspectStyleNoop ,
-	key: inspectStyleNoop ,
-	index: str => '[' + str + '] ' ,
-	number: inspectStyleNoop ,
-	inspect: inspectStyleNoop ,
-	string: inspectStyleNoop ,
-	errorType: inspectStyleNoop ,
-	errorMessage: inspectStyleNoop ,
-	errorStack: inspectStyleNoop ,
-	errorStackKeyword: inspectStyleNoop ,
-	errorStackMethod: inspectStyleNoop ,
-	errorStackMethodAs: inspectStyleNoop ,
-	errorStackFile: inspectStyleNoop ,
-	errorStackLine: inspectStyleNoop ,
-	errorStackColumn: inspectStyleNoop ,
-	errorFromMessage: inspectStyleNoop ,
-	truncate: ( str , maxLength ) => str.slice( 0 , maxLength - 1 ) + '…'
-} ;
-
-
-
-inspectStyle.inline = Object.assign( {} , inspectStyle.none , {
-	trim: true ,
-	tab: '' ,
-	newline: ' ' ,
-	comma: ', ' ,
-	length: () => '' ,
-	index: () => ''
-	//type: () => '' ,
-} ) ;
-
-
-
-inspectStyle.color = Object.assign( {} , inspectStyle.none , {
-	limit: str => ansi.bold + ansi.brightRed + str + ansi.reset ,
-	type: str => ansi.italic + ansi.brightBlack + str + ansi.reset ,
-	constant: str => ansi.cyan + str + ansi.reset ,
-	funcName: str => ansi.italic + ansi.magenta + str + ansi.reset ,
-	constructorName: str => ansi.magenta + str + ansi.reset ,
-	length: str => ansi.italic + ansi.brightBlack + str + ansi.reset ,
-	key: str => ansi.green + str + ansi.reset ,
-	index: str => ansi.blue + '[' + str + ']' + ansi.reset + ' ' ,
-	number: str => ansi.cyan + str + ansi.reset ,
-	inspect: str => ansi.cyan + str + ansi.reset ,
-	string: str => ansi.blue + str + ansi.reset ,
-	errorType: str => ansi.red + ansi.bold + str + ansi.reset ,
-	errorMessage: str => ansi.red + ansi.italic + str + ansi.reset ,
-	errorStack: str => ansi.brightBlack + str + ansi.reset ,
-	errorStackKeyword: str => ansi.italic + ansi.bold + str + ansi.reset ,
-	errorStackMethod: str => ansi.brightYellow + str + ansi.reset ,
-	errorStackMethodAs: str => ansi.yellow + str + ansi.reset ,
-	errorStackFile: str => ansi.brightCyan + str + ansi.reset ,
-	errorStackLine: str => ansi.blue + str + ansi.reset ,
-	errorStackColumn: str => ansi.magenta + str + ansi.reset ,
-	errorFromMessage: str => ansi.yellow + ansi.underline + str + ansi.reset ,
-	truncate: ( str , maxLength ) => {
-		var trail = ansi.gray + '…' + ansi.reset ;
-		str = str.slice( 0 , maxLength - trail.length ) ;
-
-		// Search for an ansi escape sequence at the end, that could be truncated.
-		// The longest one is '\x1b[107m': 6 characters.
-		var lastEscape = str.lastIndexOf( '\x1b' ) ;
-		if ( lastEscape >= str.length - 6 ) { str = str.slice( 0 , lastEscape ) ; }
-
-		return str + trail ;
-	}
-} ) ;
-
-
-
-inspectStyle.html = Object.assign( {} , inspectStyle.none , {
-	tab: '&nbsp;&nbsp;&nbsp;&nbsp;' ,
-	newline: '<br />' ,
-	limit: str => '<span style="color:red">' + str + '</span>' ,
-	type: str => '<i style="color:gray">' + str + '</i>' ,
-	constant: str => '<span style="color:cyan">' + str + '</span>' ,
-	funcName: str => '<i style="color:magenta">' + str + '</i>' ,
-	constructorName: str => '<span style="color:magenta">' + str + '</span>' ,
-	length: str => '<i style="color:gray">' + str + '</i>' ,
-	key: str => '<span style="color:green">' + str + '</span>' ,
-	index: str => '<span style="color:blue">[' + str + ']</span> ' ,
-	number: str => '<span style="color:cyan">' + str + '</span>' ,
-	inspect: str => '<span style="color:cyan">' + str + '</span>' ,
-	string: str => '<span style="color:blue">' + str + '</span>' ,
-	errorType: str => '<span style="color:red">' + str + '</span>' ,
-	errorMessage: str => '<span style="color:red">' + str + '</span>' ,
-	errorStack: str => '<span style="color:gray">' + str + '</span>' ,
-	errorStackKeyword: str => '<i>' + str + '</i>' ,
-	errorStackMethod: str => '<span style="color:yellow">' + str + '</span>' ,
-	errorStackMethodAs: str => '<span style="color:yellow">' + str + '</span>' ,
-	errorStackFile: str => '<span style="color:cyan">' + str + '</span>' ,
-	errorStackLine: str => '<span style="color:blue">' + str + '</span>' ,
-	errorStackColumn: str => '<span style="color:gray">' + str + '</span>' ,
-	errorFromMessage: str => '<span style="color:yellow">' + str + '</span>'
-} ) ;
-
-
-}).call(this)}).call(this,{"isBuffer":require("../../../../../../../../../../opt/node-v20.11.0/lib/node_modules/browserify/node_modules/is-buffer/index.js")},require('_process'))
-},{"../../../../../../../../../../opt/node-v20.11.0/lib/node_modules/browserify/node_modules/is-buffer/index.js":158,"./ansi.js":134,"./escape.js":136,"_process":161}],139:[function(require,module,exports){
-arguments[4][104][0].apply(exports,arguments)
-},{"dup":104}],140:[function(require,module,exports){
-arguments[4][101][0].apply(exports,arguments)
-},{"dup":101}],141:[function(require,module,exports){
-/*
-	String Kit
-
-	Copyright (c) 2014 - 2021 Cédric Ronvel
-
-	The MIT License (MIT)
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-*/
-
-"use strict" ;
-
-
-
-/*
-	Javascript does not use UTF-8 but UCS-2.
-	The purpose of this module is to process correctly strings containing UTF-8 characters that take more than 2 bytes.
-
-	Since the punycode module is deprecated in Node.js v8.x, this is an adaptation of punycode.ucs2.x
-	as found on Aug 16th 2017 at: https://github.com/bestiejs/punycode.js/blob/master/punycode.js.
-
-	2021 note -- Modern Javascript is way more unicode friendly since many years, e.g. `Array.from( string )` and `for ( char of string )` are unicode aware.
-	Some methods here are now useless, but have been modernized to use the correct ES features.
-*/
-
-
-
-// Create the module and export it
-const unicode = {} ;
-module.exports = unicode ;
-
-
-
-unicode.encode = array => String.fromCodePoint( ... array ) ;
-
-// Decode a string into an array of unicode codepoints.
-// The 2nd argument of Array.from() is a map function, it avoids creating intermediate array.
-unicode.decode = str => Array.from( str , c => c.codePointAt( 0 ) ) ;
-
-// DEPRECATED: This function is totally useless now, with modern JS.
-unicode.firstCodePoint = str => str.codePointAt( 0 ) ;
-
-// Extract only the first char.
-unicode.firstChar = str => str.length ? String.fromCodePoint( str.codePointAt( 0 ) ) : undefined ;
-
-// DEPRECATED: This function is totally useless now, with modern JS.
-unicode.toArray = str => Array.from( str ) ;
-
-
-
-// Decode a string into an array of Cell (used by Terminal-kit).
-// Wide chars have an additionnal filler cell, so position is correct
-unicode.toCells = ( Cell , str , tabWidth = 4 , linePosition = 0 , ... extraCellArgs ) => {
-	var char , code , fillSize , width ,
-		output = [] ;
-
-	for ( char of str ) {
-		code = char.codePointAt( 0 ) ;
-
-		if ( code === 0x0a ) {	// New line
-			linePosition = 0 ;
-		}
-		else if ( code === 0x09 ) {	// Tab
-			// Depends upon the next tab-stop
-			fillSize = tabWidth - ( linePosition % tabWidth ) - 1 ;
-			//output.push( new Cell( '\t' , ... extraCellArgs ) ) ;
-			output.push( new Cell( '\t' , 1 , ... extraCellArgs ) ) ;
-			linePosition += 1 + fillSize ;
-
-			// Add a filler cell
-			while ( fillSize -- ) { output.push( new Cell( ' ' , -2 , ... extraCellArgs ) ) ; }
-		}
-		else {
-			width = unicode.codePointWidth( code ) ,
-			output.push( new Cell( char , width , ... extraCellArgs ) ) ;
-			linePosition += width ;
-
-			// Add an anti-filler cell (a cell with 0 width, following a wide char)
-			while ( -- width > 0 ) { output.push( new Cell( ' ' , -1 , ... extraCellArgs ) ) ; }
-		}
-	}
-
-	return output ;
-} ;
-
-
-
-unicode.fromCells = ( cells ) => {
-	var cell , str = '' ;
-
-	for ( cell of cells ) {
-		if ( ! cell.filler ) { str += cell.char ; }
-	}
-
-	return str ;
-} ;
-
-
-
-// Get the length of an unicode string
-// Mostly an adaptation of .decode(), not factorized for performance's sake (used by Terminal-kit)
-// /!\ Use Array.from().length instead??? Not using it is potentially faster, but it needs benchmark to be sure.
-unicode.length = str => {
-	// for ... of is unicode-aware
-	var char , length = 0 ;
-	for ( char of str ) { length ++ ; }		/* eslint-disable-line no-unused-vars */
-	return length ;
-} ;
-
-
-
-// Return the width of a string in a terminal/monospace font
-unicode.width = str => {
-	// for ... of is unicode-aware
-	var char , count = 0 ;
-	for ( char of str ) { count += unicode.codePointWidth( char.codePointAt( 0 ) ) ; }
-	return count ;
-} ;
-
-
-
-// Return the width of an array of string in a terminal/monospace font
-unicode.arrayWidth = ( array , limit ) => {
-	var index , count = 0 ;
-
-	if ( limit === undefined ) { limit = array.length ; }
-
-	for ( index = 0 ; index < limit ; index ++ ) {
-		count += unicode.isFullWidth( array[ index ] ) ? 2 : 1 ;
-	}
-
-	return count ;
-} ;
-
-
-
-// Userland may use this, it is more efficient than .truncateWidth() + .width(),
-// and BTW even more than testing .width() then .truncateWidth() + .width()
-var lastTruncateWidth = 0 ;
-unicode.getLastTruncateWidth = () => lastTruncateWidth ;
-
-
-
-// Return a string that does not exceed the limit.
-unicode.widthLimit =	// DEPRECATED
-unicode.truncateWidth = ( str , limit ) => {
-	var char , charWidth , position = 0 ;
-
-	// Module global:
-	lastTruncateWidth = 0 ;
-
-	for ( char of str ) {
-		charWidth = unicode.codePointWidth( char.codePointAt( 0 ) ) ;
-
-		if ( lastTruncateWidth + charWidth > limit ) {
-			return str.slice( 0 , position ) ;
-		}
-
-		lastTruncateWidth += charWidth ;
-		position += char.length ;
-	}
-
-	// The string remains unchanged
-	return str ;
-} ;
-
-
-
-/*
-	** PROBABLY DEPRECATED **
-
-	Check if a UCS2 char is a surrogate pair.
-
-	Returns:
-		0: single char
-		1: leading surrogate
-		-1: trailing surrogate
-
-	Note: it does not check input, to gain perfs.
-*/
-unicode.surrogatePair = char => {
-	var code = char.charCodeAt( 0 ) ;
-
-	if ( code < 0xd800 || code >= 0xe000 ) { return 0 ; }
-	else if ( code < 0xdc00 ) { return 1 ; }
-	return -1 ;
-} ;
-
-
-
-// Check if a character is a full-width char or not
-unicode.isFullWidth = char => unicode.isFullWidthCodePoint( char.codePointAt( 0 ) ) ;
-
-// Return the width of a char, leaner than .width() for one char
-unicode.charWidth = char => unicode.codePointWidth( char.codePointAt( 0 ) ) ;
-
-
-
-/*
-	Build the Emoji width lookup.
-	The ranges file (./lib/unicode-emoji-width-ranges.json) is produced by a Terminal-Kit script ([terminal-kit]/utilities/build-emoji-width-lookup.js),
-	that writes each emoji and check the cursor location.
-*/
-const emojiWidthLookup = new Map() ;
-
-( function() {
-	var ranges = require( './unicode-emoji-width-ranges.json' ) ;
-	for ( let range of ranges ) {
-		for ( let i = range.s ; i <= range.e ; i ++ ) {
-			emojiWidthLookup.set( i , range.w ) ;
-		}
-	}
-} )() ;
-
-/*
-	Check if a codepoint represent a full-width char or not.
-*/
-unicode.codePointWidth = code => {
-	// Assuming all emoji are wide here
-	if ( unicode.isEmojiCodePoint( code ) ) {
-		return emojiWidthLookup.get( code ) ?? 2 ;
-	}
-
-	// Code points are derived from:
-	// http://www.unicode.org/Public/UNIDATA/EastAsianWidth.txt
-	if ( code >= 0x1100 && (
-		code <= 0x115f ||	// Hangul Jamo
-		code === 0x2329 || // LEFT-POINTING ANGLE BRACKET
-		code === 0x232a || // RIGHT-POINTING ANGLE BRACKET
-		// CJK Radicals Supplement .. Enclosed CJK Letters and Months
-		( 0x2e80 <= code && code <= 0x3247 && code !== 0x303f ) ||
-		// Enclosed CJK Letters and Months .. CJK Unified Ideographs Extension A
-		( 0x3250 <= code && code <= 0x4dbf ) ||
-		// CJK Unified Ideographs .. Yi Radicals
-		( 0x4e00 <= code && code <= 0xa4c6 ) ||
-		// Hangul Jamo Extended-A
-		( 0xa960 <= code && code <= 0xa97c ) ||
-		// Hangul Syllables
-		( 0xac00 <= code && code <= 0xd7a3 ) ||
-		// CJK Compatibility Ideographs
-		( 0xf900 <= code && code <= 0xfaff ) ||
-		// Vertical Forms
-		( 0xfe10 <= code && code <= 0xfe19 ) ||
-		// CJK Compatibility Forms .. Small Form Variants
-		( 0xfe30 <= code && code <= 0xfe6b ) ||
-		// Halfwidth and Fullwidth Forms
-		( 0xff01 <= code && code <= 0xff60 ) ||
-		( 0xffe0 <= code && code <= 0xffe6 ) ||
-		// Kana Supplement
-		( 0x1b000 <= code && code <= 0x1b001 ) ||
-		// Enclosed Ideographic Supplement
-		( 0x1f200 <= code && code <= 0x1f251 ) ||
-		// CJK Unified Ideographs Extension B .. Tertiary Ideographic Plane
-		( 0x20000 <= code && code <= 0x3fffd )
-	) ) {
-		return 2 ;
-	}
-
-	if (
-		unicode.isEmojiModifierCodePoint( code ) ||
-		unicode.isZeroWidthDiacriticCodePoint( code )
-	) {
-		return 0 ;
-	}
-
-	return 1 ;
-} ;
-
-// For a true/false type of result
-unicode.isFullWidthCodePoint = code => unicode.codePointWidth( code ) === 2 ;
-
-
-
-// Convert normal ASCII chars to their full-width counterpart
-unicode.toFullWidth = str => {
-	return String.fromCodePoint( ... Array.from( str , char => {
-		var code = char.codePointAt( 0 ) ;
-		return code >= 33 && code <= 126  ?  0xff00 + code - 0x20  :  code ;
-	} ) ) ;
-} ;
-
-
-
-// Check if a character is a diacritic with zero-width or not
-unicode.isZeroWidthDiacritic = char => unicode.isZeroWidthDiacriticCodePoint( char.codePointAt( 0 ) ) ;
-
-// Some doc found here: https://en.wikipedia.org/wiki/Combining_character
-// Diacritics and other characters that combines with previous one (zero-width)
-unicode.isZeroWidthDiacriticCodePoint = code =>
-	// Combining Diacritical Marks
-	( 0x300 <= code && code <= 0x36f ) ||
-	// Combining Diacritical Marks Extended
-	( 0x1ab0 <= code && code <= 0x1aff ) ||
-	// Combining Diacritical Marks Supplement
-	( 0x1dc0 <= code && code <= 0x1dff ) ||
-	// Combining Diacritical Marks for Symbols
-	( 0x20d0 <= code && code <= 0x20ff ) ||
-	// Combining Half Marks
-	( 0xfe20 <= code && code <= 0xfe2f ) ||
-	// Dakuten and handakuten (japanese)
-	code === 0x3099 || code === 0x309a ||
-	// Devanagari
-	( 0x900 <= code && code <= 0x903 ) ||
-	( 0x93a <= code && code <= 0x957 && code !== 0x93d && code !== 0x950 ) ||
-	code === 0x962 || code === 0x963 ||
-	// Thai
-	code === 0xe31 ||
-	( 0xe34 <= code && code <= 0xe3a ) ||
-	( 0xe47 <= code && code <= 0xe4e ) ;
-
-// Check if a character is an emoji or not
-unicode.isEmoji = char => unicode.isEmojiCodePoint( char.codePointAt( 0 ) ) ;
-
-// Some doc found here: https://stackoverflow.com/questions/30470079/emoji-value-range
-unicode.isEmojiCodePoint = code =>
-	// Miscellaneous symbols
-	( 0x2600 <= code && code <= 0x26ff ) ||
-	// Dingbats
-	( 0x2700 <= code && code <= 0x27bf ) ||
-	// Emoji
-	( 0x1f000 <= code && code <= 0x1f1ff ) ||
-	( 0x1f300 <= code && code <= 0x1f3fa ) ||
-	( 0x1f400 <= code && code <= 0x1faff ) ;
-
-// Emoji modifier
-unicode.isEmojiModifier = char => unicode.isEmojiModifierCodePoint( char.codePointAt( 0 ) ) ;
-unicode.isEmojiModifierCodePoint = code =>
-	( 0x1f3fb <= code && code <= 0x1f3ff ) ||	// (Fitzpatrick): https://en.wikipedia.org/wiki/Miscellaneous_Symbols_and_Pictographs#Emoji_modifiers
-	code === 0xfe0f ;	// VARIATION SELECTOR-16 [VS16] {emoji variation selector}
-
-
-},{"./unicode-emoji-width-ranges.json":140}],142:[function(require,module,exports){
+},{"./BoundingBox.js":119,"./ConvexPolygon.js":120,"./DynamicArea.js":121,"./DynamicManager.js":122,"./Path/Path.js":129,"./Polygon.js":132,"./Polyline.js":133,"./Style.js":134,"./VG.js":135,"./VGClip.js":136,"./VGContainer.js":137,"./VGConvexPolygon.js":138,"./VGEllipse.js":139,"./VGEntity.js":140,"./VGFlowingText/StructuredTextLine.js":141,"./VGFlowingText/StructuredTextPart.js":142,"./VGFlowingText/TextAttribute.js":144,"./VGFlowingText/TextMetrics.js":145,"./VGFlowingText/VGFlowingText.js":146,"./VGGroup.js":149,"./VGImage.js":150,"./VGPath.js":151,"./VGPolygon.js":152,"./VGPolyline.js":153,"./VGRect.js":156,"./VGText.js":157,"./canvas-utilities.js":158,"./color-utilities.js":159,"./core-utilities.js":160,"./fontLib.js":161,"./fx/fx.js":162,"dom-kit":46,"opentype.js":81}],166:[function(require,module,exports){
+arguments[4][32][0].apply(exports,arguments)
+},{"dup":32}],167:[function(require,module,exports){
+arguments[4][33][0].apply(exports,arguments)
+},{"dup":33}],168:[function(require,module,exports){
+arguments[4][110][0].apply(exports,arguments)
+},{"dup":110}],169:[function(require,module,exports){
+arguments[4][117][0].apply(exports,arguments)
+},{"./json-data/unicode-emoji-width-ranges.json":168,"dup":117}],170:[function(require,module,exports){
 module.exports={
   "name": "svg-kit",
-  "version": "0.5.1",
-  "description": "A small SVG toolkit.",
+  "version": "0.8.5",
+  "description": "A SVG toolkit, with its own Vector Graphics structure, multiple renderers (svg text, DOM svg, canvas), and featuring Flowing Text.",
   "main": "lib/svg-kit.js",
   "directories": {
     "test": "test"
   },
   "dependencies": {
     "@cronvel/xmldom": "^0.1.32",
-    "array-kit": "^0.2.4",
+    "array-kit": "^0.2.6",
+    "book-source": "^0.3.10",
     "dom-kit": "^0.5.2",
     "image-size": "^1.0.2",
+    "nextgen-events": "^1.5.3",
     "opentype.js": "^1.3.4",
-    "string-kit": "^0.17.10"
+    "palette-shade": "^0.1.3",
+    "seventh": "^0.9.2",
+    "string-kit": "^0.18.3"
   },
   "scripts": {
     "test": "tea-time -R dot"
@@ -47385,7 +51196,11 @@ module.exports={
     "url": "https://github.com/cronvel/svg-kit.git"
   },
   "keywords": [
-    "svg"
+    "svg",
+    "vector",
+    "graphic",
+    "flowing",
+    "text"
   ],
   "author": "Cédric Ronvel",
   "license": "MIT",
@@ -47396,87 +51211,124 @@ module.exports={
     "title": "SVG Kit",
     "years": [
       2017,
-      2023
+      2024
     ],
     "owner": "Cédric Ronvel"
+  },
+  "engines": {
+    "node": ">=16.13.0"
   }
 }
 
-},{}],143:[function(require,module,exports){
+},{}],171:[function(require,module,exports){
 
-},{}],144:[function(require,module,exports){
-arguments[4][143][0].apply(exports,arguments)
-},{"dup":143}],145:[function(require,module,exports){
+},{}],172:[function(require,module,exports){
+arguments[4][171][0].apply(exports,arguments)
+},{"dup":171}],173:[function(require,module,exports){
+'use strict';
+
+var bind = require('function-bind');
+
+var $apply = require('./functionApply');
+var $call = require('./functionCall');
+var $reflectApply = require('./reflectApply');
+
+/** @type {import('./actualApply')} */
+module.exports = $reflectApply || bind.call($call, $apply);
+
+},{"./functionApply":174,"./functionCall":175,"./reflectApply":177,"function-bind":191}],174:[function(require,module,exports){
+'use strict';
+
+/** @type {import('./functionApply')} */
+module.exports = Function.prototype.apply;
+
+},{}],175:[function(require,module,exports){
+'use strict';
+
+/** @type {import('./functionCall')} */
+module.exports = Function.prototype.call;
+
+},{}],176:[function(require,module,exports){
+'use strict';
+
+var bind = require('function-bind');
+var $TypeError = require('es-errors/type');
+
+var $call = require('./functionCall');
+var $actualApply = require('./actualApply');
+
+/** @type {(args: [Function, thisArg?: unknown, ...args: unknown[]]) => Function} TODO FIXME, find a way to use import('.') */
+module.exports = function callBindBasic(args) {
+	if (args.length < 1 || typeof args[0] !== 'function') {
+		throw new $TypeError('a function is required');
+	}
+	return $actualApply(bind, $call, args);
+};
+
+},{"./actualApply":173,"./functionCall":175,"es-errors/type":186,"function-bind":191}],177:[function(require,module,exports){
+'use strict';
+
+/** @type {import('./reflectApply')} */
+module.exports = typeof Reflect !== 'undefined' && Reflect && Reflect.apply;
+
+},{}],178:[function(require,module,exports){
 'use strict';
 
 var GetIntrinsic = require('get-intrinsic');
 
-var callBind = require('./');
+var callBindBasic = require('call-bind-apply-helpers');
 
-var $indexOf = callBind(GetIntrinsic('String.prototype.indexOf'));
+/** @type {(thisArg: string, searchString: string, position?: number) => number} */
+var $indexOf = callBindBasic([GetIntrinsic('%String.prototype.indexOf%')]);
 
+/** @type {import('.')} */
 module.exports = function callBoundIntrinsic(name, allowMissing) {
-	var intrinsic = GetIntrinsic(name, !!allowMissing);
+	/* eslint no-extra-parens: 0 */
+
+	var intrinsic = /** @type {(this: unknown, ...args: unknown[]) => unknown} */ (GetIntrinsic(name, !!allowMissing));
 	if (typeof intrinsic === 'function' && $indexOf(name, '.prototype.') > -1) {
-		return callBind(intrinsic);
+		return callBindBasic(/** @type {const} */ ([intrinsic]));
 	}
 	return intrinsic;
 };
 
-},{"./":146,"get-intrinsic":151}],146:[function(require,module,exports){
+},{"call-bind-apply-helpers":176,"get-intrinsic":192}],179:[function(require,module,exports){
 'use strict';
 
-var bind = require('function-bind');
-var GetIntrinsic = require('get-intrinsic');
-var setFunctionLength = require('set-function-length');
+var callBind = require('call-bind-apply-helpers');
+var gOPD = require('gopd');
 
-var $TypeError = GetIntrinsic('%TypeError%');
-var $apply = GetIntrinsic('%Function.prototype.apply%');
-var $call = GetIntrinsic('%Function.prototype.call%');
-var $reflectApply = GetIntrinsic('%Reflect.apply%', true) || bind.call($call, $apply);
-
-var $defineProperty = GetIntrinsic('%Object.defineProperty%', true);
-var $max = GetIntrinsic('%Math.max%');
-
-if ($defineProperty) {
-	try {
-		$defineProperty({}, 'a', { value: 1 });
-	} catch (e) {
-		// IE 8 has a broken defineProperty
-		$defineProperty = null;
+var hasProtoAccessor;
+try {
+	// eslint-disable-next-line no-extra-parens, no-proto
+	hasProtoAccessor = /** @type {{ __proto__?: typeof Array.prototype }} */ ([]).__proto__ === Array.prototype;
+} catch (e) {
+	if (!e || typeof e !== 'object' || !('code' in e) || e.code !== 'ERR_PROTO_ACCESS') {
+		throw e;
 	}
 }
 
-module.exports = function callBind(originalFunction) {
-	if (typeof originalFunction !== 'function') {
-		throw new $TypeError('a function is required');
-	}
-	var func = $reflectApply(bind, $call, arguments);
-	return setFunctionLength(
-		func,
-		1 + $max(0, originalFunction.length - (arguments.length - 1)),
-		true
-	);
-};
+// eslint-disable-next-line no-extra-parens
+var desc = !!hasProtoAccessor && gOPD && gOPD(Object.prototype, /** @type {keyof typeof Object.prototype} */ ('__proto__'));
 
-var applyBind = function applyBind() {
-	return $reflectApply(bind, $apply, arguments);
-};
+var $Object = Object;
+var $getPrototypeOf = $Object.getPrototypeOf;
 
-if ($defineProperty) {
-	$defineProperty(module.exports, 'apply', { value: applyBind });
-} else {
-	module.exports.apply = applyBind;
-}
+/** @type {import('./get')} */
+module.exports = desc && typeof desc.get === 'function'
+	? callBind([desc.get])
+	: typeof $getPrototypeOf === 'function'
+		? /** @type {import('./get')} */ function getDunder(value) {
+			// eslint-disable-next-line eqeqeq
+			return $getPrototypeOf(value == null ? value : $Object(value));
+		}
+		: false;
 
-},{"function-bind":150,"get-intrinsic":151,"set-function-length":168}],147:[function(require,module,exports){
+},{"call-bind-apply-helpers":176,"gopd":197}],180:[function(require,module,exports){
 'use strict';
 
-var hasPropertyDescriptors = require('has-property-descriptors')();
-
-var GetIntrinsic = require('get-intrinsic');
-
-var $defineProperty = hasPropertyDescriptors && GetIntrinsic('%Object.defineProperty%', true);
+/** @type {import('.')} */
+var $defineProperty = Object.defineProperty || false;
 if ($defineProperty) {
 	try {
 		$defineProperty({}, 'a', { value: 1 });
@@ -47486,60 +51338,57 @@ if ($defineProperty) {
 	}
 }
 
-var $SyntaxError = GetIntrinsic('%SyntaxError%');
-var $TypeError = GetIntrinsic('%TypeError%');
+module.exports = $defineProperty;
 
-var gopd = require('gopd');
+},{}],181:[function(require,module,exports){
+'use strict';
 
-/** @type {(obj: Record<PropertyKey, unknown>, property: PropertyKey, value: unknown, nonEnumerable?: boolean | null, nonWritable?: boolean | null, nonConfigurable?: boolean | null, loose?: boolean) => void} */
-module.exports = function defineDataProperty(
-	obj,
-	property,
-	value
-) {
-	if (!obj || (typeof obj !== 'object' && typeof obj !== 'function')) {
-		throw new $TypeError('`obj` must be an object or a function`');
-	}
-	if (typeof property !== 'string' && typeof property !== 'symbol') {
-		throw new $TypeError('`property` must be a string or a symbol`');
-	}
-	if (arguments.length > 3 && typeof arguments[3] !== 'boolean' && arguments[3] !== null) {
-		throw new $TypeError('`nonEnumerable`, if provided, must be a boolean or null');
-	}
-	if (arguments.length > 4 && typeof arguments[4] !== 'boolean' && arguments[4] !== null) {
-		throw new $TypeError('`nonWritable`, if provided, must be a boolean or null');
-	}
-	if (arguments.length > 5 && typeof arguments[5] !== 'boolean' && arguments[5] !== null) {
-		throw new $TypeError('`nonConfigurable`, if provided, must be a boolean or null');
-	}
-	if (arguments.length > 6 && typeof arguments[6] !== 'boolean') {
-		throw new $TypeError('`loose`, if provided, must be a boolean');
-	}
+/** @type {import('./eval')} */
+module.exports = EvalError;
 
-	var nonEnumerable = arguments.length > 3 ? arguments[3] : null;
-	var nonWritable = arguments.length > 4 ? arguments[4] : null;
-	var nonConfigurable = arguments.length > 5 ? arguments[5] : null;
-	var loose = arguments.length > 6 ? arguments[6] : false;
+},{}],182:[function(require,module,exports){
+'use strict';
 
-	/* @type {false | TypedPropertyDescriptor<unknown>} */
-	var desc = !!gopd && gopd(obj, property);
+/** @type {import('.')} */
+module.exports = Error;
 
-	if ($defineProperty) {
-		$defineProperty(obj, property, {
-			configurable: nonConfigurable === null && desc ? desc.configurable : !nonConfigurable,
-			enumerable: nonEnumerable === null && desc ? desc.enumerable : !nonEnumerable,
-			value: value,
-			writable: nonWritable === null && desc ? desc.writable : !nonWritable
-		});
-	} else if (loose || (!nonEnumerable && !nonWritable && !nonConfigurable)) {
-		// must fall back to [[Set]], and was not explicitly asked to make non-enumerable, non-writable, or non-configurable
-		obj[property] = value; // eslint-disable-line no-param-reassign
-	} else {
-		throw new $SyntaxError('This environment does not support defining a property as non-configurable, non-writable, or non-enumerable.');
-	}
-};
+},{}],183:[function(require,module,exports){
+'use strict';
 
-},{"get-intrinsic":151,"gopd":152,"has-property-descriptors":153}],148:[function(require,module,exports){
+/** @type {import('./range')} */
+module.exports = RangeError;
+
+},{}],184:[function(require,module,exports){
+'use strict';
+
+/** @type {import('./ref')} */
+module.exports = ReferenceError;
+
+},{}],185:[function(require,module,exports){
+'use strict';
+
+/** @type {import('./syntax')} */
+module.exports = SyntaxError;
+
+},{}],186:[function(require,module,exports){
+'use strict';
+
+/** @type {import('./type')} */
+module.exports = TypeError;
+
+},{}],187:[function(require,module,exports){
+'use strict';
+
+/** @type {import('./uri')} */
+module.exports = URIError;
+
+},{}],188:[function(require,module,exports){
+'use strict';
+
+/** @type {import('.')} */
+module.exports = Object;
+
+},{}],189:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -48038,7 +51887,7 @@ function eventTargetAgnosticAddListener(emitter, name, listener, flags) {
   }
 }
 
-},{}],149:[function(require,module,exports){
+},{}],190:[function(require,module,exports){
 'use strict';
 
 /* eslint no-invalid-this: 1 */
@@ -48124,21 +51973,37 @@ module.exports = function bind(that) {
     return bound;
 };
 
-},{}],150:[function(require,module,exports){
+},{}],191:[function(require,module,exports){
 'use strict';
 
 var implementation = require('./implementation');
 
 module.exports = Function.prototype.bind || implementation;
 
-},{"./implementation":149}],151:[function(require,module,exports){
+},{"./implementation":190}],192:[function(require,module,exports){
 'use strict';
 
 var undefined;
 
-var $SyntaxError = SyntaxError;
+var $Object = require('es-object-atoms');
+
+var $Error = require('es-errors');
+var $EvalError = require('es-errors/eval');
+var $RangeError = require('es-errors/range');
+var $ReferenceError = require('es-errors/ref');
+var $SyntaxError = require('es-errors/syntax');
+var $TypeError = require('es-errors/type');
+var $URIError = require('es-errors/uri');
+
+var abs = require('math-intrinsics/abs');
+var floor = require('math-intrinsics/floor');
+var max = require('math-intrinsics/max');
+var min = require('math-intrinsics/min');
+var pow = require('math-intrinsics/pow');
+var round = require('math-intrinsics/round');
+var sign = require('math-intrinsics/sign');
+
 var $Function = Function;
-var $TypeError = TypeError;
 
 // eslint-disable-next-line consistent-return
 var getEvalledConstructor = function (expressionSyntax) {
@@ -48147,14 +52012,8 @@ var getEvalledConstructor = function (expressionSyntax) {
 	} catch (e) {}
 };
 
-var $gOPD = Object.getOwnPropertyDescriptor;
-if ($gOPD) {
-	try {
-		$gOPD({}, '');
-	} catch (e) {
-		$gOPD = null; // this is IE 8, which has a broken gOPD
-	}
-}
+var $gOPD = require('gopd');
+var $defineProperty = require('es-define-property');
 
 var throwTypeError = function () {
 	throw new $TypeError();
@@ -48177,19 +52036,20 @@ var ThrowTypeError = $gOPD
 	: throwTypeError;
 
 var hasSymbols = require('has-symbols')();
-var hasProto = require('has-proto')();
 
-var getProto = Object.getPrototypeOf || (
-	hasProto
-		? function (x) { return x.__proto__; } // eslint-disable-line no-proto
-		: null
-);
+var getProto = require('get-proto');
+var $ObjectGPO = require('get-proto/Object.getPrototypeOf');
+var $ReflectGPO = require('get-proto/Reflect.getPrototypeOf');
+
+var $apply = require('call-bind-apply-helpers/functionApply');
+var $call = require('call-bind-apply-helpers/functionCall');
 
 var needsEval = {};
 
 var TypedArray = typeof Uint8Array === 'undefined' || !getProto ? undefined : getProto(Uint8Array);
 
 var INTRINSICS = {
+	__proto__: null,
 	'%AggregateError%': typeof AggregateError === 'undefined' ? undefined : AggregateError,
 	'%Array%': Array,
 	'%ArrayBuffer%': typeof ArrayBuffer === 'undefined' ? undefined : ArrayBuffer,
@@ -48210,9 +52070,10 @@ var INTRINSICS = {
 	'%decodeURIComponent%': decodeURIComponent,
 	'%encodeURI%': encodeURI,
 	'%encodeURIComponent%': encodeURIComponent,
-	'%Error%': Error,
+	'%Error%': $Error,
 	'%eval%': eval, // eslint-disable-line no-eval
-	'%EvalError%': EvalError,
+	'%EvalError%': $EvalError,
+	'%Float16Array%': typeof Float16Array === 'undefined' ? undefined : Float16Array,
 	'%Float32Array%': typeof Float32Array === 'undefined' ? undefined : Float32Array,
 	'%Float64Array%': typeof Float64Array === 'undefined' ? undefined : Float64Array,
 	'%FinalizationRegistry%': typeof FinalizationRegistry === 'undefined' ? undefined : FinalizationRegistry,
@@ -48229,13 +52090,14 @@ var INTRINSICS = {
 	'%MapIteratorPrototype%': typeof Map === 'undefined' || !hasSymbols || !getProto ? undefined : getProto(new Map()[Symbol.iterator]()),
 	'%Math%': Math,
 	'%Number%': Number,
-	'%Object%': Object,
+	'%Object%': $Object,
+	'%Object.getOwnPropertyDescriptor%': $gOPD,
 	'%parseFloat%': parseFloat,
 	'%parseInt%': parseInt,
 	'%Promise%': typeof Promise === 'undefined' ? undefined : Promise,
 	'%Proxy%': typeof Proxy === 'undefined' ? undefined : Proxy,
-	'%RangeError%': RangeError,
-	'%ReferenceError%': ReferenceError,
+	'%RangeError%': $RangeError,
+	'%ReferenceError%': $ReferenceError,
 	'%Reflect%': typeof Reflect === 'undefined' ? undefined : Reflect,
 	'%RegExp%': RegExp,
 	'%Set%': typeof Set === 'undefined' ? undefined : Set,
@@ -48252,10 +52114,23 @@ var INTRINSICS = {
 	'%Uint8ClampedArray%': typeof Uint8ClampedArray === 'undefined' ? undefined : Uint8ClampedArray,
 	'%Uint16Array%': typeof Uint16Array === 'undefined' ? undefined : Uint16Array,
 	'%Uint32Array%': typeof Uint32Array === 'undefined' ? undefined : Uint32Array,
-	'%URIError%': URIError,
+	'%URIError%': $URIError,
 	'%WeakMap%': typeof WeakMap === 'undefined' ? undefined : WeakMap,
 	'%WeakRef%': typeof WeakRef === 'undefined' ? undefined : WeakRef,
-	'%WeakSet%': typeof WeakSet === 'undefined' ? undefined : WeakSet
+	'%WeakSet%': typeof WeakSet === 'undefined' ? undefined : WeakSet,
+
+	'%Function.prototype.call%': $call,
+	'%Function.prototype.apply%': $apply,
+	'%Object.defineProperty%': $defineProperty,
+	'%Object.getPrototypeOf%': $ObjectGPO,
+	'%Math.abs%': abs,
+	'%Math.floor%': floor,
+	'%Math.max%': max,
+	'%Math.min%': min,
+	'%Math.pow%': pow,
+	'%Math.round%': round,
+	'%Math.sign%': sign,
+	'%Reflect.getPrototypeOf%': $ReflectGPO
 };
 
 if (getProto) {
@@ -48294,6 +52169,7 @@ var doEval = function doEval(name) {
 };
 
 var LEGACY_ALIASES = {
+	__proto__: null,
 	'%ArrayBufferPrototype%': ['ArrayBuffer', 'prototype'],
 	'%ArrayPrototype%': ['Array', 'prototype'],
 	'%ArrayProto_entries%': ['Array', 'prototype', 'entries'],
@@ -48349,11 +52225,11 @@ var LEGACY_ALIASES = {
 
 var bind = require('function-bind');
 var hasOwn = require('hasown');
-var $concat = bind.call(Function.call, Array.prototype.concat);
-var $spliceApply = bind.call(Function.apply, Array.prototype.splice);
-var $replace = bind.call(Function.call, String.prototype.replace);
-var $strSlice = bind.call(Function.call, String.prototype.slice);
-var $exec = bind.call(Function.call, RegExp.prototype.exec);
+var $concat = bind.call($call, Array.prototype.concat);
+var $spliceApply = bind.call($apply, Array.prototype.splice);
+var $replace = bind.call($call, String.prototype.replace);
+var $strSlice = bind.call($call, String.prototype.slice);
+var $exec = bind.call($call, RegExp.prototype.exec);
 
 /* adapted from https://github.com/lodash/lodash/blob/4.17.15/dist/lodash.js#L6735-L6744 */
 var rePropName = /[^%.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|%$))/g;
@@ -48484,12 +52360,60 @@ module.exports = function GetIntrinsic(name, allowMissing) {
 	return value;
 };
 
-},{"function-bind":150,"has-proto":154,"has-symbols":155,"hasown":157}],152:[function(require,module,exports){
+},{"call-bind-apply-helpers/functionApply":174,"call-bind-apply-helpers/functionCall":175,"es-define-property":180,"es-errors":182,"es-errors/eval":181,"es-errors/range":183,"es-errors/ref":184,"es-errors/syntax":185,"es-errors/type":186,"es-errors/uri":187,"es-object-atoms":188,"function-bind":191,"get-proto":195,"get-proto/Object.getPrototypeOf":193,"get-proto/Reflect.getPrototypeOf":194,"gopd":197,"has-symbols":198,"hasown":200,"math-intrinsics/abs":202,"math-intrinsics/floor":203,"math-intrinsics/max":205,"math-intrinsics/min":206,"math-intrinsics/pow":207,"math-intrinsics/round":208,"math-intrinsics/sign":209}],193:[function(require,module,exports){
 'use strict';
 
-var GetIntrinsic = require('get-intrinsic');
+var $Object = require('es-object-atoms');
 
-var $gOPD = GetIntrinsic('%Object.getOwnPropertyDescriptor%', true);
+/** @type {import('./Object.getPrototypeOf')} */
+module.exports = $Object.getPrototypeOf || null;
+
+},{"es-object-atoms":188}],194:[function(require,module,exports){
+'use strict';
+
+/** @type {import('./Reflect.getPrototypeOf')} */
+module.exports = (typeof Reflect !== 'undefined' && Reflect.getPrototypeOf) || null;
+
+},{}],195:[function(require,module,exports){
+'use strict';
+
+var reflectGetProto = require('./Reflect.getPrototypeOf');
+var originalGetProto = require('./Object.getPrototypeOf');
+
+var getDunderProto = require('dunder-proto/get');
+
+/** @type {import('.')} */
+module.exports = reflectGetProto
+	? function getProto(O) {
+		// @ts-expect-error TS can't narrow inside a closure, for some reason
+		return reflectGetProto(O);
+	}
+	: originalGetProto
+		? function getProto(O) {
+			if (!O || (typeof O !== 'object' && typeof O !== 'function')) {
+				throw new TypeError('getProto: not an object');
+			}
+			// @ts-expect-error TS can't narrow inside a closure, for some reason
+			return originalGetProto(O);
+		}
+		: getDunderProto
+			? function getProto(O) {
+				// @ts-expect-error TS can't narrow inside a closure, for some reason
+				return getDunderProto(O);
+			}
+			: null;
+
+},{"./Object.getPrototypeOf":193,"./Reflect.getPrototypeOf":194,"dunder-proto/get":179}],196:[function(require,module,exports){
+'use strict';
+
+/** @type {import('./gOPD')} */
+module.exports = Object.getOwnPropertyDescriptor;
+
+},{}],197:[function(require,module,exports){
+'use strict';
+
+/** @type {import('.')} */
+var $gOPD = require('./gOPD');
 
 if ($gOPD) {
 	try {
@@ -48502,60 +52426,13 @@ if ($gOPD) {
 
 module.exports = $gOPD;
 
-},{"get-intrinsic":151}],153:[function(require,module,exports){
-'use strict';
-
-var GetIntrinsic = require('get-intrinsic');
-
-var $defineProperty = GetIntrinsic('%Object.defineProperty%', true);
-
-var hasPropertyDescriptors = function hasPropertyDescriptors() {
-	if ($defineProperty) {
-		try {
-			$defineProperty({}, 'a', { value: 1 });
-			return true;
-		} catch (e) {
-			// IE 8 has a broken defineProperty
-			return false;
-		}
-	}
-	return false;
-};
-
-hasPropertyDescriptors.hasArrayLengthDefineBug = function hasArrayLengthDefineBug() {
-	// node v0.6 has a bug where array lengths can be Set but not Defined
-	if (!hasPropertyDescriptors()) {
-		return null;
-	}
-	try {
-		return $defineProperty([], 'length', { value: 1 }).length !== 1;
-	} catch (e) {
-		// In Firefox 4-22, defining length on an array throws an exception.
-		return true;
-	}
-};
-
-module.exports = hasPropertyDescriptors;
-
-},{"get-intrinsic":151}],154:[function(require,module,exports){
-'use strict';
-
-var test = {
-	foo: {}
-};
-
-var $Object = Object;
-
-module.exports = function hasProto() {
-	return { __proto__: test }.foo === test.foo && !({ __proto__: null } instanceof $Object);
-};
-
-},{}],155:[function(require,module,exports){
+},{"./gOPD":196}],198:[function(require,module,exports){
 'use strict';
 
 var origSymbol = typeof Symbol !== 'undefined' && Symbol;
 var hasSymbolSham = require('./shams');
 
+/** @type {import('.')} */
 module.exports = function hasNativeSymbols() {
 	if (typeof origSymbol !== 'function') { return false; }
 	if (typeof Symbol !== 'function') { return false; }
@@ -48565,14 +52442,16 @@ module.exports = function hasNativeSymbols() {
 	return hasSymbolSham();
 };
 
-},{"./shams":156}],156:[function(require,module,exports){
+},{"./shams":199}],199:[function(require,module,exports){
 'use strict';
 
+/** @type {import('./shams')} */
 /* eslint complexity: [2, 18], max-statements: [2, 33] */
 module.exports = function hasSymbols() {
 	if (typeof Symbol !== 'function' || typeof Object.getOwnPropertySymbols !== 'function') { return false; }
 	if (typeof Symbol.iterator === 'symbol') { return true; }
 
+	/** @type {{ [k in symbol]?: unknown }} */
 	var obj = {};
 	var sym = Symbol('test');
 	var symObj = Object(sym);
@@ -48591,7 +52470,7 @@ module.exports = function hasSymbols() {
 
 	var symVal = 42;
 	obj[sym] = symVal;
-	for (sym in obj) { return false; } // eslint-disable-line no-restricted-syntax, no-unreachable-loop
+	for (var _ in obj) { return false; } // eslint-disable-line no-restricted-syntax, no-unreachable-loop
 	if (typeof Object.keys === 'function' && Object.keys(obj).length !== 0) { return false; }
 
 	if (typeof Object.getOwnPropertyNames === 'function' && Object.getOwnPropertyNames(obj).length !== 0) { return false; }
@@ -48602,24 +52481,25 @@ module.exports = function hasSymbols() {
 	if (!Object.prototype.propertyIsEnumerable.call(obj, sym)) { return false; }
 
 	if (typeof Object.getOwnPropertyDescriptor === 'function') {
-		var descriptor = Object.getOwnPropertyDescriptor(obj, sym);
+		// eslint-disable-next-line no-extra-parens
+		var descriptor = /** @type {PropertyDescriptor} */ (Object.getOwnPropertyDescriptor(obj, sym));
 		if (descriptor.value !== symVal || descriptor.enumerable !== true) { return false; }
 	}
 
 	return true;
 };
 
-},{}],157:[function(require,module,exports){
+},{}],200:[function(require,module,exports){
 'use strict';
 
 var call = Function.prototype.call;
 var $hasOwn = Object.prototype.hasOwnProperty;
 var bind = require('function-bind');
 
-/** @type {(o: {}, p: PropertyKey) => p is keyof o} */
+/** @type {import('.')} */
 module.exports = bind.call(call, $hasOwn);
 
-},{"function-bind":150}],158:[function(require,module,exports){
+},{"function-bind":191}],201:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -48642,7 +52522,64 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],159:[function(require,module,exports){
+},{}],202:[function(require,module,exports){
+'use strict';
+
+/** @type {import('./abs')} */
+module.exports = Math.abs;
+
+},{}],203:[function(require,module,exports){
+'use strict';
+
+/** @type {import('./floor')} */
+module.exports = Math.floor;
+
+},{}],204:[function(require,module,exports){
+'use strict';
+
+/** @type {import('./isNaN')} */
+module.exports = Number.isNaN || function isNaN(a) {
+	return a !== a;
+};
+
+},{}],205:[function(require,module,exports){
+'use strict';
+
+/** @type {import('./max')} */
+module.exports = Math.max;
+
+},{}],206:[function(require,module,exports){
+'use strict';
+
+/** @type {import('./min')} */
+module.exports = Math.min;
+
+},{}],207:[function(require,module,exports){
+'use strict';
+
+/** @type {import('./pow')} */
+module.exports = Math.pow;
+
+},{}],208:[function(require,module,exports){
+'use strict';
+
+/** @type {import('./round')} */
+module.exports = Math.round;
+
+},{}],209:[function(require,module,exports){
+'use strict';
+
+var $isNaN = require('./isNaN');
+
+/** @type {import('./sign')} */
+module.exports = function sign(number) {
+	if ($isNaN(number) || number === 0) {
+		return number;
+	}
+	return number < 0 ? -1 : +1;
+};
+
+},{"./isNaN":204}],210:[function(require,module,exports){
 (function (global){(function (){
 var hasMap = typeof Map === 'function' && Map.prototype;
 var mapSizeDescriptor = Object.getOwnPropertyDescriptor && hasMap ? Object.getOwnPropertyDescriptor(Map.prototype, 'size') : null;
@@ -48715,10 +52652,21 @@ var utilInspect = require('./util.inspect');
 var inspectCustom = utilInspect.custom;
 var inspectSymbol = isSymbol(inspectCustom) ? inspectCustom : null;
 
+var quotes = {
+    __proto__: null,
+    'double': '"',
+    single: "'"
+};
+var quoteREs = {
+    __proto__: null,
+    'double': /(["\\])/g,
+    single: /(['\\])/g
+};
+
 module.exports = function inspect_(obj, options, depth, seen) {
     var opts = options || {};
 
-    if (has(opts, 'quoteStyle') && (opts.quoteStyle !== 'single' && opts.quoteStyle !== 'double')) {
+    if (has(opts, 'quoteStyle') && !has(quotes, opts.quoteStyle)) {
         throw new TypeError('option "quoteStyle" must be "single" or "double"');
     }
     if (
@@ -48890,7 +52838,10 @@ module.exports = function inspect_(obj, options, depth, seen) {
     if (typeof window !== 'undefined' && obj === window) {
         return '{ [object Window] }';
     }
-    if (obj === global) {
+    if (
+        (typeof globalThis !== 'undefined' && obj === globalThis)
+        || (typeof global !== 'undefined' && obj === global)
+    ) {
         return '{ [object globalThis] }';
     }
     if (!isDate(obj) && !isRegExp(obj)) {
@@ -48910,7 +52861,8 @@ module.exports = function inspect_(obj, options, depth, seen) {
 };
 
 function wrapQuotes(s, defaultStyle, opts) {
-    var quoteChar = (opts.quoteStyle || defaultStyle) === 'double' ? '"' : "'";
+    var style = opts.quoteStyle || defaultStyle;
+    var quoteChar = quotes[style];
     return quoteChar + s + quoteChar;
 }
 
@@ -48918,13 +52870,16 @@ function quote(s) {
     return $replace.call(String(s), /"/g, '&quot;');
 }
 
-function isArray(obj) { return toStr(obj) === '[object Array]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
-function isDate(obj) { return toStr(obj) === '[object Date]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
-function isRegExp(obj) { return toStr(obj) === '[object RegExp]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
-function isError(obj) { return toStr(obj) === '[object Error]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
-function isString(obj) { return toStr(obj) === '[object String]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
-function isNumber(obj) { return toStr(obj) === '[object Number]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
-function isBoolean(obj) { return toStr(obj) === '[object Boolean]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
+function canTrustToString(obj) {
+    return !toStringTag || !(typeof obj === 'object' && (toStringTag in obj || typeof obj[toStringTag] !== 'undefined'));
+}
+function isArray(obj) { return toStr(obj) === '[object Array]' && canTrustToString(obj); }
+function isDate(obj) { return toStr(obj) === '[object Date]' && canTrustToString(obj); }
+function isRegExp(obj) { return toStr(obj) === '[object RegExp]' && canTrustToString(obj); }
+function isError(obj) { return toStr(obj) === '[object Error]' && canTrustToString(obj); }
+function isString(obj) { return toStr(obj) === '[object String]' && canTrustToString(obj); }
+function isNumber(obj) { return toStr(obj) === '[object Number]' && canTrustToString(obj); }
+function isBoolean(obj) { return toStr(obj) === '[object Boolean]' && canTrustToString(obj); }
 
 // Symbol and BigInt do have Symbol.toStringTag by spec, so that can't be used to eliminate false positives
 function isSymbol(obj) {
@@ -49068,8 +53023,10 @@ function inspectString(str, opts) {
         var trailer = '... ' + remaining + ' more character' + (remaining > 1 ? 's' : '');
         return inspectString($slice.call(str, 0, opts.maxStringLength), opts) + trailer;
     }
+    var quoteRE = quoteREs[opts.quoteStyle || 'single'];
+    quoteRE.lastIndex = 0;
     // eslint-disable-next-line no-control-regex
-    var s = $replace.call($replace.call(str, /(['\\])/g, '\\$1'), /[\x00-\x1f]/g, lowbyte);
+    var s = $replace.call($replace.call(str, quoteRE, '\\$1'), /[\x00-\x1f]/g, lowbyte);
     return wrapQuotes(s, 'single', opts);
 }
 
@@ -49170,7 +53127,7 @@ function arrObjKeys(obj, inspect) {
 }
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./util.inspect":144}],160:[function(require,module,exports){
+},{"./util.inspect":172}],211:[function(require,module,exports){
 (function (process){(function (){
 // 'path' module extracted from Node.js v8.11.1 (only the posix part)
 // transplited with Babel
@@ -49703,7 +53660,7 @@ posix.posix = posix;
 module.exports = posix;
 
 }).call(this)}).call(this,require('_process'))
-},{"_process":161}],161:[function(require,module,exports){
+},{"_process":212}],212:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -49889,7 +53846,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],162:[function(require,module,exports){
+},{}],213:[function(require,module,exports){
 (function (global){(function (){
 /*! https://mths.be/punycode v1.4.1 by @mathias */
 ;(function(root) {
@@ -50426,7 +54383,7 @@ process.umask = function() { return 0; };
 }(this));
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],163:[function(require,module,exports){
+},{}],214:[function(require,module,exports){
 'use strict';
 
 var replace = String.prototype.replace;
@@ -50451,7 +54408,7 @@ module.exports = {
     RFC3986: Format.RFC3986
 };
 
-},{}],164:[function(require,module,exports){
+},{}],215:[function(require,module,exports){
 'use strict';
 
 var stringify = require('./stringify');
@@ -50464,7 +54421,7 @@ module.exports = {
     stringify: stringify
 };
 
-},{"./formats":163,"./parse":165,"./stringify":166}],165:[function(require,module,exports){
+},{"./formats":214,"./parse":216,"./stringify":217}],216:[function(require,module,exports){
 'use strict';
 
 var utils = require('./utils');
@@ -50474,21 +54431,26 @@ var isArray = Array.isArray;
 
 var defaults = {
     allowDots: false,
+    allowEmptyArrays: false,
     allowPrototypes: false,
     allowSparse: false,
     arrayLimit: 20,
     charset: 'utf-8',
     charsetSentinel: false,
     comma: false,
+    decodeDotInKeys: false,
     decoder: utils.decode,
     delimiter: '&',
     depth: 5,
+    duplicates: 'combine',
     ignoreQueryPrefix: false,
     interpretNumericEntities: false,
     parameterLimit: 1000,
     parseArrays: true,
     plainObjects: false,
-    strictNullHandling: false
+    strictDepth: false,
+    strictNullHandling: false,
+    throwOnLimitExceeded: false
 };
 
 var interpretNumericEntities = function (str) {
@@ -50497,9 +54459,13 @@ var interpretNumericEntities = function (str) {
     });
 };
 
-var parseArrayValue = function (val, options) {
+var parseArrayValue = function (val, options, currentArrayLength) {
     if (val && typeof val === 'string' && options.comma && val.indexOf(',') > -1) {
         return val.split(',');
+    }
+
+    if (options.throwOnLimitExceeded && currentArrayLength >= options.arrayLimit) {
+        throw new RangeError('Array limit exceeded. Only ' + options.arrayLimit + ' element' + (options.arrayLimit === 1 ? '' : 's') + ' allowed in an array.');
     }
 
     return val;
@@ -50519,8 +54485,18 @@ var parseValues = function parseQueryStringValues(str, options) {
     var obj = { __proto__: null };
 
     var cleanStr = options.ignoreQueryPrefix ? str.replace(/^\?/, '') : str;
+    cleanStr = cleanStr.replace(/%5B/gi, '[').replace(/%5D/gi, ']');
+
     var limit = options.parameterLimit === Infinity ? undefined : options.parameterLimit;
-    var parts = cleanStr.split(options.delimiter, limit);
+    var parts = cleanStr.split(
+        options.delimiter,
+        options.throwOnLimitExceeded ? limit + 1 : limit
+    );
+
+    if (options.throwOnLimitExceeded && parts.length > limit) {
+        throw new RangeError('Parameter limit exceeded. Only ' + limit + ' parameter' + (limit === 1 ? '' : 's') + ' allowed.');
+    }
+
     var skipIndex = -1; // Keep track of where the utf8 sentinel was found
     var i;
 
@@ -50548,14 +54524,20 @@ var parseValues = function parseQueryStringValues(str, options) {
         var bracketEqualsPos = part.indexOf(']=');
         var pos = bracketEqualsPos === -1 ? part.indexOf('=') : bracketEqualsPos + 1;
 
-        var key, val;
+        var key;
+        var val;
         if (pos === -1) {
             key = options.decoder(part, defaults.decoder, charset, 'key');
             val = options.strictNullHandling ? null : '';
         } else {
             key = options.decoder(part.slice(0, pos), defaults.decoder, charset, 'key');
+
             val = utils.maybeMap(
-                parseArrayValue(part.slice(pos + 1), options),
+                parseArrayValue(
+                    part.slice(pos + 1),
+                    options,
+                    isArray(obj[key]) ? obj[key].length : 0
+                ),
                 function (encodedVal) {
                     return options.decoder(encodedVal, defaults.decoder, charset, 'value');
                 }
@@ -50563,16 +54545,17 @@ var parseValues = function parseQueryStringValues(str, options) {
         }
 
         if (val && options.interpretNumericEntities && charset === 'iso-8859-1') {
-            val = interpretNumericEntities(val);
+            val = interpretNumericEntities(String(val));
         }
 
         if (part.indexOf('[]=') > -1) {
             val = isArray(val) ? [val] : val;
         }
 
-        if (has.call(obj, key)) {
+        var existing = has.call(obj, key);
+        if (existing && options.duplicates === 'combine') {
             obj[key] = utils.combine(obj[key], val);
-        } else {
+        } else if (!existing || options.duplicates === 'last') {
             obj[key] = val;
         }
     }
@@ -50581,31 +54564,40 @@ var parseValues = function parseQueryStringValues(str, options) {
 };
 
 var parseObject = function (chain, val, options, valuesParsed) {
-    var leaf = valuesParsed ? val : parseArrayValue(val, options);
+    var currentArrayLength = 0;
+    if (chain.length > 0 && chain[chain.length - 1] === '[]') {
+        var parentKey = chain.slice(0, -1).join('');
+        currentArrayLength = Array.isArray(val) && val[parentKey] ? val[parentKey].length : 0;
+    }
+
+    var leaf = valuesParsed ? val : parseArrayValue(val, options, currentArrayLength);
 
     for (var i = chain.length - 1; i >= 0; --i) {
         var obj;
         var root = chain[i];
 
         if (root === '[]' && options.parseArrays) {
-            obj = [].concat(leaf);
+            obj = options.allowEmptyArrays && (leaf === '' || (options.strictNullHandling && leaf === null))
+                ? []
+                : utils.combine([], leaf);
         } else {
-            obj = options.plainObjects ? Object.create(null) : {};
+            obj = options.plainObjects ? { __proto__: null } : {};
             var cleanRoot = root.charAt(0) === '[' && root.charAt(root.length - 1) === ']' ? root.slice(1, -1) : root;
-            var index = parseInt(cleanRoot, 10);
-            if (!options.parseArrays && cleanRoot === '') {
+            var decodedRoot = options.decodeDotInKeys ? cleanRoot.replace(/%2E/g, '.') : cleanRoot;
+            var index = parseInt(decodedRoot, 10);
+            if (!options.parseArrays && decodedRoot === '') {
                 obj = { 0: leaf };
             } else if (
                 !isNaN(index)
-                && root !== cleanRoot
-                && String(index) === cleanRoot
+                && root !== decodedRoot
+                && String(index) === decodedRoot
                 && index >= 0
                 && (options.parseArrays && index <= options.arrayLimit)
             ) {
                 obj = [];
                 obj[index] = leaf;
-            } else if (cleanRoot !== '__proto__') {
-                obj[cleanRoot] = leaf;
+            } else if (decodedRoot !== '__proto__') {
+                obj[decodedRoot] = leaf;
             }
         }
 
@@ -50660,9 +54652,12 @@ var parseKeys = function parseQueryStringKeys(givenKey, val, options, valuesPars
         keys.push(segment[1]);
     }
 
-    // If there's a remainder, just add whatever is left
+    // If there's a remainder, check strictDepth option for throw, else just add whatever is left
 
     if (segment) {
+        if (options.strictDepth === true) {
+            throw new RangeError('Input depth exceeded depth option of ' + options.depth + ' and strictDepth is true');
+        }
         keys.push('[' + key.slice(segment.index) + ']');
     }
 
@@ -50674,33 +54669,59 @@ var normalizeParseOptions = function normalizeParseOptions(opts) {
         return defaults;
     }
 
-    if (opts.decoder !== null && opts.decoder !== undefined && typeof opts.decoder !== 'function') {
+    if (typeof opts.allowEmptyArrays !== 'undefined' && typeof opts.allowEmptyArrays !== 'boolean') {
+        throw new TypeError('`allowEmptyArrays` option can only be `true` or `false`, when provided');
+    }
+
+    if (typeof opts.decodeDotInKeys !== 'undefined' && typeof opts.decodeDotInKeys !== 'boolean') {
+        throw new TypeError('`decodeDotInKeys` option can only be `true` or `false`, when provided');
+    }
+
+    if (opts.decoder !== null && typeof opts.decoder !== 'undefined' && typeof opts.decoder !== 'function') {
         throw new TypeError('Decoder has to be a function.');
     }
 
     if (typeof opts.charset !== 'undefined' && opts.charset !== 'utf-8' && opts.charset !== 'iso-8859-1') {
         throw new TypeError('The charset option must be either utf-8, iso-8859-1, or undefined');
     }
+
+    if (typeof opts.throwOnLimitExceeded !== 'undefined' && typeof opts.throwOnLimitExceeded !== 'boolean') {
+        throw new TypeError('`throwOnLimitExceeded` option must be a boolean');
+    }
+
     var charset = typeof opts.charset === 'undefined' ? defaults.charset : opts.charset;
 
+    var duplicates = typeof opts.duplicates === 'undefined' ? defaults.duplicates : opts.duplicates;
+
+    if (duplicates !== 'combine' && duplicates !== 'first' && duplicates !== 'last') {
+        throw new TypeError('The duplicates option must be either combine, first, or last');
+    }
+
+    var allowDots = typeof opts.allowDots === 'undefined' ? opts.decodeDotInKeys === true ? true : defaults.allowDots : !!opts.allowDots;
+
     return {
-        allowDots: typeof opts.allowDots === 'undefined' ? defaults.allowDots : !!opts.allowDots,
+        allowDots: allowDots,
+        allowEmptyArrays: typeof opts.allowEmptyArrays === 'boolean' ? !!opts.allowEmptyArrays : defaults.allowEmptyArrays,
         allowPrototypes: typeof opts.allowPrototypes === 'boolean' ? opts.allowPrototypes : defaults.allowPrototypes,
         allowSparse: typeof opts.allowSparse === 'boolean' ? opts.allowSparse : defaults.allowSparse,
         arrayLimit: typeof opts.arrayLimit === 'number' ? opts.arrayLimit : defaults.arrayLimit,
         charset: charset,
         charsetSentinel: typeof opts.charsetSentinel === 'boolean' ? opts.charsetSentinel : defaults.charsetSentinel,
         comma: typeof opts.comma === 'boolean' ? opts.comma : defaults.comma,
+        decodeDotInKeys: typeof opts.decodeDotInKeys === 'boolean' ? opts.decodeDotInKeys : defaults.decodeDotInKeys,
         decoder: typeof opts.decoder === 'function' ? opts.decoder : defaults.decoder,
         delimiter: typeof opts.delimiter === 'string' || utils.isRegExp(opts.delimiter) ? opts.delimiter : defaults.delimiter,
         // eslint-disable-next-line no-implicit-coercion, no-extra-parens
         depth: (typeof opts.depth === 'number' || opts.depth === false) ? +opts.depth : defaults.depth,
+        duplicates: duplicates,
         ignoreQueryPrefix: opts.ignoreQueryPrefix === true,
         interpretNumericEntities: typeof opts.interpretNumericEntities === 'boolean' ? opts.interpretNumericEntities : defaults.interpretNumericEntities,
         parameterLimit: typeof opts.parameterLimit === 'number' ? opts.parameterLimit : defaults.parameterLimit,
         parseArrays: opts.parseArrays !== false,
         plainObjects: typeof opts.plainObjects === 'boolean' ? opts.plainObjects : defaults.plainObjects,
-        strictNullHandling: typeof opts.strictNullHandling === 'boolean' ? opts.strictNullHandling : defaults.strictNullHandling
+        strictDepth: typeof opts.strictDepth === 'boolean' ? !!opts.strictDepth : defaults.strictDepth,
+        strictNullHandling: typeof opts.strictNullHandling === 'boolean' ? opts.strictNullHandling : defaults.strictNullHandling,
+        throwOnLimitExceeded: typeof opts.throwOnLimitExceeded === 'boolean' ? opts.throwOnLimitExceeded : false
     };
 };
 
@@ -50708,11 +54729,11 @@ module.exports = function (str, opts) {
     var options = normalizeParseOptions(opts);
 
     if (str === '' || str === null || typeof str === 'undefined') {
-        return options.plainObjects ? Object.create(null) : {};
+        return options.plainObjects ? { __proto__: null } : {};
     }
 
     var tempObj = typeof str === 'string' ? parseValues(str, options) : str;
-    var obj = options.plainObjects ? Object.create(null) : {};
+    var obj = options.plainObjects ? { __proto__: null } : {};
 
     // Iterate over the keys and setup the new object
 
@@ -50730,7 +54751,7 @@ module.exports = function (str, opts) {
     return utils.compact(obj);
 };
 
-},{"./utils":167}],166:[function(require,module,exports){
+},{"./utils":218}],217:[function(require,module,exports){
 'use strict';
 
 var getSideChannel = require('side-channel');
@@ -50763,12 +54784,17 @@ var defaultFormat = formats['default'];
 var defaults = {
     addQueryPrefix: false,
     allowDots: false,
+    allowEmptyArrays: false,
+    arrayFormat: 'indices',
     charset: 'utf-8',
     charsetSentinel: false,
+    commaRoundTrip: false,
     delimiter: '&',
     encode: true,
+    encodeDotInKeys: false,
     encoder: utils.encode,
     encodeValuesOnly: false,
+    filter: void undefined,
     format: defaultFormat,
     formatter: formats.formatters[defaultFormat],
     // deprecated
@@ -50795,8 +54821,10 @@ var stringify = function stringify(
     prefix,
     generateArrayPrefix,
     commaRoundTrip,
+    allowEmptyArrays,
     strictNullHandling,
     skipNulls,
+    encodeDotInKeys,
     encoder,
     filter,
     sort,
@@ -50878,19 +54906,28 @@ var stringify = function stringify(
         objKeys = sort ? keys.sort(sort) : keys;
     }
 
-    var adjustedPrefix = commaRoundTrip && isArray(obj) && obj.length === 1 ? prefix + '[]' : prefix;
+    var encodedPrefix = encodeDotInKeys ? String(prefix).replace(/\./g, '%2E') : String(prefix);
+
+    var adjustedPrefix = commaRoundTrip && isArray(obj) && obj.length === 1 ? encodedPrefix + '[]' : encodedPrefix;
+
+    if (allowEmptyArrays && isArray(obj) && obj.length === 0) {
+        return adjustedPrefix + '[]';
+    }
 
     for (var j = 0; j < objKeys.length; ++j) {
         var key = objKeys[j];
-        var value = typeof key === 'object' && typeof key.value !== 'undefined' ? key.value : obj[key];
+        var value = typeof key === 'object' && key && typeof key.value !== 'undefined'
+            ? key.value
+            : obj[key];
 
         if (skipNulls && value === null) {
             continue;
         }
 
+        var encodedKey = allowDots && encodeDotInKeys ? String(key).replace(/\./g, '%2E') : String(key);
         var keyPrefix = isArray(obj)
-            ? typeof generateArrayPrefix === 'function' ? generateArrayPrefix(adjustedPrefix, key) : adjustedPrefix
-            : adjustedPrefix + (allowDots ? '.' + key : '[' + key + ']');
+            ? typeof generateArrayPrefix === 'function' ? generateArrayPrefix(adjustedPrefix, encodedKey) : adjustedPrefix
+            : adjustedPrefix + (allowDots ? '.' + encodedKey : '[' + encodedKey + ']');
 
         sideChannel.set(object, step);
         var valueSideChannel = getSideChannel();
@@ -50900,8 +54937,10 @@ var stringify = function stringify(
             keyPrefix,
             generateArrayPrefix,
             commaRoundTrip,
+            allowEmptyArrays,
             strictNullHandling,
             skipNulls,
+            encodeDotInKeys,
             generateArrayPrefix === 'comma' && encodeValuesOnly && isArray(obj) ? null : encoder,
             filter,
             sort,
@@ -50921,6 +54960,14 @@ var stringify = function stringify(
 var normalizeStringifyOptions = function normalizeStringifyOptions(opts) {
     if (!opts) {
         return defaults;
+    }
+
+    if (typeof opts.allowEmptyArrays !== 'undefined' && typeof opts.allowEmptyArrays !== 'boolean') {
+        throw new TypeError('`allowEmptyArrays` option can only be `true` or `false`, when provided');
+    }
+
+    if (typeof opts.encodeDotInKeys !== 'undefined' && typeof opts.encodeDotInKeys !== 'boolean') {
+        throw new TypeError('`encodeDotInKeys` option can only be `true` or `false`, when provided');
     }
 
     if (opts.encoder !== null && typeof opts.encoder !== 'undefined' && typeof opts.encoder !== 'function') {
@@ -50946,13 +54993,32 @@ var normalizeStringifyOptions = function normalizeStringifyOptions(opts) {
         filter = opts.filter;
     }
 
+    var arrayFormat;
+    if (opts.arrayFormat in arrayPrefixGenerators) {
+        arrayFormat = opts.arrayFormat;
+    } else if ('indices' in opts) {
+        arrayFormat = opts.indices ? 'indices' : 'repeat';
+    } else {
+        arrayFormat = defaults.arrayFormat;
+    }
+
+    if ('commaRoundTrip' in opts && typeof opts.commaRoundTrip !== 'boolean') {
+        throw new TypeError('`commaRoundTrip` must be a boolean, or absent');
+    }
+
+    var allowDots = typeof opts.allowDots === 'undefined' ? opts.encodeDotInKeys === true ? true : defaults.allowDots : !!opts.allowDots;
+
     return {
         addQueryPrefix: typeof opts.addQueryPrefix === 'boolean' ? opts.addQueryPrefix : defaults.addQueryPrefix,
-        allowDots: typeof opts.allowDots === 'undefined' ? defaults.allowDots : !!opts.allowDots,
+        allowDots: allowDots,
+        allowEmptyArrays: typeof opts.allowEmptyArrays === 'boolean' ? !!opts.allowEmptyArrays : defaults.allowEmptyArrays,
+        arrayFormat: arrayFormat,
         charset: charset,
         charsetSentinel: typeof opts.charsetSentinel === 'boolean' ? opts.charsetSentinel : defaults.charsetSentinel,
+        commaRoundTrip: !!opts.commaRoundTrip,
         delimiter: typeof opts.delimiter === 'undefined' ? defaults.delimiter : opts.delimiter,
         encode: typeof opts.encode === 'boolean' ? opts.encode : defaults.encode,
+        encodeDotInKeys: typeof opts.encodeDotInKeys === 'boolean' ? opts.encodeDotInKeys : defaults.encodeDotInKeys,
         encoder: typeof opts.encoder === 'function' ? opts.encoder : defaults.encoder,
         encodeValuesOnly: typeof opts.encodeValuesOnly === 'boolean' ? opts.encodeValuesOnly : defaults.encodeValuesOnly,
         filter: filter,
@@ -50986,20 +55052,8 @@ module.exports = function (object, opts) {
         return '';
     }
 
-    var arrayFormat;
-    if (opts && opts.arrayFormat in arrayPrefixGenerators) {
-        arrayFormat = opts.arrayFormat;
-    } else if (opts && 'indices' in opts) {
-        arrayFormat = opts.indices ? 'indices' : 'repeat';
-    } else {
-        arrayFormat = 'indices';
-    }
-
-    var generateArrayPrefix = arrayPrefixGenerators[arrayFormat];
-    if (opts && 'commaRoundTrip' in opts && typeof opts.commaRoundTrip !== 'boolean') {
-        throw new TypeError('`commaRoundTrip` must be a boolean, or absent');
-    }
-    var commaRoundTrip = generateArrayPrefix === 'comma' && opts && opts.commaRoundTrip;
+    var generateArrayPrefix = arrayPrefixGenerators[options.arrayFormat];
+    var commaRoundTrip = generateArrayPrefix === 'comma' && options.commaRoundTrip;
 
     if (!objKeys) {
         objKeys = Object.keys(obj);
@@ -51012,17 +55066,20 @@ module.exports = function (object, opts) {
     var sideChannel = getSideChannel();
     for (var i = 0; i < objKeys.length; ++i) {
         var key = objKeys[i];
+        var value = obj[key];
 
-        if (options.skipNulls && obj[key] === null) {
+        if (options.skipNulls && value === null) {
             continue;
         }
         pushToArray(keys, stringify(
-            obj[key],
+            value,
             key,
             generateArrayPrefix,
             commaRoundTrip,
+            options.allowEmptyArrays,
             options.strictNullHandling,
             options.skipNulls,
+            options.encodeDotInKeys,
             options.encode ? options.encoder : null,
             options.filter,
             options.sort,
@@ -51052,7 +55109,7 @@ module.exports = function (object, opts) {
     return joined.length > 0 ? prefix + joined : '';
 };
 
-},{"./formats":163,"./utils":167,"side-channel":169}],167:[function(require,module,exports){
+},{"./formats":214,"./utils":218,"side-channel":222}],218:[function(require,module,exports){
 'use strict';
 
 var formats = require('./formats');
@@ -51089,7 +55146,7 @@ var compactQueue = function compactQueue(queue) {
 };
 
 var arrayToObject = function arrayToObject(source, options) {
-    var obj = options && options.plainObjects ? Object.create(null) : {};
+    var obj = options && options.plainObjects ? { __proto__: null } : {};
     for (var i = 0; i < source.length; ++i) {
         if (typeof source[i] !== 'undefined') {
             obj[i] = source[i];
@@ -51105,11 +55162,14 @@ var merge = function merge(target, source, options) {
         return target;
     }
 
-    if (typeof source !== 'object') {
+    if (typeof source !== 'object' && typeof source !== 'function') {
         if (isArray(target)) {
             target.push(source);
         } else if (target && typeof target === 'object') {
-            if ((options && (options.plainObjects || options.allowPrototypes)) || !has.call(Object.prototype, source)) {
+            if (
+                (options && (options.plainObjects || options.allowPrototypes))
+                || !has.call(Object.prototype, source)
+            ) {
                 target[source] = true;
             }
         } else {
@@ -51163,7 +55223,7 @@ var assign = function assignSingleSource(target, source) {
     }, target);
 };
 
-var decode = function (str, decoder, charset) {
+var decode = function (str, defaultDecoder, charset) {
     var strWithoutPlus = str.replace(/\+/g, ' ');
     if (charset === 'iso-8859-1') {
         // unescape never throws, no try...catch needed:
@@ -51176,6 +55236,10 @@ var decode = function (str, decoder, charset) {
         return strWithoutPlus;
     }
 };
+
+var limit = 1024;
+
+/* eslint operator-linebreak: [2, "before"] */
 
 var encode = function encode(str, defaultEncoder, charset, kind, format) {
     // This code was originally written by Brian White (mscdex) for the io.js core querystring library.
@@ -51198,45 +55262,54 @@ var encode = function encode(str, defaultEncoder, charset, kind, format) {
     }
 
     var out = '';
-    for (var i = 0; i < string.length; ++i) {
-        var c = string.charCodeAt(i);
+    for (var j = 0; j < string.length; j += limit) {
+        var segment = string.length >= limit ? string.slice(j, j + limit) : string;
+        var arr = [];
 
-        if (
-            c === 0x2D // -
-            || c === 0x2E // .
-            || c === 0x5F // _
-            || c === 0x7E // ~
-            || (c >= 0x30 && c <= 0x39) // 0-9
-            || (c >= 0x41 && c <= 0x5A) // a-z
-            || (c >= 0x61 && c <= 0x7A) // A-Z
-            || (format === formats.RFC1738 && (c === 0x28 || c === 0x29)) // ( )
-        ) {
-            out += string.charAt(i);
-            continue;
+        for (var i = 0; i < segment.length; ++i) {
+            var c = segment.charCodeAt(i);
+            if (
+                c === 0x2D // -
+                || c === 0x2E // .
+                || c === 0x5F // _
+                || c === 0x7E // ~
+                || (c >= 0x30 && c <= 0x39) // 0-9
+                || (c >= 0x41 && c <= 0x5A) // a-z
+                || (c >= 0x61 && c <= 0x7A) // A-Z
+                || (format === formats.RFC1738 && (c === 0x28 || c === 0x29)) // ( )
+            ) {
+                arr[arr.length] = segment.charAt(i);
+                continue;
+            }
+
+            if (c < 0x80) {
+                arr[arr.length] = hexTable[c];
+                continue;
+            }
+
+            if (c < 0x800) {
+                arr[arr.length] = hexTable[0xC0 | (c >> 6)]
+                    + hexTable[0x80 | (c & 0x3F)];
+                continue;
+            }
+
+            if (c < 0xD800 || c >= 0xE000) {
+                arr[arr.length] = hexTable[0xE0 | (c >> 12)]
+                    + hexTable[0x80 | ((c >> 6) & 0x3F)]
+                    + hexTable[0x80 | (c & 0x3F)];
+                continue;
+            }
+
+            i += 1;
+            c = 0x10000 + (((c & 0x3FF) << 10) | (segment.charCodeAt(i) & 0x3FF));
+
+            arr[arr.length] = hexTable[0xF0 | (c >> 18)]
+                + hexTable[0x80 | ((c >> 12) & 0x3F)]
+                + hexTable[0x80 | ((c >> 6) & 0x3F)]
+                + hexTable[0x80 | (c & 0x3F)];
         }
 
-        if (c < 0x80) {
-            out = out + hexTable[c];
-            continue;
-        }
-
-        if (c < 0x800) {
-            out = out + (hexTable[0xC0 | (c >> 6)] + hexTable[0x80 | (c & 0x3F)]);
-            continue;
-        }
-
-        if (c < 0xD800 || c >= 0xE000) {
-            out = out + (hexTable[0xE0 | (c >> 12)] + hexTable[0x80 | ((c >> 6) & 0x3F)] + hexTable[0x80 | (c & 0x3F)]);
-            continue;
-        }
-
-        i += 1;
-        c = 0x10000 + (((c & 0x3FF) << 10) | (string.charCodeAt(i) & 0x3FF));
-        /* eslint operator-linebreak: [2, "before"] */
-        out += hexTable[0xF0 | (c >> 18)]
-            + hexTable[0x80 | ((c >> 12) & 0x3F)]
-            + hexTable[0x80 | ((c >> 6) & 0x3F)]
-            + hexTable[0x80 | (c & 0x3F)];
+        out += arr.join('');
     }
 
     return out;
@@ -51306,179 +55379,323 @@ module.exports = {
     merge: merge
 };
 
-},{"./formats":163}],168:[function(require,module,exports){
+},{"./formats":214}],219:[function(require,module,exports){
 'use strict';
 
-var GetIntrinsic = require('get-intrinsic');
-var define = require('define-data-property');
-var hasDescriptors = require('has-property-descriptors')();
-var gOPD = require('gopd');
-
-var $TypeError = GetIntrinsic('%TypeError%');
-var $floor = GetIntrinsic('%Math.floor%');
-
-/** @typedef {(...args: unknown[]) => unknown} Func */
-
-/** @type {<T extends Func = Func>(fn: T, length: number, loose?: boolean) => T} */
-module.exports = function setFunctionLength(fn, length) {
-	if (typeof fn !== 'function') {
-		throw new $TypeError('`fn` is not a function');
-	}
-	if (typeof length !== 'number' || length < 0 || length > 0xFFFFFFFF || $floor(length) !== length) {
-		throw new $TypeError('`length` must be a positive 32-bit integer');
-	}
-
-	var loose = arguments.length > 2 && !!arguments[2];
-
-	var functionLengthIsConfigurable = true;
-	var functionLengthIsWritable = true;
-	if ('length' in fn && gOPD) {
-		var desc = gOPD(fn, 'length');
-		if (desc && !desc.configurable) {
-			functionLengthIsConfigurable = false;
-		}
-		if (desc && !desc.writable) {
-			functionLengthIsWritable = false;
-		}
-	}
-
-	if (functionLengthIsConfigurable || functionLengthIsWritable || !loose) {
-		if (hasDescriptors) {
-			define(/** @type {Parameters<define>[0]} */ (fn), 'length', length, true, true);
-		} else {
-			define(/** @type {Parameters<define>[0]} */ (fn), 'length', length);
-		}
-	}
-	return fn;
-};
-
-},{"define-data-property":147,"get-intrinsic":151,"gopd":152,"has-property-descriptors":153}],169:[function(require,module,exports){
-'use strict';
-
-var GetIntrinsic = require('get-intrinsic');
-var callBound = require('call-bind/callBound');
 var inspect = require('object-inspect');
 
-var $TypeError = GetIntrinsic('%TypeError%');
-var $WeakMap = GetIntrinsic('%WeakMap%', true);
-var $Map = GetIntrinsic('%Map%', true);
-
-var $weakMapGet = callBound('WeakMap.prototype.get', true);
-var $weakMapSet = callBound('WeakMap.prototype.set', true);
-var $weakMapHas = callBound('WeakMap.prototype.has', true);
-var $mapGet = callBound('Map.prototype.get', true);
-var $mapSet = callBound('Map.prototype.set', true);
-var $mapHas = callBound('Map.prototype.has', true);
+var $TypeError = require('es-errors/type');
 
 /*
- * This function traverses the list returning the node corresponding to the
- * given key.
- *
- * That node is also moved to the head of the list, so that if it's accessed
- * again we don't need to traverse the whole list. By doing so, all the recently
- * used nodes can be accessed relatively quickly.
- */
-var listGetNode = function (list, key) { // eslint-disable-line consistent-return
-	for (var prev = list, curr; (curr = prev.next) !== null; prev = curr) {
+* This function traverses the list returning the node corresponding to the given key.
+*
+* That node is also moved to the head of the list, so that if it's accessed again we don't need to traverse the whole list.
+* By doing so, all the recently used nodes can be accessed relatively quickly.
+*/
+/** @type {import('./list.d.ts').listGetNode} */
+// eslint-disable-next-line consistent-return
+var listGetNode = function (list, key, isDelete) {
+	/** @type {typeof list | NonNullable<(typeof list)['next']>} */
+	var prev = list;
+	/** @type {(typeof list)['next']} */
+	var curr;
+	// eslint-disable-next-line eqeqeq
+	for (; (curr = prev.next) != null; prev = curr) {
 		if (curr.key === key) {
 			prev.next = curr.next;
-			curr.next = list.next;
-			list.next = curr; // eslint-disable-line no-param-reassign
+			if (!isDelete) {
+				// eslint-disable-next-line no-extra-parens
+				curr.next = /** @type {NonNullable<typeof list.next>} */ (list.next);
+				list.next = curr; // eslint-disable-line no-param-reassign
+			}
 			return curr;
 		}
 	}
 };
 
+/** @type {import('./list.d.ts').listGet} */
 var listGet = function (objects, key) {
+	if (!objects) {
+		return void undefined;
+	}
 	var node = listGetNode(objects, key);
 	return node && node.value;
 };
+/** @type {import('./list.d.ts').listSet} */
 var listSet = function (objects, key, value) {
 	var node = listGetNode(objects, key);
 	if (node) {
 		node.value = value;
 	} else {
 		// Prepend the new node to the beginning of the list
-		objects.next = { // eslint-disable-line no-param-reassign
+		objects.next = /** @type {import('./list.d.ts').ListNode<typeof value, typeof key>} */ ({ // eslint-disable-line no-param-reassign, no-extra-parens
 			key: key,
 			next: objects.next,
 			value: value
-		};
+		});
 	}
 };
+/** @type {import('./list.d.ts').listHas} */
 var listHas = function (objects, key) {
+	if (!objects) {
+		return false;
+	}
 	return !!listGetNode(objects, key);
 };
+/** @type {import('./list.d.ts').listDelete} */
+// eslint-disable-next-line consistent-return
+var listDelete = function (objects, key) {
+	if (objects) {
+		return listGetNode(objects, key, true);
+	}
+};
 
-module.exports = function getSideChannel() {
-	var $wm;
-	var $m;
-	var $o;
+/** @type {import('.')} */
+module.exports = function getSideChannelList() {
+	/** @typedef {ReturnType<typeof getSideChannelList>} Channel */
+	/** @typedef {Parameters<Channel['get']>[0]} K */
+	/** @typedef {Parameters<Channel['set']>[1]} V */
+
+	/** @type {import('./list.d.ts').RootNode<V, K> | undefined} */ var $o;
+
+	/** @type {Channel} */
 	var channel = {
 		assert: function (key) {
 			if (!channel.has(key)) {
 				throw new $TypeError('Side channel does not contain ' + inspect(key));
 			}
 		},
+		'delete': function (key) {
+			var root = $o && $o.next;
+			var deletedNode = listDelete($o, key);
+			if (deletedNode && root && root === deletedNode) {
+				$o = void undefined;
+			}
+			return !!deletedNode;
+		},
+		get: function (key) {
+			return listGet($o, key);
+		},
+		has: function (key) {
+			return listHas($o, key);
+		},
+		set: function (key, value) {
+			if (!$o) {
+				// Initialize the linked list as an empty node, so that we don't have to special-case handling of the first node: we can always refer to it as (previous node).next, instead of something like (list).head
+				$o = {
+					next: void undefined
+				};
+			}
+			// eslint-disable-next-line no-extra-parens
+			listSet(/** @type {NonNullable<typeof $o>} */ ($o), key, value);
+		}
+	};
+	// @ts-expect-error TODO: figure out why this is erroring
+	return channel;
+};
+
+},{"es-errors/type":186,"object-inspect":210}],220:[function(require,module,exports){
+'use strict';
+
+var GetIntrinsic = require('get-intrinsic');
+var callBound = require('call-bound');
+var inspect = require('object-inspect');
+
+var $TypeError = require('es-errors/type');
+var $Map = GetIntrinsic('%Map%', true);
+
+/** @type {<K, V>(thisArg: Map<K, V>, key: K) => V} */
+var $mapGet = callBound('Map.prototype.get', true);
+/** @type {<K, V>(thisArg: Map<K, V>, key: K, value: V) => void} */
+var $mapSet = callBound('Map.prototype.set', true);
+/** @type {<K, V>(thisArg: Map<K, V>, key: K) => boolean} */
+var $mapHas = callBound('Map.prototype.has', true);
+/** @type {<K, V>(thisArg: Map<K, V>, key: K) => boolean} */
+var $mapDelete = callBound('Map.prototype.delete', true);
+/** @type {<K, V>(thisArg: Map<K, V>) => number} */
+var $mapSize = callBound('Map.prototype.size', true);
+
+/** @type {import('.')} */
+module.exports = !!$Map && /** @type {Exclude<import('.'), false>} */ function getSideChannelMap() {
+	/** @typedef {ReturnType<typeof getSideChannelMap>} Channel */
+	/** @typedef {Parameters<Channel['get']>[0]} K */
+	/** @typedef {Parameters<Channel['set']>[1]} V */
+
+	/** @type {Map<K, V> | undefined} */ var $m;
+
+	/** @type {Channel} */
+	var channel = {
+		assert: function (key) {
+			if (!channel.has(key)) {
+				throw new $TypeError('Side channel does not contain ' + inspect(key));
+			}
+		},
+		'delete': function (key) {
+			if ($m) {
+				var result = $mapDelete($m, key);
+				if ($mapSize($m) === 0) {
+					$m = void undefined;
+				}
+				return result;
+			}
+			return false;
+		},
 		get: function (key) { // eslint-disable-line consistent-return
-			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
-				if ($wm) {
-					return $weakMapGet($wm, key);
-				}
-			} else if ($Map) {
-				if ($m) {
-					return $mapGet($m, key);
-				}
-			} else {
-				if ($o) { // eslint-disable-line no-lonely-if
-					return listGet($o, key);
-				}
+			if ($m) {
+				return $mapGet($m, key);
 			}
 		},
 		has: function (key) {
-			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
-				if ($wm) {
-					return $weakMapHas($wm, key);
-				}
-			} else if ($Map) {
-				if ($m) {
-					return $mapHas($m, key);
-				}
-			} else {
-				if ($o) { // eslint-disable-line no-lonely-if
-					return listHas($o, key);
-				}
+			if ($m) {
+				return $mapHas($m, key);
 			}
 			return false;
 		},
 		set: function (key, value) {
-			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
-				if (!$wm) {
-					$wm = new $WeakMap();
-				}
-				$weakMapSet($wm, key, value);
-			} else if ($Map) {
-				if (!$m) {
-					$m = new $Map();
-				}
-				$mapSet($m, key, value);
-			} else {
-				if (!$o) {
-					/*
-					 * Initialize the linked list as an empty node, so that we don't have
-					 * to special-case handling of the first node: we can always refer to
-					 * it as (previous node).next, instead of something like (list).head
-					 */
-					$o = { key: {}, next: null };
-				}
-				listSet($o, key, value);
+			if (!$m) {
+				// @ts-expect-error TS can't handle narrowing a variable inside a closure
+				$m = new $Map();
 			}
+			$mapSet($m, key, value);
 		}
 	};
+
+	// @ts-expect-error TODO: figure out why TS is erroring here
 	return channel;
 };
 
-},{"call-bind/callBound":145,"get-intrinsic":151,"object-inspect":159}],170:[function(require,module,exports){
+},{"call-bound":178,"es-errors/type":186,"get-intrinsic":192,"object-inspect":210}],221:[function(require,module,exports){
+'use strict';
+
+var GetIntrinsic = require('get-intrinsic');
+var callBound = require('call-bound');
+var inspect = require('object-inspect');
+var getSideChannelMap = require('side-channel-map');
+
+var $TypeError = require('es-errors/type');
+var $WeakMap = GetIntrinsic('%WeakMap%', true);
+
+/** @type {<K extends object, V>(thisArg: WeakMap<K, V>, key: K) => V} */
+var $weakMapGet = callBound('WeakMap.prototype.get', true);
+/** @type {<K extends object, V>(thisArg: WeakMap<K, V>, key: K, value: V) => void} */
+var $weakMapSet = callBound('WeakMap.prototype.set', true);
+/** @type {<K extends object, V>(thisArg: WeakMap<K, V>, key: K) => boolean} */
+var $weakMapHas = callBound('WeakMap.prototype.has', true);
+/** @type {<K extends object, V>(thisArg: WeakMap<K, V>, key: K) => boolean} */
+var $weakMapDelete = callBound('WeakMap.prototype.delete', true);
+
+/** @type {import('.')} */
+module.exports = $WeakMap
+	? /** @type {Exclude<import('.'), false>} */ function getSideChannelWeakMap() {
+		/** @typedef {ReturnType<typeof getSideChannelWeakMap>} Channel */
+		/** @typedef {Parameters<Channel['get']>[0]} K */
+		/** @typedef {Parameters<Channel['set']>[1]} V */
+
+		/** @type {WeakMap<K & object, V> | undefined} */ var $wm;
+		/** @type {Channel | undefined} */ var $m;
+
+		/** @type {Channel} */
+		var channel = {
+			assert: function (key) {
+				if (!channel.has(key)) {
+					throw new $TypeError('Side channel does not contain ' + inspect(key));
+				}
+			},
+			'delete': function (key) {
+				if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
+					if ($wm) {
+						return $weakMapDelete($wm, key);
+					}
+				} else if (getSideChannelMap) {
+					if ($m) {
+						return $m['delete'](key);
+					}
+				}
+				return false;
+			},
+			get: function (key) {
+				if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
+					if ($wm) {
+						return $weakMapGet($wm, key);
+					}
+				}
+				return $m && $m.get(key);
+			},
+			has: function (key) {
+				if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
+					if ($wm) {
+						return $weakMapHas($wm, key);
+					}
+				}
+				return !!$m && $m.has(key);
+			},
+			set: function (key, value) {
+				if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
+					if (!$wm) {
+						$wm = new $WeakMap();
+					}
+					$weakMapSet($wm, key, value);
+				} else if (getSideChannelMap) {
+					if (!$m) {
+						$m = getSideChannelMap();
+					}
+					// eslint-disable-next-line no-extra-parens
+					/** @type {NonNullable<typeof $m>} */ ($m).set(key, value);
+				}
+			}
+		};
+
+		// @ts-expect-error TODO: figure out why this is erroring
+		return channel;
+	}
+	: getSideChannelMap;
+
+},{"call-bound":178,"es-errors/type":186,"get-intrinsic":192,"object-inspect":210,"side-channel-map":220}],222:[function(require,module,exports){
+'use strict';
+
+var $TypeError = require('es-errors/type');
+var inspect = require('object-inspect');
+var getSideChannelList = require('side-channel-list');
+var getSideChannelMap = require('side-channel-map');
+var getSideChannelWeakMap = require('side-channel-weakmap');
+
+var makeChannel = getSideChannelWeakMap || getSideChannelMap || getSideChannelList;
+
+/** @type {import('.')} */
+module.exports = function getSideChannel() {
+	/** @typedef {ReturnType<typeof getSideChannel>} Channel */
+
+	/** @type {Channel | undefined} */ var $channelData;
+
+	/** @type {Channel} */
+	var channel = {
+		assert: function (key) {
+			if (!channel.has(key)) {
+				throw new $TypeError('Side channel does not contain ' + inspect(key));
+			}
+		},
+		'delete': function (key) {
+			return !!$channelData && $channelData['delete'](key);
+		},
+		get: function (key) {
+			return $channelData && $channelData.get(key);
+		},
+		has: function (key) {
+			return !!$channelData && $channelData.has(key);
+		},
+		set: function (key, value) {
+			if (!$channelData) {
+				$channelData = makeChannel();
+			}
+
+			$channelData.set(key, value);
+		}
+	};
+	// @ts-expect-error TODO: figure out why this is erroring
+	return channel;
+};
+
+},{"es-errors/type":186,"object-inspect":210,"side-channel-list":219,"side-channel-map":220,"side-channel-weakmap":221}],223:[function(require,module,exports){
 (function (setImmediate,clearImmediate){(function (){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -51557,7 +55774,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this)}).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":161,"timers":170}],171:[function(require,module,exports){
+},{"process/browser.js":212,"timers":223}],224:[function(require,module,exports){
 /*
  * Copyright Joyent, Inc. and other Node contributors.
  *
@@ -51583,7 +55800,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
 
 'use strict';
 
-var punycode = require('punycode');
+var punycode = require('punycode/');
 
 function Url() {
   this.protocol = null;
@@ -52335,5 +56552,5 @@ exports.format = urlFormat;
 
 exports.Url = Url;
 
-},{"punycode":162,"qs":164}]},{},[9])(9)
+},{"punycode/":213,"qs":215}]},{},[9])(9)
 });
